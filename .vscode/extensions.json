@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "octref.vetur",
+    "apollographql.vscode-apollo",
+    "aaron-bond.better-comments",
+    "coenraads.bracket-pair-colorizer",
+    "msjsdiag.debugger-for-chrome",
+    "ms-azuretools.vscode-docker",
+    "wix.vscode-import-cost",
+    "christian-kohler.path-intellisense",
+    "mikestead.dotenv"
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify",
+    "dbaeumer.jshint",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}

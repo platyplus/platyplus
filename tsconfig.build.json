@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "target": "es6",
+    "strict": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "removeComments": true,
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "lib": ["es2020", "dom"],
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules"],
+  "rules": {
+    "quotemark": [true, "single"]
+  }
+}

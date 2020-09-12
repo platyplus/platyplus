@@ -1,0 +1,24 @@
+{
+  "vetur.experimental.templateInterpolationService": true,
+  // "eslint.validate": [
+  //   "javascript",
+  //   "javascriptreact",
+  //   "typescript",
+  //   {
+  //     "language": "vue",
+  //     "autoFix": true
+  //   }
+  // ],
+  "eslint.packageManager": "yarn",
+  "npm.packageManager": "yarn",
+  "files.associations": {
+    "[Dd]ockerfile*": "dockerfile",
+    "docker-compose*": "yaml"
+  },
+  "vetur.validation.template": false,
+  // "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "yaml.format.bracketSpacing": false
+}

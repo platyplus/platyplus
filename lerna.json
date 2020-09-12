@@ -1,0 +1,17 @@
+{
+  "npmClient": "yarn",
+  "packages": [
+    "packages/*",
+    "dummy/*"
+  ],
+  "useWorkspaces": true,
+  "stream": true,
+  "version": "independent",
+  "command": {
+    "version": {
+      "message": "chore(release): publish",
+      "conventionalCommits": true,
+      "createRelease": "github"
+    }
+  }
+}

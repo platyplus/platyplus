@@ -1,0 +1,37 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+    - image: hello-world
+      context: ..
+      docker:
+        buildArgs:
+          SERVICE: dummy/node
+
+deploy:
+  helm:
+    releases:
+      - name: hello-world
+        chartPath: node/charts
+        artifactOverrides:
+          image: hello-world
+
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    # TODO deploy and port-forward traefik
+    build:
+      artifacts:
+        - image: hello-world
+          context: ..
+          docker:
+            dockerfile: Dockerfile-development
+            buildArgs:
+              SERVICE: 'dummy/node'
+          sync:
+            manual:
+              # Sync all the javascript files that are in the src folder
+              # with the container src folder
+              - src: "dummy/node/src/**/*.ts"
+                dest: .

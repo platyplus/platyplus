@@ -1,0 +1,56 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "dummy/*"
+    ]
+  },
+  "scripts": {
+    "dev": "func() { cd \"$1\" && skaffold dev --port-forward; }; func",
+    "build": "lerna run build",
+    "cz": "git-cz",
+    "format": "prettier --write \"./**/*.{ts,js,json,md,vue}\"",
+    "format-check": "prettier --list-different \"./**/*.{ts,js,json,md,vue}\"",
+    "lint": "eslint --ext .js,.ts,.vue .",
+    "lint-fix": "eslint . --ext .js,.ts --fix",
+    "pre-commit": "yarn lint-staged",
+    "pre-push": "yarn format-check",
+    "clean": "lerna clean && lerna run clean",
+    "postinstall": "lerna link",
+    "test": "lerna run test --parallel",
+    "typecheck": "lerna run typecheck",
+    "release": "lerna version",
+    "publish": "lerna publish from-package --yes"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-lerna-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-lerna-changelog": "^2.0.3",
+    "eslint": "^7.8.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "husky": "^4.3.0",
+    "lerna": "^3.16.4",
+    "lint-staged": "^10.3.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
+  }
+}
