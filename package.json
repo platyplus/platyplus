@@ -8,7 +8,7 @@
     ]
   },
   "scripts": {
-    "dev": "func() { cd \"$1\" && skaffold dev --port-forward; }; func",
+    "dev": "yarn workspace @platyplus/devtools run start --cwd . skaffold",
     "build": "lerna run build",
     "cz": "git-cz",
     "format": "prettier --write \"./**/*.{ts,js,json,md,vue}\"",
@@ -50,6 +50,7 @@
     "lint-staged": "^10.3.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
+    "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
   }

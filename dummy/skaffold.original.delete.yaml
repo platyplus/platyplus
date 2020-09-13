@@ -20,7 +20,7 @@ profiles:
   - name: dev
     activation:
       - command: dev
-    # TODO deploy and port-forward traefik
+    ## TODO deploy and port-forward traefik
     build:
       artifacts:
         - image: hello-world
@@ -35,3 +35,5 @@ profiles:
               # with the container src folder
               - src: "dummy/node/src/**/*.ts"
                 dest: .
+
+

@@ -1,0 +1,33 @@
+{
+  "name": "@platyplus/devtools",
+  "private": false,
+  "version": "1.0.0",
+  "description": "Platylus DevTools",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "bin": {
+    "pdt": "./dist/index.js"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "postbuild": "yarn run copy-files",
+    "copy-files": "copyfiles -u 1 src/**/Dockerfile* dist",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "chokidar": "^3.4.2",
+    "merge-deep": "^3.0.2",
+    "tmp": "^0.2.1",
+    "yaml": "^1.10.0",
+    "yargs": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/merge-deep": "^3.0.0",
+    "@types/tmp": "^0.2.0",
+    "@types/yargs": "^15.0.5",
+    "copyfiles": "^2.3.0"
+  }
+}

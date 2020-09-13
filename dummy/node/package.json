@@ -1,5 +1,5 @@
 {
-  "name": "node",
+  "name": "@platyplus/node-dummy",
   "private": true,
   "version": "1.0.0",
   "description": "> TODO: description",
