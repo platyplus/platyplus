@@ -2,7 +2,7 @@
   "name": "@platyplus/node-dummy",
   "private": true,
   "version": "1.0.0",
-  "description": "> TODO: description",
+  "description": "A dummy service",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "",
   "license": "ISC",

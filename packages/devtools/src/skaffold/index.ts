@@ -30,7 +30,8 @@ export const runSkaffold = async (
     await writeSkaffold(configPath, skaffoldPath)
     console.log('Skaffold config saved.')
 
-    const watcher = chodikar.watch(configPath) // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
+    // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
+    const watcher = chodikar.watch(configPath)
     watcher.on('add', () => {
       const skaffold = spawn(
         'skaffold',

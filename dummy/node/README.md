@@ -1,11 +1,3 @@
-# `node`
+# Hello World
 
-> TODO: description
-
-## Usage
-
-```
-const node = require('node');
-
-// TODO: DEMONSTRATE API
-```
+A Hello World Express/TypeScript example

@@ -19,7 +19,7 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage-with-prettier
     'prettier',
     'prettier/@typescript-eslint',
-    'prettier/vue'
+    'prettier/vue',
   ],
 
   plugins: [
@@ -27,7 +27,7 @@ module.exports = {
     '@typescript-eslint',
     // Required to lint *.vue files
     // See https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
-    'vue'
+    'vue',
     // Prettier has not been included as plugin to avoid performance impact
     // See https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
     // Add it as an extension
@@ -39,24 +39,24 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
 
   env: {
-    browser: true
+    browser: true,
   },
 
   globals: {
     ga: true, // Google Analytics
     cordova: true,
     __statics: true,
-    process: true
+    process: true,
   },
 
   // add your custom rules here
   rules: {
     '@typescript-eslint/explicit-member-accessibility': 'off',
-    // '@typescript-eslint/camelcase': 'warn', // TODO hasura snake/camel case names?
+    // '@typescript-eslint/camelcase': 'warn', // ? hasura snake/camel case names?
     'prefer-promise-reject-errors': 'off',
     quotes: ['warn', 'single', { avoidEscape: true }],
     // '@typescript-eslint/indent': 'off', // * still some issues with this rule. Disabling and trusting prettier...
@@ -73,6 +73,6 @@ module.exports = {
     // Correct typescript linting until at least 2.0.0 major release
     // See https://github.com/typescript-eslint/typescript-eslint/issues/501
     // See https://github.com/typescript-eslint/typescript-eslint/issues/493
-    '@typescript-eslint/explicit-function-return-type': 'off'
-  }
+    '@typescript-eslint/explicit-function-return-type': 'off',
+  },
 }
