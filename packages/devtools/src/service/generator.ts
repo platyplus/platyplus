@@ -4,6 +4,11 @@ import path from 'path'
 
 import { Service } from './types'
 
+/**
+ * Generates the Dockerfile of the given service and return it as a string
+ * @param service
+ * @param environment
+ */
 const generateDockerfile = async (
   service: Service,
   environment?: 'development'
@@ -17,6 +22,10 @@ const generateDockerfile = async (
   return handlebars.compile(template)(service)
 }
 
+/**
+ * Write the Dockerfiles (production and development) of the service in its directory
+ * @param service
+ */
 export const writeDockerfiles = async (service: Service): Promise<void> => {
   const devFile = await generateDockerfile(service, 'development')
   await writeFile(

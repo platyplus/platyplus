@@ -5,6 +5,13 @@ import { Package, PlatyplusPackageJson, Service, ServiceTypes } from './types'
 import objectPath from 'object-path'
 const DEFAULT_ROOT_DIR = process.env.INIT_CWD || (process.env.PWD as string)
 
+/**
+ * Creates a Package object from a lerna-formatted package
+ * * Note: as the format '<project-name>/<service-name>' is not standard but
+ * * specific to Platyplus DevTools, this method is not put in the lerna utils package
+ * @param lernaPackage
+ * @param rootDir
+ */
 const fromLerna = (
   lernaPackage: LernaPackage,
   rootDir = DEFAULT_ROOT_DIR
@@ -20,6 +27,11 @@ const fromLerna = (
   }
 }
 
+/**
+ * Loads all the information about a platyplus-managed package
+ * @param packageName lerna-managed package name as per defined in a package.json
+ * @param rootDir
+ */
 export const loadService = async (
   packageName: string,
   rootDir = DEFAULT_ROOT_DIR

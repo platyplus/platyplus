@@ -28,6 +28,11 @@ export const lernaPackage = async (name: string): Promise<LernaPackage> => {
   }
 }
 
+/**
+ * Returns the dependent packages of the package given as a parameter
+ * ! Only the 'non-private' packages are returned
+ * @param name
+ */
 export const lernaDependencies = async (
   name: string
 ): Promise<LernaPackage[]> => {

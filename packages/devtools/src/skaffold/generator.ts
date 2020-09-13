@@ -8,7 +8,26 @@ import { loadService } from '../service/load'
 import { writeDockerfiles } from '../service/generator'
 
 import { Artifact, Profile, Skaffold } from './types'
+import { Service } from '../service/types'
 
+/**
+ * Determines how files should be synced depending on the service type
+ */
+const fileSyncs = {
+  'ts-node': ({ path }: Service) => ({
+    manual: [
+      {
+        src: `${path}/src/**/*.ts`,
+        dest: '.',
+      },
+    ],
+  }),
+}
+
+/**
+ * Generates the object representation of the skaffold.yaml from a devtools config object
+ * @param config the Platyplus DevTools object
+ */
 const generateSkaffold = async (config: Config): Promise<Skaffold> => {
   const result = { ...config.skaffold }
   for (const s of config.services) {
@@ -39,15 +58,8 @@ const generateSkaffold = async (config: Config): Promise<Skaffold> => {
       docker: {
         dockerfile: `${path}/Dockerfile-development`,
       },
-      sync: {
-        manual: [
-          {
-            src: `${path}/src/**/*.ts`, // TODO only if typescript service
-            dest: '.',
-          },
-        ],
-      },
     }
+    artifact.sync = fileSyncs[service.type](service)
 
     if (!profile.activation) profile.activation = [{ command: 'dev' }]
     else if (profile.activation.every((act) => act.command !== 'dev'))
@@ -63,6 +75,10 @@ const generateSkaffold = async (config: Config): Promise<Skaffold> => {
   return result
 }
 
+/**
+ * Generates a skaffold.yaml YAML file from a Platyplus DevTools file path
+ * @param configPath the path of the Platyplus DevTools file
+ */
 const generateSkaffoldYaml = async (configPath: string): Promise<string> => {
   const config = await loadConfig(configPath)
   const skaffold = await generateSkaffold(config)
@@ -76,7 +92,6 @@ export const writeSkaffold = async (
   const skaffoldYaml = await generateSkaffoldYaml(configFileName)
   try {
     await writeFile(skaffoldFileName, skaffoldYaml)
-    console.log('Skaffold config saved.')
   } catch (error) {
     console.log(
       "Invalid config.yaml. Changes won't be taken into account:",

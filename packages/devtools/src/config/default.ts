@@ -1,5 +1,8 @@
 import { Config } from './types'
 
+/**
+ * Default
+ */
 export const DEFAULT_CONFIG: Config = {
   services: [],
   skaffold: {

@@ -3,7 +3,7 @@
 import child_process from 'child_process'
 
 /**
- * Promisified child_process
+ * Promisified child_process.exec
  * @param command
  */
 export const exec = async (command: string): Promise<string> =>

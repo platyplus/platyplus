@@ -5,7 +5,16 @@ import chodikar from 'chokidar'
 import { spawn } from 'child_process'
 
 import { writeSkaffold } from './generator'
-
+/**
+ * Starts Skaffold for a given project
+ * 1. Reads the Platyplus DevTools config.yaml file
+ * 2. Generates the Dockerfiles
+ * 3. Generates the skaffold settings (as a temporary file)
+ * 4. Runs skaffold
+ * 5. Watches changes in the Paltyplus DevTools config.yaml file, and re-runs 1-2-3 in that case (Skaffold handles step 4)
+ * @param project The project directory, in which the config.yaml file will be found
+ * @param rootDir
+ */
 export const runSkaffold = async (
   project: string,
   rootDir = process.env.INIT_CWD || (process.env.PWD as string)
@@ -19,6 +28,7 @@ export const runSkaffold = async (
     const skaffoldPath = tmp.tmpNameSync()
     console.log(`Temporary skaffold.yaml file is ${skaffoldPath}`)
     await writeSkaffold(configPath, skaffoldPath)
+    console.log('Skaffold config saved.')
 
     const watcher = chodikar.watch(configPath) // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
     watcher.on('add', () => {
@@ -39,6 +49,7 @@ export const runSkaffold = async (
     watcher.on('change', async () => {
       console.log('Config changed. Reloading...')
       await writeSkaffold(configPath, skaffoldPath)
+      console.log('Skaffold config updated.')
     })
   } catch (error) {
     console.log(error)
