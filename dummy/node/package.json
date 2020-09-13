@@ -6,6 +6,9 @@
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "",
   "license": "ISC",
+  "platyplus": {
+    "type": "ts-node"
+  },
   "main": "src/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

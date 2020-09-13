@@ -1,7 +1,8 @@
 import { readFile } from 'fs/promises'
 import yaml from 'yaml'
-import { Config } from './types'
 import merge from 'merge-deep'
+
+import { Config } from './types'
 import { DEFAULT_CONFIG } from './default'
 
 export const loadConfig = async (filePath: string): Promise<Config> => {

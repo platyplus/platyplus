@@ -1,25 +1,10 @@
-import { stat, writeFile, unlink } from 'fs/promises'
+import { stat, unlink } from 'fs/promises'
 import path from 'path'
-import { generateSkaffoldYaml } from './generator'
 import tmp from 'tmp'
 import chodikar from 'chokidar'
 import { spawn } from 'child_process'
 
-const writeSkaffold = async (
-  configFileName: string,
-  skaffoldFileName: string
-): Promise<void> => {
-  const skaffoldYaml = await generateSkaffoldYaml(configFileName)
-  try {
-    await writeFile(skaffoldFileName, skaffoldYaml)
-    console.log('Skaffold config saved.')
-  } catch (error) {
-    console.log(
-      "Invalid config.yaml. Changes won't be taken into account:",
-      error.message
-    )
-  }
-}
+import { writeSkaffold } from './generator'
 
 export const runSkaffold = async (
   project: string,
@@ -35,7 +20,7 @@ export const runSkaffold = async (
     console.log(`Temporary skaffold.yaml file is ${skaffoldPath}`)
     await writeSkaffold(configPath, skaffoldPath)
 
-    const watcher = chodikar.watch(configPath)
+    const watcher = chodikar.watch(configPath) // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
     watcher.on('add', () => {
       const skaffold = spawn(
         'skaffold',

@@ -1,22 +1,44 @@
+// TODO move to dedicated lerna package
 import { exec } from './process'
-
+export type LernaPackage = {
+  name: string
+  location: string
+  version: string
+  private: boolean
+}
 /**
- * @param packageName package name as per defined in package.json
+ * @param name package name as per defined in package.json
  * @param rootDir root dir of the monorepo
- * @return the path of the package relative to the monorepo root dir, without './'
+ * @return basic package information
  */
-export const lernaPackagePath = async (
-  packageName: string,
-  rootDir = process.env.INIT_CWD || (process.env.PWD as string)
-): Promise<string> => {
+export const lernaPackage = async (name: string): Promise<LernaPackage> => {
   try {
     const stdout = await exec(
-      `lerna ls --all --long --exclude-dependents --parseable --scope=${packageName}`
+      `lerna ls --all --exclude-dependents --json --scope=${name}`
     )
-    const [path] = stdout.split(':')
-    return path.replace(`${rootDir}/`, '')
+    const list = JSON.parse(stdout) as LernaPackage[]
+    if (list.length !== 1)
+      throw Error(
+        `lernaPackage(${name}): found ${list.length} package(s) where only one should be found.`
+      )
+    return list[0]
   } catch (error) {
     console.log(error)
-    throw Error(`Can't find package ${packageName}`)
+    throw Error(`Cannot find package ${name}`)
+  }
+}
+
+export const lernaDependencies = async (
+  name: string
+): Promise<LernaPackage[]> => {
+  try {
+    const stdout = await exec(
+      `lerna ls --include-dependencies --json --scope=${name}`
+    )
+    const list = JSON.parse(stdout) as LernaPackage[]
+    return list.filter((p) => p.name !== name)
+  } catch (error) {
+    console.log(error)
+    throw Error(`Cannot find package ${name}`)
   }
 }

@@ -1,7 +1,7 @@
 export type Artifact = {
   image: string
   context: string
-  docker: {
+  docker?: {
     dockerfile?: string
     buildArgs?: Record<string, string>
   }
