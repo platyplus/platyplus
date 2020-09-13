@@ -14,7 +14,7 @@
     "start": "ts-node src/index.ts",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
     "postbuild": "yarn run copy-files",
-    "copy-files": "copyfiles -u 1 src/**/Dockerfile* dist",
+    "copy-files": "copyfiles -u 1 src/templates/**/* dist/",
     "clean": "rimraf dist"
   },
   "dependencies": {

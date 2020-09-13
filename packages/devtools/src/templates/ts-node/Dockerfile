@@ -26,9 +26,9 @@ COPY --chown=node:node {{this.path}} {{this.path}}
 RUN lerna run build
 
 FROM lerna-base as dependencies
-RUN cat {{path}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{path}}/package.json
-RUN lerna bootstrap --ignore-scripts -- --production --no-optional
-RUN tar -cf /home/node/dependencies.tar {{path}}/node_modules {{path}}/package.json {{path}}/yarn.lock
+RUN cat {{path}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{path}}/package.json && \
+    lerna bootstrap --ignore-scripts -- --production --no-optional && \
+    tar -cf /home/node/dependencies.tar {{path}}/node_modules {{path}}/package.json {{path}}/yarn.lock
 
 FROM node:12-alpine as run
 USER node

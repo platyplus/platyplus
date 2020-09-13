@@ -16,7 +16,7 @@ const generateDockerfile = async (
   const suffix = environment ? `-${environment}` : ''
   const templatePath = path.join(
     __dirname,
-    `./templates/${service.type}/Dockerfile${suffix}`
+    `../templates/${service.type}/Dockerfile${suffix}`
   )
   const template = (await readFile(templatePath)).toString()
   return handlebars.compile(template)(service)
