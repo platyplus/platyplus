@@ -20,5 +20,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "yaml.format.bracketSpacing": false
+  "yaml.format.bracketSpacing": false,
+  "prettier.packageManager": "yarn"
 }

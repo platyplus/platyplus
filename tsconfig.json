@@ -6,7 +6,6 @@
       "@platyplus/*": ["packages/*/src"]
     },
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "types": []
+    "skipLibCheck": true
   }
 }

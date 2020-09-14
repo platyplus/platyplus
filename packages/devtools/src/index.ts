@@ -1,6 +1,7 @@
 import yargs from 'yargs'
 import { generatePackage } from './package'
 import { runSkaffold } from './skaffold'
+import childprocess from 'child_process'
 
 yargs
   .scriptName('pdt')
