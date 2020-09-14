@@ -13,7 +13,8 @@
   "npm.packageManager": "yarn",
   "files.associations": {
     "[Dd]ockerfile*": "dockerfile",
-    "docker-compose*": "yaml"
+    "docker-compose*": "yaml",
+    "packages/devtools/src/templates/**/*.json": "json"
   },
   "vetur.validation.template": false,
   // "eslint.autoFixOnSave": true,
