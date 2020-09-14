@@ -1,5 +1,5 @@
-// TODO move to dedicated lerna package
-import { exec } from './process'
+import { exec } from '@platyplus/process'
+
 export type LernaPackage = {
   name: string
   location: string

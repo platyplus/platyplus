@@ -1,0 +1,27 @@
+{
+  "name": "@platyplus/process",
+  "version": "1.0.0",
+  "description": "Process-related utils",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platyplus.git",
+    "directory": "packages/devtools"
+  },
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf dist"
+  }
+}

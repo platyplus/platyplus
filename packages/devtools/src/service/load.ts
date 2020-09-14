@@ -1,8 +1,11 @@
 import fs from 'fs/promises'
-import { lernaDependencies, LernaPackage, lernaPackage } from '../utils/lerna'
 import { join } from 'path'
-import { Package, PlatyplusPackageJson, Service, ServiceTypes } from './types'
 import objectPath from 'object-path'
+
+import { lernaDependencies, LernaPackage, lernaPackage } from '@platyplus/lerna'
+
+import { Package, PlatyplusPackageJson, Service, ServiceTypes } from './types'
+
 const DEFAULT_ROOT_DIR = process.env.INIT_CWD || (process.env.PWD as string)
 
 /**

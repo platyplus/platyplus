@@ -6,9 +6,9 @@ import { loadConfig } from '../config'
 import { Config } from '../config/types'
 import { loadService } from '../service/load'
 import { writeDockerfiles } from '../service/generator'
+import { Service } from '../service/types'
 
 import { Artifact, Profile, Skaffold } from './types'
-import { Service } from '../service/types'
 
 /**
  * Determines how files should be synced depending on the service type

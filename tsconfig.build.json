@@ -7,7 +7,6 @@
     "strict": true,
     "experimentalDecorators": true,
     "module": "commonjs",
-    "esModuleInterop": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
     "removeComments": true,
@@ -16,7 +15,7 @@
     "lib": ["es2020", "dom"],
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "dist"],
   "rules": {
     "quotemark": [true, "single"]
   }

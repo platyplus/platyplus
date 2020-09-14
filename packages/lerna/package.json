@@ -1,0 +1,30 @@
+{
+  "name": "@platyplus/lerna",
+  "version": "1.0.0",
+  "description": "A simple node API that wraps some Lerna commands",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platyplus.git",
+    "directory": "packages/lerna"
+  },
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@platyplus/process": "*"
+  }
+}
