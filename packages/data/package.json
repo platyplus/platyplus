@@ -1,5 +1,5 @@
 {
-  "name": "@platyplus/gis",
+  "name": "@platyplus/data",
   "version": "0.0.1",
   "description": "TODO a description",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
@@ -7,7 +7,7 @@
   "repository": {
     "type": "git",
     "url": "",
-    "directory": "packages/gis"
+    "directory": "packages/data"
   },
   "license": "ISC",
   "main": "dist/index.js",
@@ -25,15 +25,11 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
-    "@types/geojson": "^7946.0.7",
+    "@types/deep-equal": "^1.0.1",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
   },
   "dependencies": {
-    "@mapbox/mbtiles": "^0.12.1",
-    "@turf/area": "^6.0.1",
-    "@turf/bbox": "^6.0.1",
-    "@turf/square-grid": "^6.0.2",
-    "geojson": "^0.5.0"
+    "deep-equal": "^2.0.3"
   }
 }

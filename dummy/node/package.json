@@ -11,9 +11,12 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
     "dev": "nodemon",
-    "prod": "node dist/index.js"
+    "prod": "node dist/index.js",
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "express": "^4.17.1"
