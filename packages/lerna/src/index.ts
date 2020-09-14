@@ -9,44 +9,49 @@ export type LernaPackage = {
 
 /**
  * * Gets package information based on its name as per defined in package.json
- * @param name package name as per defined in package.json
+ * @param scope package name as per defined in package.json
  * @param rootDir root dir of the monorepo
  * @return basic package information
  */
 export const getLernaPackage = async (name: string): Promise<LernaPackage> => {
-  try {
-    const stdout = await exec(
-      `lerna ls --all --exclude-dependents --json --scope='${name}'`
+  const list = await getLernaPackages(name)
+  if (list.length !== 1)
+    throw Error(
+      `lernaPackage(${name}): found ${list.length} package(s) where only one should be found.`
     )
-    const list = JSON.parse(stdout) as LernaPackage[]
-    if (list.length !== 1)
-      throw Error(
-        `lernaPackage(${name}): found ${list.length} package(s) where only one should be found.`
-      )
-    return list[0]
-  } catch (error) {
-    console.log(error)
-    throw Error(`Cannot find package ${name}`)
-  }
+  return list[0]
 }
 
+export const getLernaPackages = async (
+  scope?: string
+): Promise<LernaPackage[]> => {
+  try {
+    scope = scope ? `--scope='${scope}'` : ''
+    const stdout = await exec(
+      `lerna ls --all --exclude-dependents --json ${scope}`
+    )
+    return JSON.parse(stdout)
+  } catch (error) {
+    console.log(error)
+    throw Error(`Cannot find package ${scope}`)
+  }
+}
 /**
  * * Returns the dependent packages of the package given as a parameter
  * ! Only the 'non-private' packages are returned
- * @param name package name as per defined in package.json
+ * @param scope package name as per defined in package.json
  */
 export const getLernaDependencies = async (
-  name: string
+  scope?: string
 ): Promise<LernaPackage[]> => {
+  scope = scope ? `--scope='${scope}'` : ''
   try {
-    const stdout = await exec(
-      `lerna ls --include-dependencies --json --scope='${name}'`
-    )
+    const stdout = await exec(`lerna ls --include-dependencies --json ${scope}`)
     const list = JSON.parse(stdout) as LernaPackage[]
-    return list.filter((p) => p.name !== name)
+    return list.filter((p) => p.name !== scope)
   } catch (error) {
     console.log(error)
-    throw Error(`Cannot find package ${name}.`)
+    throw Error(`Cannot find package ${scope}.`)
   }
 }
 
@@ -54,9 +59,10 @@ export const getLernaDependencies = async (
  * * Checks if a given package is present in the current lerna project
  * @param name package name as per defined in package.json
  */
-export const hasLernaPackage = async (name: string): Promise<boolean> => {
+export const hasLernaPackage = async (scope?: string): Promise<boolean> => {
   try {
-    const stdout = await exec(`lerna ls --all --json --scope='${name}'`)
+    scope = scope ? `--scope='${scope}'` : ''
+    const stdout = await exec(`lerna ls --all --json ${scope}`)
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.length === 1
   } catch (error) {

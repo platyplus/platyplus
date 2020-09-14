@@ -2,6 +2,8 @@ import yaml from 'yaml'
 import objectPath from 'object-path'
 import fs from 'fs-extra'
 
+import { getLernaPackage } from '@platyplus/lerna'
+
 import { loadConfig } from '../configuration'
 import { Config } from '../configuration/types'
 import { loadService } from '../service/load'
@@ -31,7 +33,8 @@ const fileSyncs = {
 const generateSkaffold = async (config: Config): Promise<Skaffold> => {
   const result = { ...config.skaffold }
   for (const s of config.services) {
-    const service = await loadService(s.package)
+    const npmPackage = await getLernaPackage(s.package)
+    const service = await loadService(npmPackage.location)
     await writeDockerfiles(service)
     const { project, name, path } = service
     result.build.artifacts.push({
@@ -43,7 +46,7 @@ const generateSkaffold = async (config: Config): Promise<Skaffold> => {
     })
     result.deploy?.helm.releases.push({
       name: `${project}-${name}`,
-      chartPath: `${name}/charts`,
+      chartPath: `${name}/helm`,
       artifactOverrides: {
         image: `${project}-${name}`,
       },

@@ -1,5 +1,6 @@
 import yargs from 'yargs'
 import { generatePackage } from './package'
+import { syncServices } from './service/sync'
 import { runSkaffold } from './skaffold'
 
 yargs
@@ -35,6 +36,20 @@ yargs
     async (argv) => {
       try {
         await generatePackage(argv.name, argv.dirname, argv.description)
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+  )
+  .command(
+    'sync',
+    'Generates the files required by all the services. Overrides them if they already exist',
+    (yargs) => {
+      yargs
+    },
+    async () => {
+      try {
+        await syncServices()
       } catch (error) {
         console.error(error.message)
       }

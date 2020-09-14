@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import klaw from 'klaw'
+import glob from 'glob'
 import path from 'path'
 import handlebars from 'handlebars'
 
@@ -35,15 +35,11 @@ export const generateTemplateFiles = async <T extends Package>(
   const source = path.join(__dirname, type)
   if (!(await fs.pathExists(source)))
     throw Error(`No '${type}' template found.`)
-  for await (const file of klaw(source)) {
-    if (!file.stats.isDirectory()) {
-      const destFile = file.path.replace(`${source}/`, '')
-      // TODO ignore some files, e.g. Helm charts directory
-      await templateToFile(
-        file.path,
-        path.join(destinationDir, destFile),
-        variables
-      )
-    }
+  for await (const file of glob.sync(path.join(source, '**', '*'), {
+    nodir: true,
+  })) {
+    const destFile = file.replace(`${source}/`, '')
+    // TODO ignore some files, e.g. Helm charts directory
+    await templateToFile(file, path.join(destinationDir, destFile), variables)
   }
 }
