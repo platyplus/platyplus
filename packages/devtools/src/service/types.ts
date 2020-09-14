@@ -1,15 +1,11 @@
-export type ServiceTypes = 'ts-node'
+import { Package } from '../package/types'
 
-export type Package = {
-  project: string
-  name: string
-  path: string
-  package: string
-  location: string
+export enum ServiceType {
+  TsNode = 'ts-node',
 }
 
 export type Service = Package & {
-  type: ServiceTypes
+  type: ServiceType
   dependencies: Package[]
 }
 
@@ -30,6 +26,6 @@ export type PackageJson = {
 
 export type PlatyplusPackageJson = PackageJson & {
   platyplus: {
-    type: ServiceTypes
+    type: ServiceType
   }
 }

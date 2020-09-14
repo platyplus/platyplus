@@ -24,13 +24,16 @@
     "prepublish": "yarn run build",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
     "postbuild": "yarn run copy-files",
-    "copy-files": "copyfiles -u 1 src/templates/**/* dist/",
+    "copy-files": "cpy  'templates/**/*' '!templates/*.ts' ../dist/ --cwd=src --parents",
     "clean": "rimraf dist"
   },
   "dependencies": {
     "@platyplus/lerna": "*",
     "chokidar": "^3.4.2",
+    "fs-extra": "^9.0.1",
+    "git-config": "^0.0.7",
     "handlebars": "^4.7.6",
+    "klaw": "^3.0.0",
     "merge-deep": "^3.0.2",
     "object-path": "^0.11.4",
     "tmp": "^0.2.1",
@@ -38,11 +41,14 @@
     "yargs": "^16.0.3"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/git-config": "^0.0.29",
+    "@types/klaw": "^3.0.1",
     "@types/merge-deep": "^3.0.0",
     "@types/object-path": "^0.11.0",
     "@types/tmp": "^0.2.0",
     "@types/yargs": "^15.0.5",
-    "copyfiles": "^2.3.0",
+    "cpy-cli": "^3.1.1",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
   }

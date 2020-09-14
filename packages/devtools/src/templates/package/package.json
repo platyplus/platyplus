@@ -1,0 +1,31 @@
+{
+  "name": "{{package}}",
+  "version": "0.0.1",
+  "description": "{{description}}",
+  "author": "{{user.name}} <{{user.email}}>",
+  "homepage": "{{repository}}",
+  "repository": {
+    "type": "git",
+    "url": "{{repository}}",
+    "directory": "{{path}}"
+  },
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "tsconfig-paths": "^3.9.0"
+  }
+}

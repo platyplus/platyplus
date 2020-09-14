@@ -1,4 +1,4 @@
-import { stat, unlink } from 'fs/promises'
+import fs from 'fs-extra'
 import path from 'path'
 import tmp from 'tmp'
 import chodikar from 'chokidar'
@@ -21,9 +21,7 @@ export const runSkaffold = async (
 ): Promise<void> => {
   const projectPath = path.join(rootDir, project)
   try {
-    if (!(await stat(projectPath)).isDirectory()) {
-      throw Error(`${projectPath} is not a directory`)
-    }
+    await fs.ensureDir(projectPath)
     const configPath = path.join(projectPath, 'config.yaml')
     const skaffoldPath = tmp.tmpNameSync()
     console.log(`Temporary skaffold.yaml file is ${skaffoldPath}`)
@@ -44,7 +42,7 @@ export const runSkaffold = async (
       )
       skaffold.on('exit', async () => {
         watcher.close()
-        await unlink(skaffoldPath)
+        await fs.remove(skaffoldPath)
       })
     })
     watcher.on('change', async () => {

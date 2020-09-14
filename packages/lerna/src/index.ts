@@ -6,15 +6,17 @@ export type LernaPackage = {
   version: string
   private: boolean
 }
+
 /**
+ * * Gets package information based on its name as per defined in package.json
  * @param name package name as per defined in package.json
  * @param rootDir root dir of the monorepo
  * @return basic package information
  */
-export const lernaPackage = async (name: string): Promise<LernaPackage> => {
+export const getLernaPackage = async (name: string): Promise<LernaPackage> => {
   try {
     const stdout = await exec(
-      `lerna ls --all --exclude-dependents --json --scope=${name}`
+      `lerna ls --all --exclude-dependents --json --scope='${name}'`
     )
     const list = JSON.parse(stdout) as LernaPackage[]
     if (list.length !== 1)
@@ -29,21 +31,35 @@ export const lernaPackage = async (name: string): Promise<LernaPackage> => {
 }
 
 /**
- * Returns the dependent packages of the package given as a parameter
+ * * Returns the dependent packages of the package given as a parameter
  * ! Only the 'non-private' packages are returned
- * @param name
+ * @param name package name as per defined in package.json
  */
-export const lernaDependencies = async (
+export const getLernaDependencies = async (
   name: string
 ): Promise<LernaPackage[]> => {
   try {
     const stdout = await exec(
-      `lerna ls --include-dependencies --json --scope=${name}`
+      `lerna ls --include-dependencies --json --scope='${name}'`
     )
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.filter((p) => p.name !== name)
   } catch (error) {
     console.log(error)
-    throw Error(`Cannot find package ${name}`)
+    throw Error(`Cannot find package ${name}.`)
+  }
+}
+
+/**
+ * * Checks if a given package is present in the current lerna project
+ * @param name package name as per defined in package.json
+ */
+export const hasLernaPackage = async (name: string): Promise<boolean> => {
+  try {
+    const stdout = await exec(`lerna ls --all --json --scope='${name}'`)
+    const list = JSON.parse(stdout) as LernaPackage[]
+    return list.length === 1
+  } catch (error) {
+    return false
   }
 }

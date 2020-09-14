@@ -1,11 +1,11 @@
 import yaml from 'yaml'
 import objectPath from 'object-path'
-import { writeFile } from 'fs/promises'
+import fs from 'fs-extra'
 
-import { loadConfig } from '../config'
-import { Config } from '../config/types'
+import { loadConfig } from '../configuration'
+import { Config } from '../configuration/types'
 import { loadService } from '../service/load'
-import { writeDockerfiles } from '../service/generator'
+import { writeDockerfiles } from '../service/docker'
 import { Service } from '../service/types'
 
 import { Artifact, Profile, Skaffold } from './types'
@@ -89,9 +89,9 @@ export const writeSkaffold = async (
   configFileName: string,
   skaffoldFileName: string
 ): Promise<void> => {
-  const skaffoldYaml = await generateSkaffoldYaml(configFileName)
   try {
-    await writeFile(skaffoldFileName, skaffoldYaml)
+    const skaffoldYaml = await generateSkaffoldYaml(configFileName)
+    await fs.outputFile(skaffoldFileName, skaffoldYaml)
   } catch (error) {
     console.log(
       "Invalid config.yaml. Changes won't be taken into account:",

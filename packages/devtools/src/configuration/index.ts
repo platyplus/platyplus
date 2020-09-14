@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises'
+import { readFile } from 'fs-extra'
 import yaml from 'yaml'
 import merge from 'merge-deep'
 
