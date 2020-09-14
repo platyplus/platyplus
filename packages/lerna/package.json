@@ -26,5 +26,9 @@
   },
   "dependencies": {
     "@platyplus/process": "*"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "tsconfig-paths": "^3.9.0"
   }
 }
