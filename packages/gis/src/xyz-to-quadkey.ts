@@ -1,9 +1,9 @@
-export const xyzToQuadKey = ([x, y, z]: number[]) => {
+export const xyzToQuadKey = ([x, y, z]: number[]): string => {
   // TODO tester
-  var quadKey = []
-  for (var i = z; i > 0; i--) {
+  const quadKey = []
+  for (let i = z; i > 0; i--) {
     let digit = 0
-    var mask = 1 << (i - 1)
+    const mask = 1 << (i - 1)
     if ((x & mask) != 0) {
       digit++
     }

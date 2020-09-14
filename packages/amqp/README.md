@@ -1,10 +1,10 @@
 # `@platyplus/amqp`
 
-TODO a description
+AMQP utils
 
 ## Installation
 
-```js
+```sh
 yarn add @platyplus/amqp
 ```
 

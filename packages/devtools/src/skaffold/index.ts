@@ -23,7 +23,7 @@ export const runSkaffold = async (
   try {
     await fs.ensureDir(projectPath)
     const configPath = path.join(projectPath, 'config.yaml')
-    const skaffoldPath = tmp.tmpNameSync()
+    const skaffoldPath = tmp.tmpNameSync({ postfix: '.yaml' })
     console.log(`Temporary skaffold.yaml file is ${skaffoldPath}`)
     await writeSkaffold(configPath, skaffoldPath)
     console.log('Skaffold config saved.')

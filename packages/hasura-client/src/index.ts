@@ -4,19 +4,22 @@ import { DocumentNode, print } from 'graphql'
 import { GraphQLClient } from 'graphql-request'
 import { Variables } from 'graphql-request/dist/types'
 
-const HASURA_GRAPHQL_ADMIN_SECRET = process.env
-  .HASURA_GRAPHQL_ADMIN_SECRET as string
-
-const HASURA_ENDPOINT =
-  process.env.HASURA_ENDPOINT || 'http://graphql-engine:8080/v1/graphql'
-
 class Client extends GraphQLClient {
-  constructor() {
-    super(HASURA_ENDPOINT, {
-      headers: {
-        'x-hasura-admin-secret': HASURA_GRAPHQL_ADMIN_SECRET,
-      },
-    })
+  constructor(
+    endpoint = process.env.HASURA_ENDPOINT ||
+      'http://graphql-engine:8080/v1/graphql',
+    secret = process.env.HASURA_GRAPHQL_ADMIN_SECRET
+  ) {
+    super(
+      endpoint,
+      secret
+        ? {
+            headers: {
+              'x-hasura-admin-secret': secret,
+            },
+          }
+        : undefined
+    )
   }
   request<T = unknown, V = Variables>(
     query: DocumentNode | string,

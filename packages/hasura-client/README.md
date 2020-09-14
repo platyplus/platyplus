@@ -1,10 +1,10 @@
 # `@platyplus/hasura-client`
 
-TODO a description
+Isomorphic Hasura client based on graphql-request
 
 ## Installation
 
-```js
+```sh
 yarn add @platyplus/hasura-client
 ```
 

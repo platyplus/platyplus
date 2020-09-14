@@ -2,6 +2,12 @@
 
 Process-related utils
 
+## Installation
+
+```sh
+yarn add @platyplus/process
+```
+
 ## Usage
 
 ```js

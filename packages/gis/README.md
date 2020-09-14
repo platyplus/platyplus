@@ -1,10 +1,10 @@
 # `@platyplus/gis`
 
-TODO a description
+GIS utils
 
 ## Installation
 
-```js
+```sh
 yarn add @platyplus/gis
 ```
 

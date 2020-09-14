@@ -4,7 +4,7 @@
 
 ## Installation
 
-```js
+```sh
 yarn add {{package}}
 ```
 

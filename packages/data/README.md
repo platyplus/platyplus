@@ -1,10 +1,10 @@
 # `@platyplus/data`
 
-TODO a description
+Utils for manipulating JS objects, arrays and other data structures
 
 ## Installation
 
-```js
+```sh
 yarn add @platyplus/data
 ```
 
