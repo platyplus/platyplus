@@ -3,6 +3,7 @@ type Service = {
   package: string
 }
 export type Config = {
+  name?: string
   services: Service[]
   skaffold: Skaffold
 }

@@ -16,7 +16,6 @@
     "docker-compose*": "yaml",
     "packages/devtools/src/templates/**/*.json": "json"
   },
-  "vetur.validation.template": false,
   // "eslint.autoFixOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

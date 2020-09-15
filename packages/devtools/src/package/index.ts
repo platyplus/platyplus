@@ -21,14 +21,13 @@ export const generatePackage = async (
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)
-  const [project, name] = path.split('/')
+  const [directory, name] = path.split('/')
   const git = gitConfig.sync()
   const variables: Package = {
     description,
-    package: packageName,
-    project,
+    packageName,
+    directory,
     name,
-    path,
     location: `${DEFAULT_ROOT_DIR}/${path}`,
     user: {
       name: objectPath.get(git, 'user.name'),
@@ -47,18 +46,16 @@ export const generatePackage = async (
  * @param rootDir
  */
 export const fromNpmPackage = (
-  npmPackage: PackageJson,
-  jsonPackageDir: string,
+  { name: packageName }: PackageJson,
+  location: string,
   rootDir = DEFAULT_ROOT_DIR
 ): Package => {
-  const path = jsonPackageDir.replace(`${rootDir}/`, '')
-  const [project, name] = path.split('/')
+  const [directory, name] = location.replace(`${rootDir}/`, '').split('/')
   return {
-    project,
+    directory,
     name,
-    path,
-    package: npmPackage.name,
-    location: jsonPackageDir,
+    packageName,
+    location,
   }
 }
 
@@ -70,16 +67,14 @@ export const fromNpmPackage = (
  * @param rootDir
  */
 export const fromLernaPackage = (
-  lernaPackage: LernaPackage,
+  { location, name: packageName }: LernaPackage,
   rootDir = DEFAULT_ROOT_DIR
 ): Package => {
-  const path = lernaPackage.location.replace(`${rootDir}/`, '')
-  const [project, name] = path.split('/')
+  const [directory, name] = location.replace(`${rootDir}/`, '').split('/')
   return {
-    project,
+    directory,
     name,
-    path,
-    package: lernaPackage.name,
-    location: lernaPackage.location,
+    packageName,
+    location,
   }
 }

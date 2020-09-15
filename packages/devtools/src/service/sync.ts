@@ -9,7 +9,7 @@ export const syncServices = async (): Promise<void> => {
     try {
       const service = await loadService(p.location)
       await writeDockerfiles(service)
-      console.log(`${service.package} synced in ${service.path}`)
+      console.log(`${service.packageName} synced in ${service.location}`)
       // eslint-disable-next-line no-empty
     } catch {}
   }

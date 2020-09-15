@@ -2,6 +2,7 @@ import { Package, PackageJson } from '../package/types'
 
 export enum ServiceType {
   TsNode = 'ts-node',
+  Quasar = 'quasar',
 }
 
 export type Service = Package & {

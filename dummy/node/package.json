@@ -3,12 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "description": "A dummy service",
-  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "homepage": "",
-  "license": "ISC",
   "platyplus": {
     "type": "ts-node"
   },
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "license": "ISC",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon",

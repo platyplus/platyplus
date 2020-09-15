@@ -3,7 +3,7 @@
 # ! ########################################################################### ! #
 
 
-FROM node:12-alpine as lerna-base
+FROM node:14-alpine as lerna-base
 RUN apk add --no-cache jq
 RUN npm i lerna -g --loglevel error
 USER node
@@ -26,7 +26,7 @@ RUN cat dummy/node/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > dum
 RUN lerna bootstrap --ignore-scripts -- --production --no-optional
 RUN tar -cf /home/node/dependencies.tar dummy/node/node_modules dummy/node/package.json dummy/node/yarn.lock
 
-FROM node:12-alpine as run
+FROM node:14-alpine as run
 USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app

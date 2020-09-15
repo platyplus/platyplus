@@ -1,3 +1,5 @@
+export type Sync = { manual?: ManualSync[]; infer?: string[] }
+
 export type Artifact = {
   image: string
   context: string
@@ -5,7 +7,7 @@ export type Artifact = {
     dockerfile?: string
     buildArgs?: Record<string, string>
   }
-  sync?: { manual?: ManualSync[]; infer?: string[] }
+  sync?: Sync
 }
 type Release = {
   name: string

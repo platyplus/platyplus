@@ -1,5 +1,7 @@
+name: dummy
 services:
   # ? is this really usefull as it can be inferred when platyplus is present in package.json?
   # ? in a way, yes as it can activate/deactivate services. But it could also be an option in package.json...
-  - package: '@platyplus/node-dummy'
+  - package: "@platyplus/node-dummy"
+  - package: "@platyplus/web-dummy"
 # skaffold:

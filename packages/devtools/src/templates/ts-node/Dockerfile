@@ -3,7 +3,7 @@
 # ! ########################################################################### ! #
 
 
-FROM node:12-alpine as lerna-base
+FROM node:14-alpine as lerna-base
 RUN apk add --no-cache jq
 RUN npm i lerna -g --loglevel error
 USER node
@@ -12,31 +12,31 @@ WORKDIR /home/node/app
 
 COPY --chown=node:node package.json yarn.lock lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #{{#each dependencies}}
-COPY --chown=node:node {{this.path}}/package.json {{this.path}}/yarn.* {{this.path}}/
+COPY --chown=node:node {{this.directory}}/{{this.name}}/package.json {{this.directory}}/{{this.name}}/yarn.* {{this.directory}}/{{this.name}}/
 #{{/each}}
-COPY --chown=node:node {{path}}/package.json {{path}}/yarn.lock /home/node/app/{{path}}/
+COPY --chown=node:node {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.lock /home/node/app/{{directory}}/{{name}}/
 
 FROM lerna-base as builder
 RUN lerna bootstrap --ignore-scripts
-COPY --chown=node:node {{path}} /home/node/app/{{path}}
+COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{name}}
 #{{#each dependencies}}
-COPY --chown=node:node {{this.path}} {{this.path}}
+COPY --chown=node:node {{this.directory}}/{{this.name}} {{this.directory}}/{{this.name}}
 #{{/each}}
 
 RUN lerna run build
 
 FROM lerna-base as dependencies
-RUN cat {{path}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{path}}/package.json
+RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
 RUN lerna bootstrap --ignore-scripts -- --production --no-optional
-RUN tar -cf /home/node/dependencies.tar {{path}}/node_modules {{path}}/package.json {{path}}/yarn.lock
+RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.lock
 
-FROM node:12-alpine as run
+FROM node:14-alpine as run
 USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 EXPOSE 3000
 COPY --from=dependencies /home/node/dependencies.tar /tmp
 RUN tar -xf /tmp/dependencies.tar
-COPY --from=builder /home/node/app/{{path}}/dist /home/node/app/{{path}}/dist
-CMD cd {{path}} && node dist/index.js
+COPY --from=builder /home/node/app/{{directory}}/{{name}}/dist /home/node/app/{{directory}}/{{name}}/dist
+CMD cd {{directory}}/{{name}} && node dist/index.js
 

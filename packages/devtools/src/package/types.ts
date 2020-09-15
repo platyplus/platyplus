@@ -1,8 +1,7 @@
 export type Package = {
-  package: string
-  project: string
+  packageName: string
+  directory: string
   name: string
-  path: string
   location: string
   description?: string
   user?: {
