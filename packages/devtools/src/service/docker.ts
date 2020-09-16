@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import fs from '@platyplus/fs'
 import path from 'path'
 
 import { templateToString } from '../templates'

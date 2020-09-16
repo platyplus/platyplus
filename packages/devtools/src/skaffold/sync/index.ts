@@ -1,10 +1,11 @@
-import { get, set } from 'object-path'
+import path from 'path'
+import { set } from 'object-path'
 
 import { getLernaPackage } from '@platyplus/lerna'
+import { loadYaml } from '@platyplus/fs'
 
 import { DevToolsConfig } from '../../configuration'
 import { loadService, writeDockerfiles } from '../../service'
-import { loadYaml } from '../../utils'
 
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
@@ -13,17 +14,15 @@ import { syncDevProfile } from './profiles'
 import { syncArtifact } from './artifact'
 import { syncFiles } from './files'
 import { syncHelm } from './helm'
+import { DEFAULT_ROOT_DIR } from '../../config'
 
 export const loadSkaffoldConfiguration = async (
   projectPath: string,
   configuration: DevToolsConfig
 ): Promise<Skaffold> => {
   console.log(`Syncing ${projectPath}/skaffold.yaml...`)
-  const skaffold = await loadYaml(
-    projectPath,
-    'skaffold.yaml',
-    defaultSkaffoldConfiguration
-  )
+  const filePath = path.join(DEFAULT_ROOT_DIR, projectPath, 'skaffold.yaml')
+  const skaffold = await loadYaml(filePath, defaultSkaffoldConfiguration)
   const profileIndex = syncDevProfile(skaffold)
   const helmReleaseIndex = syncHelm(
     skaffold,

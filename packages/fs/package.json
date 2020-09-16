@@ -1,14 +1,14 @@
 {
-  "name": "{{package}}",
+  "name": "@platyplus/fs",
   "private": false,
   "version": "0.0.1",
-  "description": "{{description}}",
-  "author": "{{user.name}} <{{user.email}}>",
-  "homepage": "{{repository}}",
+  "description": "A wrapper of several filesystem utils meant to supplement the standard fs package",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
   "repository": {
     "type": "git",
-    "url": "{{repository}}",
-    "directory": "{{path}}"
+    "url": "https://github.com/platyplus/platyplus.git",
+    "directory": "packages/fs"
   },
   "license": "ISC",
   "main": "dist/index.js",
@@ -26,7 +26,15 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/merge-deep": "^3.0.0",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "merge-deep": "^3.0.2",
+    "yaml": "^1.10.0"
   }
 }

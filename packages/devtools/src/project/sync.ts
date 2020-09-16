@@ -2,7 +2,7 @@ import path from 'path'
 
 import { loadConfiguration } from '../configuration'
 import { loadSkaffoldConfiguration } from '../skaffold'
-import { saveYaml } from '../utils'
+import { saveYaml } from '@platyplus/fs'
 
 export const syncProject = async (projectPath: string): Promise<void> => {
   const config = await loadConfiguration(projectPath)

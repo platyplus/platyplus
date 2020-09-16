@@ -1,8 +1,8 @@
-import fs from 'fs-extra'
 import { join } from 'path'
 import objectPath from 'object-path'
 
 import { getLernaDependencies } from '@platyplus/lerna'
+import fs from '@platyplus/fs'
 
 import { DEFAULT_ROOT_DIR } from '../config'
 

@@ -1,7 +1,7 @@
-import fs from 'fs-extra'
-import glob from 'glob'
 import path from 'path'
 import handlebars from 'handlebars'
+
+import fs from '@platyplus/fs'
 
 import { Package } from '../package/types'
 import { DEFAULT_ROOT_DIR } from '../config'
@@ -35,7 +35,7 @@ export const generateTemplateFiles = async <T extends Package>(
   const source = path.join(__dirname, type)
   if (!(await fs.pathExists(source)))
     throw Error(`No '${type}' template found.`)
-  for await (const file of glob.sync(path.join(source, '**', '*'), {
+  for await (const file of fs.glob.sync(path.join(source, '**', '*'), {
     nodir: true,
   })) {
     const destFile = file.replace(`${source}/`, '')

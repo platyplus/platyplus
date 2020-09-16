@@ -26,7 +26,7 @@ export const createPackage = async (
   const git = gitConfig.sync()
   const variables: Package = {
     description,
-    packageName,
+    package: packageName,
     directory,
     name,
     location: `${DEFAULT_ROOT_DIR}/${path}`,

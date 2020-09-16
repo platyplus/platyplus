@@ -28,21 +28,16 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@platyplus/fs": "*",
     "@platyplus/lerna": "*",
     "chokidar": "^3.4.2",
-    "fs-extra": "^9.0.1",
     "git-config": "^0.0.7",
-    "glob": "^7.1.6",
     "handlebars": "^4.7.6",
-    "merge-deep": "^3.0.2",
     "object-path": "^0.11.4",
-    "yaml": "^1.10.0",
     "yargs": "^16.0.3"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.1",
     "@types/git-config": "^0.0.29",
-    "@types/merge-deep": "^3.0.0",
     "@types/object-path": "^0.11.0",
     "@types/yargs": "^15.0.5",
     "cpy-cli": "^3.1.1",

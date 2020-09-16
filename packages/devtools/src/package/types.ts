@@ -1,5 +1,5 @@
 export type Package = {
-  packageName: string
+  package: string
   directory: string
   name: string
   location: string

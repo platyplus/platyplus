@@ -20,7 +20,7 @@ export const fromNpmPackage = (
   return {
     directory,
     name,
-    packageName,
+    package: packageName,
     location,
   }
 }
@@ -40,7 +40,7 @@ export const fromLernaPackage = (
   return {
     directory,
     name,
-    packageName,
+    package: packageName,
     location,
   }
 }
