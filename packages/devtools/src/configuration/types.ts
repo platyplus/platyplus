@@ -1,9 +1,7 @@
-import { Skaffold } from '../skaffold/types'
-type Service = {
+type DevToolsService = {
   package: string
 }
-export type Config = {
-  name?: string
-  services: Service[]
-  skaffold: Skaffold
+export type DevToolsConfig = {
+  name: string
+  services: DevToolsService[]
 }

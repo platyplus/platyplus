@@ -9,14 +9,16 @@ export type Artifact = {
   }
   sync?: Sync
 }
-type Release = {
+
+export type Release = {
   name: string
   chartPath: string
   artifactOverrides?: {
     image?: string
   }
 }
-type Activation = {
+
+export type Activation = {
   command: string
 }
 type ManualSync = {
@@ -31,6 +33,7 @@ export type Profile = {
     artifacts: Array<Artifact>
   }
 }
+
 export type Skaffold = {
   apiVersion: 'skaffold/v2beta7'
   kind: 'Config'

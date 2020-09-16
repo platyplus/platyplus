@@ -1,0 +1,9 @@
+traefik:
+  additionalArguments:
+    - "--log.level=DEBUG"
+    - "--entrypoints.websecure.http.tls"
+    - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
+    - "--ping"
+    - "--metrics.prometheus"
+    - "--entrypoints.web.http.redirections.entrypoint.to=:443"
+    - "--entrypoints.web.http.redirections.entrypoint.permanent=true"

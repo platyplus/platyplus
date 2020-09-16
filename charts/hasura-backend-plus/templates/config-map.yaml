@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+  namespace: default
+data:
+  serverUrl: "https://{{ required ".Values.global.hostname is required" .Values.global.hostname }}"

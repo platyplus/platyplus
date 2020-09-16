@@ -1,0 +1,66 @@
+global:
+  hostname: localhost
+
+web:
+  enabled: true
+  imageConfig:
+    tag: latest
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+
+# rabbitmq:
+#   enabled: true
+  # auth:
+  #   username: user
+  #   password: <secret-rabbitmq-password>
+
+node:
+  enabled: true
+  imageConfig:
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  
+
+# hasura-backend-plus:
+#   enabled: true
+#   image:
+#     repository: platyplus/tilehuria-hbp
+#     tag: latest
+#     pullPolicy: IfNotPresent
+#   env: 
+#     AUTO_MIGRATE: "false"
+#     HIBP_ENABLE: "false"
+#     JWT_CUSTOM_FIELDS: ""
+#     S3_SSL_ENABLED: "false"
+
+#   # cert:
+#     # email: pilou@platyplus.io
+#     # letsencrypt: production # staging or production
+
+#   minio:
+#     defaultBuckets: tilehuria
+#     # accessKey: 
+#     #   password: <minio-access-key>
+#     # secretKey:
+#     #   password: <minio-secret-key>
+
+#   hasura:
+#     image:
+#       repository: platyplus/tilehuria-hasura
+#       tag: latest
+#       pullPolicy: IfNotPresent
+#     # adminSecret: <long complicated admin key>
+#     # jwt: 
+#     #   key: <long complicated jwt key>
+#     #   algorithm: HS256
+#     postgresql:
+#       postgresqlDatabase: tilehuria
+#       # postgresqlPassword: <secret-postgresql-password>
+#     env:
+#       node_URL: "http://{{ .Release.Name }}-node"
+#       # node_REMOTE_SCHEMA: "http://{{ .Release.Name }}-node/graphql"
+#       EVENT_AOI: "http://{{ .Release.Name }}-node/events/area-of-interest"
+#       EVENT_TILE_SET: "http://{{ .Release.Name }}-node/events/tile-set"
+  

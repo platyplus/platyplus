@@ -18,9 +18,9 @@ export const loadService = async (
   jsonPackageDir: string,
   rootDir = DEFAULT_ROOT_DIR
 ): Promise<Service> => {
-  const packageJson = JSON.parse(
-    (await fs.readFile(join(jsonPackageDir, 'package.json'))).toString()
-  ) as PlatyplusPackageJson
+  const packageJson = (await fs.readJson(
+    join(jsonPackageDir, 'package.json')
+  )) as PlatyplusPackageJson
   const type = objectPath.get(packageJson, 'platyplus.type') as ServiceType
   if (!type)
     throw Error(`'platyplus.type' field not found in ${jsonPackageDir}.`)

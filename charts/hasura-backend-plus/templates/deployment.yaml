@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hasura-backend-plus.fullname" . }}
+  labels:
+    {{- include "hasura-backend-plus.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "hasura-backend-plus.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        # checksum/config: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
+        # checksum/minio-config: {{ include (print $.Template.BasePath "/minio-config.yaml") . | sha256sum }}
+        # Missing: hasura secrets
+        # TODO See https://v3.helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
+        rollme: {{ randAlphaNum 5 | quote }}
+    {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "hasura-backend-plus.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "hasura-backend-plus.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: HASURA_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-hasura
+                  key: endpoint
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-hasura
+                  key: adminSecret
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-hasura
+                  key: jwt.key
+            - name: S3_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-minio
+                  key: endpoint
+            - name: S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-minio
+                  key: defaultBuckets
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-minio
+                  key: access-key
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-minio
+                  key: secret-key
+            - name: SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: serverUrl
+            - name: JWT_ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-hasura
+                  key: jwt.algorithm
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{- printf " %s" (tpl $value $ | toJson) }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

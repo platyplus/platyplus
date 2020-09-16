@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: '1.0'
+description: Pre-configured traefik
+name: traefik
+version: 0.1.0
+dependencies:
+  - name: traefik
+    version: 'v8.9.1'
+    repository: 'https://containous.github.io/traefik-helm-chart'

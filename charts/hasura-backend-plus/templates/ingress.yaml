@@ -1,0 +1,35 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "hasura-backend-plus.fullname" . -}}
+{{- $hostname := include "hostname" .  -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hasura-backend-plus
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`hbp.{{ $hostname }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hasura-backend-plus-tls
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: "Host(`hbp.{{ $hostname }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: 80
+  tls:
+    secretName: {{ .Release.Name }}-cert
+{{- end }}

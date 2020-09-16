@@ -1,0 +1,37 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "web.fullname" . -}}
+{{- $hostname := include "hostname" . -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Chart.Name }}
+# ? put namespace in values.yaml
+  # namespace: default
+spec:
+  entryPoints:
+# TODO put name in values.yaml
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`{{ $hostname }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: 3000
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Chart.Name }}-tls
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: "Host(`{{ $hostname }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: 3000
+  tls:
+    secretName: {{ .Release.Name }}-cert
+{{- end }}

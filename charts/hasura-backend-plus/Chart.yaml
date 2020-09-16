@@ -1,0 +1,16 @@
+apiVersion: v2
+name: hasura-backend-plus
+description: Hasura Backend Plus
+icon: https://nhost.github.io/hasura-backend-plus/logo.png
+appVersion: 2.0.0
+name: hasura-backend-plus
+version: 0.1.0
+dependencies:
+  - name: minio
+    version: '3.4.13'
+    repository: 'https://charts.bitnami.com/bitnami'
+    condition: minio.enabled
+  - name: hasura
+    version: '0.1.0'
+    repository: 'file://../hasura'
+    condition: hasura.enabled

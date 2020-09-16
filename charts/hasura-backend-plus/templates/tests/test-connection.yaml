@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "hasura-backend-plus.fullname" . }}-test-connection"
+  labels:
+    {{- include "hasura-backend-plus.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "hasura-backend-plus.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

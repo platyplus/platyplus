@@ -1,7 +1,7 @@
 import yargs from 'yargs'
-import { generatePackage } from './package'
-import { syncServices } from './service/sync'
-import { runSkaffold } from './skaffold'
+import { createPackage } from './package'
+import { syncProject } from './project'
+import { runSkaffoldDev } from './skaffold'
 
 yargs
   .scriptName('pdt')
@@ -15,7 +15,7 @@ yargs
     },
     async (argv) => {
       try {
-        await runSkaffold(argv.project)
+        await runSkaffoldDev(argv.project)
       } catch (error) {
         console.error(error.message)
       }
@@ -33,23 +33,25 @@ yargs
           describe: 'Package directory',
         })
     },
-    async (argv) => {
+    async ({ name, dirname, description }) => {
       try {
-        await generatePackage(argv.name, argv.dirname, argv.description)
+        await createPackage(name, dirname, description)
       } catch (error) {
         console.error(error.message)
       }
     }
   )
-  .command(
-    'sync',
-    'Generates the files required by all the services. Overrides them if they already exist',
+  .command<{ project: string }>(
+    'sync <project>',
+    'Synchronises the project files. Create/update skaffold, and overrides dockerfiles',
     (yargs) => {
-      yargs
+      yargs.positional('project', {
+        describe: 'project (lerna sub-folder) to skaffold',
+      })
     },
-    async () => {
+    async ({ project }) => {
       try {
-        await syncServices()
+        await syncProject(project)
       } catch (error) {
         console.error(error.message)
       }

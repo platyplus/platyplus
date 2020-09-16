@@ -1,0 +1,50 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+    - image: dummy-node
+      context: ..
+      docker:
+        dockerfile: dummy/node/Dockerfile
+    - image: dummy-web
+      context: ..
+      docker:
+        dockerfile: dummy/web/Dockerfile
+deploy:
+  helm:
+    releases:
+      - name: dummy
+        chartPath: helm
+        artifactOverrides:
+          node:
+            image: dummy-node
+          web:
+            image: dummy-web
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    build:
+      artifacts:
+        - image: dummy-node
+          context: ..
+          docker:
+            dockerfile: dummy/node/Dockerfile-development
+          sync:
+            manual:
+              - src: dummy/node/src/**/*.{ts,json}
+                dest: .
+        - image: dummy-web
+          context: ..
+          docker:
+            dockerfile: dummy/web/Dockerfile-development
+          sync:
+            manual:
+              - src: dummy/web/src/**/*.{ts,vue,json,sass,html}
+                dest: .
+              - src: dummy/web/quasar.conf.js
+                dest: .
+              - src: dummy/web/src/assets/**/*
+                dest: .
+              - src: dummy/web/public/**/*
+                dest: .
