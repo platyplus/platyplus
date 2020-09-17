@@ -13,3 +13,5 @@
 - [ ] postgres docker, helm & template
 - [ ] rabbitmq docker, helm & template?
 - [ ] optimise generated dockerfiles - use common layers?
+- [x] move devtools to the root folder
+- [ ] move templates to the root folder

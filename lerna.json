@@ -1,9 +1,5 @@
 {
   "npmClient": "yarn",
-  "packages": [
-    "packages/*",
-    "dummy/*"
-  ],
   "useWorkspaces": true,
   "version": "independent",
   "command": {

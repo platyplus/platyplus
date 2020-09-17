@@ -12,7 +12,7 @@ export const syncArtifact = (
   const list = get<Artifact[]>(skaffold, listPath, [])
   const { directory, name } = service
   const image = `${directory}-${name}`
-  let index = list.findIndex((artifact) => artifact.image === image)
+  let index = list.findIndex(artifact => artifact.image === image)
   if (index < 0) index = list.length
   set(skaffold, `${listPath}.${index}.image`, image)
   set(skaffold, `${listPath}.${index}.context`, '..')

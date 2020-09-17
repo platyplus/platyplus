@@ -36,7 +36,7 @@ export const generateTemplateFiles = async <T extends Package>(
   if (!(await fs.pathExists(source)))
     throw Error(`No '${type}' template found.`)
   for await (const file of fs.glob.sync(path.join(source, '**', '*'), {
-    nodir: true,
+    nodir: true
   })) {
     const destFile = file.replace(`${source}/`, '')
     // TODO ignore some files, e.g. Helm charts directory

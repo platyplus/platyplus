@@ -28,8 +28,6 @@ export const loadService = async (
   const dependencies = await getLernaDependencies(packageJson.name)
   const result = fromNpmPackage(packageJson, jsonPackageDir, rootDir) as Service
   result.type = type
-  result.dependencies = dependencies.map((lernaDep) =>
-    fromLernaPackage(lernaDep)
-  )
+  result.dependencies = dependencies.map(lernaDep => fromLernaPackage(lernaDep))
   return result
 }

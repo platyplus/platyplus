@@ -8,12 +8,12 @@ yargs
   .command<{ project: string }>(
     'skaffold <project>',
     'Runs skaffold for the given project',
-    (yargs) => {
+    yargs => {
       yargs.positional('project', {
-        describe: 'project (lerna sub-folder) to skaffold',
+        describe: 'project (lerna sub-folder) to skaffold'
       })
     },
-    async (argv) => {
+    async argv => {
       try {
         await runSkaffoldDev(argv.project)
       } catch (error) {
@@ -24,13 +24,13 @@ yargs
   .command<{ name: string; dirname: string; description?: string }>(
     'package create <name> <dirname> [description]',
     'Creates a Typescript package boilerplate',
-    (yargs) => {
+    yargs => {
       yargs
         .positional('name', {
-          describe: 'Package name',
+          describe: 'Package name'
         })
         .positional('dirname', {
-          describe: 'Package directory',
+          describe: 'Package directory'
         })
     },
     async ({ name, dirname, description }) => {
@@ -44,9 +44,9 @@ yargs
   .command<{ project: string }>(
     'sync <project>',
     'Synchronises the project files. Create/update skaffold, and overrides dockerfiles',
-    (yargs) => {
+    yargs => {
       yargs.positional('project', {
-        describe: 'project (lerna sub-folder) to skaffold',
+        describe: 'project (lerna sub-folder) to skaffold'
       })
     },
     async ({ project }) => {

@@ -29,7 +29,7 @@ export const runSkaffoldDev = async (
       const skaffold = spawn('skaffold', ['dev', '--port-forward'], {
         cwd: `${rootDir}/${project}`,
         stdio: ['inherit', 'inherit', 'inherit'],
-        shell: true,
+        shell: true
       })
       skaffold.on('exit', async () => {
         watcher.close()
