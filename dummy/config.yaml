@@ -1,4 +1,5 @@
 name: dummy
+description: a dummy project
 services:
   - package: "@platyplus/node-dummy"
   - package: "@platyplus/web-dummy"

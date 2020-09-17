@@ -20,7 +20,7 @@ deploy:
             image: dummy-node
           web:
             image: dummy-web
-        skipBuildDependencies: true
+        skipBuildDependencies: false
         setValues:
           web:
             ingress:

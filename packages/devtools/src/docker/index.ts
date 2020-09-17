@@ -4,7 +4,7 @@ import path from 'path'
 import { getInstallFiles } from '../package'
 import { templateToString } from '../templates'
 
-import { Service } from './types'
+import { Service } from '../service/types'
 
 /**
  * Generates the Dockerfile of the given service and return it as a string

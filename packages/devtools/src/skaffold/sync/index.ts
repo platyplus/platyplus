@@ -1,20 +1,18 @@
 import path from 'path'
 import { set } from 'object-path'
 
-import { getLernaPackage } from '@platyplus/lerna'
 import { loadYaml } from '@platyplus/fs'
 
 import { DevToolsConfig } from '../../configuration'
-import { loadService, writeDockerfiles } from '../../service'
+import { DEFAULT_ROOT_DIR } from '../../config'
+import { syncFiles } from '../../service'
 
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
 
 import { syncDevProfile } from './profiles'
 import { syncArtifact } from './artifact'
-import { syncFiles } from './files'
-import { syncHelm } from './helm'
-import { DEFAULT_ROOT_DIR } from '../../config'
+import { syncHelmSkaffold } from './helm'
 
 export const loadSkaffoldConfiguration = async (
   projectPath: string,
@@ -24,16 +22,13 @@ export const loadSkaffoldConfiguration = async (
   const filePath = path.join(DEFAULT_ROOT_DIR, projectPath, 'skaffold.yaml')
   const skaffold = await loadYaml(filePath, defaultSkaffoldConfiguration)
   const profileIndex = syncDevProfile(skaffold)
-  const helmReleaseIndex = syncHelm(
+  const helmReleaseIndex = syncHelmSkaffold(
     skaffold,
     configuration.name,
     'deploy.helm.releases'
   )
-  for (const s of configuration.services) {
-    console.log(`Syncing service config ${s.package}...`)
-    const npmPackage = await getLernaPackage(s.package)
-    const service = await loadService(npmPackage.location)
-    await writeDockerfiles(service)
+  for (const service of configuration.services) {
+    console.log(`Syncing service config ${service.package}...`)
     const { directory, name } = service
     const path = `${directory}/${name}`
 

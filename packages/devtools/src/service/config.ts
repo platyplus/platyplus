@@ -1,5 +1,5 @@
-import { Service, ServiceType } from '../../service'
-import { Sync } from '../types'
+import { Sync } from '../skaffold'
+import { Service, ServiceType } from './types'
 
 /**
  * Determines how files should be synced depending on the service type
@@ -10,28 +10,33 @@ export const syncFiles: Record<ServiceType, (service: Service) => Sync> = {
     manual: [
       {
         src: `${directory}/${name}/src/**/*.{ts,json}`,
-        dest: '.',
-      },
-    ],
+        dest: '.'
+      }
+    ]
   }),
   quasar: ({ directory, name }) => ({
     manual: [
       {
         src: `${directory}/${name}/src/**/*.{ts,vue,json,sass,html}`,
-        dest: '.',
+        dest: '.'
       },
       {
         src: `${directory}/${name}/quasar.conf.js`,
-        dest: '.',
+        dest: '.'
       },
       {
         src: `${directory}/${name}/src/assets/**/*`,
-        dest: '.',
+        dest: '.'
       },
       {
         src: `${directory}/${name}/public/**/*`,
-        dest: '.',
-      },
-    ],
-  }),
+        dest: '.'
+      }
+    ]
+  })
+}
+
+export const helmChartName: Record<ServiceType, string> = {
+  'ts-node': 'simple-http',
+  quasar: 'simple-http'
 }

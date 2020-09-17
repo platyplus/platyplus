@@ -1,3 +1,3 @@
 export * from './types'
 export { loadService } from './load'
-export { writeDockerfiles } from './docker'
+export { syncFiles, helmChartName } from './config'
