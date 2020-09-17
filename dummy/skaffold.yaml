@@ -20,6 +20,11 @@ deploy:
             image: dummy-node
           web:
             image: dummy-web
+        skipBuildDependencies: true
+        setValues:
+          web:
+            ingress:
+              enabled: false
 profiles:
   - name: dev
     activation:

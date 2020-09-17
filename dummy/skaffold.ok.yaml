@@ -21,7 +21,7 @@ deploy:
         # namespace: skaffold
         skipBuildDependencies: true
         setValues:
-          web.ingress.enabled: false # ? move to the dev profile
+          web.ingress.enabled: false # TODO move to the dev profile
         artifactOverrides:
           web:
             image: dummy-web
