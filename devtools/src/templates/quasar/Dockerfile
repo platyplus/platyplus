@@ -9,14 +9,17 @@ RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
 COPY --chown=node:node package.json yarn.lock lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
-# {{#each packages}}
-COPY --chown=node:node {{this.installFiles}} /home/node/app/{{this.path}}/
-# {{/each}}
+#{{#each dependencies}}
+COPY --chown=node:node {{this.directory}}/{{this.name}}/package.json {{this.directory}}/{{this.name}}/yarn.* {{this.directory}}/{{this.name}}/
+#{{/each}}
+COPY --chown=node:node {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.lock /home/node/app/{{directory}}/{{name}}/
 
 RUN lerna bootstrap --ignore-scripts
-# {{#each packages}}
-COPY --chown=node:node {{this.path}} /home/node/app/{{this.path}}
-# {{/each}}
+#{{#each dependencies}}
+COPY --chown=node:node {{this.directory}}/{{this.name}} /home/node/app/{{this.directory}}/{{this.name}}
+#{{/each}}
+COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{name}}
+
 
 RUN cd {{directory}}/{{name}} && quasar build
 

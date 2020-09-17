@@ -1,7 +1,6 @@
 import fs from '@platyplus/fs'
 import path from 'path'
 
-import { getInstallFiles } from '../package'
 import { templateToString } from '../templates'
 
 import { Service } from '../service/types'
@@ -20,15 +19,7 @@ const generateDockerfile = async (
     __dirname,
     `../templates/${service.type}/Dockerfile${suffix}`
   )
-  const packages = [getInstallFiles(service)]
-
-  for (const dependency of service.dependencies) {
-    packages.push(getInstallFiles(dependency))
-  }
-  return await templateToString(templatePath, {
-    ...service,
-    packages
-  })
+  return await templateToString(templatePath, service)
 }
 
 /**
