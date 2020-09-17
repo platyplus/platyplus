@@ -9,9 +9,9 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.lock lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #
-COPY --chown=node:node dummy/node/package.json dummy/node/yarn.lock /home/node/app/dummy/node/
+COPY --chown=node:node dummy/node/package.json dummy/node/yarn.* /home/node/app/dummy/node/
 
 FROM lerna-base as builder
 RUN lerna bootstrap --ignore-scripts
@@ -23,7 +23,7 @@ RUN lerna run build
 FROM lerna-base as dependencies
 RUN cat dummy/node/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > dummy/node/package.json
 RUN lerna bootstrap --ignore-scripts -- --production --no-optional
-RUN tar -cf /home/node/dependencies.tar dummy/node/node_modules dummy/node/package.json dummy/node/yarn.lock
+RUN tar -cf /home/node/dependencies.tar dummy/node/node_modules dummy/node/package.json dummy/node/yarn.*
 
 FROM node:14-alpine as run
 USER node

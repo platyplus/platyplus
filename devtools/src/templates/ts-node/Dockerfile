@@ -9,11 +9,11 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.lock lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #{{#each dependencies}}
 COPY --chown=node:node {{this.directory}}/{{this.name}}/package.json {{this.directory}}/{{this.name}}/yarn.* {{this.directory}}/{{this.name}}/
 #{{/each}}
-COPY --chown=node:node {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.lock /home/node/app/{{directory}}/{{name}}/
+COPY --chown=node:node {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.* /home/node/app/{{directory}}/{{name}}/
 
 FROM lerna-base as builder
 RUN lerna bootstrap --ignore-scripts
@@ -27,7 +27,7 @@ RUN lerna run build
 FROM lerna-base as dependencies
 RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
 RUN lerna bootstrap --ignore-scripts -- --production --no-optional
-RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.lock
+RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.*
 
 FROM node:14-alpine as run
 USER node
