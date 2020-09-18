@@ -14,3 +14,8 @@ dependencies:
     version: "*"
     repository: file://../../charts/simple-http
     condition: node.enabled
+  - name: hasura
+    alias: hasura
+    version: "*"
+    repository: file://../../charts/hasura
+    condition: hasura.enabled

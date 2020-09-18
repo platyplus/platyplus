@@ -20,7 +20,7 @@ version: 0.1.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 1.0.0
+appVersion: v1.3.2.cli-migrations-v2
 dependencies:
   - name: postgresql # duplicate!!!!!
     version: '8.10.13'

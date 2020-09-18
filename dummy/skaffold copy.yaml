@@ -1,0 +1,94 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+    - image: dummy-node
+      context: ..
+      docker:
+        dockerfile: dummy/node/Dockerfile
+    - image: dummy-web
+      context: ..
+      docker:
+        dockerfile: dummy/web/Dockerfile
+    - image: dummy-hasura
+      context: hasura
+
+deploy:
+  helm:
+    releases:
+      - name: dummy
+        chartPath: helm
+        artifactOverrides:
+          node:
+            image: dummy-node
+          web:
+            image: dummy-web
+        skipBuildDependencies: false
+        # TODO patch
+        setValues:
+          global:
+            hostname: localhost
+          # web:
+          #   ingress:
+          #     enabled: false
+          hasura:
+            # ingress:
+            #   enabled: false
+            postgresql:
+              postgresqlPassword: a-postgres-password
+            adminSecret: <long complicated admin key>
+            jwt: 
+              key: <long complicated jwt key fo at least 32 characters>
+              algorithm: HS256
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    # patches:
+    #   - op: add # TODO or replace if the path exists....
+    #     path: /deploy/helm/releases/0/setValues
+    #     value:
+    #       global:
+    #         hostname: localhost
+    #       # web:
+    #       #   ingress:
+    #       #     enabled: false
+    #       hasura:
+    #         # ingress:
+    #         #   enabled: false
+    #         postgresql:
+    #           postgresqlPassword: a-postgres-password
+    #         adminSecret: <long complicated admin key>
+    #         jwt: 
+    #           key: <long complicated jwt key fo at least 32 characters>
+    #           algorithm: HS256
+    # portForward:
+    #   - resourceType: service
+    #     resourceName: dummy-hasura
+    #     namespace: default
+    #     port: 80
+    #     localPort: 8080 
+    build:
+      artifacts:
+        - image: dummy-node
+          context: ..
+          docker:
+            dockerfile: dummy/node/Dockerfile-development
+          sync:
+            manual:
+              - src: dummy/node/src/**/*.{ts,json}
+                dest: .
+        - image: dummy-web
+          context: ..
+          docker:
+            dockerfile: dummy/web/Dockerfile-development
+          sync:
+            manual:
+              - src: dummy/web/src/**/*.{ts,vue,json,sass,html}
+                dest: .
+              - src: dummy/web/quasar.conf.js
+                dest: .
+              - src: dummy/web/src/assets/**/*
+                dest: .
+              - src: dummy/web/public/**/*
+                dest: .

@@ -8,18 +8,18 @@ jwt:
   
 replicaCount: 1
 
-image:
+imageConfig:
   repository: hasura/graphql-engine
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  # tag: v1.3.2.cli-migrations-v2
 
 postgresql:
   enabled: true
   image:
     tag: 12.3.0
   postgresqlDatabase: hasura
-  # postgresqlPassword: <secret-postgresql-password>
+  postgresqlPassword: <secret-postgresql-password>
   servicePort: 5432
   existingSecret: "{{ .Release.Name }}-postgresql"
 
@@ -56,7 +56,7 @@ service:
   port: 80
 
 ingress:
-  enabled: true
+  enabled: false
   tls: false
 
 resources:

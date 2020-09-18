@@ -21,7 +21,8 @@ node:
     tag: latest
     pullPolicy: IfNotPresent
 
-  
+hasura:
+  enabled: true
 
 # hasura-backend-plus:
 #   enabled: true
@@ -53,7 +54,7 @@ node:
 #       pullPolicy: IfNotPresent
 #     # adminSecret: <long complicated admin key>
 #     # jwt: 
-#     #   key: <long complicated jwt key>
+#     #   key: <long complicated jwt key fo at least 32 characters>
 #     #   algorithm: HS256
 #     postgresql:
 #       postgresqlDatabase: tilehuria

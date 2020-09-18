@@ -5,9 +5,9 @@ import fs from '@platyplus/fs'
 
 import { DEFAULT_ROOT_DIR } from '../config'
 import { DevToolsConfig } from '../configuration'
-import { helmChartName } from '../service'
 
 import { HelmChart } from './types'
+import { serviceTypesConfig } from '../service'
 
 export const defaults = (config: DevToolsConfig): HelmChart => ({
   apiVersion: 'v2',
@@ -58,7 +58,8 @@ export const syncHelmChart = async (
       yamlChart.dependencies[index].condition = `${service.name}.enabled`
       // TODO write `${service.name}.enabled` = true in values.yaml ? Or in the dev section of skaffold.yaml?
     }
-    const chartName = helmChartName[service.type]
+
+    const chartName = serviceTypesConfig[service.type](service).chartName
     await cleanDependencies(helmDirectory, chartName)
     const chartPath = path.join(helmDirectory, 'charts', service.name)
     if (!(await fs.pathExists(chartPath))) {

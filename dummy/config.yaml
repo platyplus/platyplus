@@ -3,3 +3,4 @@ description: a dummy project
 services:
   - package: "@platyplus/node-dummy"
   - package: "@platyplus/web-dummy"
+  - package: "@platyplus/hasura-dummy"

@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "pdt": "NODE_ENV=development yarn workspace  --cwd . @platyplus/devtools run start",
+    "pdt": "yarn workspace  --cwd . @platyplus/devtools run start",
     "build": "lerna run build",
     "cz": "git-cz",
     "format": "prettier --write \"./**/*.{ts,js,json,md,vue}\"",

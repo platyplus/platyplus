@@ -6,32 +6,26 @@ import { templateToString } from '../templates'
 import { Service } from '../service/types'
 
 /**
- * Generates the Dockerfile of the given service and return it as a string
- * @param service
- * @param environment
- */
-const generateDockerfile = async (
-  service: Service,
-  environment?: 'development'
-): Promise<string> => {
-  const suffix = environment ? `-${environment}` : ''
-  const templatePath = path.join(
-    __dirname,
-    `../templates/${service.type}/Dockerfile${suffix}`
-  )
-  return await templateToString(templatePath, service)
-}
-
-/**
  * Write the Dockerfiles (production and development) of the service in its directory
  * @param service
  */
 export const writeDockerfiles = async (service: Service): Promise<void> => {
-  const devFile = await generateDockerfile(service, 'development')
-  await fs.outputFile(
-    path.join(service.location, 'Dockerfile-development'),
-    devFile
+  const devPath = path.join(
+    __dirname,
+    `../templates/${service.type}/Dockerfile-development`
   )
-  const prodFile = await generateDockerfile(service)
+
+  if (await fs.pathExists(devPath)) {
+    const devFile = await templateToString(devPath, service)
+    await fs.outputFile(
+      path.join(service.location, 'Dockerfile-development'),
+      devFile
+    )
+  }
+  const prodPath = path.join(
+    __dirname,
+    `../templates/${service.type}/Dockerfile`
+  )
+  const prodFile = await templateToString(prodPath, service)
   await fs.outputFile(path.join(service.location, 'Dockerfile'), prodFile)
 }

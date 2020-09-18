@@ -30,12 +30,20 @@ spec:
       serviceAccountName: {{ include "hasura.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      # initContainers:
+      #   - name: wait-postgres
+      #     image: busybox:1.28
+      #     command: ['sh', '-c', "until nc -z {{ .Release.Name }}-postgresql {{ .Values.postgresql.servicePort |int }}; do echo en attente de postgresql; sleep 2; done"]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ required ".Values.image.repository is required" .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.image }}
+          image: {{ .Values.image }}
+        {{- else }}
+          image: "{{ .Values.imageConfig.repository }}:{{ .Values.imageConfig.tag | default .Chart.AppVersion }}"
+        {{- end }}
+          imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
           ports:
             - name: http
               containerPort: 8080

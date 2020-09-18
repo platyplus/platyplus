@@ -10,21 +10,21 @@ build:
       context: ..
       docker:
         dockerfile: dummy/web/Dockerfile
+    - image: dummy-hasura
+      context: hasura
 deploy:
   helm:
     releases:
       - name: dummy
         chartPath: helm
+        skipBuildDependencies: false
         artifactOverrides:
           node:
             image: dummy-node
           web:
             image: dummy-web
-        skipBuildDependencies: false
-        setValues:
-          web:
-            ingress:
-              enabled: false
+          hasura:
+            image: dummy-hasura
 profiles:
   - name: dev
     activation:
@@ -45,11 +45,24 @@ profiles:
             dockerfile: dummy/web/Dockerfile-development
           sync:
             manual:
-              - src: dummy/web/src/**/*.{ts,vue,json,sass,html}
-                dest: .
-              - src: dummy/web/quasar.conf.js
-                dest: .
-              - src: dummy/web/src/assets/**/*
-                dest: .
               - src: dummy/web/public/**/*
                 dest: .
+    deploy:
+      helm:
+        releases:
+          - name: dummy
+            chartPath: helm
+            skipBuildDependencies: false
+            artifactOverrides:
+              node:
+                image: dummy-node
+              web:
+                image: dummy-web
+            setValues:
+              hasura:
+                postgresql:
+                  postgresqlPassword: development-postgres-password
+                adminSecret: development-hasura-admin-secret
+                jwt:
+                  key: long-hasura-jwt-more-than-thirty-two-characters
+                  algorithm: HS256

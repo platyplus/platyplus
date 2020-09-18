@@ -1,0 +1,12 @@
+{
+  "name": "@platyplus/hasura-dummy",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An Hasura GE service",
+  "platyplus": {
+    "type": "hasura"
+  },
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "license": "ISC"
+}
