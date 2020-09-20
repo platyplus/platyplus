@@ -4,7 +4,7 @@ import handlebars from 'handlebars'
 import fs from '@platyplus/fs'
 
 import { Package } from '../package/types'
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 
 export const templateToString = async <T extends Package>(
   path: string,
@@ -36,7 +36,7 @@ export const generateTemplateFiles = async <T extends Package>(
   if (!(await fs.pathExists(source)))
     throw Error(`No '${type}' template found.`)
   for await (const file of fs.glob.sync(path.join(source, '**', '*'), {
-    nodir: true
+    nodir: true,
   })) {
     const destFile = file.replace(`${source}/`, '')
     // TODO ignore some files, e.g. Helm charts directory

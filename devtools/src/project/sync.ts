@@ -4,7 +4,7 @@ import { saveYaml } from '@platyplus/fs'
 
 import { loadConfiguration } from '../configuration'
 import { loadSkaffoldConfiguration } from '../skaffold'
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 import { syncHelmChart } from '../helm'
 import { writeDockerfiles } from '../docker'
 

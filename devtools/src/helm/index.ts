@@ -3,7 +3,7 @@ import { set } from 'object-path'
 
 import fs from '@platyplus/fs'
 
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 import { DevToolsConfig } from '../configuration'
 
 import { HelmChart } from './types'
@@ -15,7 +15,7 @@ export const defaults = (config: DevToolsConfig): HelmChart => ({
   name: config.name,
   version: '0.1.0', //TODO
   appVersion: '1.0', //TODO
-  dependencies: []
+  dependencies: [],
 })
 
 // TODO required to rebuild dependencies when skipBuildDependencies = false
@@ -24,7 +24,7 @@ const cleanDependencies = async (helmDirectory: string, chartName: string) => {
   const glob = fs.glob.sync(
     path.join(helmDirectory, `charts/${chartName}*.tgz`)
   )
-  glob.forEach(f => fs.removeSync(f))
+  glob.forEach((f) => fs.removeSync(f))
 }
 
 export const syncHelmChart = async (
@@ -46,7 +46,7 @@ export const syncHelmChart = async (
   await fs.remove(path.join(helmDirectory, 'Chart.lock'))
 
   for (const service of config.services) {
-    let index = yamlChart.dependencies.findIndex(cursor =>
+    let index = yamlChart.dependencies.findIndex((cursor) =>
       cursor.alias
         ? cursor.alias === service.name
         : cursor.name === service.name

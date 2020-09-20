@@ -5,7 +5,7 @@ import mergeDeep from 'merge-deep'
 import { loadYaml } from '@platyplus/fs'
 
 import { DevToolsConfig } from '../../configuration'
-import { DEFAULT_ROOT_DIR } from '../../config'
+import { DEFAULT_ROOT_DIR } from '../../settings'
 import { serviceTypesConfig } from '../../service'
 
 import { defaultSkaffoldConfiguration } from '../default'
@@ -23,7 +23,7 @@ const mergeArrayElementAtPath = (
   // console.log('============================', arrayPath)
   // console.log(get(source, arrayPath), element, key, get(element, key))
   const index = indexOfArrayPathObject(source, key, get(element, key), {
-    initialPath: arrayPath
+    initialPath: arrayPath,
   })
   const olderKeys = get(source, `${arrayPath}.${index}`)
   const newKeys = olderKeys ? mergeDeep(olderKeys, element) : element
@@ -37,7 +37,7 @@ const syncHelm = (
   configuration: DevToolsConfig
 ) => {
   const index = indexOfArrayPathObject(source, 'name', configuration.name, {
-    initialPath
+    initialPath,
   })
   const helmPath = `${initialPath}.${index}`
   set(source, `${helmPath}.name`, configuration.name)

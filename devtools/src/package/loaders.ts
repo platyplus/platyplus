@@ -1,6 +1,6 @@
 import { LernaPackage } from '@platyplus/lerna'
 
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 
 import { Package, PackageJson } from './types'
 
@@ -21,7 +21,7 @@ export const fromNpmPackage = (
     directory,
     name,
     package: packageName,
-    location
+    location,
   }
 }
 
@@ -41,6 +41,6 @@ export const fromLernaPackage = (
     directory,
     name,
     package: packageName,
-    location
+    location,
   }
 }

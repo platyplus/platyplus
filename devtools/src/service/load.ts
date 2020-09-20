@@ -4,7 +4,7 @@ import objectPath from 'object-path'
 import { getLernaDependencies } from '@platyplus/lerna'
 import fs from '@platyplus/fs'
 
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 
 import { PlatyplusPackageJson, Service, ServiceType } from './types'
 import { fromLernaPackage, fromNpmPackage } from '../package'
@@ -28,6 +28,8 @@ export const loadService = async (
   const dependencies = await getLernaDependencies(packageJson.name)
   const result = fromNpmPackage(packageJson, jsonPackageDir, rootDir) as Service
   result.type = type
-  result.dependencies = dependencies.map(lernaDep => fromLernaPackage(lernaDep))
+  result.dependencies = dependencies.map((lernaDep) =>
+    fromLernaPackage(lernaDep)
+  )
   return result
 }

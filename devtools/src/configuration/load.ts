@@ -3,7 +3,7 @@ import path from 'path'
 import { loadYaml, saveYaml } from '@platyplus/fs'
 import { getLernaPackage } from '@platyplus/lerna'
 
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 import { loadService } from '../service'
 
 import { DevToolsConfig, DevToolsConfigFile } from './types'
@@ -30,7 +30,7 @@ export const loadConfiguration = async (
     await saveYaml(path.join(projectPath, 'config.yaml'), config)
   }
   const services = await Promise.all(
-    config.services.map(async service => {
+    config.services.map(async (service) => {
       const npmPackage = await getLernaPackage(service.package)
       return await loadService(npmPackage.location)
     })

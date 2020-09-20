@@ -3,7 +3,7 @@ import objectPath from 'object-path'
 
 import { hasLernaPackage } from '@platyplus/lerna'
 
-import { DEFAULT_ROOT_DIR } from '../config'
+import { DEFAULT_ROOT_DIR } from '../settings'
 import { generateTemplateFiles } from '../templates'
 
 import { Package } from './types'
@@ -32,9 +32,9 @@ export const createPackage = async (
     location: `${DEFAULT_ROOT_DIR}/${path}`,
     user: {
       name: objectPath.get(git, 'user.name'),
-      email: objectPath.get(git, 'user.email')
+      email: objectPath.get(git, 'user.email'),
     },
-    repository: objectPath.get(git, 'remote.origin.url')
+    repository: objectPath.get(git, 'remote.origin.url'),
   }
   await generateTemplateFiles('package', path, variables)
 }
