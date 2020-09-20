@@ -8,7 +8,6 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = configure(function (ctx) {
   return {
@@ -75,11 +74,6 @@ module.exports = configure(function (ctx) {
             exclude: /node_modules/,
           });
         }
-        cfg.resolve.plugins = [
-          new TsconfigPathsPlugin({
-            configFile: 'tsconfig.webpack.json',
-          }),
-        ];
       },
     },
 

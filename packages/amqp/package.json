@@ -6,7 +6,7 @@
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": "",
+    "url": "https://github.com/platyplus/platyplus.git",
     "directory": "packages/amqp"
   },
   "license": "ISC",
