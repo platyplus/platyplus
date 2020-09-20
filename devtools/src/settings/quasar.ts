@@ -1,4 +1,4 @@
-import { ServiceTypeConfig } from '../types'
+import { ServiceTypeConfig } from '../service'
 
 export const quasarConfig: ServiceTypeConfig = ({ directory, name }) => ({
   main: {
@@ -6,36 +6,36 @@ export const quasarConfig: ServiceTypeConfig = ({ directory, name }) => ({
       image: `${directory}-${name}`,
       context: '..',
       docker: {
-        dockerfile: `${directory}/${name}/Dockerfile`
-      }
-    }
+        dockerfile: `${directory}/${name}/Dockerfile`,
+      },
+    },
   },
   dev: {
     build: {
       image: `${directory}-${name}`,
       context: '..',
       docker: {
-        dockerfile: `${directory}/${name}/Dockerfile-development`
-      }
+        dockerfile: `${directory}/${name}/Dockerfile-development`,
+      },
     },
     files: [
       {
         src: `${directory}/${name}/src/**/*.{ts,vue,json,sass,html}`,
-        dest: '.'
+        dest: '.',
       },
       {
         src: `${directory}/${name}/quasar.conf.js`,
-        dest: '.'
+        dest: '.',
       },
       {
         src: `${directory}/${name}/src/assets/**/*`,
-        dest: '.'
+        dest: '.',
       },
       {
         src: `${directory}/${name}/public/**/*`,
-        dest: '.'
-      }
-    ]
+        dest: '.',
+      },
+    ],
   },
-  chartName: 'simple-http'
+  chartName: 'simple-http',
 })

@@ -1,4 +1,4 @@
-import { ServiceTypeConfig } from '../types'
+import { ServiceTypeConfig } from '../service'
 
 export const tsNodeConfig: ServiceTypeConfig = ({ directory, name }) => ({
   main: {
@@ -6,24 +6,24 @@ export const tsNodeConfig: ServiceTypeConfig = ({ directory, name }) => ({
       image: `${directory}-${name}`,
       context: '..',
       docker: {
-        dockerfile: `${directory}/${name}/Dockerfile`
-      }
-    }
+        dockerfile: `${directory}/${name}/Dockerfile`,
+      },
+    },
   },
   dev: {
     build: {
       image: `${directory}-${name}`,
       context: '..',
       docker: {
-        dockerfile: `${directory}/${name}/Dockerfile-development`
-      }
+        dockerfile: `${directory}/${name}/Dockerfile-development`,
+      },
     },
     files: [
       {
         src: `${directory}/${name}/src/**/*.{ts,json}`,
-        dest: '.'
-      }
-    ]
+        dest: '.',
+      },
+    ],
   },
-  chartName: 'simple-http'
+  chartName: 'simple-http',
 })

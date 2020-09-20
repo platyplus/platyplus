@@ -5,8 +5,7 @@ import mergeDeep from 'merge-deep'
 import { loadYaml } from '@platyplus/fs'
 
 import { DevToolsConfig } from '../../configuration'
-import { DEFAULT_ROOT_DIR } from '../../settings'
-import { serviceTypesConfig } from '../../service'
+import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../../settings'
 
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
