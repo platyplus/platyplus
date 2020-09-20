@@ -1,19 +1,20 @@
 import yargs from 'yargs'
 import { createPackage } from './package'
 import { syncProject } from './project'
+import { PackageType } from './settings'
 import { runSkaffoldDev } from './skaffold'
 
 yargs
-  .scriptName('pdt')
+  .scriptName('platy')
   .command<{ project: string }>(
     'skaffold <project>',
     'Runs skaffold for the given project',
-    yargs => {
+    (yargs) => {
       yargs.positional('project', {
-        describe: 'project (lerna sub-folder) to skaffold'
+        describe: 'project (lerna sub-folder) to skaffold',
       })
     },
-    async argv => {
+    async (argv) => {
       try {
         await runSkaffoldDev(argv.project)
       } catch (error) {
@@ -21,32 +22,45 @@ yargs
       }
     }
   )
-  .command<{ name: string; dirname: string; description?: string }>(
-    'package create <name> <dirname> [description]',
+  .command<{
+    type: PackageType
+    name: string
+    dirname: string
+    description?: string
+  }>(
+    'create package <type> <name> <dirname> [description]',
     'Creates a Typescript package boilerplate',
-    yargs => {
+    (yargs) => {
       yargs
+        .positional('type', {
+          describe: 'Service type',
+          choices: Object.values(PackageType),
+        })
         .positional('name', {
-          describe: 'Package name'
+          describe: 'Package name',
         })
         .positional('dirname', {
-          describe: 'Package directory'
+          describe: 'Package directory',
         })
     },
-    async ({ name, dirname, description }) => {
+    async ({ type, name, dirname, description }) => {
       try {
-        await createPackage(name, dirname, description)
+        await createPackage(type, name, dirname, description)
       } catch (error) {
         console.error(error.message)
       }
     }
   )
+  // TODO create project
+  // TODO list projects
+  // TODO add service <name> <project>
+  // ? sync package <name>
   .command<{ project: string }>(
     'sync <project>',
     'Synchronises the project files. Create/update skaffold, and overrides dockerfiles',
-    yargs => {
+    (yargs) => {
       yargs.positional('project', {
-        describe: 'project (lerna sub-folder) to skaffold'
+        describe: 'project (lerna sub-folder) to skaffold',
       })
     },
     async ({ project }) => {

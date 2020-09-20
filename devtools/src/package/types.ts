@@ -1,4 +1,7 @@
-export type Package = {
+import { PackageType } from '../settings'
+
+export type PackageInformation = {
+  type: PackageType
   package: string
   directory: string
   name: string
@@ -12,6 +15,9 @@ export type Package = {
 }
 
 export type PackageJson = {
+  platyplus?: {
+    type: PackageType
+  }
   name: string
   private?: boolean
   version: string
@@ -24,4 +30,12 @@ export type PackageJson = {
   scripts?: Record<string, string>
   dependencies?: Record<string, string>
   devDependencies?: Record<string, string>
+  repository?: {
+    type?: string
+    url?: string
+    directory?: string
+  }
+  types?: string
+  files?: string[]
+  publishConfig?: { access: string }
 }

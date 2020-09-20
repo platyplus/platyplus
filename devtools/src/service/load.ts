@@ -1,13 +1,12 @@
 import { join } from 'path'
-import objectPath from 'object-path'
 
 import { getLernaDependencies } from '@platyplus/lerna'
 import fs from '@platyplus/fs'
 
 import { DEFAULT_ROOT_DIR } from '../settings'
 
-import { PlatyplusPackageJson, Service, ServiceType } from './types'
-import { fromLernaPackage, fromNpmPackage } from '../package'
+import { Package } from './types'
+import { fromLernaPackage, fromNpmPackage, PackageJson } from '../package'
 
 /**
  * Loads all the information about a platyplus-managed package
@@ -17,19 +16,18 @@ import { fromLernaPackage, fromNpmPackage } from '../package'
 export const loadService = async (
   jsonPackageDir: string,
   rootDir = DEFAULT_ROOT_DIR
-): Promise<Service> => {
+): Promise<Package> => {
   const packageJson = (await fs.readJson(
     join(jsonPackageDir, 'package.json')
-  )) as PlatyplusPackageJson
-  const type = objectPath.get(packageJson, 'platyplus.type') as ServiceType
-  if (!type)
+  )) as PackageJson
+  if (!packageJson.platyplus?.type)
     throw Error(`'platyplus.type' field not found in ${jsonPackageDir}.`)
 
   const dependencies = await getLernaDependencies(packageJson.name)
-  const result = fromNpmPackage(packageJson, jsonPackageDir, rootDir) as Service
-  result.type = type
-  result.dependencies = dependencies.map((lernaDep) =>
-    fromLernaPackage(lernaDep)
-  )
+  const result = fromNpmPackage(packageJson, jsonPackageDir, rootDir) as Package
+  result.type = packageJson.platyplus.type
+  for (const lernaDep of dependencies) {
+    await fromLernaPackage(lernaDep)
+  }
   return result
 }

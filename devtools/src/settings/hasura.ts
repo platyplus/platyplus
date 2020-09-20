@@ -1,4 +1,4 @@
-import { ServiceTypeConfig } from '../service'
+import { ServiceTypeConfig } from './types'
 
 export const hasuraConfig: ServiceTypeConfig = ({ directory, name }) => ({
   main: {

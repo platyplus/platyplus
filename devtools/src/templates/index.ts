@@ -3,10 +3,9 @@ import handlebars from 'handlebars'
 
 import fs from '@platyplus/fs'
 
-import { Package } from '../package/types'
-import { DEFAULT_ROOT_DIR } from '../settings'
+import { PackageInformation } from '../package/types'
 
-export const templateToString = async <T extends Package>(
+export const templateToString = async <T extends PackageInformation>(
   path: string,
   variables: T
 ): Promise<string> => {
@@ -15,7 +14,7 @@ export const templateToString = async <T extends Package>(
   return handlebars.compile(template)(variables)
 }
 
-export const templateToFile = async <T extends Package>(
+export const templateToFile = async <T extends PackageInformation>(
   source: string,
   destination: string,
   variables: T
@@ -24,22 +23,26 @@ export const templateToFile = async <T extends Package>(
   await fs.outputFile(destination, result)
 }
 
-export const generateTemplateFiles = async <T extends Package>(
-  type: string,
-  destination: string,
+export const generateTemplateFiles = async <T extends PackageInformation>(
   variables: T
 ): Promise<void> => {
-  const destinationDir = `${DEFAULT_ROOT_DIR}/${destination}`
-  if (await fs.pathExists(destinationDir))
-    throw Error(`The directory "${destinationDir}" already exists.`)
-  const source = path.join(__dirname, type)
+  if (await fs.pathExists(variables.location))
+    throw Error(`The directory "${variables.location}" already exists.`)
+  const source = path.join(__dirname, variables.type)
   if (!(await fs.pathExists(source)))
-    throw Error(`No '${type}' template found.`)
-  for await (const file of fs.glob.sync(path.join(source, '**', '*'), {
-    nodir: true,
-  })) {
+    throw Error(`No '${variables.type}' template found.`)
+  for await (const file of fs.glob.sync(
+    // TODO ignore some other files, e.g. Helm charts directory
+    path.join(source, '**', '!(Dockerfile*|.dockerignore)'),
+    {
+      nodir: true,
+    }
+  )) {
     const destFile = file.replace(`${source}/`, '')
-    // TODO ignore some files, e.g. Helm charts directory
-    await templateToFile(file, path.join(destinationDir, destFile), variables)
+    await templateToFile(
+      file,
+      path.join(variables.location, destFile),
+      variables
+    )
   }
 }

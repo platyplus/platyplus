@@ -1,4 +1,4 @@
-import { Service } from '../service'
+import { Package } from '../service'
 
 type DevToolsService = {
   package: string
@@ -13,5 +13,5 @@ export type DevToolsConfigFile = {
 export type DevToolsConfig = DevToolsConfigFile & {
   name: string
   description: string
-  services: Service[]
+  services: Package[]
 }

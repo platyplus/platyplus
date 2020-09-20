@@ -58,12 +58,12 @@ export const loadSkaffoldConfiguration = async (
   for (const service of configuration.services) {
     console.log(`Syncing service config ${service.package}...`)
     const serviceConfig = serviceTypesConfig[service.type](service)
-    if (serviceConfig.main.build) {
+    if (serviceConfig.main?.build) {
       mergeArrayElementAtPath(
         skaffold,
         'build.artifacts',
         'image',
-        serviceConfig.main.build
+        serviceConfig.main?.build
       )
     }
 
