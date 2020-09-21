@@ -1,14 +1,11 @@
+import fs from '@platyplus/fs'
+import { getLernaDependencies } from '@platyplus/lerna'
+import { LernaPackage } from '@platyplus/lerna'
 import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'
 
-import { getLernaDependencies } from '@platyplus/lerna'
-
-import fs from '@platyplus/fs'
-import { LernaPackage } from '@platyplus/lerna'
-
 import { DEFAULT_ROOT_DIR } from '../settings'
-
 import { PackageInformation, PackageJson } from './types'
 
 const fromNpmPackage = (

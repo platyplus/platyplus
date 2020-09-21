@@ -1,10 +1,10 @@
+import fs from '@platyplus/fs'
 import handlebars from 'handlebars'
 import path from 'path'
 
-import fs from '@platyplus/fs'
 import { PackageType } from '../settings'
-import { PackageInformation, PackageJson } from './types'
 import { DEFAULT_DESCRIPTION } from './constants'
+import { PackageInformation, PackageJson } from './types'
 
 const standard: PackageJson = {
   name: '{{package}}', // * override

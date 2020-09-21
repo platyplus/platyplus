@@ -1,17 +1,15 @@
+import fs from '@platyplus/fs'
+import { hasLernaPackage } from '@platyplus/lerna'
 import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'
 
-import fs from '@platyplus/fs'
-import { hasLernaPackage } from '@platyplus/lerna'
-
 import { DEFAULT_ROOT_DIR, PackageType, serviceTypesConfig } from '../settings'
 import { generateTemplateFiles } from '../templates'
 import { ensureWorkspace } from '../utils'
-
-import { PackageInformation, PackageJson } from './types'
 import { DEFAULT_DESCRIPTION } from './constants'
 import { syncPackageJson } from './sync-package-json'
+import { PackageInformation, PackageJson } from './types'
 
 /**
  * Generates a Typescript package ready to be used in a Lerna/Yarn workspaces environment

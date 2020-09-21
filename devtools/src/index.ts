@@ -1,4 +1,6 @@
 import yargs from 'yargs'
+
+import { initMonorepo } from './monorepo'
 import { createPackage } from './package'
 import { createProject, listProjects, syncProject } from './project'
 import { PackageType } from './settings'
@@ -7,6 +9,26 @@ import { runSkaffoldDev } from './skaffold'
 // TODO some colors
 yargs
   .scriptName('platy')
+  .command<{ monorepoName: string; organisationName: string }>(
+    'init <monorepo-name> <organisation-name>',
+    'Initialize a monorepo',
+    (yargs) => {
+      yargs
+        .positional('monorepo-name', {
+          describe: 'name of the project to skaffold',
+        })
+        .positional('organisation-name', {
+          describe: 'name of the organisation (e.g. @my-org)',
+        })
+    },
+    async ({ monorepoName, organisationName }) => {
+      try {
+        await initMonorepo(monorepoName, organisationName)
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+  )
   .command<{ project: string }>(
     'skaffold <project>',
     'Starts the given project with `skaffold dev`',
@@ -102,7 +124,6 @@ yargs
   .command(
     'list projects',
     'Lists all the projects available in the current monorepo',
-    () => {},
     async () => {
       console.log('NAME\tLOCATION')
       try {

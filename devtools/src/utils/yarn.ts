@@ -1,11 +1,10 @@
-import { execSync } from 'child_process'
-import path from 'path'
-import objectPath from 'object-path'
-
 import fs from '@platyplus/fs'
+import { execSync } from 'child_process'
+import objectPath from 'object-path'
+import path from 'path'
 
-import { DEFAULT_ROOT_DIR } from '../settings'
 import { PackageJson } from '../package'
+import { DEFAULT_ROOT_DIR } from '../settings'
 
 export const globalPath = () => execSync('yarn global bin').toString().trim()
 

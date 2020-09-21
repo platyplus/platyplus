@@ -1,7 +1,6 @@
-import path from 'path'
-import handlebars from 'handlebars'
-
 import fs from '@platyplus/fs'
+import handlebars from 'handlebars'
+import path from 'path'
 
 import { PackageInformation } from '../package/types'
 

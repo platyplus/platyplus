@@ -1,15 +1,13 @@
-import path from 'path'
-import { spawn, execSync } from 'child_process'
-
 import fs from '@platyplus/fs'
+import { execSync, spawn } from 'child_process'
+import path from 'path'
 
 import { globalPath } from '../utils'
-
-import { ServiceTypeConfig } from './types'
 import { DEFAULT_ROOT_DIR } from '.'
+import { ServiceTypeConfig } from './types'
 
 const quasarCreate = async (directory: string, name: string): Promise<void> => {
-  var child = spawn(`${globalPath()}/quasar`, ['create', name], {
+  const child = spawn(`${globalPath()}/quasar`, ['create', name], {
     cwd: path.join(DEFAULT_ROOT_DIR, directory),
     stdio: ['pipe', 'inherit', 'inherit'],
   })

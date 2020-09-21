@@ -9,7 +9,7 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
 #
 COPY --chown=node:node dummy/node/package.json dummy/node/yarn.* /home/node/app/dummy/node/
 

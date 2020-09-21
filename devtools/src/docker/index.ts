@@ -1,7 +1,7 @@
 import fs from '@platyplus/fs'
 import path from 'path'
-import { PackageInformation } from '../package'
 
+import { PackageInformation } from '../package'
 import { templateToString } from '../templates'
 
 const writeDockerFile = async (

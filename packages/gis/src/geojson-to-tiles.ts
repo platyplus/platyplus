@@ -1,6 +1,7 @@
-import { GeoJSON } from 'geojson'
-import squareGrid from '@turf/square-grid'
 import bbox from '@turf/bbox'
+import squareGrid from '@turf/square-grid'
+import { GeoJSON } from 'geojson'
+
 import { LngLatToXYZ } from './lng-lat-zoom-to-xyz'
 import { tileWidth } from './tile-width'
 
@@ -50,7 +51,7 @@ export const geojsonToTiles = (geojson: GeoJSON, minZoom = 1, maxZoom = 20) => {
     }
   }
   // * Generate the tiles list
-  console.log(` [*] Calculating tiles coordinates...`)
+  console.log(' [*] Calculating tiles coordinates...')
   const tiles: number[][] = []
   if (geojson) walkTiles(geojson, tiles)
   console.log(` [*] Found ${tiles.length} tiles.`)

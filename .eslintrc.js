@@ -1,11 +1,28 @@
 module.exports = {
   root: true,
 
-  // Rules order is important, please avoid shuffling them
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
+
+  plugins: [
+    // Required to apply rules which need type information
+    '@typescript-eslint',
+    'simple-import-sort',
+    // Required to lint *.vue files
+    // See https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
+    // * 'vue',
+    // Prettier has not been included as plugin to avoid performance impact
+    // See https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
+    // Add it as an extension
+  ],
+
   extends: [
     // Base ESLint recommended rules
     'eslint:recommended',
-    // ESLint typescript rules
+    // Usage with Prettier, provided by 'eslint-config-prettier'.
     // See https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
@@ -19,32 +36,8 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage-with-prettier
     'prettier',
     'prettier/@typescript-eslint',
-    'prettier/vue',
+    // * 'prettier/vue',
   ],
-
-  plugins: [
-    // Required to apply rules which need type information
-    '@typescript-eslint',
-    // Required to lint *.vue files
-    // See https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
-    'vue',
-    // Prettier has not been included as plugin to avoid performance impact
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
-    // Add it as an extension
-  ],
-
-  // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
-  // See https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
-  // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    sourceType: 'module',
-    project: './tsconfig.json',
-  },
-
-  env: {
-    browser: true,
-  },
 
   globals: {
     ga: true, // Google Analytics
@@ -53,26 +46,39 @@ module.exports = {
     process: true,
   },
 
-  // add your custom rules here
   rules: {
-    '@typescript-eslint/explicit-member-accessibility': 'off',
-    // '@typescript-eslint/camelcase': 'warn', // ? hasura snake/camel case names?
     'prefer-promise-reject-errors': 'off',
     quotes: ['warn', 'single', { avoidEscape: true }],
-    // '@typescript-eslint/indent': 'off', // * still some issues with this rule. Disabling and trusting prettier...
-    // '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/no-empty-interface': 'warn',
     // allow console.log during development only
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // allow debugger during development only
+    // // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
     // Custom
-    'vue/component-name-in-template-casing': ['error', 'kebab-case'],
+    //* 'vue/component-name-in-template-casing': ['error', 'kebab-case'],
 
-    // Correct typescript linting until at least 2.0.0 major release
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/501
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/493
-    '@typescript-eslint/explicit-function-return-type': 'off',
+    'simple-import-sort/sort': 'error',
   },
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx', '**/*.vue'],
+
+      // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
+      // See https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
+      // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+        sourceType: 'module',
+        project: './tsconfig.json',
+      },
+      // add your custom rules here
+      rules: {
+        '@typescript-eslint/explicit-member-accessibility': 'off',
+        // '@typescript-eslint/camelcase': 'warn', // ? hasura snake/camel case names?
+        // '@typescript-eslint/indent': 'off', // * still some issues with this rule. Disabling and trusting prettier...
+        // '@typescript-eslint/indent': ['error', 2],
+        '@typescript-eslint/no-empty-interface': 'warn',
+      },
+    },
+  ],
 }

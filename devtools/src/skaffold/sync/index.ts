@@ -1,16 +1,13 @@
-import path from 'path'
-import { get, set } from 'object-path'
-import mergeDeep from 'merge-deep'
-
 import { loadYaml } from '@platyplus/fs'
+import mergeDeep from 'merge-deep'
+import { get, set } from 'object-path'
+import path from 'path'
 
 import { DevToolsConfig } from '../../project'
 import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../../settings'
 import { indexOfArrayPathObject } from '../../utils'
-
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
-
 import { syncDevProfile } from './profiles'
 
 const mergeArrayElementAtPath = (
@@ -58,7 +55,7 @@ export const loadSkaffoldConfiguration = async (
 
   for (const service of configuration.services) {
     console.log(`Syncing service config ${service.package}...`)
-    if (!service.type) throw Error(`No service type.`)
+    if (!service.type) throw Error('No service type.')
     const serviceConfig = serviceTypesConfig[service.type](service)
     if (serviceConfig.main?.build) {
       mergeArrayElementAtPath(

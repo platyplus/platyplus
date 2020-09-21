@@ -1,21 +1,20 @@
+import { saveYaml } from '@platyplus/fs'
 import path from 'path'
 
-import { saveYaml } from '@platyplus/fs'
-
-import { loadSkaffoldConfiguration } from '../skaffold'
-import { DEFAULT_ROOT_DIR } from '../settings'
-import { syncHelmChart } from '../helm'
 import { writeDockerfiles } from '../docker'
-
-import { getProjectConfiguration } from './get-config'
+import { syncHelmChart } from '../helm'
+import { DEFAULT_ROOT_DIR } from '../settings'
+import { loadSkaffoldConfiguration } from '../skaffold'
+import { getProject } from './get'
 import { DevToolsConfig } from './types'
 
 export const syncProject = async (
   projectName: string
 ): Promise<DevToolsConfig> => {
-  const config = await getProjectConfiguration(projectName)
+  const config = await getProject(projectName)
   await syncHelmChart(config)
   for (const service of config.services) {
+    console.log(`write dockerfile ${service.name}`)
     await writeDockerfiles(service)
   }
 

@@ -1,7 +1,7 @@
 import { hasuraConfig } from './hasura'
 import { quasarConfig } from './quasar'
-import { typescriptConfig } from './typescript'
 import { ServiceTypeConfigs } from './types'
+import { typescriptConfig } from './typescript'
 
 export * from './types'
 

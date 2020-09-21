@@ -1,6 +1,6 @@
 export { syncProject } from './sync'
 export { listProjects } from './list'
-export { getProjectConfiguration as getProject } from './get-config'
+export { getProject } from './get'
 export { createProject } from './create'
 export { defaultPdtConfig } from './default'
 export * from './types'

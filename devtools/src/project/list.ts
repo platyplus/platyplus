@@ -1,10 +1,8 @@
-import path from 'path'
-
 import fs from '@platyplus/fs'
+import path from 'path'
 
 import { PackageJson } from '../package'
 import { DEFAULT_ROOT_DIR } from '../settings'
-
 import { DevToolsConfigFile } from './types'
 
 export const listProjects = async (): Promise<DevToolsConfigFile[]> => {

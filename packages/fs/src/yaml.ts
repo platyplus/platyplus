@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
-import yaml from 'yaml'
 import merge from 'merge-deep'
+import yaml from 'yaml'
 
 export const loadYaml = async <T>(
   filePath: string,

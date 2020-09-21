@@ -1,12 +1,10 @@
-import path from 'path'
-import { set } from 'object-path'
-
 import fs from '@platyplus/fs'
+import { set } from 'object-path'
+import path from 'path'
 
-import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../settings'
-
-import { HelmChart } from './types'
 import { DevToolsConfig } from '../project'
+import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../settings'
+import { HelmChart } from './types'
 
 export const defaults = (config: DevToolsConfig): HelmChart => ({
   apiVersion: 'v2',
@@ -40,7 +38,6 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
   // TODO required to rebuild dependencies when skipBuildDependencies = false
   // * See https://skaffold.dev/docs/pipeline-stages/deployers/helm/
   await fs.remove(path.join(helmDirectory, 'Chart.lock'))
-
   for (const service of config.services) {
     if (!service.type) throw Error(`${service.name}: no service type`)
     let index = yamlChart.dependencies.findIndex((cursor) =>

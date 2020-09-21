@@ -33,7 +33,7 @@ export const typescriptConfig: ServiceTypeConfig = ({
   },
   chartName: 'simple-http',
   postInstall: async () => {
-    execSync(`yarn`, {
+    execSync('yarn', {
       cwd: location,
       stdio: 'inherit',
     })
