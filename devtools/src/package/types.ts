@@ -1,5 +1,10 @@
 import { PackageType } from '../settings'
 
+export type ArtifactConfig = Record<
+  PackageType,
+  (service: PackageInformation) => Record<string, unknown>
+>
+
 export type PackageInformation = {
   type: PackageType
   package: string
@@ -12,12 +17,14 @@ export type PackageInformation = {
     email: string
   }
   repository?: string
+  dependencies: PackageInformation[]
 }
 
 export type PackageJson = {
   platyplus?: {
     type: PackageType
   }
+  workspaces?: { packages?: string[] }
   name: string
   private?: boolean
   version: string

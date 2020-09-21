@@ -3,11 +3,10 @@ import { set } from 'object-path'
 
 import fs from '@platyplus/fs'
 
-import { DEFAULT_ROOT_DIR } from '../settings'
+import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../settings'
 import { DevToolsConfig } from '../configuration'
 
 import { HelmChart } from './types'
-import { serviceTypesConfig } from '../service'
 
 export const defaults = (config: DevToolsConfig): HelmChart => ({
   apiVersion: 'v2',

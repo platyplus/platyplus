@@ -4,6 +4,7 @@ import { syncProject } from './project'
 import { PackageType } from './settings'
 import { runSkaffoldDev } from './skaffold'
 
+// TODO some colors
 yargs
   .scriptName('platy')
   .command<{ project: string }>(
@@ -45,15 +46,19 @@ yargs
     },
     async ({ type, name, dirname, description }) => {
       try {
+        // TODO warns if dependencies are not met e.g. hasura console is not installed for an hasura package
         await createPackage(type, name, dirname, description)
       } catch (error) {
         console.error(error.message)
       }
     }
   )
-  // TODO create project
+  // TODO init (create lerna, warns when something required is not installed e.g. skaffold, helm...)
+  // TODO create project (create the folder, the workspace in package.json and config.yaml)
   // TODO list projects
-  // TODO add service <name> <project>
+  // TODO add service <name> <project (lerna sub-folder)>
+  // TODO post-install @platyplus/devtools: launch the script to check/warn dependencies
+  // TODO -> https://www.npmjs.com/package/which
   // ? sync package <name>
   .command<{ project: string }>(
     'sync <project>',

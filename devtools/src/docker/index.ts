@@ -1,11 +1,11 @@
 import fs from '@platyplus/fs'
 import path from 'path'
+import { PackageInformation } from '../package'
 
 import { templateToString } from '../templates'
-import { Package } from '../service'
 
 const writeDockerFile = async (
-  service: Package,
+  service: PackageInformation,
   dockerFile: string
 ): Promise<void> => {
   const filePath = path.join(
@@ -22,7 +22,9 @@ const writeDockerFile = async (
  * Write the Dockerfiles (production and development) of the service in its directory
  * @param service
  */
-export const writeDockerfiles = async (service: Package): Promise<void> => {
+export const writeDockerfiles = async (
+  service: PackageInformation
+): Promise<void> => {
   await writeDockerFile(service, 'Dockerfile')
   await writeDockerFile(service, 'Dockerfile-development')
 }

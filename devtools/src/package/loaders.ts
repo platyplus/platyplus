@@ -2,6 +2,8 @@ import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'
 
+import { getLernaDependencies } from '@platyplus/lerna'
+
 import fs from '@platyplus/fs'
 import { LernaPackage } from '@platyplus/lerna'
 
@@ -9,14 +11,7 @@ import { DEFAULT_ROOT_DIR } from '../settings'
 
 import { PackageInformation, PackageJson } from './types'
 
-/**
- * Creates a Package object from an npm-formatted package
- * * Note: as the format '<project-name>/<service-name>' is not standard but
- * * specific to Platyplus DevTools, this method is not put in the lerna utils package
- * @param npmPackage
- * @param rootDir
- */
-export const fromNpmPackage = (
+const fromNpmPackage = (
   { name: packageName, platyplus, description }: PackageJson,
   location: string,
   rootDir = DEFAULT_ROOT_DIR
@@ -36,20 +31,38 @@ export const fromNpmPackage = (
       email: objectPath.get(git, 'user.email'),
     },
     repository: objectPath.get(git, 'remote.origin.url'),
+    dependencies: [],
   }
 }
 
-/**
- * Creates a Package object from a lerna-formatted package
- * * Note: as the format '<project-name>/<service-name>' is not standard but
- * * specific to Platyplus DevTools, this method is not put in the lerna utils package
- * @param lernaPackage
- * @param rootDir
- */
-export const fromLernaPackage = async (
+const fromLernaPackage = async (
   { location }: LernaPackage,
   rootDir = DEFAULT_ROOT_DIR
 ): Promise<PackageInformation> => {
   const packageJson = await fs.readJson(path.join(location, 'package.json'))
   return fromNpmPackage(packageJson, location, rootDir)
+}
+
+/**
+ * Loads all the information about a platyplus-managed package
+ * @param packageName lerna-managed package name as per defined in a package.json
+ * @param rootDir
+ */
+export const loadPackageInformation = async (
+  jsonPackageDir: string,
+  rootDir = DEFAULT_ROOT_DIR
+): Promise<PackageInformation> => {
+  const packageJson = (await fs.readJson(
+    path.join(jsonPackageDir, 'package.json')
+  )) as PackageJson
+  if (!packageJson.platyplus?.type)
+    throw Error(`'platyplus.type' field not found in ${jsonPackageDir}.`)
+
+  const result = fromNpmPackage(packageJson, jsonPackageDir, rootDir)
+  result.type = packageJson.platyplus.type
+  const dependencies = await getLernaDependencies(packageJson.name)
+  for (const lernaDep of dependencies) {
+    result.dependencies.push(await fromLernaPackage(lernaDep))
+  }
+  return result
 }

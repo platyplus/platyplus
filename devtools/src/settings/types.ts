@@ -1,4 +1,4 @@
-import { Package } from '../service'
+import { PackageInformation } from '../package'
 
 export enum PackageType {
   TsNode = 'ts-node',
@@ -26,9 +26,12 @@ type PackageTypeConfigResult = {
     files?: Array<{ src: string; dest: string }>
   }
   chartName: string
-  init?: () => Promise<void> // Installation script
+  init?: () => Promise<void>
+  postInstall?: () => Promise<void>
 }
 
-export type ServiceTypeConfig = (service: Package) => PackageTypeConfigResult
+export type ServiceTypeConfig = (
+  service: PackageInformation
+) => PackageTypeConfigResult
 
 export type ServiceTypeConfigs = Record<PackageType, ServiceTypeConfig>

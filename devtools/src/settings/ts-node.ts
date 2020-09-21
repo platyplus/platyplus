@@ -1,6 +1,14 @@
-import { ServiceTypeConfig } from './types'
+import path from 'path'
+import { execSync } from 'child_process'
 
-export const tsNodeConfig: ServiceTypeConfig = ({ directory, name }) => ({
+import { ServiceTypeConfig } from './types'
+import { DEFAULT_ROOT_DIR } from '.'
+
+export const tsNodeConfig: ServiceTypeConfig = ({
+  directory,
+  name,
+  location,
+}) => ({
   main: {
     build: {
       image: `${directory}-${name}`,
@@ -26,4 +34,10 @@ export const tsNodeConfig: ServiceTypeConfig = ({ directory, name }) => ({
     ],
   },
   chartName: 'simple-http',
+  postInstall: async () => {
+    execSync(`yarn`, {
+      cwd: location,
+      stdio: 'inherit',
+    })
+  },
 })

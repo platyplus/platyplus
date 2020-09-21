@@ -10,7 +10,7 @@ const standard: PackageJson = {
   name: '{{package}}', // * override
   private: false,
   platyplus: {
-    type: PackageType.Hasura, // * override
+    type: '{{type}}' as PackageType, // * override
   },
   version: '0.0.1',
   description: '{{description}}', // * override?
@@ -22,31 +22,9 @@ const standard: PackageJson = {
     directory: '{{path}}',
   },
   license: 'ISC',
-  // * Depends on package type
-  main: 'dist/index.js',
-  // * Depends on package type
-  types: 'dist/index.d.ts',
-  files: ['dist/**/*'],
-  publishConfig: {
-    access: 'public',
-  },
-  scripts: {
-    // * Depends on package type
-    prepublish: 'yarn run build',
-    build: 'yarn run clean && tsc -p tsconfig.build.json',
-    test: 'echo "Error: run tests from root" && exit 1',
-    clean: 'rimraf dist',
-  },
-  devDependencies: {
-    // * Depends on package type - install in create script
-    rimraf: '^3.0.2',
-    'tsconfig-paths': '^3.9.0',
-  },
 }
 
-const defaultPackageJson = <T extends PackageInformation>(
-  variables: T
-): PackageJson => {
+const defaultPackageJson = (variables: PackageInformation): PackageJson => {
   const template = JSON.stringify(standard)
   const strResult = handlebars.compile(template)(variables)
   return JSON.parse(strResult)

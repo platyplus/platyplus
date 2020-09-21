@@ -4,6 +4,8 @@ type Options = {
   nextElementIndex?: boolean // * will return the index a new element could be inserted into (=the length of the array). Defaults to true
 }
 
+export * from './yarn'
+
 export const indexOfArrayPathObject = (
   source: Record<string, unknown> | Array<Record<string, unknown>>,
   key: string,
@@ -14,7 +16,7 @@ export const indexOfArrayPathObject = (
     ? get(source, options.initialPath, [])
     : source
   if (!Array.isArray(root)) throw Error('Not an array')
-  const index = root.findIndex(element => {
+  const index = root.findIndex((element) => {
     if (typeof value === 'function') {
       value(get(element, key))
     }
