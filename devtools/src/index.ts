@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { createPackage } from './package'
-import { syncProject } from './project'
+import { listProjects, syncProject } from './project'
 import { PackageType } from './settings'
 import { runSkaffoldDev } from './skaffold'
 
@@ -53,9 +53,9 @@ yargs
       }
     }
   )
+
   // TODO init (create lerna, warns when something required is not installed e.g. skaffold, helm...)
   // TODO create project (create the folder, the workspace in package.json and config.yaml)
-  // TODO list projects
   // TODO add service <name> <project (lerna sub-folder)>
   // TODO post-install @platyplus/devtools: launch the script to check/warn dependencies
   // TODO -> https://www.npmjs.com/package/which
@@ -71,6 +71,23 @@ yargs
     async ({ project }) => {
       try {
         await syncProject(project)
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+  )
+  .command(
+    'list projects',
+    'Lists all the projects available in the current monorepo',
+    () => {},
+    async () => {
+      console.log('NAME\tLOCATION')
+      try {
+        for (const [location, project] of Object.entries(
+          await listProjects()
+        )) {
+          console.log(`${project.name}\t./${location}`)
+        }
       } catch (error) {
         console.error(error.message)
       }
