@@ -8,7 +8,7 @@ import { runSkaffoldDev } from './skaffold'
 yargs
   .scriptName('platy')
   .command<{ project: string }>(
-    'skaffold <project>',
+    'skaffold <project> [...skaffold command and arguments]',
     'Runs skaffold for the given project',
     (yargs) => {
       yargs.positional('project', {
@@ -26,11 +26,11 @@ yargs
   .command<{
     type: PackageType
     name: string
-    dirname: string
+    destination: string
     description?: string
   }>(
-    'create package <type> <name> <dirname> [description]',
-    'Creates a Typescript package boilerplate',
+    'create package <type> <name> <destination> [description]',
+    'Creates a package',
     (yargs) => {
       yargs
         .positional('type', {
@@ -40,14 +40,14 @@ yargs
         .positional('name', {
           describe: 'Package name',
         })
-        .positional('dirname', {
+        .positional('destination', {
           describe: 'Package directory',
         })
     },
-    async ({ type, name, dirname, description }) => {
+    async ({ type, name, destination, description }) => {
       try {
         // TODO warns if dependencies are not met e.g. hasura console is not installed for an hasura package
-        await createPackage(type, name, dirname, description)
+        await createPackage(type, name, destination, description)
       } catch (error) {
         console.error(error.message)
       }
