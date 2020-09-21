@@ -5,8 +5,9 @@
     "paths": {
       "@platyplus/*": ["packages/*/src"]
     },
+    "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "types": []
   }
 }

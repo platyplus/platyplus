@@ -19,6 +19,7 @@
     "access": "public"
   },
   "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "prepublish": "yarn run build",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
     "test": "echo \"Error: run tests from root\" && exit 1",

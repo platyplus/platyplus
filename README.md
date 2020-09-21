@@ -7,7 +7,7 @@
 - [ ] why no TS error when using local packages in quasar?
 - [ ] why TS warnings when importing types?
 - [ ] Vetur errors
-- [ ] quasar template -> serviceTypeConfig.command = "quasar init {{xyz}}"
+- [x] quasar template -> serviceTypeConfig.command = "quasar init {{xyz}}"
 - [ ] vite template -> serviceTypeConfig.command = "yarn create {{xyz}}"
 - [ ] dev: use patches. Method patch(source, path, value) => if something in path then op=update else op=add (or something like that)
 - [ ] hasura docker, helm & template

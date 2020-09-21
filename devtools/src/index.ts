@@ -54,8 +54,8 @@ yargs
     }
   )
 
-  // TODO init (create lerna, warns when something required is not installed e.g. skaffold, helm...)
-  // TODO add service <name> <project (lerna sub-folder)>
+  // TODO init (create lerna, base tsconfigs, default @org/package directory, warns when something required is not installed e.g. skaffold, helm...)
+  // TODO add service <name> <project>
   // TODO post-install @platyplus/devtools: launch the script to check/warn dependencies
   // TODO -> https://www.npmjs.com/package/which
   // ? sync package <name>

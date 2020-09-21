@@ -1,6 +1,6 @@
 import { hasuraConfig } from './hasura'
 import { quasarConfig } from './quasar'
-import { tsNodeConfig } from './ts-node'
+import { typescriptConfig } from './typescript'
 import { ServiceTypeConfigs } from './types'
 
 export * from './types'
@@ -11,5 +11,5 @@ export const DEFAULT_ROOT_DIR =
 export const serviceTypesConfig: ServiceTypeConfigs = {
   hasura: hasuraConfig,
   quasar: quasarConfig,
-  'ts-node': tsNodeConfig,
+  typescript: typescriptConfig,
 }

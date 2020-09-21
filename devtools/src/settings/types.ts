@@ -1,7 +1,7 @@
 import { PackageInformation } from '../package'
 
 export enum PackageType {
-  TsNode = 'ts-node',
+  TypeScript = 'typescript',
   Quasar = 'quasar',
   Hasura = 'hasura',
 }

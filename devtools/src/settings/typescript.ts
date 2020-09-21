@@ -1,10 +1,8 @@
-import path from 'path'
 import { execSync } from 'child_process'
 
 import { ServiceTypeConfig } from './types'
-import { DEFAULT_ROOT_DIR } from '.'
 
-export const tsNodeConfig: ServiceTypeConfig = ({
+export const typescriptConfig: ServiceTypeConfig = ({
   directory,
   name,
   location,
