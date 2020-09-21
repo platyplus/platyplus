@@ -4,14 +4,14 @@ import mergeDeep from 'merge-deep'
 
 import { loadYaml } from '@platyplus/fs'
 
-import { DevToolsConfig } from '../../configuration'
+import { DevToolsConfig } from '../../project'
 import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../../settings'
+import { indexOfArrayPathObject } from '../../utils'
 
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
 
 import { syncDevProfile } from './profiles'
-import { indexOfArrayPathObject } from '../../utils'
 
 const mergeArrayElementAtPath = (
   source: Record<string, unknown>,
@@ -19,8 +19,6 @@ const mergeArrayElementAtPath = (
   key: string,
   element: Record<string, unknown>
 ): number => {
-  // console.log('============================', arrayPath)
-  // console.log(get(source, arrayPath), element, key, get(element, key))
   const index = indexOfArrayPathObject(source, key, get(element, key), {
     initialPath: arrayPath,
   })
@@ -46,17 +44,21 @@ const syncHelm = (
 }
 
 export const loadSkaffoldConfiguration = async (
-  projectPath: string,
   configuration: DevToolsConfig
 ): Promise<Skaffold> => {
-  console.log(`Syncing ${projectPath}/skaffold.yaml...`)
-  const filePath = path.join(DEFAULT_ROOT_DIR, projectPath, 'skaffold.yaml')
+  console.log(`Syncing ${configuration.directory}/skaffold.yaml...`)
+  const filePath = path.join(
+    DEFAULT_ROOT_DIR,
+    configuration.directory,
+    'skaffold.yaml'
+  )
   const skaffold = await loadYaml(filePath, defaultSkaffoldConfiguration)
   const profileIndex = syncDevProfile(skaffold)
   syncHelm(skaffold, 'deploy.helm.releases', configuration)
 
   for (const service of configuration.services) {
     console.log(`Syncing service config ${service.package}...`)
+    if (!service.type) throw Error(`No service type.`)
     const serviceConfig = serviceTypesConfig[service.type](service)
     if (serviceConfig.main?.build) {
       mergeArrayElementAtPath(

@@ -12,11 +12,15 @@ COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.bui
 #
 COPY --chown=node:node packages/data/package.json packages/data/yarn.* packages/data/
 #
+COPY --chown=node:node packages/quasar-ts-lerna/package.json packages/quasar-ts-lerna/yarn.* packages/quasar-ts-lerna/
+#
 COPY --chown=node:node dummy/web/package.json dummy/web/yarn.* /home/node/app/dummy/web/
 
 RUN lerna bootstrap --ignore-scripts
 #
 COPY --chown=node:node packages/data /home/node/app/packages/data
+#
+COPY --chown=node:node packages/quasar-ts-lerna /home/node/app/packages/quasar-ts-lerna
 #
 COPY --chown=node:node dummy/web /home/node/app/dummy/web
 

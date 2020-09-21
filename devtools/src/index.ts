@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { createPackage } from './package'
-import { listProjects, syncProject } from './project'
+import { createProject, listProjects, syncProject } from './project'
 import { PackageType } from './settings'
 import { runSkaffoldDev } from './skaffold'
 
@@ -8,11 +8,11 @@ import { runSkaffoldDev } from './skaffold'
 yargs
   .scriptName('platy')
   .command<{ project: string }>(
-    'skaffold <project> [...skaffold command and arguments]',
-    'Runs skaffold for the given project',
+    'skaffold <project>',
+    'Starts the given project with `skaffold dev`',
     (yargs) => {
       yargs.positional('project', {
-        describe: 'project (lerna sub-folder) to skaffold',
+        describe: 'name of the project to skaffold',
       })
     },
     async (argv) => {
@@ -55,11 +55,34 @@ yargs
   )
 
   // TODO init (create lerna, warns when something required is not installed e.g. skaffold, helm...)
-  // TODO create project (create the folder, the workspace in package.json and config.yaml)
   // TODO add service <name> <project (lerna sub-folder)>
   // TODO post-install @platyplus/devtools: launch the script to check/warn dependencies
   // TODO -> https://www.npmjs.com/package/which
   // ? sync package <name>
+
+  .command<{ name: string; directory: string; description?: string }>(
+    'create project <name> <directory> [description]',
+    'Creates a new project in the given directory',
+    (yargs) => {
+      yargs
+        .positional('name', {
+          describe: 'project name',
+        })
+        .positional('directory', {
+          describe: 'project directory',
+        })
+        .positional('description', {
+          describe: 'project description',
+        })
+    },
+    async ({ name, directory, description }) => {
+      try {
+        await createProject(name, directory, description)
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+  )
   .command<{ project: string }>(
     'sync <project>',
     'Synchronises the project files. Create/update skaffold, and overrides dockerfiles',
@@ -83,10 +106,8 @@ yargs
     async () => {
       console.log('NAME\tLOCATION')
       try {
-        for (const [location, project] of Object.entries(
-          await listProjects()
-        )) {
-          console.log(`${project.name}\t./${location}`)
+        for (const project of await listProjects()) {
+          console.log(`${project.name}\t./${project.directory}`)
         }
       } catch (error) {
         console.error(error.message)

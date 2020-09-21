@@ -4,9 +4,9 @@ import { set } from 'object-path'
 import fs from '@platyplus/fs'
 
 import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../settings'
-import { DevToolsConfig } from '../configuration'
 
 import { HelmChart } from './types'
+import { DevToolsConfig } from '../project'
 
 export const defaults = (config: DevToolsConfig): HelmChart => ({
   apiVersion: 'v2',
@@ -26,12 +26,9 @@ const cleanDependencies = async (helmDirectory: string, chartName: string) => {
   glob.forEach((f) => fs.removeSync(f))
 }
 
-export const syncHelmChart = async (
-  projectPath: string,
-  config: DevToolsConfig
-): Promise<void> => {
-  console.log(`Syncing ${projectPath}/helm/Chart.yaml...`)
-  const helmDirectory = path.join(DEFAULT_ROOT_DIR, projectPath, 'helm')
+export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
+  console.log(`Syncing ${config.directory}/helm/Chart.yaml...`)
+  const helmDirectory = path.join(DEFAULT_ROOT_DIR, config.directory, 'helm')
   const helmChartFile = path.join(helmDirectory, 'Chart.yaml')
   const yamlChart = await fs.loadYaml<HelmChart>(
     helmChartFile,
@@ -45,6 +42,7 @@ export const syncHelmChart = async (
   await fs.remove(path.join(helmDirectory, 'Chart.lock'))
 
   for (const service of config.services) {
+    if (!service.type) throw Error(`${service.name}: no service type`)
     let index = yamlChart.dependencies.findIndex((cursor) =>
       cursor.alias
         ? cursor.alias === service.name

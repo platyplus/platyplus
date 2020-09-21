@@ -7,6 +7,7 @@ import { hasLernaPackage } from '@platyplus/lerna'
 
 import { DEFAULT_ROOT_DIR, PackageType, serviceTypesConfig } from '../settings'
 import { generateTemplateFiles } from '../templates'
+import { ensureWorkspace } from '../utils'
 
 import { PackageInformation, PackageJson } from './types'
 import { DEFAULT_DESCRIPTION } from './constants'
@@ -45,6 +46,8 @@ export const createPackage = async (
     dependencies: [],
   }
   // * Checks the package is in a workspace
+  await ensureWorkspace([`${directory}/${name}`, `${directory}/**`])
+
   const mainPackageJsonPath = path.join(DEFAULT_ROOT_DIR, 'package.json')
   const mainPackageJson: PackageJson = await fs.readJson(mainPackageJsonPath)
   const exists = (mainPackageJson.workspaces?.packages || []).find(

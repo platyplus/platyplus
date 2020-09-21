@@ -17,7 +17,6 @@ const fromNpmPackage = (
   rootDir = DEFAULT_ROOT_DIR
 ): PackageInformation => {
   const [directory, name] = location.replace(`${rootDir}/`, '').split('/')
-  if (!platyplus) throw Error(`${packageName}: could not find package type`)
   const git = gitConfig.sync()
   return {
     type: platyplus?.type,

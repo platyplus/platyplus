@@ -26,6 +26,7 @@ export const templateToFile = async <T extends PackageInformation>(
 export const generateTemplateFiles = async <T extends PackageInformation>(
   variables: T
 ): Promise<void> => {
+  if (!variables.type) return
   if (await fs.pathExists(variables.location))
     throw Error(`The directory "${variables.location}" already exists.`)
   const source = path.join(__dirname, variables.type)

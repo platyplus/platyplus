@@ -1,17 +1,12 @@
 import { PackageInformation } from '../package'
 
-type DevToolsService = {
-  package: string
-}
-
 export type DevToolsConfigFile = {
+  directory: string
   name: string
   description: string
-  services: DevToolsService[]
+  services: PackageInformation[]
 }
 
 export type DevToolsConfig = DevToolsConfigFile & {
-  name: string
-  description: string
   services: PackageInformation[]
 }

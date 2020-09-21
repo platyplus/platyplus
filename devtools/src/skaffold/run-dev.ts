@@ -3,6 +3,7 @@ import chodikar from 'chokidar'
 import { spawn } from 'child_process'
 
 import { syncProject } from '../project'
+import { getProjectConfiguration } from '../project/get-config'
 
 /**
  * Starts Skaffold for a given project
@@ -15,31 +16,26 @@ import { syncProject } from '../project'
  * @param rootDir
  */
 export const runSkaffoldDev = async (
-  project: string,
+  projectName: string,
   rootDir = process.env.INIT_CWD || (process.env.PWD as string)
 ): Promise<void> => {
-  try {
-    const projectPath = path.join(rootDir, project)
-    await syncProject(project)
-
-    // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
-    const configPath = path.join(projectPath, 'config.yaml')
-    const watcher = chodikar.watch(configPath)
-    watcher.on('add', () => {
-      const skaffold = spawn('skaffold', ['dev', '--port-forward'], {
-        cwd: `${rootDir}/${project}`,
-        stdio: ['inherit', 'inherit', 'inherit'],
-        shell: true
-      })
-      skaffold.on('exit', async () => {
-        watcher.close()
-      })
+  const project = await getProjectConfiguration(projectName)
+  if (!project) throw Error(`Project ${projectName} not found.`)
+  // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
+  const configPath = path.join(project.directory, 'config.yaml')
+  const watcher = chodikar.watch(configPath)
+  watcher.on('add', () => {
+    const skaffold = spawn('skaffold', ['dev', '--port-forward'], {
+      cwd: `${rootDir}/${project}`,
+      stdio: ['inherit', 'inherit', 'inherit'],
+      shell: true,
     })
-    watcher.on('change', async () => {
-      console.log('Config changed. Syncing...')
-      await syncProject(projectPath)
+    skaffold.on('exit', async () => {
+      watcher.close()
     })
-  } catch (error) {
-    throw Error(`${project} directory does not exist`)
-  }
+  })
+  watcher.on('change', async () => {
+    console.log('Config changed. Syncing...')
+    await syncProject(project.directory)
+  })
 }
