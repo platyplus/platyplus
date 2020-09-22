@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "description": "Platyplus DevTools",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "homepage": "",
+  "homepage": "https://platy.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platyplus.git",
-    "directory": "packages/devtools"
+    "directory": "devtools/cli"
   },
-  "license": "ISC",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

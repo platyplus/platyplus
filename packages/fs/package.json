@@ -10,7 +10,7 @@
     "url": "https://github.com/platyplus/platyplus.git",
     "directory": "packages/fs"
   },
-  "license": "ISC",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

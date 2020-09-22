@@ -1,0 +1,22 @@
+{
+  "name": "@platyplus/devtools-web",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Platy DevTools website",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://platy.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platyplus.git",
+    "directory": "devtools/web"
+  },
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}

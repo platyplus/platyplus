@@ -9,7 +9,7 @@
     "url": "",
     "directory": "packages/gis"
   },
-  "license": "ISC",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
