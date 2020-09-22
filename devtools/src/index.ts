@@ -141,7 +141,7 @@ yargs
       }
     }
   )
-  // .strict()
-  // .demandCommand(1)
+  .showHelpOnFail(true)
+  .demandCommand()
   .completion('completion', 'Generates the autocompletion scripts')
   .wrap(null).argv
