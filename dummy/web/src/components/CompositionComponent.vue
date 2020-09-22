@@ -19,7 +19,7 @@ import {
   PropType,
   Ref,
   ref,
-  toRef,
+  toRef
 } from '@vue/composition-api'
 
 import { Meta, Todo } from './models'
@@ -44,22 +44,22 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     todos: {
       type: (Array as unknown) as PropType<Todo[]>,
-      default: () => [],
+      default: () => []
     },
     meta: {
       type: (Object as unknown) as PropType<Meta>,
-      required: true,
+      required: true
     },
     active: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   setup(props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) }
-  },
+  }
 })
 </script>

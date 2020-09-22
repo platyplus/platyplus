@@ -19,7 +19,7 @@ const TILE_WIDTHS = [
   0.003,
   0.001,
   0.0005,
-  0.00025,
+  0.00025
 ]
 // * See: https://wiki.openstreetmap.org/wiki/Zoom_levels
 export const tileWidth = (zoomLevel: number): number =>

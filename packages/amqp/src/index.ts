@@ -20,7 +20,7 @@ export const startQueue = async (
   handler: (message: string) => Promise<void>
 ): Promise<void> => {
   const q = await channel.assertQueue(name, {
-    durable: false, // ? Is it ok ?
+    durable: false // ? Is it ok ?
   })
   console.log(' [*] Waiting for messages in %s.', q.queue)
   await channel.consume(

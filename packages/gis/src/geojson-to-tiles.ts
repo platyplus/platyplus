@@ -36,7 +36,7 @@ export const geojsonToTiles = (
         const extent = bbox(geojson)
         const grid = squareGrid(extent, cellSize, {
           mask,
-          units: 'degrees',
+          units: 'degrees'
         })
         grid.features.forEach((feature) => {
           feature?.geometry?.coordinates?.[0]?.forEach((corner) => {

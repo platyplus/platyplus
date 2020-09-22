@@ -3,7 +3,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true,
+    node: true
   },
   plugins: ['@typescript-eslint', 'simple-import-sort'],
 
@@ -12,7 +12,7 @@ module.exports = {
     ga: true, // Google Analytics
     cordova: true,
     __statics: true,
-    process: true,
+    process: true
   },
 
   rules: {
@@ -24,7 +24,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // Custom
     //* 'vue/component-name-in-template-casing': ['error', 'kebab-case'],
-    'simple-import-sort/sort': 'error',
+    'simple-import-sort/sort': 'error'
   },
   overrides: [
     {
@@ -36,7 +36,7 @@ module.exports = {
         'prettier/@typescript-eslint',
         // See https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
         'plugin:vue/essential',
-        'prettier/vue',
+        'prettier/vue'
       ],
       // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
       // See https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
@@ -45,14 +45,14 @@ module.exports = {
         parser: '@typescript-eslint/parser',
         sourceType: 'module',
         project: './tsconfig.json',
-        extraFileExtensions: ['.vue'],
+        extraFileExtensions: ['.vue']
       },
       // add your custom rules here
       rules: {
         '@typescript-eslint/explicit-member-accessibility': 'off',
         // '@typescript-eslint/camelcase': 'warn', // ? hasura snake/camel case names?
-        '@typescript-eslint/no-empty-interface': 'warn',
-      },
-    },
-  ],
+        '@typescript-eslint/no-empty-interface': 'warn'
+      }
+    }
+  ]
 }

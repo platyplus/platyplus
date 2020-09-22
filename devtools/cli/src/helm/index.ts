@@ -13,7 +13,7 @@ export const defaults = (config: DevToolsConfig): HelmChart => ({
   name: config.name,
   version: '0.1.0', //TODO
   appVersion: '1.0', //TODO
-  dependencies: [],
+  dependencies: []
 })
 
 // TODO required to rebuild dependencies when skipBuildDependencies = false

@@ -24,7 +24,7 @@ const metersPerPixelOnEquator = [
   1.193,
   0.596,
   0.298,
-  0.149,
+  0.149
 ]
 
 /**

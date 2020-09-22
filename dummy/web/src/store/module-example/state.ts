@@ -1,9 +1,9 @@
 export interface ExampleStateInterface {
-  prop: boolean;
+  prop: boolean
 }
 
 const state: ExampleStateInterface = {
   prop: false
-};
+}
 
-export default state;
+export default state

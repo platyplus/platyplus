@@ -7,7 +7,7 @@ import path from 'path'
 import {
   DEFAULT_WORKING_DIR,
   PackageType,
-  serviceTypesConfig,
+  serviceTypesConfig
 } from '../settings'
 import { generateTemplateFiles } from '../templates'
 import { ensureWorkspace } from '../utils'
@@ -42,10 +42,10 @@ export const createPackage = async (
     location,
     user: {
       name: objectPath.get(git, 'user.name'),
-      email: objectPath.get(git, 'user.email'),
+      email: objectPath.get(git, 'user.email')
     },
     repository: objectPath.get(git, 'remote.origin.url'),
-    dependencies: [],
+    dependencies: []
   }
   // * Checks the package is in a workspace
   await ensureWorkspace([`${directory}/${name}`, `${directory}/**`])

@@ -10,5 +10,5 @@ export * from './yaml'
 export default {
   ...fsExtra,
   glob,
-  ...yamlMethods,
+  ...yamlMethods
 }

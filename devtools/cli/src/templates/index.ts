@@ -35,7 +35,7 @@ export const generateTemplateFiles = async <T extends PackageInformation>(
     // TODO ignore some other files, e.g. Helm charts directory
     path.join(source, '**', '!(Dockerfile*|.dockerignore)'),
     {
-      nodir: true,
+      nodir: true
     }
   )) {
     const destFile = file.replace(`${source}/`, '')

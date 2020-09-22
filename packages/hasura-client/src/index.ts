@@ -20,8 +20,8 @@ export class Client extends GraphQLClient {
       secret
         ? {
             headers: {
-              'x-hasura-admin-secret': secret,
-            },
+              'x-hasura-admin-secret': secret
+            }
           }
         : undefined
     )

@@ -10,7 +10,7 @@ const standard: PackageJson = {
   name: '{{package}}', // * override
   private: false,
   platyplus: {
-    type: '{{type}}' as PackageType, // * override
+    type: '{{type}}' as PackageType // * override
   },
   version: '0.0.1',
   description: '{{description}}', // * override?
@@ -19,9 +19,9 @@ const standard: PackageJson = {
   repository: {
     type: 'git',
     url: '{{repository}}',
-    directory: '{{path}}',
+    directory: '{{path}}'
   },
-  license: 'ISC',
+  license: 'ISC'
 }
 
 const defaultPackageJson = (variables: PackageInformation): PackageJson => {

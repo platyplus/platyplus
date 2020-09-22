@@ -15,7 +15,7 @@ const setCoordinates = (url: string, [x, y, z]: number[]) => {
     '{-y}': () => (Math.pow(2, z) - 1 - y).toString(),
     '{z}': () => z.toString(),
     '{zoom}': () => z.toString(),
-    '{quadkey}': () => xyzToQuadKey([x, y, z]),
+    '{quadkey}': () => xyzToQuadKey([x, y, z])
   }
   return url.replace(
     /(\{x\}|\{y\}|\{z\}|\{zoom\}|\{-y\}|\{quadkey\})/gi,

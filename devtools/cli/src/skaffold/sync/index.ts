@@ -18,7 +18,7 @@ const mergeArrayElementAtPath = (
   element: Record<string, unknown>
 ): number => {
   const index = indexOfArrayPathObject(source, key, get(element, key), {
-    initialPath: arrayPath,
+    initialPath: arrayPath
   })
   const olderKeys = get(source, `${arrayPath}.${index}`)
   const newKeys = olderKeys ? mergeDeep(olderKeys, element) : element
@@ -32,7 +32,7 @@ const syncHelm = (
   configuration: DevToolsConfig
 ) => {
   const index = indexOfArrayPathObject(source, 'name', configuration.name, {
-    initialPath,
+    initialPath
   })
   const helmPath = `${initialPath}.${index}`
   set(source, `${helmPath}.name`, configuration.name)

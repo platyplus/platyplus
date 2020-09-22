@@ -11,5 +11,5 @@ export const DEFAULT_WORKING_DIR =
 export const serviceTypesConfig: ServiceTypeConfigs = {
   hasura: hasuraConfig,
   quasar: quasarConfig,
-  typescript: typescriptConfig,
+  typescript: typescriptConfig
 }

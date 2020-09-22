@@ -21,10 +21,10 @@ yargs
     (yargs) => {
       yargs
         .positional('monorepo-name', {
-          describe: 'name of the project to skaffold',
+          describe: 'name of the project to skaffold'
         })
         .positional('organisation-name', {
-          describe: 'name of the organisation (e.g. @my-org)',
+          describe: 'name of the organisation (e.g. @my-org)'
         })
     },
     async ({ monorepoName, organisationName }) => {
@@ -40,7 +40,7 @@ yargs
     'Starts the given project with `skaffold dev`',
     (yargs) => {
       yargs.positional('project', {
-        describe: 'name of the project to skaffold',
+        describe: 'name of the project to skaffold'
       })
     },
     async (argv) => {
@@ -63,13 +63,13 @@ yargs
       yargs
         .positional('type', {
           describe: 'Service type',
-          choices: Object.values(PackageType),
+          choices: Object.values(PackageType)
         })
         .positional('name', {
-          describe: 'Package name',
+          describe: 'Package name'
         })
         .positional('destination', {
-          describe: 'Package directory',
+          describe: 'Package directory'
         })
     },
     async ({ type, name, destination, description }) => {
@@ -94,13 +94,13 @@ yargs
     (yargs) => {
       yargs
         .positional('name', {
-          describe: 'project name',
+          describe: 'project name'
         })
         .positional('directory', {
-          describe: 'project directory',
+          describe: 'project directory'
         })
         .positional('description', {
-          describe: 'project description',
+          describe: 'project description'
         })
     },
     async ({ name, directory, description }) => {
@@ -116,7 +116,7 @@ yargs
     'Synchronises the project files. Create/update skaffold, and overrides dockerfiles',
     (yargs) => {
       yargs.positional('project', {
-        describe: 'project (lerna sub-folder) to skaffold',
+        describe: 'project (lerna sub-folder) to skaffold'
       })
     },
     async ({ project }) => {

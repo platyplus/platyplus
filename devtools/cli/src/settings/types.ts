@@ -3,7 +3,7 @@ import { PackageInformation } from '../package'
 export enum PackageType {
   TypeScript = 'typescript',
   Quasar = 'quasar',
-  Hasura = 'hasura',
+  Hasura = 'hasura'
 }
 
 type ServicePipelineConfigResult = {

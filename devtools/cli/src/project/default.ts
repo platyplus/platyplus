@@ -12,5 +12,5 @@ export const defaultPdtConfig = (
   name,
   description,
   // TODO What happens if two services are using the same package? problem with their names
-  services: [],
+  services: []
 })

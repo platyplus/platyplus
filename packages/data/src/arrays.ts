@@ -33,7 +33,7 @@ export const arrayChanges = <T extends Record<string, unknown>>(
     initial,
     update,
     (a, b) => hasSameId(a, b) && !deepEqual(a, b)
-  ),
+  )
 })
 
 type CompareOptions = { caseSensitive: boolean }

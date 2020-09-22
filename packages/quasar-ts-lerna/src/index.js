@@ -14,7 +14,7 @@ module.exports = function (api) {
     const plugins = cfg.resolve.plugins || []
     plugins.push(
       new TsconfigPathsPlugin({
-        configFile: 'tsconfig.webpack.json',
+        configFile: 'tsconfig.webpack.json'
       })
     )
     cfg.resolve.plugins = plugins

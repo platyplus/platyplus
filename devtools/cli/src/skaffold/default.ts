@@ -4,12 +4,12 @@ export const defaultSkaffoldConfiguration: Skaffold = {
   apiVersion: 'skaffold/v2beta7',
   kind: 'Config',
   build: {
-    artifacts: [],
+    artifacts: []
   },
   deploy: {
     helm: {
-      releases: [],
-    },
+      releases: []
+    }
   },
-  profiles: [],
+  profiles: []
 }

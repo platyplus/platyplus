@@ -5,37 +5,37 @@ import { ServiceTypeConfig } from './types'
 export const typescriptConfig: ServiceTypeConfig = ({
   directory,
   name,
-  location,
+  location
 }) => ({
   main: {
     build: {
       image: `${directory}-${name}`,
       context: '..',
       docker: {
-        dockerfile: `${directory}/${name}/Dockerfile`,
-      },
-    },
+        dockerfile: `${directory}/${name}/Dockerfile`
+      }
+    }
   },
   dev: {
     build: {
       image: `${directory}-${name}`,
       context: '..',
       docker: {
-        dockerfile: `${directory}/${name}/Dockerfile-development`,
-      },
+        dockerfile: `${directory}/${name}/Dockerfile-development`
+      }
     },
     files: [
       {
         src: `${directory}/${name}/src/**/*.{ts,json}`,
-        dest: '.',
-      },
-    ],
+        dest: '.'
+      }
+    ]
   },
   chartName: 'simple-http',
   postInstall: async () => {
     execSync('yarn', {
       cwd: location,
-      stdio: 'inherit',
+      stdio: 'inherit'
     })
-  },
+  }
 })
