@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@platyplus/*": ["packages/*/src"]
+      "{{organisation}}/*": ["packages/*/src"]
     },
     "jsx": "react",
     "esModuleInterop": true,

@@ -5,13 +5,13 @@ import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'
 
-import { DEFAULT_ROOT_DIR } from '../settings'
+import { DEFAULT_WORKING_DIR } from '../settings'
 import { PackageInformation, PackageJson } from './types'
 
 const fromNpmPackage = (
   { name: packageName, platyplus, description }: PackageJson,
   location: string,
-  rootDir = DEFAULT_ROOT_DIR
+  rootDir = DEFAULT_WORKING_DIR
 ): PackageInformation => {
   const [directory, name] = location.replace(`${rootDir}/`, '').split('/')
   const git = gitConfig.sync()
@@ -33,7 +33,7 @@ const fromNpmPackage = (
 
 const fromLernaPackage = async (
   { location }: LernaPackage,
-  rootDir = DEFAULT_ROOT_DIR
+  rootDir = DEFAULT_WORKING_DIR
 ): Promise<PackageInformation> => {
   const packageJson = await fs.readJson(path.join(location, 'package.json'))
   return fromNpmPackage(packageJson, location, rootDir)
@@ -46,7 +46,7 @@ const fromLernaPackage = async (
  */
 export const loadPackageInformation = async (
   jsonPackageDir: string,
-  rootDir = DEFAULT_ROOT_DIR
+  rootDir = DEFAULT_WORKING_DIR
 ): Promise<PackageInformation> => {
   const packageJson = (await fs.readJson(
     path.join(jsonPackageDir, 'package.json')

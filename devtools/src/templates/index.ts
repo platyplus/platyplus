@@ -4,7 +4,7 @@ import path from 'path'
 
 import { PackageInformation } from '../package/types'
 
-export const templateToString = async <T extends PackageInformation>(
+export const templateToString = async <T>(
   path: string,
   variables: T
 ): Promise<string> => {
@@ -13,7 +13,7 @@ export const templateToString = async <T extends PackageInformation>(
   return handlebars.compile(template)(variables)
 }
 
-export const templateToFile = async <T extends PackageInformation>(
+export const templateToFile = async <T>(
   source: string,
   destination: string,
   variables: T

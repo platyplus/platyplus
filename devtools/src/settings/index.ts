@@ -5,7 +5,7 @@ import { typescriptConfig } from './typescript'
 
 export * from './types'
 
-export const DEFAULT_ROOT_DIR =
+export const DEFAULT_WORKING_DIR =
   process.env.INIT_CWD || (process.env.PWD as string)
 
 export const serviceTypesConfig: ServiceTypeConfigs = {

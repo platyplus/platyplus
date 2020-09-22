@@ -15,7 +15,10 @@ function lat2tile(lat: number, z: number) {
   )
 }
 
-export const LngLatToXYZ = ([lon, lat]: number[], zoom: number) => {
+export const LngLatToXYZ = (
+  [lon, lat]: number[],
+  zoom: number
+): [number, number, number] => {
   //   const sinLat = Math.sin((lat * Math.PI) / 180.0)
   //   const x = Math.floor(((lng + 180) / 360) * 256 * Math.pow(2, zoom))
   //   const y = Math.floor(

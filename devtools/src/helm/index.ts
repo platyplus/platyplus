@@ -1,9 +1,10 @@
 import fs from '@platyplus/fs'
+import chalk from 'chalk'
 import { set } from 'object-path'
 import path from 'path'
 
 import { DevToolsConfig } from '../project'
-import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../settings'
+import { DEFAULT_WORKING_DIR, serviceTypesConfig } from '../settings'
 import { HelmChart } from './types'
 
 export const defaults = (config: DevToolsConfig): HelmChart => ({
@@ -25,8 +26,8 @@ const cleanDependencies = async (helmDirectory: string, chartName: string) => {
 }
 
 export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
-  console.log(`Syncing ${config.directory}/helm/Chart.yaml...`)
-  const helmDirectory = path.join(DEFAULT_ROOT_DIR, config.directory, 'helm')
+  console.log(chalk.green(`Syncing ${config.directory}/helm/Chart.yaml...`))
+  const helmDirectory = path.join(DEFAULT_WORKING_DIR, config.directory, 'helm')
   const helmChartFile = path.join(helmDirectory, 'Chart.yaml')
   const yamlChart = await fs.loadYaml<HelmChart>(
     helmChartFile,
@@ -58,7 +59,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
     const chartPath = path.join(helmDirectory, 'charts', service.name)
     if (!(await fs.pathExists(chartPath))) {
       const embeddedChartToServicePath = path.join(
-        DEFAULT_ROOT_DIR,
+        DEFAULT_WORKING_DIR,
         service.directory,
         service.name,
         'helm'

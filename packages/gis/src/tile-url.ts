@@ -23,7 +23,7 @@ const setCoordinates = (url: string, [x, y, z]: number[]) => {
   )
 }
 
-export const tileUrl = (coordinates: number[], url: string) => {
+export const tileUrl = (coordinates: number[], url: string): string => {
   // * See https://github.com/HumanitarianStuff/tilehuria/blob/c343afaf51b228a7fd83c2223cf6001a593acb09/tilehuria/utils.py
   url = setSwitch(url)
   url = setCoordinates(url, coordinates)

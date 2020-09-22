@@ -1,9 +1,10 @@
+import chalk from 'chalk'
 import { spawn } from 'child_process'
 import chodikar from 'chokidar'
 import path from 'path'
 
 import { getProject, syncProject } from '../project'
-import { DEFAULT_ROOT_DIR } from '../settings'
+import { DEFAULT_WORKING_DIR } from '../settings'
 
 /**
  * Starts Skaffold for a given project
@@ -17,7 +18,7 @@ import { DEFAULT_ROOT_DIR } from '../settings'
  */
 export const runSkaffoldDev = async (
   projectName: string,
-  rootDir = DEFAULT_ROOT_DIR
+  rootDir = DEFAULT_WORKING_DIR
 ): Promise<void> => {
   const project = await getProject(projectName)
   if (!project) throw Error(`Project ${projectName} not found.`)
@@ -25,7 +26,6 @@ export const runSkaffoldDev = async (
   const configPath = path.join(rootDir, project.directory, 'config.yaml')
   const watcher = chodikar.watch(configPath)
   watcher.on('add', async () => {
-    console.log('add')
     await syncProject(project.name)
     const skaffold = spawn('skaffold', ['dev', '--port-forward'], {
       cwd: path.join(rootDir, project.directory),
@@ -37,8 +37,7 @@ export const runSkaffoldDev = async (
     })
   })
   watcher.on('change', async () => {
-    console.log('change')
-    console.log('Config changed. Syncing...')
+    console.log(chalk.green('Config changed. Syncing...'))
     await syncProject(project.name)
   })
 }

@@ -1,8 +1,7 @@
-import { loadYaml, readJson, writeJson } from '@platyplus/fs'
-import objectPath from 'object-path'
+import { loadYaml } from '@platyplus/fs'
 import path from 'path'
 
-import { DEFAULT_ROOT_DIR } from '../settings'
+import { DEFAULT_WORKING_DIR } from '../settings'
 import { ensureWorkspace } from '../utils'
 import { defaultPdtConfig } from './default'
 import { getProject } from './get'
@@ -18,7 +17,7 @@ export const createProject = async (
     throw Error('exists')
   } catch (e) {
     if (e.message !== 'exists') {
-      const yamlPath = path.join(DEFAULT_ROOT_DIR, directory, 'config.yaml')
+      const yamlPath = path.join(DEFAULT_WORKING_DIR, directory, 'config.yaml')
       await ensureWorkspace(`${directory}/*`)
       return await loadYaml(yamlPath, defaultPdtConfig(name, description))
     } else throw Error('Project already exists')

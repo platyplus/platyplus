@@ -12,7 +12,9 @@ export class MbTiles {
   private writing = false
   constructor(path: string, options?: MbTilesOptions) {
     this.path = path
-    this.mode = options?.write ? (options?.create ? 'rwc' : 'rw') : 'ro'
+    if (options) {
+      this.mode = options.write ? (options.create ? 'rwc' : 'rw') : 'ro'
+    } else this.mode = 'ro'
   }
 
   private async initMbTiles(): Promise<void> {
@@ -38,9 +40,9 @@ export class MbTiles {
     // TODO optional gzip
     return new Promise((resolve, reject) => {
       if (this.mbTiles) {
-        this.mbTiles.getTile(z, x, y, (err: Error, data: any) => {
+        this.mbTiles.getTile(z, x, y, (err: Error, data: unknown) => {
           if (err) return reject(err)
-          zlib.gunzip(data, (err, unzippedData) => {
+          zlib.gunzip(data as string, (err: unknown, unzippedData: unknown) => {
             if (err) return reject(err)
             return resolve(unzippedData)
           })
@@ -52,7 +54,7 @@ export class MbTiles {
   async getInfo(): Promise<unknown> {
     return new Promise((resolve, reject) => {
       if (this.mbTiles) {
-        this.mbTiles.getInfo((err: Error, info: any) => {
+        this.mbTiles.getInfo((err: Error, info: unknown) => {
           if (err) return reject(err)
           return resolve(info)
         })
@@ -94,7 +96,7 @@ export class MbTiles {
   ): Promise<void> {
     await this.startWriting()
     return new Promise((resolve, reject) => {
-      zlib.gzip(buffer, (err, gzippedBuffer) => {
+      zlib.gzip(buffer, (err) => {
         if (err) return reject(err)
         if (this.mbTiles) {
           this.mbTiles.putTile(z, x, y, buffer, (err: Error) => {

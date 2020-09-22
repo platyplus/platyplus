@@ -30,7 +30,9 @@ const defaultPackageJson = (variables: PackageInformation): PackageJson => {
   return JSON.parse(strResult)
 }
 
-export const syncPackageJson = async (variables: PackageInformation) => {
+export const syncPackageJson = async (
+  variables: PackageInformation
+): Promise<void> => {
   const defaults = defaultPackageJson(variables)
   const packageJsonPath = path.join(variables.location, 'package.json')
   if (await fs.pathExists(packageJsonPath)) {

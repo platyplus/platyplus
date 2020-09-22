@@ -4,13 +4,14 @@ import objectPath from 'object-path'
 import path from 'path'
 
 import { PackageJson } from '../package'
-import { DEFAULT_ROOT_DIR } from '../settings'
+import { DEFAULT_WORKING_DIR } from '../settings'
 
-export const globalPath = () => execSync('yarn global bin').toString().trim()
+export const globalPath = (): string =>
+  execSync('yarn global bin').toString().trim()
 
 export const ensureWorkspace = async (
   workspaces: string | string[],
-  repoPath = DEFAULT_ROOT_DIR
+  repoPath = DEFAULT_WORKING_DIR
 ): Promise<void> => {
   if (typeof workspaces === 'string') workspaces = [workspaces]
   const mainPackageJsonPath = path.join(repoPath, 'package.json')

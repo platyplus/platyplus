@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import yargs from 'yargs'
 
 import { initMonorepo } from './monorepo'
@@ -6,7 +7,12 @@ import { createProject, listProjects, syncProject } from './project'
 import { PackageType } from './settings'
 import { runSkaffoldDev } from './skaffold'
 
-// TODO some colors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const error = (e: any) => {
+  console.log(chalk.bold.red(e.message))
+  process.exit(1)
+}
+
 yargs
   .scriptName('platy')
   .command<{ monorepoName: string; organisationName: string }>(
@@ -24,8 +30,8 @@ yargs
     async ({ monorepoName, organisationName }) => {
       try {
         await initMonorepo(monorepoName, organisationName)
-      } catch (error) {
-        console.error(error.message)
+      } catch (e) {
+        error(e)
       }
     }
   )
@@ -40,8 +46,8 @@ yargs
     async (argv) => {
       try {
         await runSkaffoldDev(argv.project)
-      } catch (error) {
-        console.error(error.message)
+      } catch (e) {
+        error(e)
       }
     }
   )
@@ -70,8 +76,8 @@ yargs
       try {
         // TODO warns if dependencies are not met e.g. hasura console is not installed for an hasura package
         await createPackage(type, name, destination, description)
-      } catch (error) {
-        console.error(error.message)
+      } catch (e) {
+        error(e)
       }
     }
   )
@@ -100,8 +106,8 @@ yargs
     async ({ name, directory, description }) => {
       try {
         await createProject(name, directory, description)
-      } catch (error) {
-        console.error(error.message)
+      } catch (e) {
+        error(e)
       }
     }
   )
@@ -116,8 +122,8 @@ yargs
     async ({ project }) => {
       try {
         await syncProject(project)
-      } catch (error) {
-        console.error(error.message)
+      } catch (e) {
+        error(e)
       }
     }
   )
@@ -130,12 +136,12 @@ yargs
         for (const project of await listProjects()) {
           console.log(`${project.name}\t./${project.directory}`)
         }
-      } catch (error) {
-        console.error(error.message)
+      } catch (e) {
+        error(e)
       }
     }
   )
-  .strict()
-  .demandCommand(1)
+  // .strict()
+  // .demandCommand(1)
   .completion('completion', 'Generates the autocompletion scripts')
   .wrap(null).argv

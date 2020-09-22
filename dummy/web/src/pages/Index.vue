@@ -1,14 +1,19 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <example-component title="Example component" active :todos="todos" :meta="meta"></example-component>
+    <example-component
+      title="Example component"
+      active
+      :todos="todos"
+      :meta="meta"
+    ></example-component>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/CompositionComponent.vue';
-import { defineComponent, ref } from '@vue/composition-api';
-import { pick } from '@platyplus/data';
+import { pick } from '@platyplus/data'
+import { defineComponent, ref } from '@vue/composition-api'
+import ExampleComponent from 'components/CompositionComponent.vue'
+import { Meta, Todo } from 'components/models'
 
 export default defineComponent({
   name: 'PageIndex',
@@ -35,12 +40,12 @@ export default defineComponent({
         id: 5,
         content: 'ct5',
       },
-    ]);
+    ])
     const meta = ref<Meta>({
       totalCount: 1200,
-    });
-    console.log('example using a lerna package', pick({ a: 1, b: 2 }, ['a']));
-    return { todos, meta };
+    })
+    console.log('example using a lerna package', pick({ a: 1, b: 2 }, ['a']))
+    return { todos, meta }
   },
-});
+})
 </script>

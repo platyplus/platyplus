@@ -1,10 +1,11 @@
 import { loadYaml } from '@platyplus/fs'
+import chalk from 'chalk'
 import mergeDeep from 'merge-deep'
 import { get, set } from 'object-path'
 import path from 'path'
 
 import { DevToolsConfig } from '../../project'
-import { DEFAULT_ROOT_DIR, serviceTypesConfig } from '../../settings'
+import { DEFAULT_WORKING_DIR, serviceTypesConfig } from '../../settings'
 import { indexOfArrayPathObject } from '../../utils'
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
@@ -43,9 +44,11 @@ const syncHelm = (
 export const loadSkaffoldConfiguration = async (
   configuration: DevToolsConfig
 ): Promise<Skaffold> => {
-  console.log(`Syncing ${configuration.directory}/skaffold.yaml...`)
+  console.log(
+    chalk.green(`Syncing ${configuration.directory}/skaffold.yaml...`)
+  )
   const filePath = path.join(
-    DEFAULT_ROOT_DIR,
+    DEFAULT_WORKING_DIR,
     configuration.directory,
     'skaffold.yaml'
   )
@@ -54,7 +57,7 @@ export const loadSkaffoldConfiguration = async (
   syncHelm(skaffold, 'deploy.helm.releases', configuration)
 
   for (const service of configuration.services) {
-    console.log(`Syncing service config ${service.package}...`)
+    console.log(chalk.green(`Syncing service config ${service.package}...`))
     if (!service.type) throw Error('No service type.')
     const serviceConfig = serviceTypesConfig[service.type](service)
     if (serviceConfig.main?.build) {
