@@ -8,7 +8,7 @@ import { DEFAULT_WORKING_DIR } from '../settings'
 
 /**
  * Starts Skaffold for a given project
- * 1. Reads the Platyplus DevTools config.yaml file
+ * 1. Reads the Platy DevTools config.yaml file
  * 2. Generates the Dockerfiles
  * 3. Generates the skaffold settings (as a temporary file)
  * 4. Runs skaffold

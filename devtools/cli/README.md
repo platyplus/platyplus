@@ -1,6 +1,6 @@
 # `Devtools`
 
-Platyplus DevTools
+Platy DevTools
 
 ## Requirements
 
@@ -21,9 +21,9 @@ npm i -g @platyplus/devtools
 
 ```
 Commands :
-  pdt skaffold <project>                              Runs skaffold for the given project
-  pdt package create <name> <dirname> [description]   Creates a Typescript package boilerplate
-  pdt sync                                            Generates the files required by all the services.
+  platy skaffold <project>                              Runs skaffold for the given project
+  platy package create <name> <dirname> [description]   Creates a Typescript package boilerplate
+  platy sync                                            Generates the files required by all the services.
                                                       Overrides them if they already exist
 Options :
   --help     Prints help  [boolean]
