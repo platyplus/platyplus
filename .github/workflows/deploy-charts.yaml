@@ -43,4 +43,4 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_CHARTS_PROJECT_ID}} #Required 
           working-directory: ./dist
           alias-domains: | #Optional
-            platy.dev
+            charts.platy.dev
