@@ -1,4 +1,4 @@
-name: deploy platy.dev website
+name: deploy helm charts
 on:
   push:
     branches:
@@ -24,7 +24,8 @@ jobs:
           exec: helm repo index --url https://charts.platyplus.io dist
       - name: redirect
         run: |
-          tee dist/index.html << END
+          ls dist
+          sudo tee dist/index.html > /dev/null << END
           <!DOCTYPE html>
           <html>
             <head>
