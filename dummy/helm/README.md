@@ -16,7 +16,7 @@
 
 ```sh
 helm install tilehuria tilehuria \
-    --repo https://charts.platyplus.io \
+    --repo https://charts.platy.dev \
     --set global.hostname=example.org
 ```
 

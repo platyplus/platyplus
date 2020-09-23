@@ -84,7 +84,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
           set(
             yamlChart,
             `dependencies.${index}.repository`,
-            'https://charts.platyplus.io'
+            'https://charts.platy.dev'
           )
         }
       }

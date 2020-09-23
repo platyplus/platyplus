@@ -21,7 +21,7 @@ jobs:
       - name: Index
         uses: WyriHaximus/github-action-helm3@v2
         with:
-          exec: helm repo index --url https://charts.platyplus.io dist
+          exec: helm repo index --url https://charts.platy.dev dist
       - name: redirect
         run: |
           ls dist
