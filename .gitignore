@@ -27,3 +27,5 @@ backup
 
 # Lerna
 lerna-debug.log*
+
+.vercel
