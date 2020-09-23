@@ -1,15 +1,30 @@
 const { description } = require('../../package')
+const glob = require('glob')
+const path = require('path')
+
+const chartReadmes = glob.sync(path.resolve('../../charts/**/README.md'))
+const chartPages = chartReadmes.map((filePath) => {
+  const dirs = path.dirname(filePath).split('/')
+  const name = dirs[dirs.length - 1]
+  return {
+    name,
+    path: `/charts/${name}.html`,
+    filePath
+  }
+})
 
 module.exports = {
   dest: './dist',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vuepress Docs Boilerplate',
+  title: 'Platy DevTools',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
   description: description,
+
+  additionalPages: chartPages,
 
   /**
    * Extra tags to be injected to the page HTML `<head>`
@@ -42,8 +57,12 @@ module.exports = {
         link: '/guide/'
       },
       {
-        text: 'Config',
-        link: '/config/'
+        text: 'CLI',
+        link: '/cli/'
+      },
+      {
+        text: 'Charts',
+        link: '/charts/'
       },
       {
         text: 'VuePress',
@@ -56,6 +75,16 @@ module.exports = {
           title: 'Guide',
           collapsable: false,
           children: ['', 'using-vue']
+        }
+      ],
+      '/charts/': [
+        {
+          title: 'Charts',
+          collapsable: false,
+          children: [
+            ['', 'Installation'],
+            ...chartPages.map((page) => [page.path, page.name])
+          ]
         }
       ]
     }

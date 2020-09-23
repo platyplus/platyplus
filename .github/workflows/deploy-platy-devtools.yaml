@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - 'devtools/web/**'
+      - 'charts/**/README.md'
 jobs:
   deploy:
     runs-on: ubuntu-latest
