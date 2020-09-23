@@ -16,8 +16,8 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: build
         run: |
-          cd devtools/web
           yarn
+          cd devtools/web
           yarn build
       - uses: amondnet/vercel-action@v19
         with:
