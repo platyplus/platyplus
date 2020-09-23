@@ -7,9 +7,9 @@ actionLink: /guide/
 features:
   - title: Monorepo
     details: Feature 1 Description
-  - title: Feature 2 Title
+  - title: Skaffold
     details: Feature 2 Description
-  - title: Feature 3 Title
+  - title: Hasura
     details: Feature 3 Description
 footer: Made by  with ❤️
 ---
