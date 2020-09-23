@@ -46,11 +46,13 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: '',
+    repo: 'platyplus/platyplus',
     editLinks: false,
-    docsDir: '',
-    editLinkText: '',
+    docsDir: 'devtools/web',
+    editLinks: true,
+    editLinkText: 'Edit this page',
     lastUpdated: false,
+    smoothScroll: true,
     nav: [
       {
         text: 'Guide',
@@ -61,12 +63,8 @@ module.exports = {
         link: '/cli/'
       },
       {
-        text: 'Charts',
+        text: 'Helm Charts',
         link: '/charts/'
-      },
-      {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org'
       }
     ],
     sidebar: {
