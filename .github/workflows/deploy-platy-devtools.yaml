@@ -1,8 +1,10 @@
 name: deploy platy.dev website
 on:
   push:
+    branches:
+      - master
     paths:
-    - '/devtools/web/**'
+      - 'devtools/web/**'
 jobs:
   deploy:
     runs-on: ubuntu-latest
