@@ -1,4 +1,4 @@
-name: deploy website
+name: deploy platy.dev website
 on:
   push:
     paths:

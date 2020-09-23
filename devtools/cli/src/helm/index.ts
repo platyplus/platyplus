@@ -78,7 +78,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
           set(
             yamlChart,
             `dependencies.${index}.repository`,
-            `file://../../charts/${chartName}`
+            `file://../../charts/source/${chartName}`
           )
         } else {
           set(

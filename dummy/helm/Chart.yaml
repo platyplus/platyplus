@@ -5,17 +5,17 @@ version: 0.1.0
 appVersion: "1.0"
 dependencies:
   - name: simple-http
-    repository: file://../../charts/simple-http
+    repository: file://../../charts/source/simple-http
     version: "*"
     alias: web
     condition: web.enabled
   - name: simple-http
     alias: node
     version: "*"
-    repository: file://../../charts/simple-http
+    repository: file://../../charts/source/simple-http
     condition: node.enabled
   - name: hasura
     alias: hasura
     version: "*"
-    repository: file://../../charts/hasura
+    repository: file://../../charts/source/hasura
     condition: hasura.enabled
