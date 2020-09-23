@@ -24,7 +24,6 @@ jobs:
           exec: helm repo index --url https://charts.platy.dev dist
       - name: redirect
         run: |
-          ls dist
           sudo tee dist/index.html > /dev/null << END
           <!DOCTYPE html>
           <html>
