@@ -14,11 +14,10 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: install
+        run: yarn
       - name: build
-        run: |
-          yarn
-          cd devtools/web
-          yarn build
+        run: yarn lerna run build --scope=@platyplus/devtools-web
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
