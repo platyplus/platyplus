@@ -1,6 +1,11 @@
 {
   "name": "@platyplus/devtools-web",
   "private": true,
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
+  },
   "version": "0.0.1",
   "description": "Platy DevTools website",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
