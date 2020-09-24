@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/quasar-app-extension-ts-lerna",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lerna and Typescript extension",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "license": "MIT",
