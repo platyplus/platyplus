@@ -1,4 +1,4 @@
-name: publish packages to NPM
+name: Create versions & NPM publish
 on: 
   workflow_dispatch:
     # inputs:
