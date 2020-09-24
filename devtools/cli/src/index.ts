@@ -66,14 +66,14 @@ yargs
         (yargs) => {
           yargs
             .positional('type', {
-              describe: 'Service type',
+              describe: 'type',
               choices: Object.values(PackageType)
             })
             .positional('name', {
-              describe: 'Package name'
+              describe: 'package name'
             })
             .positional('destination', {
-              describe: 'Package directory'
+              describe: 'destination'
             })
         },
         async ({ type, name, destination, description }) => {

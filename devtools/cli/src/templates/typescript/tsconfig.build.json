@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.build.json",
+  "extends": "{{pathToRoot}}/tsconfig.build.json",
   "compilerOptions": {
     "outDir": "./dist"
   },

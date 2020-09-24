@@ -1,5 +1,6 @@
 import fs from '@platyplus/fs'
 import { execSync, spawn } from 'child_process'
+import objectPath from 'object-path'
 import path from 'path'
 
 import { globalPath } from '../utils'
@@ -24,7 +25,8 @@ const quasarCreate = async (directory: string, name: string): Promise<void> => {
 export const quasarConfig: ServiceTypeConfig = ({
   directory,
   name,
-  location
+  location,
+  pathToRoot
 }) => {
   return {
     main: {
@@ -78,6 +80,11 @@ export const quasarConfig: ServiceTypeConfig = ({
           cwd: location,
           stdio: 'inherit'
         })
+        // * Update the tsconfig.webpack.json file from the quasar extension so it points to the root config
+        const tsWebpackPath = path.join(location, 'tsconfig.webpack.json')
+        const tsWebpack = await fs.readJson(tsWebpackPath)
+        objectPath.set(tsWebpack, 'extends', `${pathToRoot}/tsconfig.json`)
+        await fs.writeJson(tsWebpackPath, tsWebpack, { spaces: '  ' })
       }
     }
   }

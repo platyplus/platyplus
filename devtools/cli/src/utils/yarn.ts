@@ -10,17 +10,20 @@ export const globalPath = (): string =>
   execSync('yarn global bin').toString().trim()
 
 export const ensureWorkspace = async (
-  workspaces: string | string[],
+  workspace: string,
   repoPath = DEFAULT_WORKING_DIR
 ): Promise<void> => {
-  if (typeof workspaces === 'string') workspaces = [workspaces]
+  const workspaces = [workspace]
+  if (!workspace.endsWith('/*')) {
+    workspaces.push(path.join(workspace, '../*'))
+  }
   const mainPackageJsonPath = path.join(repoPath, 'package.json')
   const mainPackageJson: PackageJson = await fs.readJson(mainPackageJsonPath)
   const exists = (mainPackageJson.workspaces?.packages || []).find((glob) =>
     workspaces.includes(glob)
   )
   if (!exists) {
-    objectPath.push(mainPackageJson, 'workspaces.packages', workspaces[0]) // ! Will only add the first element of the array
+    objectPath.push(mainPackageJson, 'workspaces.packages', workspace)
     await fs.writeJson(mainPackageJsonPath, mainPackageJson, { spaces: '  ' })
   }
 }

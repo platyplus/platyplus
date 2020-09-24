@@ -9,6 +9,7 @@ export type PackageInformation = {
   type?: PackageType
   package: string
   directory: string
+  pathToRoot: string
   name: string
   location: string
   description?: string

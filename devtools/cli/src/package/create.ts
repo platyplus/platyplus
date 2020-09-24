@@ -13,8 +13,9 @@ import {
 import { generateTemplateFiles } from '../templates'
 import { ensureWorkspace } from '../utils'
 import { DEFAULT_DESCRIPTION } from './constants'
+import { getPathInfo } from './loaders'
 import { syncPackageJson } from './sync-package-json'
-import { PackageInformation, PackageJson } from './types'
+import { PackageInformation } from './types'
 
 /**
  * Generates a Typescript package ready to be used in a Lerna/Yarn workspaces environment
@@ -31,18 +32,20 @@ export const createPackage = async (
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)
-  const [directory, name] = packagePath.split('/')
+  const { pathToRoot, name, directory } = getPathInfo(packagePath)
   const git = gitConfig.sync()
   const location = `${DEFAULT_WORKING_DIR}/${packagePath}`
   if (await fs.pathExists(location))
     throw Error(`The directory "${location}" already exists.`)
-  else await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
+  console.log(chalk.blue(path.join(DEFAULT_WORKING_DIR, directory, '..')))
+  await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
 
   const variables: PackageInformation = {
     type,
     description,
     package: packageName,
     directory,
+    pathToRoot,
     name,
     location,
     user: {
@@ -53,27 +56,12 @@ export const createPackage = async (
     dependencies: []
   }
   // * Checks the package is in a workspace
-  await ensureWorkspace([`${directory}/${name}`, `${directory}/**`])
+  await ensureWorkspace(packagePath)
 
-  const mainPackageJsonPath = path.join(DEFAULT_WORKING_DIR, 'package.json')
-  const mainPackageJson: PackageJson = await fs.readJson(mainPackageJsonPath)
-  const exists = (mainPackageJson.workspaces?.packages || []).find(
-    (glob) => glob === `${directory}/${name}` || glob === `${directory}/**`
-  )
-  if (!exists) {
-    objectPath.push(
-      mainPackageJson,
-      'workspaces.packages',
-      `${directory}/${name}`
-    )
-    await fs.writeJson(mainPackageJsonPath, mainPackageJson, { spaces: '  ' })
-  }
   const settings = serviceTypesConfig[type](variables)
   await settings.init?.()
   await generateTemplateFiles(variables)
   await syncPackageJson(variables)
   await settings.postInstall?.()
-  console.log(
-    chalk.green(`Package ${packageName} created in ${directory}/${name}`)
-  )
+  console.log(chalk.green(`Package ${packageName} created in ${packagePath}`))
 }
