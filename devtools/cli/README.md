@@ -5,9 +5,14 @@ Platy DevTools
 ## Requirements
 
 - Skaffold
-- Kubernetes
+- Kubernetes (kubectl)
 - Helm
 - Lerna
+
+Depending on the services you would use:
+
+- Hasura CLI
+- Quasar CLI
 
 ## Installation
 
