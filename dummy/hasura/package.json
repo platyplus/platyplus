@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/hasura-dummy",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "An Hasura GE service",
   "platyplus": {
     "type": "hasura"
