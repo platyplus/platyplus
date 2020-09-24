@@ -1,5 +1,6 @@
 {
   "name": "@platyplus/gis",
+  "private": false,
   "version": "0.0.1",
   "description": "GIS utils",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",

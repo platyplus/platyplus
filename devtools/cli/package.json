@@ -16,6 +16,9 @@
   "files": [
     "dist/**/*"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "platy": "./dist/index.js"
   },
