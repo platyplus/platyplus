@@ -28,5 +28,5 @@
   "devDependencies": {
     "tsconfig-paths-webpack-plugin": "^3.3.0"
   },
-  "gitHead": "5cd52bec616d8cad2192e240b4bc71cbd0a8c37d"
+  "gitHead": "f97171bcac8e03e23167612b98059e765c077691"
 }

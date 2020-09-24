@@ -38,8 +38,8 @@ jobs:
       # * Build all the packages to ensure all dependencies are present
       - name: Build
         run: yarn build
-      # - name: Release
-      #   run: yarn run release
+      - name: Bump versions
+        run: yarn run version
       #   env:
       #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish
