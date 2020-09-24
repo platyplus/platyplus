@@ -35,6 +35,9 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install
         run: yarn
+      # * Build all the packages to ensure all dependencies are present
+      - name: Build
+        run: yarn build
       # - name: Release
       #   run: yarn run release
       #   env:

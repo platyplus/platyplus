@@ -31,5 +31,6 @@
   "devDependencies": {
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
-  }
+  },
+  "gitHead": "5cd52bec616d8cad2192e240b4bc71cbd0a8c37d"
 }
