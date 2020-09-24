@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.0.4...@platyplus/devtools@0.0.5) (2020-09-24)
+
+
+### Bug Fixes
+
+* correct monorepo template path ([dd547d7](https://github.com/platyplus/platyplus/commit/dd547d7c153e02aba8ce226ca435bb237f1e6008))
+* rebuild pdt ([021e7cb](https://github.com/platyplus/platyplus/commit/021e7cb617ad0fe251d134395196050f64c72d08))
+
+
+
+
+
 ## 0.0.4 (2020-09-24)
 
 
