@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/devtools",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Platy DevTools",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -31,8 +31,8 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@platyplus/fs": "^0.0.3",
-    "@platyplus/lerna": "^0.0.3",
+    "@platyplus/fs": "^0.0.4",
+    "@platyplus/lerna": "^0.0.4",
     "chalk": "^4.1.0",
     "chokidar": "^3.4.2",
     "git-config": "^0.0.7",
