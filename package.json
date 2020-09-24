@@ -23,7 +23,7 @@
     "test": "lerna run test --parallel",
     "typecheck": "lerna run typecheck",
     "release": "lerna version",
-    "publish": "lerna publish from-package --yes"
+    "publish": "lerna publish from-package --yes --no-private"
   },
   "config": {
     "commitizen": {
