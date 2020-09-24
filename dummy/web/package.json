@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/web-dummy",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "A Quasar Framework app",
   "productName": "Quasar App",
   "platyplus": {
@@ -21,8 +21,8 @@
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
-    "@platyplus/data": "^0.0.2",
-    "@platyplus/quasar-app-extension-ts-lerna": "^0.0.2",
+    "@platyplus/data": "^0.0.1",
+    "@platyplus/quasar-app-extension-ts-lerna": "^0.0.1",
     "@quasar/app": "^2.0.0",
     "@types/node": "^10.17.15",
     "@typescript-eslint/eslint-plugin": "^3.3.0",

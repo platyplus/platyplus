@@ -33,13 +33,13 @@ jobs:
       - name: Install
         run: yarn
       - name: Build
-        run: yarn build
+        run: yarn run build
       - name: Release
-        run: yarn release
+        run: yarn run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish
-        run: yarn publish
+        run: yarn run publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Push
