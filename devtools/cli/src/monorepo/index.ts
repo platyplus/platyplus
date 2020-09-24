@@ -27,6 +27,6 @@ export const initMonorepo = async (
       organisation
     })
   }
-
+  // TODO yarn install
   console.log(chalk.green('Monorepo created.'))
 }

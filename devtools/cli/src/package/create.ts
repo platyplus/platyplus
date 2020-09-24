@@ -1,5 +1,6 @@
 import fs from '@platyplus/fs'
 import { hasLernaPackage } from '@platyplus/lerna'
+import chalk from 'chalk'
 import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'
@@ -69,4 +70,7 @@ export const createPackage = async (
   await generateTemplateFiles(variables)
   await syncPackageJson(variables)
   await settings.postInstall?.()
+  console.log(
+    chalk.green(`Package ${packageName} created in ${directory}/${name}`)
+  )
 }

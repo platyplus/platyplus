@@ -1,17 +1,17 @@
 import { loadYaml } from '@platyplus/fs'
+import chalk from 'chalk'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
 import { ensureWorkspace } from '../utils'
 import { defaultPdtConfig } from './default'
 import { getProject } from './get'
-import { DevToolsConfig } from './types'
 
 export const createProject = async (
   name: string,
   directory: string,
   description = ''
-): Promise<DevToolsConfig> => {
+): Promise<void> => {
   try {
     await getProject(name)
     throw Error('exists')
@@ -19,7 +19,8 @@ export const createProject = async (
     if (e.message !== 'exists') {
       const yamlPath = path.join(DEFAULT_WORKING_DIR, directory, 'config.yaml')
       await ensureWorkspace(`${directory}/*`)
-      return await loadYaml(yamlPath, defaultPdtConfig(name, description))
+      await loadYaml(yamlPath, defaultPdtConfig(name, description))
+      console.log(chalk.green(`Project ${name} created in ${directory}`))
     } else throw Error('Project already exists')
   }
 }
