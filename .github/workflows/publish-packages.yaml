@@ -1,4 +1,4 @@
-name: publish packages to NPM and create GitHub releases
+name: publish packages to NPM
 on: 
   workflow_dispatch:
     # inputs:
@@ -34,10 +34,10 @@ jobs:
         run: yarn
       - name: Build
         run: yarn run build
-      - name: Release
-        run: yarn run release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Release
+      #   run: yarn run release
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish
         run: yarn run publish
         env:
