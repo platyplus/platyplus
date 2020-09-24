@@ -26,8 +26,6 @@ export const generateTemplateFiles = async <T extends PackageInformation>(
   variables: T
 ): Promise<void> => {
   if (!variables.type) return
-  if (await fs.pathExists(variables.location))
-    throw Error(`The directory "${variables.location}" already exists.`)
   const source = path.join(__dirname, variables.type)
   if (!(await fs.pathExists(source)))
     throw Error(`No '${variables.type}' template found.`)
@@ -35,7 +33,8 @@ export const generateTemplateFiles = async <T extends PackageInformation>(
     // TODO ignore some other files, e.g. Helm charts directory
     path.join(source, '**', '!(Dockerfile*|.dockerignore)'),
     {
-      nodir: true
+      nodir: true,
+      dot: true
     }
   )) {
     const destFile = file.replace(`${source}/`, '')

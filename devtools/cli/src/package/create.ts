@@ -34,6 +34,10 @@ export const createPackage = async (
   const [directory, name] = packagePath.split('/')
   const git = gitConfig.sync()
   const location = `${DEFAULT_WORKING_DIR}/${packagePath}`
+  if (await fs.pathExists(location))
+    throw Error(`The directory "${location}" already exists.`)
+  else await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
+
   const variables: PackageInformation = {
     type,
     description,
@@ -65,7 +69,6 @@ export const createPackage = async (
     await fs.writeJson(mainPackageJsonPath, mainPackageJson, { spaces: '  ' })
   }
   const settings = serviceTypesConfig[type](variables)
-  await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
   await settings.init?.()
   await generateTemplateFiles(variables)
   await syncPackageJson(variables)

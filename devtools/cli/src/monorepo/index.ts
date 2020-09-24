@@ -19,7 +19,8 @@ export const initMonorepo = async (
 
   const source = path.join(__dirname, '../templates/monorepo')
   for await (const file of fs.glob.sync(path.join(source, '**'), {
-    nodir: true
+    nodir: true,
+    dot: true
   })) {
     const destFile = file.replace(`${source}/`, '')
     await templateToFile(file, path.join(projectPath, destFile), {
