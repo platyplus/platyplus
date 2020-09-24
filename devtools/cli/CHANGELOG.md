@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.0.5...@platyplus/devtools@0.0.6) (2020-09-24)
+
+
+### Bug Fixes
+
+* yargs nested commands ([e0cb089](https://github.com/platyplus/platyplus/commit/e0cb0897b9bcfeb7ab8da18afa139a582eba6020))
+
+
+
+
+
 ## [0.0.5](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.0.4...@platyplus/devtools@0.0.5) (2020-09-24)
 
 
