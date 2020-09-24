@@ -26,6 +26,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           export NPM_TOKEN=${{ secrets.NPM_TOKEN }}
+          export GH_TOKEN=${{ secrets.GITHUB_TOKEN }}
       - name: Cache
         uses: actions/cache@v2
         with:
