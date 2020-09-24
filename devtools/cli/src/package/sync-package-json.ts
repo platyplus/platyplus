@@ -21,7 +21,7 @@ const standard: PackageJson = {
     url: '{{repository}}',
     directory: '{{path}}'
   },
-  license: 'ISC',
+  license: 'MIT',
   publishConfig: {
     access: 'public'
   }
