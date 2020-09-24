@@ -1,10 +1,10 @@
 {
   "name": "@platyplus/fs",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "A wrapper of several filesystem utils meant to supplement the standard fs package",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "homepage": "",
+  "homepage": "https://platy.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platyplus.git",

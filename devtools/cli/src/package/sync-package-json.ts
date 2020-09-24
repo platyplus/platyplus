@@ -15,13 +15,13 @@ const standard: PackageJson = {
   version: '0.0.1',
   description: '{{description}}', // * override?
   author: '{{user.name}} <{{user.email}}>',
-  homepage: '{{repository}}',
+  : '{{repository}}',
   repository: {
-    type: 'git',
+  type: 'git',
     url: '{{repository}}',
-    directory: '{{path}}'
-  },
-  license: 'ISC'
+      directory: '{{path}}'
+},
+license: 'ISC'
 }
 
 const defaultPackageJson = (variables: PackageInformation): PackageJson => {

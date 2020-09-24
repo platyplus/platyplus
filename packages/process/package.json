@@ -1,9 +1,9 @@
 {
   "name": "@platyplus/process",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Process-related utils",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "homepage": "",
+  "homepage": "https://platy.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platyplus.git",
