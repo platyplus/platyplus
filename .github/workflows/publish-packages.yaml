@@ -41,7 +41,7 @@ jobs:
       - name: Publish
         run: yarn run publish
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Push
       #   uses: ad-m/github-push-action@master
       #   with:
