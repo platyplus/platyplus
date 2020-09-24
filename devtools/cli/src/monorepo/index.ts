@@ -17,7 +17,7 @@ export const initMonorepo = async (
     console.log(chalk.green(`Changed organisation to "${organisation}"`))
   }
 
-  const source = path.join(__dirname, 'templates/monorepo')
+  const source = path.join(__dirname, '../templates/monorepo')
   for await (const file of fs.glob.sync(path.join(source, '**'), {
     nodir: true
   })) {
