@@ -5,8 +5,7 @@
     "packages": [
       "packages/*",
       "dummy/*",
-      "devtools/*",
-      "charts"
+      "devtools/*"
     ]
   },
   "scripts": {
