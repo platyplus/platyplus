@@ -1,0 +1,45 @@
+name: publish packages to NPM and create GitHub releases
+on: 
+  workflow_dispatch:
+    # inputs:
+    #   logLevel:
+    #     description: 'Log level'     
+    #     required: true
+    #     default: 'warning'
+    #   tags:
+    #     description: 'Test scenario tags'  
+    #     required: true
+# jobs:
+  # printInputs:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - run: |
+  #       echo "Log level: ${{ github.event.inputs.logLevel }}"
+  #       echo "Tags: ${{ github.event.inputs.tags }}" 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          export NPM_TOKEN=${{ secrets.NPM_TOKEN }}
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install
+        run: yarn
+      - name: Build
+        run: yarn build
+      - name: Release
+        run: yarn release
+      - name: Publish
+        run: yarn publish
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
