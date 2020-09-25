@@ -8,9 +8,9 @@ export type HelmDependency = {
 
 export type HelmChart = {
   apiVersion: 'v2'
-  appVersion: '1.0'
+  appVersion: string
   description: string
   name: string
-  version: '0.1.0' //TODO
+  version: string
   dependencies: HelmDependency[]
 }

@@ -11,7 +11,7 @@ export const defaults = (config: DevToolsConfig): HelmChart => ({
   apiVersion: 'v2',
   description: config.description,
   name: config.name,
-  version: '0.1.0', //TODO
+  version: '0.0.1', //TODO
   appVersion: '1.0', //TODO
   dependencies: []
 })
