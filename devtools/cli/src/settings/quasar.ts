@@ -1,4 +1,5 @@
 import fs from '@platyplus/fs'
+import chalk from 'chalk'
 import { execSync, spawn } from 'child_process'
 import objectPath from 'object-path'
 import path from 'path'
@@ -67,6 +68,11 @@ export const quasarConfig: ServiceTypeConfig = ({
     },
     chartName: 'simple-http',
     init: async () => {
+      console.log(
+        chalk.yellow(
+          'Attention: DO NOT SELECT the ESLint feature, but SELECT the Typescript feature'
+        )
+      )
       await quasarCreate(directory, name)
       if (await fs.pathExists(path.join(location, 'tsconfig.json'))) {
         execSync(
