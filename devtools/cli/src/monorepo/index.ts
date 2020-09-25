@@ -4,7 +4,7 @@ import { execSync } from 'child_process'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
-import { templateToFile } from '../templates'
+import { generateTemplateFiles } from '../templates'
 
 export const initMonorepo = async (
   name: string,
@@ -18,17 +18,8 @@ export const initMonorepo = async (
     console.log(chalk.green(`Changed organisation to "${organisation}"`))
   }
 
-  const source = path.join(__dirname, '../templates/monorepo')
-  for await (const file of fs.glob.sync(path.join(source, '**'), {
-    nodir: true,
-    dot: true
-  })) {
-    const destFile = file.replace(`${source}/`, '')
-    await templateToFile(file, path.join(projectPath, destFile), {
-      name,
-      organisation
-    })
-  }
+  // * Generate monorepo files from template
+  await generateTemplateFiles('monorepo', projectPath, { name, organisation })
 
   // * Install dependencies
   execSync('yarn', {

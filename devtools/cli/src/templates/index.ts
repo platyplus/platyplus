@@ -22,26 +22,38 @@ export const templateToFile = async <T>(
   await fs.outputFile(destination, result)
 }
 
-export const generateTemplateFiles = async <T extends PackageInformation>(
-  variables: T
+export const generateTemplateFiles = async (
+  source: string,
+  destination: string,
+  variables: Record<string, unknown>,
+  exclude: string | string[] = []
 ): Promise<void> => {
-  if (!variables.type) return
-  const source = path.join(__dirname, variables.type)
+  source = path.join(__dirname, source)
   if (!(await fs.pathExists(source)))
-    throw Error(`No '${variables.type}' template found.`)
+    throw Error(`No '${source}' template found.`)
+  if (typeof exclude === 'string') exclude = [exclude]
+  exclude = `!(${exclude.join('|')})`
   for await (const file of fs.glob.sync(
     // TODO ignore some other files, e.g. Helm charts directory
-    path.join(source, '**', '!(Dockerfile*|.dockerignore)'),
+    path.join(source, '**', exclude),
     {
       nodir: true,
       dot: true
     }
   )) {
     const destFile = file.replace(`${source}/`, '')
-    await templateToFile(
-      file,
-      path.join(variables.location, destFile),
-      variables
-    )
+    await templateToFile(file, path.join(destination, destFile), variables)
   }
+}
+
+export const generatePackageTemplateFiles = async <
+  T extends PackageInformation
+>(
+  variables: T
+): Promise<void> => {
+  if (!variables.type) return
+  await generateTemplateFiles(variables.type, variables.location, variables, [
+    'Dockerfile*',
+    '.dockerignore'
+  ])
 }

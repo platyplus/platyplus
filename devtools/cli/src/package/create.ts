@@ -10,7 +10,7 @@ import {
   PackageType,
   serviceTypesConfig
 } from '../settings'
-import { generateTemplateFiles } from '../templates'
+import { generatePackageTemplateFiles } from '../templates'
 import { ensureWorkspace } from '../utils'
 import { DEFAULT_DESCRIPTION } from './constants'
 import { getPathInfo } from './loaders'
@@ -60,7 +60,7 @@ export const createPackage = async (
 
   const settings = serviceTypesConfig[type](variables)
   await settings.init?.()
-  await generateTemplateFiles(variables)
+  await generatePackageTemplateFiles(variables)
   await syncPackageJson(variables)
   await settings.postInstall?.()
   console.log(chalk.green(`Package ${packageName} created in ${packagePath}`))
