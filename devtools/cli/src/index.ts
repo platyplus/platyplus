@@ -16,21 +16,22 @@ const error = (e: any) => {
 
 yargs
   .scriptName('platy')
-  .command<{ monorepoName: string; organisationName: string }>(
-    'init <monorepo-name> <organisation-name>',
+  .command<{ name: string; organisation?: string }>(
+    'init <name> [organisation]',
     'Initialize a monorepo',
     (yargs) => {
       yargs
-        .positional('monorepo-name', {
-          describe: 'name of the project to skaffold'
+        .positional('name', {
+          describe: 'directory name of the monorepo'
         })
-        .positional('organisation-name', {
-          describe: 'name of the organisation (e.g. @my-org)'
+        .option('organisation', {
+          describe: 'name of the organisation (e.g. @my-org)',
+          defaultDescription: "name of the monorepo with a '@' prefix"
         })
     },
-    async ({ monorepoName, organisationName }) => {
+    async ({ name, organisation }) => {
       try {
-        await initMonorepo(monorepoName, organisationName)
+        await initMonorepo(name, organisation)
       } catch (e) {
         error(e)
       }
