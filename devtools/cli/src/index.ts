@@ -57,11 +57,11 @@ yargs
       .usage('Usage: $0 create <project|package> [options]')
       .command<{
         type: PackageType
-        name: string
-        destination: string
+        name?: string
+        path: string
         description?: string
       }>(
-        'package <type> <name> <destination> [description]',
+        'package <type> <path> [name]',
         'create a new package',
         (yargs) => {
           yargs
@@ -69,40 +69,50 @@ yargs
               describe: 'type',
               choices: Object.values(PackageType)
             })
-            .positional('name', {
-              describe: 'package name'
+            .positional('path', {
+              describe: 'path of the package from the monorepo root'
             })
-            .positional('destination', {
-              describe: 'destination'
+            .positional('name', {
+              describe: 'name field in package.json',
+              defaultDescription: "package's directory"
+            })
+            .option('description', {
+              alias: 'd',
+              describe: 'description field in package.json'
             })
         },
-        async ({ type, name, destination, description }) => {
+        async ({ type, name, path, description }) => {
           try {
-            // TODO warns if dependencies are not met e.g. hasura console is not installed for an hasura package
-            await createPackage(type, name, destination, description)
+            if (!name) name = path.split('/').pop() as string
+            // TODO warns/exists if dependencies are not met e.g. hasura console is not installed for an hasura package
+            await createPackage(type, name, path, description)
           } catch (e) {
             error(e)
           }
         }
       )
-      .command<{ name: string; directory: string; description?: string }>(
-        'project <name> <directory> [description]',
+
+      .command<{ name?: string; path: string; description?: string }>(
+        'project <path> [name]',
         'create a new project',
         (yargs) => {
           yargs
+            .positional('path', {
+              describe: 'path of the project from the monorepo root'
+            })
             .positional('name', {
-              describe: 'project name'
+              describe: 'project name',
+              defaultDescription: "project's directory"
             })
-            .positional('directory', {
-              describe: 'project directory'
-            })
-            .positional('description', {
-              describe: 'project description'
+            .option('description', {
+              alias: 'd',
+              describe: 'short description of the project'
             })
         },
-        async ({ name, directory, description }) => {
+        async ({ name, path, description }) => {
           try {
-            await createProject(name, directory, description)
+            if (!name) name = path.split('/').pop() as string
+            await createProject(name, path, description)
           } catch (e) {
             error(e)
           }
