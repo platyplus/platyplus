@@ -8,7 +8,8 @@ import { generateTemplateFiles } from '../templates'
 
 export const initMonorepo = async (
   name: string,
-  organisation = name
+  organisation = name,
+  description = ''
 ): Promise<void> => {
   const projectPath = path.join(DEFAULT_WORKING_DIR, name)
   if (await fs.pathExists(projectPath))
@@ -19,7 +20,11 @@ export const initMonorepo = async (
   }
 
   // * Generate monorepo files from template
-  await generateTemplateFiles('monorepo', projectPath, { name, organisation })
+  await generateTemplateFiles('monorepo', projectPath, {
+    name,
+    organisation,
+    description
+  })
 
   // * Install dependencies
   execSync('yarn', {

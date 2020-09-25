@@ -1,5 +1,6 @@
 {
   "name": "{{organisation}}/{{name}}",
+  "description": "{{description}}",
   "private": true,
   "workspaces": {
     "packages": [

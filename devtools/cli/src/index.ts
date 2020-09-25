@@ -16,27 +16,6 @@ const error = (e: any) => {
 
 yargs
   .scriptName('platy')
-  .command<{ name: string; organisation?: string }>(
-    'init <name> [organisation]',
-    'initialize new monorepo',
-    (yargs) => {
-      yargs
-        .positional('name', {
-          describe: 'directory name of the monorepo'
-        })
-        .option('organisation', {
-          describe: 'name of the organisation (e.g. @my-org)',
-          defaultDescription: "name of the monorepo with a '@' prefix"
-        })
-    },
-    async ({ name, organisation }) => {
-      try {
-        await initMonorepo(name, organisation)
-      } catch (e) {
-        error(e)
-      }
-    }
-  )
   .command<{ project: string }>(
     'skaffold <project>',
     'run `skaffold dev`',
@@ -53,9 +32,40 @@ yargs
       }
     }
   )
-  .command('create', 'create new [project|package]', (yargs) => {
+  .command('create', 'create new [repo|project|package]', (yargs) => {
     yargs
-      .usage('Usage: $0 create <project|package> [options]')
+      .usage('Usage: $0 create <repo|project|package> [options]')
+      .command<{
+        name: string
+        organisation?: string
+        description: string
+      }>(
+        'repo <name> [organisation]',
+        'create new package',
+        (yargs) => {
+          yargs
+            .positional('name', {
+              describe: 'directory name of the monorepo'
+            })
+            .positional('organisation', {
+              describe: 'name of the organisation (e.g. @my-org)',
+              defaultDescription: "name of the monorepo with a '@' prefix"
+            })
+            .option('description', {
+              alias: 'd',
+              default: 'A Platy DevTools monorepo',
+              describe: 'description field in package.json'
+            })
+        },
+        async ({ name, organisation, description }) => {
+          try {
+            await initMonorepo(name, organisation, description)
+          } catch (e) {
+            error(e)
+          }
+        }
+      )
+
       .command<{
         type: PackageType
         name?: string
