@@ -7,7 +7,9 @@ import path from 'path'
 
 import { PackageInformation, PackageJson } from './types'
 
-export const getPathInfo = (packagePath: string) => {
+export const getPathInfo = (
+  packagePath: string
+): { pathToRoot: string; name: string; directory: string } => {
   const destinationArray = packagePath.split('/')
   const pathToRoot = Array(destinationArray.length).fill('..').join('/')
   const name = destinationArray.pop() as string
