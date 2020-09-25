@@ -18,7 +18,7 @@ yargs
   .scriptName('platy')
   .command<{ name: string; organisation?: string }>(
     'init <name> [organisation]',
-    'Initialize a monorepo',
+    'initialize new monorepo',
     (yargs) => {
       yargs
         .positional('name', {
@@ -39,7 +39,7 @@ yargs
   )
   .command<{ project: string }>(
     'skaffold <project>',
-    'Start the given project with `skaffold dev`',
+    'run `skaffold dev`',
     (yargs) => {
       yargs.positional('project', {
         describe: 'name of the project to skaffold'
@@ -53,7 +53,7 @@ yargs
       }
     }
   )
-  .command('create', 'create a new [project|package]', (yargs) => {
+  .command('create', 'create new [project|package]', (yargs) => {
     yargs
       .usage('Usage: $0 create <project|package> [options]')
       .command<{
@@ -63,7 +63,7 @@ yargs
         description?: string
       }>(
         'package <type> <path> [name]',
-        'create a new package',
+        'create new package',
         (yargs) => {
           yargs
             .positional('type', {
@@ -95,7 +95,7 @@ yargs
 
       .command<{ name?: string; path: string; description?: string }>(
         'project <path> [name]',
-        'create a new project',
+        'create new project',
         (yargs) => {
           yargs
             .positional('path', {
@@ -130,7 +130,7 @@ yargs
 
   .command<{ project: string }>(
     'sync <project>',
-    'Synchronises the project files. Create/update skaffold, and overrides dockerfiles',
+    'synchronise project files. Create/update skaffold, and overrides dockerfiles',
     (yargs) => {
       yargs.positional('project', {
         describe: 'project (lerna sub-folder) to skaffold'
@@ -146,7 +146,7 @@ yargs
   )
   .command(
     'list projects',
-    'Lists all the projects available in the current monorepo',
+    'list all available projects in the current monorepo',
     async () => {
       console.log('NAME\tLOCATION')
       try {
@@ -160,5 +160,5 @@ yargs
   )
   .showHelpOnFail(true)
   .demandCommand()
-  .completion('completion', 'Generates the autocompletion scripts')
+  .completion()
   .wrap(null).argv

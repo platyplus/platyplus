@@ -25,12 +25,17 @@ npm i -g @platyplus/devtools
 ## Usage
 
 ```
-Commands :
-  platy skaffold <project>                              Runs skaffold for the given project
-  platy package create <name> <dirname> [description]   Creates a Typescript package boilerplate
-  platy sync                                            Generates the files required by all the services.
-                                                      Overrides them if they already exist
-Options :
-  --help     Prints help  [boolean]
-  --version  Prints version number [booléen]
+platy <command>
+
+Commands:
+  platy init <name> [organisation]  initialize new monorepo
+  platy skaffold <project>          run `skaffold dev`
+  platy create                      create new [project|package]
+  platy sync <project>              synchronise project files. Create/update skaffold, and overrides dockerfiles
+  platy list projects               list all available projects in the current monorepo
+  platy completion                  Generate the autocompletion scripts
+
+Options:
+  --help     Show help  [boolean]
+  --version  Show version number  [boolean]
 ```
