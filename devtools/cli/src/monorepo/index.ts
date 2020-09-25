@@ -1,5 +1,6 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
+import { execSync } from 'child_process'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
@@ -28,6 +29,12 @@ export const initMonorepo = async (
       organisation
     })
   }
-  // TODO yarn install
+
+  // * Install dependencies
+  execSync('yarn', {
+    cwd: projectPath,
+    stdio: 'inherit'
+  })
+
   console.log(chalk.green('Monorepo created.'))
 }
