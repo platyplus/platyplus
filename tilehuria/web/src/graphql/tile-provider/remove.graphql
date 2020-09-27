@@ -1,0 +1,5 @@
+mutation removeOneTileProvider($id: uuid!) {
+  deleteTileProvider(id: $id) {
+    id
+  }
+}

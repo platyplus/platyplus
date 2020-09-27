@@ -1,0 +1,7 @@
+name: tilehuria
+description: Mmap tile scraper and proxy
+services:
+  - package: "@platyplus/tilhuria"
+  - package: "@platyplus/tilhuria-hasura"
+  - package: "@platyplus/tilhuria-worker"
+  - package: "@platyplus/tilhuria-hooks"

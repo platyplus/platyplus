@@ -1,0 +1,17 @@
+fragment tileSetFragment on tile_set {
+  id
+  progress
+  size
+  format
+  quality
+  tileProvider {
+    id
+    name
+    slug
+    url
+  }
+  areaOfInterest {
+    name
+    userId
+  }
+}

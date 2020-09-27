@@ -1,0 +1,165 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres:12 # TODO PostGIS - who knows
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+    volumes:
+      - ./.docker/postgres/data:/var/lib/postgresql/data # * dev only
+      # - db_data:/var/lib/postgresql/data # * prod
+  graphql-engine:
+    # TODO load migrations and metadata
+    image: hasura/graphql-engine:v1.3.0
+    depends_on:
+      - postgres
+      - hasura-backend-plus
+      - hooks
+    ports:
+      - '8080:8080'
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_ADMIN_SECRET: '$HASURA_GRAPHQL_ADMIN_SECRET'
+      HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "jwk_url": "http://hasura-backend-plus:3000/auth/jwks"}'
+      HOOKS_URL: http://hooks:3000
+      # HOOKS_REMOTE_SCHEMA: http://hooks:3000/graphql
+      EVENT_AOI: http://hooks:3000/events/area-of-interest
+      EVENT_TILE_SET: http://hooks:3000/events/tile-set
+  hasura-backend-plus:
+    image: nhost/hasura-backend-plus:latest
+    ports:
+      - '3000:3000'
+    environment:
+      SERVER_URL: http://localhost:3000
+      HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+      HASURA_GRAPHQL_ADMIN_SECRET: '$HASURA_GRAPHQL_ADMIN_SECRET'
+      JWT_ALGORITHM: RS256
+      S3_ENDPOINT: http://minio:9000
+      S3_BUCKET: '${S3_BUCKET:-tilehuria}'
+      S3_ACCESS_KEY_ID: '${S3_ACCESS_KEY_ID:?S3_ACCESS_KEY_ID}'
+      S3_SECRET_ACCESS_KEY: '${S3_SECRET_ACCESS_KEY:?S3_SECRET_ACCESS_KEY}'
+      AUTO_MIGRATE: 'true'
+      HIBP_ENABLE: 'false' # * default
+      JWT_CUSTOM_FIELDS: '' # * default
+    volumes:
+      - './hasura-backend-plus/storage-rules.yaml:/app/custom/storage-rules/rules.yaml'
+  worker:
+    restart: always
+    # build:
+    #   context: ./worker
+    #   args:
+    #     NODE_ENV: development
+    image: node:14-alpine
+    command: ['sh', '-c', 'yarn && yarn watch']
+    working_dir: /app
+    volumes:
+      - './worker:/app/'
+      - /app/node_modules
+    depends_on:
+      - rabbitmq
+    environment:
+      S3_ENDPOINT: http://minio:9000
+      S3_BUCKET: '${S3_BUCKET:-tilehuria}'
+      S3_ACCESS_KEY_ID: '${S3_ACCESS_KEY_ID:?S3_ACCESS_KEY_ID}'
+      S3_SECRET_ACCESS_KEY: '${S3_SECRET_ACCESS_KEY:?S3_SECRET_ACCESS_KEY}'
+      RABBITMQ_HOST: 'rabbitmq'
+      RABBITMQ_DEFAULT_USER: '${RABBITMQ_DEFAULT_USER}'
+      RABBITMQ_DEFAULT_PASS: '${RABBITMQ_DEFAULT_PASS}'
+      HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+      HASURA_GRAPHQL_ADMIN_SECRET: '${HASURA_GRAPHQL_ADMIN_SECRET:?HASURA_GRAPHQL_ADMIN_SECRET}'
+  hooks:
+    restart: always
+    ports:
+      - 3001:3000 # * dev
+    # build:
+    #   context: ./hooks
+    #   args:
+    #     NODE_ENV: development
+    image: node:14-alpine
+    command: ['sh', '-c', 'yarn && yarn watch']
+
+    working_dir: /app
+    volumes:
+      - './hooks:/app/'
+      - /app/node_modules
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: 'rabbitmq'
+      RABBITMQ_DEFAULT_USER: '${RABBITMQ_DEFAULT_USER}'
+      RABBITMQ_DEFAULT_PASS: '${RABBITMQ_DEFAULT_PASS}'
+      HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+      HASURA_GRAPHQL_ADMIN_SECRET: '${HASURA_GRAPHQL_ADMIN_SECRET:?HASURA_GRAPHQL_ADMIN_SECRET}'
+  # frontend:
+  #   build: .
+  #   image: node:14-alpine
+  #   command: ['sh', '-c', 'yarn && yarn dev']
+  #   working_dir: /app
+  #   ports:
+  #     - '4000:8080'
+  #   volumes:
+  #     - '.:/app'
+  #     - /app/node_modules
+  minio:
+    # image: minio/minio:edge # * not latest: https://github.com/minio/minio/issues/9554
+    image: bitnami/minio
+    restart: always
+    depends_on:
+      - rabbitmq
+    # command: server /data
+    environment:
+      MINIO_ACCESS_KEY: '${S3_ACCESS_KEY_ID:?S3_ACCESS_KEY_ID}'
+      MINIO_SECRET_KEY: '${S3_SECRET_ACCESS_KEY:?S3_SECRET_ACCESS_KEY}' ## min 8 character
+      MINIO_DEFAULT_BUCKETS: '${S3_BUCKET:-tilehuria}'
+      # MINIO_NOTIFY_AMQP_ENABLE: 'on'
+      # MINIO_NOTIFY_AMQP_URL: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+    volumes:
+      - './.docker/minio/data:/data' # *dev only
+      # - 'minio_data:/data' # * prod
+    ports:
+      - 3002:9000 # Do not use port 9000 in the host machine as developpers using portainer might already use it
+  # * One-time container that configures minio in the right way
+  # minio-start:
+  #   image: minio/mc
+  #   restart: on-failure
+  #   depends_on:
+  #     - minio
+  #     - rabbitmq
+  #   environment:
+  #     MINIO_SERVER_HOST: minio
+  #     MINIO_SERVER_ACCESS_KEY: '${S3_ACCESS_KEY_ID:?S3_ACCESS_KEY_ID}'
+  #     MINIO_SERVER_SECRET_KEY: '${S3_SECRET_ACCESS_KEY:?S3_SECRET_ACCESS_KEY}'
+  #     MINIO_DEFAULT_BUCKET: '${S3_BUCKET:-tilehuria}'
+  #     MINIO_NOTIFY_AMQP_URL: 'amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672'
+  #   entrypoint: >
+  #     /bin/sh -c "
+  #     set -e;
+  #     mc config host add minio http://$${MINIO_SERVER_HOST}:9000 $${MINIO_SERVER_ACCESS_KEY} $${MINIO_SERVER_SECRET_KEY};
+  #     mc mb $${MINIO_SERVER_HOST}/$${MINIO_DEFAULT_BUCKET} || true;
+  #     mc admin config set $${MINIO_SERVER_HOST}/ notify_amqp:aoi enable=on exchange_type=fanout exchange=aoi_events url=$${MINIO_NOTIFY_AMQP_URL} mandatory=on durable=on no_wait=off internal=off auto_deleted=off delivery_mode=2 queue_limit=100000;
+  #     mc admin service restart $${MINIO_SERVER_HOST}/;
+  #     mc event add $${MINIO_SERVER_HOST}/$${MINIO_DEFAULT_BUCKET} arn:minio:sqs::aoi:amqp --prefix aoi/ || true;
+  #     exit 0;
+  #     "
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    volumes:
+      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/ # Config files. # * dev only
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/ # * dev only
+      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/ # Log files. # * dev only
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      # - 5672:5672 # * dev only: should not be exposed to the outside - except for getting new mbtiles???
+      - 3003:15672 # Management interface. * To be removed in prod
+
+# volumes:
+# db_data: # * prod
+# minio_data: # * prod
+# TODO traefik - will it work without tweaking /etc/hosts on the client?
+# TODO let's encrypt
+# TODO frontend

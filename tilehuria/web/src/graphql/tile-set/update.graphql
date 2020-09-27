@@ -1,0 +1,9 @@
+mutation updateOneTileSet($id: uuid!, $format: String!, $quality: smallint!) {
+  updateTileSet(
+    pk_columns: { id: $id }
+    _set: { format: $format, quality: $quality }
+  ) {
+    # ? Optional, as optimisticResponse and subscribeToMore update the cache already
+    ...tileSetFragment
+  }
+}
