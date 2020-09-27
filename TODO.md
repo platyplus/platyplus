@@ -15,3 +15,4 @@
 - [ ] rabbitmq docker, helm & template?
 - [ ] optimise generated dockerfiles - use common layers?
 - [ ] move templates to the root folder
+- [ ] rename config.yaml to platy.yaml (or .platy.yaml?)

@@ -1,0 +1,5 @@
+mutation removeOneAreaOfInterest($id: uuid!) {
+  deleteAreaOfInterest(id: $id) {
+    id
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "@platyplus/tilehuria-schema",
+  "private": true,
+  "version": "0.0.1",
+  "description": "a description",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "",
+    "directory": ""
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "clean": "rimraf dist",
+    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config"
+  },
+  "platyplus": {
+    "type": "typescript"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.17.8",
+    "@graphql-codegen/fragment-matcher": "^1.17.8",
+    "@graphql-codegen/named-operations-object": "^1.17.8",
+    "@graphql-codegen/schema-ast": "^1.17.8",
+    "@graphql-codegen/typed-document-node": "^1.17.9",
+    "@graphql-codegen/typescript": "^1.17.9",
+    "@graphql-codegen/typescript-operations": "^1.17.8",
+    "@graphql-codegen/typescript-vue-apollo": "^2.0.0",
+    "@graphql-typed-document-node/apollo-client-2": "^1.0.0"
+  }
+}

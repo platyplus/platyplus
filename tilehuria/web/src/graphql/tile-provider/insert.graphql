@@ -1,0 +1,5 @@
+mutation insertProvider($name: String!, $slug: String!, $url: String!) {
+  insertTileProvider(object: { name: $name, slug: $slug, url: $url }) {
+    ...providerFragment
+  }
+}
