@@ -2,7 +2,6 @@
 import chalk from 'chalk'
 import yargs from 'yargs'
 
-import { packageCharts } from './helm'
 import { initMonorepo } from './monorepo'
 import { createPackage } from './package'
 import { createProject, listProjects, syncProject } from './project'
@@ -164,30 +163,6 @@ yargs
         for (const project of await listProjects()) {
           console.log(`${project.name}\t./${project.directory}`)
         }
-      } catch (e) {
-        error(e)
-      }
-    }
-  )
-  .command<{ destination: string; url?: string }>(
-    'helm package [destination]',
-    'package all available helm charts and creates and index into the specified directory',
-    (yargs) => {
-      yargs
-        .option('destination', {
-          alias: 'd',
-          default: '.',
-          defaultDescription: 'current working directory',
-          describe: 'destination directory'
-        })
-        .option('url', {
-          alias: 'u',
-          describe: 'url of chart repository'
-        })
-    },
-    async ({ destination, url }) => {
-      try {
-        await packageCharts(destination, url)
       } catch (e) {
         error(e)
       }

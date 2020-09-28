@@ -1,0 +1,75 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+    - image: tilehuria-web
+      context: ..
+      docker:
+        dockerfile: tilehuria/web/Dockerfile
+    - image: tilehuria-hasura
+      context: hasura
+    - image: tilehuria-worker
+      context: ..
+      docker:
+        dockerfile: tilehuria/worker/Dockerfile
+    - image: tilehuria-hooks
+      context: ..
+      docker:
+        dockerfile: tilehuria/hooks/Dockerfile
+deploy:
+  helm:
+    releases:
+      - name: tilehuria
+        chartPath: helm
+        skipBuildDependencies: false
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    deploy:
+      helm:
+        releases:
+          - name: tilehuria
+            chartPath: helm
+            skipBuildDependencies: false
+            artifactOverrides:
+              web:
+                image: tilehuria-web
+              worker:
+                image: tilehuria-worker
+              hooks:
+                image: tilehuria-hooks
+            setValues:
+              hasura:
+                postgresql:
+                  postgresqlPassword: development-postgres-password
+                adminSecret: development-hasura-admin-secret
+                jwt:
+                  key: long-hasura-jwt-more-than-thirty-two-characters
+                  algorithm: HS256
+    build:
+      artifacts:
+        - image: tilehuria-web
+          context: ..
+          docker:
+            dockerfile: tilehuria/web/Dockerfile-development
+          sync:
+            manual:
+              - src: tilehuria/web/public/**/*
+                dest: .
+        - image: tilehuria-worker
+          context: ..
+          docker:
+            dockerfile: tilehuria/worker/Dockerfile-development
+          sync:
+            manual:
+              - src: tilehuria/worker/src/**/*.{ts,json}
+                dest: .
+        - image: tilehuria-hooks
+          context: ..
+          docker:
+            dockerfile: tilehuria/hooks/Dockerfile-development
+          sync:
+            manual:
+              - src: tilehuria/hooks/src/**/*.{ts,json}
+                dest: .

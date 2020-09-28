@@ -2,6 +2,9 @@
   "name": "@platyplus/tilehuria-hooks",
   "version": "0.0.1",
   "private": true,
+  "platyplus": {
+    "type": "typescript"
+  },
   "main": "index.js",
   "license": "MIT",
   "homepage": "https://tilehuria.platyplus.io",

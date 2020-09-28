@@ -1,14 +1,31 @@
 apiVersion: v2
-appVersion: '1.0'
-description: Tilehuria Helm chart for Kubernetes
+description: Mmap tile scraper and proxy
 name: tilehuria
 version: 0.1.0
+appVersion: "1.0"
 dependencies:
   - name: rabbitmq
-    version: '7.4.5'
-    repository: 'https://charts.bitnami.com/bitnami'
+    version: 7.4.5
+    repository: https://charts.bitnami.com/bitnami
     condition: rabbitmq.enabled
   - name: hasura-backend-plus
-    version: '0.1.0'
-    repository: 'file://../../charts/hasura-backend-plus'
+    version: 0.1.0
+    repository: file://../../charts/hasura-backend-plus
     condition: hasura-backend-plus.enabled
+  - name: web
+    version: "*"
+    condition: web.enabled
+    repository: file://../tilehuria/web
+  - name: hasura
+    version: "*"
+    condition: hasura.enabled
+    alias: hasura
+    repository: file://../../charts/hasura
+  - name: worker
+    version: "*"
+    condition: worker.enabled
+    repository: file://../tilehuria/worker
+  - name: hooks
+    version: "*"
+    condition: hooks.enabled
+    repository: file://../tilehuria/hooks

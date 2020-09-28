@@ -66,7 +66,6 @@ export const loadPackageInformation = async (
     throw Error(`'platyplus.type' field not found in ${jsonPackageDir}.`)
 
   const result = fromNpmPackage(packageJson, jsonPackageDir)
-  console.log(result)
   result.type = packageJson.platyplus.type
   const dependencies = await getLernaDependencies(packageJson.name)
   for (const lernaDep of dependencies) {
