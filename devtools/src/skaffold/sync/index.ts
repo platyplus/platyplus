@@ -65,7 +65,7 @@ export const loadSkaffoldConfiguration = async (
         skaffold,
         'build.artifacts',
         'image',
-        serviceConfig.main?.build
+        serviceConfig.main.build
       )
     }
 

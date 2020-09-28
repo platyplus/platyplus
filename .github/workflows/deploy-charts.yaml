@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - 'charts/**'
+      - '*/helm/**'
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,10 +15,16 @@ jobs:
         with:
           path: charts/docs/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Package
+      - name: Package global charts
         uses: WyriHaximus/github-action-helm3@v2
         with:
           exec: helm package charts/* --dependency-update --destination dist
+      - name: Package project charts
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: |
+            shopt -s nullglob
+            for f in */helm; do helm package $f --dependency-update --destination dist; done
       - name: Index
         uses: WyriHaximus/github-action-helm3@v2
         with:

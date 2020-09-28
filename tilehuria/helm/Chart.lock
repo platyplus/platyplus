@@ -1,0 +1,9 @@
+dependencies:
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.4.5
+- name: hasura-backend-plus
+  repository: file://../../charts/hasura-backend-plus
+  version: 0.1.0
+digest: sha256:84bda6655775b04bc174348d76dfe92b7be24201c822e878ac6f1daf08a4a559
+generated: "2020-09-28T19:12:58.400933+02:00"

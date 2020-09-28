@@ -1,16 +1,21 @@
 import fs from '@platyplus/fs'
 import { getLernaDependencies } from '@platyplus/lerna'
 import { LernaPackage } from '@platyplus/lerna'
+import chalk from 'chalk'
 import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'
 
+import { DEFAULT_WORKING_DIR } from '../settings'
 import { PackageInformation, PackageJson } from './types'
 
 export const getPathInfo = (
   packagePath: string
 ): { pathToRoot: string; name: string; directory: string } => {
-  const destinationArray = packagePath.split('/')
+  const destinationArray = path
+    .relative(DEFAULT_WORKING_DIR, packagePath)
+    .split('/')
+  console.log(path.relative(DEFAULT_WORKING_DIR, packagePath))
   const pathToRoot = Array(destinationArray.length).fill('..').join('/')
   const name = destinationArray.pop() as string
   const directory = path.join(...destinationArray)
@@ -53,6 +58,7 @@ const fromLernaPackage = async ({
 export const loadPackageInformation = async (
   jsonPackageDir: string
 ): Promise<PackageInformation> => {
+  console.log(chalk.yellow(jsonPackageDir))
   const packageJson = (await fs.readJson(
     path.join(jsonPackageDir, 'package.json')
   )) as PackageJson
@@ -60,6 +66,7 @@ export const loadPackageInformation = async (
     throw Error(`'platyplus.type' field not found in ${jsonPackageDir}.`)
 
   const result = fromNpmPackage(packageJson, jsonPackageDir)
+  console.log(result)
   result.type = packageJson.platyplus.type
   const dependencies = await getLernaDependencies(packageJson.name)
   for (const lernaDep of dependencies) {
