@@ -1,8 +1,8 @@
-const { description } = require('../../package')
+const { description } = require('../package')
 const glob = require('glob')
 const path = require('path')
 
-const chartReadmes = glob.sync(path.resolve('../../charts/**/README.md'))
+const chartReadmes = glob.sync(path.resolve('../charts/**/README.md'))
 const chartPages = chartReadmes.map((filePath) => {
   const dirs = path.dirname(filePath).split('/')
   const name = dirs[dirs.length - 1]
