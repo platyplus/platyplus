@@ -1,4 +1,5 @@
 import { get } from 'object-path'
+import path from 'path'
 type Options = {
   initialPath?: string
   nextElementIndex?: boolean // * will return the index a new element could be inserted into (=the length of the array). Defaults to true
