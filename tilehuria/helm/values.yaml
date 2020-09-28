@@ -3,7 +3,7 @@
 
 hasura-backend-plus:
   enabled: true
-  image:
+  imageConfig:
     repository: platyplus/tilehuria-hbp
     tag: latest
     pullPolicy: Always
@@ -25,7 +25,7 @@ hasura-backend-plus:
     #   password: <minio-secret-key>
 
   hasura:
-    image:
+    imageConfig:
       repository: platyplus/tilehuria-hasura
       tag: latest
       pullPolicy: Always
@@ -42,9 +42,9 @@ hasura-backend-plus:
       EVENT_AOI: "http://{{ .Release.Name }}-hooks/events/area-of-interest"
       EVENT_TILE_SET: "http://{{ .Release.Name }}-hooks/events/tile-set"
   
-frontend:
+web:
   enabled: true
-  image:
+  imageConfig:
     tag: latest
     pullPolicy: Always
   ingress:
@@ -58,13 +58,13 @@ rabbitmq:
 
 hooks:
   enabled: true
-  image:
+  imageConfig:
     tag: latest
     pullPolicy: Always
 
 worker:
   enabled: true
-  image:
+  imageConfig:
     tag: latest
     pullPolicy: Always
   

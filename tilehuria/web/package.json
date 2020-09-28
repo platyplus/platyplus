@@ -1,10 +1,13 @@
 {
   "name": "@platyplus/tilehuria",
   "version": "0.0.1",
+  "private": true,
   "description": "A map tile scraper and proxy",
+  "platyplus": {
+    "type": "quasar"
+  },
   "productName": "TileHuria",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "private": true,
   "homepage": "https://tilehuria.platyplus.io",
   "repository": {
     "type": "git",

@@ -2,6 +2,9 @@
   "name": "@platyplus/tilehuria-worker",
   "private": true,
   "version": "0.0.1",
+  "platyplus": {
+    "type": "typescript"
+  },
   "main": "index.js",
   "license": "MIT",
   "scripts": {

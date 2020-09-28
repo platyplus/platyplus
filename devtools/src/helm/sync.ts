@@ -65,7 +65,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
         'helm'
       )
       if (await fs.pathExists(embeddedChartToServicePath)) {
-        set(yamlChart, `dependencies.${index}.name`, 'helm')
+        set(yamlChart, `dependencies.${index}.name`, service.name)
         set(
           yamlChart,
           `dependencies.${index}.repository`,
