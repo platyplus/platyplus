@@ -1,14 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "include": ["src/**/*"],
-  "compilerOptions": {
-    "paths": {
-      "*": ["src/types/*"]
-      // "@types/*": ["src/types/*"]
-      // "@shared/*": ["src/shared/*"],
-      // "@test/*": ["src/test/*"]
-    }
-  }
+  "compilerOptions": {}
 }
 
 // {

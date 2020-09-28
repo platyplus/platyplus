@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "target": "es6",
@@ -8,7 +9,10 @@
     "module": "commonjs",
     "removeComments": true,
     "declaration": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "*": ["types/*"]
+    }
   },
 
   "exclude": ["node_modules", "dist", "**/*.js"]
