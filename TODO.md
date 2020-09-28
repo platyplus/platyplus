@@ -18,5 +18,4 @@
 - [ ] rename config.yaml to platy.yaml (or .platy.yaml?)
 - [ ] generate tsconfig/tsconfig.build files for each project? -> case of tilehuria-schema
 - [ ] add documentation to monorepo template?
-- [x] shared 'types' folder (template: .gitignore) with 3rd party type definitions e.g. mapbox
-- [x] add rootDir to tsconfig templates
+- [ ] generate helm repo

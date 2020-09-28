@@ -1,0 +1,14 @@
+apiVersion: v2
+appVersion: '1.0'
+description: Tilehuria Helm chart for Kubernetes
+name: tilehuria
+version: 0.1.0
+dependencies:
+  - name: rabbitmq
+    version: '7.4.5'
+    repository: 'https://charts.bitnami.com/bitnami'
+    condition: rabbitmq.enabled
+  - name: hasura-backend-plus
+    version: '0.1.0'
+    repository: 'file://../hasura-backend-plus'
+    condition: hasura-backend-plus.enabled
