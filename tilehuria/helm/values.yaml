@@ -1,0 +1,70 @@
+# global:
+  # hostname: example.com   
+
+hasura-backend-plus:
+  enabled: true
+  image:
+    repository: platyplus/tilehuria-hbp
+    tag: latest
+    pullPolicy: Always
+  env: 
+    AUTO_MIGRATE: "false"
+    HIBP_ENABLE: "false"
+    JWT_CUSTOM_FIELDS: ""
+    S3_SSL_ENABLED: "false"
+
+  # cert:
+    # email: pilou@platyplus.io
+    # letsencrypt: production # staging or production
+
+  minio:
+    defaultBuckets: tilehuria
+    # accessKey: 
+    #   password: <minio-access-key>
+    # secretKey:
+    #   password: <minio-secret-key>
+
+  hasura:
+    image:
+      repository: platyplus/tilehuria-hasura
+      tag: latest
+      pullPolicy: Always
+    # adminSecret: <long complicated admin key>
+    # jwt: 
+    #   key: <long complicated jwt key>
+    #   algorithm: HS256
+    postgresql:
+      postgresqlDatabase: tilehuria
+      # postgresqlPassword: <secret-postgresql-password>
+    env:
+      HOOKS_URL: "http://{{ .Release.Name }}-hooks"
+      # HOOKS_REMOTE_SCHEMA: "http://{{ .Release.Name }}-hooks/graphql"
+      EVENT_AOI: "http://{{ .Release.Name }}-hooks/events/area-of-interest"
+      EVENT_TILE_SET: "http://{{ .Release.Name }}-hooks/events/tile-set"
+  
+frontend:
+  enabled: true
+  image:
+    tag: latest
+    pullPolicy: Always
+  ingress:
+    enabled: true
+
+rabbitmq:
+  enabled: true
+  # auth:
+  #   username: user
+  #   password: <secret-rabbitmq-password>
+
+hooks:
+  enabled: true
+  image:
+    tag: latest
+    pullPolicy: Always
+
+worker:
+  enabled: true
+  image:
+    tag: latest
+    pullPolicy: Always
+  

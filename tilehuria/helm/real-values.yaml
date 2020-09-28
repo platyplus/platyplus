@@ -1,0 +1,20 @@
+global:
+    hostname: tilehuria.platyplus.io
+hasura-backend-plus:
+    minio:
+        # OK
+        accessKey:
+            password: E98yh9l0fWiNX7MINsjcaMFO0QcJpztd
+        # OK
+        secretKey:
+            password: BC9PgWeJfIu0JenX1XIHhS57sKz739dN
+    hasura:
+        # NOPE
+        postgresql:
+            postgresqlPassword: q219RXFo3S
+        # OK
+        adminSecret: iZZEISoNRjVLbghYONQ5x3jyh4S9PU34
+rabbitmq:
+    auth:
+        # OK
+        password: lJEHzQKdHn
