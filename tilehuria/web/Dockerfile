@@ -12,11 +12,15 @@ COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.bui
 #
 COPY --chown=node:node packages/quasar-ts-lerna/package.json packages/quasar-ts-lerna/yarn.* packages/quasar-ts-lerna/
 #
+COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* tilehuria/schema/
+#
 COPY --chown=node:node tilehuria/web/package.json tilehuria/web/yarn.* /home/node/app/tilehuria/web/
 
 RUN lerna bootstrap --ignore-scripts
 #
 COPY --chown=node:node packages/quasar-ts-lerna /home/node/app/packages/quasar-ts-lerna
+#
+COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 #
 COPY --chown=node:node tilehuria/web /home/node/app/tilehuria/web
 

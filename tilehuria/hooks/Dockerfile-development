@@ -14,9 +14,13 @@ EXPOSE 3000
 
 COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
 #
+COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* tilehuria/schema/
+#
 COPY --chown=node:node tilehuria/hooks/package.json tilehuria/hooks/yarn.* /home/node/app/tilehuria/hooks/
 
 RUN yarn
+#
+COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 #
 COPY --chown=node:node tilehuria/hooks /home/node/app/tilehuria/hooks
 

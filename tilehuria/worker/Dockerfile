@@ -11,10 +11,14 @@ WORKDIR /home/node/app
 
 COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
 #
+COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* tilehuria/schema/
+#
 COPY --chown=node:node tilehuria/worker/package.json tilehuria/worker/yarn.* /home/node/app/tilehuria/worker/
 
 FROM lerna-base as builder
 RUN lerna bootstrap --ignore-scripts
+#
+COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 #
 COPY --chown=node:node tilehuria/worker /home/node/app/tilehuria/worker
 

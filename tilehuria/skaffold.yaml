@@ -1,6 +1,8 @@
 apiVersion: skaffold/v2beta7
 kind: Config
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
     - image: tilehuria-web
       context: ..
@@ -73,3 +75,5 @@ profiles:
             manual:
               - src: tilehuria/hooks/src/**/*.{ts,json}
                 dest: .
+      tagPolicy:
+        sha256: {}
