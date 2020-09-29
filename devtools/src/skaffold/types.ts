@@ -26,20 +26,23 @@ type ManualSync = {
   dest: string
 }
 
+type Build = {
+  tagPolicy: {
+    sha256?: Record<never, never>
+  }
+  artifacts: Artifact[]
+}
+
 export type Profile = {
   name: string
   activation: Activation[]
-  build?: {
-    artifacts: Array<Artifact>
-  }
+  build?: Build
 }
 
 export type Skaffold = {
   apiVersion: 'skaffold/v2beta7'
   kind: 'Config'
-  build: {
-    artifacts: Artifact[]
-  }
+  build: Build
   deploy?: {
     helm: {
       releases: Release[]

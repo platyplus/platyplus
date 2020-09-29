@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/tilehuria-schema",
-  "private": true,
+  "private": false,
   "version": "0.0.1",
   "description": "a description",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
@@ -17,7 +17,7 @@
     "dist/**/*"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/index.ts",

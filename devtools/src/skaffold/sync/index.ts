@@ -55,6 +55,8 @@ export const loadSkaffoldConfiguration = async (
   const skaffold = await loadYaml(filePath, defaultSkaffoldConfiguration)
   const profileIndex = syncDevProfile(skaffold)
   syncHelm(skaffold, 'deploy.helm.releases', configuration)
+  set(skaffold, 'build.tagPolicy', { sha256: {} })
+  set(skaffold, `profiles.${profileIndex}.build.tagPolicy`, { sha256: {} })
 
   for (const service of configuration.services) {
     console.log(chalk.green(`Syncing service config ${service.package}...`))
