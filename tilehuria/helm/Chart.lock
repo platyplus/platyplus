@@ -1,0 +1,21 @@
+dependencies:
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.4.5
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: hasura
+  repository: file://../../charts/hasura
+  version: 0.1.0
+- name: hasura-backend-plus
+  repository: file://../../charts/hasura-backend-plus
+  version: 0.1.0
+digest: sha256:4e816d9624ef994d2723fca828af1c963ca4c1e624a61e7cb2bf5dc807108b83
+generated: "2020-09-29T21:48:02.98933+02:00"

@@ -8,24 +8,28 @@ dependencies:
     version: 7.4.5
     repository: https://charts.bitnami.com/bitnami
     condition: rabbitmq.enabled
-  - name: hasura-backend-plus
-    version: 0.1.0
-    repository: file://../../charts/hasura-backend-plus
-    condition: hasura-backend-plus.enabled
-  - name: web
+  - name: simple-http
     version: "*"
     condition: web.enabled
-    repository: file://../tilehuria/web
+    repository: file://../../charts/simple-http
+    alias: web
+  - name: simple-http
+    version: "*"
+    condition: worker.enabled
+    repository: file://../../charts/simple-http
+    alias: worker
+  - name: simple-http
+    version: "*"
+    condition: hooks.enabled
+    repository: file://../../charts/simple-http
+    alias: hooks
   - name: hasura
     version: "*"
     condition: hasura.enabled
     alias: hasura
     repository: file://../../charts/hasura
-  - name: worker
+  - name: hasura-backend-plus
     version: "*"
-    condition: worker.enabled
-    repository: file://../tilehuria/worker
-  - name: hooks
-    version: "*"
-    condition: hooks.enabled
-    repository: file://../tilehuria/hooks
+    condition: hasura-backend-plus.enabled
+    alias: hasura-backend-plus
+    repository: file://../../charts/hasura-backend-plus
