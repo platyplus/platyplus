@@ -37,7 +37,6 @@ export const createPackage = async (
   const location = `${DEFAULT_WORKING_DIR}/${packagePath}`
   if (await fs.pathExists(location))
     throw Error(`The directory "${location}" already exists.`)
-  console.log(chalk.blue(path.join(DEFAULT_WORKING_DIR, directory, '..')))
   await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
 
   const variables: PackageInformation = {
