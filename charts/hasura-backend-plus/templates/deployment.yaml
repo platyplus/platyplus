@@ -88,9 +88,8 @@ spec:
                 configMapKeyRef:
                   name: {{ .Release.Name }}-hasura
                   key: jwt.algorithm
-            {{- range $key, $value := .Values.env }}
-            - name: {{ $key }}
-              value: {{- printf " %s" (tpl $value $ | toJson) }}
+            {{- if .Values.extraEnv }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}
           livenessProbe:
             httpGet:

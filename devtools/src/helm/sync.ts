@@ -39,6 +39,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
   // TODO required to rebuild dependencies when skipBuildDependencies = false
   // * See https://skaffold.dev/docs/pipeline-stages/deployers/helm/
   await fs.remove(path.join(helmDirectory, 'Chart.lock'))
+  await fs.remove(path.join(helmDirectory, 'requirements.lock'))
   for (const service of config.services) {
     if (!service.type) throw Error(`${service.name}: no service type`)
     let index = yamlChart.dependencies.findIndex((cursor) =>
@@ -69,7 +70,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
         set(
           yamlChart,
           `dependencies.${index}.repository`,
-          `file://../${service.directory}/${service.name}`
+          `file://${service.pathToRoot}/${service.directory}/${service.name}/helm`
         )
       } else {
         set(yamlChart, `dependencies.${index}.alias`, service.name)

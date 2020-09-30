@@ -28,4 +28,4 @@ COPY --chown=node:node packages/quasar-ts-lerna /home/node/app/packages/quasar-t
 #
 COPY --chown=node:node dummy/web /home/node/app/dummy/web
 
-CMD cd dummy/web && quasar dev
+CMD cd dummy/web && quasar dev -p 3000

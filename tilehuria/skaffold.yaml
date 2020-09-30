@@ -8,8 +8,6 @@ build:
       context: ..
       docker:
         dockerfile: tilehuria/web/Dockerfile
-    - image: tilehuria-hasura
-      context: hasura
     - image: tilehuria-worker
       context: ..
       docker:
@@ -18,6 +16,8 @@ build:
       context: ..
       docker:
         dockerfile: tilehuria/hooks/Dockerfile
+    - image: tilehuria-hasura
+      context: hasura
 deploy:
   helm:
     releases:
@@ -28,28 +28,9 @@ profiles:
   - name: dev
     activation:
       - command: dev
-    deploy:
-      helm:
-        releases:
-          - name: tilehuria
-            chartPath: helm
-            skipBuildDependencies: false
-            artifactOverrides:
-              web:
-                image: tilehuria-web
-              worker:
-                image: tilehuria-worker
-              hooks:
-                image: tilehuria-hooks
-            setValues:
-              hasura:
-                postgresql:
-                  postgresqlPassword: development-postgres-password
-                adminSecret: development-hasura-admin-secret
-                jwt:
-                  key: long-hasura-jwt-more-than-thirty-two-characters
-                  algorithm: HS256
     build:
+      tagPolicy:
+        sha256: {}
       artifacts:
         - image: tilehuria-web
           context: ..
@@ -75,5 +56,37 @@ profiles:
             manual:
               - src: tilehuria/hooks/src/**/*.{ts,json}
                 dest: .
-      tagPolicy:
-        sha256: {}
+    deploy:
+      helm:
+        releases:
+          - name: tilehuria
+            chartPath: helm
+            skipBuildDependencies: false
+            artifactOverrides:
+              web:
+                image: tilehuria-web
+              worker:
+                image: tilehuria-worker
+              hooks:
+                image: tilehuria-hooks
+            setValues:
+              global:
+                hostname: "localhost:3000"
+              web:
+                targetPort: 8080
+                ingress:
+                  enabled: false
+              worker:
+                targetPort: 3000
+              hooks:
+                targetPort: 3000
+              hasura:
+                postgresql:
+                  postgresqlPassword: development-postgres-password
+                adminSecret: development-hasura-admin-secret
+                jwt:
+                  key: long-hasura-jwt-more-than-thirty-two-characters
+                  algorithm: HS256
+              hasura-backend-plus:
+                ingress:
+                  enabled: false

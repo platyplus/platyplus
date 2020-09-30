@@ -1,0 +1,12 @@
+dependencies:
+- name: minio
+  repository: https://charts.bitnami.com/bitnami
+  version: 3.4.13
+- name: hasura
+  repository: file://../hasura
+  version: 0.1.0
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: 0.7.1
+digest: sha256:01a33496ce2c0436cf7a4d1fa883e51ad94771b9febe686803f04d0e1d41dff9
+generated: "2020-09-29T21:47:04.083641+02:00"

@@ -24,6 +24,11 @@ export const typescriptConfig: ServiceTypeConfig = ({
         dockerfile: `${directory}/${name}/Dockerfile-development`
       }
     },
+    helm: {
+      setValues: {
+        targetPort: 3000
+      }
+    },
     files: [
       {
         src: `${directory}/${name}/src/**/*.{ts,json}`,
