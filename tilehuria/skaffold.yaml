@@ -18,6 +18,8 @@ build:
         dockerfile: tilehuria/hooks/Dockerfile
     - image: tilehuria-hasura
       context: hasura
+    - image: tilehuria-hasura-backend-plus
+      context: hasura-backend-plus
 deploy:
   helm:
     releases:
@@ -71,7 +73,7 @@ profiles:
                 image: tilehuria-hooks
             setValues:
               global:
-                hostname: "localhost:3000"
+                hostname: localhost:3000
               web:
                 targetPort: 8080
                 ingress:
@@ -87,6 +89,3 @@ profiles:
                 jwt:
                   key: long-hasura-jwt-more-than-thirty-two-characters
                   algorithm: HS256
-              hasura-backend-plus:
-                ingress:
-                  enabled: false
