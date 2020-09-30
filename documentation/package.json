@@ -1,5 +1,5 @@
 {
-  "name": "@platyplus/devtools-web",
+  "name": "@platyplus/documentation",
   "private": true,
   "workspaces": {
     "nohoist": [
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platyplus.git",
-    "directory": "devtools/web"
+    "directory": "documentation"
   },
   "scripts": {
     "dev": "vuepress dev src",
@@ -23,6 +23,8 @@
   "main": "index.js",
   "devDependencies": {
     "glob": "^7.1.6",
-    "vuepress": "^1.5.3"
-  }
+    "vuepress": "^1.5.3",
+    "yaml": "^1.10.0"
+  },
+  "dependencies": {}
 }

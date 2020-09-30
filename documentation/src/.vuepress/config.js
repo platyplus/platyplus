@@ -1,17 +1,94 @@
-const { description } = require('../package')
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+const { description } = require('../../package')
+const { workspaces } = require(`../../../package`)
 const glob = require('glob')
 const path = require('path')
+const yaml = require('yaml')
+const fs = require('fs')
+const { execSync } = require('child_process')
+const chartReadmes = [
+  ...glob.sync(path.resolve('../charts/**/README.md')),
+  ...glob.sync(path.resolve('../*/helm/README.md'))
+]
+const chartPages = chartReadmes
+  .reduce((aggr, filePath) => {
+    const chartPath = path.join(filePath, '../Chart.yaml')
+    try {
+      const chart = yaml.parse(fs.readFileSync(chartPath).toString())
+      const name = chart.name
+      aggr.push({
+        name,
+        path: `/charts/${name}.html`,
+        filePath
+      })
+    } catch {
+      console.log('Impossible to read/parse', chartPath)
+    }
 
-const chartReadmes = glob.sync(path.resolve('../charts/**/README.md'))
-const chartPages = chartReadmes.map((filePath) => {
-  const dirs = path.dirname(filePath).split('/')
-  const name = dirs[dirs.length - 1]
-  return {
-    name,
-    path: `/charts/${name}.html`,
-    filePath
-  }
-})
+    return aggr
+  }, [])
+  .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+
+const chartSideBar = chartPages.map((page) => [
+  page.path,
+  capitalize(page.name)
+])
+
+const packages = JSON.parse(execSync('lerna list --json').toString())
+  .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+  .filter((p) => {
+    if (fs.existsSync(path.join(p.location, 'README.md'))) {
+      return true
+    }
+    return false
+  })
+
+const packageSideBar = packages.map((curr) => [
+  `/packages/${curr.name}`,
+  capitalize(curr.name)
+])
+
+const packagePages = packages.map((curr) => ({
+  name: capitalize(curr.name),
+  path: `/packages/${curr.name}.html`,
+  filePath: path.join(curr.location, 'README.md')
+}))
+
+const applicationsPages = workspaces.packages
+  .reduce((aggr, entry) => {
+    if (entry.endsWith('/*')) {
+      const dir = entry.slice(0, -2)
+      const configPath = path.join('..', dir, 'config.yaml')
+      if (fs.existsSync(configPath)) {
+        const strConfig = fs.readFileSync(configPath).toString()
+        try {
+          const config = yaml.parse(strConfig)
+          if (config.name) {
+            const readme = path.resolve('..', dir, 'README.md')
+            if (fs.existsSync(readme)) {
+              aggr.push({
+                name: config.name,
+                path: `/applications/${dir}.html`,
+                filePath: readme
+              })
+            }
+          }
+        } catch {
+          console.log('Impossible to parse file', configPath)
+        }
+      }
+    }
+    return aggr
+  }, [])
+  .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+
+const applicationsSideBar = applicationsPages.map((app) => [
+  app.path,
+  capitalize(app.name)
+])
 
 module.exports = {
   dest: './dist',
@@ -24,7 +101,7 @@ module.exports = {
    */
   description: description,
 
-  additionalPages: chartPages,
+  additionalPages: [...chartPages, ...packagePages, ...applicationsPages],
 
   /**
    * Extra tags to be injected to the page HTML `<head>`
@@ -63,8 +140,16 @@ module.exports = {
         link: '/cli/'
       },
       {
+        text: 'Applications',
+        link: '/applications/'
+      },
+      {
         text: 'Helm Charts',
         link: '/charts/'
+      },
+      {
+        text: 'Packages',
+        link: '/packages/'
       }
     ],
     sidebar: {
@@ -75,14 +160,25 @@ module.exports = {
           children: ['', 'using-vue']
         }
       ],
+      '/applications/': [
+        {
+          title: 'Applications',
+          collapsable: false,
+          children: [['', 'Intro'], ...applicationsSideBar]
+        }
+      ],
       '/charts/': [
         {
           title: 'Charts',
           collapsable: false,
-          children: [
-            ['', 'Installation'],
-            ...chartPages.map((page) => [page.path, page.name])
-          ]
+          children: [['', 'Installation'], ...chartSideBar]
+        }
+      ],
+      '/packages/': [
+        {
+          title: 'Packages',
+          collapsable: false,
+          children: [['', 'Intro'], ...packageSideBar]
         }
       ]
     }

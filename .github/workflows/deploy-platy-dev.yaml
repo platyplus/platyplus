@@ -6,6 +6,8 @@ on:
     paths:
       - 'devtools/web/**'
       - 'charts/**/README.md'
+      - '*/README.md'
+      - '*/helm/README.md'
 jobs:
   deploy:
     runs-on: ubuntu-latest
