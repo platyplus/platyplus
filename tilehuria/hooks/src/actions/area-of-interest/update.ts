@@ -1,3 +1,4 @@
+import GeoJSON from 'geojson'
 import gql from 'graphql-tag'
 import Router from 'koa-router'
 

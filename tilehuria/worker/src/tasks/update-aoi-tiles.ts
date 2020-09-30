@@ -1,4 +1,5 @@
 import { MutationRoot } from '@platyplus/tilehuria-schema'
+import GeoJSON from 'geojson'
 import gql from 'graphql-tag'
 
 import { MAX_ZOOM, MIN_ZOOM } from '../config'
