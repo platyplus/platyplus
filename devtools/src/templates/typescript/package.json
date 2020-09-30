@@ -20,6 +20,7 @@
   },
   "scripts": {
     "dev": "nodemon",
+    "dev:docker": "nodemon --exitcrash'",
     "prod": "node dist/index.js",
     "prepublish": "yarn run build",
     "build": "yarn run clean && tsc -p tsconfig.build.json",

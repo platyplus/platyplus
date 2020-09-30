@@ -89,3 +89,7 @@ profiles:
                 jwt:
                   key: long-hasura-jwt-more-than-thirty-two-characters
                   algorithm: HS256
+              rabbitmq:
+                auth:
+                  username: user
+                  password: long-and-secret-rabbitmq-password
