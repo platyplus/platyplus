@@ -18,7 +18,7 @@ jobs:
           node-version: '14'
       - uses: actions/cache@v2
         with:
-          path: devtools/web/node_modules
+          path: documentation/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: build
         run: |
@@ -32,6 +32,6 @@ jobs:
           vercel-args: '--prod' #Optional
           vercel-org-id: ${{ secrets.VERCEL_PLATYDEV_ORG_ID}}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PLATYDEV_PROJECT_ID}} #Required 
-          working-directory: ./devtools/web/dist
+          working-directory: ./documentation/dist
           alias-domains: | #Optional
             platy.dev
