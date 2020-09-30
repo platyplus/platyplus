@@ -11,7 +11,7 @@ import routes from './routes'
  * directly export the Router instantiation
  */
 
-export default route<StoreInterface>(function({ Vue }) {
+export default route<StoreInterface>(function ({ Vue }) {
   Vue.use(VueRouter)
 
   const Router = new VueRouter({
@@ -26,7 +26,7 @@ export default route<StoreInterface>(function({ Vue }) {
   })
 
   Router.beforeEach((to, from, next) =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       const auth = getAuth()
       if (auth) {
         const status = auth.isAuthenticated()
@@ -36,7 +36,7 @@ export default route<StoreInterface>(function({ Vue }) {
           })
         } else resolve(status)
       }
-    }).then(status => {
+    }).then((status) => {
       const roles = (to.meta as Record<string, unknown>).roles as
         | string[]
         | undefined

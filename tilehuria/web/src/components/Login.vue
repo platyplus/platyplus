@@ -35,7 +35,7 @@ validation-observer(v-slot='{ handleSubmit }')
 import { useApolloClient } from '@vue/apollo-composable'
 import { defineComponent, ref } from '@vue/composition-api'
 import { extend } from 'vee-validate'
-import { email,required } from 'vee-validate/dist/rules'
+import { email, required } from 'vee-validate/dist/rules'
 
 import { useAuth } from '../composables'
 import { handleAxiosRequest } from '../utils'

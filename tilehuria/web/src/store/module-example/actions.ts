@@ -1,12 +1,12 @@
-import { ActionTree } from 'vuex';
+import { ActionTree } from 'vuex'
 
-import { StoreInterface } from '../index';
-import { ExampleStateInterface } from './state';
+import { StoreInterface } from '../index'
+import { ExampleStateInterface } from './state'
 
 const actions: ActionTree<ExampleStateInterface, StoreInterface> = {
-  someAction (/* context */) {
+  someAction(/* context */) {
     // your code
   }
-};
+}
 
-export default actions;
+export default actions

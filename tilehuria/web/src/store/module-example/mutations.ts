@@ -1,11 +1,11 @@
-import { MutationTree } from 'vuex';
+import { MutationTree } from 'vuex'
 
-import { ExampleStateInterface } from './state';
+import { ExampleStateInterface } from './state'
 
 const mutation: MutationTree<ExampleStateInterface> = {
-  someMutation (/* state: ExampleStateInterface */) {
+  someMutation(/* state: ExampleStateInterface */) {
     // your code
   }
-};
+}
 
-export default mutation;
+export default mutation
