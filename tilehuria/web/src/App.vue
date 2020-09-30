@@ -11,7 +11,8 @@ import {
   createApolloClient,
   provideAuth,
   provideStorage,
-  useAuth} from 'src/composables'
+  useAuth
+} from 'src/composables'
 
 import { HASURA_HTTP_ENDPOINT } from './config'
 

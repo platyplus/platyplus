@@ -1,10 +1,10 @@
-import { Module } from 'vuex';
+import { Module } from 'vuex'
 
-import { StoreInterface } from '../index';
-import actions from './actions';
-import getters from './getters';
-import mutations from './mutations';
-import state, { ExampleStateInterface } from './state';
+import { StoreInterface } from '../index'
+import actions from './actions'
+import getters from './getters'
+import mutations from './mutations'
+import state, { ExampleStateInterface } from './state'
 
 const exampleModule: Module<ExampleStateInterface, StoreInterface> = {
   namespaced: true,
@@ -12,6 +12,6 @@ const exampleModule: Module<ExampleStateInterface, StoreInterface> = {
   getters,
   mutations,
   state
-};
+}
 
-export default exampleModule;
+export default exampleModule
