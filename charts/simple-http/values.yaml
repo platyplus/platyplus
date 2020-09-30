@@ -14,6 +14,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+extraEnv: []
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -35,6 +37,8 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+targetPort: 80
 
 service:
   type: ClusterIP

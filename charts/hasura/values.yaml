@@ -8,6 +8,8 @@ jwt:
   
 replicaCount: 1
 
+extraEnv: []
+
 imageConfig:
   repository: hasura/graphql-engine
   pullPolicy: IfNotPresent

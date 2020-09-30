@@ -41,9 +41,12 @@ spec:
           imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: {{ .Values.targetPort }}
               protocol: TCP
-          # env:
+          env:
+            {{- if .Values.extraEnv }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
+            {{- end }}
             # - name: RABBITMQ_HOST
             #   value: "{{ .Release.Name }}-rabbitmq"
             # - name: HASURA_ENDPOINT

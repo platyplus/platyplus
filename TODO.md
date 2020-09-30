@@ -19,3 +19,4 @@
 - [ ] generate tsconfig/tsconfig.build files for each project? -> case of tilehuria-schema
 - [ ] add documentation to monorepo template?
 - [ ] generate helm repo
+- [ ] consistent ingress/tls convention in helm chart. Don't forget hbp config-map. Auto-generate global hostname when not given e.g. http://localhost:xxx?

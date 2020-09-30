@@ -13,7 +13,7 @@ import {
   ref,
   watch
 } from '@vue/composition-api'
-import GeoJSON from 'GeoJSON'
+import GeoJSON from 'geojson'
 import L from 'leaflet'
 import { LMap } from 'vue2-leaflet'
 

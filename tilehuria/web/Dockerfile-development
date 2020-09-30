@@ -10,7 +10,7 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-EXPOSE 3000
+EXPOSE 8080
 
 COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
 #

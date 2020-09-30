@@ -47,6 +47,11 @@ export const quasarConfig: ServiceTypeConfig = ({
           dockerfile: `${directory}/${name}/Dockerfile-development`
         }
       },
+      helm: {
+        setValues: {
+          targetPort: 8080
+        }
+      },
       files: [
         {
           src: `${directory}/${name}/src/**/*.{ts,vue,json,sass,html}`,

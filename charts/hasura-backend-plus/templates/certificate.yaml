@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled -}}
 {{- $hostname := include "hostname" .  -}}
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -18,3 +19,4 @@ spec:
   issuerRef:
     name: "letsencrypt-{{ .Values.cert.environment | default "production" }}"
     kind: ClusterIssuer
+{{- end }}

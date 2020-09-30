@@ -10,11 +10,9 @@ ingress:
   enabled: true
   # tls: false
 
-env: 
-  AUTO_MIGRATE: "false"
-  HIBP_ENABLE: "false"
-  JWT_CUSTOM_FIELDS: ""
-
+extraEnv: 
+  - name: AUTO_MIGRATE
+    value: "false"
 
 cert:
   # email: admin@example.com
@@ -24,7 +22,7 @@ cert:
 #   hostname: example.com
 
 minio:
-  enabled: true
+  enabled: false
   defaultBuckets: hasura-plus
   # accessKey: 
   #   password: <minio-access-key>
@@ -32,7 +30,7 @@ minio:
   #   password: <minio-secret-key>
 
 hasura:
-  enabled: true
+  enabled: false
   ingress:
     enabled: true
   # adminSecret: <long complicated admin key>
@@ -41,7 +39,7 @@ hasura:
     # key: <long complicated jwt key>
   # env:
   postgresql:
-    enabled: true
+    enabled: false
     postgresqlDatabase: hasura-backend-plus
     # postgresqlPassword: <secret-postgresql-password>
 
