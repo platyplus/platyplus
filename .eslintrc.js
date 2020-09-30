@@ -19,9 +19,9 @@ module.exports = {
     'prefer-promise-reject-errors': 'off',
     quotes: ['warn', 'single', { avoidEscape: true }],
     // allow console.log during development only
-    'no-console': process.env.NODE_ENV === 'production' ? 'warning' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warning' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // Custom
     //* 'vue/component-name-in-template-casing': ['error', 'kebab-case'],
     'simple-import-sort/sort': 'error'

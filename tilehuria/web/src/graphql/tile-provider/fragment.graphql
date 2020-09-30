@@ -1,0 +1,11 @@
+fragment providerFragment on tile_provider {
+  id
+  name
+  slug
+  url
+  tileSets_aggregate {
+    aggregate {
+      count
+    }
+  }
+}

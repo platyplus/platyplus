@@ -1,0 +1,6 @@
+#import "./fragment.graphql"
+subscription selectOneAreaOfInterest($id: uuid!) {
+  areaOfInterest(id: $id) {
+    ...areaOfInterestFragment
+  }
+}

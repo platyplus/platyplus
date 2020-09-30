@@ -57,6 +57,9 @@ spec:
               path: /healthz
               port: http
           env:
+            {{- if .Values.extraEnv }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
+            {{- end }}
             - name: HASURA_GRAPHQL_DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -72,14 +75,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-hasura
                   key: jwt.secret
-            {{- range $key, $value := .Values.env }}
-            - name: {{ $key }}
-            {{- if kindIs "string" $value }}
-              value: {{- printf " %s" (tpl $value $) }}
-            {{- else }}
-              value: {{- printf " %s" (tpl ($value | toJson) $ | toJson) }}
-            {{- end }}
-            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

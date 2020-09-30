@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "{{organisation}}/*": ["packages/*/src"],
+      "*": ["types/*"]
+    },
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  }
+}

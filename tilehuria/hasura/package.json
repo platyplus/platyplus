@@ -1,0 +1,17 @@
+{
+  "name": "@platyplus/tilehuria-hasura",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Tilehuria Hasura service",
+  "platyplus": {
+    "type": "hasura"
+  },
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://tilehuria.platyplus.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platyplus.git",
+    "directory": "tilehuria/hasura"
+  },
+  "license": "MIT"
+}

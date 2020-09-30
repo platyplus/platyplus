@@ -1,0 +1,95 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: tilehuria-web
+      context: ..
+      docker:
+        dockerfile: tilehuria/web/Dockerfile
+    - image: tilehuria-worker
+      context: ..
+      docker:
+        dockerfile: tilehuria/worker/Dockerfile
+    - image: tilehuria-hooks
+      context: ..
+      docker:
+        dockerfile: tilehuria/hooks/Dockerfile
+    - image: tilehuria-hasura
+      context: hasura
+    - image: tilehuria-hasura-backend-plus
+      context: hasura-backend-plus
+deploy:
+  helm:
+    releases:
+      - name: tilehuria
+        chartPath: helm
+        skipBuildDependencies: false
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    build:
+      tagPolicy:
+        sha256: {}
+      artifacts:
+        - image: tilehuria-web
+          context: ..
+          docker:
+            dockerfile: tilehuria/web/Dockerfile-development
+          sync:
+            manual:
+              - src: tilehuria/web/public/**/*
+                dest: .
+        - image: tilehuria-worker
+          context: ..
+          docker:
+            dockerfile: tilehuria/worker/Dockerfile-development
+          sync:
+            manual:
+              - src: tilehuria/worker/src/**/*.{ts,json}
+                dest: .
+        - image: tilehuria-hooks
+          context: ..
+          docker:
+            dockerfile: tilehuria/hooks/Dockerfile-development
+          sync:
+            manual:
+              - src: tilehuria/hooks/src/**/*.{ts,json}
+                dest: .
+    deploy:
+      helm:
+        releases:
+          - name: tilehuria
+            chartPath: helm
+            skipBuildDependencies: false
+            artifactOverrides:
+              web:
+                image: tilehuria-web
+              worker:
+                image: tilehuria-worker
+              hooks:
+                image: tilehuria-hooks
+            setValues:
+              global:
+                hostname: localhost:3000
+              web:
+                targetPort: 8080
+                ingress:
+                  enabled: false
+              worker:
+                targetPort: 3000
+              hooks:
+                targetPort: 3000
+              hasura:
+                postgresql:
+                  postgresqlPassword: development-postgres-password
+                adminSecret: development-hasura-admin-secret
+                jwt:
+                  key: long-hasura-jwt-more-than-thirty-two-characters
+                  algorithm: HS256
+              rabbitmq:
+                auth:
+                  username: user
+                  password: long-and-secret-rabbitmq-password

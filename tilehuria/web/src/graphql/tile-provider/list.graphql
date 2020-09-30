@@ -1,0 +1,5 @@
+query listAllTileProviders {
+  tileProviders(order_by: { name: asc }) {
+    ...providerFragment
+  }
+}

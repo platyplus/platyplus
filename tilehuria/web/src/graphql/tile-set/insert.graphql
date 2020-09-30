@@ -1,0 +1,16 @@
+mutation insertOneTileSet(
+  $format: String!
+  $quality: smallint!
+  $areaOfInterestId: uuid!
+) {
+  insertTileSet(
+    object: {
+      format: $format
+      quality: $quality
+      areaOfInterestId: $areaOfInterestId
+    }
+  ) {
+    # ? Optional, as optimisticResponse and subscribeToMore update the cache already
+    ...tileSetFragment
+  }
+}

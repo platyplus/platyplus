@@ -36,61 +36,19 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.image }}
+          image: {{ .Values.image }}
+        {{- else }}
+          image: "{{ .Values.imageConfig.repository }}:{{ .Values.imageConfig.tag | default .Chart.AppVersion }}"
+        {{- end }}
+          imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
           ports:
             - name: http
               containerPort: 3000
               protocol: TCP
           env:
-            - name: HASURA_ENDPOINT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}-hasura
-                  key: endpoint
-            - name: HASURA_GRAPHQL_ADMIN_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-hasura
-                  key: adminSecret
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-hasura
-                  key: jwt.key
-            - name: S3_ENDPOINT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}-minio
-                  key: endpoint
-            - name: S3_BUCKET
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}-minio
-                  key: defaultBuckets
-            - name: S3_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-minio
-                  key: access-key
-            - name: S3_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-minio
-                  key: secret-key
-            - name: SERVER_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: serverUrl
-            - name: JWT_ALGORITHM
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}-hasura
-                  key: jwt.algorithm
-            {{- range $key, $value := .Values.env }}
-            - name: {{ $key }}
-              value: {{- printf " %s" (tpl $value $ | toJson) }}
+            {{- if .Values.extraEnv }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}
           livenessProbe:
             httpGet:

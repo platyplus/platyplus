@@ -1,0 +1,24 @@
+#import "./fragment.graphql"
+mutation updateAoi(
+  $id: uuid!
+  $name: String!
+  $source: jsonb!
+  $minZoom: Int!
+  $maxZoom: Int!
+  $tileSetsRemoveIds: [uuid!]!
+  $tileSetsAdd: [tile_set_insert_input!]!
+) {
+  updateAreaOfInterest(
+    pk_columns: { id: $id }
+    _set: { name: $name, source: $source, minZoom: $minZoom, maxZoom: $maxZoom }
+  ) {
+    # ? Optional, as optimisticResponse and subscribeToMore update the cache already
+    ...areaOfInterestFragment
+  }
+  deleteTileSets(where: { id: { _in: $tileSetsRemoveIds } }) {
+    affected_rows
+  }
+  insertTileSets(objects: $tileSetsAdd) {
+    affected_rows
+  }
+}

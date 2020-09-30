@@ -4,8 +4,10 @@
   "workspaces": {
     "packages": [
       "packages/*",
+      "devtools",
+      "documentation",
       "dummy/*",
-      "devtools/*"
+      "tilehuria/*"
     ]
   },
   "scripts": {

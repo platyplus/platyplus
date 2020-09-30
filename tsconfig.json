@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@platyplus/*": ["packages/*/src"]
+      "@platyplus/*": ["packages/*/src"],
+      "*": ["types/*"]
     },
     "jsx": "react",
     "skipLibCheck": true,
