@@ -2,7 +2,7 @@
   "name": "@platyplus/tilehuria-hasura",
   "private": true,
   "version": "0.0.1",
-  "description": "Tilehuroa Hasura service",
+  "description": "Tilehuria Hasura service",
   "platyplus": {
     "type": "hasura"
   },
