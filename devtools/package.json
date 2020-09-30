@@ -20,10 +20,10 @@
     "access": "public"
   },
   "bin": {
-    "platy": "./dist/index.js"
+    "platy": "./dist/cli.js"
   },
   "scripts": {
-    "start": "NODE_ENV=development ts-node -r tsconfig-paths/register src/index.ts",
+    "start": "NODE_ENV=development ts-node -r tsconfig-paths/register src/cli.ts",
     "prepublish": "yarn run build",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
     "postbuild": "yarn run copy-files",
