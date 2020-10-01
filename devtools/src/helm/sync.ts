@@ -4,7 +4,7 @@ import { set } from 'object-path'
 import path from 'path'
 
 import { DevToolsConfig } from '../project'
-import { DEFAULT_WORKING_DIR, serviceTypesConfig } from '../settings'
+import { DEFAULT_WORKING_DIR } from '../settings'
 import { HelmChart } from './types'
 
 const defaults = (config: DevToolsConfig): HelmChart => ({
@@ -42,6 +42,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
   await fs.remove(path.join(helmDirectory, 'requirements.lock'))
   for (const service of config.services) {
     if (!service.type) throw Error(`${service.name}: no service type`)
+    if (!service.config) throw Error(`${service.name}: no config`)
     let index = yamlChart.dependencies.findIndex((cursor) =>
       cursor.alias
         ? cursor.alias === service.name
@@ -55,7 +56,7 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
       // TODO write `${service.name}.enabled` = true in values.yaml ? Or in the dev section of skaffold.yaml?
     }
 
-    const chartName = serviceTypesConfig[service.type](service).chartName
+    const chartName = service.config.chartName
     await cleanDependencies(helmDirectory, chartName)
     const chartPath = path.join(helmDirectory, 'charts', service.name)
     if (!(await fs.pathExists(chartPath))) {

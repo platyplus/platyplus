@@ -1,4 +1,5 @@
 import { PackageInformation } from '../package'
+import { SkaffoldPortEvent } from '../skaffold'
 
 export enum PackageType {
   TypeScript = 'typescript',
@@ -21,7 +22,7 @@ type ServicePipelineConfigResult = {
     setValues?: Record<string, unknown>
   }
 }
-type PackageTypeConfigResult = {
+export type PackageTypeConfigResult = {
   main?: ServicePipelineConfigResult
   dev?: ServicePipelineConfigResult & {
     files?: Array<{ src: string; dest: string }>
@@ -29,6 +30,8 @@ type PackageTypeConfigResult = {
   chartName: string
   init?: () => Promise<void>
   postInstall?: () => Promise<void>
+  run?: (event: SkaffoldPortEvent) => Promise<void>
+  env?: Record<string, string>
 }
 
 export type ServiceTypeConfig = (

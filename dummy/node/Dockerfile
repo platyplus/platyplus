@@ -9,12 +9,15 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json yarn.* lerna.json ./
 #
 COPY --chown=node:node dummy/node/package.json dummy/node/yarn.* /home/node/app/dummy/node/
 
 FROM lerna-base as builder
 RUN lerna bootstrap --ignore-scripts
+COPY --chown=node:node tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node types ./types
+
 #
 COPY --chown=node:node dummy/node /home/node/app/dummy/node
 

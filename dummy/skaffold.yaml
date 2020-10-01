@@ -1,6 +1,8 @@
 apiVersion: skaffold/v2beta7
 kind: Config
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
     - image: dummy-node
       context: ..
@@ -47,6 +49,8 @@ profiles:
             manual:
               - src: dummy/web/public/**/*
                 dest: .
+      tagPolicy:
+        sha256: {}
     deploy:
       helm:
         releases:
@@ -66,3 +70,7 @@ profiles:
                 jwt:
                   key: long-hasura-jwt-more-than-thirty-two-characters
                   algorithm: HS256
+              node:
+                targetPort: 3000
+              web:
+                targetPort: 8080

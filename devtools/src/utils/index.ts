@@ -1,11 +1,11 @@
 import { get } from 'object-path'
-import path from 'path'
+export * from './yarn'
+export * from './wait-for'
+
 type Options = {
   initialPath?: string
   nextElementIndex?: boolean // * will return the index a new element could be inserted into (=the length of the array). Defaults to true
 }
-
-export * from './yarn'
 
 export const indexOfArrayPathObject = (
   source: Record<string, unknown> | Array<Record<string, unknown>>,

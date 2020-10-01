@@ -5,6 +5,10 @@ import path from 'path'
 
 import { getProject, syncProject } from '../project'
 import { DEFAULT_WORKING_DIR } from '../settings'
+import { waitFor } from '../utils'
+import { SkaffoldEvent } from './types'
+
+const SKAFFOLD_API = 'http://localhost:50052'
 
 /**
  * Starts Skaffold for a given project
@@ -20,24 +24,43 @@ export const runSkaffoldDev = async (
   projectName: string,
   rootDir = DEFAULT_WORKING_DIR
 ): Promise<void> => {
-  const project = await getProject(projectName)
+  let project = await getProject(projectName)
   if (!project) throw Error(`Project ${projectName} not found.`)
   // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
   const configPath = path.join(rootDir, project.directory, 'config.yaml')
   const watcher = chodikar.watch(configPath)
   watcher.on('add', async () => {
-    await syncProject(project.name)
+    project = await syncProject(project.name)
     const skaffold = spawn('skaffold', ['dev', '--port-forward'], {
       cwd: path.join(rootDir, project.directory),
       stdio: ['inherit', 'inherit', 'inherit'],
       shell: true
     })
+
     skaffold.on('exit', () => {
       watcher.close()
+    })
+
+    const events = await waitFor(`${SKAFFOLD_API}/v1/events`, {
+      responseType: 'stream'
+    })
+
+    events.data.on('data', async (data: Buffer) => {
+      const event = JSON.parse(data.toString()) as SkaffoldEvent
+      const portEvent = event.result.event.portEvent
+      if (portEvent?.resourceType === 'service') {
+        const service = project.services.find(
+          (service) =>
+            portEvent.resourceName === `${project.name}-${service.name}`
+        )
+        if (service?.config?.run) {
+          await service?.config?.run(portEvent)
+        }
+      }
     })
   })
   watcher.on('change', async () => {
     console.log(chalk.green('Config changed. Syncing...'))
-    await syncProject(project.name)
+    project = await syncProject(project.name)
   })
 }

@@ -1,6 +1,7 @@
 import { getLernaPackage } from '@platyplus/lerna'
 
 import { loadPackageInformation } from '../package'
+import { serviceTypesConfig } from '../settings'
 import { listProjects } from './list'
 import { DevToolsConfig } from './types'
 
@@ -12,7 +13,10 @@ export const getProject = async (name: string): Promise<DevToolsConfig> => {
   result.services = await Promise.all(
     result.services.map(async (service) => {
       const npmPackage = await getLernaPackage(service.package)
-      return await loadPackageInformation(npmPackage.location)
+      const packageInfo = await loadPackageInformation(npmPackage.location)
+      const config =
+        packageInfo.type && serviceTypesConfig[packageInfo.type](packageInfo)
+      return { ...packageInfo, config }
     })
   )
 

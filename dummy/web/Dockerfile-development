@@ -10,7 +10,7 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-EXPOSE 3000
+EXPOSE 8080
 
 COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
 #
@@ -28,4 +28,4 @@ COPY --chown=node:node packages/quasar-ts-lerna /home/node/app/packages/quasar-t
 #
 COPY --chown=node:node dummy/web /home/node/app/dummy/web
 
-CMD cd dummy/web && quasar dev -p 3000
+CMD cd dummy/web && quasar dev

@@ -1,0 +1,12 @@
+dependencies:
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: hasura
+  repository: file://../../charts/hasura
+  version: 0.1.0
+digest: sha256:41632179bbe40d22ac172d62f944617d7fdc68e9a6a3ac795c88709cfb312ebd
+generated: "2020-10-01T14:32:39.917201+02:00"

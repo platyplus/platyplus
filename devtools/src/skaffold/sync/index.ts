@@ -5,7 +5,7 @@ import { get, set } from 'object-path'
 import path from 'path'
 
 import { DevToolsConfig } from '../../project'
-import { DEFAULT_WORKING_DIR, serviceTypesConfig } from '../../settings'
+import { DEFAULT_WORKING_DIR } from '../../settings'
 import { indexOfArrayPathObject } from '../../utils'
 import { defaultSkaffoldConfiguration } from '../default'
 import { Skaffold } from '../types'
@@ -61,7 +61,8 @@ export const loadSkaffoldConfiguration = async (
   for (const service of configuration.services) {
     console.log(chalk.green(`Syncing service config ${service.package}...`))
     if (!service.type) throw Error('No service type.')
-    const serviceConfig = serviceTypesConfig[service.type](service)
+    if (!service.config) throw Error('No service config.')
+    const serviceConfig = service.config
     if (serviceConfig.main?.build) {
       mergeArrayElementAtPath(
         skaffold,

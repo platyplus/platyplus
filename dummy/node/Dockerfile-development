@@ -13,6 +13,8 @@ WORKDIR /home/node/app
 EXPOSE 3000
 
 COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node types ./types
+
 #
 COPY --chown=node:node dummy/node/package.json dummy/node/yarn.* /home/node/app/dummy/node/
 
@@ -20,4 +22,4 @@ RUN yarn
 #
 COPY --chown=node:node dummy/node /home/node/app/dummy/node
 
-CMD cd dummy/node && yarn dev
+CMD cd dummy/node && yarn dev:docker
