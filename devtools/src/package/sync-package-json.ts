@@ -41,7 +41,10 @@ export const syncPackageJson = async (
   if (await fs.pathExists(packageJsonPath)) {
     const packageJson = await fs.readJSON(packageJsonPath)
     packageJson.name = defaults.name
-    packageJson.platyplus = defaults.platyplus
+    packageJson.platyplus = {
+      ...(packageJson.platyplus || {}),
+      ...defaults.platyplus
+    }
     if (variables.description !== DEFAULT_DESCRIPTION)
       packageJson.description = defaults.description
     await fs.outputJson(packageJsonPath, packageJson, { spaces: '  ' })

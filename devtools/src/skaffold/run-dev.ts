@@ -53,9 +53,7 @@ export const runSkaffoldDev = async (
           (service) =>
             portEvent.resourceName === `${project.name}-${service.name}`
         )
-        if (service?.config?.run) {
-          await service?.config?.run(portEvent)
-        }
+        await service?.config?.run?.(portEvent)
       }
     })
   })

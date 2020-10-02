@@ -1,7 +1,6 @@
 import fs from '@platyplus/fs'
 import { getLernaDependencies } from '@platyplus/lerna'
 import { LernaPackage } from '@platyplus/lerna'
-import chalk from 'chalk'
 import gitConfig from 'git-config'
 import objectPath from 'object-path'
 import path from 'path'

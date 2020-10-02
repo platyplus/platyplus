@@ -11,6 +11,10 @@ export const hasuraConfig: ServiceTypeConfig = ({
   name,
   location
 }) => {
+  // TODO set env variables, somehow
+  // ? create a global .env file, one prod, one dev?
+  // ? Add env vars in the init/postInstall() method?
+  // ? Then load it when running skaffold?
   const HASURA_ADMIN_SECRET = 'development-hasura-admin-secret'
   return {
     main: {
@@ -26,7 +30,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
           postgresql: {
             postgresqlPassword: 'development-postgres-password'
           },
-          adminSecret: 'development-hasura-admin-secret',
+          adminSecret: HASURA_ADMIN_SECRET,
           jwt: {
             key: 'long-hasura-jwt-more-than-thirty-two-characters',
             algorithm: 'HS256'
@@ -35,10 +39,6 @@ export const hasuraConfig: ServiceTypeConfig = ({
       }
     },
     chartName: 'hasura',
-    // TODO set env variables
-    env: {
-      adminSecret: HASURA_ADMIN_SECRET
-    },
     run: async ({ address, localPort, resourceName }) => {
       await waitFor(`http://${address}:${localPort}/healthz`)
       await fs.ensureFile(path.join(location, 'config.yaml'))
@@ -60,7 +60,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
         .split('\n')
         .forEach((line) =>
           console.log(
-            chalk.cyan(`[hasura-console:${resourceName}]`),
+            chalk.cyan(`[hasura-cli:${resourceName}]`),
             JSON.parse(line).msg
           )
         )
@@ -70,7 +70,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
           .split('\n')
           .forEach((line) =>
             console.log(
-              chalk.cyan(`[hasura-console:${resourceName}]`),
+              chalk.cyan(`[hasura-cli:${resourceName}]`),
               chalk.red('[error]'),
               line
             )
@@ -89,13 +89,13 @@ export const hasuraConfig: ServiceTypeConfig = ({
       ])
       hasuraConsole.stdout.on('data', (data) => {
         console.log(
-          chalk.cyan(`[hasura-console:${resourceName}]`),
+          chalk.cyan(`[hasura-cli:${resourceName}]`),
           JSON.parse(data.toString()).msg
         )
       })
       hasuraConsole.stderr.on('data', (data) => {
         console.log(
-          chalk.cyan(`[hasura-console:${resourceName}]`),
+          chalk.cyan(`[hasura-cli:${resourceName}]`),
           chalk.red('[error]'),
           data.toString()
         )

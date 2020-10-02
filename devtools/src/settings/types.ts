@@ -31,7 +31,6 @@ export type PackageTypeConfigResult = {
   init?: () => Promise<void>
   postInstall?: () => Promise<void>
   run?: (event: SkaffoldPortEvent) => Promise<void>
-  env?: Record<string, string>
 }
 
 export type ServiceTypeConfig = (
