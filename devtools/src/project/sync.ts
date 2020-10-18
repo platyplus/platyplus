@@ -15,7 +15,7 @@ export const syncProject = async (
   const config = await getProject(projectName)
   await syncHelmChart(config)
   for (const service of config.services) {
-    console.log(chalk.green(`write dockerfile ${service.name}`))
+    console.log(chalk.green(`Writing dockerfile ${service.name}`))
     await writeDockerfiles(service)
   }
 
