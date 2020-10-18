@@ -26,6 +26,17 @@ deploy:
       - name: tilehuria
         chartPath: helm
         skipBuildDependencies: false
+        artifactOverrides:
+          web:
+            image: tilehuria-web
+          hasura:
+            image: tilehuria-hasura
+          hasura-backend-plus:
+            image: tilehuria-hasura-backend-plus
+          worker:
+            image: tilehuria-worker
+          hooks:
+            image: tilehuria-hooks
 profiles:
   - name: dev
     activation:
@@ -72,14 +83,6 @@ profiles:
               hooks:
                 image: tilehuria-hooks
             setValues:
-              web:
-                targetPort: 8080
-                traefik:
-                  enabled: false
-              worker:
-                targetPort: 3000
-              hooks:
-                targetPort: 3000
               hasura:
                 postgresql:
                   postgresqlPassword: development-postgres-password
@@ -91,3 +94,15 @@ profiles:
                 auth:
                   username: user
                   password: long-and-secret-rabbitmq-password
+              traefik:
+                enabled: true
+              global:
+                ingress:
+                  enabled: true
+                  domain: localhost
+              web:
+                targetPort: 8080
+              worker:
+                targetPort: 3000
+              hooks:
+                targetPort: 3000

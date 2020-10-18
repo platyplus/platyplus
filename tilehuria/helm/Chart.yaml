@@ -33,3 +33,7 @@ dependencies:
     condition: hasura-backend-plus.enabled
     alias: hasura-backend-plus
     repository: file://../../charts/hasura-backend-plus
+  - name: traefik
+    version: v8.9.1
+    repository: https://containous.github.io/traefik-helm-chart
+    condition: traefik.enabled
