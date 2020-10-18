@@ -1,5 +1,3 @@
-# global:
-#   hostname: example.com   
 
 hasura-backend-plus:
   enabled: true
@@ -57,9 +55,6 @@ hasura-backend-plus:
         configMapKeyRef:
           name: "{{ .Release.Name }}-hasura"
           key: jwt.algorithm
-  # cert:
-    # email: pilou@platyplus.io
-    # letsencrypt: production # staging or production
 
   minio:
     enabled: true

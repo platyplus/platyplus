@@ -4,4 +4,8 @@ metadata:
   name: {{ .Release.Name }}
   namespace: default
 data:
-  serverUrl: "https://{{ required ".Values.global.hostname is required" .Values.global.hostname }}"
+  {{- if index .Values.ingress.hosts 0 }}
+  serverUrl: "https://{{ index .Values.ingress.hosts 0 }}"
+  {{- else }}
+  serverUrl: ""
+  {{- end }}

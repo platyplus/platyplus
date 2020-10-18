@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta7
+apiVersion: skaffold/v2beta8
 kind: Config
 build:
   artifacts:
@@ -26,8 +26,6 @@ deploy:
         skipBuildDependencies: false
         # TODO patch
         setValues:
-          global:
-            hostname: localhost
           # web:
           #   ingress:
           #     enabled: false
@@ -48,8 +46,6 @@ profiles:
     #   - op: add # TODO or replace if the path exists....
     #     path: /deploy/helm/releases/0/setValues
     #     value:
-    #       global:
-    #         hostname: localhost
     #       # web:
     #       #   ingress:
     #       #     enabled: false

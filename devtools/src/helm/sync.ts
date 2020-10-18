@@ -33,6 +33,12 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
     helmChartFile,
     defaults(config)
   )
+  const helmValuesFile = path.join(helmDirectory, 'values.yaml')
+  const helmValues = await fs.loadYaml<Record<string, unknown>>(
+    helmValuesFile,
+    { traefik: { enabled: false } }
+  )
+
   yamlChart.description = config.description
   yamlChart.name = config.name
 
@@ -40,6 +46,19 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
   // * See https://skaffold.dev/docs/pipeline-stages/deployers/helm/
   await fs.remove(path.join(helmDirectory, 'Chart.lock'))
   await fs.remove(path.join(helmDirectory, 'requirements.lock'))
+
+  // * Add Traefik Helm Chart. Disable by default
+  let traefikIndex = yamlChart.dependencies.findIndex(
+    (cursor) => cursor.name === 'traefik'
+  )
+  if (traefikIndex < 0) traefikIndex = yamlChart.dependencies.length
+  set(yamlChart, `dependencies.${traefikIndex}`, {
+    name: 'traefik',
+    version: 'v8.9.1',
+    repository: 'https://containous.github.io/traefik-helm-chart',
+    condition: 'traefik.enabled'
+  })
+
   for (const service of config.services) {
     if (!service.type) throw Error(`${service.name}: no service type`)
     if (!service.config) throw Error(`${service.name}: no config`)
@@ -53,9 +72,13 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
     set(yamlChart, `dependencies.${index}.version`, '*') // ? not ideal
     if (!yamlChart.dependencies[index].condition) {
       yamlChart.dependencies[index].condition = `${service.name}.enabled`
-      // TODO write `${service.name}.enabled` = true in values.yaml ? Or in the dev section of skaffold.yaml?
     }
 
+    if (service.config.values) {
+      set(helmValues, service.name, service.config.values)
+    }
+    set(helmValues, `${service.name}.enabled`, true)
+    set(helmValues, `${service.name}.enabled`, true)
     const chartName = service.config.chartName
     await cleanDependencies(helmDirectory, chartName)
     const chartPath = path.join(helmDirectory, 'charts', service.name)
@@ -93,4 +116,5 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
     }
   }
   await fs.saveYaml(helmChartFile, yamlChart)
+  await fs.saveYaml(helmValuesFile, helmValues)
 }

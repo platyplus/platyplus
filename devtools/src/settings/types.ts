@@ -28,6 +28,7 @@ export type PackageTypeConfigResult = {
     files?: Array<{ src: string; dest: string }>
   }
   chartName: string
+  values?: Record<string, unknown>
   init?: () => Promise<void>
   postInstall?: () => Promise<void>
   run?: (event: SkaffoldPortEvent) => Promise<void>

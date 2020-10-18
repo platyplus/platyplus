@@ -1,4 +1,8 @@
-enabled: true
+global:
+  ingress:
+    enabled: false
+    tls:
+      enabled: false
 
 imageConfig:
   repository: nhost/hasura-backend-plus
@@ -8,7 +12,11 @@ imageConfig:
 
 ingress:
   enabled: false
-  # tls: false
+  # hosts:
+  #   - host: hbp.localhost
+  tls:
+    enabled: false
+    environment: production
 
 extraEnv: 
   - name: AUTO_MIGRATE
@@ -58,12 +66,6 @@ extraEnv:
       configMapKeyRef:
         name: "{{ .Release.Name }}-hasura"
         key: jwt.algorithm
-cert:
-  # email: admin@example.com
-  letsencrypt: production # staging or production
-
-# global:
-#   hostname: example.com
 
 minio:
   enabled: false

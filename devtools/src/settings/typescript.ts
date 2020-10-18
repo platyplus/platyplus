@@ -7,6 +7,10 @@ export const typescriptConfig: ServiceTypeConfig = ({
   name,
   location
 }) => ({
+  values: {
+    targetPort: 3000,
+    imageConfig: { tag: 'latest', pullPolicy: 'IfNotPresent' }
+  },
   main: {
     build: {
       image: `${directory}-${name}`,
@@ -22,11 +26,6 @@ export const typescriptConfig: ServiceTypeConfig = ({
       context: '..',
       docker: {
         dockerfile: `${directory}/${name}/Dockerfile-development`
-      }
-    },
-    helm: {
-      setValues: {
-        targetPort: 3000
       }
     },
     files: [

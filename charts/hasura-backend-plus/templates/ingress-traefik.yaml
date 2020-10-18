@@ -1,0 +1,55 @@
+{{- if or (.Values.ingress.enabled) (.Values.global.ingress.enabled) -}}
+{{- $fullName := include "hasura-backend-plus.fullname" . -}}
+{{- $name := include "hasura-backend-plus.name" . -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    {{- if .Values.global.ingress.domain }}
+    - kind: Rule
+      match: "Host(`{{ $name }}.{{ .Values.global.ingress.domain }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: {{ $.Values.service.port }}
+    {{- end }}  
+    {{- range .Values.ingress.hosts }}
+    - kind: Rule
+      match: "Host(`{{ include "common.tplvalues.render" (dict "value" .host "context" $) }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: {{ $.Values.service.port }}
+    {{- end }}
+---
+{{- if or (.Values.ingress.tls.enabled) (.Values.global.ingress.tls.enabled) -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hasura-backend-plus-tls
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    {{- if .Values.global.ingress.domain -}}
+    - kind: Rule
+      match: "Host(`{{ $name }}.{{ .Values.global.ingress.domain }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: {{ $.Values.service.port }}
+    {{- end }}  
+    {{- range .Values.ingress.hosts }}
+    - kind: Rule
+      match: "Host(`{{ include "common.tplvalues.render" (dict "value" .host "context" $) }}`) && PathPrefix(`/`)"
+      services:
+        - name: {{ $fullName }}
+          port: {{ $.Values.service.port }}
+    {{- end }}
+  tls:
+    secretName: {{ .Release.Name }}-cert
+{{- end }}
+{{- end }}

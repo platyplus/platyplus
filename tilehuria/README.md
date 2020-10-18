@@ -62,8 +62,7 @@ Given a `example.com` domain name, you must create a A record pointing to Traefi
 
 ```sh
 helm install tilehuria tilehuria \
-    --repo https://charts.platyplus.io \
-    --set global.hostname=example.com
+    --repo https://charts.platyplus.io
 ```
 
 ## Development

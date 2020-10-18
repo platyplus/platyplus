@@ -1,4 +1,8 @@
-# hostname: example.com # Will add an hasura. prefix
+global:
+  ingress:
+    enabled: false
+    tls:
+      enabled: false
 
 # Default values for hasura.
 # This is a YAML-formatted file.
@@ -59,7 +63,11 @@ service:
 
 ingress:
   enabled: false
-  tls: false
+  tls:
+    enabled: false
+    environment: production
+  # hosts:
+  #   - host: hasura.localhost
 
 resources:
   {}

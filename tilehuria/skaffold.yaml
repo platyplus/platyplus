@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta7
+apiVersion: skaffold/v2beta8
 kind: Config
 build:
   tagPolicy:
@@ -72,11 +72,9 @@ profiles:
               hooks:
                 image: tilehuria-hooks
             setValues:
-              global:
-                hostname: localhost:3000
               web:
                 targetPort: 8080
-                ingress:
+                traefik:
                   enabled: false
               worker:
                 targetPort: 3000

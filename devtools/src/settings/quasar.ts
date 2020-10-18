@@ -30,6 +30,10 @@ export const quasarConfig: ServiceTypeConfig = ({
   pathToRoot
 }) => {
   return {
+    values: {
+      targetPort: 8080,
+      imageConfig: { tag: 'latest', pullPolicy: 'IfNotPresent' }
+    },
     main: {
       build: {
         image: `${directory}-${name}`,
@@ -45,11 +49,6 @@ export const quasarConfig: ServiceTypeConfig = ({
         context: '..',
         docker: {
           dockerfile: `${directory}/${name}/Dockerfile-development`
-        }
-      },
-      helm: {
-        setValues: {
-          targetPort: 8080
         }
       },
       files: [

@@ -19,3 +19,7 @@ dependencies:
     version: "*"
     repository: file://../../charts/hasura
     condition: hasura.enabled
+  - name: traefik
+    version: v8.9.1
+    repository: https://containous.github.io/traefik-helm-chart
+    condition: traefik.enabled

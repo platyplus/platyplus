@@ -40,7 +40,7 @@ export type Profile = {
 }
 
 export type Skaffold = {
-  apiVersion: 'skaffold/v2beta7'
+  apiVersion: 'skaffold/v2beta8'
   kind: 'Config'
   build: Build
   deploy?: {

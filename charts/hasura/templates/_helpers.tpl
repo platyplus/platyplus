@@ -1,18 +1,4 @@
 {{/* vim: set filetype=mustache: */}}
-{{/*
-Return the proper host name
-*/}}
-{{- define "hostname" -}}
-{{- if .Values.global }}
-    {{- if .Values.global.hostname }}
-        {{- printf "%s" .Values.global.hostname -}}
-    {{- else }}
-        {{- printf "%s" (required "Valid hostname is required" .Values.hostname) -}}
-    {{- end }}
-{{- else }}
-        {{- printf "%s" (required "Valid hostname is required" .Values.hostname) -}}
-{{- end -}}
-{{- end -}}
 
 {{/*
 Return the jwt Key

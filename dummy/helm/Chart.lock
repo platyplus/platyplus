@@ -8,5 +8,8 @@ dependencies:
 - name: hasura
   repository: file://../../charts/hasura
   version: 0.1.0
-digest: sha256:41632179bbe40d22ac172d62f944617d7fdc68e9a6a3ac795c88709cfb312ebd
-generated: "2020-10-01T14:32:39.917201+02:00"
+- name: traefik
+  repository: https://containous.github.io/traefik-helm-chart
+  version: 8.9.1
+digest: sha256:b04a159a5c533d5142cbf7e011e6335c180a12364d0b8ee32eaaba6e3783ac9b
+generated: "2020-10-18T14:34:23.204599+02:00"

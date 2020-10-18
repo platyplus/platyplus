@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta7
+apiVersion: skaffold/v2beta8
 kind: Config
 build:
   tagPolicy:
@@ -70,7 +70,9 @@ profiles:
                 jwt:
                   key: long-hasura-jwt-more-than-thirty-two-characters
                   algorithm: HS256
-              node:
-                targetPort: 3000
-              web:
-                targetPort: 8080
+              traefik:
+                enabled: true
+              global:
+                ingress:
+                  enabled: true
+                  domain: localhost

@@ -58,6 +58,25 @@ export const loadSkaffoldConfiguration = async (
   set(skaffold, 'build.tagPolicy', { sha256: {} })
   set(skaffold, `profiles.${profileIndex}.build.tagPolicy`, { sha256: {} })
 
+  const devPath = `profiles.${profileIndex}`
+  const initialPath = `${devPath}.deploy.helm.releases`
+
+  const index = syncHelm(skaffold, initialPath, configuration)
+  const helmPath = `${initialPath}.${index}`
+
+  // * Enable Traefik and ingress routes
+  set(skaffold, `${helmPath}.setValues.traefik.enabled`, true)
+  set(
+    skaffold,
+    `${helmPath}.setValues.global.ingress`,
+    mergeDeep(
+      get(skaffold, `${helmPath}.setValues.global.ingress`, {
+        enabled: true,
+        domain: 'localhost'
+      })
+    )
+  )
+
   for (const service of configuration.services) {
     console.log(chalk.green(`Syncing service config ${service.package}...`))
     if (!service.type) throw Error('No service type.')
@@ -74,12 +93,6 @@ export const loadSkaffoldConfiguration = async (
 
     const dev = serviceConfig.dev
     if (dev) {
-      const devPath = `profiles.${profileIndex}`
-      const initialPath = `${devPath}.deploy.helm.releases`
-
-      const index = syncHelm(skaffold, initialPath, configuration)
-      const helmPath = `${initialPath}.${index}`
-
       if (dev.build) {
         const initialPath = `${devPath}.build.artifacts`
         const index = mergeArrayElementAtPath(
