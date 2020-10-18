@@ -158,10 +158,14 @@ yargs
     'list projects',
     'list all available projects in the current monorepo',
     async () => {
-      console.log('NAME\tLOCATION')
+      console.log('NAME'.padEnd(20), 'LOCATION'.padEnd(20), 'DESCRIPTION')
       try {
         for (const project of await listProjects()) {
-          console.log(`${project.name}\t./${project.directory}`)
+          console.log(
+            project.name.padEnd(20),
+            `./${project.directory}`.padEnd(20),
+            project.description
+          )
         }
       } catch (e) {
         error(e)
