@@ -4,7 +4,8 @@
   "private": true,
   "description": "A map tile scraper and proxy",
   "platyplus": {
-    "type": "quasar"
+    "type": "quasar",
+    "route": true
   },
   "productName": "TileHuria",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",

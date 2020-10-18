@@ -41,6 +41,7 @@ export const createPackage = async (
 
   const variables: PackageInformation = {
     type,
+    route: false,
     description,
     package: packageName,
     directory,

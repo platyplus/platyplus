@@ -29,6 +29,7 @@ const fromNpmPackage = (
   return {
     ...getPathInfo(location),
     type: platyplus?.type,
+    route: !!platyplus?.route,
     package: packageName,
     location,
     description,

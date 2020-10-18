@@ -54,23 +54,33 @@ export const loadSkaffoldConfiguration = async (
   )
   const skaffold = await loadYaml(filePath, defaultSkaffoldConfiguration)
   const profileIndex = syncDevProfile(skaffold)
-  syncHelm(skaffold, 'deploy.helm.releases', configuration)
+  const helmReleaseIndex = syncHelm(
+    skaffold,
+    'deploy.helm.releases',
+    configuration
+  )
   set(skaffold, 'build.tagPolicy', { sha256: {} })
   set(skaffold, `profiles.${profileIndex}.build.tagPolicy`, { sha256: {} })
 
   const devPath = `profiles.${profileIndex}`
-  const initialPath = `${devPath}.deploy.helm.releases`
+  const devHelmReleasePath = `${devPath}.deploy.helm.releases`
 
-  const index = syncHelm(skaffold, initialPath, configuration)
-  const helmPath = `${initialPath}.${index}`
+  const devHelmReleaseIndex = syncHelm(
+    skaffold,
+    devHelmReleasePath,
+    configuration
+  )
+  const helmPath = `deploy.helm.releases.${helmReleaseIndex}`
+  const devHelmPath = `${devHelmReleasePath}.${devHelmReleaseIndex}`
 
   // * Enable Traefik and ingress routes
-  set(skaffold, `${helmPath}.setValues.traefik.enabled`, true)
+  set(skaffold, `${devHelmPath}.setValues.traefik.enabled`, true)
+  // * Enable all Ingress routes in development mode
   set(
     skaffold,
-    `${helmPath}.setValues.global.ingress`,
+    `${devHelmPath}.setValues.global.ingress`,
     mergeDeep(
-      get(skaffold, `${helmPath}.setValues.global.ingress`, {
+      get(skaffold, `${devHelmPath}.setValues.global.ingress`, {
         enabled: true,
         domain: 'localhost'
       })
@@ -88,6 +98,14 @@ export const loadSkaffoldConfiguration = async (
         'build.artifacts',
         'image',
         serviceConfig.main.build
+      )
+    }
+
+    if (serviceConfig.main?.build) {
+      set(
+        skaffold,
+        `${helmPath}.artifactOverrides.${service.name}.image`,
+        `${service.directory}-${service.name}`
       )
     }
 
@@ -112,7 +130,7 @@ export const loadSkaffoldConfiguration = async (
         }
         set(
           skaffold,
-          `${helmPath}.artifactOverrides.${service.name}.image`,
+          `${devHelmPath}.artifactOverrides.${service.name}.image`,
           `${service.directory}-${service.name}`
         )
       }
@@ -120,9 +138,9 @@ export const loadSkaffoldConfiguration = async (
         // TODO in Chart.yaml and here: the helm chart alias should be ${service.directory}-${service.name} - in case the same name is used twice
         set(
           skaffold,
-          `${helmPath}.setValues.${service.name}`,
+          `${devHelmPath}.setValues.${service.name}`,
           mergeDeep(
-            get(skaffold, `${helmPath}.setValues.${service.name}`),
+            get(skaffold, `${devHelmPath}.setValues.${service.name}`),
             dev.helm.setValues
           )
         )

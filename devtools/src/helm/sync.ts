@@ -78,7 +78,9 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
       set(helmValues, service.name, service.config.values)
     }
     set(helmValues, `${service.name}.enabled`, true)
-    set(helmValues, `${service.name}.enabled`, true)
+    if (service.route) {
+      set(helmValues, `${service.name}.ingress.enabled`, true)
+    }
     const chartName = service.config.chartName
     await cleanDependencies(helmDirectory, chartName)
     const chartPath = path.join(helmDirectory, 'charts', service.name)

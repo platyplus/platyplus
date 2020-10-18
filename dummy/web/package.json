@@ -5,7 +5,8 @@
   "description": "A Quasar Framework app",
   "productName": "Quasar App",
   "platyplus": {
-    "type": "quasar"
+    "type": "quasar",
+    "route": true
   },
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "scripts": {

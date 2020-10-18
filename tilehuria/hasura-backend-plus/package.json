@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "description": "Tilehuria HBP service",
   "platyplus": {
-    "type": "hasura-backend-plus"
+    "type": "hasura-backend-plus",
+    "route": true
   },
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://tilehuria.platyplus.io",

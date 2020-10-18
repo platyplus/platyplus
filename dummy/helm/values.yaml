@@ -6,11 +6,17 @@ node:
     tag: latest
     pullPolicy: IfNotPresent
   enabled: true
+  ingress:
+    enabled: true
 web:
   targetPort: 8080
   imageConfig:
     tag: latest
     pullPolicy: IfNotPresent
   enabled: true
+  ingress:
+    enabled: true
 hasura:
   enabled: true
+  ingress:
+    enabled: true

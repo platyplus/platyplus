@@ -19,11 +19,13 @@ export type PackageInformation = {
   }
   repository?: string
   dependencies: PackageInformation[]
+  route: boolean
 }
 
 export type PackageJson = {
   platyplus?: {
     type: PackageType
+    route?: boolean
   }
   workspaces?: { packages?: string[] }
   name: string

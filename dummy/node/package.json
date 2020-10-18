@@ -4,7 +4,8 @@
   "version": "0.0.5",
   "description": "A dummy service",
   "platyplus": {
-    "type": "typescript"
+    "type": "typescript",
+    "route": true
   },
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
