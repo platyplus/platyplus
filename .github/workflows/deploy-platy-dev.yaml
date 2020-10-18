@@ -30,6 +30,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
           vercel-args: '--prod' #Optional
+          github-comment: false
           vercel-org-id: ${{ secrets.VERCEL_PLATYDEV_ORG_ID}}  #Required
           vercel-project-id: ${{ secrets.VERCEL_PLATYDEV_PROJECT_ID}} #Required 
           working-directory: ./documentation/dist
