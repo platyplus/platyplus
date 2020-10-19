@@ -4,5 +4,4 @@ metadata:
   name: {{ .Release.Name }}-rabbitmq
   namespace: default
 data:
-  endpoint: "http://{{ .Release.Name }}-minio:9000"
   username: {{ .Values.rabbitmq.auth.username | default "user" }}
