@@ -12,3 +12,4 @@
 - [ ] how to publish docker images with correct tags -> custom skaffold builder?
 - [ ] preserve yaml comments e.g. https://www.npmjs.com/package/yawn-yaml
 - [ ] ? merge traefik and cert-manager charts?
+- [ ] copy HBP migration files and metadata on platy service creation -> create a HBP service...
