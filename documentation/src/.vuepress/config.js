@@ -61,7 +61,7 @@ const applicationsPages = workspaces.packages
   .reduce((aggr, entry) => {
     if (entry.endsWith('/*')) {
       const dir = entry.slice(0, -2)
-      const configPath = path.join('..', dir, 'config.yaml')
+      const configPath = path.join('..', dir, '.platy.yaml')
       if (fs.existsSync(configPath)) {
         const strConfig = fs.readFileSync(configPath).toString()
         try {

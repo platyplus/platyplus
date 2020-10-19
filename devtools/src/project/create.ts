@@ -17,7 +17,7 @@ export const createProject = async (
     throw Error('exists')
   } catch (e) {
     if (e.message !== 'exists') {
-      const yamlPath = path.join(DEFAULT_WORKING_DIR, directory, 'config.yaml')
+      const yamlPath = path.join(DEFAULT_WORKING_DIR, directory, '.platy.yaml')
       await ensureWorkspace(`${directory}/*`)
       await loadYaml(yamlPath, defaultPdtConfig(name, description))
       console.log(chalk.green(`Project ${name} created in ${directory}`))

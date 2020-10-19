@@ -12,12 +12,12 @@ const SKAFFOLD_API = 'http://localhost:50052'
 
 /**
  * Starts Skaffold for a given project
- * 1. Reads the Platy DevTools config.yaml file
+ * 1. Reads the Platy DevTools .platy.yaml file
  * 2. Generates the Dockerfiles
  * 3. Generates the skaffold settings (as a temporary file)
  * 4. Runs skaffold
- * 5. Watches changes in the Paltyplus DevTools config.yaml file, and re-runs 1-2-3 in that case (Skaffold handles step 4)
- * @param project The project directory, in which the config.yaml file will be found
+ * 5. Watches changes in the Paltyplus DevTools .platy.yaml file, and re-runs 1-2-3 in that case (Skaffold handles step 4)
+ * @param project The project directory, in which the .platy.yaml file will be found
  * @param rootDir
  */
 export const runSkaffoldDev = async (
@@ -27,7 +27,7 @@ export const runSkaffoldDev = async (
   let project = await getProject(projectName)
   if (!project) throw Error(`Project ${projectName} not found.`)
   // TODO watch xyz package.json / yarn.lock files (as dependencies can change)
-  const configPath = path.join(rootDir, project.directory, 'config.yaml')
+  const configPath = path.join(rootDir, project.directory, '.platy.yaml')
   const watcher = chodikar.watch(configPath)
   watcher.on('add', async () => {
     project = await syncProject(project.name)
