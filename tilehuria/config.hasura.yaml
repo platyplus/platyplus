@@ -1,5 +1,0 @@
-version: 2
-endpoint: http://localhost:8080
-admin_secret: $HASURA_GRAPHQL_ADMIN_SECRET
-migrations_directory: hasura/migrations
-metadata_directory: hasura/metadata
