@@ -54,9 +54,9 @@ TODO: how to get the IP with kubectl
 
 Given a `example.com` domain name, you must create a A record pointing to Traefik for the following hosts:
 
-- example.com
+- web.example.com
 - hasura.example.com
-- hbp.example.com
+- hasura-backend-plus.example.com
 
 ### Install Tilehuria
 

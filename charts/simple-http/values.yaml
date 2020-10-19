@@ -7,6 +7,21 @@ global:
     tls:
       enabled: false
 
+connect: 
+  hasura:
+    enabled: false
+    configMap: "{{ .Release.Name }}-hasura"
+    secret: "{{ .Release.Name }}-hasura"
+  minio:
+    enabled: false
+    configMap: "{{ .Release.Name }}-minio"
+    secret: "{{ .Release.Name }}-minio"
+  rabbitmq:
+    enabled: false
+    host: "{{ .Release.Name }}-rabbitmq"
+    configMap: "{{ .Release.Name }}-rabbitmq"
+    secret: "{{ .Release.Name }}-rabbitmq"
+    
 replicaCount: 1
 
 imageConfig:

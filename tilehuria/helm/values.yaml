@@ -3,66 +3,19 @@ traefik:
 hasura-backend-plus:
   enabled: true
   imageConfig:
-    repository: platyplus/tilehuria-hbp
     tag: latest
     pullPolicy: IfNotPresent
-  extraEnv:
-    - name: AUTO_MIGRATE
-      value: "false"
-    - name: S3_SSL_ENABLED
-      value: "false"
-    - name: HASURA_ENDPOINT
-      valueFrom:
-        configMapKeyRef:
-          name: "{{ .Release.Name }}-hasura"
-          key: endpoint
-    - name: HASURA_GRAPHQL_ADMIN_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: "{{ .Release.Name }}-hasura"
-          key: adminSecret
-    - name: JWT_KEY
-      valueFrom:
-        secretKeyRef:
-          name: "{{ .Release.Name }}-hasura"
-          key: jwt.key
-    - name: S3_ENDPOINT
-      valueFrom:
-        configMapKeyRef:
-          name: "{{ .Release.Name }}-minio"
-          key: endpoint
-    - name: S3_BUCKET
-      valueFrom:
-        configMapKeyRef:
-          name: "{{ .Release.Name }}-minio"
-          key: defaultBuckets
-    - name: S3_ACCESS_KEY_ID
-      valueFrom:
-        secretKeyRef:
-          name: "{{ .Release.Name }}-minio"
-          key: access-key
-    - name: S3_SECRET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: "{{ .Release.Name }}-minio"
-          key: secret-key
-    - name: SERVER_URL
-      valueFrom:
-        configMapKeyRef:
-          name: "{{ .Release.Name }}"
-          key: serverUrl
-    - name: JWT_ALGORITHM
-      valueFrom:
-        configMapKeyRef:
-          name: "{{ .Release.Name }}-hasura"
-          key: jwt.algorithm
+  connect:
+    hasura:
+      enabled: true
+  serverUrl: web.{{ .Values.global.ingress.domain }}
   minio:
     enabled: true
     defaultBuckets: tilehuria
     accessKey:
-      password: <minio-access-key>
+      password: minio-access-key
     secretKey:
-      password: <minio-secret-key>
+      password: minio-secret-key
   ingress:
     enabled: true
 hasura:
@@ -75,9 +28,9 @@ hasura:
     - name: HOOKS_URL
       value: http://{{ .Release.Name }}-hooks
     - name: EVENT_AOI
-      value: http://{{ .Release.Name }}-hooks/events/area-of-interest
+      value: http://{{ .Release.Name }}-hooks:3000/events/area-of-interest
     - name: EVENT_TILE_SET
-      value: http://{{ .Release.Name }}-hooks/events/tile-set
+      value: http://{{ .Release.Name }}-hooks:3000/events/tile-set
   ingress:
     enabled: true
 web:
@@ -95,9 +48,21 @@ hooks:
     tag: latest
     pullPolicy: IfNotPresent
   enabled: true
+  connect:
+    hasura:
+      enabled: true
+    rabbitmq:
+      enabled: true
 worker:
   targetPort: 3000
   imageConfig:
     tag: latest
     pullPolicy: IfNotPresent
   enabled: true
+  connect:
+    hasura:
+      enabled: true
+    rabbitmq:
+      enabled: true
+    minio:
+      enabled: true

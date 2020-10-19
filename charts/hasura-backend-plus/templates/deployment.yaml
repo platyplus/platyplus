@@ -14,7 +14,6 @@ spec:
   template:
     metadata:
       annotations:
-        # checksum/config: {{ include (print $.Template.BasePath "/config-map.yaml") . | sha256sum }}
         # checksum/minio-config: {{ include (print $.Template.BasePath "/minio-config.yaml") . | sha256sum }}
         # Missing: hasura secrets
         # TODO See https://v3.helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
@@ -47,6 +46,106 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
+            - name: AUTO_MIGRATE
+              value: "{{ .Values.autoMigrate }}"
+            {{- if .Values.serverUrl }}
+            - name: SERVER_URL
+              value: "{{- include "common.tplvalues.render" (dict "value" .Values.serverUrl "context" $) }}"            
+            {{- end }}
+            {{- if .Values.hasura.enabled }}
+            - name: HASURA_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- .Release.Name }}-hasura"
+                  key: endpoint
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- .Release.Name }}-hasura"
+                  key: adminSecret
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- .Release.Name }}-hasura"
+                  key: jwt.key
+            - name: JWT_ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- .Release.Name }}-hasura"
+                  key: jwt.algorithm
+            {{- else }}
+              {{- if .Values.connect.hasura.enabled }}
+            - name: HASURA_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
+                  key: endpoint
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: adminSecret
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: jwt.key
+            - name: JWT_ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: jwt.algorithm
+              {{- end }}
+            {{- end }}
+            {{- if .Values.minio.enabled }}
+            - name: S3_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- .Release.Name }}-minio"
+                  key: endpoint
+            - name: S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- .Release.Name }}-minio"
+                  key: defaultBuckets
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- .Release.Name }}-minio"
+                  key: access-key
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- .Release.Name }}-minio"
+                  key: secret-key
+            - name: S3_SSL_ENABLED
+              value: "false"
+            {{- else }}
+              {{- if .Values.connect.minio.enabled }}
+            - name: S3_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
+                  key: endpoint
+            - name: S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
+                  key: defaultBuckets
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
+                  key: access-key
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
+                  key: secret-key
+            - name: S3_SSL_ENABLED
+              value: "false"
+              {{- end }}          
+            {{- end }}          
             {{- if .Values.extraEnv }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}

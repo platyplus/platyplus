@@ -12,60 +12,25 @@ imageConfig:
 
 ingress:
   enabled: false
-  # hosts:
-  #   - host: hbp.localhost
+  hosts: []
   tls:
     enabled: false
     environment: production
 
-extraEnv: 
-  - name: AUTO_MIGRATE
-    value: "false"
-  - name: HASURA_ENDPOINT
-    valueFrom:
-      configMapKeyRef:
-        name: "{{ .Release.Name }}-hasura"
-        key: endpoint
-  - name: HASURA_GRAPHQL_ADMIN_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: "{{ .Release.Name }}-hasura"
-        key: adminSecret
-  - name: JWT_KEY
-    valueFrom:
-      secretKeyRef:
-        name: "{{ .Release.Name }}-hasura"
-        key: jwt.key
-  - name: S3_ENDPOINT
-    valueFrom:
-      configMapKeyRef:
-        name: "{{ .Release.Name }}-minio"
-        key: endpoint
-  - name: S3_BUCKET
-    valueFrom:
-      configMapKeyRef:
-        name: "{{ .Release.Name }}-minio"
-        key: defaultBuckets
-  - name: S3_ACCESS_KEY_ID
-    valueFrom:
-      secretKeyRef:
-        name: "{{ .Release.Name }}-minio"
-        key: access-key
-  - name: S3_SECRET_ACCESS_KEY
-    valueFrom:
-      secretKeyRef:
-        name: "{{ .Release.Name }}-minio"
-        key: secret-key
-  - name: SERVER_URL
-    valueFrom:
-      configMapKeyRef:
-        name: "{{ .Release.Name }}"
-        key: serverUrl
-  - name: JWT_ALGORITHM
-    valueFrom:
-      configMapKeyRef:
-        name: "{{ .Release.Name }}-hasura"
-        key: jwt.algorithm
+connect: 
+  hasura:
+    enabled: false
+    configMap: "{{ .Release.Name }}-hasura"
+    secret: "{{ .Release.Name }}-hasura"
+  minio:
+    enabled: false
+    configMap: "{{ .Release.Name }}-minio"
+    secret: "{{ .Release.Name }}-minio"
+
+autoMigrate: false
+# serverUrl: ""
+
+extraEnv: []
 
 minio:
   enabled: false

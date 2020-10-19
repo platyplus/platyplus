@@ -43,22 +43,60 @@ spec:
             - name: http
               containerPort: {{ .Values.targetPort }}
               protocol: TCP
-          env:
+          env:            
+            {{- if .Values.connect.hasura.enabled }}
+            - name: HASURA_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
+                  key: endpoint
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: adminSecret
+            {{- end }}
+            {{- if .Values.connect.minio.enabled }}
+            - name: S3_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
+                  key: endpoint
+            - name: S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
+                  key: defaultBuckets
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
+                  key: access-key
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
+                  key: secret-key
+            - name: S3_SSL_ENABLED
+              value: "false"
+            {{- end }}
+            {{- if .Values.connect.rabbitmq.enabled }}
+            - name: RABBITMQ_HOST
+              value: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.rabbitmq.host "context" $) }}"
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.rabbitmq.configMap "context" $) }}"
+                  key: username
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.rabbitmq.secret "context" $) }}"
+                  key: rabbitmq-password
+            {{- end }}
             {{- if .Values.extraEnv }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}
-            # - name: RABBITMQ_HOST
-            #   value: "{{ .Release.Name }}-rabbitmq"
-            # - name: HASURA_ENDPOINT
-            #   valueFrom:
-            #     configMapKeyRef:
-            #       name: {{ .Release.Name }}-hasura
-            #       key: endpoint
-            # - name: HASURA_GRAPHQL_ADMIN_SECRET
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: {{ .Release.Name }}-hasura
-            #       key: adminSecret
           # livenessProbe:
           #   httpGet:
           #     path: /

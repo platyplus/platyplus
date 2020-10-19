@@ -1,0 +1,24 @@
+dependencies:
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.4.5
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: simple-http
+  repository: file://../../charts/simple-http
+  version: 0.1.1
+- name: hasura
+  repository: file://../../charts/hasura
+  version: 0.1.0
+- name: hasura-backend-plus
+  repository: file://../../charts/hasura-backend-plus
+  version: 0.1.0
+- name: traefik
+  repository: https://containous.github.io/traefik-helm-chart
+  version: 8.9.1
+digest: sha256:c9a8c83d3935cf9895651adadca8eb7cd13a95bd941cd7774b6da5ace6b3b15b
+generated: "2020-10-19T13:02:09.167404+02:00"

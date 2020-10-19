@@ -79,12 +79,10 @@ export const loadSkaffoldConfiguration = async (
   set(
     skaffold,
     `${devHelmPath}.setValues.global.ingress`,
-    mergeDeep(
-      get(skaffold, `${devHelmPath}.setValues.global.ingress`, {
-        enabled: true,
-        domain: 'localhost'
-      })
-    )
+    mergeDeep(get(skaffold, `${devHelmPath}.setValues.global.ingress`, {}), {
+      enabled: true,
+      domain: 'localhost'
+    })
   )
 
   for (const service of configuration.services) {

@@ -8,6 +8,32 @@ Expand the name of the chart.
 {{- end }}
 
 {{/*
+Return the protocol to use, either http or https
+*/}}
+{{- define "hasura-backend-plus.protocol" -}}
+{{- if or (.Values.global.ingress.tls.enabled) (.Values.ingress.tls.enabled) }}
+{{- printf "%s" "https" }}
+{{- else }}
+{{- printf "%s" "http" }}
+{{- end }}
+{{- end }}
+
+{{/*
+Return the default server url
+*/}}
+{{- define "hasura-backend-plus.server-url" -}}
+{{- $name := include "hasura-backend-plus.name" . -}}
+{{- $protocol := include "hasura-backend-plus.protocol" . -}}
+{{- if .Values.global.ingress.domain }}
+  {{- printf "%s://%s.%s" $protocol $name .Values.global.ingress.domain -}}
+{{- else -}}
+{{- if gt (len .Values.ingress.hosts) 0 }}
+{{- printf "%s://%s" $protocol (index .Values.ingress.hosts 0) -}}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.

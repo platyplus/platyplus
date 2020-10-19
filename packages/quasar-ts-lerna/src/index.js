@@ -19,4 +19,9 @@ module.exports = function (api) {
     )
     cfg.resolve.plugins = plugins
   })
+  api.extendQuasarConf((conf) => {
+    // TODO not ideal as it depends on the skaffold/helm system
+    conf.devServer.public = '0.0.0.0'
+    conf.devServer.port = 8080
+  })
 }

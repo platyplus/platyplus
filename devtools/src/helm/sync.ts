@@ -1,6 +1,7 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
-import { set } from 'object-path'
+import mergeDeep from 'merge-deep'
+import { get, set } from 'object-path'
 import path from 'path'
 
 import { DevToolsConfig } from '../project'
@@ -75,7 +76,11 @@ export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
     }
 
     if (service.config.values) {
-      set(helmValues, service.name, service.config.values)
+      set(
+        helmValues,
+        service.name,
+        mergeDeep(get(helmValues, service.name, {}), service.config.values)
+      )
     }
     set(helmValues, `${service.name}.enabled`, true)
     if (service.route) {
