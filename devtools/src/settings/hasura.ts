@@ -41,7 +41,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
     chartName: 'hasura',
     run: async ({ address, localPort, resourceName }) => {
       await waitFor(`http://${address}:${localPort}/healthz`)
-      await fs.ensureFile(path.join(location, '.platy.yaml'))
+      await fs.ensureFile(path.join(location, 'config.yaml'))
       const hasuraMigrate = spawnSync('hasura', [
         'migrate',
         'apply',

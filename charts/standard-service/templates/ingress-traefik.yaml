@@ -1,6 +1,6 @@
 {{- if or (.Values.ingress.enabled) (.Values.global.ingress.enabled) -}}
-{{- $fullName := include "simple-http.fullname" . -}}
-{{- $name := include "simple-http.name" . -}}
+{{- $fullName := include "standard-service.fullname" . -}}
+{{- $name := include "standard-service.name" . -}}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:

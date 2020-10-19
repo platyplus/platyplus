@@ -72,7 +72,7 @@ export const quasarConfig: ServiceTypeConfig = ({
         }
       ]
     },
-    chartName: 'simple-http',
+    chartName: 'standard-service',
     init: async () => {
       console.log(
         chalk.yellow(

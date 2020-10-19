@@ -1,5 +1,5 @@
 apiVersion: v2
-description: Mmap tile scraper and proxy
+description: Map tile scraper and proxy
 name: tilehuria
 version: 0.1.0
 appVersion: "1.0"
@@ -8,20 +8,20 @@ dependencies:
     version: 7.4.5
     repository: https://charts.bitnami.com/bitnami
     condition: rabbitmq.enabled
-  - name: simple-http
+  - name: standard-service
     version: "*"
     condition: web.enabled
-    repository: file://../../charts/simple-http
+    repository: file://../../charts/standard-service
     alias: web
-  - name: simple-http
+  - name: standard-service
     version: "*"
     condition: worker.enabled
-    repository: file://../../charts/simple-http
+    repository: file://../../charts/standard-service
     alias: worker
-  - name: simple-http
+  - name: standard-service
     version: "*"
     condition: hooks.enabled
-    repository: file://../../charts/simple-http
+    repository: file://../../charts/standard-service
     alias: hooks
   - name: hasura
     version: "*"

@@ -4,15 +4,15 @@ name: dummy
 version: 0.1.0
 appVersion: "1.0"
 dependencies:
-  - name: simple-http
-    repository: file://../../charts/simple-http
+  - name: standard-service
+    repository: file://../../charts/standard-service
     version: "*"
     alias: web
     condition: web.enabled
-  - name: simple-http
+  - name: standard-service
     alias: node
     version: "*"
-    repository: file://../../charts/simple-http
+    repository: file://../../charts/standard-service
     condition: node.enabled
   - name: hasura
     alias: hasura

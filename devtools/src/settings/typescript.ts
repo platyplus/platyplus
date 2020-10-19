@@ -35,7 +35,7 @@ export const typescriptConfig: ServiceTypeConfig = ({
       }
     ]
   },
-  chartName: 'simple-http',
+  chartName: 'standard-service',
   postInstall: async () => {
     execSync('yarn', {
       cwd: location,

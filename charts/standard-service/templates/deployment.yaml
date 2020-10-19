@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "simple-http.fullname" . }}
+  name: {{ include "standard-service.fullname" . }}
   labels:
-    {{- include "simple-http.labels" . | nindent 4 }}
+    {{- include "standard-service.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "simple-http.selectorLabels" . | nindent 6 }}
+      {{- include "standard-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -20,13 +20,13 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        {{- include "simple-http.selectorLabels" . | nindent 8 }}
+        {{- include "standard-service.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "simple-http.serviceAccountName" . }}
+      serviceAccountName: {{ include "standard-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

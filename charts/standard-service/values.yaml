@@ -1,4 +1,4 @@
-# Default values for simple-http.
+# Default values for standard-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
@@ -25,7 +25,7 @@ connect:
 replicaCount: 1
 
 imageConfig:
-  # repository: platyplus/tilehuria-simple-http
+  # repository: platyplus/tilehuria-standard-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: ""
@@ -67,7 +67,7 @@ service:
 ingress:
   enabled: false
   # hosts:
-  #   - host: simple-http.localhost
+  #   - host: standard-service.localhost
   tls:
     enabled: false
     environment: production
