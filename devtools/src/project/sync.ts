@@ -7,11 +7,11 @@ import { syncHelmChart } from '../helm'
 import { DEFAULT_WORKING_DIR } from '../settings'
 import { loadSkaffoldConfiguration } from '../skaffold'
 import { getProject } from './get'
-import { DevToolsConfig } from './types'
+import { ProjectConfig } from './types'
 
 export const syncProject = async (
   projectName: string
-): Promise<DevToolsConfig> => {
+): Promise<ProjectConfig> => {
   const config = await getProject(projectName)
   await syncHelmChart(config)
   for (const service of config.services) {

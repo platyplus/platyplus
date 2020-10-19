@@ -4,11 +4,11 @@ import mergeDeep from 'merge-deep'
 import { get, set } from 'object-path'
 import path from 'path'
 
-import { DevToolsConfig } from '../project'
+import { ProjectConfig } from '../project'
 import { DEFAULT_WORKING_DIR } from '../settings'
 import { HelmChart } from './types'
 
-const defaults = (config: DevToolsConfig): HelmChart => ({
+const defaults = (config: ProjectConfig): HelmChart => ({
   apiVersion: 'v2',
   description: config.description,
   name: config.name,
@@ -26,7 +26,7 @@ const cleanDependencies = async (helmDirectory: string, chartName: string) => {
   glob.forEach((f) => fs.removeSync(f))
 }
 
-export const syncHelmChart = async (config: DevToolsConfig): Promise<void> => {
+export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
   console.log(chalk.green(`Syncing ${config.directory}/helm/Chart.yaml...`))
   const helmDirectory = path.join(DEFAULT_WORKING_DIR, config.directory, 'helm')
   const helmChartFile = path.join(helmDirectory, 'Chart.yaml')

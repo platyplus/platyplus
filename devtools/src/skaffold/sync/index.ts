@@ -4,7 +4,7 @@ import mergeDeep from 'merge-deep'
 import { get, set } from 'object-path'
 import path from 'path'
 
-import { DevToolsConfig } from '../../project'
+import { ProjectConfig } from '../../project'
 import { DEFAULT_WORKING_DIR } from '../../settings'
 import { indexOfArrayPathObject } from '../../utils'
 import { defaultSkaffoldConfiguration } from '../default'
@@ -29,7 +29,7 @@ const mergeArrayElementAtPath = (
 const syncHelm = (
   source: Record<string, unknown>,
   initialPath: string,
-  configuration: DevToolsConfig
+  configuration: ProjectConfig
 ) => {
   const index = indexOfArrayPathObject(source, 'name', configuration.name, {
     initialPath
@@ -42,7 +42,7 @@ const syncHelm = (
 }
 
 export const loadSkaffoldConfiguration = async (
-  configuration: DevToolsConfig
+  configuration: ProjectConfig
 ): Promise<Skaffold> => {
   console.log(
     chalk.green(`Syncing ${configuration.directory}/skaffold.yaml...`)

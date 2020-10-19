@@ -1,4 +1,4 @@
-import { DevToolsConfig } from './types'
+import { ProjectConfig } from './types'
 
 /**
  * Default
@@ -7,7 +7,7 @@ export const defaultPdtConfig = (
   directory: string,
   name = '',
   description = ''
-): DevToolsConfig => ({
+): ProjectConfig => ({
   directory,
   name,
   description,

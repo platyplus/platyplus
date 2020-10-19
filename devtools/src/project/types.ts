@@ -5,14 +5,14 @@ export type ServiceConfig = PackageInformation & {
   config?: PackageTypeConfigResult
 }
 
-export type DevToolsConfigFile = {
+export type ProjectConfigFile = {
   directory: string
   name: string
   description: string
   services: PackageInformation[]
 }
 
-export type DevToolsConfig = {
+export type ProjectConfig = {
   directory: string
   name: string
   description: string

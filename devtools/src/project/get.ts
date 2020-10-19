@@ -3,9 +3,9 @@ import { getLernaPackage } from '@platyplus/lerna'
 import { loadPackageInformation } from '../package'
 import { serviceTypesConfig } from '../settings'
 import { listProjects } from './list'
-import { DevToolsConfig } from './types'
+import { ProjectConfig } from './types'
 
-export const getProject = async (name: string): Promise<DevToolsConfig> => {
+export const getProject = async (name: string): Promise<ProjectConfig> => {
   const list = await listProjects()
   const result = list.find((project) => project.name === name)
   if (!result) throw Error(`No '${name}' project found in the monorepo.`)
