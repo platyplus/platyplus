@@ -1,4 +1,4 @@
-import { exec } from '@platyplus/process'
+import { execSync } from 'child_process'
 
 export type LernaPackage = {
   name: string
@@ -27,9 +27,9 @@ export const getLernaPackages = async (
 ): Promise<LernaPackage[]> => {
   try {
     scope = scope ? `--scope='${scope}'` : ''
-    const stdout = await exec(
+    const stdout = execSync(
       `lerna ls --all --exclude-dependents --json ${scope}`
-    )
+    ).toString()
     return JSON.parse(stdout)
   } catch (error) {
     console.log(error)
@@ -46,7 +46,9 @@ export const getLernaDependencies = async (
 ): Promise<LernaPackage[]> => {
   scope = scope ? `--scope='${scope}'` : ''
   try {
-    const stdout = await exec(`lerna ls --include-dependencies --json ${scope}`)
+    const stdout = execSync(
+      `lerna ls --include-dependencies --json ${scope}`
+    ).toString()
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.filter((p) => p.name !== scope)
   } catch (error) {
@@ -62,7 +64,7 @@ export const getLernaDependencies = async (
 export const hasLernaPackage = async (scope?: string): Promise<boolean> => {
   try {
     scope = scope ? `--scope='${scope}'` : ''
-    const stdout = await exec(`lerna ls --all --json ${scope}`)
+    const stdout = execSync(`lerna ls --all --json ${scope}`).toString()
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.length === 1
   } catch (error) {
