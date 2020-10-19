@@ -28,7 +28,7 @@ export const getLernaPackages = async (
   try {
     scope = scope ? `--scope='${scope}'` : ''
     const stdout = execSync(
-      `lerna ls --all --exclude-dependents --json ${scope}`
+      `lerna ls --loglevel=silent --all --exclude-dependents --json ${scope}`
     ).toString()
     return JSON.parse(stdout)
   } catch (error) {
@@ -47,7 +47,7 @@ export const getLernaDependencies = async (
   scope = scope ? `--scope='${scope}'` : ''
   try {
     const stdout = execSync(
-      `lerna ls --include-dependencies --json ${scope}`
+      `lerna ls --loglevel=silent --include-dependencies --json ${scope}`
     ).toString()
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.filter((p) => p.name !== scope)
@@ -64,7 +64,9 @@ export const getLernaDependencies = async (
 export const hasLernaPackage = async (scope?: string): Promise<boolean> => {
   try {
     scope = scope ? `--scope='${scope}'` : ''
-    const stdout = execSync(`lerna ls --all --json ${scope}`).toString()
+    const stdout = execSync(
+      `lerna ls --loglevel=silent --all --json ${scope}`
+    ).toString()
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.length === 1
   } catch (error) {
