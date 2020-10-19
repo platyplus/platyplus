@@ -135,7 +135,6 @@ export const loadSkaffoldConfiguration = async (
         )
       }
       if (dev.helm?.setValues) {
-        // TODO in Chart.yaml and here: the helm chart alias should be ${service.directory}-${service.name} - in case the same name is used twice
         set(
           skaffold,
           `${devHelmPath}.setValues.${service.name}`,
