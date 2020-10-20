@@ -27,20 +27,18 @@ export const hasuraConfig: ServiceTypeConfig = ({
     dev: {
       build: {
         image: `${directory}-${name}`,
-        context: `${name}`,
-        sync: {
-          manual: [
-            {
-              src: 'migrations/**/*',
-              dest: '.'
-            },
-            {
-              src: 'metadata/*',
-              dest: '.'
-            }
-          ]
-        }
+        context: `${name}`
       },
+      files: [
+        {
+          src: 'migrations/**/*',
+          dest: '.'
+        },
+        {
+          src: 'metadata/*',
+          dest: '.'
+        }
+      ],
       helm: {
         setValues: {
           postgresql: {

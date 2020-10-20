@@ -122,7 +122,7 @@ export const loadSkaffoldConfiguration = async (
           mergeArrayElementAtPath(
             skaffold,
             `${initialPath}.${index}.sync.manual`,
-            'image',
+            'src',
             file
           )
         }

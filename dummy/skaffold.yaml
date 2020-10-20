@@ -49,19 +49,20 @@ profiles:
             manual:
               - src: dummy/web/public/**/*
                 dest: .
+              - src: dummy/web/src/**/*.{ts,vue,json,sass,html}
+                dest: .
+              - src: dummy/web/quasar.conf.js
+                dest: .
+              - src: dummy/web/src/assets/**/*
+                dest: .
         - image: dummy-hasura
           context: hasura
           sync:
             manual:
-              - src: migrations/**/*
-                dest: .
               - src: metadata/*
                 dest: .
               - src: migrations/**/*
                 dest: .
-              - src: metadata/*
-                dest: .
-            infer: null
       tagPolicy:
         sha256: {}
     deploy:
