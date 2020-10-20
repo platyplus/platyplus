@@ -11,6 +11,8 @@ import { PackageInformation, PackageJson } from './types'
 export const getPathInfo = (
   packagePath: string
 ): { pathToRoot: string; name: string; directory: string } => {
+  if (!packagePath.startsWith('/'))
+    packagePath = path.resolve(DEFAULT_WORKING_DIR, packagePath)
   const destinationArray = path
     .relative(DEFAULT_WORKING_DIR, packagePath)
     .split('/')

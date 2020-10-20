@@ -1,0 +1,20 @@
+{
+  "name": "@platyplus/dummy-hbp",
+  "private": false,
+  "platyplus": {
+    "type": "hasura-backend-plus"
+  },
+  "version": "0.0.1",
+  "description": "a description",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "",
+    "directory": ""
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",
     "@types/merge-deep": "^3.0.0",
+    "@types/tmp": "^0.2.0",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
   },
@@ -36,6 +37,7 @@
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "merge-deep": "^3.0.2",
+    "tmp": "^0.2.1",
     "yaml": "^1.10.0"
   }
 }

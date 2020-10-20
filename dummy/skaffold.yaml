@@ -49,6 +49,15 @@ profiles:
             manual:
               - src: dummy/web/public/**/*
                 dest: .
+        - image: dummy-hasura
+          context: hasura
+          sync:
+            manual:
+              - src: migrations/**/*
+                dest: .
+              - src: metadata/*
+                dest: .
+            infer: null
       tagPolicy:
         sha256: {}
     deploy:
@@ -62,6 +71,8 @@ profiles:
                 image: dummy-node
               web:
                 image: dummy-web
+              hasura:
+                image: dummy-hasura
             setValues:
               hasura:
                 postgresql:
@@ -76,3 +87,5 @@ profiles:
                 ingress:
                   enabled: true
                   domain: localhost
+              web:
+                targetPort: 8080

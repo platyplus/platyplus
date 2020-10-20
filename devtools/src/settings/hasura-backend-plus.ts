@@ -1,8 +1,15 @@
-import { ServiceTypeConfig } from './types'
+import fs, { tmp } from '@platyplus/fs'
+import chalk from 'chalk'
+import { execSync } from 'child_process'
+import path from 'path'
 
+import { getProject } from '../project'
+import { DEFAULT_WORKING_DIR } from '.'
+import { PackageType, ServiceTypeConfig } from './types'
 export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
   directory,
-  name
+  name,
+  location
 }) => ({
   main: {
     build: {
@@ -22,5 +29,117 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
     //   }
     // }
   },
-  chartName: 'hasura-backend-plus'
+  chartName: 'hasura-backend-plus',
+  // * Find an existing Hasura service and copy the official HBP migrations/metadata into it
+  postInstall: async () => {
+    // * Determine if this package is located in a project directory
+    const cursor = location.split('/')
+    while (
+      !fs.pathExistsSync(`/${cursor.join('/')}/.platy.yaml`) &&
+      cursor.length
+    ) {
+      cursor.pop()
+    }
+    if (!cursor.length) {
+      console.log(
+        chalk.greenBright(
+          'Nowhere to install Hasura migrations. The location of this Hasura Backend Plus package does not appear to be embedded into a PlatyDev project. '
+        )
+      )
+      return
+    }
+
+    // * Load the project
+    const projectPath = path.relative(
+      DEFAULT_WORKING_DIR,
+      `/${cursor.join('/')}`
+    )
+    const project = await getProject(projectPath)
+
+    const hasuraServices = project.services.filter(
+      (service) => service.type === PackageType.Hasura
+    )
+
+    // * Stop if no Hasura service has been found in the project
+    if (!hasuraServices.length) {
+      console.log(
+        chalk.greenBright(
+          `Nowhere to install Hasura migrations. No Hasura package found in the ${projectPath} project.`
+        )
+      )
+      return
+    }
+
+    // * Stop if more than one Hasura service has been found in the project
+    if (hasuraServices.length > 1) {
+      console.log(
+        chalk.greenBright(
+          `Found more than one Hasura service in the ${projectPath} project. Install migrations manually`
+        )
+      )
+      return
+    }
+
+    // * One single Hasura service found. Load the HBP migrations/metadata
+    const hasura = hasuraServices[0]
+    console.log(
+      chalk.green(
+        `Loading migrations and metadata to ${hasura.directory}/${hasura.name} from https://github.com/nhost/hasura-backend-plus...`
+      )
+    )
+
+    // * Clone the repo in a temp dir
+    // TODO git clone --filter only the required directories
+    const tempDir = tmp.dirSync().name
+    execSync(
+      'git clone --depth=1 https://github.com/nhost/hasura-backend-plus.git',
+      {
+        cwd: tempDir,
+        stdio: 'ignore'
+      }
+    )
+
+    // * Copy HBP migrations
+    try {
+      for (const migration of fs.glob.sync(
+        path.join(tempDir, 'hasura-backend-plus/migrations/*')
+      )) {
+        await fs.move(
+          migration,
+          path.join(hasura.location, 'migrations', path.basename(migration))
+        )
+      }
+    } catch (err) {
+      console.log(
+        chalk.red(
+          `Something went wrong in loading HBP migrations into ${hasura.directory}/${hasura.name}. Please copy/mere them manually.`
+        )
+      )
+      console.log(err)
+    }
+
+    // * Copy HBP metadata. Will not work if some metadata already exists
+    for (const source of fs.glob.sync(
+      path.join(tempDir, 'hasura-backend-plus/metadata/*')
+    )) {
+      const destination = path.join(
+        hasura.location,
+        'metadata',
+        path.basename(source)
+      )
+      if (fs.pathExistsSync(destination)) {
+        if (path.extname(source) === '.yaml') {
+          const newData = await fs.readYaml(source)
+          await fs.loadYaml(destination, newData)
+        } else {
+          const newData = fs.readFileSync(source).toString()
+          fs.appendFileSync(destination, newData)
+        }
+      } else {
+        await fs.move(source, destination)
+      }
+    }
+
+    await fs.remove(tempDir)
+  }
 })

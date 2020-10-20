@@ -1,6 +1,7 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
 import { spawn, spawnSync } from 'child_process'
+import { sync } from 'git-config'
 import path from 'path'
 
 import { waitFor } from '../utils'
@@ -20,11 +21,26 @@ export const hasuraConfig: ServiceTypeConfig = ({
     main: {
       build: {
         image: `${directory}-${name}`,
-        context: name
+        context: `${name}`
       }
     },
     dev: {
-      build: false,
+      build: {
+        image: `${directory}-${name}`,
+        context: `${name}`,
+        sync: {
+          manual: [
+            {
+              src: 'migrations/**/*',
+              dest: '.'
+            },
+            {
+              src: 'metadata/*',
+              dest: '.'
+            }
+          ]
+        }
+      },
       helm: {
         setValues: {
           postgresql: {
@@ -41,7 +57,13 @@ export const hasuraConfig: ServiceTypeConfig = ({
     chartName: 'hasura',
     run: async ({ address, localPort, resourceName }) => {
       await waitFor(`http://${address}:${localPort}/healthz`)
-      await fs.ensureFile(path.join(location, 'config.yaml'))
+      if (!fs.pathExistsSync(path.join(location, 'config.yaml'))) {
+        await fs.saveYaml(path.join(location, 'config.yaml'), {
+          version: 2,
+          metadata_directory: 'metadata',
+          migrations_directory: 'migrations'
+        })
+      }
       const hasuraMigrate = spawnSync('hasura', [
         'migrate',
         'apply',
