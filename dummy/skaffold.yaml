@@ -14,6 +14,8 @@ build:
         dockerfile: dummy/web/Dockerfile
     - image: dummy-hasura
       context: hasura
+    - image: dummy-hbp
+      context: hbp
 deploy:
   helm:
     releases:
@@ -27,6 +29,8 @@ deploy:
             image: dummy-web
           hasura:
             image: dummy-hasura
+          hbp:
+            image: dummy-hbp
 profiles:
   - name: dev
     activation:

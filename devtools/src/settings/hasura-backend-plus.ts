@@ -80,7 +80,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
       return
     }
 
-    // * One single Hasura service found. Load the HBP migrations/metadata
+    // * One single Hasura service found. Load the HBP migrations/metadata and update Helm values
     const hasura = hasuraServices[0]
     console.log(
       chalk.green(
@@ -153,5 +153,13 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
     }
 
     await fs.remove(tempDir)
+
+    // * Update Helm Chart values so it loads Hasura-related environment values from Hasura secrets and config-map
+    await fs.loadYaml(
+      path.join(DEFAULT_WORKING_DIR, projectPath, 'helm/values.yaml'),
+      {
+        [name]: { connect: { hasura: { enabled: true } } }
+      }
+    )
   }
 })

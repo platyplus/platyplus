@@ -1,5 +1,10 @@
 traefik:
   enabled: false
+hbp:
+  connect:
+    hasura:
+      enabled: true
+  enabled: true
 node:
   targetPort: 3000
   imageConfig:

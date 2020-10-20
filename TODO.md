@@ -15,3 +15,4 @@
 - [ ] hasura init container: wait for postgres
 - [ ] hbp init container: wait for hasura (and for minio?)
 - [ ] standard init container: wait for connected services
+- [ ] How to set route=true when creating a package
