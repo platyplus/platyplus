@@ -1,16 +1,21 @@
+import merge from 'deepmerge'
 import fs from 'fs-extra'
-import merge from 'merge-deep'
 import yaml from 'yaml'
 
 export const loadYaml = async <T>(
   filePath: string,
   defaults: T,
-  create = true
+  create = true,
+  options?: merge.Options
 ): Promise<T> => {
   try {
     const textFile = await fs.readFile(filePath)
     try {
-      const yamlObject = merge(defaults, yaml.parse(textFile.toString()))
+      const yamlObject = merge<T>(
+        defaults,
+        yaml.parse(textFile.toString()),
+        options
+      )
       await fs.outputFile(filePath, yaml.stringify(yamlObject))
       return yamlObject
     } catch {

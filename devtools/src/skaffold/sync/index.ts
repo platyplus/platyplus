@@ -1,6 +1,6 @@
 import { loadYaml } from '@platyplus/fs'
 import chalk from 'chalk'
-import mergeDeep from 'merge-deep'
+import merge from 'deepmerge'
 import { get, set } from 'object-path'
 import path from 'path'
 
@@ -21,7 +21,7 @@ const mergeArrayElementAtPath = (
     initialPath: arrayPath
   })
   const olderKeys = get(source, `${arrayPath}.${index}`)
-  const newKeys = olderKeys ? mergeDeep(olderKeys, element) : element
+  const newKeys = olderKeys ? merge(olderKeys, element) : element
   set(source, `${arrayPath}.${index}`, newKeys)
   return index
 }
@@ -79,7 +79,7 @@ export const loadSkaffoldConfiguration = async (
   set(
     skaffold,
     `${devHelmPath}.setValues.global.ingress`,
-    mergeDeep(get(skaffold, `${devHelmPath}.setValues.global.ingress`, {}), {
+    merge(get(skaffold, `${devHelmPath}.setValues.global.ingress`, {}), {
       enabled: true,
       domain: 'localhost'
     })
@@ -136,7 +136,7 @@ export const loadSkaffoldConfiguration = async (
         set(
           skaffold,
           `${devHelmPath}.setValues.${service.name}`,
-          mergeDeep(
+          merge(
             get(skaffold, `${devHelmPath}.setValues.${service.name}`),
             dev.helm.setValues
           )
