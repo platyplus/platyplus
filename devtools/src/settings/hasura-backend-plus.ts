@@ -129,7 +129,9 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
         path.basename(source)
       )
       if (fs.pathExistsSync(destination)) {
+        // * If the file already exists, check if it's a YAML file or not
         if (path.extname(source) === '.yaml') {
+          // * If it's a YAML file, then concatenate if it's an object, or merge if it's an object
           const oldData = await fs.readYaml<
             Record<string, unknown> | Record<string, unknown>[]
           >(destination)
@@ -141,6 +143,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
             await fs.loadYaml(destination, newData, true)
           }
         } else {
+          // * If the file is not a YAML file, then consider as text and append it (e.g. graphql file)
           const newData = fs.readFileSync(source).toString()
           fs.appendFileSync(destination, newData)
         }
