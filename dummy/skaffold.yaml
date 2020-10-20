@@ -57,6 +57,10 @@ profiles:
                 dest: .
               - src: metadata/*
                 dest: .
+              - src: migrations/**/*
+                dest: .
+              - src: metadata/*
+                dest: .
             infer: null
       tagPolicy:
         sha256: {}

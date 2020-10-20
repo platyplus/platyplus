@@ -104,6 +104,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
       for (const migration of fs.glob.sync(
         path.join(tempDir, 'hasura-backend-plus/migrations/*')
       )) {
+        // TODO only sql files, not yaml files
         await fs.move(
           migration,
           path.join(hasura.location, 'migrations', path.basename(migration))
@@ -129,8 +130,16 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
       )
       if (fs.pathExistsSync(destination)) {
         if (path.extname(source) === '.yaml') {
-          const newData = await fs.readYaml(source)
-          await fs.loadYaml(destination, newData)
+          const oldData = await fs.readYaml<
+            Record<string, unknown> | Record<string, unknown>[]
+          >(destination)
+          if (Array.isArray(oldData)) {
+            const newData = await fs.readYaml<Record<string, unknown>[]>(source)
+            await fs.saveYaml(destination, [...oldData, ...newData])
+          } else {
+            const newData = await fs.readYaml<Record<string, unknown>>(source)
+            await fs.loadYaml(destination, newData, true)
+          }
         } else {
           const newData = fs.readFileSync(source).toString()
           fs.appendFileSync(destination, newData)
