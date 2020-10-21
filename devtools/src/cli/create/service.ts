@@ -75,7 +75,7 @@ export const createService: CommandModule<args> = {
         },
         {
           name: 'packageName',
-          message: 'package.json name of the service', // TODO duplicate of the above yargs desc
+          message: 'package.json name of the service',
           type: 'input',
           when: !options.packageName,
           default: ({ name }: { name: string }) => options.name || name,
@@ -83,7 +83,7 @@ export const createService: CommandModule<args> = {
         },
         {
           name: 'route',
-          message: 'export the service with an Ingress route', // TODO duplicate of the above yargs desc
+          message: 'export the service with an Ingress route',
           type: 'confirm',
           when: options.route === undefined,
           default: true

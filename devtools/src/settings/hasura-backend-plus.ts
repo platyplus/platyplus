@@ -34,7 +34,6 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
       )
 
       // * Clone the repo in a temp dir
-      // TODO git clone --filter only the required directories
       const tempDir = tmp.dirSync().name
       execSync(
         'git clone --depth=1 https://github.com/nhost/hasura-backend-plus.git',
@@ -49,7 +48,6 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
         for (const migration of fs.glob.sync(
           path.join(tempDir, 'hasura-backend-plus/migrations/*')
         )) {
-          // TODO only sql files, not yaml files
           await fs.move(
             migration,
             path.join(hasura.location, 'migrations', path.basename(migration))

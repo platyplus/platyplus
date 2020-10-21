@@ -34,7 +34,7 @@ export const createPackage: CommandModule<args> = {
         name: 'path',
         type: 'input',
         when: !options.path,
-        validate: (value) => !!value || 'must not be empty' // TODO valid directory name
+        validate: (value) => !!value || 'must not be empty'
       },
       {
         name: 'name',
@@ -53,7 +53,6 @@ export const createPackage: CommandModule<args> = {
     ])
     const { name, path, description } = { ...options, ...answers }
     try {
-      // TODO warns/exists if dependencies are not met e.g. hasura console is not installed for an hasura package
       await create(PackageTypes.TypeScript, name, path, description)
     } catch (e) {
       error(e)

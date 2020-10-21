@@ -1,7 +1,6 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
 import { spawn, spawnSync } from 'child_process'
-import { sync } from 'git-config'
 import path from 'path'
 
 import { waitFor } from '../utils'
