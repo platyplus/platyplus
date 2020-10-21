@@ -1,3 +1,0 @@
-# Dummy Helm Chart
-
-## Requirements
