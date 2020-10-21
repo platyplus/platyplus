@@ -3,7 +3,6 @@ name: hasura-backend-plus
 description: Hasura Backend Plus
 icon: https://nhost.github.io/hasura-backend-plus/logo.png
 appVersion: 2.0.0
-name: hasura-backend-plus
 version: 0.1.0
 dependencies:
   - name: minio

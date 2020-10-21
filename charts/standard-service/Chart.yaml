@@ -1,6 +1,6 @@
 apiVersion: v2
 name: standard-service
-description: Simple HTTP microservice
+description: Standard microservice
 
 # A chart can be either an 'application' or a 'library' chart.
 #
