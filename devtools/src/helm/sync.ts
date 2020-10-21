@@ -1,7 +1,6 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
-import merge from 'deepmerge'
-import { get, set } from 'object-path'
+import { set } from 'object-path'
 import path from 'path'
 
 import { ProjectConfig } from '../project'
@@ -33,11 +32,6 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
   const yamlChart = await fs.loadYaml<HelmChart>(
     helmChartFile,
     defaults(config)
-  )
-  const helmValuesFile = path.join(helmDirectory, 'values.yaml')
-  const helmValues = await fs.loadYaml<Record<string, unknown>>(
-    helmValuesFile,
-    { traefik: { enabled: false } }
   )
 
   yamlChart.description = config.description
@@ -75,17 +69,6 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
       yamlChart.dependencies[index].condition = `${service.name}.enabled`
     }
 
-    if (service.config.values) {
-      set(
-        helmValues,
-        service.name,
-        merge(get(helmValues, service.name, {}), service.config.values)
-      )
-    }
-    set(helmValues, `${service.name}.enabled`, true)
-    if (service.route) {
-      set(helmValues, `${service.name}.ingress.enabled`, true)
-    }
     const chartName = service.config.chartName
     await cleanDependencies(helmDirectory, chartName)
     const chartPath = path.join(helmDirectory, 'charts', service.name)
@@ -123,5 +106,4 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
     }
   }
   await fs.saveYaml(helmChartFile, yamlChart)
-  await fs.saveYaml(helmValuesFile, helmValues)
 }

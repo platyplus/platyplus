@@ -37,7 +37,11 @@ export const saveYaml = async <T>(
   await fs.outputFile(filePath, yaml.stringify(yamlObject))
 }
 
-export const readYaml = async <T>(filePath: string): Promise<T> => {
+export const readYaml = async <
+  T extends Record<string, unknown> | Record<string, unknown>[]
+>(
+  filePath: string
+): Promise<T> => {
   const file = await fs.readFile(filePath)
   return yaml.parse(file.toString())
 }

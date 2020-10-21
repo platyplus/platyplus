@@ -1,12 +1,18 @@
 import { PackageInformation } from '../package'
+import { ProjectConfig } from '../project'
 import { SkaffoldPortEvent } from '../skaffold'
 
-export enum PackageType {
-  TypeScript = 'typescript',
+export enum ServiceTypes {
   Quasar = 'quasar',
   Hasura = 'hasura',
   HasuraBackendPlus = 'hasura-backend-plus'
 }
+
+export enum PackageTypes {
+  TypeScript = 'typescript'
+}
+
+export type PackageType = PackageTypes | ServiceTypes
 
 type ServicePipelineConfigResult = {
   build:
@@ -32,6 +38,8 @@ export type PackageTypeConfigResult = {
   init?: () => Promise<void>
   postInstall?: () => Promise<void>
   run?: (event: SkaffoldPortEvent) => Promise<void>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  postServiceCreate?: (project: ProjectConfig, options?: any) => Promise<void>
 }
 
 export type ServiceTypeConfig = (

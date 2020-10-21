@@ -8,6 +8,7 @@ import path from 'path'
 import {
   DEFAULT_WORKING_DIR,
   PackageType,
+  PackageTypeConfigResult,
   serviceTypesConfig
 } from '../settings'
 import { generatePackageTemplateFiles } from '../templates'
@@ -20,28 +21,27 @@ import { PackageInformation } from './types'
 /**
  * Generates a Typescript package ready to be used in a Lerna/Yarn workspaces environment
  * @param packageName the full name of the npm package e.g. @yourorg/a-package
- * @param packagePath the destination package directory, e.g. packages/a-package
+ * @param location the destination package directory, e.g. packages/a-package
  * @param description
  */
 export const createPackage = async (
   type: PackageType,
   packageName: string,
-  packagePath: string,
+  location: string,
   description = DEFAULT_DESCRIPTION
-): Promise<void> => {
+): Promise<PackageTypeConfigResult> => {
+  console.log(packageName, location)
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)
-  const { pathToRoot, name, directory } = getPathInfo(packagePath)
+  const { pathToRoot, name, directory } = getPathInfo(location)
   const git = gitConfig.sync()
-  const location = `${DEFAULT_WORKING_DIR}/${packagePath}`
   if (await fs.pathExists(location))
     throw Error(`The directory "${location}" already exists.`)
   await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
 
   const variables: PackageInformation = {
     type,
-    route: false,
     description,
     package: packageName,
     directory,
@@ -56,12 +56,13 @@ export const createPackage = async (
     dependencies: []
   }
   // * Checks the package is in a workspace
-  await ensureWorkspace(packagePath)
+  await ensureWorkspace(location)
 
   const settings = serviceTypesConfig[type](variables)
   await settings.init?.()
   await generatePackageTemplateFiles(variables)
   await syncPackageJson(variables)
   await settings.postInstall?.()
-  console.log(chalk.green(`Package ${packageName} created in ${packagePath}`))
+  console.log(chalk.green(`Package ${packageName} created in ${location}`))
+  return settings
 }
