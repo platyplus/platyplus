@@ -23,7 +23,8 @@ unauthorizedRole: anonymous
 
 cors:
   disable: false
-  domain: []
+  domain:
+    - "*"
   
 wsReadCookie: false
 
@@ -40,7 +41,7 @@ connect:
     connections: 50
     timeout: 180
     preparedStatements: true
-    transactionIsolation: read-commited
+    transactionIsolation: read-committed
     stringifyNumericTypes: false
 
 enabledApis:
