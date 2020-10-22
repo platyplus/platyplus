@@ -1,0 +1,2 @@
+- [ ] validate Hasura options e.g. log levels etc
+- [ ] CORS domains: from ingress routes?

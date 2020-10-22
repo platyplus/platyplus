@@ -2,13 +2,13 @@
 
 ## Step 1: publishable contents: Helm Charts
 
-- [ ] complete Hasura Helm chart options
+- [x] complete Hasura Helm chart options
 - [ ] complete HBP Helm chart options
 - [ ] Hasura Helm chart readme
 - [ ] HBP Helm chart readme
 - [ ] main website cleanup
 - [ ] review TODOs in the code
-- [ ] make repo public
+- [x] make repo public
 - [ ] advertise
 
 ## Step 2: DevTools MVP
@@ -29,6 +29,7 @@
 
 ## Next
 
+- [ ] Helm Charts repo: keep history (older chart versions) -> chartmuseum
 - [ ] tilehuria worker is not an http server -> allow port deactivation in the standard-service chart
 - [ ] add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
