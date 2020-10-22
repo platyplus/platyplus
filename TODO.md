@@ -8,6 +8,7 @@
 - [ ] HBP Helm chart readme
 - [ ] main website cleanup
 - [ ] review TODOs in the code
+- [ ] make repo public
 - [ ] advertise
 
 ## Step 2: DevTools MVP
@@ -30,6 +31,7 @@
 
 - [ ] tilehuria worker is not an http server -> allow port deactivation in the standard-service chart
 - [ ] add testing to package/service/project/monorepo templates
+- [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 
 ## Later
 

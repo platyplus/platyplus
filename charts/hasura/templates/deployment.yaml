@@ -60,6 +60,10 @@ spec:
             {{- if .Values.extraEnv }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}
+            - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+              value: {{ .Values.console.enabled }}
+            - name: HASURA_GRAPHQL_CONSOLE_ASSETS_DIR
+              value: {{ .Values.console.assetsDir }}
             - name: HASURA_GRAPHQL_DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -75,6 +79,50 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-hasura
                   key: jwt.secret
+            - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+              value: {{ .Values.unauthorizedRole }}
+            - name: HASURA_GRAPHQL_CORS_DOMAIN
+              value: {{ include "hasura.joinListWithComma" .Values.cors.domain }}
+            - name: HASURA_GRAPHQL_DISABLE_CORS
+              value: {{ .Values.cors.disable }}
+            - name: HASURA_GRAPHQL_WS_READ_COOKIE
+              value: {{ .Values.wsReadCookie }}
+            - name: HASURA_GRAPHQL_ENABLE_TELEMETRY
+              value: {{ .Values.telemetry.enabled }}
+            - name: HASURA_GRAPHQL_EVENTS_HTTP_POOL_SIZE
+              value: {{ .Values.events.poolSize }}
+            - name: HASURA_GRAPHQL_EVENTS_FETCH_INTERVAL
+              value: {{ .Values.events.fetchInterval }}
+            - name: HASURA_GRAPHQL_PG_STRIPES
+              value: {{ .Values.connect.postgresql.stripes }}
+            - name: HASURA_GRAPHQL_PG_CONNECTIONS
+              value: {{ .Values.connect.postgresql.connections }}
+            - name: HASURA_GRAPHQL_PG_TIMEOUT
+              value: {{ .Values.connect.postgresql.timeout }}
+            - name: HASURA_GRAPHQL_USE_PREPARED_STATEMENTS
+              value: {{ .Values.connect.postgresql.preparedStatements }}
+            - name: HASURA_GRAPHQL_TX_ISOLATION
+              value: {{ .Values.connect.postgresql.transactionIsolation }}
+            - name: HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES
+              value: {{ .Values.connect.postgresql.stringifyNumericTypes}}
+            - name: HASURA_GRAPHQL_ENABLED_APIS
+              value: {{ include "hasura.joinListWithComma" .Values.enabledApis }}
+            - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
+              value: {{ .Values.log.types }}
+            - name: HASURA_GRAPHQL_LOG_LEVEL
+              value: {{ .Values.log.level }}
+            - name: HASURA_GRAPHQL_DEV_MODE
+              value: {{ .Values.devMode }}
+            - name: HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS
+              value: {{ .Values.adminInternalErrors }}
+            - name: HASURA_GRAPHQL_LIVE_QUERIES_MULTIPLEXED_REFETCH_INTERVAL
+              value: {{ .Values.liveQueries.multiplexedRefetchInterval }}
+            - name: HASURA_GRAPHQL_LIVE_QUERIES_MULTIPLEXED_BATCH_SIZE
+              value: {{ .Values.liveQueries.multiplexedBatchSize }}
+            - name: HASURA_GRAPHQL_ENABLE_ALLOWLIST
+              value: {{ .Values.allowList.enabled }}
+            - name:
+              value: {{ .Values. }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

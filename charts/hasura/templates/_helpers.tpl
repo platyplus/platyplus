@@ -24,6 +24,13 @@ Return the jwt Key
 {{- end -}}
 {{- end -}}
 
+{{/*
+Convert a list toCSV
+*/}}
+{{- define "hasura.joinListWithComma" -}}
+{{- $local := dict "first" true -}}
+{{- range $k, $v := . -}}{{- if not $local.first -}},{{- end -}}{{- $v -}}{{- $_ := set $local "first" false -}}{{- end -}}
+{{- end -}}
 
 {{/*
 Return the hasura admin secret
