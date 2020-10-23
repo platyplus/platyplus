@@ -134,12 +134,7 @@ hasura:
   # jwtSecret: "{{ include "hasura-backend-plus.jwtSecret" . }}"
 
   ingress:
-    enabled: true
-
-  postgresql:
     enabled: false
-    # postgresqlDatabase: hasura-backend-plus
-    # postgresqlPassword: <secret-postgresql-password>
 
   
 replicaCount: 1

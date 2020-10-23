@@ -5,7 +5,6 @@
 ## TL;DR
 
 ```sh
-helm repo add platy https://charts.platy.dev
 helm install my-release platy/hasura
 ```
 
@@ -17,8 +16,10 @@ This chart bootstraps a Hasura deployment on a Kubernetes cluster using the Helm
 
 - Kubernetes 1.12+
 - Helm 3
-- Traefik Custom Resource Definitions installed on your cluster (for ingress routes)
 - PV provisioner support in the underlying infrastructure (for PostgreSQL persistence)
+- If activating Ingress routes:
+  - Traefik, including its Custom Resource Definitions, installed on your cluster (for ingress routes)
+  - DNS records pointing to your routes
 
 ## Installing the Chart
 
@@ -28,20 +29,24 @@ To install the chart with the release name my-release:
 helm install my-release platy/hasura
 ```
 
-The command deploys PostgreSQL on the Kubernetes cluster in the default configuration. The Parameters section lists the parameters that can be configured during installation.
-
-Tip: List all releases using helm list
+The command deploys Hasura and PostgreSQL on the Kubernetes cluster in the default configuration. The [Parameters](#Parameters) and [Hasura parameters](#Hasura-parameters) sections list the parameters that can be configured during installation.
 
 ## Uninstalling the Chart
 
 To uninstall/delete the my-release deployment:
 
-\$ helm delete my-release
+```sh
+helm delete my-release
+```
+
 The command removes all the Kubernetes components but PVC's associated with the chart and deletes the release.
 
 To delete the PVC's associated with my-release:
 
-\$ kubectl delete pvc -l release=my-release
+```sh
+kubectl delete pvc -l release=my-release
+```
+
 Note: Deleting the PVC's will delete postgresql data as well. Please be cautious before doing it.
 
 ## Parameters
@@ -104,7 +109,11 @@ The following table lists the configurable Hasura parameters of the chart and th
 
 ## Configuration and installation details
 
-### Change PostgreSQL password
+### Configuring PostgreSQL
+
+Link to the chart for further info
+
+#### Changing the PostgreSQL password
 
 Note that the Postgresql password cannot be updated through Helm once they have been set.
 See Bitnami issue.

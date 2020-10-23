@@ -27,6 +27,7 @@
 - [ ] Getting started
 - [ ] Hasura+HBP recipe
 - [ ] CLI API documentation
+- [ ] test CLI from npm installation
 - [ ] attention: document the use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 
 ## Next
