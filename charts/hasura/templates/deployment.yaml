@@ -30,10 +30,12 @@ spec:
       serviceAccountName: {{ include "hasura.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{/*
       # initContainers:
       #   - name: wait-postgres
       #     image: busybox:1.28
       #     command: ['sh', '-c', "until nc -z {{ .Release.Name }}-postgresql {{ .Values.postgresql.servicePort |int }}; do echo en attente de postgresql; sleep 2; done"]
+      */}}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

@@ -1,7 +1,11 @@
+{{- $fullname := include "hasura-backend-plus.fullname" . -}}
+{{- $hasuraConnect := include "hasura-backend-plus.hasuraConnect" . -}}
+{{- $s3Connect := include "hasura-backend-plus.s3Connect" . -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hasura-backend-plus.fullname" . }}
+  name: {{ $fullname }}
   labels:
     {{- include "hasura-backend-plus.labels" . | nindent 4 }}
 spec:
@@ -14,9 +18,11 @@ spec:
   template:
     metadata:
       annotations:
+      {{/*
         # checksum/minio-config: {{ include (print $.Template.BasePath "/minio-config.yaml") . | sha256sum }}
         # Missing: hasura secrets
         # TODO See https://v3.helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
+      */}}
         rollme: {{ randAlphaNum 5 | quote }}
     {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -46,106 +52,288 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
+            - name: HASURA_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+            {{- if .Values.hasura.enabled }}
+                  name: "{{ $hasuraConnect }}"
+                  key: endpoint
+            {{- else }}
+                  name: "{{ $fullname }}"
+                  key: hasura.endpoint
+            {{- end }}
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $hasuraConnect }}"
+                  key: adminSecret
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $hasuraConnect }}"
+                  key: jwt.key
+            - name: JWT_ALGORITHM
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $hasuraConnect }}"
+                  key: jwt.algorithm
+            - name: JWT_CLAIMS_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $hasuraConnect }}"
+                  key: jwt.claims.namespace
+            - name: JWT_EXPIRES_IN
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: jwt.expires.in
+            - name: JWT_REFRESH_EXPIRES_IN
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: jwt.expires.refresh
+            - name: JWT_CUSTOM_FIELDS
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: jwt.customFields
             - name: AUTO_MIGRATE
               value: "{{ .Values.autoMigrate }}"
             {{- if .Values.serverUrl }}
             - name: SERVER_URL
               value: "{{- include "common.tplvalues.render" (dict "value" .Values.serverUrl "context" $) }}"            
             {{- end }}
-            {{- if .Values.hasura.enabled }}
-            - name: HASURA_ENDPOINT
-              valueFrom:
-                configMapKeyRef:
-                  name: "{{- .Release.Name }}-hasura"
-                  key: endpoint
-            - name: HASURA_GRAPHQL_ADMIN_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: "{{- .Release.Name }}-hasura"
-                  key: adminSecret
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: "{{- .Release.Name }}-hasura"
-                  key: jwt.key
-            - name: JWT_ALGORITHM
-              valueFrom:
-                configMapKeyRef:
-                  name: "{{- .Release.Name }}-hasura"
-                  key: jwt.algorithm
+            - name: AUTH_ENABLE
+              value: "{{ .Values.auth.enabled }}"
+            - name: AUTH_LOCAL_USERS_ENABLE
+              value: "{{ .Values.auth.localUsers }}"
+            - name: CHANGE_EMAIL_ENABLE
+              value: "{{ .Values.auth.changeEmail }}"
+            - name: NOTIFY_EMAIL_CHANGE
+              value: "{{ .Values.auth.notifyEmailChange }}"
+            - name: ANONYMOUS_USERS_ENABLE
+              value: "{{ .Values.auth.anonymousUsers }}"
+            - name: ALLOW_USER_SELF_DELETE
+              value: "{{ .Values.auth.allowUserSelfDelete }}"
+            - name: VERIFY_EMAILS
+              value: "{{ .Values.auth.verifyEmails }}"
+            - name: LOST_PASSWORD_ENABLE
+              value: "{{ .Values.auth.lostPassword }}"
+            - name: ALLOWED_EMAIL_DOMAINS
+              value: "{{ join "," .Values.auth.registration.allowedEmailDomains }}"
+            - name: DEFAULT_USER_ROLE
+              value: "{{ .Values.auth.registration.defaultUserRole }}"
+            - name: DEFAULT_ANONYMOUS_ROLE
+              value: "{{ .Values.auth.registration.defaultAnonymousRole }}"
+            - name: AUTO_ACTIVATE_NEW_USERS
+              value: "{{ .Values.auth.registration.autoActivateNewUsers }}"
+            - name: HIBP_ENABLE
+              value: "{{ .Values.auth.registration.hibp }}"
+            - name: REGISTRATION_CUSTOM_FIELDS
+              value: "{{ join "," .Values.auth.registration.registrationCustomFields }}"
+            - name: MIN_PASSWORD_LENGTH
+              value: "{{ .Values.auth.registration.minPasswordLength }}"
+            - name: DEFAULT_ALLOWED_USER_ROLES
+            {{- if .Values.auth.registration.defaultAllowedRoles }}
+              value: "{{ join "," .Values.auth.registration.defaultAllowedRoles }}"
             {{- else }}
-              {{- if .Values.connect.hasura.enabled }}
-            - name: HASURA_ENDPOINT
-              valueFrom:
-                configMapKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
-                  key: endpoint
-            - name: HASURA_GRAPHQL_ADMIN_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
-                  key: adminSecret
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
-                  key: jwt.key
-            - name: JWT_ALGORITHM
-              valueFrom:
-                configMapKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
-                  key: jwt.algorithm
-              {{- end }}
+              value: "{{ .Values.auth.registration.defaultUserRole }}"
             {{- end }}
-            {{- if .Values.minio.enabled }}
+            - name: COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: cookies.secret
+            - name: COOKIE_SECURE
+              value: "{{ .Values.auth.cookies.secure }}"
+            - name: COOKIE_SAME_SITE
+              value: "{{ .Values.auth.cookies.sameSite }}"
+            - name: MFA_ENABLE
+              value: "{{ .Values.auth.mfa.enabled }}"
+            - name: OTP_ISSUER
+              value: "{{ .Values.auth.mfa.issuer }}"
+            - name: REDIRECT_URL_SUCCESS
+              value: "{{ .Values.auth.providers.redirect.success }}"
+            - name: REDIRECT_URL_ERROR
+              value: "{{ .Values.auth.providers.redirect.error }}"
+            {{- if .Values.auth.providers.github.enabled }}
+            - name: GITHUB_ENABLE
+              value: "true"
+            - name: GITHUB_CLIENT_ID
+              value: "{{ .Values.auth.providers.github.clientId }}"
+            - name: GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: github.client-secret
+            - name: GITHUB_AUTHORIZATION_URL
+              value: "{{ .Values.auth.providers.github.authenticationUrl }}"
+            - name: GITHUB_TOKEN_URL
+              value: "{{ .Values.auth.providers.github.tokenUrl }}"
+            - name: GITHUB_USER_PROFILE_URL
+              value: "{{ .Values.auth.providers.github.userProfileUrl }}"
+            {{- end }}
+            {{- if .Values.auth.providers.google.enabled }}
+            - name: GOOGLE_ENABLE
+              value: "true"
+            - name: GOOGLE_CLIENT_ID
+              value: "{{ .Values.auth.providers.google.clientId }}"
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: google.client-secret
+            {{- end }}
+            {{- if .Values.auth.providers.facebook.enabled }}
+            - name: FACEBOOK_ENABLE
+              value: "true"
+            - name: FACEBOOK_CLIENT_ID
+              value: "{{ .Values.auth.providers.facebook.clientId }}"
+            - name: FACEBOOK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: facebook.client-secret
+            {{- end }}
+            {{- if .Values.auth.providers.linkedin.enabled }}
+            - name: LINKEDIN_ENABLE
+              value: "true"
+            - name: LINKEDIN_CLIENT_ID
+              value: "{{ .Values.auth.providers.linkedin.clientId }}"
+            - name: LINKEDIN_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: linkedin.client-secret
+            {{- end }}
+            {{- if .Values.auth.providers.windowsLive.enabled }}
+            - name: WINDOWS_LIVE_ENABLE
+              value: "true"
+            - name: WINDOWS_LIVE_CLIENT_ID
+              value: "{{ .Values.auth.providers.windowsLive.clientId }}"
+            - name: WINDOWS_LIVE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: windows-live.client-secret
+            {{- end }}
+            {{- if .Values.auth.providers.twitter.enabled }}
+            - name: TWITTER_ENABLE
+              value: "{{ .Values.auth.providers.twitter.enabled }}"
+            - name: TWITTER_CONSUMER_KEY
+              value: "{{ .Values.auth.providers.twitter.consumerKey }}"
+            - name: TWITTER_CONSUMER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: twitter.consumer-secret
+            {{- end }}
+            {{- if .Values.auth.providers.apple.enabled }}
+            - name: APPLE_ENABLE
+              value: "{{ .Values.auth.providers.apple.enabled }}"
+            - name: APPLE_CLIENT_ID
+              value: "{{ .Values.auth.providers.apple.clientId }}"
+            - name: APPLE_TEAM_ID
+              value: "{{ .Values.auth.providers.apple.teamId }}"
+            - name: APPLE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: apple.key-id
+            - name: APPLE_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: apple.private-key
+            {{- end }}
+            - name: MINIO_NAME
+              value: "{{ $s3Connect }}{{.Values.minio.enabled }}"
+            - name: STORAGE_ENABLE
+              value: "{{ or (.Values.minio.enabled) (.Values.external.storage.enabled) }}"
+            {{- if or (.Values.minio.enabled) (.Values.external.storage.enabled)}}
             - name: S3_ENDPOINT
               valueFrom:
                 configMapKeyRef:
-                  name: "{{- .Release.Name }}-minio"
-                  key: endpoint
+                  name: "{{ $fullname }}"
+                  key: s3.endpoint
             - name: S3_BUCKET
               valueFrom:
                 configMapKeyRef:
-                  name: "{{- .Release.Name }}-minio"
-                  key: defaultBuckets
+                  name: "{{ $fullname }}"
+                  key: s3.bucket
             - name: S3_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: "{{- .Release.Name }}-minio"
+                  name: "{{ $s3Connect }}"
+                {{- if .Values.minio.enabled }}
                   key: access-key
+                {{- else }}
+                  key: s3.access-key
+                {{- end }}
             - name: S3_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "{{- .Release.Name }}-minio"
+                  name: "{{ $s3Connect }}"
+                {{- if .Values.minio.enabled }}
                   key: secret-key
+                {{- else }}
+                  key: s3.secret-key
+                {{- end }}
             - name: S3_SSL_ENABLED
-              value: "false"
-            {{- else }}
-              {{- if .Values.connect.minio.enabled }}
-            - name: S3_ENDPOINT
               valueFrom:
                 configMapKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
-                  key: endpoint
-            - name: S3_BUCKET
+                  name: "{{ $fullname }}"
+                  key: s3.ssl     
+            {{- end }}       
+            {{- if .Values.emails.enabled }}
+            - name: EMAILS_ENABLE
+              value: "true"
+            - name: SMTP_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
-                  key: defaultBuckets
-            - name: S3_ACCESS_KEY_ID
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.host
+            - name: SMTP_SECURE
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.secure
+            - name: SMTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.port
+            - name: SMTP_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.user
+            - name: SMTP_SENDER
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.sender
+            - name: SMTP_AUTH_METHOD
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.auth-method
+            - name: SMTP_PASS
               valueFrom:
                 secretKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
-                  key: access-key
-            - name: S3_SECRET_ACCESS_KEY
+                  name: "{{ $fullname }}"
+                  key: emails.smtp.password        
+            {{- end }}       
+            - name: MAX_REQUESTS
               valueFrom:
-                secretKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
-                  key: secret-key
-            - name: S3_SSL_ENABLED
-              value: "false"
-              {{- end }}          
-            {{- end }}          
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: limiter.max-requests
+            - name: TIME_FRAME
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: limiter.time-frame
             {{- if .Values.extraEnv }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}

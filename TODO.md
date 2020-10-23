@@ -3,13 +3,14 @@
 ## Step 1: publishable contents: Helm Charts
 
 - [x] complete Hasura Helm chart options
-- [ ] complete HBP Helm chart options
+- [x] complete HBP Helm chart options
 - [ ] Hasura Helm chart readme
 - [ ] HBP Helm chart readme
 - [ ] main website cleanup
 - [ ] review TODOs in the code
 - [x] make repo public
 - [ ] advertise
+- [ ] test standalone HBP (and Hasura?)
 
 ## Step 2: DevTools MVP
 
@@ -33,6 +34,7 @@
 - [ ] tilehuria worker is not an http server -> allow port deactivation in the standard-service chart
 - [ ] add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
+- [ ] Improve Helm Chart production/development values
 
 ## Later
 
@@ -48,6 +50,7 @@
 - [ ] when fetching HBP metadata/migrations:
       git clone --filter only the required directories
       copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
+- [ ] create shared Helm charts e.g. to generate Hasura JWT secret etc.
 
 ## Parked
 

@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        # TODO See https://v3.helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
+        {{/* # TODO See https://v3.helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments */ }}
         rollme: {{ randAlphaNum 5 | quote }}
     {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -97,6 +97,7 @@ spec:
             {{- if .Values.extraEnv }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}
+            {{/* 
           # livenessProbe:
           #   httpGet:
           #     path: /
@@ -105,6 +106,7 @@ spec:
           #   httpGet:
           #     path: /
           #     port: http
+          */}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -1,6 +1,94 @@
 {{/* vim: set filetype=mustache: */}}
 
 {{/*
+Return the hasura secret/config name
+*/}}
+{{- define "hasura-backend-plus.hasuraConnect" -}}
+{{- if .Values.hasura.enabled }}
+{{- printf "%s-%s" .Release.Name "hasura" | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- include "hasura-backend-plus.fullname" . }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the s3 secret/config name
+*/}}
+{{- define "hasura-backend-plus.s3Connect" -}}
+{{- if .Values.minio.enabled }}
+{{- printf "%s-%s" .Release.Name "minio" | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- include "hasura-backend-plus.fullname" . }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the cookie secret
+*/}}
+{{- define "hasura-backend-plus.cookiesSecret" -}}
+{{- if .Values.auth.cookies.secret }}
+    {{- .Values.auth.cookies.secret }}
+{{- else }}
+    {{- $fullname := include "hasura-backend-plus.fullname" . }}
+    {{- $secrets := (lookup "v1" "Secret" .Release.Namespace $fullname) }}
+    {{- if $secrets }}
+        {{- (index $secrets.data "cookies.secret") | b64dec }}
+    {{- else}}
+        {{- randAlphaNum 64 }}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+re-generate encoded jwt secret 
+*/}}
+{{- define "hasura-backend-plus.generateJwtSecret" -}}
+{{- $key := default (randAlphaNum 64) .Values.auth.jwt.key . -}}
+{{- $algo := default "HS256" .Values.auth.jwt.algorith . -}}
+{{- $namespace := default "https://hasura.io/jwt/claims" .Values.auth.jwt.claims.namespace . -}}
+{{ printf "{\"type\": \"%s\", \"key\": \"%s\", \"claims_namespace\": \"%s\"}" $algo $key $namespace | replace "\\\"" "\"" }}
+{{- end -}}
+
+{{/*
+Return the jwt secret
+*/}}
+{{- define "hasura-backend-plus.jwtSecret" -}}
+{{- if .Values.auth.jwt.key }}
+{{- include "hasura-backend-plus.generateJwtSecret" . }}
+{{- else }}
+    {{- $secretName := include "hasura-backend-plus.hasuraConnect" . -}}
+    {{- $secrets := lookup "v1" "Secret" .Release.Namespace $secretName -}}
+    {{- if $secrets }}
+        {{- $jwtSecret := index $secrets.data "jwt.secret" }}
+        {{- if $jwtSecret }}
+{{- $jwtSecret | b64dec }}
+        {{- else }}
+{{- include "hasura-backend-plus.generateJwtSecret" . }}
+        {{- end }}
+    {{- else}}
+{{- include "hasura-backend-plus.generateJwtSecret" . }}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the hasura admin secret
+*/}}
+{{- define "hasura-backend-plus.adminSecret" -}}
+{{- if .Values.hasura.adminSecret }}
+  {{- .Values.hasura.adminSecret }}
+{{- else}}
+  {{- $secretName := include "hasura-backend-plus.hasuraConnect" . }}
+  {{- $secrets := (lookup "v1" "Secret" .Release.Namespace $secretName) }}
+  {{- if $secrets }}
+    {{- (index $secrets.data "adminSecret") | b64dec }}
+  {{- else}}
+    {{- randAlphaNum 64 }}
+  {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the chart.
 */}}
 {{- define "hasura-backend-plus.name" -}}
@@ -21,7 +109,7 @@ Return the protocol to use, either http or https
 {{/*
 Return the default server url
 */}}
-{{- define "hasura-backend-plus.server-url" -}}
+{{- define "hasura-backend-plus.serverUrl" -}}
 {{- $name := include "hasura-backend-plus.name" . -}}
 {{- $protocol := include "hasura-backend-plus.protocol" . -}}
 {{- if .Values.global.ingress.domain }}

@@ -1,36 +1,41 @@
 {{/* vim: set filetype=mustache: */}}
 
 {{/*
-Return the jwt Key
+re-generate encoded jwt secret 
 */}}
-{{- define "hasura.jwtKey" -}}
-{{- $secret := (lookup "v1" "Secret" .Release.Namespace "{{ .Release.Name }}-hasura") }}
-{{- if .Values.jwt }}
-    {{- if .Values.jwt.key }}
-        {{- .Values.jwt.key }}
-    {{- else }}
-        {{- if $secret }}
-            {{- (index $secret.data "jwt.key") | b64dec }}
-        {{- else}}
-            {{- randAlphaNum 64 }}
-        {{- end -}}
-    {{- end -}}
-{{- else }}
-    {{- if $secret }}
-        {{- (index $secret.data "jwt.key") | b64dec }}
-    {{- else}}
-        {{- randAlphaNum 64 }}
-    {{- end -}}
-{{- end -}}
+{{- define "hasura.generateJwtSecret" -}}
+{{- $key := default (randAlphaNum 64) .Values.jwt.key . -}}
+{{- $algo := default "HS256" .Values.jwt.algorithm . -}}
+{{- $namespace := default "https://hasura.io/jwt/claims" .Values.jwt.claims.namespace . -}}
+{{ printf "{\"type\": \"%s\", \"key\": \"%s\", \"claims_namespace\": \"%s\"}" $algo $key $namespace | replace "\\\"" "\"" }}
 {{- end -}}
 
 {{/*
-Convert a list toCSV
+Return the jwt secret
 */}}
-{{- define "hasura.joinListWithComma" -}}
-{{- $local := dict "first" true -}}
-{{- range $k, $v := . -}}{{- if not $local.first -}},{{- end -}}{{- $v -}}{{- $_ := set $local "first" false -}}{{- end -}}
+{{- define "hasura.jwtSecret" -}}
+{{- if .Values.jwtSecret }}
+{{ include "common.tplvalues.render" (dict "value" .Values.jwtSecret "context" $) }}
+{{- else }}
+  {{- if .Values.jwt.key }}
+  {{- include "hasura.generateJwtSecret" . }}
+  {{- else }}
+      {{- $secretName := include "hasura.fullname" . }}
+      {{- $secrets := (lookup "v1" "Secret" .Release.Namespace $secretName) }}
+      {{- if $secrets }}
+          {{- $jwtSecret := index $secrets.data "jwt.secret" }}
+          {{- if $jwtSecret }}
+  {{- $jwtSecret | b64dec}}
+          {{- else }}
+  {{- include "hasura.generateJwtSecret" . }}
+          {{- end }}
+      {{- else}}
+  {{- include "hasura.generateJwtSecret" . }}
+      {{- end -}}
+  {{- end -}}
 {{- end -}}
+{{- end -}}
+
 
 {{/*
 Return the hasura admin secret
@@ -39,9 +44,10 @@ Return the hasura admin secret
 {{- if .Values.adminSecret }}
   {{- .Values.adminSecret }}
 {{- else}}
-  {{- $secret := (lookup "v1" "Secret" .Release.Namespace "{{ .Release.Name }}-hasura") }}
-  {{- if $secret }}
-    {{- (index $secret.data "adminSecret") | b64dec }}
+  {{- $secretName := include "hasura.fullname" . }}
+  {{- $secrets := (lookup "v1" "Secret" .Release.Namespace $secretName) }}
+  {{- if $secrets }}
+    {{- (index $secrets.data "adminSecret") | b64dec }}
   {{- else}}
     {{- randAlphaNum 64 }}
   {{- end -}}
@@ -55,28 +61,12 @@ Return the postgresql password
 {{- if .Values.postgresql.postgresqlPassword }}
   {{- .Values.postgresql.postgresqlPassword }}
 {{- else}}
-  {{- $secret := (lookup "v1" "Secret" .Release.Namespace "{{ .Release.Name }}-postgresql") }}
-  {{- if $secret }}
-    {{- (index $secret.data "postgresql-password") | b64dec }}
+  {{- $secrets := (lookup "v1" "Secret" .Release.Namespace "{{ .Release.Name }}-postgresql") }}
+  {{- if $secrets }}
+    {{- (index $secrets.data "postgresql-password") | b64dec }}
   {{- else}}
     {{- randAlphaNum 16 }}
   {{- end -}}
-{{- end -}}
-{{- end -}}
-
-
-{{/*
-Return the jwt algorithm
-*/}}
-{{- define "hasura.jwtAlgo" -}}
-{{- if .Values.jwt }}
-    {{- if .Values.jwt.algorithm }}
-        {{- .Values.jwt.algorithm }}
-    {{- else }}
-        {{- "HS256" }}
-    {{- end -}}
-{{- else }}
-    {{- "HS256" }}
 {{- end -}}
 {{- end -}}
 

@@ -1,0 +1,41 @@
+{{- $fullname := include "hasura-backend-plus.fullname" . -}}
+{{- $hasuraName := include "hasura.fullname" . -}}
+{{- $jwtSecret := include "hasura-backend-plus.jwtSecret" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullname }}
+  namespace: default
+data:
+  jwt.algorithm: "{{ (fromJson $jwtSecret).type }}"
+  jwt.claims.namespace: "{{ (fromJson $jwtSecret).claims_namespace }}"
+  jwt.expires.in: "{{ .Values.auth.jwt.expires.in | int }}"
+  jwt.expires.refresh: "{{ .Values.auth.jwt.expires.refresh | int }}"
+  jwt.customFields: "{{ join "," .Values.auth.jwt.customFields }}"
+{{- if not (.Values.hasura.enabled) }}
+  hasura.endpoint: "{{- include "common.tplvalues.render" (dict "value" .Values.hasura.endpoint "context" $) }}"
+{{- end }}
+{{- if .Values.minio.enabled }}
+  s3.bucket: {{ .Values.minio.defaultBuckets }}
+  s3.endpoint: "http://{{ .Release.Name }}-minio:9000"
+  s3.ssl: "true"
+{{- else }}
+  s3.bucket: {{ .Values.external.storage.bucket }}
+  s3.endpoint: {{ .Values.external.storage.endpoint }}
+  s3.ssl: {{ .Values.external.storage.ssl }}
+{{- end }}
+  emails.enabled: "{{ .Values.emails.enabled }}"
+{{- if .Values.emails.enabled }}
+  emails.smtp.host: "{{ .Values.emails.smtp.host }}"
+  emails.smtp.port: "{{ .Values.emails.smtp.port | int }}"
+  emails.smtp.secure: "{{ .Values.emails.smtp.secure }}"
+  emails.smtp.user: "{{ .Values.emails.smtp.user }}"
+  {{- if .Values.emails.sender }}
+  emails.smtp.sender: "{{ .Values.emails.smtp.sender }}"
+  {{- else }}
+  emails.smtp.sender: "{{ .Values.emails.smtp.user }}"
+  {{- end }}
+  emails.smtp.auth-method: "{{ .Values.emails.smtp.authMethod }}"
+{{- end }}
+  limiter.max-requests: "{{ .Values.limiter.maxRequests | int }}"
+  limiter.time-frame: "{{ .Values.limiter.timeFrame | int }}"
