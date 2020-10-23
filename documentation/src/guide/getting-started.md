@@ -1,4 +1,4 @@
-# Getting startet
+# Getting started
 
 WIP
 

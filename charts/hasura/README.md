@@ -112,3 +112,5 @@ See Bitnami issue.
 ### Securing traffic using TLS
 
 ### Use of global variables
+
+### Expose service with Traefik Ingress

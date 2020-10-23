@@ -11,6 +11,7 @@
 - [x] make repo public
 - [ ] advertise
 - [ ] test standalone HBP (and Hasura?)
+- [ ] HBP chart: defaults to hasura.enabled=true, and change devtools CLI accordingly
 
 ## Step 2: DevTools MVP
 

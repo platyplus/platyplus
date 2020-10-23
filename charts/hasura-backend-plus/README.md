@@ -25,3 +25,5 @@ helm install hbp hasura-backend-plus \
 Please have a look at the [Helm Chart source](https://github.com/platyplus/charts/tree/master/source/hasura-backend-plus) for further configuration.
 
 Note that the Postgresql and Minio secrets cannot be changed through Helm once they have been set.
+
+### Expose service with Traefik Ingress

@@ -1,4 +1,4 @@
-# Hasura + Hasura-Backend-Plus + Quasar
+# Hasura + HBP + Quasar
 
 WIP
 
