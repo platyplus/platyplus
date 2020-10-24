@@ -1,6 +1,6 @@
 # `@platyplus/amqp`
 
-AMQP utils
+Simple wrapper of the `amqplib` package to simplify manipulation of queues and consumption of messages.
 
 ## Installation
 

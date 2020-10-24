@@ -1,35 +1,17 @@
-# Quasar App Extension lerna
+# `@platyplus/quasar-app-extension-ts-lerna`
 
-_Be sure to change this readme as appropriate for your app extension._
+An extension that activates [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin#readme) in a Quasar project in order to be able to use Quasar in a Lerna monorepo.
 
-_Think about the organization of this file and how the information will be beneficial to the user._
+## Install
 
-> Add a short description of your App Extension. What does it do? How is it beneficial? Why would someone want to use it?
-
-Lerna and Typescript extension
-
-# Install
+Don't forget to make sure Typescript has been activated in your Quasar project and that `tsconfig.json` exists.
 
 ```bash
-quasar ext add lerna
+quasar ext add @platyplus/ts-lerna
 ```
 
-Quasar CLI will retrieve it from the NPM registry and install the extension to your project.
-
-# Uninstall
+## Uninstall
 
 ```bash
-quasar ext remove lerna
+quasar ext remove @platyplus/ts-lerna
 ```
-
-# Info
-
-> Add longer information here that will help the user of your app extension.
-
-# Other Info
-
-> Add other information that's not as important to know
-
-# Donate
-
-If you appreciate the work that went into this App Extension, please consider [donating to Quasar](https://donate.quasar.dev).

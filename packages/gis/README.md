@@ -1,6 +1,6 @@
 # `@platyplus/gis`
 
-GIS utils
+Various GIS utils.
 
 ## Installation
 

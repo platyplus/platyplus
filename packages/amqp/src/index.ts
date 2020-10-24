@@ -1,3 +1,9 @@
+const RABBITMQ_DEFAULT_USER = process.env.RABBITMQ_DEFAULT_USER || 'guest'
+const RABBITMQ_DEFAULT_PASS = process.env.RABBITMQ_DEFAULT_PASS || 'guest'
+const RABBITMQ_HOST = process.env.RABBITMQ_HOST || 'rabbitmq'
+
+const RABBITMQ_URL = `amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${RABBITMQ_HOST}`
+
 import { Channel, connect } from 'amqplib'
 
 export const createChannel = async (url: string): Promise<Channel> => {
@@ -37,3 +43,24 @@ export const startQueue = async (
     { noAck: true }
   )
 }
+
+export const createQueue = (channel: Channel, queue: string): void => {
+  console.log(` [*] Created queue ${queue}.`)
+  channel.assertQueue(queue, {
+    durable: false
+  })
+}
+
+export const sendMessage = (
+  channel: Channel,
+  queue: string,
+  message: string
+): void => {
+  channel.sendToQueue(queue, Buffer.from(message))
+  console.log(
+    ` [*] Sent message with length ${message.length} to the queue ${queue}.`
+  )
+}
+
+export const connectQueues = async (): Promise<Channel> =>
+  await createChannel(RABBITMQ_URL)
