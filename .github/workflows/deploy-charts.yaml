@@ -37,7 +37,13 @@ jobs:
           </html>
           END
       - name: artifacthub-repo
-        run: cp charts/artifacthub-repo.yaml dist/
+        run: |
+          sudo tee dist/artifacthub-repo > /dev/null << END
+          repositoryID: 563ef425-51ba-454f-a92e-820c96bfd761
+          owners:
+            - name: pilou
+              email: pilou@platy.dev
+          END
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
