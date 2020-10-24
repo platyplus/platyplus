@@ -40,6 +40,8 @@ jobs:
             <body>Redirecting...</body>
           </html>
           END
+      - name: artifacthub-repo
+        run: cp charts/artifacthub-repo.yaml dist/
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required

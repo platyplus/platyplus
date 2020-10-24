@@ -58,14 +58,17 @@ Return the hasura admin secret
 Return the postgresql password
 */}}
 {{- define "hasura.postgresPassword" -}}
-{{- if .Values.postgresql.postgresqlPassword }}
-  {{- .Values.postgresql.postgresqlPassword }}
+{{- $password := coalesce .Values.postgresql.postgresqlPassword .Values.pgClient.external.password }}
+{{- if $password }}
+  {{- $password}}
 {{- else}}
-  {{- $secrets := (lookup "v1" "Secret" .Release.Namespace "{{ .Release.Name }}-postgresql") }}
+  {{- if .Values.postgresql.enabled }}
+  {{- $secrets := (lookup "v1" "Secret" .Release.Namespace (printf "%s-postgresql" .Release.Name)) }}
   {{- if $secrets }}
     {{- (index $secrets.data "postgresql-password") | b64dec }}
   {{- else}}
-    {{- randAlphaNum 16 }}
+    {{- randAlphaNum 32 }}
+  {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- end -}}

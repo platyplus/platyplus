@@ -1,5 +1,4 @@
-{{- if or (.Values.ingress.enabled) (.Values.global.ingress.enabled) -}}
-{{- if or (.Values.ingress.tls.enabled) (.Values.global.ingress.tls.enabled) -}}
+{{- if and (or (.Values.ingress.tls.enabled) (.Values.global.ingress.tls.enabled)) (or (.Values.ingress.enabled) (.Values.global.ingress.enabled)) -}}
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
@@ -17,5 +16,4 @@ spec:
     name: "letsencrypt-{{ .Values.ingress.tls.environment | default "production" }}"
     {{- end }}
     kind: ClusterIssuer
-{{- end }}
 {{- end }}

@@ -1,3 +1,4 @@
+{{- $fullname := include "hasura.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -74,12 +75,12 @@ spec:
             - name: HASURA_GRAPHQL_ADMIN_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-hasura"
+                  name: "{{ $fullname }}"
                   key: adminSecret
             - name: HASURA_GRAPHQL_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-hasura"
+                  name: "{{ $fullname }}"
                   key: jwt.secret
             - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
               value: "{{ .Values.unauthorizedRole }}"
@@ -96,17 +97,17 @@ spec:
             - name: HASURA_GRAPHQL_EVENTS_FETCH_INTERVAL
               value: "{{ .Values.events.fetchInterval | int }}"
             - name: HASURA_GRAPHQL_PG_STRIPES
-              value: "{{ .Values.connect.postgresql.stripes | int }}"
+              value: "{{ .Values.pgClient.stripes | int }}"
             - name: HASURA_GRAPHQL_PG_CONNECTIONS
-              value: "{{ .Values.connect.postgresql.connections | int }}"
+              value: "{{ .Values.pgClient.connections | int }}"
             - name: HASURA_GRAPHQL_PG_TIMEOUT
-              value: "{{ .Values.connect.postgresql.timeout | int }}"
+              value: "{{ .Values.pgClient.timeout | int }}"
             - name: HASURA_GRAPHQL_USE_PREPARED_STATEMENTS
-              value: "{{ .Values.connect.postgresql.preparedStatements }}"
+              value: "{{ .Values.pgClient.preparedStatements }}"
             - name: HASURA_GRAPHQL_TX_ISOLATION
-              value: "{{ .Values.connect.postgresql.transactionIsolation }}"
+              value: "{{ .Values.pgClient.transactionIsolation }}"
             - name: HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES
-              value: "{{ .Values.connect.postgresql.stringifyNumericTypes}}"
+              value: "{{ .Values.pgClient.stringifyNumericTypes}}"
             - name: HASURA_GRAPHQL_ENABLED_APIS
               value: "{{- join "," .Values.enabledApis }}"
             - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES

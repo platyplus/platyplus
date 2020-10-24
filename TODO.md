@@ -1,20 +1,28 @@
 # Roadmap
 
-## Step 1: publishable contents: Helm Charts
+## Step 1a: Hasura Helm Chart
 
 - [x] complete Hasura Helm chart options
-- [x] complete HBP Helm chart options
-- [ ] Hasura Helm chart readme
-- [ ] HBP Helm chart readme
-- [ ] main website cleanup
-- [ ] review TODOs in the code
 - [x] make repo public
-- [ ] advertise
-- [ ] test standalone HBP (and Hasura?)
-- [ ] HBP chart: defaults to hasura.enabled=true, and change devtools CLI accordingly
+- [ ] Hasura Helm chart readme
+- [ ] test standalone hasura
+- [x] review TODOs in the code
+- [ ] main website cleanup
+- [ ] artifacthub repo
+
+## Step 1b: HBP Helm Charts
+
+- [x] complete HBP Helm chart options
+- [x] review TODOs in the code
+- [ ] HBP Helm chart readme
+- [ ] test standalone HBP
+- [ ] defaults to hasura.enabled=true, and change devtools CLI accordingly
+- [ ] external.hasura instead of hybrid hasura values
+- [ ] embed storage rules in values.yaml
 
 ## Step 2: DevTools MVP
 
+- [ ] review HBP template and functionning with storage rules embedded in values.yaml
 - [ ] ? merge traefik and cert-manager charts?
 - [ ] how to publish docker images with correct tags -> custom skaffold builder?
 - [ ] .platy.yaml: use the k8s terminology with kind: platyplus/project, name: project name ?
@@ -32,6 +40,7 @@
 
 ## Next
 
+- [ ] review TODOs in the code
 - [ ] Helm Charts repo: keep history (older chart versions) -> chartmuseum
 - [ ] tilehuria worker is not an http server -> allow port deactivation in the standard-service chart
 - [ ] add testing to package/service/project/monorepo templates
