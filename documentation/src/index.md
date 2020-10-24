@@ -6,10 +6,10 @@ actionText: Quick Start →
 actionLink: /guide/
 features:
   - title: Monorepo
-    details: Feature 1 Description
+    details: Make the best use of Lerna to develop microservices and Typescript packages
   - title: Skaffold
-    details: Feature 2 Description
+    details: Kubernetes without sacrificing Development Experience
   - title: Hasura
-    details: Feature 3 Description
+    details: Advanced data layer with GraphQL, authentication, authorisation, storage and many more
 footer: Made by  with ❤️
 ---

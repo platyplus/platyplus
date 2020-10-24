@@ -2,6 +2,8 @@
 
 Platy DevTools
 
+Work In Progress
+
 ## Requirements
 
 - Skaffold
@@ -28,8 +30,8 @@ npm i -g @platyplus/devtools
 platy <command>
 
 Commands:
-  platy skaffold <project>  run `skaffold dev`
-  platy create              create new [repo|project|package]
+  platy skaffold [project]  run `skaffold dev`
+  platy create              create new [repo|project|package|service]
   platy sync <project>      synchronise project files. Create/update skaffold, and overrides dockerfiles
   platy list projects       list all available projects in the current monorepo
   platy completion          generate completion script
