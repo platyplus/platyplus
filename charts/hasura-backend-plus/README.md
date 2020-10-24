@@ -7,7 +7,8 @@ It will also create the default traefik routes to HBP and Hasura with a valid Le
 ## TL;DR
 
 ```sh
-helm install my-release hasura-backend-plus --repo https://charts.platy.dev
+helm repo add platydev https://charts.platy.dev
+helm install my-release platydev/hasura-backend-plus
 ```
 
 ## Introduction
@@ -28,7 +29,8 @@ This chart bootstraps a Hasura-Backend-Plus deployment on a Kubernetes cluster u
 To install the chart with the release name my-release:
 
 ```sh
-helm install my-release hasura-backend-plus --repo https://charts.platy.dev
+helm repo add platydev https://charts.platy.dev
+helm install my-release platydev/hasura-backend-plus
 ```
 
 The command deploys Hasura-Backend-Plus, PostgreSQL and Minio on the Kubernetes cluster in the default configuration. The [Parameters](#Parameters) and [Hasura-Backend-Plus Parameters](#) sections list the parameters that can be configured during installation.

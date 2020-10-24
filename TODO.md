@@ -5,10 +5,10 @@
 - [x] complete Hasura Helm chart options
 - [x] make repo public
 - [ ] Hasura Helm chart readme
-- [ ] test standalone hasura
+- [x] test standalone hasura
 - [x] review TODOs in the code
 - [ ] main website cleanup
-- [ ] artifacthub repo
+- [x] artifacthub repo
 
 ## Step 1b: HBP Helm Charts
 
