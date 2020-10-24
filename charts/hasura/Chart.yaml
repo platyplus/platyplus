@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hasura
-description: Hasura GraphQl Engine
+description: Hasura GraphQL Engine
 icon: https://raw.githubusercontent.com/hasura/graphql-engine/master/assets/brand/hasura_icon_blue.svg
 # A chart can be either an 'application' or a 'library' chart.
 #
