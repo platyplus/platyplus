@@ -29,3 +29,7 @@ dependencies:
   - name: common
     version: 0.7.1
     repository: https://charts.bitnami.com/bitnami
+keywords:
+  - hasura
+  - graphql
+  - postgresql
