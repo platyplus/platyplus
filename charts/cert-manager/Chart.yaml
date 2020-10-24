@@ -1,7 +1,8 @@
 apiVersion: v2
 appVersion: 'v0.15.2'
 description: Pre-configured cert-manager
-home: https://github.com/platyplus/platyplus/tree/master/charts/cert-manager
+home: https://platy.dev/charts/cert-manager.html
+source: https://github.com/platyplus/platyplus/tree/master/charts/cert-manager
 name: cert-manager
 version: 0.1.0
 dependencies:
