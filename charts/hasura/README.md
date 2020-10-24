@@ -6,7 +6,7 @@
 
 ```sh
 helm repo add platydev https://charts.platy.dev
-helm install my-release platydev/hasura --repo https://charts.platy.dev
+helm install my-release platydev/hasura
 ```
 
 ## Introduction
