@@ -13,9 +13,10 @@ yarn add @platyplus/lerna
 ```js
 import lerna from '@platyplus/lerna'
 
-...
+// ...
+// In an async block:
 
-const p = await getLernaPackage ('@my-org/package-name')
+const p = await getLernaPackage('@my-org/package-name')
 console.log(p)
 /*
 {
@@ -49,5 +50,4 @@ const deps = await getLernaDependencies(scope)
 
 // Scope is optional
 const exists = await hasLernaPackage(scope)
-
 ```
