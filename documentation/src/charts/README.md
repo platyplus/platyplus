@@ -1,5 +1,9 @@
 # Helm Charts
 
-Description of the Helm Charts repository.
+You can find here the Helm Charts that are being used in the platy.dev stack.
 
-<!-- TODO: how to add the Helm repo -->
+In order to use them, add the repository to Helm:
+
+```sh
+helm repo add platydev https://charts.platy.dev
+```

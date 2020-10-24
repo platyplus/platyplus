@@ -171,7 +171,7 @@ module.exports = {
         {
           title: 'Charts',
           collapsable: false,
-          children: [['', 'Installation'], ...chartSideBar]
+          children: [['', 'Introduction'], ...chartSideBar]
         }
       ],
       '/packages/': [
