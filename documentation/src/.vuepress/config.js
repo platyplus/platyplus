@@ -178,7 +178,7 @@ module.exports = {
         {
           title: 'Packages',
           collapsable: false,
-          children: [['', 'Intro'], ...packageSideBar]
+          children: [...packageSideBar] // * ['', 'Intro']
         }
       ]
     }
