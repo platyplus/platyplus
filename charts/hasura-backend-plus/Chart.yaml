@@ -2,7 +2,9 @@ apiVersion: v2
 name: hasura-backend-plus
 description: Hasura Backend Plus
 home: https://platy.dev/charts/hasura-backend-plus.html
-source: https://github.com/platyplus/platyplus/tree/master/charts/hasura-backend-plus
+sources:
+  - https://github.com/platyplus/platyplus/tree/master/charts/hasura-backend-plus
+  - https://github.com/nhost/hasura-backend-plus
 icon: https://nhost.github.io/hasura-backend-plus/logo.png
 appVersion: 2.0.0
 version: 0.1.0

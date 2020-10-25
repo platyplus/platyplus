@@ -2,7 +2,9 @@ apiVersion: v2
 appVersion: 'v0.15.2'
 description: Cert-manager pre-configured with Let's Encrypt
 home: https://platy.dev/charts/cert-manager.html
-source: https://github.com/platyplus/platyplus/tree/master/charts/cert-manager
+sources:
+  - https://github.com/platyplus/platyplus/tree/master/charts/cert-manager
+  - https://github.com/jetstack/cert-manager
 name: cert-manager
 version: 0.1.0
 dependencies:

@@ -2,13 +2,15 @@ apiVersion: v2
 name: hasura
 description: Hasura GraphQL Engine
 home: https://platy.dev/charts/hasura.html
-source: https://github.com/platyplus/platyplus/tree/master/charts/hasura
+sources: 
+  - https://github.com/platyplus/platyplus/tree/master/charts/hasura
+  - https://github.com/hasura/graphql-engine
 icon: https://raw.githubusercontent.com/hasura/graphql-engine/master/assets/brand/hasura_icon_blue.svg
 type: application
 version: 0.1.0
 appVersion: v1.3.2.cli-migrations-v2
 dependencies:
-  - name: postgresql # duplicate!!!!!
+  - name: postgresql
     version: '8.10.13'
     repository: 'https://charts.bitnami.com/bitnami'
     condition: postgresql.enabled

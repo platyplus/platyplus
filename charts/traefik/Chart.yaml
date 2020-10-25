@@ -2,7 +2,9 @@ apiVersion: v2
 appVersion: '1.0'
 description: Pre-configured traefik
 home: https://platy.dev/charts/traefik.html
-source: https://github.com/platyplus/platyplus/tree/master/charts/traefik
+sources:
+  - https://github.com/platyplus/platyplus/tree/master/charts/traefik
+  - https://github.com/traefik/traefik
 name: traefik
 version: 0.1.0
 dependencies:
