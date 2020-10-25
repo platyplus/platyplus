@@ -35,14 +35,30 @@ emails:
     authMethod: 'PLAIN'
     password: null
 
-external:
-  storage:
+storage:
+  enabled: true
+  external:
     enabled: false
     # endpoint: 's3-endpoint.com'
     accessKey: null
     secretKey: null
     bucket: hasura-plus
     ssl: true
+  rules: 
+    #  Default HBP storage rules
+    functions:
+      isAuthenticated: 'return !!request.auth'
+      isOwner: "return !!request.auth && userId === request.auth['user-id']"
+      validToken: 'return request.query.token === resource.Metadata.token'
+    paths:
+      /user/:userId/:
+        list: 'isOwner(userId)'
+      /user/:userId/:fileId:
+        read: 'isOwner(userId) || validToken()'
+        write: 'isOwner(userId)'
+      /public*:
+        read: 'true'
+        write: 'true'  
 
 auth:
   enabled: true

@@ -1,5 +1,5 @@
 {{- $fullname := include "hasura-backend-plus.fullname" . -}}
-{{- $hasuraName := include "hasura.fullname" . -}}
+{{- $hasuraName := include "hasura-backend-plus.hasuraConnect" . -}}
 {{- $jwtSecret := include "hasura-backend-plus.jwtSecret" . -}}
 apiVersion: v1
 kind: ConfigMap
@@ -15,14 +15,17 @@ data:
 {{- if not (.Values.hasura.enabled) }}
   hasura.endpoint: "{{- include "common.tplvalues.render" (dict "value" .Values.hasura.endpoint "context" $) }}"
 {{- end }}
-{{- if .Values.minio.enabled }}
+{{- if .Values.storage.enabled }}
+  {{- if .Values.minio.enabled }}
   s3.bucket: {{ .Values.minio.defaultBuckets }}
   s3.endpoint: "http://{{ .Release.Name }}-minio:9000"
   s3.ssl: "true"
-{{- else }}
-  s3.bucket: {{ .Values.external.storage.bucket }}
-  s3.endpoint: {{ .Values.external.storage.endpoint }}
-  s3.ssl: {{ .Values.external.storage.ssl }}
+  {{- else }}
+  s3.bucket: {{ .Values.storage.external.bucket }}
+  s3.endpoint: {{ .Values.storage.external.endpoint }}
+  s3.ssl: {{ .Values.storage.external.ssl }}
+  {{- end }}
+  storage.rules: {{ .Values.storage.rules | toYaml | quote }}
 {{- end }}
   emails.enabled: "{{ .Values.emails.enabled }}"
 {{- if .Values.emails.enabled }}

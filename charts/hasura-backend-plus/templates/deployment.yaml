@@ -37,6 +37,13 @@ spec:
       serviceAccountName: {{ include "hasura-backend-plus.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: storage-rules
+          configMap:
+            name: "{{ $fullname }}"
+            items:
+              - key: storage.rules
+                path: rules.yaml
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -51,6 +58,9 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          volumeMounts:
+          - name: storage-rules
+            mountPath: /app/custom/storage-rules
           env:
             - name: HASURA_ENDPOINT
               valueFrom:
@@ -249,8 +259,8 @@ spec:
             - name: MINIO_NAME
               value: "{{ $s3Connect }}{{.Values.minio.enabled }}"
             - name: STORAGE_ENABLE
-              value: "{{ or (.Values.minio.enabled) (.Values.external.storage.enabled) }}"
-            {{- if or (.Values.minio.enabled) (.Values.external.storage.enabled)}}
+              value: "{{ .Values.storage.enabled }}"
+            {{- if .Values.storage.enabled }}
             - name: S3_ENDPOINT
               valueFrom:
                 configMapKeyRef:
