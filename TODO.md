@@ -7,18 +7,21 @@
 - [ ] Hasura Helm chart readme
 - [x] test standalone hasura
 - [x] review TODOs in the code
-- [ ] main website cleanup
+- [x] main website minor cleanup
 - [x] artifacthub repo
+- [ ] Publish chart in awesome Hasura
 
 ## Step 1b: HBP Helm Charts
 
 - [x] complete HBP Helm chart options
 - [x] review TODOs in the code
+- [ ] main website cleanup
 - [ ] HBP Helm chart readme
 - [ ] test standalone HBP
 - [ ] defaults to hasura.enabled=true, and change devtools CLI accordingly
 - [ ] external.hasura instead of hybrid hasura values
 - [ ] embed storage rules in values.yaml
+- [ ] Move helm directory to the project directory
 
 ## Step 2: DevTools MVP
 
@@ -67,4 +70,5 @@
 
 - [ ] Vetur errors -> monitor the new Vetur releases
 - [ ] postgres docker, helm & template -> solve the password change problem
+      in a pre upgrade hook batch?
 - [ ] preserve yaml comments e.g. https://www.npmjs.com/package/yawn-yaml
