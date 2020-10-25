@@ -1,0 +1,13 @@
+{{- $fullname := include "hasura.fullname" . -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullname }}-metadata
+  namespace: default
+binaryData:
+{{- range $path, $bytes := .Files.Glob (printf "metadata/**") }}
+  {{- $finalPath := (index (regexSplit "metadata/" ($path) -1) 1)}}
+  # finalPath: {{ $finalPath }}
+{{ sha256sum $finalPath | indent 2 }}{{ print ": "}}{{ $.Files.Get $path | b64enc }}
+{{- end }}

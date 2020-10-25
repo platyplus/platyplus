@@ -10,3 +10,15 @@ data:
   jwt.algorithm: "{{ (fromJson $jwtSecret).type }}"
   jwt.claims.namespace: "{{ (fromJson $jwtSecret).claims_namespace }}"
   endpoint: "http://{{ $fullname }}/v1/graphql"
+binaryData:
+{{- range $path, $bytes := .Files.Glob (printf "migrations/**") }}
+  {{- $finalPath := (index (regexSplit "migrations/" ($path) -1) 1) }}
+  # finalPath: {{ $finalPath }}
+{{ sha256sum $finalPath | indent 2 }}{{ print ": "}}{{ $.Files.Get $path | b64enc }}
+{{- end }}
+
+{{- range $path, $bytes := .Files.Glob (printf "metadata/**") }}
+  {{- $finalPath := (index (regexSplit "metadata/" ($path) -1) 1)}}
+  # finalPath: {{ $finalPath }}
+{{ sha256sum $finalPath | indent 2 }}{{ print ": "}}{{ $.Files.Get $path | b64enc }}
+{{- end }}

@@ -37,8 +37,28 @@ spec:
       #     image: busybox:1.28
       #     command: ['sh', '-c', "until nc -z {{ .Release.Name }}-postgresql {{ .Values.postgresql.servicePort |int }}; do echo en attente de postgresql; sleep 2; done"]
       */}}
+      volumes:
+        - name: hasura-migrations
+          configMap:
+            name: "{{ $fullname }}-migrations"
+        - name: hasura-metadata
+          configMap:
+            name: "{{ $fullname }}-metadata"
       containers:
         - name: {{ .Chart.Name }}
+          volumeMounts:
+            {{- range $path, $bytes := .Files.Glob (printf "migrations/**") }}
+              {{- $finalPath := (index (regexSplit "migrations/" ($path) -1) 1) }}
+            - name: hasura-migrations
+              mountPath: {{ printf "/hasura-migrations/%s" $finalPath }}
+              subPath: {{ sha256sum $finalPath }}
+            {{- end }}
+            {{- range $path, $bytes := .Files.Glob (printf "metadata/**") }}
+              {{- $finalPath := (index (regexSplit "metadata/" ($path) -1) 1) }}
+            - name: hasura-metadata
+              mountPath: {{ printf "/hasura-metadata/%s" $finalPath }}
+              subPath: {{ sha256sum $finalPath }}
+            {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
         {{- if .Values.image }}
@@ -63,6 +83,10 @@ spec:
             {{- if .Values.extraEnv }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraEnv "context" $) | nindent 12 }}
             {{- end }}
+            - name: HASURA_GRAPHQL_MIGRATIONS_DIR
+              value: /hasura-migrations # default
+            - name: HASURA_GRAPHQL_METADATA_DIR
+              value: /hasura-metadata
             - name: HASURA_GRAPHQL_ENABLE_CONSOLE
               value: "{{ .Values.console.enabled }}"
             - name: HASURA_GRAPHQL_CONSOLE_ASSETS_DIR

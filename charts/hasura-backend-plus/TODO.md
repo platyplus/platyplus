@@ -2,7 +2,7 @@
 
 - [x] move all the configuration (environment variables) into the config-map
 - [x] replace {{ .Release.Name }}-chartname by {{ $fullname }}
-- [ ] use external.hasura (when hasura.enabled=false)
+- [ ] use auth.external (when hasura.enabled=false)
 - [x] mount storage rules as a config-map?
 - [ ] email templates in chart
 - [x] storage rules in chart
@@ -13,3 +13,5 @@
       and maybe: autogenerate a pem file that is stored as a secret
 - [ ] hasuraConnect and s3Connect won't work with nameOverride
 - [ ] validate options e.g. cookies.sameSite
+- [ ] rename storage-rules volume to config-files and change paths accordingly
+- [ ] hasura.enabled set to true
