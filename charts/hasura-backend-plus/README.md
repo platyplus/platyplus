@@ -166,7 +166,7 @@ The following table lists the configurable Hasura-Backend-Plus parameters of the
 
 ### Configuring Hasura
 
-A child [Hasura Helm chart](hasura) is embedded by default.
+A child [Hasura Helm chart](https://github.com/platyplus/platyplus/tree/master/charts/hasura) is embedded by default.
 
 If you want to connect to an existing Hasura instance, you must set the following parameters in your `values.yaml` file:
 
