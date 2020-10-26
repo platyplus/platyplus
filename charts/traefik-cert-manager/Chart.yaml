@@ -1,17 +1,24 @@
 apiVersion: v2
-name: traefik
-description: Pre-configured Traefik
+name: traefik-cert-manager
+description: Traefik pre-configured with cert-manager and Let's Encrypt
 home: https://platy.dev/charts/traefik-cert-manager.html
 sources:
   - https://github.com/platyplus/platyplus/tree/master/charts/traefik-cert-manager
   - https://github.com/traefik/traefik
+  - https://github.com/jetstack/cert-manager
 icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
 version: 0.1.0
 appVersion: '1.0'
 dependencies:
   - name: traefik
-    version: 'v8.9.1'
-    repository: 'https://containous.github.io/traefik-helm-chart'
+    version: 'v9.8.1'
+    repository: 'https://helm.traefik.io/traefik'
+  - name: cert-manager
+    version: 'v1.0.3'
+    repository: 'https://charts.jetstack.io'
 keywors:
   - traefik
   - ingress
+  - cert-manager
+  - tls
+  - letsencrypt

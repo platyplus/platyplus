@@ -1,4 +1,0 @@
-cert-manager:
-  installCRDs: true
-  featureGates: ExperimentalCertificateControllers=true
-email: admin@admin.com
