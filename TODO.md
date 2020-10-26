@@ -4,13 +4,12 @@
 
 - [x] complete Hasura Helm chart options
 - [x] make repo public
-- [ ] Hasura Helm chart readme
-- [ ] storage.rules to nil
+- [x] Hasura Helm chart readme
 - [x] test standalone hasura
 - [x] review TODOs in the code
 - [x] main website minor cleanup
 - [x] artifacthub repo
-- [ ] Publish chart in awesome Hasura
+- [x] Publish chart in awesome Hasura
 
 ## Step 1b: HBP Helm Charts
 
@@ -18,14 +17,14 @@
 - [x] review TODOs in the code
 - [ ] main website cleanup
 - [ ] HBP Helm chart readme
-- [ ] test standalone HBP
-- [ ] defaults to hasura.enabled=true, and change devtools CLI accordingly
-- [ ] external.hasura instead of hybrid hasura values
-- [ ] embed storage rules in values.yaml
-- [ ] Move helm directory to the project directory
+- [x] test standalone HBP
+- [x] defaults to hasura.enabled=true, and change devtools CLI accordingly
+- [x] external.hasura instead of hybrid hasura values
+- [ ] Publish chart in awesome Hasura
 
 ## Step 2: DevTools MVP
 
+- [ ] Move helm directory to the project directory?
 - [ ] review HBP template and functionning with storage rules embedded in values.yaml
 - [ ] ? merge traefik and cert-manager charts?
 - [ ] how to publish docker images with correct tags -> custom skaffold builder?
