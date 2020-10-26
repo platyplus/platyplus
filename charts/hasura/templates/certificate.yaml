@@ -1,17 +1,20 @@
 {{- if and (or (.Values.ingress.tls.enabled) (.Values.global.ingress.tls.enabled)) (or (.Values.ingress.enabled) (.Values.global.ingress.enabled)) -}}
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ .Release.Name }}-cert
 spec:
   secretName: {{ .Release.Name }}-cert
   dnsNames:
+    {{- if .Values.global.ingress.domain }}
+    - {{ printf "%s.%s" (include "hasura.name" .) .Values.global.ingress.domain }}
+    {{- end }}    
     {{- range .Values.ingress.hosts }}
     - {{ include "common.tplvalues.render" (dict "value" .host "context" $) }}
     {{- end }}
   issuerRef:
-    {{- if .Values.global.tls.environment -}}
-    name: "letsencrypt-{{ .Values.global.tls.environment | default "production" }}"
+    {{- if .Values.global.ingress.tls.environment }}
+    name: "letsencrypt-{{ .Values.global.ingress.tls.environment | default "production" }}"
     {{- else -}}
     name: "letsencrypt-{{ .Values.ingress.tls.environment | default "production" }}"
     {{- end }}
