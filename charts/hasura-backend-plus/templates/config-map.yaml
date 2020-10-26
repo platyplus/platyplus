@@ -7,13 +7,17 @@ metadata:
   name: {{ $fullname }}
   namespace: default
 data:
-  jwt.algorithm: "{{ (fromJson $jwtSecret).type }}"
-  jwt.claims.namespace: "{{ (fromJson $jwtSecret).claims_namespace }}"
+{{- if .Values.auth.enabled }}
   jwt.expires.in: "{{ .Values.auth.jwt.expires.in | int }}"
   jwt.expires.refresh: "{{ .Values.auth.jwt.expires.refresh | int }}"
   jwt.customFields: "{{ join "," .Values.auth.jwt.customFields }}"
+  {{- if not (.Values.hasura.enabled) }}
+  jwt.algorithm: "{{ (fromJson $jwtSecret).type }}"
+  jwt.claims.namespace: "{{ (fromJson $jwtSecret).claims_namespace }}"
+  {{- end }}
+{{- end }}
 {{- if not (.Values.hasura.enabled) }}
-  hasura.endpoint: "{{- include "common.tplvalues.render" (dict "value" .Values.hasura.endpoint "context" $) }}"
+  hasura.endpoint: "http://{{ .Release.Name }}-hasura/v1/graphql"
 {{- end }}
 {{- if .Values.storage.enabled }}
   {{- if .Values.minio.enabled }}
