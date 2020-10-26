@@ -38,7 +38,7 @@ jobs:
           END
       - name: artifacthub-repo
         run: |
-          sudo tee dist/artifacthub-repo > /dev/null << END
+          sudo tee dist/artifacthub-repo.yaml > /dev/null << END
           repositoryID: 563ef425-51ba-454f-a92e-820c96bfd761
           owners:
             - name: pilou
