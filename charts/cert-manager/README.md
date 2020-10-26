@@ -16,7 +16,7 @@ This chart installs Cert-manager, its Custom Resource Definitions and `productio
 ## Prerequisites
 
 - Kubernetes 1.12+
-- Helm 3
+- Helm v3.3.4+
 
 ## Installing the Chart
 

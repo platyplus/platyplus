@@ -18,7 +18,7 @@ This chart bootstraps a Hasura-Backend-Plus deployment on a Kubernetes cluster u
 ## Requirements
 
 - Kubernetes 1.12+
-- Helm 3
+- Helm v3.3.4+
 - PV provisioner support in the underlying infrastructure (for PostgreSQL and Minio persistence)
 - If activating Ingress routes:
   - Traefik, including its Custom Resource Definitions, installed on your cluster (for ingress routes)
