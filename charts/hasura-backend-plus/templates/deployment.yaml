@@ -38,12 +38,14 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
+      {{- if .Values.storage.rules }}
         - name: storage-rules
           configMap:
             name: "{{ $fullname }}"
             items:
               - key: storage.rules
                 path: rules.yaml
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -59,8 +61,10 @@ spec:
               containerPort: 3000
               protocol: TCP
           volumeMounts:
-          - name: storage-rules
-            mountPath: /app/custom/storage-rules
+          {{- if .Values.storage.rules }}
+            - name: storage-rules
+              mountPath: /app/custom/storage-rules
+          {{- end }}
           env:
             - name: HASURA_ENDPOINT
               valueFrom:

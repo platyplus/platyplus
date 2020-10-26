@@ -25,7 +25,9 @@ data:
   s3.endpoint: {{ .Values.storage.external.endpoint }}
   s3.ssl: {{ .Values.storage.external.ssl }}
   {{- end }}
+  {{- if .Values.storage.rules }}
   storage.rules: {{ .Values.storage.rules | toYaml | quote }}
+  {{- end }}
 {{- end }}
   emails.enabled: "{{ .Values.emails.enabled }}"
 {{- if .Values.emails.enabled }}
