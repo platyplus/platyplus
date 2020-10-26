@@ -49,6 +49,6 @@ spec:
           port: {{ $.Values.service.port }}
     {{- end }}
   tls:
-    secretName: {{ .Release.Name }}-cert
+    secretName: {{ $fullName }}-cert
 {{- end }}
 {{- end }}
