@@ -5,7 +5,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ $fullName }}
-  # namespace: default
 spec:
   entryPoints:
     - web
@@ -30,12 +29,11 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ $fullName }}-tls
-  # namespace: default
 spec:
   entryPoints:
     - websecure
   routes:
-    {{- if .Values.global.ingress.domain -}}
+    {{- if .Values.global.ingress.domain }}
     - kind: Rule
       match: "Host(`{{ $name }}.{{ .Values.global.ingress.domain }}`) && PathPrefix(`/`)"
       services:
@@ -50,6 +48,6 @@ spec:
           port: {{ $.Values.service.port }}
     {{- end }}
   tls:
-    secretName: {{ .Release.Name }}-cert
+    secretName: {{ $fullName }}-cert
 {{- end }}
 {{- end }}

@@ -19,7 +19,8 @@ This chart bootstraps a Hasura deployment on a Kubernetes cluster using the Helm
 - Helm v3.3.4+
 - PV provisioner support in the underlying infrastructure (for PostgreSQL persistence)
 - If activating Ingress routes:
-  - Traefik, including its Custom Resource Definitions, installed on your cluster (for ingress routes)
+  - Traefik v2.3.1+ installed with CRDs (for ingress routes)
+  - Cert-manager v1.0.3+ installed with CRDs (for Let's Encrypt Certificates)
   - DNS records pointing to your routes
 
 ## Installing the Chart

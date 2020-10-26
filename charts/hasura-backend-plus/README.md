@@ -2,7 +2,7 @@
 
 This chart will install Postgresql, Minio, Hasura and Hasura Backend Plus (HBP).
 
-It will also create the default traefik routes to HBP and Hasura with a valid Let's Encrypt certificate.
+It will also create the default Traefik routes to HBP and Hasura with a valid Let's Encrypt certificate managed by cert-manager.
 
 ## TL;DR
 
@@ -21,7 +21,8 @@ This chart bootstraps a Hasura-Backend-Plus deployment on a Kubernetes cluster u
 - Helm v3.3.4+
 - PV provisioner support in the underlying infrastructure (for PostgreSQL and Minio persistence)
 - If activating Ingress routes:
-  - Traefik, including its Custom Resource Definitions, installed on your cluster (for ingress routes)
+  - Traefik v2.3.1+ installed with CRDs (for ingress routes)
+  - Cert-manager v1.0.3+ installed with CRDs (for Let's Encrypt Certificates)
   - DNS records pointing to your routes
 
 ## Installing the Chart
