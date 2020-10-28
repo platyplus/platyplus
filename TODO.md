@@ -21,7 +21,11 @@
 - [x] defaults to hasura.enabled=true, and change devtools CLI accordingly
 - [x] external.hasura instead of hybrid hasura values
 - [ ] Publish chart in awesome Hasura
+
+## Step 1c: Traefik chart
+
 - [ ] traefik/cert-manager config: document hasura+HBP charts
+- [ ] traefik-cert-manager readme
 
 ## Step 2: DevTools MVP
 
@@ -56,7 +60,7 @@
 
 ## Later
 
-- [ ] traefik/cert-manager: how to use a single certificate with dns challenges?
+- [ ] traefik/cert-manager: use a single certificate with dns challenges?
 - [ ] optimise generated dockerfiles - use common layers?
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres

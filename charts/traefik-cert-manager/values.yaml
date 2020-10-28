@@ -9,4 +9,6 @@ traefik:
     - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
 email: admin@admin.com
 cert:
-  solvers: []
+  solvers:
+    dns:
+      digitalOcean: null
