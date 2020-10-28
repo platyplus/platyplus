@@ -25,7 +25,7 @@ spec:
               key: digitalocean.token
         selector:
           dnsNames:
-          {{- range .Values.dns.domains }}
+          {{- range .Values.domains }}
             - {{ . | quote}}
             - {{ printf "*.%s" . | quote }}
           {{- end }}
@@ -59,7 +59,7 @@ spec:
               key: digitalocean.token
         selector:
           dnsNames:
-          {{- range .Values.dns.domains }}
+          {{- range .Values.domains }}
             - {{ . | quote}}
             - {{ printf "*.%s" . | quote }}
           {{- end }}

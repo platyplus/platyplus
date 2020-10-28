@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: acme-crt-secret
   dnsNames:
-{{- range .Values.dns.domains }}
+{{- range .Values.domains }}
     - {{ . | quote}}
     - {{ printf "*.%s" . | quote }}
 {{- end }}

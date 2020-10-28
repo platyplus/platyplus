@@ -12,5 +12,5 @@ dns:
   enabled: false
   type: digitalocean
   token: null
-  domains: []
+domains: []
 environment: production
