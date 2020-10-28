@@ -1,6 +1,6 @@
 traefik:
   additionalArguments:
-    # - "--log.level=DEBUG"
+    - "--log.level=INFO"
     - "--entrypoints.websecure.http.tls"
     - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
     - "--ping"
