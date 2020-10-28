@@ -16,12 +16,20 @@ spec:
       - http01:
           ingress:
             class: traefik-cert-manager  
-    {{- if .Values.cert.solvers.dns.digitalOcean }}
+    {{- if .Values.dns.enabled }}
       - dns01:
+    {{- if eq .Values.dns.type "digitalocean" }}
           digitalocean:
             tokenSecretRef:
-              name: {{ include "traefik-cert-manager.chart" . }}-secrets
+              name: {{ .Chart.Name }}-secrets
               key: digitalocean.token
+        selector:
+          dnsNames:
+          {{- range .Values.dns.domains }}
+            - {{ . | quote}}
+            - {{ printf "*.%s" . | quote }}
+          {{- end }}
+    {{- end }}
     {{- end }}
 ---
 apiVersion: cert-manager.io/v1
@@ -42,10 +50,18 @@ spec:
       - http01:
           ingress:
             class: traefik-cert-manager  
-    {{- if .Values.cert.solvers.dns.digitalOcean }}
+    {{- if .Values.dns.enabled }}
       - dns01:
+    {{- if eq .Values.dns.type "digitalocean" }}
           digitalocean:
             tokenSecretRef:
-              name: {{ include "traefik-cert-manager.chart" . }}-secrets
+              name: {{ .Chart.Name }}-secrets
               key: digitalocean.token
+        selector:
+          dnsNames:
+          {{- range .Values.dns.domains }}
+            - {{ . | quote}}
+            - {{ printf "*.%s" . | quote }}
+          {{- end }}
+    {{- end }}
     {{- end }}

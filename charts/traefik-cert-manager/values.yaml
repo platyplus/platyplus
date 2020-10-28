@@ -8,7 +8,9 @@ traefik:
     - "--entrypoints.web.http.redirections.entrypoint.to=:443"
     - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
 email: admin@admin.com
-cert:
-  solvers:
-    dns:
-      digitalOcean: null
+dns:
+  enabled: false
+  type: digitalocean
+  token: null
+  domains: []
+environment: production
