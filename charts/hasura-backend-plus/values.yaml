@@ -1,10 +1,8 @@
 global:
   ingress:
-    enabled: true
-    domain: test.platyplus.io
+    enabled: false
     tls:
-      enabled: true
-      environment: staging
+      enabled: false
 
 imageConfig:
   repository: nhost/hasura-backend-plus
