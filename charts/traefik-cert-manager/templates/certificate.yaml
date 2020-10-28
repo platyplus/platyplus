@@ -13,5 +13,4 @@ spec:
   issuerRef:
     name: {{ printf "letsencrypt-%s" .Values.environment }}
     kind: ClusterIssuer
-    group: cert-manager.io
 {{- end }}
