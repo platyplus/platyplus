@@ -20,7 +20,7 @@ spec:
       - dns01:
           digitalocean:
             tokenSecretRef:
-              name: {{ include "traefik-cert-manager.fullname" . }}
+              name: {{ include "traefik-cert-manager.chart" . }}-secrets
               key: digitalocean.token
     {{- end }}
 ---
@@ -46,6 +46,6 @@ spec:
       - dns01:
           digitalocean:
             tokenSecretRef:
-              name: {{ include "traefik-cert-manager.fullname" . }}
+              name: {{ include "traefik-cert-manager.chart" . }}-secrets
               key: digitalocean.token
     {{- end }}
