@@ -42,7 +42,7 @@ spec:
       - http01:
           ingress:
             class: traefik-cert-manager  
-    {{- if .Values.cert.solvers.dns.digitalOcean.token }}
+    {{- if .Values.cert.solvers.dns.digitalOcean }}
       - dns01:
           digitalocean:
             tokenSecretRef:
