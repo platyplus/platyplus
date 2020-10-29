@@ -210,7 +210,7 @@ storage:
 
 ### Use of global variables
 
-### Expose service with Traefik Ingress
+### Expose service with Ingress
 
 ## Contribute
 
