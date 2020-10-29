@@ -9,6 +9,7 @@
 - [x] storage rules in chart
 - [x] rename storage-rules volume to config-files and change paths accordingly
 - [x] hasura.enabled set to true
+- [ ] generic ingress
 
 ## Parked
 

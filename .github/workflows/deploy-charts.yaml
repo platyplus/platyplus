@@ -22,7 +22,7 @@ jobs:
             shopt -s nullglob
             for f in */helm; do helm package $f --dependency-update --destination dist; done
       - name: Upload charts
-        run: curl --data-binary dist/* https://charts.test.platyplus.io/api/charts
+        run: for f in dist/*; do curl --data-binary @$f https://charts.test.platyplus.io/api/charts; done
       - name: Index
         uses: WyriHaximus/github-action-helm3@v2
         with:

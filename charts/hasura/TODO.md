@@ -14,3 +14,4 @@
       initContainer? Batch/Job?
       save the last migration number in config-map
       PR hasura-cli-migrations docker to add a MIGRATIONS_VERSION env var (something like that)
+- [ ] generic ingress
