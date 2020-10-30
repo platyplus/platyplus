@@ -26,6 +26,7 @@
 
 - [ ] traefik/cert-manager config: document hasura+HBP charts
 - [ ] traefik-cert-manager readme
+- [x] move to infra chart
 
 ## Step 2: DevTools MVP
 
@@ -48,6 +49,7 @@
 
 ## Next
 
+- [ ] remove charts to documentation (artifactory is enough)
 - [ ] review TODOs in the code
 - [ ] Helm Charts repo: keep history (older chart versions) -> chartmuseum
   - [ ] platydev cluster

@@ -1,9 +1,0 @@
-{{- if .Values.dns.enabled }}
-apiVersion: traefik.containo.us/v1alpha1
-kind: TLSStore
-metadata:
-  name: default
-spec:
-  defaultCertificate:
-    secretName: acme-crt-secret
-{{- end }}

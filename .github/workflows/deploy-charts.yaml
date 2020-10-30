@@ -22,4 +22,4 @@ jobs:
             shopt -s nullglob
             for f in */helm; do helm package $f --dependency-update --destination dist; done
       - name: Upload charts
-        run: for f in dist/*; do curl --user ${{ secrets.CHARTMUSEUM_USER }}:${{ secrets.CHARTMUSEUM_PASSWORD }} --data-binary @$f https://charts.test.platyplus.io/api/charts; done
+        run: for f in dist/*; do curl --user ${{ secrets.CHARTMUSEUM_USER }}:${{ secrets.CHARTMUSEUM_PASSWORD }} --data-binary @$f https://charts.platy.dev/api/charts; done
