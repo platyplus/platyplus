@@ -1,12 +1,3 @@
-# Default values for standard-service.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-global:
-  ingress:
-    enabled: false
-    tls:
-      enabled: false
-
 connect: 
   hasura:
     enabled: false
@@ -64,13 +55,36 @@ service:
   type: ClusterIP
   port: 3000
 
+## Ingress for load balancer
 ingress:
   enabled: false
-  # hosts:
-  #   - host: standard-service.localhost
-  tls:
-    enabled: false
-    environment: production
+##  Ingress labels
+##
+#   labels:
+#     dns: "route53"
+
+##  Ingress annotations
+##
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     kubernetes.io/tls-acme: "true"
+
+##  Ingress hostnames
+## Must be provided if Ingress is enabled
+##
+#  hosts:
+#    - name: my-service.domain1.com
+#      path: /
+#      tls: false
+#    - name: my-service.domain2.com
+#      path: /
+#
+#      ## Set this to true in order to enable TLS on the ingress record
+#      tls: true
+#
+#      ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
+#      ## Secrets must be added manually to the namespace
+#      tlsSecret: my-service.domain2-tls
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

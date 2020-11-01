@@ -4,8 +4,7 @@ description: Standard microservice
 home: https://platy.dev/charts/standard-service.html
 source: https://github.com/platyplus/platyplus/tree/master/charts/standard-service
 type: application
-version: 0.1.1
-appVersion: 1.0.0
+version: 0.1.2
 dependencies:
   - name: common
     version: 0.7.1
