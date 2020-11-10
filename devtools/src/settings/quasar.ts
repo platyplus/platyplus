@@ -51,7 +51,15 @@ export const quasarConfig: ServiceTypeConfig = ({
         }
       },
       helm: {
-        setValues: { targetPort: 8080 }
+        setValues: {
+          ingress: {
+            enabled: true,
+            hosts: {
+              name: `${name}.localhost`
+            }
+          },
+          targetPort: 8080
+        }
       },
       files: [
         {

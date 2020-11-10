@@ -33,7 +33,17 @@ export const typescriptConfig: ServiceTypeConfig = ({
         src: `${directory}/${name}/src/**/*.{ts,json}`,
         dest: '.'
       }
-    ]
+    ],
+    helm: {
+      setValues: {
+        ingress: {
+          enabled: true,
+          hosts: {
+            name: `${name}.localhost`
+          }
+        }
+      }
+    }
   },
   chartName: 'standard-service',
   postInstall: async () => {

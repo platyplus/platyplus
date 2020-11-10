@@ -33,6 +33,7 @@
 
 ## Step 2: DevTools MVP
 
+- [x] test & adjust pdt with new ingress system
 - [ ] minimal package.json template - too verbose for now
 - [ ] review HBP template and functionning with storage rules embedded in values.yaml
       Move helm directory to the project directory?
@@ -56,6 +57,7 @@
 
 ## Next
 
+- [ ] use tsdx?
 - [ ] review TODOs in the code
 - [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
   - [x] platydev cluster

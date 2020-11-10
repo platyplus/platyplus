@@ -73,17 +73,8 @@ export const loadSkaffoldConfiguration = async (
   const helmPath = `deploy.helm.releases.${helmReleaseIndex}`
   const devHelmPath = `${devHelmReleasePath}.${devHelmReleaseIndex}`
 
-  // * Enable Traefik and ingress routes
+  // * Enable Traefik in dev mode
   set(skaffold, `${devHelmPath}.setValues.traefik.enabled`, true)
-  // * Enable all Ingress routes in development mode
-  set(
-    skaffold,
-    `${devHelmPath}.setValues.global.ingress`,
-    merge(get(skaffold, `${devHelmPath}.setValues.global.ingress`, {}), {
-      enabled: true,
-      domain: 'localhost'
-    })
-  )
 
   for (const service of configuration.services) {
     console.log(chalk.green(`Syncing service config ${service.package}...`))

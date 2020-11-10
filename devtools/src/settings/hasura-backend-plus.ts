@@ -18,7 +18,17 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
     }
   },
   dev: {
-    build: false
+    build: false,
+    helm: {
+      setValues: {
+        ingress: {
+          enabled: true,
+          hosts: {
+            name: `${name}.localhost`
+          }
+        }
+      }
+    }
   },
   chartName: 'hasura-backend-plus',
 

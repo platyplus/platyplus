@@ -40,6 +40,12 @@ export const hasuraConfig: ServiceTypeConfig = ({
       ],
       helm: {
         setValues: {
+          ingress: {
+            enabled: true,
+            hosts: {
+              name: `${name}.localhost`
+            }
+          },
           postgresql: {
             postgresqlPassword: 'development-postgres-password'
           },
