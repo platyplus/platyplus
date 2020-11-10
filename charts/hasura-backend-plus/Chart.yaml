@@ -7,14 +7,14 @@ sources:
   - https://github.com/nhost/hasura-backend-plus
 icon: https://nhost.github.io/hasura-backend-plus/logo.png
 appVersion: 2.0.0
-version: 0.1.1
+version: 0.1.2
 dependencies:
   - name: minio
     version: '3.4.13'
     repository: 'https://charts.bitnami.com/bitnami'
     condition: minio.enabled
   - name: hasura
-    version: '0.1.0'
+    version: '0.1.1'
     repository: 'file://../hasura'
     condition: hasura.enabled
   - name: common
