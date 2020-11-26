@@ -64,7 +64,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
     )
     if (index < 0) index = yamlChart.dependencies.length
     set(yamlChart, `dependencies.${index}.name`, service.name)
-    set(yamlChart, `dependencies.${index}.version`, '*') // ? not ideal
+    set(yamlChart, `dependencies.${index}.version`, '*')
     if (!yamlChart.dependencies[index].condition) {
       yamlChart.dependencies[index].condition = `${service.name}.enabled`
     }
@@ -103,6 +103,18 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
           )
         }
       }
+    }
+  }
+  // * Use the last available chart version for each local dependency
+  for (const dep of yamlChart.dependencies) {
+    if (dep.repository?.startsWith('file://')) {
+      const depPath = path.join(
+        helmDirectory,
+        dep.repository?.replace('file://', ''),
+        'Chart.yaml'
+      )
+      const { version } = await fs.readYaml<HelmChart>(depPath)
+      dep.version = version
     }
   }
   await fs.saveYaml(helmChartFile, yamlChart)

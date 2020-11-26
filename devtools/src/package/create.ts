@@ -31,7 +31,6 @@ export const createPackage = async (
   description = DEFAULT_DESCRIPTION,
   privatePackage = true
 ): Promise<PackageTypeConfigResult> => {
-  console.log(packageName, location)
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)

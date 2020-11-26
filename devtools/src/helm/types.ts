@@ -3,7 +3,7 @@ export type HelmDependency = {
   alias?: string
   condition?: string
   repository?: string
-  // version
+  version: string
 }
 
 export type HelmChart = {

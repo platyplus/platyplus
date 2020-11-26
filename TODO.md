@@ -14,14 +14,10 @@
   - tags: in any case, keep the published helm chart synced
 
   - Helm:
-    - when 'repository' starts with 'file://', automatically set the right 'version'
-      - in every chart of the 'charts' directory
-      - in the chart of every project
-    - What about the chart version/app-version of projects? leave it as is?
-      - Ideally, bump automatically
-        - According to bumps of child NPM packages? Scrappy... not conviced
-          - list what changed: lerna ls --since master
-        - Meanwhile, do it manually?
+    - Sync somehow the version/app-version of the project chart. Ideally, bump automatically
+      - According to bumps of child NPM packages? Scrappy... not conviced
+        - list what changed: lerna ls --since master
+      - Meanwhile, do it manually?
   - Docker:
     - build with skaffold build
       - use the set-repo option
@@ -76,6 +72,7 @@
   - git clone --filter only the required directories
   - copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
 - [ ] create shared Helm charts e.g. to generate Hasura JWT secret etc.
+- [ ] for each chart of the 'charts' directory, when 'repository' starts with 'file://', automatically set the right 'version'
 
 ## Parked
 
