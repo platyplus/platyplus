@@ -21,7 +21,7 @@ COPY --chown=node:node {{this.directory}}/{{this.name}} /home/node/app/{{this.di
 COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{name}}
 
 
-RUN cd {{directory}}/{{name}} && quasar build
+RUN yarn build
 
 FROM nginx:alpine
 COPY --from=builder /home/node/app/{{directory}}/{{name}}/dist/spa /usr/share/nginx/html

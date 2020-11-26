@@ -25,7 +25,7 @@ COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 COPY --chown=node:node tilehuria/web /home/node/app/tilehuria/web
 
 
-RUN cd tilehuria/web && quasar build
+RUN yarn build
 
 FROM nginx:alpine
 COPY --from=builder /home/node/app/tilehuria/web/dist/spa /usr/share/nginx/html

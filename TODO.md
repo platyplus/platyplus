@@ -24,7 +24,8 @@
       - with which tag policy?
     - then tag from package.json
       - [x] platy show project xxx -> list services name + package + version
-      - from this list, docker tag
+      - from this list, docker tag - but only when no commit ahead in the directory?!?
+        - compare current commit with the commit from the package.json version
     - (then push to docker hub, if skaffold doesn't do it already)
     - what about 'latest' tags?
 
@@ -39,6 +40,7 @@
 - [ ] CLI API documentation
 - [ ] test CLI from npm installation
 - [ ] attention: document the use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
+- [ ] in production dockerfiles: yarn cache clean?
 
 ## Next
 
