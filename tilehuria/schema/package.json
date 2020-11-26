@@ -40,5 +40,6 @@
     "@graphql-codegen/typescript-operations": "^1.17.8",
     "@graphql-codegen/typescript-vue-apollo": "^2.0.0",
     "@graphql-typed-document-node/apollo-client-2": "^1.0.0"
-  }
+  },
+  "gitHead": "1b0e710887315f38eea1e481f001259ba0541d08"
 }
