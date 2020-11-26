@@ -28,7 +28,8 @@ export const createPackage = async (
   type: PackageType,
   packageName: string,
   location: string,
-  description = DEFAULT_DESCRIPTION
+  description = DEFAULT_DESCRIPTION,
+  privatePackage = true
 ): Promise<PackageTypeConfigResult> => {
   console.log(packageName, location)
   // Checks if the package already exists
@@ -41,6 +42,7 @@ export const createPackage = async (
   await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
 
   const variables: PackageInformation = {
+    private: privatePackage,
     type,
     description,
     package: packageName,

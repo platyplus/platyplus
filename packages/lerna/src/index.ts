@@ -38,16 +38,15 @@ export const getLernaPackages = async (
 }
 /**
  * * Returns the dependent packages of the package given as a parameter
- * ! Only the 'non-private' packages are returned
  * @param scope package name as per defined in package.json
  */
 export const getLernaDependencies = async (
   scope?: string
 ): Promise<LernaPackage[]> => {
-  scope = scope ? `--scope='${scope}'` : ''
+  const scopeOption = scope ? `--scope='${scope}'` : ''
   try {
     const stdout = execSync(
-      `lerna ls --loglevel=silent --include-dependencies --json ${scope}`
+      `lerna ls --loglevel=silent --include-dependencies --json ${scopeOption} --all`
     ).toString()
     const list = JSON.parse(stdout) as LernaPackage[]
     return list.filter((p) => p.name !== scope)

@@ -53,6 +53,12 @@ profiles:
             manual:
               - src: tilehuria/web/public/**/*
                 dest: .
+              - src: tilehuria/web/src/**/*.{ts,vue,json,sass,html}
+                dest: .
+              - src: tilehuria/web/quasar.conf.js
+                dest: .
+              - src: tilehuria/web/src/assets/**/*
+                dest: .
         - image: tilehuria-worker
           context: ..
           docker:
@@ -69,6 +75,14 @@ profiles:
             manual:
               - src: tilehuria/hooks/src/**/*.{ts,json}
                 dest: .
+        - image: tilehuria-hasura
+          context: hasura
+          sync:
+            manual:
+              - src: migrations/**/*
+                dest: .
+              - src: metadata/*
+                dest: .
     deploy:
       helm:
         releases:
@@ -82,6 +96,8 @@ profiles:
                 image: tilehuria-worker
               hooks:
                 image: tilehuria-hooks
+              hasura:
+                image: tilehuria-hasura
             setValues:
               hasura:
                 postgresql:
@@ -90,6 +106,9 @@ profiles:
                 jwt:
                   key: long-hasura-jwt-more-than-thirty-two-characters
                   algorithm: HS256
+                ingress:
+                  enabled: true
+                  "hosts[0].name": hasura.localhost
               rabbitmq:
                 auth:
                   username: user
@@ -102,3 +121,18 @@ profiles:
                   domain: localhost
               web:
                 targetPort: 8080
+                ingress:
+                  enabled: true
+                  "hosts[0].name": web.localhost
+              hasura-backend-plus:
+                ingress:
+                  enabled: true
+                  "hosts[0].name": hasura-backend-plus.localhost
+              worker:
+                ingress:
+                  enabled: true
+                  "hosts[0].name": worker.localhost
+              hooks:
+                ingress:
+                  enabled: true
+                  "hosts[0].name": hooks.localhost

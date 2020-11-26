@@ -6,6 +6,7 @@ export type ArtifactConfig = Record<
 >
 
 export type PackageInformation = {
+  private: boolean
   type?: PackageType
   package: string
   directory: string

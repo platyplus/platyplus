@@ -35,7 +35,8 @@ export const createService = async (
     type,
     packageName,
     path.join(projectDir, directory),
-    description
+    description,
+    true
   )
 
   const projectConfigPath = path.join(projectDir, '.platy.yaml')

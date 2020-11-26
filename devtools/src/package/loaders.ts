@@ -23,13 +23,19 @@ export const getPathInfo = (
 }
 
 const fromNpmPackage = (
-  { name: packageName, platyplus, description }: PackageJson,
+  {
+    name: packageName,
+    platyplus,
+    description,
+    private: privatePackage
+  }: PackageJson,
   location: string
   // rootDir = DEFAULT_WORKING_DIR
 ): PackageInformation => {
   const git = gitConfig.sync()
   return {
     ...getPathInfo(location),
+    private: !!privatePackage,
     type: platyplus?.type,
     package: packageName,
     location,
