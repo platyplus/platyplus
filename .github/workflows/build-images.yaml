@@ -9,12 +9,9 @@ jobs:
     container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
       - uses: actions/checkout@v2
-      - name: config default-repo
-        working-directory: tilehuria
-        run: skaffold config set local-cluster true
-      - name: config list
-        working-directory: tilehuria
-        run: skaffold config list -a
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
@@ -30,6 +27,12 @@ jobs:
       #   with:
       #     minikube version: 'v1.15.1'
       #     kubernetes version: 'v1.19.4'
+      - name: config default-repo
+        working-directory: tilehuria
+        run: skaffold config set local-cluster true
+      - name: config list
+        working-directory: tilehuria
+        run: skaffold config list -a
       - name: build
         # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
         working-directory: tilehuria
