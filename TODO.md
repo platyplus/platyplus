@@ -39,6 +39,8 @@
 - [ ] add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Improve Helm Chart production/development values
+- [ ] values.schema.json in Helm Charts
+- [ ] Helm charts changes annotations. See [this example](https://github.com/artifacthub/hub/blob/master/charts/artifact-hub/Chart.yaml)
 
 ## Later
 
