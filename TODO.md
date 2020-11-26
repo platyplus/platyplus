@@ -8,7 +8,6 @@
 
 ## Step 2: DevTools MVP
 
-- [ ] review HBP template and functionning with storage rules embedded in values.yaml
 - [ ] how to publish docker images with correct tags
   - custom skaffold builder?
   - set-repo option when building
@@ -71,4 +70,5 @@
   - Use it for HBP configuration files
   - As a result: remove Hasura & HBP dockerfiles in devtools
   - Then, move helm directory to the project directory?
+  - Then, review HBP template and functionning with storage rules embedded in values.yaml
   - See: https://github.com/helm/helm/issues/3276
