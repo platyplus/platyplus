@@ -8,7 +8,7 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #
 COPY --chown=node:node packages/quasar-ts-lerna/package.json packages/quasar-ts-lerna/yarn.* packages/quasar-ts-lerna/
 #
@@ -16,7 +16,7 @@ COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* til
 #
 COPY --chown=node:node tilehuria/web/package.json tilehuria/web/yarn.* /home/node/app/tilehuria/web/
 
-RUN lerna bootstrap --ignore-scripts
+RUN yarn
 #
 COPY --chown=node:node packages/quasar-ts-lerna /home/node/app/packages/quasar-ts-lerna
 #

@@ -4,49 +4,41 @@ on:
     branches:
       - master
 jobs:
+  # build-packages:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2-beta
+  #       with:
+  #         node-version: '14'
+  #     - name: Cache node_modules
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: '**/node_modules'
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - name: Yarn install
+  #       run: yarn
+  #     # * Build all the packages to ensure all dependencies are present
+  #     - name: Yarn build
+  #       run: yarn build
   build:
     runs-on: ubuntu-latest
     container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '14'
-      - name: Cache node_modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Yarn install
-        run: yarn
-      # * Build all the packages to ensure all dependencies are present
-      - name: Yarn build
-        run: yarn build
       # - name: Setup Minikube
       #   uses: manusa/actions-setup-minikube@v2.1.0
       #   with:
       #     minikube version: 'v1.15.1'
       #     kubernetes version: 'v1.19.4'
-      - name: config default-repo
-        working-directory: tilehuria
-        run: skaffold config set local-cluster true
-      - name: config list
-        working-directory: tilehuria
-        run: skaffold config list -a
+      # - name: config default-repo
+      # - name: config local-cluster
+      #   working-directory: tilehuria
+      #   run: skaffold config set local-cluster true
+      # - name: config list
+      #   working-directory: tilehuria
+      #   run: skaffold config list -a
       - name: build
         # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
         working-directory: tilehuria
         run: skaffold build
-
-      # - name: Package global charts
-      #   uses: WyriHaximus/github-action-helm3@v2
-      #   with:
-      #     exec: helm package charts/* --dependency-update --destination dist
-      # - name: Package project charts
-      #   uses: WyriHaximus/github-action-helm3@v2
-      #   with:
-      #     exec: |
-      #       shopt -s nullglob
-      #       for f in */helm; do helm package $f --dependency-update --destination dist; done
-      # - name: Upload charts
-      #   run: for f in dist/*; do curl --user ${{ secrets.CHARTMUSEUM_USER }}:${{ secrets.CHARTMUSEUM_PASSWORD }} --data-binary @$f https://charts.platy.dev/api/charts; done

@@ -8,13 +8,13 @@ USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #{{#each dependencies}}
 COPY --chown=node:node {{this.directory}}/{{this.name}}/package.json {{this.directory}}/{{this.name}}/yarn.* {{this.directory}}/{{this.name}}/
 #{{/each}}
 COPY --chown=node:node {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.* /home/node/app/{{directory}}/{{name}}/
 
-RUN lerna bootstrap --ignore-scripts
+RUN yarn
 #{{#each dependencies}}
 COPY --chown=node:node {{this.directory}}/{{this.name}} /home/node/app/{{this.directory}}/{{this.name}}
 #{{/each}}

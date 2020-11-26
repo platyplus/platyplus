@@ -16,7 +16,7 @@ COPY --chown=node:node {{this.directory}}/{{this.name}}/package.json {{this.dire
 COPY --chown=node:node {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.* /home/node/app/{{directory}}/{{name}}/
 
 FROM lerna-base as builder
-RUN lerna bootstrap --ignore-scripts
+RUN yarn
 COPY --chown=node:node tsconfig.json tsconfig.build.json ./
 COPY --chown=node:node types ./types
 
@@ -29,7 +29,7 @@ RUN lerna run build
 
 FROM lerna-base as dependencies
 RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
-RUN lerna bootstrap --ignore-scripts -- --production --no-optional
+RUN yarn --production --no-optional
 RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.*
 
 FROM node:14-alpine as run

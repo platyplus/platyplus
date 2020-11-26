@@ -12,7 +12,7 @@ WORKDIR /home/node/app
 
 EXPOSE 8080
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #
 COPY --chown=node:node packages/quasar-ts-lerna/package.json packages/quasar-ts-lerna/yarn.* packages/quasar-ts-lerna/
 #

@@ -12,7 +12,7 @@ WORKDIR /home/node/app
 
 EXPOSE 8080
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #{{#each dependencies}}
 COPY --chown=node:node {{this.directory}}/{{this.name}}/package.json {{this.directory}}/{{this.name}}/yarn.* {{this.directory}}/{{this.name}}/
 #{{/each}}

@@ -12,7 +12,7 @@ WORKDIR /home/node/app
 
 EXPOSE 3000
 
-COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json ./
+COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 COPY --chown=node:node types ./types
 
 #

@@ -16,7 +16,7 @@ COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* til
 COPY --chown=node:node tilehuria/hooks/package.json tilehuria/hooks/yarn.* /home/node/app/tilehuria/hooks/
 
 FROM lerna-base as builder
-RUN lerna bootstrap --ignore-scripts
+RUN yarn
 COPY --chown=node:node tsconfig.json tsconfig.build.json ./
 COPY --chown=node:node types ./types
 
@@ -29,7 +29,7 @@ RUN lerna run build
 
 FROM lerna-base as dependencies
 RUN cat tilehuria/hooks/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > tilehuria/hooks/package.json
-RUN lerna bootstrap --ignore-scripts -- --production --no-optional
+RUN yarn --production --no-optional
 RUN tar -cf /home/node/dependencies.tar tilehuria/hooks/node_modules tilehuria/hooks/package.json tilehuria/hooks/yarn.*
 
 FROM node:14-alpine as run
