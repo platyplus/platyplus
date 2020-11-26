@@ -9,8 +9,10 @@ jobs:
     container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
       - uses: actions/checkout@v2
-      - name: config
-        # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
+      - name: config default-repo
+        working-directory: tilehuria
+        run: skaffold config set local-cluster true
+      - name: config list
         working-directory: tilehuria
         run: skaffold config list -a
       - name: build
