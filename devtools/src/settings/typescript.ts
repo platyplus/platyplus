@@ -38,9 +38,7 @@ export const typescriptConfig: ServiceTypeConfig = ({
       setValues: {
         ingress: {
           enabled: true,
-          hosts: {
-            name: `${name}.localhost`
-          }
+          'hosts[0].name': `${name}.localhost`
         }
       }
     }

@@ -23,9 +23,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
       setValues: {
         ingress: {
           enabled: true,
-          hosts: {
-            name: `${name}.localhost`
-          }
+          'hosts[0].name': `${name}.localhost`
         }
       }
     }
@@ -109,7 +107,10 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
 
       // * Update Helm Chart values so it loads Hasura-related environment values from Hasura secrets and config-map
       await fs.loadYaml(path.join(projectPath, 'helm/values.yaml'), {
-        [name]: { connect: { hasura: { enabled: true } } }
+        [name]: {
+          connect: { hasura: { enabled: true } },
+          hasura: { enabled: false }
+        }
       })
     }
   }

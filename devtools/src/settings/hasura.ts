@@ -42,9 +42,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
         setValues: {
           ingress: {
             enabled: true,
-            hosts: {
-              name: `${name}.localhost`
-            }
+            'hosts[0].name': `${name}.localhost`
           },
           postgresql: {
             postgresqlPassword: 'development-postgres-password'
