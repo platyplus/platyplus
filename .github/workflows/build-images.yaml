@@ -12,7 +12,7 @@ jobs:
       - name: config
         # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
         working-directory: tilehuria
-        run: skaffold config list
+        run: skaffold config list -a
       - name: build
         # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
         working-directory: tilehuria
