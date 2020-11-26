@@ -11,7 +11,7 @@ type args = {
 
 export const showProject: CommandModule<args> = {
   command: 'show [project]',
-  describe: 'Show project information',
+  describe: 'Show project details',
   builder: (yargs) =>
     yargs
       .positional('project', {
