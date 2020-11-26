@@ -40,9 +40,17 @@ export const showProject: CommandModule<args> = {
     try {
       const projectInfo = await getProject(project)
       const services = projectInfo.services.map(
-        ({ version, name, directory, package: packageName, description }) => ({
+        ({
           version,
           name,
+          directory,
+          package: packageName,
+          description,
+          type
+        }) => ({
+          version,
+          name,
+          type,
           directory: `${directory}/${name}`,
           package: packageName,
           description
