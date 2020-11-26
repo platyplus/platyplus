@@ -102,7 +102,7 @@ imageConfig:
   repository: hasura/graphql-engine
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  # tag: v1.3.2.cli-migrations-v2
+  # tag: v1.3.3.cli-migrations-v2
 
 postgresql:
   enabled: true
