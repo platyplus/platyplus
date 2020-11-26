@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
