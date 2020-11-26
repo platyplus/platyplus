@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.0.7...@platyplus/devtools@0.1.0) (2020-11-26)
+
+
+### Bug Fixes
+
+* add nodemon config to ts template ([f45c2ba](https://github.com/platyplus/platyplus/commit/f45c2bac873f5aad233e232acc65ecf2bfcc9c43))
+* add types to dockerfile template, and force exit on nodemon crash ([8e265fc](https://github.com/platyplus/platyplus/commit/8e265fc01be81145841dcd0db15083a2e1c9ee24))
+* check workspace ([7f720ab](https://github.com/platyplus/platyplus/commit/7f720ab5641d4838d4faffaf4ab1ac652a2c3297))
+* correct ingress with skaffold ([dc56141](https://github.com/platyplus/platyplus/commit/dc56141c256a5b6549999ce7ff8abc9057ec4941))
+* correct way to sync the list of manual files to sync with skaffold ([aee4ae1](https://github.com/platyplus/platyplus/commit/aee4ae16822617967801c416205b93c63b7630c0))
+* ensure generated tsconfig files point to the right root config. Make package creation work, nes ([69e6942](https://github.com/platyplus/platyplus/commit/69e6942417fac3865a6719694cb85da18e7aa00f))
+* include dotfiles in template generation ([e07ce41](https://github.com/platyplus/platyplus/commit/e07ce4164f19df0095f8c6defbfe1018b822e4ee))
+* keep default 80 for quasar in prod ([cd551be](https://github.com/platyplus/platyplus/commit/cd551be474e6f59639575028a38120e1ed232ccf))
+* make command 'platy create' work ([db404fa](https://github.com/platyplus/platyplus/commit/db404fa3344be919048faad82f4562d558210e8c))
+* merge HBP metadata ([cc81e9e](https://github.com/platyplus/platyplus/commit/cc81e9e84eb4959e950f8f509ab18ec231fc3db0))
+* sha tag policy ([8890590](https://github.com/platyplus/platyplus/commit/8890590bb1adc3fa2ea2a81e5daf90f76022ee34))
+
+
+### Features
+
+* activate service route ([759c834](https://github.com/platyplus/platyplus/commit/759c8346c5e53483255898c4da262d532e0d3468))
+* add hbp service ([317f69a](https://github.com/platyplus/platyplus/commit/317f69a67ede9b483ef3362ecd390c476c1018db))
+* connect services in autoloading env vars ([e20584f](https://github.com/platyplus/platyplus/commit/e20584f228ba6d3a6fc707bc25c2e1a25798d9b4))
+* create/sync HBP and Hasura services ([9fb5bb8](https://github.com/platyplus/platyplus/commit/9fb5bb8fbde0c89e8099da08e4efd491fcd5de1a))
+* default traefik ingress system ([704b001](https://github.com/platyplus/platyplus/commit/704b001aeaed6f527602fd00b025271cda85d8e3))
+* package helm charts ([ea4c00b](https://github.com/platyplus/platyplus/commit/ea4c00b53ddbc9b0cf43d216c7ddbf66ecbc4075))
+* set service creation from CLI and other refactoring ([1996599](https://github.com/platyplus/platyplus/commit/199659988b37abf4eb068d4b08bfd1bce97f4533))
+* use hasura migrations and console with skaffold ([f5be5d4](https://github.com/platyplus/platyplus/commit/f5be5d43de5bb488a93f22559b2823b957356780))
+
+
+### Performance Improvements
+
+* add packages directory to monorepo template ([e98f8f7](https://github.com/platyplus/platyplus/commit/e98f8f7cd60171d37cf08cada83ea0dbe2445195))
+* install dependencies after initiating a monorepo ([739ba00](https://github.com/platyplus/platyplus/commit/739ba00af26d68165a5045dcc788a1394ef319b8))
+* set connect option in helm values hbp when connected to hasura ([324cbdb](https://github.com/platyplus/platyplus/commit/324cbdb3df407b3ce9162894c0503e3e5382f1a9))
+
+
+
+
+
 ## [0.0.7](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.0.6...@platyplus/devtools@0.0.7) (2020-09-24)
 
 

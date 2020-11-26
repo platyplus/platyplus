@@ -6,7 +6,7 @@
       "**"
     ]
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Platy DevTools website",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -25,6 +25,5 @@
     "glob": "^7.1.6",
     "vuepress": "^1.5.3",
     "yaml": "^1.10.0"
-  },
-  "dependencies": {}
+  }
 }

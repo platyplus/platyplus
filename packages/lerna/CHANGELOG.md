@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.5...@platyplus/lerna@0.0.6) (2020-11-26)
+
+
+### Performance Improvements
+
+* remove useless lerna logs ([d90c986](https://github.com/platyplus/platyplus/commit/d90c986734cf995d0d666a5d3e79b404a3857a65))
+
+
+
+
+
 ## [0.0.5](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.4...@platyplus/lerna@0.0.5) (2020-09-24)
 
 **Note:** Version bump only for package @platyplus/lerna

@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/lerna",
   "private": false,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A simple node API that wraps some Lerna commands",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -26,7 +26,6 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "clean": "rimraf dist"
   },
-  "dependencies": {},
   "devDependencies": {
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
