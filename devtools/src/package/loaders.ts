@@ -27,7 +27,8 @@ const fromNpmPackage = (
     name: packageName,
     platyplus,
     description,
-    private: privatePackage
+    private: privatePackage,
+    version
   }: PackageJson,
   location: string
   // rootDir = DEFAULT_WORKING_DIR
@@ -45,7 +46,8 @@ const fromNpmPackage = (
       email: objectPath.get(git, 'user.email')
     },
     repository: objectPath.get(git, 'remote.origin.url'),
-    dependencies: []
+    dependencies: [],
+    version
   }
 }
 

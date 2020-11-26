@@ -18,11 +18,13 @@
       - According to bumps of child NPM packages? Scrappy... not conviced
         - list what changed: lerna ls --since master
       - Meanwhile, do it manually?
-  - Docker:
+  - Docker CI pipeline:
     - build with skaffold build
       - use the set-repo option
       - with which tag policy?
     - then tag from package.json
+      - [x] platy show project xxx -> list services name + package + version
+      - from this list, docker tag
     - (then push to docker hub, if skaffold doesn't do it already)
     - what about 'latest' tags?
 

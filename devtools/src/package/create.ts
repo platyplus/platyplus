@@ -54,7 +54,8 @@ export const createPackage = async (
       email: objectPath.get(git, 'user.email')
     },
     repository: objectPath.get(git, 'remote.origin.url'),
-    dependencies: []
+    dependencies: [],
+    version: '0.0.1'
   }
   // * Checks the package is in a workspace
   await ensureWorkspace(location)

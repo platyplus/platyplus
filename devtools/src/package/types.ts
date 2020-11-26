@@ -20,6 +20,7 @@ export type PackageInformation = {
   }
   repository?: string
   dependencies: PackageInformation[]
+  version: string
 }
 
 export type PackageJson = {
