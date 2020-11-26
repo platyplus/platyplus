@@ -1,0 +1,27 @@
+name: build docker images
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build
+        uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
+        working-directory: tilehuria
+        run: skaffold build
+
+      # - name: Package global charts
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: helm package charts/* --dependency-update --destination dist
+      # - name: Package project charts
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: |
+      #       shopt -s nullglob
+      #       for f in */helm; do helm package $f --dependency-update --destination dist; done
+      # - name: Upload charts
+      #   run: for f in dist/*; do curl --user ${{ secrets.CHARTMUSEUM_USER }}:${{ secrets.CHARTMUSEUM_PASSWORD }} --data-binary @$f https://charts.platy.dev/api/charts; done
