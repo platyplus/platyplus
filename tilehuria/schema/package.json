@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/tilehuria-schema",
-  "private": false,
+  "private": true,
   "version": "0.0.2",
   "description": "a description",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
@@ -41,5 +41,5 @@
     "@graphql-codegen/typescript-vue-apollo": "^2.0.0",
     "@graphql-typed-document-node/apollo-client-2": "^1.0.0"
   },
-  "gitHead": "af469f510e1c3df04625b51c8ce818fbbddb3ae4"
+  "gitHead": "654611248f4f6adb5dfab4183e49029e74a5be18"
 }
