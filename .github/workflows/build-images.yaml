@@ -71,10 +71,13 @@ jobs:
           project="${project//$'\n'/'%0A'}"
           project="${project//$'\r'/'%0D'}"
           echo "::set-output name=project::$project"
+      # - name: matrix
+      #   run: |
+      #     echo "${{fromJson(steps.project.outputs.project).services}}"
   tag:
     needs: taglist
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.taglist.outputs.project).services}}
+      matrix: ${{fromJson(needs.taglist.outputs.project)}}
     steps:
-      - run: echo ${{ matrix.version }}
+      - run: echo ${{ matrix.services }}
