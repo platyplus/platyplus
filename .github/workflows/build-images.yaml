@@ -71,9 +71,9 @@ jobs:
           project="${project//$'\n'/'%0A'}"
           project="${project//$'\r'/'%0D'}"
           echo "::set-output name=project::$services"
-      - name: matrix
-        run: |
-          echo "${{fromJson(steps.project.outputs.project).services}}"
+      # - name: matrix
+      #   run: |
+      #     echo "${{fromJson(steps.project.outputs.project).services}}"
   tag:
     needs: taglist
     runs-on: ubuntu-latest
