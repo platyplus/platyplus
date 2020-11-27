@@ -17,6 +17,7 @@
 - [ ] Docker image CI pipeline
   - [ ] Make generic for all projects
   - [ ] Filter projects with no changes
+  - [ ] use another tag stragegy (checksum) but continue using latest as well
 - [ ] Include lerna in PDT dependencies
 - [ ] monorepo config e.g.:
   - organisation name for default package names?
