@@ -71,8 +71,8 @@ jobs:
           project="${project//$'\n'/'%0A'}"
           project="${project//$'\r'/'%0D'}"
           matrix="{\"include\":${{toJson(fromJson(steps.project.outputs.project).services)}}}"
-          echo "::set-output name=matrix::$project"
-          # echo "::set-output name=project::$project"
+          echo "::set-output name=matrix::$matrix"
+          
       # - name: matrix
       #   run: |
       #     echo 
