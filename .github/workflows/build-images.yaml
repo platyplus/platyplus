@@ -60,7 +60,7 @@ jobs:
       - name: Install PDT
         run: |
           yarn global add @platyplus/devtools lerna
-          echo "$(yarn global bin)" >> $GITHUB_PATH
+          # echo "$(yarn global bin)" >> $GITHUB_PATH
       - name: List projects
         run: platy list projects 
       - name: Show Tilehuria project
@@ -70,14 +70,19 @@ jobs:
           project="${project//'%'/'%25'}"
           project="${project//$'\n'/'%0A'}"
           project="${project//$'\r'/'%0D'}"
+          matrix="{\"include\":${{toJson(fromJson(steps.project.outputs.project).services)}}}"
+          echo "::set-output name=matrix::$project"
           echo "::set-output name=project::$project"
       # - name: matrix
       #   run: |
-      #     echo "${{fromJson(steps.project.outputs.project).services}}"
+      #     echo 
+    # outputs:
+    #   matrix: 
+    #     include: ${{toJson(fromJson(steps.project.outputs.project).services)}}
   tag:
     needs: taglist
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.taglist.outputs.project)}}
+      matrix: ${{fromJson(needs.taglist.outputs.matrix)}}
     steps:
-      - run: echo ${{ matrix.services }}
+      - run: echo ${{ matrix.version }}
