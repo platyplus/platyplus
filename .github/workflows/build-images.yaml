@@ -21,30 +21,30 @@ jobs:
   #     # * Build all the packages to ensure all dependencies are present
   #     - name: Yarn build
   #       run: yarn build
-  build:
-    name: "Build and push docker images"
-    runs-on: ubuntu-latest
-    container: gcr.io/k8s-skaffold/skaffold:v1.17.0
-    steps:
-      - uses: actions/checkout@v2
-      # - name: Setup Minikube
-      #   uses: manusa/actions-setup-minikube@v2.1.0
-      #   with:
-      #     minikube version: 'v1.15.1'
-      #     kubernetes version: 'v1.19.4'
-      # - name: config default-repo
-      # - name: config local-cluster
-      #   working-directory: tilehuria
-      #   run: skaffold config set local-cluster true
-      # - name: config list
-      #   working-directory: tilehuria
-      #   run: skaffold config list -a
+  # build:
+  #   name: "Build and push docker images"
+  #   runs-on: ubuntu-latest
+  #   container: gcr.io/k8s-skaffold/skaffold:v1.17.0
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     # - name: Setup Minikube
+  #     #   uses: manusa/actions-setup-minikube@v2.1.0
+  #     #   with:
+  #     #     minikube version: 'v1.15.1'
+  #     #     kubernetes version: 'v1.19.4'
+  #     # - name: config default-repo
+  #     # - name: config local-cluster
+  #     #   working-directory: tilehuria
+  #     #   run: skaffold config set local-cluster true
+  #     # - name: config list
+  #     #   working-directory: tilehuria
+  #     #   run: skaffold config list -a
       
-      # - name: build
-      #   working-directory: tilehuria
-      #   run: skaffold build
-  tag:
-    name: "Tag docker images"
+  #     # - name: build
+  #     #   working-directory: tilehuria
+  #     #   run: skaffold build
+  taglist:
+    name: "List docker image tags"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -58,8 +58,25 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       # ! Use the last published version of PDT
       - name: Install PDT
-        run: yarn global add @platyplus/devtools
-      - name: PDT command
-        run: platy show tilehuria --json 
-      - name: PDT command
+        run: yarn global add @platyplus/devtools lerna
+      - name: List projects
         run: platy list projects 
+      - name: Show Tilehuria project
+        id: project
+        run: |
+          platy show tilehuria --json
+          project=$(platy show tilehuria --json)
+          project="${project//'%'/'%25'}"
+          project="${project//$'\n'/'%0A'}"
+          project="${project//$'\r'/'%0D'}"
+          echo "::set-output name=project::$services"
+      - name: matrix
+        run: |
+          echo "${{fromJson(steps.services.outputs.project).services}}"
+  tag:
+    needs: taglist
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.taglist.outputs.project).services}}
+    steps:
+      - run: echo ${{ matrix.version }}
