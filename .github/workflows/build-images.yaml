@@ -66,13 +66,9 @@ jobs:
       - name: Show Tilehuria project
         id: project
         run: |
-          project=$(platy show tilehuria --json)
-          project="${project//'%'/'%25'}"
-          project="${project//$'\n'/'%0A'}"
-          project="${project//$'\r'/'%0D'}"
-          matrix="{\"include\":${{toJson(fromJson(steps.project.outputs.project).services)}}}"
-          echo "::set-output name=matrix::$matrix"
-          
+          matrix=$(platy show tilehuria --json | jq -c '{include: ."services"}')
+          echo $matrix
+          echo "::set-output name=matrix::$matrix"          
       # - name: matrix
       #   run: |
       #     echo 
