@@ -28,7 +28,7 @@ jobs:
       - name: Set projects matrix
         id: set-matrix
         run: |
-          matrix=$(platy list projects --json | jq '{include: .}')
+          matrix=$(platy list projects --json | jq -c '{include: .}')
           echo "::set-output name=matrix::$matrix"          
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -53,7 +53,7 @@ jobs:
         working-directory: ${{ matrix.directory }}
         run: skaffold build
   services:
-    name: List docker images
+    name: List services
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -73,7 +73,7 @@ jobs:
       - name: Set services matrix
         id: set-matrix
         run: |
-          project="${{ matrix.name }}""
+          project=tilehuria
           matrix=$(platy show $name --json | jq -c '{include: ."services"}')
           echo "::set-output name=matrix::$matrix"          
     outputs:
