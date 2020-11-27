@@ -76,6 +76,7 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.taglist.outputs.matrix)}}
     steps:
+      - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Cache Docker layers
