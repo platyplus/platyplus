@@ -90,8 +90,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # * Remove the first character (@) of the NPM package name to create the Docker package name
       - id: package
-        run: echo "::set-output name=result::${${{ matrix.package }}:1}"          
+        run: |
+          result="${{ matrix.package }}"
+          result="${result:1}"
+          echo "::set-output name=result::$result"          
       # TODO tag with version only if tag on the current commit
       - name: Build and push
         uses: docker/build-push-action@v2
