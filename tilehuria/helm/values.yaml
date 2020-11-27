@@ -3,7 +3,7 @@ traefik:
 hasura-backend-plus:
   enabled: true
   imageConfig:
-    tag: latest
+    tag: 0.1.3
     pullPolicy: IfNotPresent
   connect:
     hasura:
@@ -22,7 +22,7 @@ hasura:
   enabled: true
   imageConfig:
     repository: platyplus/tilehuria-hasura
-    tag: latest
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   extraEnv:
     - name: HOOKS_URL
@@ -35,7 +35,7 @@ hasura:
     enabled: true
 web:
   imageConfig:
-    tag: latest
+    tag: 0.1.3
     pullPolicy: IfNotPresent
   enabled: true
   ingress:
@@ -45,7 +45,7 @@ rabbitmq:
 hooks:
   targetPort: 3000
   imageConfig:
-    tag: latest
+    tag: 0.1.3
     pullPolicy: IfNotPresent
   enabled: true
   connect:
@@ -56,7 +56,7 @@ hooks:
 worker:
   targetPort: 3000
   imageConfig:
-    tag: latest
+    tag: 0.1.3
     pullPolicy: IfNotPresent
   enabled: true
   connect:
