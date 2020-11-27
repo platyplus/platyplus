@@ -15,7 +15,7 @@
     - something changed in the project helm directory -> chart version bump
   - Meanwhile, do it manually?
 - [ ] Docker image CI pipeline
-  - [ ] Make generic for all projects
+  - [ ] Make generic for all projects in creating `platy list services [project] [--all]` and adapting the GH action accordingly
   - [ ] Filter projects with no changes
   - [ ] use another tag stragegy (checksum) but continue using latest as well
 - [ ] Include lerna in PDT dependencies

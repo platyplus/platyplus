@@ -4,18 +4,45 @@ on:
     branches:
       - master
 # TODO iterate over all projects, not only tilehuria
-# 1. list project list
-# 2. merge (foreach project get services)
-# 3. output the matrix
+# 3. create a services matrix from `platy list services --all`
+# 4. noop
 jobs:
+  projects:
+    name: List projects
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      # ! Use the last published version of PDT
+      - name: Install PlatyDev Tools
+        run: |
+          yarn global add @platyplus/devtools lerna
+          echo "$(yarn global bin)" >> $GITHUB_PATH
+      - name: Set projects matrix
+        id: set-matrix
+        run: |
+          matrix=$(platy list projects --json | jq '{include: .}')
+          echo "::set-output name=matrix::$matrix"          
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
   build:
     name: "Build and push docker images"
+    needs: projects
+    strategy:
+      matrix: ${{fromJson(needs.projects.outputs.matrix)}}
     runs-on: ubuntu-latest
     container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
       - uses: actions/checkout@v2
       - name: config default-repo
-        working-directory: tilehuria
+        working-directory: ${{ matrix.directory }}
         run: skaffold config set default-repo platyplus
       - name: Login to DockerHub
         uses: docker/login-action@v1 
@@ -23,9 +50,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: build
-        working-directory: tilehuria
+        working-directory: ${{ matrix.directory }}
         run: skaffold build
-  taglist:
+  services:
     name: List docker images
     runs-on: ubuntu-latest
     steps:
@@ -43,19 +70,20 @@ jobs:
         run: |
           yarn global add @platyplus/devtools lerna
           echo "$(yarn global bin)" >> $GITHUB_PATH
-      - name: Show Tilehuria project
+      - name: Set services matrix
         id: set-matrix
         run: |
-          matrix=$(platy show tilehuria --json | jq -c '{include: ."services"}')
+          project="${{ matrix.name }}""
+          matrix=$(platy show $name --json | jq -c '{include: ."services"}')
           echo "::set-output name=matrix::$matrix"          
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
   tag:
     name: Tag docker images
-    needs: [build, taglist]
+    needs: [build, services]
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.taglist.outputs.matrix)}}
+      matrix: ${{fromJson(needs.services.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - name: Login to DockerHub
@@ -70,6 +98,7 @@ jobs:
           result="${result:1}"
           echo "::set-output name=result::$result"          
       # * Tag with version only if tag on the current commit
+      # ! si tag pas dans HEAD, check si image:tag present dans docker hub. Si pas, tag and push? warning?
       - name: tag
         run: |
           tags=$(git tag --points-at HEAD)
