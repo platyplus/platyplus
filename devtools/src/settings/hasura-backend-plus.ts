@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import { execSync } from 'child_process'
 import path from 'path'
 
-import { ServiceConfig } from '../project'
+import { ServiceConfig } from '../service'
 import { DEFAULT_WORKING_DIR } from '.'
 import { ServiceTypeConfig } from './types'
 

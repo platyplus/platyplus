@@ -2,8 +2,8 @@ import chalk from 'chalk'
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { getProject, listProjects, ServiceConfig } from '../../project'
-import { createService as create } from '../../service'
+import { getProject, listProjects } from '../../project'
+import { createService as create, ServiceConfig } from '../../service'
 import { ServiceTypes } from '../../settings'
 import { error } from '../error'
 

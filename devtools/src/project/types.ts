@@ -1,9 +1,5 @@
 import { PackageInformation } from '../package'
-import { PackageTypeConfigResult } from '../settings'
-
-export type ServiceConfig = PackageInformation & {
-  config?: PackageTypeConfigResult
-}
+import { ServiceConfig } from '../service'
 
 export type ProjectConfigFile = {
   directory: string

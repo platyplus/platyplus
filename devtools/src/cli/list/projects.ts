@@ -1,14 +1,14 @@
 import { CommandModule } from 'yargs'
 
-import { listProjects as list } from '../project'
-import { error } from './error'
+import { listProjects as list } from '../../project'
+import { error } from '../error'
 
 type args = {
   json?: boolean
 }
 
 export const listProjects: CommandModule<args> = {
-  command: 'list projects',
+  command: 'projects',
   describe: 'list all available projects in the current monorepo',
   builder: (yargs) =>
     yargs.option('json', {
