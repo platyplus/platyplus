@@ -28,7 +28,9 @@ COPY --chown=node:node tilehuria/hooks /home/node/app/tilehuria/hooks
 RUN yarn build
 
 FROM lerna-base as dependencies
+RUN cat tilehuria/hooks/package.json
 RUN cat tilehuria/hooks/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > tilehuria/hooks/package.json
+RUN cat tilehuria/hooks/package.json
 RUN yarn cache clean && yarn --production --no-optional
 RUN tar -cf /home/node/dependencies.tar tilehuria/hooks/node_modules tilehuria/hooks/package.json tilehuria/hooks/yarn.*
 
