@@ -14,7 +14,9 @@
     - something changed in the project services -> app version bump (+chart version bump?)
     - something changed in the project helm directory -> chart version bump
   - Meanwhile, do it manually?
-- [ ] Docker image CI pipeline: make generic for all projects
+- [ ] Docker image CI pipeline
+  - [ ] Make generic for all projects
+  - [ ] Filter projects with no changes
 - [ ] Include lerna in PDT dependencies
 - [ ] monorepo config e.g.:
   - organisation name for default package names?
