@@ -58,13 +58,14 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       # ! Use the last published version of PDT
       - name: Install PDT
-        run: yarn global add @platyplus/devtools lerna
+        run: |
+          yarn global add @platyplus/devtools lerna
+          echo "::add-path::$(yarn global bin)"
       - name: List projects
         run: platy list projects 
       - name: Show Tilehuria project
         id: project
         run: |
-          platy show tilehuria --json
           project=$(platy show tilehuria --json)
           project="${project//'%'/'%25'}"
           project="${project//$'\n'/'%0A'}"
