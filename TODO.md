@@ -35,7 +35,6 @@
 - [ ] test CLI from npm installation
 - [ ] attention: document the use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 - [ ] in production dockerfiles: yarn cache clean?
-- [ ] yarn version: launch `platy sync --all` afterwards (`yarn postversion`)
 
 ## Next
 
