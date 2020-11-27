@@ -22,6 +22,7 @@ jobs:
   #     - name: Yarn build
   #       run: yarn build
   build:
+    name: "Build and push docker images"
     runs-on: ubuntu-latest
     container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
@@ -43,6 +44,7 @@ jobs:
       #   working-directory: tilehuria
       #   run: skaffold build
   tag:
+    name: "Tag docker images"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -54,10 +56,10 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Yarn install
-        run: |
-          cd devtools
-          yarn
-      # * Build all the packages to ensure all dependencies are present
-      - name: Yarn build
-        run: yarn platy show tilehuria --json 
+      # ! Use the last published version of PDT
+      - name: Install PDT
+        run: yarn global add @platyplus/devtools
+      - name: PDT command
+        run: platy show tilehuria --json 
+      - name: PDT command
+        run: platy list projects 
