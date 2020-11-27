@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.2.0...@platyplus/devtools@0.3.0) (2020-11-27)
+
+
+### Features
+
+* **cli:** option --all to sync all projects ([dd09bd5](https://github.com/platyplus/platyplus/commit/dd09bd59024598ced46482b044268f3c897d3a15))
+* sync image tags in project helm charts ([31afff0](https://github.com/platyplus/platyplus/commit/31afff0f08dc64cef533a02ac59fff2afd56b5dc))
+
+
+
+
+
 # [0.2.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.1.0...@platyplus/devtools@0.2.0) (2020-11-27)
 
 
