@@ -23,7 +23,7 @@ jobs:
   #       run: yarn build
   build:
     runs-on: ubuntu-latest
-    # container: gcr.io/k8s-skaffold/skaffold:v1.17.0
+    container: gcr.io/k8s-skaffold/skaffold:v1.17.0
     steps:
       - uses: actions/checkout@v2
       # - name: Setup Minikube
@@ -40,13 +40,24 @@ jobs:
       #   run: skaffold config list -a
       
       # - name: build
-      #   # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
       #   working-directory: tilehuria
       #   run: skaffold build
-
-      - name: build
-        # uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
-        uses: docker://gcr.io/k8s-skaffold/skaffold:v1.17.0
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
         with:
-          args: skaffold build
-          context: tilehuria
+          node-version: '14'
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Yarn install
+        run: |
+          cd devtools
+          yarn
+      # * Build all the packages to ensure all dependencies are present
+      - name: Yarn build
+        run: yarn platy show tilehuria --json 
