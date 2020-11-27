@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/platyplus/platyplus/compare/@platyplus/tilehuria@0.1.0...@platyplus/tilehuria@0.1.1) (2020-11-27)
+
+
+### Bug Fixes
+
+* **quasar:** build dependent packages when building quasar ([a7ce412](https://github.com/platyplus/platyplus/commit/a7ce412a8b43b42da0a3576c6b4ca034614f554d))
+* correct production docker build with yarn instead of lerna bootstrap ([3ab68c8](https://github.com/platyplus/platyplus/commit/3ab68c8d9f72196815d6028acff5a22a9e1e40f8))
+
+
+
+
+
 # 0.1.0 (2020-11-26)
 
 

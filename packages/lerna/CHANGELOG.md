@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.6...@platyplus/lerna@0.0.7) (2020-11-27)
+
+
+### Bug Fixes
+
+* make dependencies work when using a private package, and set service packages to private as def ([de3ab40](https://github.com/platyplus/platyplus/commit/de3ab403c8a20c68a4728902ce450e3b1d4c67ae))
+
+
+
+
+
 ## [0.0.6](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.5...@platyplus/lerna@0.0.6) (2020-11-26)
 
 

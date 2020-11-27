@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/platyplus/platyplus/compare/@platyplus/tilehuria-worker@0.0.2...@platyplus/tilehuria-worker@0.0.3) (2020-11-27)
+
+
+### Bug Fixes
+
+* cache clean before build ([3ef8563](https://github.com/platyplus/platyplus/commit/3ef85636f05a2d4270f4f1ef00a20f38720b4962))
+* correct production docker build with yarn instead of lerna bootstrap ([3ab68c8](https://github.com/platyplus/platyplus/commit/3ab68c8d9f72196815d6028acff5a22a9e1e40f8))
+
+
+
+
+
 ## 0.0.2 (2020-11-26)
 
 

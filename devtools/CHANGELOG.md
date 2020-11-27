@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.1.0...@platyplus/devtools@0.2.0) (2020-11-27)
+
+
+### Bug Fixes
+
+* cache clean before build ([3ef8563](https://github.com/platyplus/platyplus/commit/3ef85636f05a2d4270f4f1ef00a20f38720b4962))
+* **quasar:** build dependent packages when building quasar ([a7ce412](https://github.com/platyplus/platyplus/commit/a7ce412a8b43b42da0a3576c6b4ca034614f554d))
+* correct production docker build with yarn instead of lerna bootstrap ([3ab68c8](https://github.com/platyplus/platyplus/commit/3ab68c8d9f72196815d6028acff5a22a9e1e40f8))
+* make dependencies work when using a private package, and set service packages to private as def ([de3ab40](https://github.com/platyplus/platyplus/commit/de3ab403c8a20c68a4728902ce450e3b1d4c67ae))
+
+
+### Features
+
+* show project info, and allow json ouput as well as for project list ([26d1df4](https://github.com/platyplus/platyplus/commit/26d1df4db9823d00b4f78be3e8607a240c9a5445))
+* sync Helm dependencies versions in projects  when pointing to a local chart ([641d3bd](https://github.com/platyplus/platyplus/commit/641d3bdc0f436d41813ee3c387ac24b48f55a608))
+
+
+### Performance Improvements
+
+* **cli:** add type to project details ([03de740](https://github.com/platyplus/platyplus/commit/03de74067382af038f76c421ee55d7cd96ac5d30))
+
+
+
+
+
 # [0.1.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.0.7...@platyplus/devtools@0.1.0) (2020-11-26)
 
 

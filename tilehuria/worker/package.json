@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/tilehuria-worker",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "platyplus": {
     "type": "typescript"
   },
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@mapbox/mbtiles": "^0.12.1",
-    "@platyplus/tilehuria-schema": "^0.0.2",
+    "@platyplus/tilehuria-schema": "^0.0.3",
     "@turf/bbox": "^6.0.1",
     "@turf/square-grid": "^6.0.2",
     "amqplib": "^0.6.0",
