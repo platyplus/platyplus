@@ -22,28 +22,32 @@ jobs:
   #     # * Build all the packages to ensure all dependencies are present
   #     - name: Yarn build
   #       run: yarn build
-  # build:
-  #   name: "Build and push docker images"
-  #   runs-on: ubuntu-latest
-  #   container: gcr.io/k8s-skaffold/skaffold:v1.17.0
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     # - name: Setup Minikube
-  #     #   uses: manusa/actions-setup-minikube@v2.1.0
-  #     #   with:
-  #     #     minikube version: 'v1.15.1'
-  #     #     kubernetes version: 'v1.19.4'
-  #     # - name: config default-repo
-  #     # - name: config local-cluster
-  #     #   working-directory: tilehuria
-  #     #   run: skaffold config set local-cluster true
-  #     # - name: config list
-  #     #   working-directory: tilehuria
-  #     #   run: skaffold config list -a
-      
-  #     # - name: build
-  #     #   working-directory: tilehuria
-  #     #   run: skaffold build
+  build:
+    name: "Build and push docker images"
+    runs-on: ubuntu-latest
+    container: gcr.io/k8s-skaffold/skaffold:v1.17.0
+    steps:
+      - uses: actions/checkout@v2
+      # - name: Setup Minikube
+      #   uses: manusa/actions-setup-minikube@v2.1.0
+      #   with:
+      #     minikube version: 'v1.15.1'
+      #     kubernetes version: 'v1.19.4'
+      # - name: config default-repo
+      # - name: config default-repo
+      #   working-directory: tilehuria
+      #   run: skaffold config set default-repo registry.hub.docker.com
+      # - name: config list
+      #   working-directory: tilehuria
+      #   run: skaffold config list -a      
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: build
+        working-directory: tilehuria
+        run: skaffold build
   taglist:
     name: List docker images
     runs-on: ubuntu-latest
@@ -69,23 +73,23 @@ jobs:
           echo "::set-output name=matrix::$matrix"          
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-  build-publihs:
-    name: Build and publish docker images
-    needs: taglist
+  tag:
+    name: Tag docker images
+    needs: [build, taglist]
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.taglist.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v1
+      # - name: Cache Docker layers
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp/.buildx-cache
+      #     key: ${{ runner.os }}-buildx-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-buildx-
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
@@ -98,14 +102,19 @@ jobs:
           result="${result:1}"
           echo "::set-output name=result::$result"          
       # TODO tag with version only if tag on the current commit
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          context: .
-          file: ${{ matrix.directory }}/Dockerfile
-          tags: |
-            ${{ steps.package.outputs.result }}:latest
-            ${{ steps.package.outputs.result }}:${{ matrix.version }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+      - name: tag
+        run: |
+          docker pull ${{ steps.package.outputs.result }}:latest
+          docker tag ${{ steps.package.outputs.result }}:latest ${{ steps.package.outputs.result }}:${{ matrix.version }}
+          docker push ${{ steps.package.outputs.result }}:${{ matrix.version }}
+      # - name: Build and push
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     push: true
+      #     context: .
+      #     file: ${{ matrix.directory }}/Dockerfile
+      #     tags: |
+      #       ${{ steps.package.outputs.result }}:latest
+      #       ${{ steps.package.outputs.result }}:${{ matrix.version }}
+      #     cache-from: type=local,src=/tmp/.buildx-cache
+      #     cache-to: type=local,dest=/tmp/.buildx-cache
