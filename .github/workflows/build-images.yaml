@@ -64,17 +64,14 @@ jobs:
       - name: List projects
         run: platy list projects 
       - name: Show Tilehuria project
-        id: project
+        id: set-matrix
         run: |
           matrix=$(platy show tilehuria --json | jq -c '{include: ."services"}')
           echo $matrix
           echo "::set-output name=matrix::$matrix"          
-      # - name: matrix
-      #   run: |
-      #     echo 
-    # outputs:
-    #   matrix: 
-    #     include: ${{toJson(fromJson(steps.project.outputs.project).services)}}
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+        
   tag:
     needs: taglist
     runs-on: ubuntu-latest
