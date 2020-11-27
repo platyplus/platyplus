@@ -4,24 +4,10 @@ on:
     branches:
       - master
 # TODO iterate over all projects, not only tilehuria
+# 1. list project list
+# 2. merge (foreach project get services)
+# 3. output the matrix
 jobs:
-  # build-packages:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2-beta
-  #       with:
-  #         node-version: '14'
-  #     - name: Cache node_modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Yarn install
-  #       run: yarn
-  #     # * Build all the packages to ensure all dependencies are present
-  #     - name: Yarn build
-  #       run: yarn build
   build:
     name: "Build and push docker images"
     runs-on: ubuntu-latest
@@ -72,15 +58,6 @@ jobs:
       matrix: ${{fromJson(needs.taglist.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v1
-      # - name: Cache Docker layers
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-buildx-
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
@@ -92,20 +69,13 @@ jobs:
           result="${{ matrix.package }}"
           result="${result:1}"
           echo "::set-output name=result::$result"          
-      # TODO tag with version only if tag on the current commit
+      # * Tag with version only if tag on the current commit
       - name: tag
         run: |
-          docker pull ${{ steps.package.outputs.result }}:latest
-          docker tag ${{ steps.package.outputs.result }}:latest ${{ steps.package.outputs.result }}:${{ matrix.version }}
-          docker push ${{ steps.package.outputs.result }}:${{ matrix.version }}
-      # - name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     push: true
-      #     context: .
-      #     file: ${{ matrix.directory }}/Dockerfile
-      #     tags: |
-      #       ${{ steps.package.outputs.result }}:latest
-      #       ${{ steps.package.outputs.result }}:${{ matrix.version }}
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache
+          tags=$(git tag --points-at HEAD)
+          tag="${{ matrix.package }}/${{ matrix.version }}"
+          if [[ $tags == *"$tag"* ]]; then
+            docker pull ${{ steps.package.outputs.result }}:latest
+            docker tag ${{ steps.package.outputs.result }}:latest ${{ steps.package.outputs.result }}:${{ matrix.version }}
+            docker push ${{ steps.package.outputs.result }}:${{ matrix.version }}
+          fi
