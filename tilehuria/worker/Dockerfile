@@ -25,7 +25,7 @@ COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 #
 COPY --chown=node:node tilehuria/worker /home/node/app/tilehuria/worker
 
-RUN lerna run build
+RUN yarn build
 
 FROM lerna-base as dependencies
 RUN cat tilehuria/worker/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > tilehuria/worker/package.json

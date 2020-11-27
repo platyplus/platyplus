@@ -25,7 +25,7 @@ COPY --chown=node:node {{this.directory}}/{{this.name}} /home/node/app/{{this.di
 #{{/each}}
 COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{name}}
 
-RUN lerna run build
+RUN yarn build
 
 FROM lerna-base as dependencies
 RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
