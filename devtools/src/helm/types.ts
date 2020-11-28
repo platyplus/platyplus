@@ -8,7 +8,7 @@ export type HelmDependency = {
 
 export type HelmChart = {
   apiVersion: 'v2'
-  appVersion: string
+  appVersion?: string
   description: string
   name: string
   version: string
