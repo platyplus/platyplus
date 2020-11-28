@@ -73,7 +73,7 @@ jobs:
       - name: Set services matrix
         id: set-matrix
         run: |
-          matrix=$(platy show tilehuria --json | jq -c '{include: ."services"}')
+          matrix=$(platy list services --all --json | jq -c '{include: .}')
           echo "::set-output name=matrix::$matrix"          
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
