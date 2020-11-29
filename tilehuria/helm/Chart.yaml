@@ -1,7 +1,7 @@
 apiVersion: v2
 description: Map tile scraper and proxy
 name: tilehuria
-version: 0.1.5
+version: 0.1.6
 dependencies:
   - name: rabbitmq
     version: 7.4.5
@@ -37,4 +37,4 @@ dependencies:
     repository: https://containous.github.io/traefik-helm-chart
     condition: traefik.enabled
 annotations:
-  artifacthub.io/changes: "- fix: tag before commit when creating project helm version"
+  artifacthub.io/changes: ""
