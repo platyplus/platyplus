@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.0...@platyplus/devtools@0.4.1) (2020-11-29)
+
+
+### Bug Fixes
+
+* add git push, and wait for git promises ([d783391](https://github.com/platyplus/platyplus/commit/d783391a81fb689f845612a667ed6bd3dfc17a56))
+
+
+
+
+
 # [0.4.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.3.0...@platyplus/devtools@0.4.0) (2020-11-29)
 
 
