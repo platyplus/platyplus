@@ -2,6 +2,7 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
 import git from 'isomorphic-git'
+import http from 'isomorphic-git/http/node'
 import path from 'path'
 import semver from 'semver'
 
@@ -38,7 +39,6 @@ export const helmVersion = async (
     const newVersion =
       semver.inc(oldVersion, recommendation.releaseType || 'patch') ||
       ('0.0.1' as string)
-    console.log(oldVersion, newVersion, recommendation.releaseType)
     chartYaml.version = newVersion
 
     // * Save changelog into Helm Chart according to artifacthub standard
@@ -56,23 +56,28 @@ export const helmVersion = async (
 
     // * Git add
     if (options?.addAll) {
-      git.add({ fs, dir, filepath: helmPath })
-      options?.additionalPaths?.map((p) => {
-        git.add({ fs, dir, filepath: p })
-      })
+      await git.add({ fs, dir, filepath: helmPath })
+      if (options?.additionalPaths) {
+        for (const p of options.additionalPaths) {
+          await git.add({ fs, dir, filepath: p })
+        }
+      }
     } else {
-      git.add({ fs, dir, filepath: chartYamlPath })
+      await git.add({ fs, dir, filepath: chartYamlPath })
     }
 
     // * Git commit
     const ref = `${tagName}@${newVersion}`
     const message = `${ref}: bump ${recommendation.releaseType} version from ${oldVersion} to ${newVersion}`
     const author = await getGlobalGitAuthorInfo()
-    git.commit({ fs, dir, message, author })
-    git.tag({ fs, dir, ref })
+    await git.commit({ fs, dir, message, author })
+    await git.tag({ fs, dir, ref })
 
     // * Git tag
     console.log(chalk.green(message))
+
+    // * Git push
+    await git.push({ fs, http })
   } else {
     console.log(chalk.green(recommendation.reason))
   }
