@@ -1,7 +1,7 @@
 apiVersion: v2
 description: Map tile scraper and proxy
 name: tilehuria
-version: 0.1.6
+version: 0.1.7
 dependencies:
   - name: rabbitmq
     version: 7.4.5
