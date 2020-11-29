@@ -33,6 +33,7 @@ export const helmVersion = async (
     ...(options?.additionalPaths || []).map((p) => path.join(dir, p))
   ])
   if (recommendation.releaseType) {
+    console.log(recommendation)
     // * Determine new version from the current version in Chart.yaml
     const oldVersion = chartYaml.version || '0.0.1'
     const newVersion =
@@ -68,12 +69,12 @@ export const helmVersion = async (
     const ref = `${tagName}@${newVersion}`
     const message = `${ref}: bump ${recommendation.releaseType} version from ${oldVersion} to ${newVersion}`
 
-    // * Git tag
-    await git.tag({ fs, dir, ref })
-
     // * Git commit
     const author = await getGlobalGitAuthorInfo()
     await git.commit({ fs, dir, message, author })
+
+    // * Git tag
+    await git.tag({ fs, dir, ref })
 
     console.log(chalk.green(message))
   } else {
