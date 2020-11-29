@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/tilehuria-worker",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "platyplus": {
     "type": "typescript"
   },

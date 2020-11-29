@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.3.0...@platyplus/devtools@0.4.0) (2020-11-29)
+
+
+### Features
+
+* calculate chart version from dependencies version ([b001b44](https://github.com/platyplus/platyplus/commit/b001b442207e8dca8434c920c0beeee431ab3a54))
+* set an npm-like workflow to handle the versioning of the helm chart of projects ([a46a17b](https://github.com/platyplus/platyplus/commit/a46a17b09b543865150fa52683958f43fbb92eda))
+* **cli:** replace platy show project with platy list services ([a446f4f](https://github.com/platyplus/platyplus/commit/a446f4fa3ef77b08b5b6b89c8c09baecb62bd44c))
+
+
+
+
+
 # [0.3.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.2.0...@platyplus/devtools@0.3.0) (2020-11-27)
 
 
