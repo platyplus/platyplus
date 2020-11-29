@@ -25,7 +25,7 @@
     "test": "lerna run test --parallel",
     "typecheck": "lerna run typecheck",
     "version": "lerna version --yes",
-    "postversion": "yarn platy version --all",
+    "postversion": "yarn platy version --all && git push",
     "publish": "lerna publish from-package --yes"
   },
   "config": {

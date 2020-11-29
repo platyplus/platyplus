@@ -2,7 +2,6 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
 import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/node'
 import path from 'path'
 import semver from 'semver'
 
@@ -75,9 +74,6 @@ export const helmVersion = async (
     // * Git commit
     const author = await getGlobalGitAuthorInfo()
     await git.commit({ fs, dir, message, author })
-
-    // * Git push
-    await git.push({ fs, http })
 
     console.log(chalk.green(message))
   } else {
