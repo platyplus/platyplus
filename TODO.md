@@ -8,31 +8,6 @@
 
 ## Step 2: DevTools MVP
 
-- [ ] Sync somehow the Helm version/app-version of the project chart. Ideally, bump automatically
-  - For the moment: get the highest version numbers from the services.
-    // TODO conventional-recommended-bump -p angular --commit-path tilehuria/helm -v
-    // TODO conventional commit also on any helm-related directory (follow file://)
-    // TODO git tag
-    // TODO : standard-version or semantic-release
-  - According to bumps of child NPM packages? Scrappy... not conviced
-    - list what changed: lerna ls --since master
-    - something changed in the project services -> app version bump (+chart version bump?)
-    - something changed in the project helm directory -> chart version bump
-  - Best approach:
-    - git tag with the project name
-    - scan the commits in
-      - project helm chart dir
-      - project services
-      - chart dependencies?
-      - NPM dependencies?
-    - generate a standard version from it
-      - update the Chart version
-      - update the chart changelog (see artefacthub approach)
-      - git tag
-    - See:
-      - conventional-recommended-bump
-      - conventional-commits-parser ?
-      - conventional-changelog ?
 - [ ] Docker image CI pipeline
   - [ ] Make generic for all projects in creating `platy list services [project] [--all]` and adapting the GH action accordingly
   - [ ] Filter projects with no changes

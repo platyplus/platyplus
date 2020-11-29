@@ -1,6 +1,9 @@
 import { get } from 'object-path'
 export * from './yarn'
 export * from './wait-for'
+export * from './version'
+export * from './helm-version'
+export * from './git'
 
 type Options = {
   initialPath?: string

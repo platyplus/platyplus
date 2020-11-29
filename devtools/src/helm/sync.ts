@@ -108,7 +108,6 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
   const valuesFile = path.join(helmDirectory, 'values.yaml')
   await fs.ensureFile(valuesFile)
   const values = await fs.readYaml(valuesFile)
-  const versions = ['0', '0', '0']
   for (const dep of yamlChart.dependencies) {
     if (dep.repository?.startsWith('file://')) {
       const depPath = path.join(
@@ -118,16 +117,8 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
       )
       const { version } = await fs.readYaml<HelmChart>(depPath)
       dep.version = version
-      // * Keep the higher dependency version to determine the final app version
-      version.split('.').map((value, index) => {
-        if (value > versions[index]) versions[index] = value
-      })
       set(values, `${dep.alias || dep.name}.imageConfig.tag`, version)
     }
-  }
-  const newVersion = versions.join('.')
-  if (yamlChart.version !== newVersion) {
-    yamlChart.version = newVersion
   }
 
   await fs.saveYaml(valuesFile, values)

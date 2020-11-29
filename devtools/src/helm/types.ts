@@ -13,4 +13,5 @@ export type HelmChart = {
   name: string
   version: string
   dependencies: HelmDependency[]
+  annotations?: Record<string, string>
 }
