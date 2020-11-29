@@ -66,18 +66,20 @@ export const helmVersion = async (
       await git.add({ fs, dir, filepath: chartYamlPath })
     }
 
-    // * Git commit
     const ref = `${tagName}@${newVersion}`
     const message = `${ref}: bump ${recommendation.releaseType} version from ${oldVersion} to ${newVersion}`
-    const author = await getGlobalGitAuthorInfo()
-    await git.commit({ fs, dir, message, author })
-    await git.tag({ fs, dir, ref })
 
     // * Git tag
-    console.log(chalk.green(message))
+    await git.tag({ fs, dir, ref })
+
+    // * Git commit
+    const author = await getGlobalGitAuthorInfo()
+    await git.commit({ fs, dir, message, author })
 
     // * Git push
     await git.push({ fs, http })
+
+    console.log(chalk.green(message))
   } else {
     console.log(chalk.green(recommendation.reason))
   }
