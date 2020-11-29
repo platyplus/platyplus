@@ -45,7 +45,6 @@
 ## Later
 
 - [ ] values.schema.json in Helm Charts
-- [x] traefik/cert-manager: use a single certificate with dns challenges?
 - [ ] optimise generated dockerfiles - use common layers? -> see latest skaffold release
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres
