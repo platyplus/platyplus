@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.2...@platyplus/devtools@0.4.3) (2020-11-29)
+
+
+### Bug Fixes
+
+* remove git push from helm project version ([e117169](https://github.com/platyplus/platyplus/commit/e117169b482d74a58798f074688d23dc3794449f))
+
+
+
+
+
 ## [0.4.2](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.1...@platyplus/devtools@0.4.2) (2020-11-29)
 
 
