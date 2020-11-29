@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.1...@platyplus/devtools@0.4.2) (2020-11-29)
+
+
+### Bug Fixes
+
+* tag before commit when creating project helm version ([46ec1da](https://github.com/platyplus/platyplus/commit/46ec1da9eace9da7bd191452159862b359d6a8d1))
+
+
+
+
+
 ## [0.4.1](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.0...@platyplus/devtools@0.4.1) (2020-11-29)
 
 
