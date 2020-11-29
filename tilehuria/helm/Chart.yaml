@@ -1,7 +1,7 @@
 apiVersion: v2
 description: Map tile scraper and proxy
 name: tilehuria
-version: 0.1.2
+version: 0.1.3
 dependencies:
   - name: rabbitmq
     version: 7.4.5
@@ -36,3 +36,40 @@ dependencies:
     version: v8.9.1
     repository: https://containous.github.io/traefik-helm-chart
     condition: traefik.enabled
+annotations:
+  artifacthub.io/changes: >-
+    - feat: calculate chart version from dependencies version
+
+    - feat: sync image tags in project helm charts
+
+    - feat: sync Helm dependencies versions in projects  when pointing to a local chart
+
+    - fix: make dependencies work when using a private package, and set service packages to private as def
+
+    - feat: create/sync HBP and Hasura services
+
+    - feat: connect services in autoloading env vars
+
+    - feat: default traefik ingress system
+
+    - fix: add types to dockerfile template, and force exit on nodemon crash
+
+    - feat: add hbp service
+
+    - feat: package helm charts
+
+    - fix: cache clean before build
+
+    - fix(quasar): build dependent packages when building quasar
+
+    - fix: correct production docker build with yarn instead of lerna bootstrap
+
+    - fix: correct ingress with skaffold
+
+    - feat: activate service route
+
+    - fix: add geojson typings
+
+    - fix: add nodemon config to ts template
+
+    - fix: sha tag policy
