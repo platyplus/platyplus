@@ -78,6 +78,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
   tag:
+  # ? separate workflow? tag when event is tag (on project-specific tags)
     name: Tag docker images
     needs: [build, services]
     runs-on: ubuntu-latest

@@ -29,7 +29,7 @@ RUN yarn build
 
 FROM lerna-base as dependencies
 RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
-RUN yarn cache clean && yarn install --production --ignore-optional
+RUN yarn cache clean --force && yarn install --production
 RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.*
 
 FROM node:14-alpine as run
