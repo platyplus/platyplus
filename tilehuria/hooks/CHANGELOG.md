@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/platyplus/platyplus/compare/@platyplus/tilehuria-hooks@0.0.4...@platyplus/tilehuria-hooks@0.0.5) (2020-11-30)
+
+
+### Performance Improvements
+
+* yet another attempt to fix things up ([7ded670](https://github.com/platyplus/platyplus/commit/7ded670d6591c4f74ae902d559b2652e5ecb799e))
+
+
+
+
+
 ## [0.0.4](https://github.com/platyplus/platyplus/compare/@platyplus/tilehuria-hooks@0.0.3...@platyplus/tilehuria-hooks@0.0.4) (2020-11-29)
 
 **Note:** Version bump only for package @platyplus/tilehuria-hooks
