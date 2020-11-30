@@ -1,18 +1,15 @@
 # Roadmap
 
 ## Step 1b: HBP Helm Charts
-
 - [ ] HBP README: expose Hasura endpoint as well
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
 - [ ] Publish chart in awesome Hasura
 
 ## Step 2: DevTools MVP
-
-- [ ] Docker image CI pipeline
-  - [ ] Make generic for all projects in creating `platy list services [project] [--all]` and adapting the GH action accordingly
-  - [ ] Filter projects with no changes
-  - [ ] use another tag stragegy (checksum) but continue using latest as well
+- [ ] platy version: `/charts` directory -> `platy version project` and `platy version chart`
 - [ ] Include lerna in PDT dependencies
+  - [ ] include in `@platyplus/lerna` and exec from `node_modules/.bin`
+  - [ ] check any other `lerna exec/spawn `in devtools package
 - [ ] monorepo config e.g.:
   - organisation name for default package names?
   - default packages directory?
@@ -20,17 +17,14 @@
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API
-- [ ] Test CLI from npm installation
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 
 ## Next
-
-
-- [ ] In production dockerfiles: yarn cache clean? See how it's done in the official HBP repo
+- [ ] In production dockerfiles: `yarn cache clean`? See how it's done in the official HBP repo
 - [ ] Better handling of microservice name/alias
-- [ ] .platy.yaml: use the k8s terminology with kind: platyplus/project, name: project name ?
-- [ ] Minimal package.json template - too verbose for now
-- [ ] Use tsdx?
+- [ ] `.platy.yaml`: use the k8s terminology with `kind: platyplus/project`, `name: project name` ?
+- [ ] Minimal `package.json` template - too verbose for now
+- [ ] Use `tsdx`?
 - [ ] review TODOs in the code
 - [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
   - [x] platydev cluster
@@ -43,25 +37,24 @@
 - [ ] Helm charts changes annotations. See [this example](https://github.com/artifacthub/hub/blob/master/charts/artifact-hub/Chart.yaml)
 
 ## Later
-
-- [ ] values.schema.json in Helm Charts
+- [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
+- [ ] platy version: generate `CHANGELOG.md`
 - [ ] optimise generated dockerfiles - use common layers? -> see latest skaffold release
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres
 - [ ] hbp init container: wait for hasura (and for minio?)
 - [ ] standard init container: wait for connected services
 - [ ] move templates to the root folder?
-- [ ] vite template -> serviceTypeConfig.command = "yarn create {{xyz}}"
+- [ ] vite template -> `serviceTypeConfig.command = "yarn create {{xyz}}"`
 - [ ] review monorepo template
-- [ ] post-install @platyplus/devtools: launch the script to check/warn dependencies -> https://www.npmjs.com/package/which
+- [ ] `post-install @platyplus/devtools`: launch the script to check/warn dependencies -> https://www.npmjs.com/package/which
 - [ ] when fetching HBP metadata/migrations:
-  - git clone --filter only the required directories
+  - `git clone --filter` only the required directories
   - copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
 - [ ] create shared Helm charts e.g. to generate Hasura JWT secret etc.
-- [ ] for each chart of the 'charts' directory, when 'repository' starts with 'file://', automatically set the right 'version'
-
+- [ ] for each chart of the 'charts' directory, when 'repository' starts with `file://'`,` automatically set the right 'version'
+- [ ] "postversion": "yarn platy version --all && git push": include `git push` in `platy version` - use `exec('git push')`?
 ## Parked
-
 - [ ] Vetur errors -> monitor the new Vetur releases
   - See: https://github.com/vuejs/vetur/issues/815
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
@@ -73,5 +66,5 @@
   - Use it for HBP configuration files
   - As a result: remove Hasura & HBP dockerfiles in devtools
   - Then, move helm directory to the project directory?
-  - Then, review HBP template and functionning with storage rules embedded in values.yaml
+  - Then, review HBP template and functionning with storage rules embedded in `values.yaml`
   - See: https://github.com/helm/helm/issues/3276

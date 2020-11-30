@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - master
-# TODO iterate over all projects, not only tilehuria
-# 3. create a services matrix from `platy list services --all`
-# 4. noop
 jobs:
   projects:
     name: List projects
