@@ -33,7 +33,6 @@ export const helmVersion = async (
     ...(options?.additionalPaths || []).map((p) => path.join(dir, p))
   ])
   if (recommendation.releaseType) {
-    console.log(recommendation)
     // * Determine new version from the current version in Chart.yaml
     const oldVersion = chartYaml.version || '0.0.1'
     const newVersion =
