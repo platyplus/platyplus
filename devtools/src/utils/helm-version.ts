@@ -43,12 +43,15 @@ export const helmVersion = async (
 
     // * Save changelog into Helm Chart according to artifacthub standard
     // TODO generate changelog according to conventional-changelog-angular
-    if (!chartYaml.annotations) chartYaml.annotations = {}
-    const changes = recommendation.commits
-      .filter(({ type }) => type === 'fix' || type === 'feat')
-      .map((commit) => `- ${commit.header}`)
-      .join('\n')
-    chartYaml.annotations['artifacthub.io/changes'] = changes
+    const changes = recommendation.commits.filter(
+      ({ type }) => type === 'fix' || type === 'feat'
+    )
+    if (changes.length) {
+      if (!chartYaml.annotations) chartYaml.annotations = {}
+      chartYaml.annotations['artifacthub.io/changes'] = changes
+        .map((commit) => `- ${commit.header}`)
+        .join('\n')
+    }
     // TODO configure CHANGELOG.md
 
     // * Update Chart.yaml
