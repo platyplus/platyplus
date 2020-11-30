@@ -11,7 +11,7 @@ const defaults = (config: ProjectConfig): HelmChart => ({
   apiVersion: 'v2',
   description: config.description,
   name: config.name,
-  version: '0.0.1', //TODO
+  version: '0.0.1',
   dependencies: []
 })
 

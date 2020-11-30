@@ -6,19 +6,41 @@
 - [ ] Publish chart in awesome Hasura
 
 ## Step 2: DevTools MVP
-- [ ] platy version: `/charts` directory -> `platy version project` and `platy version chart`
+- [ ] platy version charts in `/charts` directory
+  - `platy version project` and `platy version chart [path]` that would also work with path=`charts/*`
 - [ ] Include lerna in PDT dependencies
   - [ ] include in `@platyplus/lerna` and exec from `node_modules/.bin`
   - [ ] check any other `lerna exec/spawn `in devtools package
-- [ ] monorepo config e.g.:
-  - organisation name for default package names?
-  - default packages directory?
-  - `platy create monorepo` (create lerna, base tsconfigs, default @org/package directory, warns when something required is not installed e.g. skaffold, helm...)
+- [ ] `platy init`
+  - lerna.json
+  - `package.json`
+    - add minimal yarn/node/etc requirements
+    - devDependencies
+      - 'standard tools'
+      - `@platyplus/devtools`
+    - scripts
+  - empty `chart` directory
+  - empty `packages` directory
+  - empty `types` directory
+  - files:
+    - TSConfig
+    - `.gitignore`
+    - `.editorconfig`
+    - ESLint
+    - Husky
+    - Prettier
+  - warns when something required is not installed e.g. skaffold, helm, node version, what else?
+- [ ] `postversion`: `yarn platy version --all && git push` to `yarn platy version --all`
+  - `platy version --all` <=> `platy version project --all` AND `platy version chart charts/*`
+  - include `git push` in `platy version` - use `exec('git push')`?
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
-
+- [ ] for each chart of the 'charts' directory, when 'repository' starts with `file://'`,` automatically set the right version.
+  - implement `platy sync chart [chartpath]` that would also work with `platy sync chart charts/*`
+  - change `platy sync [project]` to `platy sync project [project]`
+- [ ] project version: use the same messsage as in lerna.json
 ## Next
 - [ ] In production dockerfiles: `yarn cache clean`? See how it's done in the official HBP repo
 - [ ] Better handling of microservice name/alias
@@ -34,7 +56,6 @@
 - [ ] Add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Improve Helm Chart production/development values
-- [ ] Helm charts changes annotations. See [this example](https://github.com/artifacthub/hub/blob/master/charts/artifact-hub/Chart.yaml)
 
 ## Later
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
@@ -52,14 +73,13 @@
   - `git clone --filter` only the required directories
   - copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
 - [ ] create shared Helm charts e.g. to generate Hasura JWT secret etc.
-- [ ] for each chart of the 'charts' directory, when 'repository' starts with `file://'`,` automatically set the right 'version'
-- [ ] "postversion": "yarn platy version --all && git push": include `git push` in `platy version` - use `exec('git push')`?
 ## Parked
 - [ ] Vetur errors -> monitor the new Vetur releases
   - See: https://github.com/vuejs/vetur/issues/815
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
   - See: https://github.com/bitnami/charts/issues/2061
 - [ ] Preserve yaml comments
+  - indepth look at the documentation of the currently used `yaml` package
   - E.g. https://www.npmjs.com/package/yawn-yaml
 - [ ] Include external files (Helm 3.5)
   - Install/upgrade/rollback Hasura migrations

@@ -6,7 +6,6 @@
       "packages/*",
       "devtools",
       "documentation",
-      "dummy/*",
       "tilehuria/*"
     ]
   },
