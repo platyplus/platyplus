@@ -30,7 +30,7 @@ RUN yarn build
 FROM lerna-base as dependencies
 RUN cat tilehuria/hooks/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > tilehuria/hooks/package.json
 # RUN yarn cache clean --force && yarn install --production
-RUN cat {{directory}}/{{name}}/package.json
+RUN cat tilehuria/hooks/package.json
 RUN yarn install --verbose --production
 RUN tar -cf /home/node/dependencies.tar tilehuria/hooks/node_modules tilehuria/hooks/package.json tilehuria/hooks/yarn.*
 
