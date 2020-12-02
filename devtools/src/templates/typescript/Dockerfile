@@ -29,7 +29,8 @@ RUN yarn build
 
 FROM lerna-base as dependencies
 RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
-# RUN yarn cache clean --force && yarn install  --production
+# RUN yarn cache clean --force && yarn install --production
+RUN cat {{directory}}/{{name}}/package.json
 RUN yarn install --verbose --production
 RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.*
 
