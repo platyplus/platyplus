@@ -28,6 +28,11 @@ COPY --chown=node:node tilehuria/worker /home/node/app/tilehuria/worker
 RUN yarn build
 
 FROM lerna-base as dependencies
+RUN ls
+RUN ls tilehuria
+RUN ls tilehuria/worker
+RUN cat tilehuria/worker/package.json
+RUN cat tilehuria/worker/package.json | jq '. * {workspaces: {nohoist: ["**"]}}'
 RUN cat tilehuria/worker/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > tilehuria/worker/package.json
 # RUN yarn cache clean --force && yarn install --production
 RUN cat tilehuria/worker/package.json
