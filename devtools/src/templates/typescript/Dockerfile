@@ -3,7 +3,6 @@
 # ! ########################################################################### ! #
 
 FROM node:14-alpine as lerna-base
-RUN apk add --no-cache jq
 RUN npm i lerna -g --loglevel error
 USER node
 RUN mkdir /home/node/app
@@ -28,10 +27,9 @@ COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{nam
 RUN yarn build
 
 FROM lerna-base as dependencies
-RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > {{directory}}/{{name}}/package.json
-# RUN yarn cache clean --force && yarn install --production
-RUN cat {{directory}}/{{name}}/package.json
-RUN yarn install --verbose --production
+RUN apk add --no-cache jq
+RUN cat <<< "$(jq ". * {workspaces: {nohoist: [\"**\"]}}" < {{directory}}/{{name}}/package.json)" > {{directory}}/{{name}}/package.json
+RUN yarn install --production
 RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.*
 
 FROM node:14-alpine as run

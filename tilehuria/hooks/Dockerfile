@@ -15,6 +15,7 @@ COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* til
 COPY --chown=node:node tilehuria/hooks/package.json tilehuria/hooks/yarn.* /home/node/app/tilehuria/hooks/
 
 FROM lerna-base as builder
+RUN yarn
 COPY --chown=node:node tsconfig.json tsconfig.build.json ./
 COPY --chown=node:node types ./types
 
@@ -23,7 +24,7 @@ COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 #
 COPY --chown=node:node tilehuria/hooks /home/node/app/tilehuria/hooks
 
-RUN yarn && yarn build
+RUN yarn build
 
 FROM lerna-base as dependencies
 RUN apk add --no-cache jq
