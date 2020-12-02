@@ -14,7 +14,7 @@ const writeDockerFile = async (
   )
   if (await fs.pathExists(filePath)) {
     const file = await templateToString(filePath, service)
-    await fs.outputFile(path.join(service.location, dockerFile), file)
+    await fs.outputFile(path.join(service.absolutePath, dockerFile), file)
   }
 }
 

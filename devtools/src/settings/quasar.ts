@@ -26,7 +26,7 @@ const quasarCreate = async (directory: string, name: string): Promise<void> => {
 export const quasarConfig: ServiceTypeConfig = ({
   directory,
   name,
-  location,
+  relativePath,
   pathToRoot
 }) => {
   return {
@@ -86,7 +86,7 @@ export const quasarConfig: ServiceTypeConfig = ({
         )
       )
       await quasarCreate(directory, name)
-      if (await fs.pathExists(path.join(location, 'tsconfig.json'))) {
+      if (await fs.pathExists(path.join(relativePath, 'tsconfig.json'))) {
         execSync(
           `lerna add --dev @platyplus/quasar-app-extension-ts-lerna --scope=${name}`,
           {
@@ -95,11 +95,11 @@ export const quasarConfig: ServiceTypeConfig = ({
           }
         )
         execSync(`${globalPath()}/quasar ext invoke @platyplus/ts-lerna`, {
-          cwd: location,
+          cwd: relativePath,
           stdio: 'inherit'
         })
         // * Update the tsconfig.webpack.json file from the quasar extension so it points to the root config
-        const tsWebpackPath = path.join(location, 'tsconfig.webpack.json')
+        const tsWebpackPath = path.join(relativePath, 'tsconfig.webpack.json')
         const tsWebpack = await fs.readJson(tsWebpackPath)
         objectPath.set(tsWebpack, 'extends', `${pathToRoot}/tsconfig.json`)
         await fs.writeJson(tsWebpackPath, tsWebpack, { spaces: '  ' })

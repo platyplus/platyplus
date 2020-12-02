@@ -9,10 +9,11 @@ export type PackageInformation = {
   private: boolean
   type?: PackageType
   package: string
+  relativePath: string
+  absolutePath: string
   directory: string
-  pathToRoot: string
   name: string
-  location: string
+  pathToRoot: string
   description?: string
   user?: {
     name: string

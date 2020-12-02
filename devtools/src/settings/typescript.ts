@@ -5,7 +5,7 @@ import { ServiceTypeConfig } from './types'
 export const typescriptConfig: ServiceTypeConfig = ({
   directory,
   name,
-  location
+  relativePath
 }) => ({
   values: {
     targetPort: 3000,
@@ -46,7 +46,7 @@ export const typescriptConfig: ServiceTypeConfig = ({
   chartName: 'standard-service',
   postInstall: async () => {
     execSync('yarn', {
-      cwd: location,
+      cwd: relativePath,
       stdio: 'inherit'
     })
   }

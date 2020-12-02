@@ -13,8 +13,11 @@ export type LernaPackage = {
  * @param rootDir root dir of the monorepo
  * @return basic package information
  */
-export const getLernaPackage = async (name: string): Promise<LernaPackage> => {
-  const list = await getLernaPackages(name)
+export const getLernaPackage = async (
+  name: string,
+  cwd = process.cwd()
+): Promise<LernaPackage> => {
+  const list = await getLernaPackages(name, cwd)
   if (list.length !== 1)
     throw Error(
       `lernaPackage(${name}): found ${list.length} package(s) where only one should be found.`
@@ -23,7 +26,9 @@ export const getLernaPackage = async (name: string): Promise<LernaPackage> => {
 }
 
 export const getLernaPackages = async (
-  scope?: string
+  scope?: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  cwd = process.cwd()
 ): Promise<LernaPackage[]> => {
   try {
     scope = scope ? `--scope='${scope}'` : ''

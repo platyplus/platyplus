@@ -8,20 +8,6 @@ import path from 'path'
 import { DEFAULT_WORKING_DIR } from '../settings'
 import { PackageInformation, PackageJson } from './types'
 
-export const getPathInfo = (
-  packagePath: string
-): { pathToRoot: string; name: string; directory: string } => {
-  if (!packagePath.startsWith('/'))
-    packagePath = path.resolve(DEFAULT_WORKING_DIR, packagePath)
-  const destinationArray = path
-    .relative(DEFAULT_WORKING_DIR, packagePath)
-    .split('/')
-  const pathToRoot = Array(destinationArray.length).fill('..').join('/')
-  const name = destinationArray.pop() as string
-  const directory = path.join(...destinationArray)
-  return { pathToRoot, name, directory }
-}
-
 const fromNpmPackage = (
   {
     name: packageName,
@@ -30,16 +16,22 @@ const fromNpmPackage = (
     private: privatePackage,
     version
   }: PackageJson,
-  location: string
+  absolutePath: string
   // rootDir = DEFAULT_WORKING_DIR
 ): PackageInformation => {
   const git = gitConfig.sync()
+  const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
+  const [directory, name] = relativePath.split('/')
+  const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
   return {
-    ...getPathInfo(location),
     private: !!privatePackage,
     type: platyplus?.type,
     package: packageName,
-    location,
+    absolutePath,
+    relativePath,
+    pathToRoot,
+    name,
+    directory,
     description,
     user: {
       name: objectPath.get(git, 'user.name'),

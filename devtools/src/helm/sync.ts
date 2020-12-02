@@ -63,7 +63,6 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
     )
     if (index < 0) index = yamlChart.dependencies.length
     set(yamlChart, `dependencies.${index}.name`, service.name)
-    set(yamlChart, `dependencies.${index}.version`, '*')
     if (!yamlChart.dependencies[index].condition) {
       yamlChart.dependencies[index].condition = `${service.name}.enabled`
     }
@@ -85,6 +84,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
           `dependencies.${index}.repository`,
           `file://${service.pathToRoot}/${service.directory}/${service.name}/helm`
         )
+        set(yamlChart, `dependencies.${index}.version`, '*')
       } else {
         set(yamlChart, `dependencies.${index}.alias`, service.name)
         set(yamlChart, `dependencies.${index}.name`, chartName)
@@ -94,6 +94,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
             `dependencies.${index}.repository`,
             `file://${service.pathToRoot}/charts/${chartName}`
           )
+          set(yamlChart, `dependencies.${index}.version`, '*')
         } else {
           set(
             yamlChart,

@@ -11,6 +11,8 @@
 - [ ] Include lerna in PDT dependencies
   - [ ] include in `@platyplus/lerna` and exec from `node_modules/.bin`
   - [ ] check any other `lerna exec/spawn `in devtools package
+  - [ ] info cli using local version of lerna
+  - See: https://github.com/lerna/lerna/issues/2013
 - [ ] `platy init`
   - lerna.json
   - `package.json`
@@ -56,7 +58,7 @@
 - [ ] Add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Improve Helm Chart production/development values
-
+- [ ] GitHub actions: always use yarn and docker cache
 ## Later
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
 - [ ] platy version: generate `CHANGELOG.md`

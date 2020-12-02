@@ -52,8 +52,10 @@ export const generatePackageTemplateFiles = async <
   variables: T
 ): Promise<void> => {
   if (!variables.type) return
-  await generateTemplateFiles(variables.type, variables.location, variables, [
-    'Dockerfile*',
-    '.dockerignore'
-  ])
+  await generateTemplateFiles(
+    variables.type,
+    variables.relativePath,
+    variables,
+    ['Dockerfile*', '.dockerignore']
+  )
 }

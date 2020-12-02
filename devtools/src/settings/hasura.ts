@@ -9,7 +9,7 @@ import { ServiceTypeConfig } from './types'
 export const hasuraConfig: ServiceTypeConfig = ({
   directory,
   name,
-  location
+  relativePath
 }) => {
   // TODO set env variables, somehow
   // ? create a global .env file, one prod, one dev?
@@ -58,8 +58,8 @@ export const hasuraConfig: ServiceTypeConfig = ({
     chartName: 'hasura',
     run: async ({ address, localPort, resourceName }) => {
       await waitFor(`http://${address}:${localPort}/healthz`)
-      if (!fs.pathExistsSync(path.join(location, 'config.yaml'))) {
-        await fs.saveYaml(path.join(location, 'config.yaml'), {
+      if (!fs.pathExistsSync(path.join(relativePath, 'config.yaml'))) {
+        await fs.saveYaml(path.join(relativePath, 'config.yaml'), {
           version: 2,
           metadata_directory: 'metadata',
           migrations_directory: 'migrations'
@@ -73,7 +73,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
         '--endpoint',
         `http://${address}:${localPort}`,
         '--project',
-        location,
+        relativePath,
         '--skip-update-check'
       ])
 
@@ -107,7 +107,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
         '--endpoint',
         `http://${address}:${localPort}`,
         '--project',
-        location,
+        relativePath,
         '--skip-update-check'
       ])
       hasuraConsole.stdout.on('data', (data) => {

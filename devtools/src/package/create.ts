@@ -14,41 +14,42 @@ import {
 import { generatePackageTemplateFiles } from '../templates'
 import { ensureWorkspace } from '../utils'
 import { DEFAULT_DESCRIPTION } from './constants'
-import { getPathInfo } from './loaders'
 import { syncPackageJson } from './sync-package-json'
 import { PackageInformation } from './types'
 
 /**
  * Generates a Typescript package ready to be used in a Lerna/Yarn workspaces environment
  * @param packageName the full name of the npm package e.g. @yourorg/a-package
- * @param location the destination package directory, e.g. packages/a-package
+ * @param relativePath the destination package directory, e.g. packages/a-package
  * @param description
  */
 export const createPackage = async (
   type: PackageType,
   packageName: string,
-  location: string,
+  relativePath: string,
   description = DEFAULT_DESCRIPTION,
   privatePackage = true
 ): Promise<PackageTypeConfigResult> => {
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)
-  const { pathToRoot, name, directory } = getPathInfo(location)
   const git = gitConfig.sync()
-  if (await fs.pathExists(location))
-    throw Error(`The directory "${location}" already exists.`)
-  await fs.ensureDir(path.join(DEFAULT_WORKING_DIR, directory))
-
+  if (await fs.pathExists(relativePath))
+    throw Error(`The directory "${relativePath}" already exists.`)
+  const absolutePath = path.join(path.join(DEFAULT_WORKING_DIR, relativePath))
+  await fs.ensureDir(absolutePath)
+  const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
+  const [directory, name] = relativePath.split('/')
   const variables: PackageInformation = {
     private: privatePackage,
     type,
     description,
     package: packageName,
-    directory,
+    absolutePath,
+    relativePath,
     pathToRoot,
     name,
-    location,
+    directory,
     user: {
       name: objectPath.get(git, 'user.name'),
       email: objectPath.get(git, 'user.email')
@@ -58,7 +59,7 @@ export const createPackage = async (
     version: '0.0.1'
   }
   // * Checks the package is in a workspace
-  await ensureWorkspace(location)
+  await ensureWorkspace(absolutePath)
 
   const settings = serviceTypesConfig[type](variables)
   await settings.init?.()

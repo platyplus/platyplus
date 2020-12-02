@@ -37,7 +37,7 @@ export const syncPackageJson = async (
   variables: PackageInformation
 ): Promise<void> => {
   const defaults = defaultPackageJson(variables)
-  const packageJsonPath = path.join(variables.location, 'package.json')
+  const packageJsonPath = path.join(variables.relativePath, 'package.json')
   if (await fs.pathExists(packageJsonPath)) {
     const packageJson = await fs.readJSON(packageJsonPath)
     packageJson.name = defaults.name
