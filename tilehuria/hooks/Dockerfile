@@ -3,7 +3,6 @@
 # ! ########################################################################### ! #
 
 FROM node:14-alpine as lerna-base
-RUN apk add --no-cache jq
 RUN npm i lerna -g --loglevel error
 USER node
 RUN mkdir /home/node/app
@@ -16,7 +15,6 @@ COPY --chown=node:node tilehuria/schema/package.json tilehuria/schema/yarn.* til
 COPY --chown=node:node tilehuria/hooks/package.json tilehuria/hooks/yarn.* /home/node/app/tilehuria/hooks/
 
 FROM lerna-base as builder
-RUN yarn
 COPY --chown=node:node tsconfig.json tsconfig.build.json ./
 COPY --chown=node:node types ./types
 
@@ -25,18 +23,12 @@ COPY --chown=node:node tilehuria/schema /home/node/app/tilehuria/schema
 #
 COPY --chown=node:node tilehuria/hooks /home/node/app/tilehuria/hooks
 
-RUN yarn build
+RUN yarn && yarn build
 
 FROM lerna-base as dependencies
-RUN ls
-RUN ls tilehuria
-RUN ls tilehuria/hooks
-RUN cat tilehuria/hooks/package.json
-RUN cat tilehuria/hooks/package.json | jq '. * {workspaces: {nohoist: ["**"]}}'
-RUN cat tilehuria/hooks/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > tilehuria/hooks/package.json
-# RUN yarn cache clean --force && yarn install --production
-RUN cat tilehuria/hooks/package.json
-RUN yarn install --verbose --production
+RUN apk add --no-cache jq
+RUN cat <<< "$(jq ". * {workspaces: {nohoist: [\"**\"]}}" < tilehuria/hooks/package.json)" > tilehuria/hooks/package.json
+RUN yarn install --production
 RUN tar -cf /home/node/dependencies.tar tilehuria/hooks/node_modules tilehuria/hooks/package.json tilehuria/hooks/yarn.*
 
 FROM node:14-alpine as run
