@@ -88,7 +88,11 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
       } else {
         set(yamlChart, `dependencies.${index}.alias`, service.name)
         set(yamlChart, `dependencies.${index}.name`, chartName)
-        if (process.env.NODE_ENV === 'development') {
+        if (
+          await fs.pathExists(
+            `${DEFAULT_WORKING_DIR}/charts/${chartName}/Chart.yaml`
+          )
+        ) {
           set(
             yamlChart,
             `dependencies.${index}.repository`,
