@@ -28,7 +28,8 @@ COPY --chown=node:node tilehuria/worker /home/node/app/tilehuria/worker
 RUN yarn build
 
 FROM lerna-base as dependencies
-RUN cat <<< "$(jq ". * {workspaces: {nohoist: [\"**\"]}}" < tilehuria/worker/package.json)" > tilehuria/worker/package.json
+# RUN cat <<< "$(jq \". * {workspaces: {nohoist: [\"**\"]}}\" < tilehuria/worker/package.json)" > tilehuria/worker/package.json
+RUN cat tilehuria/worker/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > /tmp/package.json && mv /tmp/package.json tilehuria/worker/package.json
 RUN yarn install --production
 RUN tar -cf /home/node/dependencies.tar tilehuria/worker/node_modules tilehuria/worker/package.json tilehuria/worker/yarn.*
 

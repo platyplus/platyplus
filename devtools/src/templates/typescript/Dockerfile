@@ -28,7 +28,8 @@ COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{nam
 RUN yarn build
 
 FROM lerna-base as dependencies
-RUN cat <<< "$(jq ". * {workspaces: {nohoist: [\"**\"]}}" < {{directory}}/{{name}}/package.json)" > {{directory}}/{{name}}/package.json
+# RUN cat <<< '$(jq ". * {workspaces: {nohoist: [\"**\"]}}" < {{directory}}/{{name}}/package.json)' > {{directory}}/{{name}}/package.json
+RUN cat {{directory}}/{{name}}/package.json | jq '. * {workspaces: {nohoist: ["**"]}}' > /tmp/package.json && mv /tmp/package.json {{directory}}/{{name}}/package.json
 RUN yarn install --production
 RUN tar -cf /home/node/dependencies.tar {{directory}}/{{name}}/node_modules {{directory}}/{{name}}/package.json {{directory}}/{{name}}/yarn.*
 
