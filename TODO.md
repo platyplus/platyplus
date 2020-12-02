@@ -24,7 +24,7 @@
   - empty `types` directory
   - files:
     - TSConfig
-    - `.gitignore`
+    - `.gitignore` and `.dockerignore`
     - `.editorconfig`
     - ESLint
     - Husky
