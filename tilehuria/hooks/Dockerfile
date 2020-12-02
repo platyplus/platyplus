@@ -3,6 +3,7 @@
 # ! ########################################################################### ! #
 
 FROM node:14-alpine as lerna-base
+RUN apk add --no-cache jq
 RUN npm i lerna -g --loglevel error
 USER node
 RUN mkdir /home/node/app
@@ -27,7 +28,6 @@ COPY --chown=node:node tilehuria/hooks /home/node/app/tilehuria/hooks
 RUN yarn build
 
 FROM lerna-base as dependencies
-RUN apk add --no-cache jq
 RUN cat <<< "$(jq ". * {workspaces: {nohoist: [\"**\"]}}" < tilehuria/hooks/package.json)" > tilehuria/hooks/package.json
 RUN yarn install --production
 RUN tar -cf /home/node/dependencies.tar tilehuria/hooks/node_modules tilehuria/hooks/package.json tilehuria/hooks/yarn.*
