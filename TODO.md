@@ -16,10 +16,6 @@
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 - [ ] devtools & other package.json: add keywords
 - [ ] packages: update READMe.md
-- [ ] Update Tilehuria README.md
-  - [ ] split todo list to TODO.md
-  - [ ] change deployment prodecure
-  - [ ] Explain limitations and why it's here
 - [ ] rename `platy skaffold` to `platy dev`
 
 ## Next
@@ -39,7 +35,6 @@
   - [x] platydev cluster
   - [x] terraform: review + publish module
   - [ ] argocd that deploys applications (chartmuseum)
-- [ ] Tilehuria worker is not an http server -> allow port deactivation in the standard-service chart
 - [ ] Add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Improve Helm Chart production/development values

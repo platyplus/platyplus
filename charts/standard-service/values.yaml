@@ -16,7 +16,6 @@ connect:
 replicaCount: 1
 
 imageConfig:
-  # repository: platyplus/tilehuria-standard-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: ""
