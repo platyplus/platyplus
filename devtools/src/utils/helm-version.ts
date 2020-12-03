@@ -1,4 +1,5 @@
 // TODO move to a separate package
+import Project from '@lerna/project'
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
 import { execSync } from 'child_process'
@@ -72,7 +73,9 @@ export const helmVersion = async (
     }
 
     const ref = `${tagName}@${newVersion}`
-    const message = `${ref}: bump ${recommendation.releaseType} version from ${oldVersion} to ${newVersion}`
+    const message =
+      new Project(dir).config.command?.version?.message ||
+      'chore(release): publish'
 
     // * Git commit
     const author = await getGlobalGitAuthorInfo()

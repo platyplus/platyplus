@@ -34,7 +34,6 @@
 - [ ] for each chart of the 'charts' directory, when 'repository' starts with `file://'`,` automatically set the right version.
   - implement `platy sync chart [chartpath]` that would also work with `platy sync chart charts/*`
   - change `platy sync [project]` to `platy sync project [project]`
-- [ ] project version: use the same messsage as in lerna.json
 
 ## Next
 
