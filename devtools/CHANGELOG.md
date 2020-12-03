@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.4...@platyplus/devtools@0.5.0) (2020-12-03)
+
+
+### Bug Fixes
+
+* do not set wildcard version to helm dependencies when using remote platy.dev helm repo ([a780d13](https://github.com/platyplus/platyplus/commit/a780d13c685b3e587be293380fa60299a7079eb6))
+* use file:// in chart dependencies when charts/ directory exists ([588db34](https://github.com/platyplus/platyplus/commit/588db3461779cdae5a2fdb1f44fd0addab304ad5))
+
+
+### Features
+
+* **cli:** complete platy version command ([8b23a60](https://github.com/platyplus/platyplus/commit/8b23a6018e202c7a4bb8cec43ca2d6f45e8dd9f5))
+
+
+
+
+
 ## [0.4.4](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.4.3...@platyplus/devtools@0.4.4) (2020-11-30)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/devtools",
   "private": false,
-  "version": "0.4.4",
+  "version": "0.5.0",
   "description": "Platy DevTools",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -36,7 +36,7 @@
     "@lerna/package-graph": "^3.18.5",
     "@lerna/project": "^3.21.0",
     "@platyplus/fs": "^0.1.1",
-    "@platyplus/lerna": "^0.0.7",
+    "@platyplus/lerna": "^0.0.8",
     "@types/conventional-changelog": "^3.1.0",
     "axios": "^0.20.0",
     "chalk": "^4.1.0",

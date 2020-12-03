@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.7...@platyplus/lerna@0.0.8) (2020-12-03)
+
+
+### Bug Fixes
+
+* do not set wildcard version to helm dependencies when using remote platy.dev helm repo ([a780d13](https://github.com/platyplus/platyplus/commit/a780d13c685b3e587be293380fa60299a7079eb6))
+
+
+
+
+
 ## [0.0.7](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.6...@platyplus/lerna@0.0.7) (2020-11-27)
 
 
