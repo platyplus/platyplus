@@ -24,6 +24,7 @@
 
 ## Next
 
+- [ ] get rid of warning workspace-aggregator!
 - [ ] create/develop/build a service outside of a project?
 - [ ] yargs: auto-complete project names
 - [ ] In production dockerfiles: `yarn cache clean`? See how it's done in the official HBP repo
