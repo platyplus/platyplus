@@ -1,19 +1,18 @@
-declare module '@lerna/package-graph'
+import { LernaPackage } from '@lerna/package'
+declare module '@lerna/package-graph' {
+  export type PackageGraphNode = {
+    name: string
+    externalDependencies: Map<string, PackageGraphNode>
+    localDependencies: Map<string, PackageGraphNode>
+    localDependents: Map<string, PackageGraphNode>
+  }
 
-type PackageGraphNode = {
-  name: string
-  externalDependencies: Map<string, PackageGraphNode>
-  localDependencies: Map<string, PackageGraphNode>
-  localDependents: Map<string, PackageGraphNode>
+  export type GraphType = 'dependencies' | 'allDependencies'
+  export default class extends Map<string, PackageGraphNode> {
+    constructor(
+      packages: LernaPackage[],
+      graphType?: GraphType,
+      forceLocal?: boolean
+    )
+  }
 }
-
-type GraphType = 'dependencies' | 'allDependencies'
-class PackageGraph extends Map<string, PackageGraphNode> {
-  constructor(
-    packages: LernaPackage[],
-    graphType: GraphType = 'allDependencies',
-    forceLocal: boolean = false
-  )
-}
-
-export default PackageGraph
