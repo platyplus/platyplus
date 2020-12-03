@@ -9,34 +9,23 @@
 ## Step 2: DevTools MVP
 
 - [ ] `platy init`
-  - lerna.json
-  - `package.json`
-    - add minimal yarn/node/etc requirements
-    - devDependencies
-      - 'standard tools'
-      - `@platyplus/devtools`
-    - scripts
-  - empty `chart` directory
-  - empty `packages` directory
-  - empty `types` directory
-  - files:
-    - TSConfig
-    - `.gitignore` and `.dockerignore`
-    - `.editorconfig`
-    - ESLint
-    - Husky
-    - Prettier
   - warns when something required is not installed e.g. skaffold, helm, node version, what else?
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
-- [ ] Document: CLI API
+- [ ] Document: CLI API (README.md)
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
-- [ ] for each chart of the 'charts' directory, when 'repository' starts with `file://'`,` automatically set the right version.
-  - implement `platy sync chart [chartpath]` that would also work with `platy sync chart charts/*`
-  - change `platy sync [project]` to `platy sync project [project]`
+- [ ] devtools & other package.json: add keywords
+- [ ] packages: update READMe.md
+- [ ] Update Tilehuria README.md
+  - [ ] split todo list to TODO.md
+  - [ ] change deployment prodecure
+  - [ ] Explain limitations and why it's here
+- [ ] rename `platy skaffold` to `platy dev`
 
 ## Next
 
+- [ ] create/develop/build a service outside of a project?
+- [ ] yargs: auto-complete project names
 - [ ] In production dockerfiles: `yarn cache clean`? See how it's done in the official HBP repo
 - [ ] Better handling of microservice name/alias
 - [ ] `.platy.yaml`: use the k8s terminology with `kind: platyplus/project`, `name: project name` ?

@@ -9,6 +9,7 @@
     "module": "commonjs",
     "removeComments": true,
     "declaration": true,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "paths": {
       "*": ["types/*"]

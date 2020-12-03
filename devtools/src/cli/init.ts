@@ -1,8 +1,8 @@
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { initMonorepo } from '../../monorepo'
-import { error } from '../error'
+import { initMonorepo } from '../monorepo'
+import { error } from './error'
 
 type args = {
   name?: string
@@ -10,8 +10,8 @@ type args = {
   description?: string
 }
 
-export const createMonorepo: CommandModule<args> = {
-  command: 'repo [name] [organisation]',
+export const init: CommandModule<args> = {
+  command: '<name> [organisation]',
   describe: 'create new monorepo',
   builder: (yargs) =>
     yargs

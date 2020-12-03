@@ -2,6 +2,7 @@
 import yargs from 'yargs'
 
 import { create } from './create'
+import { init } from './init'
 import { list } from './list'
 import { runSkaffold } from './skaffold'
 import { syncProject } from './sync-project'
@@ -11,6 +12,7 @@ import { version } from './version'
 yargs
   .scriptName('platy')
   .command(runSkaffold)
+  .command(init)
   .command(create)
   .command(list)
   .command(syncProject)

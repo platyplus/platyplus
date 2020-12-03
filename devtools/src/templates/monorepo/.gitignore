@@ -27,4 +27,6 @@ backup
 
 # Lerna
 lerna-debug.log*
+
+.vercel
 .docker
