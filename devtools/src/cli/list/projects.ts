@@ -11,7 +11,7 @@ export const requiredProjectList = async (): Promise<string[]> => {
   const projects = (await list()).map((p) => p.name)
   if (!projects.length)
     throw Error(
-      "No project found in the repo. Please create a project first in running 'platy create project <name>'."
+      "No project found in the repo. Please create a project first in running 'platy init'."
     )
   return projects
 }
@@ -37,13 +37,17 @@ export const listProjectsCommand: CommandModule<args> = {
       if (options.json) {
         console.log(JSON.stringify(projects, null, 2))
       } else {
-        console.log('NAME'.padEnd(20), 'LOCATION'.padEnd(20), 'DESCRIPTION')
-        for (const project of projects) {
-          console.log(
-            project.name.padEnd(20),
-            project.directory.padEnd(20),
-            project.description
-          )
+        if (projects.length) {
+          console.log('NAME'.padEnd(20), 'LOCATION'.padEnd(20), 'DESCRIPTION')
+          for (const project of projects) {
+            console.log(
+              project.name.padEnd(20),
+              project.directory.padEnd(20),
+              project.description
+            )
+          }
+        } else {
+          console.log('No projects in this repository.')
         }
       }
     } catch (e) {

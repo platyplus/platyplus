@@ -1,9 +1,8 @@
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { syncProject } from '../project'
+import { getProject, listProjects, syncProject } from '../project'
 import { error } from './error'
-import { requiredProjectList } from './list/projects'
 
 type args = {
   project?: string
@@ -25,23 +24,27 @@ export const sync: CommandModule<args> = {
         default: false
       }),
   handler: async (options) => {
-    const projects = await requiredProjectList()
-    const answers = await inquirer.prompt<Required<args>>([
-      {
-        name: 'project',
-        type: 'list',
-        when: !options.project && !options.all,
-        choices: projects
+    const projects = await listProjects()
+    if (projects.length) {
+      const answers = await inquirer.prompt<Required<args>>([
+        {
+          name: 'project',
+          type: 'list',
+          when: !options.project && !options.all,
+          choices: projects
+        }
+      ])
+      const { project } = { ...options, ...answers }
+      const list = options.all ? projects : [await getProject(project)]
+      try {
+        for (const { name } of list) {
+          await syncProject(name)
+        }
+      } catch (e) {
+        error(e)
       }
-    ])
-    const { project } = { ...options, ...answers }
-    const list = options.all ? projects : [project]
-    try {
-      for (const p of list) {
-        await syncProject(p)
-      }
-    } catch (e) {
-      error(e)
+    } else {
+      console.log('This repository has no project, nothing to synchronise.')
     }
   }
 }

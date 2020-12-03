@@ -3,7 +3,7 @@ import inquirer from 'inquirer'
 import path from 'path'
 import { CommandModule } from 'yargs'
 
-import { syncProject } from '../../project'
+import { getProject, listProjects, syncProject } from '../../project'
 import { DEFAULT_WORKING_DIR } from '../../settings'
 import { helmVersion } from '../../utils'
 import { error } from '../error'
@@ -33,34 +33,38 @@ export const versionProject: CommandModule<InArgs, OutArgs> = {
         default: false
       }),
   handler: async (options) => {
-    const projects = await requiredProjectList()
-    const answers = await inquirer.prompt<Required<InArgs>>([
-      {
-        name: 'project',
-        type: 'list',
-        when: !options.project && !options.all,
-        choices: projects
+    const projects = await listProjects()
+    if (projects.length) {
+      const answers = await inquirer.prompt<Required<InArgs>>([
+        {
+          name: 'project',
+          type: 'list',
+          when: !options.project && !options.all,
+          choices: projects
+        }
+      ])
+      const { project } = { ...options, ...answers }
+      const list = options.all ? projects : [await getProject(project)]
+      try {
+        for (const { name } of list) {
+          await syncProject(name)
+          await helmVersion(path.join(name, 'helm'), {
+            gitDir: DEFAULT_WORKING_DIR,
+            additionalPaths: [name],
+            addAll: true,
+            tagName: name,
+            push: false
+          })
+          execSync('git push', {
+            cwd: DEFAULT_WORKING_DIR,
+            stdio: 'inherit'
+          })
+        }
+      } catch (e) {
+        error(e)
       }
-    ])
-    const { project } = { ...options, ...answers }
-    const list = options.all ? projects : [project]
-    try {
-      for (const p of list) {
-        await syncProject(p)
-        await helmVersion(path.join(p, 'helm'), {
-          gitDir: DEFAULT_WORKING_DIR,
-          additionalPaths: [p],
-          addAll: true,
-          tagName: p,
-          push: false
-        })
-        execSync('git push', {
-          cwd: DEFAULT_WORKING_DIR,
-          stdio: 'inherit'
-        })
-      }
-    } catch (e) {
-      error(e)
+    } else {
+      console.log('This repository has no project, nothing to version.')
     }
   }
 }

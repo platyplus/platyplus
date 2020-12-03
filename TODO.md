@@ -8,15 +8,13 @@
 
 ## Step 2: DevTools MVP
 
-- [ ] `platy init`
-  - warns when something required is not installed e.g. skaffold, helm, node version, what else?
+- [ ] `platy init`: warn when something required is not installed e.g. skaffold, helm, node version, what else?
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API (README.md)
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 - [ ] devtools & other package.json: add keywords
 - [ ] packages: update READMe.md
-- [ ] rename `platy skaffold` to `platy dev`
 
 ## Next
 
