@@ -12,11 +12,11 @@
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API (README.md)
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
-- [ ] devtools & other package.json: add keywords
 - [ ] packages: update READMe.md
 
 ## Next
 
+- [ ] in every package.json: add keywords
 - [ ] update root dependencies + in the template
 - [ ] add TS codegen to Hasura service????
 - [ ] get rid of warning workspace-aggregator!

@@ -5,6 +5,21 @@
   "description": "Platy DevTools",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
+  "keywords": [
+    "devtools",
+    "docker",
+    "graphql",
+    "hasura",
+    "hasura-backend-plus",
+    "helm",
+    "kubernetes",
+    "lerna",
+    "microservices",
+    "monorepo",
+    "platyplus",
+    "skaffold",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platyplus.git",
