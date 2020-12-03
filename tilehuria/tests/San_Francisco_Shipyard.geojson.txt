@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "San_Francisco_Shipyard",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -122.369038264679276, 37.727237859099333 ], [ -122.367574906525718, 37.726592657397433 ], [ -122.36682765980899, 37.72762202232839 ], [ -122.368147795675213, 37.728213038789598 ], [ -122.369038264679276, 37.727237859099333 ] ] ] } }
-]
-}

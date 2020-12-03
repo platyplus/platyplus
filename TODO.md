@@ -24,6 +24,8 @@
 
 ## Next
 
+- [ ] update root dependencies + in the template
+- [ ] add TS codegen to Hasura service????
 - [ ] get rid of warning workspace-aggregator!
 - [ ] create/develop/build a service outside of a project?
 - [ ] yargs: auto-complete project names

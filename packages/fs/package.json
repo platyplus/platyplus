@@ -27,7 +27,7 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.1",
+    "@types/fs-extra": "^9.0.4",
     "@types/tmp": "^0.2.0",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"

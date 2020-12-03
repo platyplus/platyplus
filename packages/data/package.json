@@ -32,7 +32,7 @@
     "tsconfig-paths": "^3.9.0"
   },
   "dependencies": {
-    "deep-equal": "^2.0.3"
+    "deep-equal": "^2.0.5"
   },
   "gitHead": "af469f510e1c3df04625b51c8ce818fbbddb3ae4"
 }

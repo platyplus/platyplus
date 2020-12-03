@@ -22,9 +22,9 @@
   "license": "MIT",
   "main": "index.js",
   "devDependencies": {
-    "@platyplus/lerna": "^0.0.7",
+    "@platyplus/lerna": "^0.0.10",
     "glob": "^7.1.6",
-    "vuepress": "^1.5.3",
+    "vuepress": "^1.7.1",
     "yaml": "^1.10.0"
   }
 }

@@ -1,8 +1,0 @@
-name: tilehuria
-description: Map tile scraper and proxy
-services:
-  - package: "@platyplus/tilehuria"
-  - package: "@platyplus/tilehuria-hasura"
-  - package: "@platyplus/tilehuria-hasura-backend-plus"
-  - package: "@platyplus/tilehuria-worker"
-  - package: "@platyplus/tilehuria-hooks"

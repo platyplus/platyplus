@@ -8,7 +8,7 @@ const glob = require('glob')
 const path = require('path')
 const yaml = require('yaml')
 const fs = require('fs')
-const lerna = require('@platyplus/lerna')
+const { getPackages } = require('@lerna/project')
 const chartReadmes = [
   ...glob.sync(path.resolve('../charts/**/README.md')),
   ...glob.sync(path.resolve('../*/helm/README.md'))
@@ -38,7 +38,7 @@ const chartSideBar = chartPages.map((page) => [
 ])
 
 const packages = async () => {
-  const result = await lerna.getLernaPackages()
+  const result = await getPackages(process.cwd())
   return result
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     .filter((p) => {

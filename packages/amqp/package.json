@@ -27,7 +27,7 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.5.13",
+    "@types/amqplib": "^0.5.16",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
   },
