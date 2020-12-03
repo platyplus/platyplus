@@ -7,7 +7,16 @@ type args = {
   json?: boolean
 }
 
-export const listProjects: CommandModule<args> = {
+export const requiredProjectList = async (): Promise<string[]> => {
+  const projects = (await list()).map((p) => p.name)
+  if (!projects.length)
+    throw Error(
+      "No project found in the repo. Please create a project first in running 'platy create project <name>'."
+    )
+  return projects
+}
+
+export const listProjectsCommand: CommandModule<args> = {
   command: 'projects',
   describe: 'list all available projects in the current monorepo',
   builder: (yargs) =>

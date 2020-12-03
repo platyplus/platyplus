@@ -1,5 +1,4 @@
 import { loadYaml } from '@platyplus/fs'
-import chalk from 'chalk'
 import merge from 'deepmerge'
 import { get, set } from 'object-path'
 import path from 'path'
@@ -44,9 +43,7 @@ const syncHelm = (
 export const loadSkaffoldConfiguration = async (
   configuration: ProjectConfig
 ): Promise<Skaffold> => {
-  console.log(
-    chalk.green(`Syncing ${configuration.directory}/skaffold.yaml...`)
-  )
+  console.log(`Syncing ${configuration.directory}/skaffold.yaml...`)
   const filePath = path.join(
     DEFAULT_WORKING_DIR,
     configuration.directory,
@@ -77,7 +74,7 @@ export const loadSkaffoldConfiguration = async (
   set(skaffold, `${devHelmPath}.setValues.traefik.enabled`, true)
 
   for (const service of configuration.services) {
-    console.log(chalk.green(`Syncing service config ${service.package}...`))
+    console.log(`Syncing service config ${service.package}...`)
     if (!service.type) throw Error('No service type.')
     if (!service.config) throw Error('No service config.')
     const serviceConfig = service.config

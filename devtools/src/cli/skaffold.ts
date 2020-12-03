@@ -1,9 +1,9 @@
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { listProjects } from '../project'
 import { runSkaffoldDev } from '../skaffold'
 import { error } from './error'
+import { requiredProjectList } from './list/projects'
 
 type args = {
   project?: string
@@ -17,17 +17,13 @@ export const runSkaffold: CommandModule<args> = {
       describe: 'name of the project to skaffold'
     }),
   handler: async (options) => {
-    const projects = await listProjects()
-    if (!projects.length)
-      throw Error(
-        "No project found in the repo. Please create a project first in running 'platy create project <name>'."
-      )
+    const projects = await requiredProjectList()
     const answers = await inquirer.prompt<Required<args>>([
       {
         name: 'project',
         type: 'list',
         when: !options.project,
-        choices: projects.map((p) => p.name)
+        choices: projects
       }
     ])
     const { project } = { ...options, ...answers }

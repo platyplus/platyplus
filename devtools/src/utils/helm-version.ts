@@ -80,6 +80,8 @@ export const helmVersion = async (
 
     console.log(chalk.green(message))
   } else {
-    console.log(chalk.green(recommendation.reason))
+    console.log(
+      chalk.green(`No new version for ${helmPath}: ${recommendation.reason}`)
+    )
   }
 }

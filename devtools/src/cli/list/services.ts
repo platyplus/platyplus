@@ -2,9 +2,10 @@ import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
 import { PackageInformation } from '../../package/types'
-import { getProject, listProjects } from '../../project'
+import { getProject } from '../../project'
 import { getService } from '../../service'
 import { error } from '../error'
+import { requiredProjectList } from './projects'
 
 type args = {
   project?: string
@@ -31,22 +32,21 @@ export const listServices: CommandModule<args> = {
         default: false
       }),
   handler: async (options) => {
-    const projects = await listProjects()
-    if (!projects.length)
-      throw Error(
-        "No project found in the repo. Please create a project first in running 'platy create project <name>'."
-      )
+    const projects = await requiredProjectList()
     const answers = await inquirer.prompt<Required<args>>([
       {
         name: 'project',
         type: 'list',
         when: !options.project && !options.all,
-        choices: projects.map((p) => p.name)
+        choices: projects
       }
     ])
     const { project, json, all } = { ...options, ...answers }
-    const list = all ? projects : [await getProject(project)]
+    const strList = all ? projects : [project]
     try {
+      const list = await Promise.all(
+        strList.map(async (p) => await getProject(p))
+      )
       const services = (
         await Promise.all(
           list

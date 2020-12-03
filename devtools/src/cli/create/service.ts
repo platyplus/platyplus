@@ -2,10 +2,11 @@ import chalk from 'chalk'
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { getProject, listProjects } from '../../project'
+import { getProject } from '../../project'
 import { createService as create, ServiceConfig } from '../../service'
 import { ServiceTypes } from '../../settings'
 import { error } from '../error'
+import { requiredProjectList } from '../list/projects'
 
 type args = {
   name?: string
@@ -49,17 +50,13 @@ export const createService: CommandModule<args> = {
       }),
   handler: async (options) => {
     try {
-      const projects = await listProjects()
-      if (!projects.length)
-        throw Error(
-          "No project found in the repo. Please create a project first in running 'platy create project <name>'."
-        )
+      const projects = await requiredProjectList()
       const answers = await inquirer.prompt<Required<args>>([
         {
           name: 'project',
           type: 'list',
           when: !options.project,
-          choices: projects.map((p) => p.name)
+          choices: projects
         },
         {
           name: 'type',

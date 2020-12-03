@@ -8,27 +8,27 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: rabbitmq.enabled
   - name: standard-service
-    version: 0.1.3
+    version: 0.1.4
     condition: web.enabled
     repository: file://../../charts/standard-service
     alias: web
   - name: standard-service
-    version: 0.1.3
+    version: 0.1.4
     condition: worker.enabled
     repository: file://../../charts/standard-service
     alias: worker
   - name: standard-service
-    version: 0.1.3
+    version: 0.1.4
     condition: hooks.enabled
     repository: file://../../charts/standard-service
     alias: hooks
   - name: hasura
-    version: 0.1.2
+    version: 0.1.3
     condition: hasura.enabled
     alias: hasura
     repository: file://../../charts/hasura
   - name: hasura-backend-plus
-    version: 0.1.3
+    version: 0.1.4
     condition: hasura-backend-plus.enabled
     alias: hasura-backend-plus
     repository: file://../../charts/hasura-backend-plus

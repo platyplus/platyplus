@@ -1,6 +1,6 @@
 import { CommandModule } from 'yargs'
 
-import { listProjects } from './projects'
+import { listProjectsCommand } from './projects'
 import { listServices } from './services'
 
 export const list: CommandModule = {
@@ -9,7 +9,7 @@ export const list: CommandModule = {
   builder: (yargs) =>
     yargs
       .usage('Usage: $0 list <projects|services>')
-      .command(listProjects)
+      .command(listProjectsCommand)
       .command(listServices)
       .demandCommand(),
   handler: () => {

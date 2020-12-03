@@ -25,7 +25,7 @@ const cleanDependencies = async (helmDirectory: string, chartName: string) => {
 }
 
 export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
-  console.log(chalk.green(`Syncing ${config.directory}/helm/Chart.yaml...`))
+  console.log(`Syncing ${config.directory}/helm/Chart.yaml...`)
   const helmDirectory = path.join(DEFAULT_WORKING_DIR, config.directory, 'helm')
   const helmChartFile = path.join(helmDirectory, 'Chart.yaml')
   const yamlChart = await fs.loadYaml<HelmChart>(

@@ -6,8 +6,6 @@
 - [ ] Publish chart in awesome Hasura
 
 ## Step 2: DevTools MVP
-- [ ] platy version charts in `/charts` directory
-  - `platy version project` and `platy version chart [path]` that would also work with path=`charts/*`
 - [ ] Include lerna in PDT dependencies
   - [ ] include in `@platyplus/lerna` and exec from `node_modules/.bin`
   - [ ] check any other `lerna exec/spawn `in devtools package
@@ -33,7 +31,6 @@
     - Prettier
   - warns when something required is not installed e.g. skaffold, helm, node version, what else?
 - [ ] `postversion`: `yarn platy version --all && git push` to `yarn platy version --all`
-  - `platy version --all` <=> `platy version project --all` AND `platy version chart charts/*`
   - include `git push` in `platy version` - use `exec('git push')`?
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe

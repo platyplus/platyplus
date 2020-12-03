@@ -1,8 +1,9 @@
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { listProjects, syncProject as sync } from '../project'
+import { syncProject as sync } from '../project'
 import { error } from './error'
+import { requiredProjectList } from './list/projects'
 
 type args = {
   project?: string
@@ -24,11 +25,7 @@ export const syncProject: CommandModule<args> = {
         default: false
       }),
   handler: async (options) => {
-    const projects = await (await listProjects()).map((p) => p.name)
-    if (!projects.length)
-      throw Error(
-        "No project found in the repo. Please create a project first in running 'platy create project <name>'."
-      )
+    const projects = await requiredProjectList()
     const answers = await inquirer.prompt<Required<args>>([
       {
         name: 'project',

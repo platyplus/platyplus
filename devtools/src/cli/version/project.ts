@@ -2,24 +2,28 @@ import inquirer from 'inquirer'
 import path from 'path'
 import { CommandModule } from 'yargs'
 
-import { listProjects, syncProject } from '../project'
-import { DEFAULT_WORKING_DIR } from '../settings'
-import { helmVersion } from '../utils'
-import { error } from './error'
+import { syncProject } from '../../project'
+import { DEFAULT_WORKING_DIR } from '../../settings'
+import { helmVersion } from '../../utils'
+import { error } from '../error'
+import { requiredProjectList } from '../list/projects'
 
-type args = {
+type InArgs = {
   project?: string
   all?: boolean
 }
 
-export const versionProject: CommandModule<args> = {
-  command: 'version [project]',
+type OutArgs = InArgs & Required<Pick<InArgs, 'all'>>
+
+export const versionProject: CommandModule<InArgs, OutArgs> = {
+  command: 'project [project]',
   describe:
-    'generate a new version for the Helm Chart of the project according to convetional changelog',
+    'generate a new version for the Helm Chart of the project according to conventional changelog',
   builder: (yargs) =>
     yargs
       .positional('project', {
-        describe: 'name of the project to version'
+        describe: 'name of the project to version',
+        type: 'string'
       })
       .option('all', {
         describe:
@@ -28,12 +32,8 @@ export const versionProject: CommandModule<args> = {
         default: false
       }),
   handler: async (options) => {
-    const projects = await (await listProjects()).map((p) => p.name)
-    if (!projects.length)
-      throw Error(
-        "No project found in the repo. Please create a project first in running 'platy create project <name>'."
-      )
-    const answers = await inquirer.prompt<Required<args>>([
+    const projects = await requiredProjectList()
+    const answers = await inquirer.prompt<Required<InArgs>>([
       {
         name: 'project',
         type: 'list',
