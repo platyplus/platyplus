@@ -4,6 +4,7 @@ export * from './wait-for'
 export * from './version'
 export * from './helm-version'
 export * from './git'
+export * from './check-requirements'
 
 type Options = {
   initialPath?: string

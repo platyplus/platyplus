@@ -8,7 +8,6 @@
 
 ## Step 2: DevTools MVP
 
-- [ ] `platy init`: warn when something required is not installed e.g. skaffold, helm, node version, what else?
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API (README.md)
