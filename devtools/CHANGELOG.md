@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.3](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.2...@platyplus/devtools@0.5.3) (2020-12-03)
+
+
+### Bug Fixes
+
+* correct lerna types ([26fa5ec](https://github.com/platyplus/platyplus/commit/26fa5ec3fe3cb2720f1ef57500c3c089ac5d6773))
+
+
+
+
+
 ## [0.5.2](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.1...@platyplus/devtools@0.5.2) (2020-12-03)
 
 **Note:** Version bump only for package @platyplus/devtools

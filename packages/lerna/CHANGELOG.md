@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.9...@platyplus/lerna@0.0.10) (2020-12-03)
+
+
+### Bug Fixes
+
+* correct lerna types ([26fa5ec](https://github.com/platyplus/platyplus/commit/26fa5ec3fe3cb2720f1ef57500c3c089ac5d6773))
+
+
+
+
+
 ## [0.0.9](https://github.com/platyplus/platyplus/compare/@platyplus/lerna@0.0.8...@platyplus/lerna@0.0.9) (2020-12-03)
 
 **Note:** Version bump only for package @platyplus/lerna
