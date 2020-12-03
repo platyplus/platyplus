@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.4...@platyplus/devtools@0.5.5) (2020-12-03)
+
+
+### Bug Fixes
+
+* **cli:** don't raise an error when no project exists ([7c9abf7](https://github.com/platyplus/platyplus/commit/7c9abf7f1246f4b7bae48b9b190d9f0b6a8a89bf))
+
+
+### Performance Improvements
+
+* warn when a required program is not installed ([b450a1e](https://github.com/platyplus/platyplus/commit/b450a1e340f37e8e8e43ee481f9a3a50f693bc91))
+
+
+
+
+
 ## [0.5.4](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.3...@platyplus/devtools@0.5.4) (2020-12-03)
 
 **Note:** Version bump only for package @platyplus/devtools
