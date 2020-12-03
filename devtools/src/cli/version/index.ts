@@ -1,5 +1,6 @@
 import { readdirSync, statSync } from '@platyplus/fs'
 import chalk from 'chalk'
+import { execSync } from 'child_process'
 import path from 'path'
 import yargs, { CommandModule } from 'yargs'
 
@@ -10,7 +11,6 @@ import {
   syncProject
 } from '../..'
 import { error } from '../error'
-import { requiredProjectList } from '../list/projects'
 import { versionChart } from './chart'
 import { versionProject } from './project'
 
@@ -33,21 +33,30 @@ export const version: CommandModule<args, args> = {
       }),
   handler: async ({ all }) => {
     if (all) {
+      let push = false
       try {
-        console.log(
-          chalk.green("Versionning Helm Charts from the 'charts' directory...")
-        )
         const chartsDir = path.join(DEFAULT_WORKING_DIR, 'charts')
         const charts = readdirSync(chartsDir)
           .filter((f) => statSync(path.join(chartsDir, f)).isDirectory())
           .map((p) => path.join('charts', p))
-        for (const p of charts) {
-          await helmVersion(p, {
-            gitDir: DEFAULT_WORKING_DIR,
-            additionalPaths: [p],
-            addAll: true,
-            tagName: p
-          })
+        if (charts.length) {
+          push = true
+          console.log(
+            chalk.green(
+              "Versionning Helm Charts from the 'charts' directory..."
+            )
+          )
+          for (const p of charts) {
+            await helmVersion(p, {
+              gitDir: DEFAULT_WORKING_DIR,
+              additionalPaths: [p],
+              addAll: true,
+              tagName: p,
+              push: false
+            })
+          }
+        } else {
+          console.log(chalk.green("No chart found in the 'charts' directory"))
         }
       } catch (e) {
         error(e)
@@ -57,13 +66,15 @@ export const version: CommandModule<args, args> = {
         const projects = await listProjects()
         if (projects.length) {
           console.log(chalk.green('Versionning projects...'))
+          push = true
           for (const { name } of projects) {
             await syncProject(name)
             await helmVersion(path.join(name, 'helm'), {
               gitDir: DEFAULT_WORKING_DIR,
               additionalPaths: [name],
               addAll: true,
-              tagName: name
+              tagName: name,
+              push: false
             })
           }
         } else {
@@ -71,6 +82,12 @@ export const version: CommandModule<args, args> = {
         }
       } catch (e) {
         error(e)
+      }
+      if (push) {
+        execSync('git push', {
+          cwd: DEFAULT_WORKING_DIR,
+          stdio: 'inherit'
+        })
       }
     } else {
       yargs.showHelp()

@@ -1,11 +1,7 @@
-import { glob } from '@platyplus/fs'
-import inquirer from 'inquirer'
-import path from 'path'
-import yargs, { boolean, CommandModule } from 'yargs'
+import { execSync } from 'child_process'
+import { CommandModule } from 'yargs'
 
-import { listProjects, syncProject } from '../../project'
-import { DEFAULT_WORKING_DIR } from '../../settings'
-import { helmVersion } from '../../utils'
+import { DEFAULT_WORKING_DIR, helmVersion } from '../..'
 import { error } from '../error'
 
 type Args = { path: string[] }
@@ -28,9 +24,14 @@ export const versionChart: CommandModule<unknown, Args> = {
           gitDir: DEFAULT_WORKING_DIR,
           additionalPaths: [p],
           addAll: true,
-          tagName: p
+          tagName: p,
+          push: false
         })
       }
+      execSync('git push', {
+        cwd: DEFAULT_WORKING_DIR,
+        stdio: 'inherit'
+      })
     } catch (e) {
       error(e)
     }

@@ -30,8 +30,6 @@
     - Husky
     - Prettier
   - warns when something required is not installed e.g. skaffold, helm, node version, what else?
-- [ ] `postversion`: `yarn platy version --all && git push` to `yarn platy version --all`
-  - include `git push` in `platy version` - use `exec('git push')`?
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API

@@ -1,3 +1,4 @@
+import { execSync } from 'child_process'
 import inquirer from 'inquirer'
 import path from 'path'
 import { CommandModule } from 'yargs'
@@ -50,7 +51,12 @@ export const versionProject: CommandModule<InArgs, OutArgs> = {
           gitDir: DEFAULT_WORKING_DIR,
           additionalPaths: [p],
           addAll: true,
-          tagName: p
+          tagName: p,
+          push: false
+        })
+        execSync('git push', {
+          cwd: DEFAULT_WORKING_DIR,
+          stdio: 'inherit'
         })
       }
     } catch (e) {

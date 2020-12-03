@@ -1,11 +1,13 @@
 // TODO move to a separate package
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
+import { execSync } from 'child_process'
 import git from 'isomorphic-git'
 import path from 'path'
 import semver from 'semver'
 
 import { HelmChart } from '../helm/types'
+import { DEFAULT_WORKING_DIR } from '../settings'
 import { getGlobalGitAuthorInfo } from './git'
 import { recommendedBump } from './version'
 
@@ -14,6 +16,7 @@ export type HelmVersionOptions = {
   gitDir?: string
   additionalPaths?: string[]
   addAll?: boolean
+  push?: boolean
 }
 
 // TODO Check to make sure the git working directory is clean before we get started. Your scripts may add files to the commit in future steps. This step is skipped if the --force flag is set.
@@ -77,6 +80,13 @@ export const helmVersion = async (
 
     // * Git tag
     await git.tag({ fs, dir, ref })
+
+    // * Git push (use exec to use the same existing credentials of the current user)
+    options?.push &&
+      execSync('git push', {
+        cwd: DEFAULT_WORKING_DIR,
+        stdio: 'inherit'
+      })
 
     console.log(chalk.green(message))
   } else {
