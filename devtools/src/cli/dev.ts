@@ -9,9 +9,9 @@ type args = {
   project?: string
 }
 
-export const runSkaffold: CommandModule<args> = {
-  command: 'skaffold [project]',
-  describe: 'run `skaffold dev`',
+export const dev: CommandModule<args> = {
+  command: 'dev [project]',
+  describe: 'run `skaffold dev` for the given project',
   builder: (yargs) =>
     yargs.positional('project', {
       describe: 'name of the project to skaffold'

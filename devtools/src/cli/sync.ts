@@ -1,7 +1,7 @@
 import inquirer from 'inquirer'
 import { CommandModule } from 'yargs'
 
-import { syncProject as sync } from '../project'
+import { syncProject } from '../project'
 import { error } from './error'
 import { requiredProjectList } from './list/projects'
 
@@ -10,7 +10,7 @@ type args = {
   all?: boolean
 }
 
-export const syncProject: CommandModule<args> = {
+export const sync: CommandModule<args> = {
   command: 'sync [project]',
   describe:
     'synchronise project files. Create/update skaffold, and overrides dockerfiles',
@@ -38,7 +38,7 @@ export const syncProject: CommandModule<args> = {
     const list = options.all ? projects : [project]
     try {
       for (const p of list) {
-        await sync(p)
+        await syncProject(p)
       }
     } catch (e) {
       error(e)
