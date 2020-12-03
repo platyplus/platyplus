@@ -1,5 +1,4 @@
 import fs from '@platyplus/fs'
-import chalk from 'chalk'
 import { set } from 'object-path'
 import path from 'path'
 

@@ -1,12 +1,17 @@
 import { LernaPackage } from '@lerna/project'
 
 declare module '@lerna/package-graph'
-type PackageGraphNode = {
+export type LernaPackage = {
   name: string
-  externalDependencies: Map<unknown>
-  localDependencies: Map<unknown>
-  localDependents: Map<unknown>
+  location: string
+  version: string
+  private: boolean
+  resolved: boolean
+  rootPath: string
+  version(): string
+  version(value: string): void
 }
-export default class implements Map<unknown> {
+
+export default class extends Map<string, LernaPackage> {
   constructor(pkg: LernaPackage, location: string, rootPath?: string)
 }

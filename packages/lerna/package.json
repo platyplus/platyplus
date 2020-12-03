@@ -30,5 +30,8 @@
     "rimraf": "^3.0.2",
     "tsconfig-paths": "^3.9.0"
   },
-  "gitHead": "af469f510e1c3df04625b51c8ce818fbbddb3ae4"
+  "gitHead": "af469f510e1c3df04625b51c8ce818fbbddb3ae4",
+  "dependencies": {
+    "lerna": "^3.22.1"
+  }
 }

@@ -1,16 +1,13 @@
 # Roadmap
 
 ## Step 1b: HBP Helm Charts
+
 - [ ] HBP README: expose Hasura endpoint as well
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
 - [ ] Publish chart in awesome Hasura
 
 ## Step 2: DevTools MVP
-- [ ] Include lerna in PDT dependencies
-  - [ ] include in `@platyplus/lerna` and exec from `node_modules/.bin`
-  - [ ] check any other `lerna exec/spawn `in devtools package
-  - [ ] info cli using local version of lerna
-  - See: https://github.com/lerna/lerna/issues/2013
+
 - [ ] `platy init`
   - lerna.json
   - `package.json`
@@ -38,7 +35,9 @@
   - implement `platy sync chart [chartpath]` that would also work with `platy sync chart charts/*`
   - change `platy sync [project]` to `platy sync project [project]`
 - [ ] project version: use the same messsage as in lerna.json
+
 ## Next
+
 - [ ] In production dockerfiles: `yarn cache clean`? See how it's done in the official HBP repo
 - [ ] Better handling of microservice name/alias
 - [ ] `.platy.yaml`: use the k8s terminology with `kind: platyplus/project`, `name: project name` ?
@@ -54,7 +53,10 @@
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Improve Helm Chart production/development values
 - [ ] GitHub actions: always use yarn and docker cache
+- [ ] "Writing dockerfile" -> change log message: `project/service` instead of `service`, and `Syncing` instead of `Writing`
+
 ## Later
+
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
 - [ ] platy version: generate `CHANGELOG.md`
 - [ ] optimise generated dockerfiles - use common layers? -> see latest skaffold release
@@ -70,7 +72,9 @@
   - `git clone --filter` only the required directories
   - copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
 - [ ] create shared Helm charts e.g. to generate Hasura JWT secret etc.
+
 ## Parked
+
 - [ ] Vetur errors -> monitor the new Vetur releases
   - See: https://github.com/vuejs/vetur/issues/815
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?

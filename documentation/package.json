@@ -22,6 +22,7 @@
   "license": "MIT",
   "main": "index.js",
   "devDependencies": {
+    "@platyplus/lerna": "^0.0.7",
     "glob": "^7.1.6",
     "vuepress": "^1.5.3",
     "yaml": "^1.10.0"

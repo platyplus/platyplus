@@ -8,7 +8,7 @@ const glob = require('glob')
 const path = require('path')
 const yaml = require('yaml')
 const fs = require('fs')
-const { execSync } = require('child_process')
+const lerna = require('@platyplus/lerna')
 const chartReadmes = [
   ...glob.sync(path.resolve('../charts/**/README.md')),
   ...glob.sync(path.resolve('../*/helm/README.md'))
@@ -37,25 +37,30 @@ const chartSideBar = chartPages.map((page) => [
   capitalize(page.name)
 ])
 
-const packages = JSON.parse(execSync('lerna list --json').toString())
-  .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-  .filter((p) => {
-    if (fs.existsSync(path.join(p.location, 'README.md'))) {
-      return true
-    }
-    return false
-  })
+const packages = async () => {
+  const result = await lerna.getLernaPackages()
+  return result
+    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    .filter((p) => {
+      if (fs.existsSync(path.join(p.location, 'README.md'))) {
+        return true
+      }
+      return false
+    })
+}
 
-const packageSideBar = packages.map((curr) => [
-  `/packages/${curr.name}`,
-  capitalize(curr.name)
-])
+const packageSideBar = async () =>
+  (await packages()).map((curr) => [
+    `/packages/${curr.name}`,
+    capitalize(curr.name)
+  ])
 
-const packagePages = packages.map((curr) => ({
-  name: capitalize(curr.name),
-  path: `/packages/${curr.name}.html`,
-  filePath: path.join(curr.location, 'README.md')
-}))
+const packagePages = async () =>
+  (await packages()).map((curr) => ({
+    name: capitalize(curr.name),
+    path: `/packages/${curr.name}.html`,
+    filePath: path.join(curr.location, 'README.md')
+  }))
 
 const applicationsPages = workspaces.packages
   .reduce((aggr, entry) => {
@@ -90,7 +95,13 @@ const applicationsSideBar = applicationsPages.map((app) => [
   capitalize(app.name)
 ])
 
-module.exports = {
+module.exports = async ({
+  Vue, // the version of Vue being used in the VuePress app
+  options, // the options for the root Vue instance
+  router, // the router instance for the app
+  siteData, // site metadata
+  isServer //
+}) => ({
   dest: './dist',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
@@ -101,7 +112,11 @@ module.exports = {
    */
   description: description,
 
-  additionalPages: [...chartPages, ...packagePages, ...applicationsPages],
+  additionalPages: [
+    ...chartPages,
+    ...(await packagePages()),
+    ...applicationsPages
+  ],
 
   /**
    * Extra tags to be injected to the page HTML `<head>`
@@ -178,7 +193,7 @@ module.exports = {
         {
           title: 'Packages',
           collapsable: false,
-          children: [...packageSideBar] // * ['', 'Intro']
+          children: [...(await packageSideBar())] // * ['', 'Intro']
         }
       ]
     }
@@ -188,4 +203,4 @@ module.exports = {
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom']
-}
+})
