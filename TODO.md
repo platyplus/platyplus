@@ -17,6 +17,7 @@
 
 ## Next
 
+- [ ] --interactive option to start inquirerjs or not
 - [ ] in every package.json: add keywords
 - [ ] add TS codegen to Hasura service????
 - [ ] get rid of warning workspace-aggregator!

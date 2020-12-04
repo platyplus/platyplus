@@ -38,7 +38,6 @@ export const createService = async (
     description,
     true
   )
-
   const projectConfigPath = path.join(projectDir, '.platy.yaml')
   await fs.loadYaml(projectConfigPath, { services: [{ package: packageName }] })
 

@@ -6,18 +6,19 @@ import { getProject, listProjects } from '../../project'
 import { getService } from '../../service'
 import { error } from '../error'
 
-type args = {
+type Args = {
   project?: string
-  json?: boolean
-  all?: boolean
+  json: boolean
+  all: boolean
 }
 
-export const listServices: CommandModule<args> = {
+export const listServices: CommandModule<Partial<Args>, Args> = {
   command: 'services [project]',
   describe: 'list all services of a given project',
   builder: (yargs) =>
     yargs
       .positional('project', {
+        type: 'string',
         describe: 'name of the project to skaffold'
       })
       .option('json', {
@@ -33,7 +34,7 @@ export const listServices: CommandModule<args> = {
   handler: async (options) => {
     const projects = await listProjects()
     if (projects.length) {
-      const answers = await inquirer.prompt<Required<args>>([
+      const answers = await inquirer.prompt<Required<Args>>([
         {
           name: 'project',
           type: 'list',

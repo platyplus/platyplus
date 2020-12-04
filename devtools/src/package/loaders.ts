@@ -1,14 +1,13 @@
 import { LernaPackage } from '@lerna/package'
 import fs from '@platyplus/fs'
 import { getLernaDependencies } from '@platyplus/lerna'
-import gitConfig from 'git-config'
-import objectPath from 'object-path'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
+import { getGlobalGitAuthorInfo, getOriginUrl } from '../utils'
 import { PackageInformation, PackageJson } from './types'
 
-const fromNpmPackage = (
+const fromNpmPackage = async (
   {
     name: packageName,
     platyplus,
@@ -18,8 +17,7 @@ const fromNpmPackage = (
   }: PackageJson,
   absolutePath: string
   // rootDir = DEFAULT_WORKING_DIR
-): PackageInformation => {
-  const git = gitConfig.sync()
+): Promise<PackageInformation> => {
   const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
   const [directory, name] = relativePath.split('/')
   const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
@@ -33,11 +31,8 @@ const fromNpmPackage = (
     name,
     directory,
     description,
-    user: {
-      name: objectPath.get(git, 'user.name'),
-      email: objectPath.get(git, 'user.email')
-    },
-    repository: objectPath.get(git, 'remote.origin.url'),
+    user: await getGlobalGitAuthorInfo(),
+    repository: await getOriginUrl(DEFAULT_WORKING_DIR),
     dependencies: [],
     version
   }
@@ -64,7 +59,7 @@ export const loadPackageInformation = async (
   if (!packageJson.platyplus?.type)
     throw Error(`'platyplus.type' field not found in ${jsonPackageDir}.`)
 
-  const result = fromNpmPackage(packageJson, jsonPackageDir)
+  const result = await fromNpmPackage(packageJson, jsonPackageDir)
   result.type = packageJson.platyplus.type
   const dependencies = await getLernaDependencies(packageJson.name)
   for (const lernaDep of dependencies) {

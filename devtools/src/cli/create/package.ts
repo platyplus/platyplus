@@ -5,43 +5,44 @@ import { createPackage as create } from '../../package'
 import { PackageTypes } from '../../settings'
 import { error } from '../error'
 
-type args = {
+type Args = {
   name?: string
   path?: string
   description?: string
 }
 
-export const createPackage: CommandModule<args> = {
-  command: 'package [path] [name]',
+export const createPackage: CommandModule<Args, Args> = {
+  command: 'package [name] [path]',
   describe: 'create new TypeScript package',
   builder: (yargs) =>
     yargs
+      .positional('name', {
+        type: 'string',
+        describe: 'name field in package.json'
+      })
       .positional('path', {
+        type: 'string',
         describe: 'path of the package from the monorepo root'
       })
-      .positional('name', {
-        describe: 'name field in package.json',
-        defaultDescription: "package's directory"
-      })
       .option('description', {
+        type: 'string',
         alias: 'd',
         describe: 'description field in package.json'
       }),
 
   handler: async (options) => {
-    const answers = await inquirer.prompt<Required<args>>([
-      {
-        name: 'path',
-        type: 'input',
-        when: !options.path,
-        validate: (value) => !!value || 'must not be empty'
-      },
+    const answers = await inquirer.prompt<Required<Args>>([
       {
         name: 'name',
         type: 'input',
         when: !options.name,
-        default: ({ path }: { path: string }) =>
-          path.split('/').pop() as string,
+        validate: (value) => !!value || 'must not be empty'
+      },
+      {
+        name: 'path',
+        type: 'input',
+        when: !options.path,
+        default: ({ name }: Args) => name || options.name,
         validate: (value) => !!value || 'must not be empty'
       },
       {

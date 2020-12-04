@@ -4,18 +4,19 @@ import { CommandModule } from 'yargs'
 import { getProject, listProjects, syncProject } from '../project'
 import { error } from './error'
 
-type args = {
+type Args = {
   project?: string
-  all?: boolean
+  all: boolean
 }
 
-export const sync: CommandModule<args> = {
+export const sync: CommandModule<Partial<Args>, Args> = {
   command: 'sync [project]',
   describe:
     'synchronise project files. Create/update skaffold, and overrides dockerfiles',
   builder: (yargs) =>
     yargs
       .positional('project', {
+        type: 'string',
         describe: 'name of the project to synchronise'
       })
       .option('all', {
@@ -26,7 +27,7 @@ export const sync: CommandModule<args> = {
   handler: async (options) => {
     const projects = await listProjects()
     if (projects.length) {
-      const answers = await inquirer.prompt<Required<args>>([
+      const answers = await inquirer.prompt<Required<Args>>([
         {
           name: 'project',
           type: 'list',

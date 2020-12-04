@@ -1,8 +1,6 @@
 import fs from '@platyplus/fs'
 import { hasLernaPackage } from '@platyplus/lerna'
 import chalk from 'chalk'
-import gitConfig from 'git-config'
-import objectPath from 'object-path'
 import path from 'path'
 
 import {
@@ -12,7 +10,7 @@ import {
   serviceTypesConfig
 } from '../settings'
 import { generatePackageTemplateFiles } from '../templates'
-import { ensureWorkspace } from '../utils'
+import { ensureWorkspace, getGlobalGitAuthorInfo, getOriginUrl } from '../utils'
 import { DEFAULT_DESCRIPTION } from './constants'
 import { syncPackageJson } from './sync-package-json'
 import { PackageInformation } from './types'
@@ -26,20 +24,20 @@ import { PackageInformation } from './types'
 export const createPackage = async (
   type: PackageType,
   packageName: string,
-  relativePath: string,
+  absolutePath: string,
   description = DEFAULT_DESCRIPTION,
   privatePackage = true
 ): Promise<PackageTypeConfigResult> => {
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)
-  const git = gitConfig.sync()
-  if (await fs.pathExists(relativePath))
-    throw Error(`The directory "${relativePath}" already exists.`)
-  const absolutePath = path.join(path.join(DEFAULT_WORKING_DIR, relativePath))
+
+  if (await fs.pathExists(absolutePath))
+    throw Error(`The directory "${absolutePath}" already exists.`)
+  const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
   await fs.ensureDir(absolutePath)
   const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
-  const [directory, name] = relativePath.split('/')
+  const [projectPath, name] = relativePath.split('/')
   const variables: PackageInformation = {
     private: privatePackage,
     type,
@@ -49,12 +47,9 @@ export const createPackage = async (
     relativePath,
     pathToRoot,
     name,
-    directory,
-    user: {
-      name: objectPath.get(git, 'user.name'),
-      email: objectPath.get(git, 'user.email')
-    },
-    repository: objectPath.get(git, 'remote.origin.url'),
+    directory: projectPath,
+    user: await getGlobalGitAuthorInfo(),
+    repository: await getOriginUrl(DEFAULT_WORKING_DIR),
     dependencies: [],
     version: '0.0.1'
   }
@@ -66,6 +61,6 @@ export const createPackage = async (
   await generatePackageTemplateFiles(variables)
   await syncPackageJson(variables)
   await settings.postInstall?.()
-  console.log(chalk.green(`Package ${packageName} created in ${location}`))
+  console.log(chalk.green(`Package ${packageName} created in ${relativePath}`))
   return settings
 }

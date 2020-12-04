@@ -3,8 +3,8 @@ import { CommandModule } from 'yargs'
 import { listProjects as list } from '../../project'
 import { error } from '../error'
 
-type args = {
-  json?: boolean
+type Args = {
+  json: boolean
 }
 
 export const requiredProjectList = async (): Promise<string[]> => {
@@ -16,7 +16,7 @@ export const requiredProjectList = async (): Promise<string[]> => {
   return projects
 }
 
-export const listProjectsCommand: CommandModule<args> = {
+export const listProjectsCommand: CommandModule<Partial<Args>, Args> = {
   command: 'projects',
   describe: 'list all available projects in the current monorepo',
   builder: (yargs) =>

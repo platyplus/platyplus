@@ -5,20 +5,21 @@ import { runSkaffoldDev } from '../skaffold'
 import { error } from './error'
 import { requiredProjectList } from './list/projects'
 
-type args = {
+type Args = {
   project?: string
 }
 
-export const dev: CommandModule<args> = {
+export const dev: CommandModule<Args> = {
   command: 'dev [project]',
   describe: 'run `skaffold dev` for the given project',
   builder: (yargs) =>
     yargs.positional('project', {
+      type: 'string',
       describe: 'name of the project to skaffold'
     }),
   handler: async (options) => {
     const projects = await requiredProjectList()
-    const answers = await inquirer.prompt<Required<args>>([
+    const answers = await inquirer.prompt<Required<Args>>([
       {
         name: 'project',
         type: 'list',

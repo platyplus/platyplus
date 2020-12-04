@@ -8,14 +8,12 @@ import { DEFAULT_WORKING_DIR } from '../../settings'
 import { helmVersion } from '../../utils'
 import { error } from '../error'
 
-type InArgs = {
+type Args = {
   project?: string
-  all?: boolean
+  all: boolean
 }
 
-type OutArgs = InArgs & Required<Pick<InArgs, 'all'>>
-
-export const versionProject: CommandModule<InArgs, OutArgs> = {
+export const versionProject: CommandModule<Partial<Args>> = {
   command: 'project [project]',
   describe:
     'generate a new version for the Helm Chart of the project according to conventional changelog',
@@ -34,7 +32,7 @@ export const versionProject: CommandModule<InArgs, OutArgs> = {
   handler: async (options) => {
     const projects = await listProjects()
     if (projects.length) {
-      const answers = await inquirer.prompt<Required<InArgs>>([
+      const answers = await inquirer.prompt<Required<Args>>([
         {
           name: 'project',
           type: 'list',

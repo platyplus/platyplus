@@ -8,7 +8,7 @@ import { ServiceTypes } from '../../settings'
 import { error } from '../error'
 import { requiredProjectList } from '../list/projects'
 
-type args = {
+type Args = {
   name?: string
   project?: string
   type?: ServiceTypes
@@ -17,24 +17,28 @@ type args = {
   route?: boolean
 }
 
-export const createService: CommandModule<args> = {
+export const createService: CommandModule<Args> = {
   command: 'service [name] [project]',
   describe: 'create a new service in a project',
   builder: (yargs) =>
     yargs
       .positional('name', {
+        type: 'string',
         describe: 'service name',
         defaultDescription: 'name of the service'
       })
       .positional('project', {
+        type: 'string',
         alias: 'p',
         describe: 'project name'
       })
       .option('package-name', {
+        type: 'string',
         describe: 'Package name',
         defaultDescription: 'package.json name of the service'
       })
       .option('type', {
+        type: 'string',
         alias: 't',
         choices: Object.values(ServiceTypes),
         describe: 'Service type'
@@ -45,13 +49,14 @@ export const createService: CommandModule<args> = {
         describe: 'export the service with an Ingress route'
       })
       .option('description', {
+        type: 'string',
         alias: 'd',
         describe: 'description field in package.json'
       }),
   handler: async (options) => {
     try {
       const projects = await requiredProjectList()
-      const answers = await inquirer.prompt<Required<args>>([
+      const answers = await inquirer.prompt<Required<Args>>([
         {
           name: 'project',
           type: 'list',

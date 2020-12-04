@@ -4,7 +4,6 @@ import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
 import { ensureWorkspace } from '../utils'
-import { defaultPdtConfig } from './default'
 import { getProject } from './get'
 
 export const createProject = async (
@@ -19,7 +18,7 @@ export const createProject = async (
     if (e.message !== 'exists') {
       const yamlPath = path.join(DEFAULT_WORKING_DIR, directory, '.platy.yaml')
       await ensureWorkspace(`${directory}/*`)
-      await loadYaml(yamlPath, defaultPdtConfig(name, description))
+      await loadYaml(yamlPath, { name, description, services: [] })
       console.log(chalk.green(`Project ${name} created in ${directory}`))
     } else throw Error('Project already exists')
   }

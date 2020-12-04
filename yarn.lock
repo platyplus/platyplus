@@ -2208,11 +2208,6 @@
   resolved "https://registry.yarnpkg.com/@types/git-config-path/-/git-config-path-2.0.0.tgz#c4e49cad9f9d8ef74715cc4f0c284d8ead4109be"
   integrity sha512-H2GyYQMpa3gsAcdqj7Jz3jgUveJhiuvi8Zd2vC4ry3jesuL+fvU1UJZHYQrcDocllXruQUL+Cc4NgFvYwwAQ/Q==
 
-"@types/git-config@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@types/git-config/-/git-config-0.0.29.tgz#8bcf5a53688b8de5d4c5f151f0f7af2cd24b0897"
-  integrity sha1-i89aU2iLjeXUxfFR8PevLNJLCJc=
-
 "@types/git-raw-commits@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/git-raw-commits/-/git-raw-commits-2.0.0.tgz#157e9e4709db0748fb1aa623f8927ddd4864bac6"
@@ -6527,13 +6522,6 @@ git-config-path@^2.0.0:
   resolved "https://registry.yarnpkg.com/git-config-path/-/git-config-path-2.0.0.tgz#62633d61af63af4405a5024efd325762f58a181b"
   integrity sha512-qc8h1KIQbJpp+241id3GuAtkdyJ+IK+LIVtkiFTRKRrmddDzs3SI9CvP1QYmWBFvm1I/PWRwj//of8bgAc0ltA==
 
-git-config@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/git-config/-/git-config-0.0.7.tgz#a9c8a3ef07a776c3d72261356d8b727b62202b28"
-  integrity sha1-qcij7wendsPXImE1bYtye2IgKyg=
-  dependencies:
-    iniparser "~1.0.5"
-
 git-raw-commits@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/git-raw-commits/-/git-raw-commits-2.0.0.tgz#d92addf74440c14bcc5c83ecce3fb7f8a79118b5"
@@ -7353,11 +7341,6 @@ ini@^1.3.2, ini@^1.3.4, ini@^1.3.5, ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
-
-iniparser@~1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/iniparser/-/iniparser-1.0.5.tgz#836d6befe6dfbfcee0bccf1cf9f2acc7027f783d"
-  integrity sha1-g21r7+bfv87gvM8c+fKsxwJ/eD0=
 
 init-package-json@^1.10.3:
   version "1.10.3"

@@ -2,34 +2,33 @@ import fs from '@platyplus/fs'
 import handlebars from 'handlebars'
 import path from 'path'
 
-import { PackageType } from '../settings'
 import { DEFAULT_DESCRIPTION } from './constants'
 import { PackageInformation, PackageJson } from './types'
 
-const standard: PackageJson = {
-  name: '{{package}}', // * override
-  private: false,
-  platyplus: {
-    type: '{{type}}' as PackageType // * override
+// TODO move to a dedicated file
+const standard = `{
+  "name": "{{package}}",
+  "private": {{private}},
+  "platyplus": {
+    "type": "{{type}}"
   },
-  version: '0.0.1',
-  description: '{{description}}', // * override?
-  author: '{{user.name}} <{{user.email}}>',
-  homepage: '{{repository}}',
-  repository: {
-    type: 'git',
-    url: '{{repository}}',
-    directory: '{{path}}'
+  "version": "0.0.1",
+  "description": "{{description}}",
+  "author": "{{user.name}} <{{user.email}}>",
+  "homepage": "{{repository}}",
+  "repository": {
+    "type": "git",
+    "url": "{{repository}}",
+    "directory": "{{relativePath}}"
   },
-  license: 'MIT',
-  publishConfig: {
-    access: 'public'
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
-}
+}`
 
 const defaultPackageJson = (variables: PackageInformation): PackageJson => {
-  const template = JSON.stringify(standard)
-  const strResult = handlebars.compile(template)(variables)
+  const strResult = handlebars.compile(standard)(variables)
   return JSON.parse(strResult)
 }
 
@@ -37,7 +36,7 @@ export const syncPackageJson = async (
   variables: PackageInformation
 ): Promise<void> => {
   const defaults = defaultPackageJson(variables)
-  const packageJsonPath = path.join(variables.relativePath, 'package.json')
+  const packageJsonPath = path.join(variables.absolutePath, 'package.json')
   if (await fs.pathExists(packageJsonPath)) {
     const packageJson = await fs.readJSON(packageJsonPath)
     packageJson.name = defaults.name
