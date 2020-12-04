@@ -14,3 +14,5 @@ export const serviceTypesConfig: ServiceTypeConfigs = {
   quasar: quasarConfig,
   typescript: typescriptConfig
 }
+
+export const HELM_REPO = 'https://charts.platy.dev'

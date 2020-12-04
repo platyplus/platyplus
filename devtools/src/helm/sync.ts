@@ -1,9 +1,10 @@
 import fs from '@platyplus/fs'
+import axios from 'axios'
 import { set } from 'object-path'
 import path from 'path'
 
 import { ProjectConfig } from '../project'
-import { DEFAULT_WORKING_DIR } from '../settings'
+import { DEFAULT_WORKING_DIR, HELM_REPO } from '../settings'
 import { HelmChart } from './types'
 
 const defaults = (config: ProjectConfig): HelmChart => ({
@@ -99,11 +100,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
           )
           set(yamlChart, `dependencies.${index}.version`, '*')
         } else {
-          set(
-            yamlChart,
-            `dependencies.${index}.repository`,
-            'https://charts.platy.dev'
-          )
+          set(yamlChart, `dependencies.${index}.repository`, HELM_REPO)
         }
       }
     }
@@ -122,6 +119,17 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
       const { version } = await fs.readYaml<HelmChart>(depPath)
       dep.version = version
       set(values, `${dep.alias || dep.name}.imageConfig.tag`, version)
+    } else {
+      if (
+        dep.repository === HELM_REPO &&
+        (!dep.version || dep.version === '*')
+      ) {
+        const {
+          data: { version }
+        } = await axios.get(`${HELM_REPO}/api/charts/${dep.name}/latest`)
+        dep.version = version
+        set(values, `${dep.alias || dep.name}.imageConfig.tag`, version)
+      }
     }
   }
 
