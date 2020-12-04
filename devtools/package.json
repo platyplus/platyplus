@@ -43,7 +43,7 @@
     "prepublish": "yarn run build",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
     "postbuild": "yarn run copy-files",
-    "copy-files": "cpy  'templates/**/*' '!templates/*.ts' ../dist/ --cwd=src --parents",
+    "copy-files": "cpy  'templates/**/*' '!templates/*.ts' ../dist/ --cwd=src --parents --dot",
     "clean": "rimraf dist"
   },
   "dependencies": {
