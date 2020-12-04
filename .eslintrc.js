@@ -24,7 +24,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // Custom
     //* 'vue/component-name-in-template-casing': ['error', 'kebab-case'],
-    'simple-import-sort/sort': 'error'
+    'simple-import-sort/imports': 'error'
   },
   overrides: [
     {
@@ -34,8 +34,7 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier/@typescript-eslint',
-        // See https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
-        'plugin:vue/essential',
+        'plugin:vue/vue3-recommended',
         'prettier/vue'
       ],
       // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working

@@ -24,7 +24,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // Custom
     //* 'vue/component-name-in-template-casing': ['error', 'kebab-case'],
-    'simple-import-sort/sort': 'error'
+    'simple-import-sort/imports': 'error'
   },
   overrides: [
     {
