@@ -17,6 +17,9 @@
 
 ## Next
 
+- [ ] CLI UX
+  - [ ] add a custom message to every inquirer question
+  - [ ] start asking sub-commands with inquirer, starting from `platy` with no arguments at all
 - [ ] --interactive option to start inquirerjs or not
 - [ ] in every package.json: add keywords
 - [ ] add TS codegen to Hasura service????
@@ -57,6 +60,7 @@
   - `git clone --filter` only the required directories
   - copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
 - [ ] create shared Helm charts e.g. to generate Hasura JWT secret etc.
+- [ ] Quasar SSR
 
 ## Parked
 
