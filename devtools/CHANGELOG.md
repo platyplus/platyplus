@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.3](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.6.2...@platyplus/devtools@0.6.3) (2020-12-04)
+
+
+### Bug Fixes
+
+* fetch latest chart version from charts.platy.dev ([13e8d33](https://github.com/platyplus/platyplus/commit/13e8d33bb6dd4617d96514d2fcb4976d8060c2ec))
+
+
+
+
+
 ## [0.6.2](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.6.1...@platyplus/devtools@0.6.2) (2020-12-04)
 
 
