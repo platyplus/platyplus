@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.6.0...@platyplus/devtools@0.6.1) (2020-12-04)
+
+
+### Bug Fixes
+
+* init git repo in the initMonorepo script ([049ec6e](https://github.com/platyplus/platyplus/commit/049ec6eb21599a3fe080f6a2deda599d032348f2))
+
+
+
+
+
 # [0.6.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.5...@platyplus/devtools@0.6.0) (2020-12-04)
 
 

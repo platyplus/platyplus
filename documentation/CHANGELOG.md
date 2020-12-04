@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](https://github.com/platyplus/platyplus/compare/@platyplus/documentation@0.0.9...@platyplus/documentation@0.0.10) (2020-12-04)
+
+
+### Bug Fixes
+
+* init git repo in the initMonorepo script ([049ec6e](https://github.com/platyplus/platyplus/commit/049ec6eb21599a3fe080f6a2deda599d032348f2))
+
+
+
+
+
 ## [0.0.9](https://github.com/platyplus/platyplus/compare/@platyplus/documentation@0.0.8...@platyplus/documentation@0.0.9) (2020-12-04)
 
 **Note:** Version bump only for package @platyplus/documentation
