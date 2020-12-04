@@ -11,7 +11,7 @@ export const requiredProjectList = async (): Promise<string[]> => {
   const projects = (await list()).map((p) => p.name)
   if (!projects.length)
     throw Error(
-      "No project found in the repo. Please create a project first in running 'platy init'."
+      "No project found in the repo. Please create a project first in running 'platy create project'."
     )
   return projects
 }
