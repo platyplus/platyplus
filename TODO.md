@@ -14,12 +14,10 @@
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 - [ ] packages: update README.md
 - [ ] GH Action bug when no project. See https://github.com/platyplus/platyplus/runs/1495110783?check_suite_focus=true
-- [ ] requirement: kubectl. See https://helm.sh/docs/intro/quickstart/
 
 ## Next
 
 - [ ] in every package.json: add keywords
-- [ ] update root dependencies + in the template
 - [ ] add TS codegen to Hasura service????
 - [ ] get rid of warning workspace-aggregator!
 - [ ] create/develop/build a service outside of a project?

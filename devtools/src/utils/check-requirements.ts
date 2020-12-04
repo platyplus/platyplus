@@ -21,7 +21,8 @@ const dependencies: Dependency[] = [
   { bin: 'yarn', version: '1.22.10' },
   { bin: 'git', version: '2.28.0' },
   { bin: 'quasar', version: '1.1.2', optional: true },
-  { bin: 'hasura', name: 'Hasura CLI', version: '1.3.3', optional: true }
+  { bin: 'hasura', name: 'Hasura CLI', version: '1.3.3', optional: true },
+  { bin: 'kubectl' }
 ]
 
 // TODO check versions as well
