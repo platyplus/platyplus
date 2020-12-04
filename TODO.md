@@ -12,7 +12,9 @@
 - [ ] Document: Hasura+HBP recipe
 - [ ] Document: CLI API (README.md)
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
-- [ ] packages: update READMe.md
+- [ ] packages: update README.md
+- [ ] GH Action bug when no project. See https://github.com/platyplus/platyplus/runs/1495110783?check_suite_focus=true
+- [ ] requirement: kubectl. See https://helm.sh/docs/intro/quickstart/
 
 ## Next
 
@@ -37,6 +39,7 @@
 - [ ] Improve Helm Chart production/development values
 - [ ] GitHub actions: always use yarn and docker cache
 - [ ] "Writing dockerfile" -> change log message: `project/service` instead of `service`, and `Syncing` instead of `Writing`
+- [ ] validate `./types` types
 
 ## Later
 
@@ -58,6 +61,7 @@
 
 ## Parked
 
+- [ ] Problem in CHANGELOG.md. See https://github.com/lerna/lerna/issues/2188 and https://github.com/lerna/lerna/issues/2444
 - [ ] Vetur errors -> monitor the new Vetur releases
   - See: https://github.com/vuejs/vetur/issues/815
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?

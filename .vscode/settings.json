@@ -21,5 +21,6 @@
     "source.fixAll.eslint": true
   },
   "yaml.format.bracketSpacing": false,
-  "prettier.packageManager": "yarn"
+  "prettier.packageManager": "yarn",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

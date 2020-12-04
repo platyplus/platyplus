@@ -7,7 +7,6 @@ import { getProject, listProjects, syncProject } from '../../project'
 import { DEFAULT_WORKING_DIR } from '../../settings'
 import { helmVersion } from '../../utils'
 import { error } from '../error'
-import { requiredProjectList } from '../list/projects'
 
 type InArgs = {
   project?: string

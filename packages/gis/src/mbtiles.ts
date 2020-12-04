@@ -19,11 +19,14 @@ export class MbTiles {
 
   private async initMbTiles(): Promise<void> {
     return new Promise((resolve, reject) => {
-      new MBTiles(`${this.path}?mode=${this.mode}`, (err, mbTiles) => {
-        if (err) return reject(err)
-        this.mbTiles = mbTiles
-        resolve()
-      })
+      new MBTiles(
+        `${this.path}?mode=${this.mode}`,
+        (err: Error, mbTiles: MBTiles) => {
+          if (err) return reject(err)
+          this.mbTiles = mbTiles
+          resolve()
+        }
+      )
     })
   }
 
@@ -62,7 +65,7 @@ export class MbTiles {
     })
   }
 
-  private async startWriting() {
+  private async startWriting(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.mbTiles) {
         if (!this.writing)
