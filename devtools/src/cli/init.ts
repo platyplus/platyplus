@@ -11,7 +11,7 @@ type Args = {
 }
 
 export const init: CommandModule<Args, Args> = {
-  command: '[name] [organisation]',
+  command: 'init [name] [organisation]',
   describe: 'create new monorepo',
   builder: (yargs) =>
     yargs
