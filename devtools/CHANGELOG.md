@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.5...@platyplus/devtools@0.6.0) (2020-12-04)
+
+
+### Bug Fixes
+
+* typo ([c6671f7](https://github.com/platyplus/platyplus/commit/c6671f70b273bc7a934c2830ab5ce8c3ab98cd1f))
+* **cli:** change relative to absolute paths ([8f59bca](https://github.com/platyplus/platyplus/commit/8f59bca8695bb4aeef66a8286a4dae46b7045377))
+* typo in hasura template ([22dd0d0](https://github.com/platyplus/platyplus/commit/22dd0d0aa487137d1aee2a0dcedb7ca813d39d9a))
+
+
+### Features
+
+* **cli:** select resource kind when running platy create with no furher arguments ([b4f1226](https://github.com/platyplus/platyplus/commit/b4f1226212aa5f0250b47a5d32fc45d3d406fc67))
+
+
+
+
+
 ## [0.5.5](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.5.4...@platyplus/devtools@0.5.5) (2020-12-03)
 
 
