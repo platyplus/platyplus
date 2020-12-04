@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.2](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.6.1...@platyplus/devtools@0.6.2) (2020-12-04)
+
+
+### Bug Fixes
+
+* add author information to the initial commit ([e9d9d0a](https://github.com/platyplus/platyplus/commit/e9d9d0a68dd10331758245302710f1c60c97326e))
+* add dot files to templates in transpiled distribution ([4bd5445](https://github.com/platyplus/platyplus/commit/4bd5445b3dd40ccbc5183e0065d4f63c064a55ce))
+
+
+
+
+
 ## [0.6.1](https://github.com/platyplus/platyplus/compare/@platyplus/devtools@0.6.0...@platyplus/devtools@0.6.1) (2020-12-04)
 
 
