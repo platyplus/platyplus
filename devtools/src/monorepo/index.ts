@@ -1,6 +1,7 @@
 import fs from '@platyplus/fs'
 import chalk from 'chalk'
 import { execSync } from 'child_process'
+import git from 'isomorphic-git'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
@@ -11,8 +12,8 @@ export const initMonorepo = async (
   organisation = name,
   description = ''
 ): Promise<void> => {
-  const projectPath = path.join(DEFAULT_WORKING_DIR, name)
-  if (await fs.pathExists(projectPath))
+  const dir = path.join(DEFAULT_WORKING_DIR, name)
+  if (await fs.pathExists(dir))
     throw Error(`The directory "${name}" already exists`)
   if (!organisation.startsWith('@')) {
     organisation = `@${organisation}`
@@ -20,7 +21,7 @@ export const initMonorepo = async (
   }
 
   // * Generate monorepo files from template
-  await generateTemplateFiles('monorepo', projectPath, {
+  await generateTemplateFiles('monorepo', dir, {
     name,
     organisation,
     description
@@ -28,9 +29,12 @@ export const initMonorepo = async (
 
   // * Install dependencies
   execSync('yarn', {
-    cwd: projectPath,
+    cwd: dir,
     stdio: 'inherit'
   })
 
+  await git.init({ fs, dir })
+  await git.add({ fs, dir, filepath: '.' })
+  await git.commit({ fs, dir, message: 'feat: initial commit' })
   console.log(chalk.green('Monorepo created.'))
 }

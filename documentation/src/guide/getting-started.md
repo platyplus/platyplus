@@ -23,7 +23,7 @@ platy create project
 ```
 
 ## Create a service
-What are services?
+What are services? -> put in the CLI section
 - Helm charts
 - Source cde
 - versionning
@@ -50,9 +50,13 @@ platy dev
 ```
 Attention: localhost
 ## Versionning
-
+```sh
+yarn run version
+```
 ## Publishing packages
-
+```sh
+yarn run publish
+```
 ## Building images
 
 ## Deployment

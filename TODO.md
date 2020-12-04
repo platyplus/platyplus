@@ -46,7 +46,9 @@
 ## Later
 
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
-- [ ] platy version: generate `CHANGELOG.md`
+- [ ] platy version:
+  - [ ] generate `CHANGELOG.md`
+  - [ ] check if helm version mechanism is correct e.g. `perf` commits are not triggering a version bump while they should
 - [ ] optimise generated dockerfiles - use common layers? -> see latest skaffold release
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres
