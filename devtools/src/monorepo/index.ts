@@ -6,6 +6,7 @@ import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
 import { generateTemplateFiles } from '../templates'
+import { getGlobalGitAuthorInfo } from '../utils'
 
 export const initMonorepo = async (
   name: string,
@@ -35,6 +36,11 @@ export const initMonorepo = async (
 
   await git.init({ fs, dir })
   await git.add({ fs, dir, filepath: '.' })
-  await git.commit({ fs, dir, message: 'feat: initial commit' })
+  await git.commit({
+    fs,
+    dir,
+    author: await getGlobalGitAuthorInfo(),
+    message: 'feat: initial commit'
+  })
   console.log(chalk.green('Monorepo created.'))
 }
