@@ -6,7 +6,7 @@ They also aim to avoid vendor lockin and to be able to deliver applications on m
 
 As developping applications in Kubernetes can be challenging, the devtools are extensively using Helm Charts and Skaffold, so the development and deployment pipelines are simplified as much as possible, and so the produced artifacts can be used in another context.
 
-The set of tools presented in this documentation reflect some [development principles](development-principles). In particular, a great effort has been made to ease code reuse, hence the code organisation as monorepo, and the use of Lerna and Yarn Workspaces.
+The set of tools presented in this documentation reflect some [development principles](./development-principles.md). In particular, a great effort has been made to ease code reuse, hence the code organisation as monorepo, and the use of Lerna and Yarn Workspaces.
 
 Finally, on an applicative standpoint, some functionnalities are reccurrent, such as database design, storage, authentication, authorisation, API... The tools are strongly oriented towards GraphQL and Hasura.
 
