@@ -41,6 +41,7 @@ const packages = async () => {
   const result = await getPackages(process.cwd())
   return result
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    .filter((p) => !p.private)
     .filter((p) => {
       if (fs.existsSync(path.join(p.location, 'README.md'))) {
         return true
