@@ -172,7 +172,13 @@ module.exports = async ({
         {
           title: 'Guide',
           collapsable: false,
-          children: ['', 'getting-started', 'hasura-full-stack']
+          children: [
+            '',
+            'installation',
+            'getting-started',
+            'hasura-full-stack',
+            'development-principles'
+          ]
         }
       ],
       '/applications/': [
