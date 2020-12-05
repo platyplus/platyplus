@@ -2,7 +2,7 @@
 
 Platy DevTools are a set of tools that aim to make development of microservices easier.
 
-They also aim to avoid vendor lockin and to be able to applications on most cloud providers, or on premises. As a consequence, their target environment is Kubernetes.
+They also aim to avoid vendor lockin and to be able to deliver applications on most cloud providers, or on premises. As a consequence, their target environment is Kubernetes.
 
 As developping applications in Kubernetes can be challenging, the devtools are extensively using Helm Charts and Skaffold, so the development and deployment pipelines are simplified as much as possible, and so the produced artifacts can be used in another context.
 

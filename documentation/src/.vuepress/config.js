@@ -141,7 +141,7 @@ module.exports = async ({
   themeConfig: {
     repo: 'platyplus/platyplus',
     editLinks: false,
-    docsDir: 'devtools/web',
+    docsDir: 'documentation/src',
     editLinks: true,
     editLinkText: 'Edit this page',
     lastUpdated: false,
