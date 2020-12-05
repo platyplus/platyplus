@@ -3,7 +3,7 @@ name: hasura
 description: Hasura GraphQL Engine
 home: https://platy.dev/charts/hasura.html
 sources:
-  - https://github.com/platyplus/platyplus/tree/master/charts/hasura
+  - https://github.com/platyplus/platydev/tree/master/charts/hasura
   - https://github.com/hasura/graphql-engine
 icon: https://raw.githubusercontent.com/hasura/graphql-engine/master/assets/brand/hasura_icon_blue.svg
 type: application

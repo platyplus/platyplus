@@ -139,7 +139,7 @@ module.exports = async ({
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: 'platyplus/platyplus',
+    repo: 'platyplus/platydev',
     editLinks: false,
     docsDir: 'documentation/src',
     editLinks: true,

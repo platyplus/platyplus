@@ -2,7 +2,7 @@ apiVersion: v2
 name: standard-service
 description: Standard microservice
 home: https://platy.dev/charts/standard-service.html
-source: https://github.com/platyplus/platyplus/tree/master/charts/standard-service
+source: https://github.com/platyplus/platydev/tree/master/charts/standard-service
 type: application
 version: 0.1.5
 dependencies:

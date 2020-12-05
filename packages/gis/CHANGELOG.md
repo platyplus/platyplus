@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.0.8](https://github.com/platyplus/platyplus/compare/@platyplus/gis@0.0.7...@platyplus/gis@0.0.8) (2020-12-04)
+## [0.0.8](https://github.com/platyplus/platydev/compare/@platyplus/gis@0.0.7...@platyplus/gis@0.0.8) (2020-12-04)
 
 **Note:** Version bump only for package @platyplus/gis
 
@@ -11,7 +11,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.0.7](https://github.com/platyplus/platyplus/compare/@platyplus/gis@0.0.6...@platyplus/gis@0.0.7) (2020-11-27)
+## [0.0.7](https://github.com/platyplus/platydev/compare/@platyplus/gis@0.0.6...@platyplus/gis@0.0.7) (2020-11-27)
 
 **Note:** Version bump only for package @platyplus/gis
 
@@ -19,7 +19,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.0.6](https://github.com/platyplus/platyplus/compare/@platyplus/gis@0.0.5...@platyplus/gis@0.0.6) (2020-11-26)
+## [0.0.6](https://github.com/platyplus/platydev/compare/@platyplus/gis@0.0.5...@platyplus/gis@0.0.6) (2020-11-26)
 
 **Note:** Version bump only for package @platyplus/gis
 
@@ -27,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.0.5](https://github.com/platyplus/platyplus/compare/@platyplus/gis@0.0.4...@platyplus/gis@0.0.5) (2020-09-24)
+## [0.0.5](https://github.com/platyplus/platydev/compare/@platyplus/gis@0.0.4...@platyplus/gis@0.0.5) (2020-09-24)
 
 **Note:** Version bump only for package @platyplus/gis
 
@@ -40,7 +40,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* rebuild pdt ([021e7cb](https://github.com/platyplus/platyplus/commit/021e7cb617ad0fe251d134395196050f64c72d08))
+* rebuild pdt ([021e7cb](https://github.com/platyplus/platydev/commit/021e7cb617ad0fe251d134395196050f64c72d08))
 
 
 

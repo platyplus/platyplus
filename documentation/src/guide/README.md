@@ -12,4 +12,4 @@ Finally, on an applicative standpoint, some functionnalities are reccurrent, suc
 
 Last, applications need strong, reliable frontends. PlatyPlus DevTools are mostly oriented towards Vue, in particular Quasar, in order to rapidly deliver hybrid apps.
 
-For further information or any suggestion, [open an issue on GitHub](https://github.com/platyplus/platyplus/issues/new) or connect to [Discord](https://discord.gg/Bez8xY).
+For further information or any suggestion, [open an issue on GitHub](https://github.com/platyplus/platydev/issues/new) or connect to [Discord](https://discord.gg/Bez8xY).

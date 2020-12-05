@@ -12,7 +12,7 @@
   "homepage": "https://platy.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/platyplus/platyplus.git",
+    "url": "https://github.com/platyplus/platydev.git",
     "directory": "documentation"
   },
   "scripts": {
