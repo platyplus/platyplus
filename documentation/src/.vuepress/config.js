@@ -175,9 +175,9 @@ module.exports = async ({
           collapsable: false,
           children: [
             '',
-            'installation',
             'getting-started',
             'hasura-full-stack',
+            'technologies',
             'development-principles'
           ]
         }

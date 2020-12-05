@@ -1,14 +1,6 @@
 # Hasura + HBP + Quasar
 
-WIP
-
-## Introduction
-
-## Prerequisites
-
-- Platy DevTools CLI
-- Kubernetes
--
+First, [make sure the Platy DevTools CLI and its dependencies are installed](../cli).
 
 ## Hasura
 

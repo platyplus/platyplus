@@ -1,5 +1,7 @@
 # Getting started
 
+First, [make sure the Platy DevTools CLI and its dependencies are installed](../cli).
+
 ## Initialise a monorepo
 
 ```sh

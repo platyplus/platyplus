@@ -14,9 +14,11 @@
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 - [ ] packages: update README.md
 - [ ] GH Action bug when no project. See https://github.com/platyplus/platyplus/runs/1495110783?check_suite_focus=true
+- [ ] Add `git cz` to recommended installations
 
 ## Next
 
+- [ ] `yarn typecheck` not implemented
 - [ ] CLI UX
   - [ ] add a custom message to every inquirer question
   - [ ] start asking sub-commands with inquirer, starting from `platy` with no arguments at all
