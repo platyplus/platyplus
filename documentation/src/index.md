@@ -2,7 +2,7 @@
 home: true
 heroImage: https://v1.vuepress.vuejs.org/hero.png
 tagline: Platy DevTools
-actionText: Quick Start →
+actionText: Introduction →
 actionLink: /guide/
 features:
   - title: Monorepo
@@ -11,5 +11,5 @@ features:
     details: Kubernetes without sacrificing Development Experience
   - title: Hasura
     details: Advanced data layer with GraphQL, authentication, authorisation, storage and many more
-footer: Made by  with ❤️
+footer: Made by Platyplus with ❤️
 ---

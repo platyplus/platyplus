@@ -1,4 +1,4 @@
-# Presentation
+# Introduction
 
 Platy DevTools are a set of tools that aim to make development of microservices easier.
 
