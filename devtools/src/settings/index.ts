@@ -4,9 +4,11 @@ import { quasarConfig } from './quasar'
 import { ServiceTypeConfigs } from './types'
 import { typescriptConfig } from './typescript'
 export * from './types'
+import fs from '@platyplus/fs'
 
-export const DEFAULT_WORKING_DIR =
+export const DEFAULT_WORKING_DIR = fs.realpathSync(
   process.env.INIT_CWD || process.env.PWD || process.cwd()
+)
 
 export const serviceTypesConfig: ServiceTypeConfigs = {
   hasura: hasuraConfig,
