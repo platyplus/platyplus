@@ -7,7 +7,7 @@ sources:
   - https://github.com/hasura/graphql-engine
 icon: https://raw.githubusercontent.com/hasura/graphql-engine/master/assets/brand/hasura_icon_blue.svg
 type: application
-version: 0.1.3
+version: 0.1.4
 appVersion: v1.3.3.cli-migrations-v2
 dependencies:
   - name: postgresql
