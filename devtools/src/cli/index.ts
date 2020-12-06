@@ -13,7 +13,7 @@ import { version } from './version'
 const main = async (): Promise<void> => {
   const requirements = await checkMissingRequirements()
   if (requirements.length) {
-    console.log(
+    console.warn(
       chalk.red('warning'),
       'some programs need to be installed to ensure the Platy DevTools CLI to work properly:'
     )
@@ -21,7 +21,7 @@ const main = async (): Promise<void> => {
       let line = `${name || bin}`
       if (version) line = line.concat(` version>=${version}`)
       if (optional) line = line.concat(' (optional)')
-      console.log(line)
+      console.warn(line)
     })
   }
   yargs
