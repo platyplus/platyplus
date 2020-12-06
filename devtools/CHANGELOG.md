@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.3...@platyplus/devtools@0.6.4) (2020-12-06)
+
+
+### Bug Fixes
+
+* avoid symlink issue on monorepo path ([68c2a91](https://github.com/platyplus/platydev/commit/68c2a9193c4e031f2507703219ded7127a5fc53d))
+* configure hasura service name in HBP chart when hasura is not embedded ([2a920a6](https://github.com/platyplus/platydev/commit/2a920a6fe38c1e18b74b121b88dd9abc6149b696))
+* correct migration and metadata directories in Hasura docker file ([9c441e4](https://github.com/platyplus/platydev/commit/9c441e425f50128a1029872ddf7ab62b1c64f2fe))
+* remove absurd imageConfig tag in values.yaml ([42cf708](https://github.com/platyplus/platydev/commit/42cf7080f564cb42c5834fc5910e835ed185850e))
+
+
+
+
+
 ## [0.6.3](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.2...@platyplus/devtools@0.6.3) (2020-12-04)
 
 

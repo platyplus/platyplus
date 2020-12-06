@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.9](https://github.com/platyplus/platydev/compare/@platyplus/amqp@0.0.8...@platyplus/amqp@0.0.9) (2020-12-06)
+
+**Note:** Version bump only for package @platyplus/amqp
+
+
+
+
+
 ## [0.0.8](https://github.com/platyplus/platydev/compare/@platyplus/amqp@0.0.7...@platyplus/amqp@0.0.8) (2020-12-03)
 
 **Note:** Version bump only for package @platyplus/amqp
