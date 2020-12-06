@@ -26,6 +26,7 @@ jobs:
         id: set-matrix
         run: |
           matrix=$(platy list projects --json | jq -c '{include: .}')
+          echo $matrix
           echo "::set-output name=matrix::$matrix"          
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
