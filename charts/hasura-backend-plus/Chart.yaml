@@ -7,7 +7,7 @@ sources:
   - https://github.com/nhost/hasura-backend-plus
 icon: https://nhost.github.io/hasura-backend-plus/logo.png
 appVersion: 2.0.0
-version: 0.1.5
+version: 0.1.6
 dependencies:
   - name: minio
     version: 3.4.13
@@ -29,21 +29,5 @@ keywords:
   - authentication
   - storage
 annotations:
-  artifacthub.io/changes: |-
-    - fix: bump hasura version
-    - fix: loop curl data-binary
-    - fix: correct do token path
-    - fix: adjust standard service chart to traefik/cert-manager
-    - fix: use service name for certificate generation
-    - fix: correct certificates and routes
-    - fix: remove old code from config-map
-    - feat: pass metadata/migrations through config-map
-    - feat: add storage rules to HBP helm chart values
-    - fix: fix last bugs in hasura helm chart, and document
-    - feat: add all HBP env vars to Helm Chart
-    - fix: remove duplicate name property in chart
-    - feat: connect services in autoloading env vars
-    - feat: default traefik ingress system
-    - feat: add hbp service
-    - feat: package helm charts
-    - feat: charts
+  artifacthub.io/changes: "- fix: configure hasura service name in HBP chart when
+    hasura is not embedded"
