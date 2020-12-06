@@ -108,7 +108,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
   // * Use the last available chart version for each local dependency
   const valuesFile = path.join(helmDirectory, 'values.yaml')
   await fs.ensureFile(valuesFile)
-  const values = await fs.readYaml(valuesFile)
+  const values = (await fs.readYaml(valuesFile)) || {}
   for (const dep of yamlChart.dependencies) {
     if (dep.repository?.startsWith('file://')) {
       const depPath = path.join(
@@ -118,7 +118,6 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
       )
       const { version } = await fs.readYaml<HelmChart>(depPath)
       dep.version = version
-      set(values, `${dep.alias || dep.name}.imageConfig.tag`, version)
     } else {
       if (
         dep.repository === HELM_REPO &&
@@ -128,11 +127,9 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
           data: { version }
         } = await axios.get(`${HELM_REPO}/api/charts/${dep.name}/latest`)
         dep.version = version
-        set(values, `${dep.alias || dep.name}.imageConfig.tag`, version)
       }
     }
   }
-
   await fs.saveYaml(valuesFile, values)
   await fs.saveYaml(helmChartFile, yamlChart)
 }
