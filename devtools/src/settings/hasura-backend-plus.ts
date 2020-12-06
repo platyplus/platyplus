@@ -112,8 +112,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
       // * Update Helm Chart values so it loads Hasura-related environment values from Hasura secrets and config-map
       await fs.loadYaml(path.join(projectPath, 'helm/values.yaml'), {
         [name]: {
-          connect: { hasura: { enabled: true } },
-          hasura: { enabled: false }
+          hasura: { enabled: false, serviceName: hasura.name }
         }
       })
     }

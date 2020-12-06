@@ -185,7 +185,7 @@ auth:
       namespace: 'https://hasura.io/jwt/claims' # set as default
 hasura:
   enabled: false
-  endpoint: https:my-existing-endpoint/v1/graphql
+  endpoint: https://my-existing-endpoint/v1/graphql
   adminSecret: my-hasura-admin-secret-that-will-be-stored-as-a-secret
 ```
 
