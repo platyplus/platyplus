@@ -6,6 +6,8 @@ import path from 'path'
 import { waitFor } from '../utils'
 import { ServiceTypeConfig } from './types'
 
+export const HASURA_ADMIN_SECRET = 'development-hasura-admin-secret'
+
 export const hasuraConfig: ServiceTypeConfig = ({
   directory,
   name,
@@ -15,7 +17,6 @@ export const hasuraConfig: ServiceTypeConfig = ({
   // ? create a global .env file, one prod, one dev?
   // ? Add env vars in the init/postInstall() method?
   // ? Then load it when running skaffold?
-  const HASURA_ADMIN_SECRET = 'development-hasura-admin-secret'
   return {
     main: {
       build: {
@@ -31,11 +32,11 @@ export const hasuraConfig: ServiceTypeConfig = ({
       files: [
         {
           src: 'migrations/**/*',
-          dest: '.'
+          dest: '/hasura-migrations'
         },
         {
           src: 'metadata/*',
-          dest: '.'
+          dest: '/hasura-metadata'
         }
       ],
       helm: {
