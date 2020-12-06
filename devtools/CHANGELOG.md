@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.5](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.4...@platyplus/devtools@0.6.5) (2020-12-06)
+
+
+### Bug Fixes
+
+* exec init service script THEN load template ([b979b6f](https://github.com/platyplus/platydev/commit/b979b6f6f25ba7a5712db4f135158b6faab20c62))
+* warn missing requirements on stderr, not stdout ([ce5e5bd](https://github.com/platyplus/platydev/commit/ce5e5bd76a60c4333c862e00038bee69a2449170))
+
+
+### Performance Improvements
+
+* add \`git cz\` to recommended installations ([bc8accb](https://github.com/platyplus/platydev/commit/bc8accb6eec0055735ff16521806cf8552a122a2))
+* sync project after creating a service ([b635079](https://github.com/platyplus/platydev/commit/b635079032d3d0e9b1faf098b50d4696faa7c5c6))
+
+
+
+
+
 ## [0.6.4](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.3...@platyplus/devtools@0.6.4) (2020-12-06)
 
 
