@@ -35,7 +35,6 @@ export const createPackage = async (
   if (await fs.pathExists(absolutePath))
     throw Error(`The directory "${absolutePath}" already exists.`)
   const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
-  await fs.ensureDir(absolutePath)
   const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
   const [projectPath, name] = relativePath.split('/')
   const variables: PackageInformation = {
@@ -53,12 +52,13 @@ export const createPackage = async (
     dependencies: [],
     version: '0.0.1'
   }
-  // * Checks the package is in a workspace
-  await ensureWorkspace(absolutePath)
 
   const settings = serviceTypesConfig[type](variables)
   await settings.init?.()
+  await fs.ensureDir(absolutePath)
   await generatePackageTemplateFiles(variables)
+  // * Checks the package is in a workspace
+  await ensureWorkspace(absolutePath)
   await syncPackageJson(variables)
   await settings.postInstall?.()
   console.log(chalk.green(`Package ${packageName} created in ${relativePath}`))
