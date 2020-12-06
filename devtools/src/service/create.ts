@@ -4,7 +4,7 @@ import { get, set } from 'object-path'
 import path from 'path'
 
 import { createPackage } from '../package'
-import { ProjectConfig } from '../project'
+import { ProjectConfig, syncProject } from '../project'
 import {
   DEFAULT_WORKING_DIR,
   PackageTypeConfigResult,
@@ -66,5 +66,6 @@ export const createService = async (
     await settings.postServiceCreate?.(project)
   }
 
+  await syncProject(project.name)
   return settings
 }
