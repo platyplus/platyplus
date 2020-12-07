@@ -38,8 +38,8 @@ export const geojsonToTiles = (
           mask,
           units: 'degrees'
         })
-        grid.features.forEach((feature) => {
-          feature?.geometry?.coordinates?.[0]?.forEach((corner) => {
+        grid.features.forEach(feature => {
+          feature?.geometry?.coordinates?.[0]?.forEach(corner => {
             const done = `${zoom}/${corner[0]}/${corner[1]}`
             if (!doneTiles.includes(done)) {
               const [x, y, z] = LngLatToXYZ([corner[0], corner[1]], zoom)

@@ -6,16 +6,15 @@ export const difference = <T extends Record<string, unknown>>(
   equals: (a: T, b: T) => boolean = deepEqual
 ): T[] =>
   initial.filter(
-    (initialElement) =>
-      !minus.some((minusElement) => equals(initialElement, minusElement))
+    initialElement =>
+      !minus.some(minusElement => equals(initialElement, minusElement))
   )
 
 export const intersection = <T extends Record<string, unknown>>(
   a: T[] | Readonly<T[]>,
   b: T[] | Readonly<T[]>,
   equals: (a: T, b: T) => boolean = deepEqual
-): T[] =>
-  a.filter((elementA) => b.some((elementB) => equals(elementA, elementB)))
+): T[] => a.filter(elementA => b.some(elementB => equals(elementA, elementB)))
 
 /**
  * @param initial

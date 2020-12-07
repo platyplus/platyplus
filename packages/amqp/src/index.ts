@@ -31,7 +31,7 @@ export const startQueue = async (
   console.log(' [*] Waiting for messages in %s.', q.queue)
   await channel.consume(
     q.queue,
-    (msg) => {
+    msg => {
       if (msg) {
         const strMessage = msg.content.toString()
         console.log(

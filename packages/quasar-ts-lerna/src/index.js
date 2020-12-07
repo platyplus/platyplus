@@ -9,7 +9,7 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 module.exports = function (api) {
-  api.extendWebpack((cfg) => {
+  api.extendWebpack(cfg => {
     // add/remove/change cfg (Webpack configuration Object)T
     const plugins = cfg.resolve.plugins || []
     plugins.push(
@@ -20,7 +20,7 @@ module.exports = function (api) {
     cfg.resolve.plugins = plugins
   })
 
-  api.extendQuasarConf((conf) => {
+  api.extendQuasarConf(conf => {
     // TODO not ideal as it depends on the skaffold/helm system
     conf.devServer.public = '0.0.0.0'
     conf.devServer.port = 8080

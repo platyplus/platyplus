@@ -13,7 +13,7 @@ export const getLernaPackage = async (
   cwd = process.cwd()
 ): Promise<LernaPackage> => {
   const result = await (await getPackages(cwd)).find(
-    (cursor) => cursor.name === name
+    cursor => cursor.name === name
   )
   if (!result) throw Error(`lernaPackage(${name}): not found.`)
   return result
@@ -32,7 +32,7 @@ export const getLernaDependencies = async (
     const graph = new PackageGraph(pkgs)
     const deps = graph.get(name)?.localDependencies
     if (!deps) throw Error(`${name}: No dependencies.`)
-    return pkgs.filter((p) => deps.get(p.name))
+    return pkgs.filter(p => deps.get(p.name))
   } catch (error) {
     console.log(error)
     throw Error(`Cannot find package ${name}.`)

@@ -5,7 +5,8 @@
     "packages": [
       "packages/*",
       "devtools",
-      "documentation"
+      "documentation",
+      "easynut/*"
     ]
   },
   "scripts": {

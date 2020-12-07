@@ -1,4 +1,4 @@
-const capitalize = (s) => {
+const capitalize = s => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
@@ -32,17 +32,14 @@ const chartPages = chartReadmes
   }, [])
   .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
 
-const chartSideBar = chartPages.map((page) => [
-  page.path,
-  capitalize(page.name)
-])
+const chartSideBar = chartPages.map(page => [page.path, capitalize(page.name)])
 
 const packages = async () => {
   const result = await getPackages(process.cwd())
   return result
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-    .filter((p) => !p.private)
-    .filter((p) => {
+    .filter(p => !p.private)
+    .filter(p => {
       if (fs.existsSync(path.join(p.location, 'README.md'))) {
         return true
       }
@@ -51,13 +48,13 @@ const packages = async () => {
 }
 
 const packageSideBar = async () =>
-  (await packages()).map((curr) => [
+  (await packages()).map(curr => [
     `/packages/${curr.name}`,
     capitalize(curr.name)
   ])
 
 const packagePages = async () =>
-  (await packages()).map((curr) => ({
+  (await packages()).map(curr => ({
     name: capitalize(curr.name),
     path: `/packages/${curr.name}.html`,
     filePath: path.join(curr.location, 'README.md')
@@ -91,7 +88,7 @@ const applicationsPages = workspaces.packages
   }, [])
   .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
 
-const applicationsSideBar = applicationsPages.map((app) => [
+const applicationsSideBar = applicationsPages.map(app => [
   app.path,
   capitalize(app.name)
 ])

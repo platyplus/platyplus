@@ -99,7 +99,7 @@ export class MbTiles {
   ): Promise<void> {
     await this.startWriting()
     return new Promise((resolve, reject) => {
-      zlib.gzip(buffer, (err) => {
+      zlib.gzip(buffer, err => {
         if (err) return reject(err)
         if (this.mbTiles) {
           this.mbTiles.putTile(z, x, y, buffer, (err: Error) => {
