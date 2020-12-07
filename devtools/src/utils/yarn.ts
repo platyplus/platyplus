@@ -18,7 +18,7 @@ export const ensureWorkspace = async (workspace: string): Promise<void> => {
   }
   const mainPackageJsonPath = path.join(DEFAULT_WORKING_DIR, 'package.json')
   const mainPackageJson: PackageJson = await fs.readJson(mainPackageJsonPath)
-  const exists = (mainPackageJson.workspaces?.packages || []).find((glob) =>
+  const exists = (mainPackageJson.workspaces?.packages || []).find(glob =>
     workspaces.includes(glob)
   )
   if (!exists) {

@@ -30,7 +30,7 @@ export const recommendedBump = async (
       // * Adds only commits that are not present yet
       commits.push(
         ...singleResult.commits.filter(
-          (commit) => !commits.some(({ hash }) => hash === commit.hash)
+          commit => !commits.some(({ hash }) => hash === commit.hash)
         )
       )
       singleResult.level = Math.min(
@@ -50,7 +50,7 @@ export const recommendedBump = async (
       conventionalRecommendedBump(
         {
           preset: 'angular',
-          whatBump: (wbCommits) => {
+          whatBump: wbCommits => {
             commits.push(...wbCommits)
             return whatBump(wbCommits)
           },

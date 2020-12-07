@@ -14,12 +14,13 @@
 - [ ] Document: attention: use of subdomain.localhost. Works with Chrome, but not with Firefox (etc)
 - [ ] packages: update README.md
 - [ ] GH Action bug when no project. See https://github.com/platyplus/platydev/runs/1495110783?check_suite_focus=true
-- [ ] docker build context: always use the context of the Dockerfile (and change the dockerfile templates accordingly)
 - [ ] bug with service names that contains '-'
 - [ ] values.yaml: use the right imageConfig in values.yaml
   - carefull when a dockerfile exists in dev, but not in prod
 - [ ] bug: helm /charts version: when one chart changed, all are versionned
   - Plus, console logs 'chore(release): publish' without the name of the chart...
+- [ ] ?? imageConfig: { tag: 'latest', pullPolicy: 'IfNotPresent' }
+- [ ] Custom Typescript service
 
 ## Next
 

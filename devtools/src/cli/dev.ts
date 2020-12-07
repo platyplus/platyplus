@@ -12,12 +12,12 @@ type Args = {
 export const dev: CommandModule<Args> = {
   command: 'dev [project]',
   describe: 'run `skaffold dev` for the given project',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs.positional('project', {
       type: 'string',
       describe: 'name of the project to skaffold'
     }),
-  handler: async (options) => {
+  handler: async options => {
     const projects = await requiredProjectList()
     const answers = await inquirer.prompt<Required<Args>>([
       {

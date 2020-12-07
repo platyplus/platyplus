@@ -82,7 +82,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
         .toString()
         .trim()
         .split('\n')
-        .forEach((line) =>
+        .forEach(line =>
           console.log(
             chalk.cyan(`[hasura-cli:${resourceName}]`),
             JSON.parse(line).msg
@@ -92,7 +92,7 @@ export const hasuraConfig: ServiceTypeConfig = ({
         hasuraMigrate.stderr
           .toString()
           .split('\n')
-          .forEach((line) =>
+          .forEach(line =>
             console.log(
               chalk.cyan(`[hasura-cli:${resourceName}]`),
               chalk.red('[error]'),
@@ -111,13 +111,20 @@ export const hasuraConfig: ServiceTypeConfig = ({
         absolutePath,
         '--skip-update-check'
       ])
-      hasuraConsole.stdout.on('data', (data) => {
-        console.log(
-          chalk.cyan(`[hasura-cli:${resourceName}]`),
-          JSON.parse(data.toString()).msg
-        )
+      hasuraConsole.stdout.on('data', data => {
+        try {
+          console.log(
+            chalk.cyan(`[hasura-cli:${resourceName}]`),
+            JSON.parse(data.toString()).msg
+          )
+        } catch {
+          console.log(
+            chalk.cyan(`[hasura-cli:${resourceName}]`),
+            data.toString()
+          )
+        }
       })
-      hasuraConsole.stderr.on('data', (data) => {
+      hasuraConsole.stderr.on('data', data => {
         console.log(
           chalk.cyan(`[hasura-cli:${resourceName}]`),
           chalk.red('[error]'),

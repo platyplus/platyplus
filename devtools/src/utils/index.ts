@@ -21,7 +21,7 @@ export const indexOfArrayPathObject = (
     ? get(source, options.initialPath, [])
     : source
   if (!Array.isArray(root)) throw Error('Not an array')
-  const index = root.findIndex((element) => {
+  const index = root.findIndex(element => {
     if (typeof value === 'function') {
       value(get(element, key))
     }

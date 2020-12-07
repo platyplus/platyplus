@@ -15,7 +15,7 @@ export const listProjects = async (): Promise<ProjectConfigFile[]> => {
     const list = fs.glob.sync(path.join(DEFAULT_WORKING_DIR, glob), {
       dot: true
     })
-    const configFile = list.find((file) => file.endsWith('/.platy.yaml'))
+    const configFile = list.find(file => file.endsWith('/.platy.yaml'))
     if (configFile) {
       const config = await fs.readYaml<ProjectConfigFile>(configFile)
       const directory = configFile

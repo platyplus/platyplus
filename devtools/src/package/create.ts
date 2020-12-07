@@ -34,6 +34,8 @@ export const createPackage = async (
 
   if (await fs.pathExists(absolutePath))
     throw Error(`The directory "${absolutePath}" already exists.`)
+  if (!path.isAbsolute(absolutePath))
+    absolutePath = path.join(DEFAULT_WORKING_DIR, absolutePath)
   const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
   const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
   const [projectPath, name] = relativePath.split('/')

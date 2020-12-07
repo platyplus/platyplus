@@ -16,7 +16,7 @@ const quasarCreate = async (directory: string, name: string): Promise<void> => {
   process.stdin.setRawMode(true)
   child.stdin.write(`${name}\n`)
   process.stdin.pipe(child.stdin)
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     child.on('exit', () => {
       resolve()
     })

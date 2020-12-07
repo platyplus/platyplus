@@ -23,5 +23,9 @@
   },
   "yaml.format.bracketSpacing": false,
   "prettier.packageManager": "yarn",
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "none",
+  "prettier.arrowParens": "avoid"
 }

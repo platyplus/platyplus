@@ -13,7 +13,7 @@ type Args = {
 export const createProject: CommandModule<Args, Args> = {
   command: 'project [name] [path]',
   describe: 'create a new project',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('name', {
         describe: 'project name',
@@ -28,20 +28,20 @@ export const createProject: CommandModule<Args, Args> = {
         alias: 'd',
         describe: 'short description of the project'
       }),
-  handler: async (options) => {
+  handler: async options => {
     const answers = await inquirer.prompt<Required<Args>>([
       {
         name: 'name',
         type: 'input',
         when: !options.name,
-        validate: (value) => !!value || 'must not be empty'
+        validate: value => !!value || 'must not be empty'
       },
       {
         name: 'path',
         type: 'input',
         when: !options.path,
         default: ({ name }: Args) => name || options.name,
-        validate: (value) => !!value || 'must not be empty'
+        validate: value => !!value || 'must not be empty'
       },
       {
         name: 'description',

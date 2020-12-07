@@ -6,7 +6,7 @@ import { listServices } from './services'
 export const list: CommandModule = {
   command: 'list',
   describe: 'list [projects|services]',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .usage('Usage: $0 list <projects|services>')
       .command(listProjectsCommand)

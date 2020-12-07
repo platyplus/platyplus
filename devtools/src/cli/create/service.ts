@@ -20,7 +20,7 @@ type Args = {
 export const createService: CommandModule<Args> = {
   command: 'service [name] [project]',
   describe: 'create a new service in a project',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('name', {
         type: 'string',
@@ -53,7 +53,7 @@ export const createService: CommandModule<Args> = {
         alias: 'd',
         describe: 'description field in package.json'
       }),
-  handler: async (options) => {
+  handler: async options => {
     try {
       const projects = await requiredProjectList()
       const answers = await inquirer.prompt<Required<Args>>([
@@ -67,13 +67,15 @@ export const createService: CommandModule<Args> = {
           name: 'type',
           type: 'list',
           when: !options.type,
-          choices: Object.values(ServiceTypes)
+          choices: Object.values(ServiceTypes).sort((a, b) =>
+            a.localeCompare(b)
+          )
         },
         {
           name: 'name',
           type: 'input',
           when: !options.name,
-          validate: (value) => !!value || 'must not be empty'
+          validate: value => !!value || 'must not be empty'
         },
         {
           name: 'packageName',
@@ -81,7 +83,7 @@ export const createService: CommandModule<Args> = {
           type: 'input',
           when: !options.packageName,
           default: ({ name }: { name: string }) => options.name || name,
-          validate: (value) => !!value || 'must not be empty'
+          validate: value => !!value || 'must not be empty'
         },
         {
           name: 'route',
@@ -121,7 +123,7 @@ export const createService: CommandModule<Args> = {
       if (type === ServiceTypes.HasuraBackendPlus) {
         // * Connect to existing Hasura service
         const hasuraServices = project.services.filter(
-          (service) => service.type === ServiceTypes.Hasura
+          service => service.type === ServiceTypes.Hasura
         )
         if (hasuraServices.length) {
           console.log(chalk.green('Hasura service found in the project'))
@@ -141,7 +143,7 @@ export const createService: CommandModule<Args> = {
             {
               name: 'hasura',
               type: 'list',
-              when: (curr) => curr.connect && hasuraServices.length > 1,
+              when: curr => curr.connect && hasuraServices.length > 1,
               choices: hasuraServices
             }
           ])

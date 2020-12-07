@@ -21,7 +21,7 @@ const cleanDependencies = async (helmDirectory: string, chartName: string) => {
   const glob = fs.glob.sync(
     path.join(helmDirectory, `charts/${chartName}*.tgz`)
   )
-  glob.forEach((f) => fs.removeSync(f))
+  glob.forEach(f => fs.removeSync(f))
 }
 
 export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
@@ -43,7 +43,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
 
   // * Add Traefik Helm Chart. Disable by default
   let traefikIndex = yamlChart.dependencies.findIndex(
-    (cursor) => cursor.name === 'traefik'
+    cursor => cursor.name === 'traefik'
   )
   if (traefikIndex < 0) traefikIndex = yamlChart.dependencies.length
   set(yamlChart, `dependencies.${traefikIndex}`, {
@@ -56,7 +56,7 @@ export const syncHelmChart = async (config: ProjectConfig): Promise<void> => {
   for (const service of config.services) {
     if (!service.type) throw Error(`${service.name}: no service type`)
     if (!service.config) throw Error(`${service.name}: no config`)
-    let index = yamlChart.dependencies.findIndex((cursor) =>
+    let index = yamlChart.dependencies.findIndex(cursor =>
       cursor.alias
         ? cursor.alias === service.name
         : cursor.name === service.name

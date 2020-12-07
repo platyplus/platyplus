@@ -8,13 +8,13 @@ import { createService } from './service'
 export const create: CommandModule = {
   command: 'create',
   describe: 'create new [project|package|service]',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .usage('Usage: $0 create <project|package|service>')
       .command(createPackage)
       .command(createProject)
       .command(createService),
-  handler: async (yargs) => {
+  handler: async yargs => {
     const { resource } = await inquirer.prompt<{
       resource: 'project' | 'package' | 'service'
     }>([

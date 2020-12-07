@@ -3,6 +3,7 @@ import handlebars from 'handlebars'
 import path from 'path'
 
 import { PackageInformation } from '../package/types'
+import { PackageTypes } from '../settings'
 
 export const templateToString = async <T>(
   path: string,
@@ -52,5 +53,13 @@ export const generatePackageTemplateFiles = async <
   variables: T
 ): Promise<void> => {
   if (!variables.type) return
-  await generateTemplateFiles(variables.type, variables.absolutePath, variables)
+  const exclude =
+    variables.type === PackageTypes.TypeScript ? 'Dockerfile*' : []
+  console.log(variables, exclude)
+  await generateTemplateFiles(
+    variables.type,
+    variables.absolutePath,
+    variables,
+    exclude
+  )
 }

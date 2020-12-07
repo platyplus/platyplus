@@ -5,7 +5,8 @@ import { SkaffoldPortEvent } from '../skaffold'
 export enum ServiceTypes {
   Quasar = 'quasar',
   Hasura = 'hasura',
-  HasuraBackendPlus = 'hasura-backend-plus'
+  HasuraBackendPlus = 'hasura-backend-plus',
+  Nuxt = 'nuxt'
 }
 
 export enum PackageTypes {

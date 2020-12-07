@@ -34,7 +34,7 @@ export const helmVersion = async (
   const tagName = options?.tagName || chartYaml.name
   const recommendation = await recommendedBump(tagName, [
     path.join(dir, helmPath),
-    ...(options?.additionalPaths || []).map((p) => path.join(dir, p))
+    ...(options?.additionalPaths || []).map(p => path.join(dir, p))
   ])
   if (recommendation.releaseType) {
     // * Determine new version from the current version in Chart.yaml
@@ -52,7 +52,7 @@ export const helmVersion = async (
     if (changes.length) {
       if (!chartYaml.annotations) chartYaml.annotations = {}
       chartYaml.annotations['artifacthub.io/changes'] = changes
-        .map((commit) => `- ${commit.header}`)
+        .map(commit => `- ${commit.header}`)
         .join('\n')
     }
     // TODO configure CHANGELOG.md

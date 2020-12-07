@@ -10,7 +10,7 @@ export const versionChart: CommandModule<unknown, Args> = {
   command: 'chart <path..>',
   describe:
     'generate a new version for a given Helm Chart according to conventional changelog',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs.positional('path', {
       describe: 'path(s) of the helm chart(s)',
       array: true,

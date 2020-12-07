@@ -14,7 +14,7 @@ type Args = {
 export const createPackage: CommandModule<Args, Args> = {
   command: 'package [name] [path]',
   describe: 'create new TypeScript package',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('name', {
         type: 'string',
@@ -30,20 +30,20 @@ export const createPackage: CommandModule<Args, Args> = {
         describe: 'description field in package.json'
       }),
 
-  handler: async (options) => {
+  handler: async options => {
     const answers = await inquirer.prompt<Required<Args>>([
       {
         name: 'name',
         type: 'input',
         when: !options.name,
-        validate: (value) => !!value || 'must not be empty'
+        validate: value => !!value || 'must not be empty'
       },
       {
         name: 'path',
         type: 'input',
         when: !options.path,
         default: ({ name }: Args) => name || options.name,
-        validate: (value) => !!value || 'must not be empty'
+        validate: value => !!value || 'must not be empty'
       },
       {
         name: 'description',

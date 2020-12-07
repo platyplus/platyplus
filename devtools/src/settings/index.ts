@@ -1,5 +1,6 @@
 import { hasuraConfig } from './hasura'
 import { hasuraBackendPlusConfig } from './hasura-backend-plus'
+import { nuxtConfig } from './nuxt'
 import { quasarConfig } from './quasar'
 import { ServiceTypeConfigs } from './types'
 import { typescriptConfig } from './typescript'
@@ -14,7 +15,8 @@ export const serviceTypesConfig: ServiceTypeConfigs = {
   hasura: hasuraConfig,
   'hasura-backend-plus': hasuraBackendPlusConfig,
   quasar: quasarConfig,
-  typescript: typescriptConfig
+  typescript: typescriptConfig,
+  nuxt: nuxtConfig
 }
 
 export const HELM_REPO = 'https://charts.platy.dev'

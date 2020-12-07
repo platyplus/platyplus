@@ -21,7 +21,7 @@ type args = {
 export const version: CommandModule<args, args> = {
   command: 'version',
   describe: 'version [project|chart]',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .usage('Usage: $0 version <project|chart>')
       .command(versionProject)
@@ -37,8 +37,8 @@ export const version: CommandModule<args, args> = {
       try {
         const chartsDir = path.join(DEFAULT_WORKING_DIR, 'charts')
         const charts = readdirSync(chartsDir)
-          .filter((f) => statSync(path.join(chartsDir, f)).isDirectory())
-          .map((p) => path.join('charts', p))
+          .filter(f => statSync(path.join(chartsDir, f)).isDirectory())
+          .map(p => path.join('charts', p))
         if (charts.length) {
           push = true
           console.log(

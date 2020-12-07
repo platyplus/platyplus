@@ -17,7 +17,7 @@ export const versionProject: CommandModule<Partial<Args>> = {
   command: 'project [project]',
   describe:
     'generate a new version for the Helm Chart of the project according to conventional changelog',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('project', {
         describe: 'name of the project to version',
@@ -29,7 +29,7 @@ export const versionProject: CommandModule<Partial<Args>> = {
         type: 'boolean',
         default: false
       }),
-  handler: async (options) => {
+  handler: async options => {
     const projects = await listProjects()
     if (projects.length) {
       const answers = await inquirer.prompt<Required<Args>>([

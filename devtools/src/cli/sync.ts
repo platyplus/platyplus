@@ -13,7 +13,7 @@ export const sync: CommandModule<Partial<Args>, Args> = {
   command: 'sync [project]',
   describe:
     'synchronise project files. Create/update skaffold, and overrides dockerfiles',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('project', {
         type: 'string',
@@ -24,7 +24,7 @@ export const sync: CommandModule<Partial<Args>, Args> = {
         type: 'boolean',
         default: false
       }),
-  handler: async (options) => {
+  handler: async options => {
     const projects = await listProjects()
     if (projects.length) {
       const answers = await inquirer.prompt<Required<Args>>([

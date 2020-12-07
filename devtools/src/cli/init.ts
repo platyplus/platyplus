@@ -13,7 +13,7 @@ type Args = {
 export const init: CommandModule<Args, Args> = {
   command: 'init [name] [organisation]',
   describe: 'create new monorepo',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('name', {
         type: 'string',
@@ -28,20 +28,20 @@ export const init: CommandModule<Args, Args> = {
         alias: 'd',
         describe: 'description field in package.json'
       }),
-  handler: async (options) => {
+  handler: async options => {
     const answers = await inquirer.prompt<Required<Args>>([
       {
         name: 'name',
         type: 'input',
         when: !options.name,
-        validate: (value) => !!value || 'must not be empty'
+        validate: value => !!value || 'must not be empty'
       },
       {
         name: 'organisation',
         type: 'input',
         when: !options.organisation,
         default: ({ name }: Args) => `@${name || options.name}`,
-        validate: (value) => !!value || 'must not be empty'
+        validate: value => !!value || 'must not be empty'
       }
     ])
 

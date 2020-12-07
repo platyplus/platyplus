@@ -14,6 +14,9 @@ module.exports = {
     __statics: true,
     process: true
   },
+  parserOptions: {
+    sourceType: 'module'
+  },
 
   rules: {
     'prefer-promise-reject-errors': 'off',
@@ -22,6 +25,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-unused-vars': 'warn',
     // Custom
     //* 'vue/component-name-in-template-casing': ['error', 'kebab-case'],
     'simple-import-sort/imports': 'error'

@@ -4,7 +4,7 @@ import { ProjectConfig } from './types'
 
 export const getProject = async (name: string): Promise<ProjectConfig> => {
   const list = await listProjects()
-  const result = list.find((project) => project.name === name)
+  const result = list.find(project => project.name === name)
   if (!result) throw Error(`No '${name}' project found in the monorepo.`)
 
   result.services = result.services

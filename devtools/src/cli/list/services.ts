@@ -15,7 +15,7 @@ type Args = {
 export const listServices: CommandModule<Partial<Args>, Args> = {
   command: 'services [project]',
   describe: 'list all services of a given project',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs
       .positional('project', {
         type: 'string',
@@ -31,7 +31,7 @@ export const listServices: CommandModule<Partial<Args>, Args> = {
         type: 'boolean',
         default: false
       }),
-  handler: async (options) => {
+  handler: async options => {
     const projects = await listProjects()
     if (projects.length) {
       const answers = await inquirer.prompt<Required<Args>>([
@@ -39,7 +39,7 @@ export const listServices: CommandModule<Partial<Args>, Args> = {
           name: 'project',
           type: 'list',
           when: !options.project && !options.all,
-          choices: projects.map((p) => p.name)
+          choices: projects.map(p => p.name)
         }
       ])
       const { project, json, all } = { ...options, ...answers }

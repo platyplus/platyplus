@@ -8,7 +8,7 @@ type Args = {
 }
 
 export const requiredProjectList = async (): Promise<string[]> => {
-  const projects = (await list()).map((p) => p.name)
+  const projects = (await list()).map(p => p.name)
   if (!projects.length)
     throw Error(
       "No project found in the repo. Please create a project first in running 'platy create project'."
@@ -19,13 +19,13 @@ export const requiredProjectList = async (): Promise<string[]> => {
 export const listProjectsCommand: CommandModule<Partial<Args>, Args> = {
   command: 'projects',
   describe: 'list all available projects in the current monorepo',
-  builder: (yargs) =>
+  builder: yargs =>
     yargs.option('json', {
       describe: 'output list in JSON format',
       type: 'boolean',
       default: false
     }),
-  handler: async (options) => {
+  handler: async options => {
     try {
       const projects = (await list()).map(
         ({ name, directory, description }) => ({
