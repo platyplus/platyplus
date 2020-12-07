@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.5...@platyplus/devtools@0.7.0) (2020-12-07)
+
+
+### Features
+
+* nuxt service ([60e5848](https://github.com/platyplus/platydev/commit/60e58482c3e7a51ad76c828bc84f5fcbcbac5b17))
+
+
+
+
+
 ## [0.6.5](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.4...@platyplus/devtools@0.6.5) (2020-12-06)
 
 

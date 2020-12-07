@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](https://github.com/platyplus/platydev/compare/@platyplus/data@0.0.9...@platyplus/data@0.0.10) (2020-12-07)
+
+**Note:** Version bump only for package @platyplus/data
+
+
+
+
+
 ## [0.0.9](https://github.com/platyplus/platydev/compare/@platyplus/data@0.0.8...@platyplus/data@0.0.9) (2020-12-06)
 
 **Note:** Version bump only for package @platyplus/data
