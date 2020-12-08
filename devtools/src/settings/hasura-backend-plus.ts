@@ -59,7 +59,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
           await fs.move(
             migration,
             path.join(
-              hasura.relativePath,
+              hasura.absolutePath,
               'migrations',
               path.basename(migration)
             )
@@ -79,7 +79,7 @@ export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
         path.join(tempDir, 'hasura-backend-plus/metadata/*')
       )) {
         const destination = path.join(
-          hasura.relativePath,
+          hasura.absolutePath,
           'metadata',
           path.basename(source)
         )
