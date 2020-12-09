@@ -20,10 +20,13 @@
 - [ ] bug: helm /charts version: when one chart changed, all are versionned
   - Plus, console logs 'chore(release): publish' without the name of the chart...
 - [ ] ?? imageConfig: { tag: 'latest', pullPolicy: 'IfNotPresent' }
-- [ ] Custom Typescript service
+- [ ] ?? problem with minio in HBP chart - start ok, restart problem
 
 ## Next
 
+- [ ] In ts package template: `yarn dev` shoud nodemon a `tsc` build
+- [ ] avoid restarting the hasura console everytime a service is reloaded - only once
+- [ ] Custom Express/Koa service
 - [ ] `yarn typecheck` not implemented
 - [ ] CLI UX
   - [ ] add a custom message to every inquirer question
