@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.7.0...@platyplus/devtools@0.8.0) (2020-12-09)
+
+
+### Bug Fixes
+
+* copy hbp migrations and metadata from hasura absolute path ([4c63322](https://github.com/platyplus/platydev/commit/4c6332203395356a7d2cfcee49cf988592f33337))
+
+
+### Features
+
+* hBP Nuxt module ([46f3162](https://github.com/platyplus/platydev/commit/46f3162fe1cd100153a37e255fde13ff2a78da26))
+
+
+
+
+
 # [0.7.0](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.6.5...@platyplus/devtools@0.7.0) (2020-12-07)
 
 
