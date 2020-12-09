@@ -26,4 +26,5 @@ COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{nam
 
 RUN yarn workspace {{package}} add typescript@'<4'
 
-CMD yarn workspace {{package}} dev --hostname 0.0.0.0
+# CMD yarn workspace {{package}} dev --hostname 0.0.0.0
+CMD lerna run --parallel dev

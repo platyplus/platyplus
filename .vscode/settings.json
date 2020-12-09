@@ -1,6 +1,5 @@
 {
   "vetur.experimental.templateInterpolationService": true,
-  "vetur.validation.template": false,
   // "eslint.validate": [
   //   "javascript",
   //   "javascriptreact",

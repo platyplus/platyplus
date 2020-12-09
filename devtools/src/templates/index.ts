@@ -55,7 +55,6 @@ export const generatePackageTemplateFiles = async <
   if (!variables.type) return
   const exclude =
     variables.type === PackageTypes.TypeScript ? 'Dockerfile*' : []
-  console.log(variables, exclude)
   await generateTemplateFiles(
     variables.type,
     variables.absolutePath,

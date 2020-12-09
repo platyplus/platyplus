@@ -4,7 +4,7 @@ import objectPath from 'object-path'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '.'
-import { ServiceTypeConfig } from './types'
+import { PackageTypes, ServiceTypeConfig } from './types'
 
 // * See: https://github.com/nuxt/create-nuxt-app/blob/master/packages/create-nuxt-app/lib/prompts.js
 const defaults = {
@@ -59,7 +59,9 @@ export const nuxtConfig: ServiceTypeConfig = ({
   package: packageName,
   name,
   absolutePath,
-  pathToRoot
+  relativePath,
+  pathToRoot,
+  dependencies
 }) => {
   return {
     values: {
@@ -70,7 +72,7 @@ export const nuxtConfig: ServiceTypeConfig = ({
         image: `${directory}-${name}`,
         context: '..',
         docker: {
-          dockerfile: `${directory}/${name}/Dockerfile`
+          dockerfile: `${relativePath}/Dockerfile`
         }
       }
     },
@@ -79,7 +81,7 @@ export const nuxtConfig: ServiceTypeConfig = ({
         image: `${directory}-${name}`,
         context: '..',
         docker: {
-          dockerfile: `${directory}/${name}/Dockerfile-development`
+          dockerfile: `${relativePath}/Dockerfile-development`
         }
       },
       helm: {
@@ -92,12 +94,28 @@ export const nuxtConfig: ServiceTypeConfig = ({
         }
       },
       files: [
-        {
-          src: `${directory}/${name}/{assets, components, layouts, middleware, pages, plugins, static, store}/**/*`,
+        ...[
+          'assets',
+          'modules',
+          'components',
+          'layouts',
+          'middleware',
+          'pages',
+          'plugins',
+          'static',
+          'store'
+        ].map(dir => ({
+          src: `${relativePath}/${dir}/**/*`,
           dest: '.'
-        },
+        })),
+        ...dependencies
+          .filter(({ type }) => type === PackageTypes.TypeScript)
+          .map(dep => ({
+            src: `${dep.relativePath}/src/**/*`,
+            dest: '.'
+          })),
         {
-          src: `${directory}/${name}/nuxt.config.js`,
+          src: `${relativePath}/nuxt.config.*`,
           dest: '.'
         }
       ]

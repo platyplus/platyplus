@@ -28,14 +28,14 @@ export const createPackage = async (
   description = DEFAULT_DESCRIPTION,
   privatePackage = true
 ): Promise<PackageTypeConfigResult> => {
+  if (!path.isAbsolute(absolutePath))
+    absolutePath = path.join(DEFAULT_WORKING_DIR, absolutePath)
   // Checks if the package already exists
   if (await hasLernaPackage(packageName))
     throw Error(`${packageName} already exists.`)
 
   if (await fs.pathExists(absolutePath))
     throw Error(`The directory "${absolutePath}" already exists.`)
-  if (!path.isAbsolute(absolutePath))
-    absolutePath = path.join(DEFAULT_WORKING_DIR, absolutePath)
   const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
   const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
   const [projectPath, name] = relativePath.split('/')
