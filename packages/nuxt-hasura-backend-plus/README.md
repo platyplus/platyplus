@@ -8,8 +8,6 @@ Nuxt module for Hasura Backend Plus
 yarn add @platyplus/nuxt-hasura-backend-plus
 ```
 
-## Usage
-
 Edit your `nuxt.config.js` file:
 
 ```js
@@ -27,3 +25,13 @@ export default {
   buildModules: ['@nuxtjs/composition-api']
 }
 ```
+
+## Usage
+
+Vue compositions:
+
+- useRegister
+- useLogin
+- useLogout
+- useStatus
+- useHasuraClaims

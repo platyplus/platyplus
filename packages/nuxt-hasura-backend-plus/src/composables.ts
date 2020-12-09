@@ -20,7 +20,6 @@ export const useLogin = (
         error.value = undefined
         data.value = await context.$auth.login(email.value, password.value)
       } catch (err) {
-        console.log(err)
         error.value = err
       }
     },
