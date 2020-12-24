@@ -1,0 +1,854 @@
+- table:
+    schema: auth
+    name: account_providers
+  object_relationships:
+  - name: account
+    using:
+      foreign_key_constraint_on: account_id
+  - name: provider
+    using:
+      foreign_key_constraint_on: auth_provider
+- table:
+    schema: auth
+    name: account_roles
+  object_relationships:
+  - name: account
+    using:
+      foreign_key_constraint_on: account_id
+  - name: roleByRole
+    using:
+      foreign_key_constraint_on: role
+- table:
+    schema: auth
+    name: accounts
+  object_relationships:
+  - name: role
+    using:
+      foreign_key_constraint_on: default_role
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: account_providers
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          schema: auth
+          name: account_providers
+  - name: account_roles
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          schema: auth
+          name: account_roles
+  - name: refresh_tokens
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          schema: auth
+          name: refresh_tokens
+- table:
+    schema: auth
+    name: providers
+  array_relationships:
+  - name: account_providers
+    using:
+      foreign_key_constraint_on:
+        column: auth_provider
+        table:
+          schema: auth
+          name: account_providers
+- table:
+    schema: auth
+    name: refresh_tokens
+  object_relationships:
+  - name: account
+    using:
+      foreign_key_constraint_on: account_id
+- table:
+    schema: auth
+    name: roles
+  array_relationships:
+  - name: account_roles
+    using:
+      foreign_key_constraint_on:
+        column: role
+        table:
+          schema: auth
+          name: account_roles
+  - name: accounts
+    using:
+      foreign_key_constraint_on:
+        column: default_role
+        table:
+          schema: auth
+          name: accounts
+- table:
+    schema: metadata
+    name: check_constraint
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+- table:
+    schema: metadata
+    name: column_info
+  object_relationships:
+  - name: primaryKey
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: primary_key_column
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  array_relationships:
+  - name: canInsert
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_insert_columns
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: canSelect
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_select_columns
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: canUpdate
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_update_columns
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_catalog
+      - table_schema
+      - table_name
+      - column_name
+      - ordinal_position
+      - column_default
+      - is_nullable
+      - data_type
+      - character_maximum_length
+      - character_octet_length
+      - numeric_precision
+      - numeric_precision_radix
+      - numeric_scale
+      - datetime_precision
+      - interval_type
+      - interval_precision
+      - character_set_catalog
+      - character_set_schema
+      - character_set_name
+      - collation_catalog
+      - collation_schema
+      - collation_name
+      - domain_catalog
+      - domain_schema
+      - domain_name
+      - udt_catalog
+      - udt_schema
+      - udt_name
+      - scope_catalog
+      - scope_schema
+      - scope_name
+      - maximum_cardinality
+      - dtd_identifier
+      - is_self_referencing
+      - is_identity
+      - identity_generation
+      - identity_start
+      - identity_increment
+      - identity_maximum
+      - identity_minimum
+      - identity_cycle
+      - is_generated
+      - generation_expression
+      - is_updatable
+      filter:
+        _or:
+        - canSelect:
+            role_name:
+              _eq: x-hasura-role
+        - canInsert:
+            role_name:
+              _eq: x-hasura-role
+        - canUpdate:
+            role_name:
+              _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: computed_field
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+- table:
+    schema: metadata
+    name: custom_type
+- table:
+    schema: metadata
+    name: foreign_key_constraint
+  object_relationships:
+  - name: refTable
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          ref_table_table_schema: table_schema
+          ref_table: table_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+- table:
+    schema: metadata
+    name: function
+- table:
+    schema: metadata
+    name: function_agg
+- table:
+    schema: metadata
+    name: permission_agg
+  object_relationships:
+  - name: role
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: role
+        column_mapping:
+          role_name: role_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+- table:
+    schema: metadata
+    name: permission_insert_columns
+  object_relationships:
+  - name: column
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: permission
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_agg
+        column_mapping:
+          role_name: role_name
+          table_schema: table_schema
+          table_name: table_name
+  - name: role
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: role
+        column_mapping:
+          role_name: role_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - role_name
+      - column_name
+      filter:
+        role_name:
+          _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: permission_select_columns
+  object_relationships:
+  - name: column
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: permission
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_agg
+        column_mapping:
+          role_name: role_name
+          table_schema: table_schema
+          table_name: table_name
+  - name: role
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: role
+        column_mapping:
+          role_name: role_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - role_name
+      - column_name
+      filter:
+        role_name:
+          _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: permission_update_columns
+  object_relationships:
+  - name: column
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: permission
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_agg
+        column_mapping:
+          role_name: role_name
+          table_schema: table_schema
+          table_name: table_name
+  - name: role
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: role
+        column_mapping:
+          role_name: role_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - role_name
+      - column_name
+      filter:
+        role_name:
+          _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: primary_key
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  array_relationships:
+  - name: columns
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: primary_key_column
+        column_mapping:
+          constraint_name: constraint_name
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - constraint_name
+      filter:
+        table:
+          permissions:
+            role_name:
+              _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: primary_key_column
+  object_relationships:
+  - name: column
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - constraint_name
+      - table_schema
+      - table_name
+      - column_name
+      filter:
+        table:
+          permissions:
+            role_name:
+              _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: relationship
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  array_relationships:
+  - name: mapping
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: relationship_mapping
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - rel_name
+      - rel_type
+      - rel_def
+      - comment
+      - is_system_defined
+      filter:
+        mapping:
+          column:
+            table:
+              permissions:
+                role_name:
+                  _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: relationship_mapping
+  object_relationships:
+  - name: column
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: column_name
+  - name: remoteColumn
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          remote_column_name: column_name
+          remote_schema_name: table_schema
+          remote_table_name: table_name
+  - name: remoteTable
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          remote_schema_name: table_schema
+          remote_table_name: table_name
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - rel_name
+      - remote_schema_name
+      - remote_table_name
+      - column_name
+      - remote_column_name
+      filter:
+        _and:
+        - table:
+            permissions:
+              role_name:
+                _eq: x-hasura-role
+        - remoteTable:
+            permissions:
+              role_name:
+                _eq: x-hasura-role
+- table:
+    schema: metadata
+    name: role
+  array_relationships:
+  - name: permissions
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_agg
+        column_mapping:
+          role_name: role_name
+- table:
+    schema: metadata
+    name: schema_info
+- table:
+    schema: metadata
+    name: table
+  object_relationships:
+  - name: info
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: primaryKey
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: primary_key
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  array_relationships:
+  - name: checkContraints
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: check_constraint
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: columns
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: column_info
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: computedFields
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: computed_field
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: foreignKeys
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: foreign_key_constraint
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: permissions
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_agg
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: primaryKeys
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: primary_key
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: refForeignKeys
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: foreign_key_constraint
+        column_mapping:
+          table_schema: ref_table_table_schema
+          table_name: ref_table
+  - name: relationships
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: relationship
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: uniqueConstraints
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: unique_constraint
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - configuration
+      - is_system_defined
+      - is_enum
+      filter:
+        permissions:
+          role_name:
+            _eq: X-Hasura-role
+- table:
+    schema: metadata
+    name: table_info
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+- table:
+    schema: metadata
+    name: unique_constraint
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+- table:
+    schema: metadata
+    name: version
+- table:
+    schema: metadata
+    name: view_info
+- table:
+    schema: public
+    name: patient
+  array_relationships:
+  - name: visites
+    using:
+      foreign_key_constraint_on:
+        column: patient_id
+        table:
+          schema: public
+          name: visite
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - name
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - name
+      - updated_at
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - name
+      filter: {}
+      check: null
+- table:
+    schema: public
+    name: users
+  object_relationships:
+  - name: account
+    using:
+      manual_configuration:
+        remote_table:
+          schema: auth
+          name: accounts
+        column_mapping:
+          id: user_id
+- table:
+    schema: public
+    name: visite
+  object_relationships:
+  - name: patient
+    using:
+      foreign_key_constraint_on: patient_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - patient_id
+      - test
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - patient_id
+      - test
+      - updated_at
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - patient_id
+      - test
+      filter: {}
+      check: null

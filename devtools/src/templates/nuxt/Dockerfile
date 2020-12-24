@@ -20,6 +20,7 @@ COPY --chown=node:node {{this.directory}}/{{this.name}} /home/node/app/{{this.di
 #{{/each}}
 COPY --chown=node:node {{directory}}/{{name}} /home/node/app/{{directory}}/{{name}}
 
-RUN yarn workspace {{package}} add typescript@'<4' && yarn build
+# RUN yarn workspace {{package}} add typescript@'<4.1' && yarn build
+RUN yarn build
 
 CMD yarn workspace {{package}} start --hostname 0.0.0.0

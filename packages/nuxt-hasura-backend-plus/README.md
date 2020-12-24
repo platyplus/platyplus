@@ -26,6 +26,18 @@ export default {
 }
 ```
 
+### Typescript users
+
+Update your `tsconfig.json` file:
+
+```json
+{
+  "compilerOptions": {
+    "types": ["@nuxt/types", "@platyplus/nuxt-hasura-backend-plus"]
+  }
+}
+```
+
 ## Usage
 
 Vue compositions:

@@ -1,4 +1,11 @@
-import { ComputedRef, Ref, ref, useContext } from '@nuxtjs/composition-api'
+import { Context } from '@nuxt/types'
+import {
+  computed,
+  ComputedRef,
+  Ref,
+  ref,
+  useContext
+} from '@nuxtjs/composition-api'
 import { LoginData } from 'nhost-js-sdk/dist/types'
 
 import { HasuraClaims } from './types'
@@ -55,7 +62,14 @@ export const useRegister = (
   }
 }
 
-export const useStatus = (): ComputedRef<boolean> => useContext().$authenticated
+export const useStatus = (context: Context): ComputedRef<boolean> => {
+  return computed(() => !!context.$auth.getJWTToken())
+}
 
-export const useHasuraClaims = (): ComputedRef<HasuraClaims> =>
-  useContext().$hasuraClaims
+export const useHasuraClaims = (
+  context: Context
+): ComputedRef<HasuraClaims | undefined> =>
+  computed(() => context.$hasuraClaims)
+
+export const useJWT = (context: Context): ComputedRef<string> =>
+  computed(() => context.$auth.getJWTToken())

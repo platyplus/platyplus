@@ -1,0 +1,31 @@
+hbp:
+  hasura:
+    enabled: false
+    serviceName: hasura
+  minio:
+    enabled: false
+  storage:
+    enabled: false
+  enabled: true
+  ingress:
+    enabled: true
+traefik:
+  enabled: false
+hasura:
+  enabled: true
+  ingress:
+    enabled: true
+web:
+  enabled: false
+  ingress:
+    enabled: true
+  imageConfig:
+    tag: latest
+    pullPolicy: IfNotPresent
+vue:
+  enabled: true
+  ingress:
+    enabled: true
+  imageConfig:
+    tag: latest
+    pullPolicy: IfNotPresent

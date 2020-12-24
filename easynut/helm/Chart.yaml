@@ -1,0 +1,29 @@
+apiVersion: v2
+description: easynut
+name: easynut
+version: 0.0.1
+dependencies:
+  - name: traefik
+    version: v8.9.1
+    repository: https://containous.github.io/traefik-helm-chart
+    condition: traefik.enabled
+  - name: hasura
+    condition: hasura.enabled
+    alias: hasura
+    repository: file://../../charts/hasura
+    version: 0.1.5
+  - name: standard-service
+    condition: vue.enabled
+    alias: vue
+    repository: file://../../charts/standard-service
+    version: 0.1.6
+  - name: standard-service
+    condition: web.enabled
+    alias: web
+    repository: file://../../charts/standard-service
+    version: 0.1.6
+  - name: hasura-backend-plus
+    condition: hbp.enabled
+    alias: hbp
+    repository: file://../../charts/hasura-backend-plus
+    version: 0.1.8

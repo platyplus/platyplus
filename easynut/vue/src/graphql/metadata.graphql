@@ -1,0 +1,53 @@
+fragment table on metadata_table {
+  table_schema
+  table_name
+  primaryKey {
+    constraint_name
+  }
+  relationships {
+    rel_name
+    rel_type
+    mapping {
+      column_name
+      remote_table_name
+      remote_schema_name
+      remote_column_name
+    }
+  }
+  columns {
+    column_name
+    udt_name
+    is_nullable
+    primaryKey {
+      constraint_name
+    }
+    canSelect {
+      role_name
+    }
+    canInsert {
+      role_name
+    }
+    canUpdate {
+      role_name
+    }
+  }
+}
+
+# * Already filtered according to user permissions.
+# * > only maps the `public` schema
+# TODO move to permission: only allow users to see the `public` schema
+# * > need an `updated_at` column
+# ! > need an `id` column -> what if the primary key is not the id column?
+query metadata {
+  metadata_table(
+    where: {
+      _and: [
+        { table_schema: { _eq: "public" } }
+        { columns: { column_name: { _eq: "updated_at" } } }
+        { columns: { column_name: { _eq: "id" } } }
+      ]
+    }
+  ) {
+    ...table
+  }
+}

@@ -11,14 +11,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platydev.git",
-    "directory": ""
+    "directory": "packages/nuxt-hasura-backend-plus"
   },
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*",
-    "src/**/*"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -40,6 +39,7 @@
     "@nuxt/types": "^2.14.10",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxt/typescript-runtime": "^2.0.0",
+    "nuxt": "^2.14.10",
     "vue-loader": "^15.9.5"
   }
 }

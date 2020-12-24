@@ -22,6 +22,17 @@
 - [ ] ?? imageConfig: { tag: 'latest', pullPolicy: 'IfNotPresent' }
 - [ ] ?? problem with minio in HBP chart - start ok, restart problem
 
+## Clean up some mess
+
+- deactivate/remove/archive
+  - Nuxt HBP plugin
+  - Nuxt service
+- Vue service
+  - find a way to use an env var to target HBP and Hasura services - see vue-hasura-backend-plus options
+- skaffold sync files: include dependencies in node projects
+  - dockerfile dev: watch/build dependencies on each container, or find a way to use the TS source
+  - solution: tsconfig-paths-webpack-plugin, but scrappy tsconfig extension, not working with `paths`
+
 ## Next
 
 - [ ] In ts package template: `yarn dev` shoud nodemon a `tsc` build

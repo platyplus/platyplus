@@ -1,0 +1,20 @@
+{
+  "name": "@platyplus/hasura-easy",
+  "private": true,
+  "platyplus": {
+    "type": "hasura"
+  },
+  "version": "0.0.1",
+  "description": "hasura service",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://github.com/platyplus/platydev.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platydev.git",
+    "directory": "easynut/hasura"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

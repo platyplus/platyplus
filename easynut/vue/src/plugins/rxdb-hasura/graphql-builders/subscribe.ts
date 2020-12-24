@@ -1,0 +1,17 @@
+import { TableFragment } from '../../../generated'
+import { fullTableName } from '../helpers'
+
+export const subscriptionQuery = (table: TableFragment): string => {
+  const title = fullTableName(table)
+  return `subscription on${title} {
+    ${title} (
+        where: {
+            updated_at: { _gt: "${new Date(Date.now()).toUTCString()}" }
+        }
+        limit: 1
+        order_by: { updated_at: asc }
+    ){
+        id
+    }
+}`
+}

@@ -1,0 +1,16 @@
+create view metadata.computed_fields as select * from hdb_catalog.hdb_computed_field;
+create view metadata.custom_types as select * from hdb_catalog.hdb_custom_types;
+create view metadata.foreign_key_constraints as select * from hdb_catalog.hdb_foreign_key_constraint;
+create view metadata.functions as select * from hdb_catalog.hdb_function;
+create view metadata.functions_agg as select * from hdb_catalog.hdb_function_agg;
+create view metadata.permissions_agg as select * from hdb_catalog.hdb_permission_agg;
+create view metadata.primary_keys as select * from hdb_catalog.hdb_primary_key;
+create view metadata.relationships as select * from hdb_catalog.hdb_relationship;
+create view metadata.roles as select * from hdb_catalog.hdb_role;
+create view metadata.tables as select * from hdb_catalog.hdb_table;
+create view metadata.unique_constraints as select * from hdb_catalog.hdb_unique_constraint;
+create view metadata.versions as select * from hdb_catalog.hdb_version;
+create view metadata.tables_info as select * from information_schema.tables;
+create view metadata.columns_info as select * from information_schema.columns;
+create view metadata.schemas_info as select * from information_schema.schemata;
+create view metadata.views_info as select * from information_schema.views;
