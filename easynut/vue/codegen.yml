@@ -1,0 +1,27 @@
+overwrite: true
+schema:
+  - http://hasura.localhost/v1/graphql:
+      headers:
+        x-hasura-admin-secret: development-hasura-admin-secret
+documents: 'src/graphql/*.graphql'
+generates:
+  src/generated/index.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - typescript-graphql-request
+hooks:
+  afterAllFileWrite:
+    - eslint --fix
+    - prettier --write
+config:
+  scalars:
+    citext: string
+    json: Record<string, unknown>
+    jsonb: Record<string, unknown>
+    name: string
+    smallint: number
+    timestamptz: Date
+    uuid: string
+  # maybeValue: T
+  avoidOptionals: true

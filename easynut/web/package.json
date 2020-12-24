@@ -1,0 +1,40 @@
+{
+  "name": "@platyplus/easy-web",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
+  },
+  "scripts": {
+    "dev": "nuxt-ts --hostname 0.0.0.0",
+    "build": "nuxt-ts build",
+    "start": "nuxt-ts start --hostname 0.0.0.0",
+    "generate": "nuxt-ts generate"
+  },
+  "dependencies": {
+    "@nuxt/typescript-runtime": "^2.0.0",
+    "@nuxtjs/apollo": "^4.0.1-rc.5",
+    "@nuxtjs/composition-api": "^0.16.4",
+    "@vue/apollo-composable": "4.0.0-alpha.10",
+    "graphql": "^15.4.0",
+    "graphql-tag": "^2.11.0",
+    "nhost-js-sdk": "^2.3.3",
+    "nuxt": "^2.14.10"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.10",
+    "@nuxt/typescript-build": "^2.0.3",
+    "@nuxtjs/pwa": "^3.3.2",
+    "pug": "^3.0.0",
+    "pug-plain-loader": "^1.1.0"
+  },
+  "platyplus": {
+    "type": "nuxt"
+  },
+  "nuxt": {
+    "host": "0.0.0.0"
+  },
+  "description": "nuxt service"
+}

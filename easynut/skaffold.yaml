@@ -1,0 +1,87 @@
+apiVersion: skaffold/v2beta8
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: easynut-hasura
+      context: hasura
+    - image: easynut-vue
+      context: ..
+      docker:
+        dockerfile: easynut/vue/Dockerfile
+    - image: easynut-hbp
+      context: hbp
+deploy:
+  helm:
+    releases:
+      - name: easynut
+        chartPath: helm
+        skipBuildDependencies: false
+        artifactOverrides:
+          hasura:
+            image: easynut-hasura
+          vue:
+            image: easynut-vue
+          hbp:
+            image: easynut-hbp
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    build:
+      tagPolicy:
+        sha256: {}
+      artifacts:
+        - image: easynut-hasura
+          context: hasura
+          sync:
+            manual:
+              - src: migrations/**/*
+                dest: /hasura-migrations
+              - src: metadata/*
+                dest: /hasura-metadata
+        - image: easynut-vue
+          context: ..
+          docker:
+            dockerfile: easynut/vue/Dockerfile-development
+          sync:
+            manual:
+              - src: packages/vue-hasura-backend-plus/src/**/*
+                dest: .
+              - src: easynut/vue/src/**/*
+                dest: .
+    deploy:
+      helm:
+        releases:
+          - name: easynut
+            chartPath: helm
+            skipBuildDependencies: false
+            setValues:
+              traefik:
+                enabled: true
+              hasura:
+                ingress:
+                  enabled: true
+                  "hosts[0].name": hasura.localhost
+                  "hosts[1].name": bis.localhost
+                postgresql:
+                  postgresqlPassword: development-postgres-password
+                adminSecret: development-hasura-admin-secret
+                jwt:
+                  key: long-hasura-jwt-more-than-thirty-two-characters
+                  algorithm: HS256
+              vue:
+                ingress:
+                  enabled: true
+                  "hosts[0].name": vue.localhost
+                targetPort: 8080
+              hbp:
+                ingress:
+                  enabled: true
+                  "hosts[0].name": hbp.localhost
+            artifactOverrides:
+              hasura:
+                image: easynut-hasura
+              vue:
+                image: easynut-vue
