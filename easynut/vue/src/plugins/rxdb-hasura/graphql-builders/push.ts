@@ -36,7 +36,7 @@ export const pushQueryBuilder = (
 }
 
 export const pushModifier = (table: TableFragment): Modifier => {
-  const oneToManyRelationships = table.relationships
+  const objectRelationships = table.relationships
     .filter(rel => rel.rel_type === 'object')
     .map(rel => {
       return {
@@ -45,12 +45,12 @@ export const pushModifier = (table: TableFragment): Modifier => {
       }
     })
   return doc => {
-    // * OneToMany relationships:move back property name to the right foreign key column
-    for (const { name, column } of oneToManyRelationships) {
+    // * Object relationships:move back property name to the right foreign key column
+    for (const { name, column } of objectRelationships) {
       doc[column] = doc[name]
       delete doc[name]
     }
-
+    // TODO array relationships
     // TODO soft delete
     delete doc.deleted
     return doc

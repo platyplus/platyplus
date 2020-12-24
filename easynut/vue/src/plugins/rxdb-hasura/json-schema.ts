@@ -83,33 +83,38 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
   const skipMappedForeignKeys: string[] = []
   table.relationships.map(relationship => {
     const relName = relationship.rel_name as string
+    const mappingItem = relationship.mapping[0]
+    const column = mappingItem.column as ColumnFragment
+    const refTable = mappingItem.remoteTable as CoreTableFragment
+    const ref = fullTableName(refTable)
+    const type = propertyType(column)
+    if (relationship.mapping.length !== 1)
+      throw Error(
+        'object relationship with multi-column keys are not supported'
+      )
     if (relationship.rel_type === 'object') {
-      // * OneToMany relationships
-      if (relationship.mapping.length === 1) {
-        const mappingItem = relationship.mapping[0]
-        const column = mappingItem.column as ColumnFragment
-        const refTable = mappingItem.remoteTable as CoreTableFragment
-        relationship.mapping[0].remoteTable
-        result.properties[relName] = {
-          type: propertyType(column),
-          ref: fullTableName(refTable)
-        }
-        skipMappedForeignKeys.push(column.column_name as string)
-      } else {
-        // TODO
-        console.warn(
-          'object relationship with multi-column keys are not supported'
-        )
+      // * Object relationships
+      relationship.mapping[0].remoteTable
+      result.properties[relName] = {
+        type,
+        ref
       }
+      skipMappedForeignKeys.push(column.column_name as string)
     } else if (relationship.rel_type === 'array') {
-      // * ManyToMany and ManyToOne relationships
-      console.log('TODO implement array relationship', relationship.rel_name)
+      // * Array relationships
+      result.properties[relName] = {
+        type: 'array',
+        ref,
+        items: {
+          type
+        }
+      }
     }
   })
 
   // TODO filter out foreign keys
   table.columns.map(column => {
-    // * Do not include again properties that are already mapped by a OneToMany relationship
+    // * Do not include again properties that are already mapped by an object relationship
     if (skipMappedForeignKeys.includes(column.column_name as string)) return
     const name = column.column_name!
     const sqlType = column.udt_name!
