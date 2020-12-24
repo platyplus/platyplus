@@ -8120,64 +8120,72 @@ export enum Visite_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
-export type TableFragment = { __typename?: 'metadata_table' } & Pick<
+export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
   Metadata_Table,
-  'table_schema' | 'table_name'
-> & {
-    primaryKey: Maybe<
-      { __typename?: 'metadata_primary_key' } & Pick<
-        Metadata_Primary_Key,
-        'constraint_name'
+  'table_name' | 'table_schema'
+>
+
+export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
+  Metadata_Column_Info,
+  'column_name' | 'udt_name' | 'is_nullable'
+>
+
+export type TableFragment = { __typename?: 'metadata_table' } & {
+  primaryKey: Maybe<
+    { __typename?: 'metadata_primary_key' } & Pick<
+      Metadata_Primary_Key,
+      'constraint_name'
+    >
+  >
+  relationships: Array<
+    { __typename?: 'metadata_relationship' } & Pick<
+      Metadata_Relationship,
+      'rel_name' | 'rel_type'
+    > & {
+        mapping: Array<
+          { __typename?: 'metadata_relationship_mapping' } & Pick<
+            Metadata_Relationship_Mapping,
+            'remote_column_name'
+          > & {
+              column: Maybe<
+                { __typename?: 'metadata_column_info' } & ColumnFragment
+              >
+              remoteTable: Maybe<
+                { __typename?: 'metadata_table' } & CoreTableFragment
+              >
+            }
+        >
+      }
+  >
+  columns: Array<
+    { __typename?: 'metadata_column_info' } & {
+      primaryKey: Maybe<
+        { __typename?: 'metadata_primary_key_column' } & Pick<
+          Metadata_Primary_Key_Column,
+          'constraint_name'
+        >
       >
-    >
-    relationships: Array<
-      { __typename?: 'metadata_relationship' } & Pick<
-        Metadata_Relationship,
-        'rel_name' | 'rel_type'
-      > & {
-          mapping: Array<
-            { __typename?: 'metadata_relationship_mapping' } & Pick<
-              Metadata_Relationship_Mapping,
-              | 'column_name'
-              | 'remote_table_name'
-              | 'remote_schema_name'
-              | 'remote_column_name'
-            >
-          >
-        }
-    >
-    columns: Array<
-      { __typename?: 'metadata_column_info' } & Pick<
-        Metadata_Column_Info,
-        'column_name' | 'udt_name' | 'is_nullable'
-      > & {
-          primaryKey: Maybe<
-            { __typename?: 'metadata_primary_key_column' } & Pick<
-              Metadata_Primary_Key_Column,
-              'constraint_name'
-            >
-          >
-          canSelect: Array<
-            { __typename?: 'metadata_permission_select_columns' } & Pick<
-              Metadata_Permission_Select_Columns,
-              'role_name'
-            >
-          >
-          canInsert: Array<
-            { __typename?: 'metadata_permission_insert_columns' } & Pick<
-              Metadata_Permission_Insert_Columns,
-              'role_name'
-            >
-          >
-          canUpdate: Array<
-            { __typename?: 'metadata_permission_update_columns' } & Pick<
-              Metadata_Permission_Update_Columns,
-              'role_name'
-            >
-          >
-        }
-    >
-  }
+      canSelect: Array<
+        { __typename?: 'metadata_permission_select_columns' } & Pick<
+          Metadata_Permission_Select_Columns,
+          'role_name'
+        >
+      >
+      canInsert: Array<
+        { __typename?: 'metadata_permission_insert_columns' } & Pick<
+          Metadata_Permission_Insert_Columns,
+          'role_name'
+        >
+      >
+      canUpdate: Array<
+        { __typename?: 'metadata_permission_update_columns' } & Pick<
+          Metadata_Permission_Update_Columns,
+          'role_name'
+        >
+      >
+    } & ColumnFragment
+  >
+} & CoreTableFragment
 
 export type MetadataQueryVariables = Exact<{ [key: string]: never }>
 
@@ -8185,10 +8193,22 @@ export type MetadataQuery = { __typename?: 'query_root' } & {
   metadata_table: Array<{ __typename?: 'metadata_table' } & TableFragment>
 }
 
+export const CoreTableFragmentDoc = gql`
+  fragment coreTable on metadata_table {
+    table_name
+    table_schema
+  }
+`
+export const ColumnFragmentDoc = gql`
+  fragment column on metadata_column_info {
+    column_name
+    udt_name
+    is_nullable
+  }
+`
 export const TableFragmentDoc = gql`
   fragment table on metadata_table {
-    table_schema
-    table_name
+    ...coreTable
     primaryKey {
       constraint_name
     }
@@ -8196,16 +8216,17 @@ export const TableFragmentDoc = gql`
       rel_name
       rel_type
       mapping {
-        column_name
-        remote_table_name
-        remote_schema_name
+        column {
+          ...column
+        }
+        remoteTable {
+          ...coreTable
+        }
         remote_column_name
       }
     }
     columns {
-      column_name
-      udt_name
-      is_nullable
+      ...column
       primaryKey {
         constraint_name
       }
@@ -8220,6 +8241,8 @@ export const TableFragmentDoc = gql`
       }
     }
   }
+  ${CoreTableFragmentDoc}
+  ${ColumnFragmentDoc}
 `
 export const MetadataDocument = gql`
   query metadata {

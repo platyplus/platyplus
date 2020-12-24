@@ -3,7 +3,11 @@ import { RxJsonSchema } from 'rxdb'
 import { PrimaryProperty } from 'rxdb'
 import { JsonSchemaTypes, TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { TableFragment } from '../../generated'
+import {
+  ColumnFragment,
+  CoreTableFragment,
+  TableFragment
+} from '../../generated'
 import { fullTableName } from './helpers'
 
 type JsonSchemaFormat =
@@ -30,10 +34,10 @@ const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaTypes> = {
   decimal: 'number'
 }
 
-const propertyType = (
-  udtType: string,
-  isNullable: boolean
-): string | string[] => {
+const propertyType = (columnInfo: ColumnFragment): string | string[] => {
+  const udtType = columnInfo.udt_name as string
+  // TODO change is_nullable to boolean value in SQL view definition
+  const isNullable = columnInfo.is_nullable === 'YES'
   if (!postgresJsonSchemaTypeMapping[udtType])
     throw Error(`PostgresSQL type "${udtType}" is not mapped to JSON Schema`)
   const result = postgresJsonSchemaTypeMapping[udtType] || udtType
@@ -75,14 +79,42 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
   // TODO relationships
   // ? additionalProperties: true
 
+  // * Map relationship properties
+  const skipMappedForeignKeys: string[] = []
+  table.relationships.map(relationship => {
+    const relName = relationship.rel_name as string
+    if (relationship.rel_type === 'object') {
+      // * OneToMany relationships
+      if (relationship.mapping.length === 1) {
+        const mappingItem = relationship.mapping[0]
+        const column = mappingItem.column as ColumnFragment
+        const refTable = mappingItem.remoteTable as CoreTableFragment
+        relationship.mapping[0].remoteTable
+        result.properties[relName] = {
+          type: propertyType(column),
+          ref: fullTableName(refTable)
+        }
+        skipMappedForeignKeys.push(column.column_name as string)
+      } else {
+        // TODO
+        console.warn(
+          'object relationship with multi-column keys are not supported'
+        )
+      }
+    } else if (relationship.rel_type === 'array') {
+      // * ManyToMany and ManyToOne relationships
+      console.log('TODO implement array relationship', relationship.rel_name)
+    }
+  })
+
+  // TODO filter out foreign keys
   table.columns.map(column => {
+    // * Do not include again properties that are already mapped by a OneToMany relationship
+    if (skipMappedForeignKeys.includes(column.column_name as string)) return
     const name = column.column_name!
     const sqlType = column.udt_name!
 
-    const type = propertyType(
-      sqlType,
-      !!column.is_nullable && !column.primaryKey
-    )
+    const type = propertyType(column)
 
     if (!column.is_nullable) {
       // * Property is required when column is not nullable
@@ -103,5 +135,6 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
     }
     result.properties[name] = property
   })
+  console.log(result)
   return result
 }
