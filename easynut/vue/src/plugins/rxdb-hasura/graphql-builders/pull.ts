@@ -2,6 +2,7 @@ import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
 import { TableFragment } from '../../../generated'
 import { fullTableName } from '../helpers'
+import { Modifier } from './types'
 
 export const pullQueryBuilder = (
   table: TableFragment,
@@ -37,5 +38,24 @@ export const pullQueryBuilder = (
       query,
       variables: {}
     }
+  }
+}
+
+export const pullModifier = (table: TableFragment): Modifier => {
+  const oneToManyRelationships = table.relationships
+    .filter(rel => rel.rel_type === 'object')
+    .map(rel => {
+      return {
+        name: rel.rel_name as string,
+        column: rel.mapping[0].column?.column_name as string
+      }
+    })
+  return doc => {
+    // * OneToMany relationships: move foreign key columns to the property name
+    for (const { name, column } of oneToManyRelationships) {
+      doc[name] = doc[column]
+      delete doc[column]
+    }
+    return doc
   }
 }

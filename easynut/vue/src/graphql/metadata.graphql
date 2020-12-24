@@ -1,6 +1,16 @@
-fragment table on metadata_table {
-  table_schema
+fragment coreTable on metadata_table {
   table_name
+  table_schema
+}
+
+fragment column on metadata_column_info {
+  column_name
+  udt_name
+  is_nullable
+}
+
+fragment table on metadata_table {
+  ...coreTable
   primaryKey {
     constraint_name
   }
@@ -8,16 +18,17 @@ fragment table on metadata_table {
     rel_name
     rel_type
     mapping {
-      column_name
-      remote_table_name
-      remote_schema_name
+      column {
+        ...column
+      }
+      remoteTable {
+        ...coreTable
+      }
       remote_column_name
     }
   }
   columns {
-    column_name
-    udt_name
-    is_nullable
+    ...column
     primaryKey {
       constraint_name
     }

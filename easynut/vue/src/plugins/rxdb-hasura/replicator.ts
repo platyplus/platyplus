@@ -9,6 +9,8 @@ import {
   pushQueryBuilder,
   subscriptionQuery
 } from './graphql-builders'
+import { pullModifier } from './graphql-builders/pull'
+import { pushModifier } from './graphql-builders/push'
 import { fullTableName } from './helpers'
 
 export class GraphQLReplicator {
@@ -96,14 +98,11 @@ export class GraphQLReplicator {
       push: {
         batchSize: this.batchSize,
         queryBuilder: pushQueryBuilder(table),
-        modifier: (doc: Record<string, unknown>) => {
-          // TODO soft delete
-          delete doc.deleted
-          return doc
-        }
+        modifier: pushModifier(table)
       },
       pull: {
-        queryBuilder: pullQueryBuilder(table, this.batchSize)
+        queryBuilder: pullQueryBuilder(table, this.batchSize),
+        modifier: pullModifier(table)
       },
       live: true,
       liveInterval: 1000 * 60 * 10, // 10 minutes
