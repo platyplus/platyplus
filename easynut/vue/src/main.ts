@@ -4,7 +4,7 @@ import { createHasuraBackendPlus } from '@platyplus/vue-hasura-backend-plus'
 import { createApp } from 'vue'
 
 import App from './App.vue'
-import { createRxDBHasuraPlugin } from './plugins/rxdb-hasura/plugin'
+import { createRxDBHasuraPlugin } from './plugins/rxdb-hasura'
 import router from './router'
 import store from './store'
 

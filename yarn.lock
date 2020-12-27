@@ -4791,6 +4791,29 @@
     vuepress-plugin-container "^2.0.2"
     vuepress-plugin-smooth-scroll "^0.0.3"
 
+"@vueuse/core@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-4.0.0.tgz#5bea3eaa848e3b3e00427f5053fb98e7e4834b0f"
+  integrity sha512-BBkqriC2j9SH/LuHCggS2MP7VSwBfGkTB9qQh1lzadodk2TnM1JHwM76f3G0hCGqqhEF7ab8Xs+1M1PlvuEQYA==
+  dependencies:
+    "@vueuse/shared" "4.0.0"
+    vue-demi latest
+
+"@vueuse/rxjs@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/rxjs/-/rxjs-4.0.0.tgz#7ecc0d7ee5f718bc8a58119bd6c7941950388ded"
+  integrity sha512-tvIeSI/F1gHN2dDRi3EdwPMqrFVvK1Okx0eaUSh6my+9Vq12jhUbGRqRu5hHyTRDGH34GBJTfkw9OCt9Pd//Pg==
+  dependencies:
+    "@vueuse/shared" "4.0.0"
+    vue-demi latest
+
+"@vueuse/shared@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-4.0.0.tgz#d495b8fd2f28a453ef0fccae175ca848a4a84bb0"
+  integrity sha512-8tn1BpnaMJU2LqFyFzzN6Dvmc1uDsSlb3Neli5bwwb9f+rcASpuOS3nAWAY6/rIODZP1iwXDNCL4rNFR3YxYtQ==
+  dependencies:
+    vue-demi latest
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"

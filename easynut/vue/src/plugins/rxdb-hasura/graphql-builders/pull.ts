@@ -61,15 +61,10 @@ export const pullModifier = (table: TableFragment): Modifier => {
   })
 
   return doc => {
-    for (const {
-      name,
-      column,
-      multiple,
-      remoteColumn
-    } of cleansedRelationships) {
+    for (const { name, column, multiple } of cleansedRelationships) {
       if (multiple) {
         // * Array relationships: set remote id columns as an array
-        doc[name] = (doc[name] as []).map(item => item[remoteColumn])
+        doc[name] = (doc[name] as []).map(item => item[column])
       } else {
         // * Object relationships: move foreign key columns to the property name
         doc[name] = doc[column]

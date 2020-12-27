@@ -12,7 +12,9 @@
   div(v-else)
     button(@click="logout") Logout
   div token {{token}}
-
+  div(v-for="collection of collections")
+    h3 {{collection.name}}
+    collection(:collection="collection")
 </template>
 
 <script lang="ts">
@@ -24,6 +26,9 @@ import {
   useStatus
 } from '@platyplus/vue-hasura-backend-plus'
 import { defineComponent, ref } from 'vue'
+
+import { useCollections } from '../plugins/rxdb-hasura'
+
 export default defineComponent({
   name: 'HelloWorld',
   setup() {
@@ -35,6 +40,7 @@ export default defineComponent({
     const logout = useLogout()
     const { register } = useRegister(email, password)
     const token = useJWT()
+    const collections = useCollections()
     return {
       email,
       password,
@@ -44,7 +50,8 @@ export default defineComponent({
       status,
       error,
       data,
-      token
+      token,
+      collections
     }
   }
 })
