@@ -30,11 +30,11 @@ const propertyType = (property: TopLevelProperty | PrimaryProperty): string => {
   } else {
     type = property.type
   }
-  if (type === 'string') {
-    if (property.ref) return 'object'
-    if (property.format === 'date-time') return 'date-time'
+  if (property.ref) {
+    if (type === 'array') return 'collection'
+    else return 'document'
   }
-  return type
+  return property.format || type
 }
 
 export default defineComponent({

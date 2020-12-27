@@ -5,6 +5,7 @@ import {
   RxDatabase,
   RxDatabaseCreator
 } from 'rxdb'
+import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 
@@ -14,6 +15,7 @@ import { toJsonSchema } from './json-schema'
 
 addRxPlugin(RxDBReplicationGraphQLPlugin)
 addRxPlugin(RxDBValidatePlugin)
+addRxPlugin(RxDBAjvValidatePlugin)
 
 export type RxHasuraDatabase = RxDatabase & {
   addTables(tables: TableFragment[]): Promise<void>

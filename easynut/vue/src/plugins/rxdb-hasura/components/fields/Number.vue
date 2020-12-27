@@ -3,14 +3,13 @@ div {{value}}
 </template>
 
 <script lang="ts">
-import { RxDocument } from 'rxdb'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'FieldObject',
+  name: 'FieldNumber',
   props: {
     value: {
-      type: Object as PropType<RxDocument<Record<string, unknown>> | null>,
+      type: Number,
       default: null
     },
     name: {
