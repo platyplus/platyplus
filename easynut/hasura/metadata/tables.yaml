@@ -628,6 +628,15 @@
     schema: metadata
     name: table
   object_relationships:
+  - name: config
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table_config
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
   - name: info
     using:
       manual_configuration:
@@ -741,6 +750,31 @@
         permissions:
           role_name:
             _eq: X-Hasura-role
+- table:
+    schema: metadata
+    name: table_config
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - label
+      filter:
+        table:
+          permissions:
+            role_name:
+              _eq: x-hasura-role
 - table:
     schema: metadata
     name: table_info

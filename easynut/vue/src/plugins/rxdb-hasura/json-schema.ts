@@ -140,6 +140,5 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
     }
     result.properties[name] = property
   })
-  console.log(result)
   return result
 }

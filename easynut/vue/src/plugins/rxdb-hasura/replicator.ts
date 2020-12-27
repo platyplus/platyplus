@@ -62,6 +62,7 @@ export class GraphQLReplicator {
     this.subscriptions[collectionName] = this.setupGraphQLSubscription(
       collectionName
     )
+    // await this.states[collectionName].awaitInitialReplication()
   }
 
   async start(): Promise<void> {

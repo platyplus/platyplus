@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@platyplus/vue-hasura-backend-plus": "^0.0.1",
+    "@vueuse/core": "^4.0.0",
+    "@vueuse/rxjs": "^4.0.0",
     "core-js": "^3.6.5",
     "graphql": "^15.4.0",
     "graphql-request": "^3.4.0",
+    "handlebars": "^4.7.6",
     "nhost-js-sdk": "^2.3.3",
     "pouchdb-adapter-idb": "^7.2.2",
     "pouchdb-adapter-indexeddb": "^7.2.2",

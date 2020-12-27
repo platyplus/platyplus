@@ -1,12 +1,16 @@
 import { Instance } from '@platyplus/vue-hasura-backend-plus'
+import { pathToArray } from 'graphql/jsutils/Path'
 import { GraphQLClient } from 'graphql-request'
-import { App, InjectionKey } from 'vue'
+import { RxCollection } from 'rxdb'
+import { App, InjectionKey, Ref, ref } from 'vue'
 
-import { getSdk } from '../../generated'
+import { getSdk, TableFragment } from '../../generated'
 import { createDb, RxHasuraDatabase } from './database'
 import { GraphQLReplicator } from './replicator'
-export const DefaultKey = Symbol()
+export const DefaultRxDBKey = Symbol()
+import path from 'path'
 
+import { fullTableName } from './helpers'
 export type RxDBHasuraPluginOptions = {
   name: string
   endpoint: string
@@ -15,12 +19,14 @@ export type RxDBHasuraPluginOptions = {
 }
 // TODO explicit 'logout' that destroys the database. Don't destroy when auth status changes (it means we're offline)
 export class RxDBHasuraPlugin {
-  client: GraphQLClient
-  hbp: Instance
-  db?: RxHasuraDatabase
-  name: string
-  replicator?: GraphQLReplicator
-  endpoint: string
+  readonly client: GraphQLClient
+  readonly hbp: Instance
+  readonly db: Ref<RxHasuraDatabase | undefined> = ref()
+  readonly collections: Ref<Record<string, RxCollection>> = ref({})
+  readonly tables: Ref<Record<string, TableFragment>> = ref({})
+  readonly name: string
+  private replicator?: GraphQLReplicator
+  readonly endpoint: string
 
   constructor({ name, endpoint, adminSecret, hbp }: RxDBHasuraPluginOptions) {
     this.client = new GraphQLClient(endpoint)
@@ -49,19 +55,25 @@ export class RxDBHasuraPlugin {
       console.log('State changed', status)
       const token = this.updateToken()
       if (status) {
-        if (!this.db) {
-          this.db = await createDb({
+        if (!this.db?.value) {
+          this.db.value = await createDb({
             name: this.name,
             // password: 'myPassword', // <- password (optional)
             multiInstance: true, // <- multiInstance (optional, default: true)
-            eventReduce: false // <- eventReduce (optional, default: true))
+            eventReduce: true // <- eventReduce (optional, default: true))
           })
-          const tables = (await getSdk(this.client).metadata()).metadata_table
-          await this.db.addTables(tables)
+          const tablesArray = (await getSdk(this.client).metadata())
+            .metadata_table
+          this.tables.value = tablesArray.reduce<Record<string, TableFragment>>(
+            (aggr, cursor) => ((aggr[fullTableName(cursor)] = cursor), aggr),
+            {}
+          )
+          await this.db.value.addTables(tablesArray)
+          this.collections.value = this.db.value.collections
           await this.replicator?.stop()
           this.replicator = new GraphQLReplicator(
-            this.db,
-            tables,
+            this.db.value,
+            tablesArray,
             this.endpoint,
             token
           )
@@ -77,7 +89,15 @@ export class RxDBHasuraPlugin {
       this.updateToken()
     })
 
-    app.provide(injectKey || DefaultKey, this.db)
+    // * Load all components from the `./components` directory
+    const components = require.context('./components', true, /\.vue$/)
+    components.keys().forEach(filename => {
+      // const name = path.basename(filename, '.vue')
+      const Comp = components(filename).default
+      app.component(Comp.name, Comp)
+    })
+
+    app.provide(injectKey || DefaultRxDBKey, this)
   }
 }
 

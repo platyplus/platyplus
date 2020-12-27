@@ -6,6 +6,8 @@
 
 export { GraphQLReplicator } from './replicator'
 export { createDb } from './database'
+export { createRxDBHasuraPlugin, DefaultRxDBKey } from './plugin'
+export * from './composables'
 
 /** // ! GENERAL RULES ! //
  * * column `updated_at` of type `timestamptz` must exist, and must change value when row is update
