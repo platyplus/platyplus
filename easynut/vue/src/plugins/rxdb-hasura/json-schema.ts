@@ -22,16 +22,23 @@ type JsonSchemaFormat =
 const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaTypes> = {
   uuid: 'string',
   bool: 'boolean',
+  timestamp: 'string',
   timestamptz: 'string',
+  date: 'string',
   timetz: 'string',
+  time: 'string',
   text: 'string',
   citext: 'string',
   varchar: 'string',
   jsonb: 'object',
-  int: 'integer',
-  bigint: 'integer',
-  real: 'number',
-  decimal: 'number'
+  numeric: 'number',
+  // int: 'integer',
+  int4: 'integer',
+  int8: 'integer',
+  float4: 'number'
+  // bigint: 'integer',
+  // real: 'number',
+  // decimal: 'number'
 }
 
 const propertyType = (columnInfo: ColumnFragment): string | string[] => {
@@ -45,8 +52,11 @@ const propertyType = (columnInfo: ColumnFragment): string | string[] => {
 }
 
 const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
+  // * Postgres timestamp without timezone does not fit with a default json schema format
   timestamptz: 'date-time',
-  timetz: 'date-time'
+  time: 'time',
+  timetz: 'time',
+  date: 'date'
 }
 
 const propertyFormat = (udtType: string): string | undefined => {
@@ -130,9 +140,11 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
       type
     }
 
-    const format = propertyFormat(sqlType)
-    if (format) {
-      property.format = format
+    if (type === 'string' || type.includes('string')) {
+      const format = propertyFormat(sqlType)
+      if (format) {
+        property.format = format
+      }
     }
     // * Set primary key column
     if (column.primaryKey) {

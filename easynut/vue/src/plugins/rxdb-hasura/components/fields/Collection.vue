@@ -1,5 +1,6 @@
 <template lang="pug">
-document-label(v-for="obj, id in value" :document="obj")
+div
+  document-label(v-for="obj, id in value" :document="obj")
 </template>
 
 <script lang="ts">
@@ -7,7 +8,7 @@ import { RxDocument } from 'rxdb'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
-  name: 'FieldArray',
+  name: 'FieldCollection',
   props: {
     document: {
       type: Object as PropType<RxDocument<Record<string, unknown>>>,

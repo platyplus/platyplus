@@ -823,6 +823,16 @@
     permission:
       check: {}
       columns:
+      - a_bigint
+      - a_boolean
+      - a_citext
+      - a_date
+      - a_jsonb
+      - a_numeric
+      - a_real
+      - a_time
+      - an_integer
+      - an_uuid
       - id
       - name
       backend_only: false
@@ -831,13 +841,25 @@
     permission:
       columns:
       - id
-      - name
       - updated_at
+      - name
+      - a_date
+      - a_time
+      - an_integer
+      - a_boolean
+      - a_numeric
+      - an_uuid
+      - a_jsonb
+      - a_bigint
+      - a_real
+      - a_citext
       filter: {}
   update_permissions:
   - role: user
     permission:
       columns:
+      - a_date
+      - a_time
       - name
       filter: {}
       check: null
