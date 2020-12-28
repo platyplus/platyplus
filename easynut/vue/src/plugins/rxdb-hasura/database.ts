@@ -5,6 +5,7 @@ import {
   RxDatabase,
   RxDatabaseCreator
 } from 'rxdb'
+import { RxCollectionCreatorBase } from 'rxdb/dist/types/types'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
@@ -23,24 +24,26 @@ export type RxHasuraDatabase = RxDatabase & {
 }
 
 const addTables = async (db: RxDatabase, tables: TableFragment[]) => {
-  for (const table of tables) {
+  const collectionDefinitions = tables.reduce<
+    Record<string, RxCollectionCreatorBase>
+  >((definitions, table) => {
     const schema = toJsonSchema(table)
-    await db.addCollections({
-      [`${schema.title}`]: {
-        schema,
-        pouchSettings: {}, // (optional)
-        statics: {}, // (optional) ORM-functions for this collection
-        methods: {}, // (optional) ORM-functions for documents
-        attachments: {}, // (optional) ORM-functions for attachments
-        options: {}, // (optional) Custom parameters that might be used in plugins
-        migrationStrategies: {}, // (optional)
-        autoMigrate: true, // (optional)
-        cacheReplacementPolicy: function () {
-          debug('cacheReplacementPolicy')
-        } // (optional) custom cache replacement policy
-      }
-    })
-  }
+    definitions[`${schema.title}`] = {
+      schema,
+      pouchSettings: {}, // (optional)
+      statics: {}, // (optional) ORM-functions for this collection
+      methods: {}, // (optional) ORM-functions for documents
+      attachments: {}, // (optional) ORM-functions for attachments
+      options: {}, // (optional) Custom parameters that might be used in plugins
+      migrationStrategies: {}, // (optional)
+      autoMigrate: true, // (optional)
+      cacheReplacementPolicy: function () {
+        debug('cacheReplacementPolicy')
+      } // (optional) custom cache replacement policy
+    }
+    return definitions
+  }, {})
+  await db.addCollections(collectionDefinitions)
   info(`DatabaseService: initialised ${tables.length} collections`)
 }
 
