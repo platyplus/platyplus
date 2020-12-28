@@ -119,6 +119,21 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
           type
         }
       }
+      // * Add the relationship aggregates - it is needed for the replication system
+      result.properties[`${relName}_aggregate`] = {
+        type: 'object',
+        properties: {
+          aggregate: {
+            type: 'object',
+            properties: {
+              max: {
+                type: 'object',
+                properties: { updated_at: { type: ['string', 'null'] } }
+              }
+            }
+          }
+        }
+      }
     }
   })
 

@@ -16,12 +16,16 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
+  bigint: any
   citext: string
+  date: any
   json: Record<string, unknown>
   jsonb: Record<string, unknown>
   name: string
+  numeric: any
   smallint: number
   timestamptz: Date
+  timetz: any
   uuid: string
 }
 
@@ -36,6 +40,19 @@ export type Boolean_Comparison_Exp = {
   _lte: Maybe<Scalars['Boolean']>
   _neq: Maybe<Scalars['Boolean']>
   _nin: Maybe<Array<Scalars['Boolean']>>
+}
+
+/** expression to compare columns of type Float. All fields are combined with logical 'AND'. */
+export type Float_Comparison_Exp = {
+  _eq: Maybe<Scalars['Float']>
+  _gt: Maybe<Scalars['Float']>
+  _gte: Maybe<Scalars['Float']>
+  _in: Maybe<Array<Scalars['Float']>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _lt: Maybe<Scalars['Float']>
+  _lte: Maybe<Scalars['Float']>
+  _neq: Maybe<Scalars['Float']>
+  _nin: Maybe<Array<Scalars['Float']>>
 }
 
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
@@ -1386,6 +1403,19 @@ export enum Auth_Roles_Update_Column {
   Role = 'role'
 }
 
+/** expression to compare columns of type bigint. All fields are combined with logical 'AND'. */
+export type Bigint_Comparison_Exp = {
+  _eq: Maybe<Scalars['bigint']>
+  _gt: Maybe<Scalars['bigint']>
+  _gte: Maybe<Scalars['bigint']>
+  _in: Maybe<Array<Scalars['bigint']>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _lt: Maybe<Scalars['bigint']>
+  _lte: Maybe<Scalars['bigint']>
+  _neq: Maybe<Scalars['bigint']>
+  _nin: Maybe<Array<Scalars['bigint']>>
+}
+
 /** expression to compare columns of type citext. All fields are combined with logical 'AND'. */
 export type Citext_Comparison_Exp = {
   _eq: Maybe<Scalars['citext']>
@@ -1403,6 +1433,19 @@ export type Citext_Comparison_Exp = {
   _nlike: Maybe<Scalars['String']>
   _nsimilar: Maybe<Scalars['String']>
   _similar: Maybe<Scalars['String']>
+}
+
+/** expression to compare columns of type date. All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+  _eq: Maybe<Scalars['date']>
+  _gt: Maybe<Scalars['date']>
+  _gte: Maybe<Scalars['date']>
+  _in: Maybe<Array<Scalars['date']>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _lt: Maybe<Scalars['date']>
+  _lte: Maybe<Scalars['date']>
+  _neq: Maybe<Scalars['date']>
+  _nin: Maybe<Array<Scalars['date']>>
 }
 
 /** expression to compare columns of type json. All fields are combined with logical 'AND'. */
@@ -6185,12 +6228,24 @@ export type Mutation_RootUpdate_Metadata_VersionArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_PatientArgs = {
+  _append: Maybe<Patient_Append_Input>
+  _delete_at_path: Maybe<Patient_Delete_At_Path_Input>
+  _delete_elem: Maybe<Patient_Delete_Elem_Input>
+  _delete_key: Maybe<Patient_Delete_Key_Input>
+  _inc: Maybe<Patient_Inc_Input>
+  _prepend: Maybe<Patient_Prepend_Input>
   _set: Maybe<Patient_Set_Input>
   where: Patient_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootUpdate_Patient_By_PkArgs = {
+  _append: Maybe<Patient_Append_Input>
+  _delete_at_path: Maybe<Patient_Delete_At_Path_Input>
+  _delete_elem: Maybe<Patient_Delete_Elem_Input>
+  _delete_key: Maybe<Patient_Delete_Key_Input>
+  _inc: Maybe<Patient_Inc_Input>
+  _prepend: Maybe<Patient_Prepend_Input>
   _set: Maybe<Patient_Set_Input>
   pk_columns: Patient_Pk_Columns_Input
 }
@@ -6232,6 +6287,19 @@ export type Name_Comparison_Exp = {
   _nin: Maybe<Array<Scalars['name']>>
 }
 
+/** expression to compare columns of type numeric. All fields are combined with logical 'AND'. */
+export type Numeric_Comparison_Exp = {
+  _eq: Maybe<Scalars['numeric']>
+  _gt: Maybe<Scalars['numeric']>
+  _gte: Maybe<Scalars['numeric']>
+  _in: Maybe<Array<Scalars['numeric']>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _lt: Maybe<Scalars['numeric']>
+  _lte: Maybe<Scalars['numeric']>
+  _neq: Maybe<Scalars['numeric']>
+  _nin: Maybe<Array<Scalars['numeric']>>
+}
+
 /** column ordering options */
 export enum Order_By {
   /** in the ascending order, nulls last */
@@ -6251,6 +6319,16 @@ export enum Order_By {
 /** columns and relationships of "patient" */
 export type Patient = {
   __typename?: 'patient'
+  a_bigint: Maybe<Scalars['bigint']>
+  a_boolean: Maybe<Scalars['Boolean']>
+  a_citext: Maybe<Scalars['citext']>
+  a_date: Maybe<Scalars['date']>
+  a_jsonb: Maybe<Scalars['jsonb']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  a_time: Maybe<Scalars['timetz']>
+  an_integer: Maybe<Scalars['Int']>
+  an_uuid: Maybe<Scalars['uuid']>
   id: Scalars['uuid']
   name: Scalars['String']
   updated_at: Scalars['timestamptz']
@@ -6258,6 +6336,11 @@ export type Patient = {
   visites: Array<Visite>
   /** An aggregated array relationship */
   visites_aggregate: Visite_Aggregate
+}
+
+/** columns and relationships of "patient" */
+export type PatientA_JsonbArgs = {
+  path: Maybe<Scalars['String']>
 }
 
 /** columns and relationships of "patient" */
@@ -6288,9 +6371,17 @@ export type Patient_Aggregate = {
 /** aggregate fields of "patient" */
 export type Patient_Aggregate_Fields = {
   __typename?: 'patient_aggregate_fields'
+  avg: Maybe<Patient_Avg_Fields>
   count: Maybe<Scalars['Int']>
   max: Maybe<Patient_Max_Fields>
   min: Maybe<Patient_Min_Fields>
+  stddev: Maybe<Patient_Stddev_Fields>
+  stddev_pop: Maybe<Patient_Stddev_Pop_Fields>
+  stddev_samp: Maybe<Patient_Stddev_Samp_Fields>
+  sum: Maybe<Patient_Sum_Fields>
+  var_pop: Maybe<Patient_Var_Pop_Fields>
+  var_samp: Maybe<Patient_Var_Samp_Fields>
+  variance: Maybe<Patient_Variance_Fields>
 }
 
 /** aggregate fields of "patient" */
@@ -6301,9 +6392,22 @@ export type Patient_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "patient" */
 export type Patient_Aggregate_Order_By = {
+  avg: Maybe<Patient_Avg_Order_By>
   count: Maybe<Order_By>
   max: Maybe<Patient_Max_Order_By>
   min: Maybe<Patient_Min_Order_By>
+  stddev: Maybe<Patient_Stddev_Order_By>
+  stddev_pop: Maybe<Patient_Stddev_Pop_Order_By>
+  stddev_samp: Maybe<Patient_Stddev_Samp_Order_By>
+  sum: Maybe<Patient_Sum_Order_By>
+  var_pop: Maybe<Patient_Var_Pop_Order_By>
+  var_samp: Maybe<Patient_Var_Samp_Order_By>
+  variance: Maybe<Patient_Variance_Order_By>
+}
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Patient_Append_Input = {
+  a_jsonb: Maybe<Scalars['jsonb']>
 }
 
 /** input type for inserting array relation for remote table "patient" */
@@ -6312,11 +6416,38 @@ export type Patient_Arr_Rel_Insert_Input = {
   on_conflict: Maybe<Patient_On_Conflict>
 }
 
+/** aggregate avg on columns */
+export type Patient_Avg_Fields = {
+  __typename?: 'patient_avg_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by avg() on columns of table "patient" */
+export type Patient_Avg_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
 /** Boolean expression to filter rows from the table "patient". All fields are combined with a logical 'AND'. */
 export type Patient_Bool_Exp = {
   _and: Maybe<Array<Maybe<Patient_Bool_Exp>>>
   _not: Maybe<Patient_Bool_Exp>
   _or: Maybe<Array<Maybe<Patient_Bool_Exp>>>
+  a_bigint: Maybe<Bigint_Comparison_Exp>
+  a_boolean: Maybe<Boolean_Comparison_Exp>
+  a_citext: Maybe<Citext_Comparison_Exp>
+  a_date: Maybe<Date_Comparison_Exp>
+  a_jsonb: Maybe<Jsonb_Comparison_Exp>
+  a_numeric: Maybe<Numeric_Comparison_Exp>
+  a_real: Maybe<Float_Comparison_Exp>
+  a_time: Maybe<Timetz_Comparison_Exp>
+  an_integer: Maybe<Int_Comparison_Exp>
+  an_uuid: Maybe<Uuid_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   name: Maybe<String_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
@@ -6329,8 +6460,41 @@ export enum Patient_Constraint {
   PatientPkey = 'patient_pkey'
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Patient_Delete_At_Path_Input = {
+  a_jsonb: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Patient_Delete_Elem_Input = {
+  a_jsonb: Maybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Patient_Delete_Key_Input = {
+  a_jsonb: Maybe<Scalars['String']>
+}
+
+/** input type for incrementing integer column in table "patient" */
+export type Patient_Inc_Input = {
+  a_bigint: Maybe<Scalars['bigint']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Int']>
+}
+
 /** input type for inserting data into table "patient" */
 export type Patient_Insert_Input = {
+  a_bigint: Maybe<Scalars['bigint']>
+  a_boolean: Maybe<Scalars['Boolean']>
+  a_citext: Maybe<Scalars['citext']>
+  a_date: Maybe<Scalars['date']>
+  a_jsonb: Maybe<Scalars['jsonb']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  a_time: Maybe<Scalars['timetz']>
+  an_integer: Maybe<Scalars['Int']>
+  an_uuid: Maybe<Scalars['uuid']>
   id: Maybe<Scalars['uuid']>
   name: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -6340,6 +6504,14 @@ export type Patient_Insert_Input = {
 /** aggregate max on columns */
 export type Patient_Max_Fields = {
   __typename?: 'patient_max_fields'
+  a_bigint: Maybe<Scalars['bigint']>
+  a_citext: Maybe<Scalars['citext']>
+  a_date: Maybe<Scalars['date']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  a_time: Maybe<Scalars['timetz']>
+  an_integer: Maybe<Scalars['Int']>
+  an_uuid: Maybe<Scalars['uuid']>
   id: Maybe<Scalars['uuid']>
   name: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -6347,6 +6519,14 @@ export type Patient_Max_Fields = {
 
 /** order by max() on columns of table "patient" */
 export type Patient_Max_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_citext: Maybe<Order_By>
+  a_date: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  a_time: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+  an_uuid: Maybe<Order_By>
   id: Maybe<Order_By>
   name: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -6355,6 +6535,14 @@ export type Patient_Max_Order_By = {
 /** aggregate min on columns */
 export type Patient_Min_Fields = {
   __typename?: 'patient_min_fields'
+  a_bigint: Maybe<Scalars['bigint']>
+  a_citext: Maybe<Scalars['citext']>
+  a_date: Maybe<Scalars['date']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  a_time: Maybe<Scalars['timetz']>
+  an_integer: Maybe<Scalars['Int']>
+  an_uuid: Maybe<Scalars['uuid']>
   id: Maybe<Scalars['uuid']>
   name: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -6362,6 +6550,14 @@ export type Patient_Min_Fields = {
 
 /** order by min() on columns of table "patient" */
 export type Patient_Min_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_citext: Maybe<Order_By>
+  a_date: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  a_time: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+  an_uuid: Maybe<Order_By>
   id: Maybe<Order_By>
   name: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -6391,6 +6587,16 @@ export type Patient_On_Conflict = {
 
 /** ordering options when selecting data from "patient" */
 export type Patient_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_boolean: Maybe<Order_By>
+  a_citext: Maybe<Order_By>
+  a_date: Maybe<Order_By>
+  a_jsonb: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  a_time: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+  an_uuid: Maybe<Order_By>
   id: Maybe<Order_By>
   name: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -6402,8 +6608,33 @@ export type Patient_Pk_Columns_Input = {
   id: Scalars['uuid']
 }
 
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Patient_Prepend_Input = {
+  a_jsonb: Maybe<Scalars['jsonb']>
+}
+
 /** select columns of table "patient" */
 export enum Patient_Select_Column {
+  /** column name */
+  ABigint = 'a_bigint',
+  /** column name */
+  ABoolean = 'a_boolean',
+  /** column name */
+  ACitext = 'a_citext',
+  /** column name */
+  ADate = 'a_date',
+  /** column name */
+  AJsonb = 'a_jsonb',
+  /** column name */
+  ANumeric = 'a_numeric',
+  /** column name */
+  AReal = 'a_real',
+  /** column name */
+  ATime = 'a_time',
+  /** column name */
+  AnInteger = 'an_integer',
+  /** column name */
+  AnUuid = 'an_uuid',
   /** column name */
   Id = 'id',
   /** column name */
@@ -6414,19 +6645,168 @@ export enum Patient_Select_Column {
 
 /** input type for updating data in table "patient" */
 export type Patient_Set_Input = {
+  a_bigint: Maybe<Scalars['bigint']>
+  a_boolean: Maybe<Scalars['Boolean']>
+  a_citext: Maybe<Scalars['citext']>
+  a_date: Maybe<Scalars['date']>
+  a_jsonb: Maybe<Scalars['jsonb']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  a_time: Maybe<Scalars['timetz']>
+  an_integer: Maybe<Scalars['Int']>
+  an_uuid: Maybe<Scalars['uuid']>
   id: Maybe<Scalars['uuid']>
   name: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
 }
 
+/** aggregate stddev on columns */
+export type Patient_Stddev_Fields = {
+  __typename?: 'patient_stddev_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by stddev() on columns of table "patient" */
+export type Patient_Stddev_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
+/** aggregate stddev_pop on columns */
+export type Patient_Stddev_Pop_Fields = {
+  __typename?: 'patient_stddev_pop_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_pop() on columns of table "patient" */
+export type Patient_Stddev_Pop_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
+/** aggregate stddev_samp on columns */
+export type Patient_Stddev_Samp_Fields = {
+  __typename?: 'patient_stddev_samp_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_samp() on columns of table "patient" */
+export type Patient_Stddev_Samp_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
+/** aggregate sum on columns */
+export type Patient_Sum_Fields = {
+  __typename?: 'patient_sum_fields'
+  a_bigint: Maybe<Scalars['bigint']>
+  a_numeric: Maybe<Scalars['numeric']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Int']>
+}
+
+/** order by sum() on columns of table "patient" */
+export type Patient_Sum_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
 /** update columns of table "patient" */
 export enum Patient_Update_Column {
+  /** column name */
+  ABigint = 'a_bigint',
+  /** column name */
+  ABoolean = 'a_boolean',
+  /** column name */
+  ACitext = 'a_citext',
+  /** column name */
+  ADate = 'a_date',
+  /** column name */
+  AJsonb = 'a_jsonb',
+  /** column name */
+  ANumeric = 'a_numeric',
+  /** column name */
+  AReal = 'a_real',
+  /** column name */
+  ATime = 'a_time',
+  /** column name */
+  AnInteger = 'an_integer',
+  /** column name */
+  AnUuid = 'an_uuid',
   /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
   /** column name */
   UpdatedAt = 'updated_at'
+}
+
+/** aggregate var_pop on columns */
+export type Patient_Var_Pop_Fields = {
+  __typename?: 'patient_var_pop_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by var_pop() on columns of table "patient" */
+export type Patient_Var_Pop_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
+/** aggregate var_samp on columns */
+export type Patient_Var_Samp_Fields = {
+  __typename?: 'patient_var_samp_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by var_samp() on columns of table "patient" */
+export type Patient_Var_Samp_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
+}
+
+/** aggregate variance on columns */
+export type Patient_Variance_Fields = {
+  __typename?: 'patient_variance_fields'
+  a_bigint: Maybe<Scalars['Float']>
+  a_numeric: Maybe<Scalars['Float']>
+  a_real: Maybe<Scalars['Float']>
+  an_integer: Maybe<Scalars['Float']>
+}
+
+/** order by variance() on columns of table "patient" */
+export type Patient_Variance_Order_By = {
+  a_bigint: Maybe<Order_By>
+  a_numeric: Maybe<Order_By>
+  a_real: Maybe<Order_By>
+  an_integer: Maybe<Order_By>
 }
 
 /** query root */
@@ -8015,6 +8395,19 @@ export type Timestamptz_Comparison_Exp = {
   _nin: Maybe<Array<Scalars['timestamptz']>>
 }
 
+/** expression to compare columns of type timetz. All fields are combined with logical 'AND'. */
+export type Timetz_Comparison_Exp = {
+  _eq: Maybe<Scalars['timetz']>
+  _gt: Maybe<Scalars['timetz']>
+  _gte: Maybe<Scalars['timetz']>
+  _in: Maybe<Array<Scalars['timetz']>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _lt: Maybe<Scalars['timetz']>
+  _lte: Maybe<Scalars['timetz']>
+  _neq: Maybe<Scalars['timetz']>
+  _nin: Maybe<Array<Scalars['timetz']>>
+}
+
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users'
@@ -8409,7 +8802,14 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
     { __typename?: 'metadata_primary_key' } & Pick<
       Metadata_Primary_Key,
       'constraint_name'
-    >
+    > & {
+        columns: Array<
+          { __typename?: 'metadata_primary_key_column' } & Pick<
+            Metadata_Primary_Key_Column,
+            'column_name'
+          >
+        >
+      }
   >
   config: Maybe<
     { __typename?: 'metadata_table_config' } & Pick<
@@ -8491,6 +8891,9 @@ export const TableFragmentDoc = gql`
     ...coreTable
     primaryKey {
       constraint_name
+      columns {
+        column_name
+      }
     }
     config {
       label

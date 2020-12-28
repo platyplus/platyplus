@@ -854,6 +854,7 @@
       - a_real
       - a_citext
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: user
     permission:
@@ -900,6 +901,7 @@
       - test
       - updated_at
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: user
     permission:

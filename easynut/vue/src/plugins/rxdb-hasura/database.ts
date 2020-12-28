@@ -11,6 +11,7 @@ import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 
 import { TableFragment } from '../../generated'
 import { Optional } from '../../utils/helpers'
+import { debug, info } from './helpers'
 import { toJsonSchema } from './json-schema'
 
 addRxPlugin(RxDBReplicationGraphQLPlugin)
@@ -35,18 +36,18 @@ const addTables = async (db: RxDatabase, tables: TableFragment[]) => {
         migrationStrategies: {}, // (optional)
         autoMigrate: true, // (optional)
         cacheReplacementPolicy: function () {
-          console.log('cacheReplacementPolicy')
+          debug('cacheReplacementPolicy')
         } // (optional) custom cache replacement policy
       }
     })
   }
-  console.log(`DatabaseService: initialised ${tables.length} collections`)
+  info(`DatabaseService: initialised ${tables.length} collections`)
 }
 
 export const createDb = async (
   settings: Optional<RxDatabaseCreator, 'adapter'>
 ): Promise<RxHasuraDatabase> => {
-  console.log('DatabaseService: creating database..')
+  debug('DatabaseService: creating database..')
   if (process.env.NODE_ENV === 'development') {
     addRxPlugin(require('pouchdb-adapter-memory'))
     settings.adapter = 'memory'
@@ -58,7 +59,7 @@ export const createDb = async (
   const db = (await createRxDatabase(
     settings as RxDatabaseCreator
   )) as RxHasuraDatabase
-  console.log('DatabaseService: created database')
+  info('DatabaseService: created database')
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(window as any)['db'] = db // write to window for debugging
