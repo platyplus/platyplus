@@ -2,47 +2,39 @@ import { useSubscription } from '@vueuse/rxjs'
 import Handlebars from 'handlebars'
 import { RxCollection, RxDocument, RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
-import {
-  ComponentObjectPropsOptions,
-  ComponentPropsOptions,
-  computed,
-  ComputedRef,
-  defineComponent,
-  inject,
-  isRef,
-  Prop,
-  PropType,
-  Ref,
-  ref,
-  watch
-} from 'vue'
+import { computed, ComputedRef, inject, isRef, Ref, ref } from 'vue'
 
 import { TableFragment } from '../../generated'
 import { RxHasuraDatabase } from './database'
 import { DefaultRxDBKey, RxDBHasuraPlugin } from './plugin'
 
-export const useDB = (): ComputedRef<RxHasuraDatabase | undefined> => {
+export const useDB = (): ComputedRef<RxHasuraDatabase> => {
   const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
-  return computed(() => plugin?.db.value)
+  return computed(() => {
+    if (!plugin?.db.value) throw Error('useDb: database not found')
+    return plugin?.db.value
+  })
 }
 
-/**
- *
- * @param props a props reactive object with either a RxCollection `collection` or a RxDocument `document` property
- */
-// export const useTable = (props: {
-//   collection?: RxCollection
-//   document?: RxDocument<Record<string, unknown>>
-// }): ComputedRef<TableFragment | undefined> => {
-//   const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
-//   return computed(() => {
-//     const collection: RxCollection | undefined =
-//       props.collection || props.document?.collection
-//     if (!collection)
-//       throw Error('useTable: no collection not document found in props param')
-//     return plugin?.tables.value[collection.name]
-//   })
-// }
+export const useTables = (): ComputedRef<Record<string, TableFragment>> => {
+  const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
+  return computed(() => {
+    if (!plugin?.tables) throw Error('useTables: no tables found')
+    return plugin.tables.value
+  })
+}
+
+export const useTable = (
+  name: string | Ref<string>
+): ComputedRef<TableFragment> => {
+  const tables = useTables()
+  return computed(() => {
+    const tableName = isRef(name) ? name.value : name
+    const table = tables.value[tableName]
+    if (!table) throw Error(`useTable: table ${tableName} not found`)
+    return table
+  })
+}
 
 export const useCollection = (
   name: string | Ref<string>
@@ -67,25 +59,27 @@ export const useFieldValue = <T>(props: {
   useSubscription(
     props.document.get$(props.name).subscribe(async newValue => {
       if (property.value.ref) {
-        if (Array.isArray(newValue)) {
-          // ! Basically redoing population by hand. not ideal
-          // ! But on the other hand, populate need the ref document to be loaded to the DB
-          fieldValue.value = {}
-          for (const val of newValue) {
-            const subscription = await props.document.collection.database.collections[
-              property.value.ref
-            ]
-              .findOne(val)
-              .$.subscribe(doc => {
-                fieldValue.value[val] = doc
-                if (doc) subscription.unsubscribe()
-              })
-          }
-        } else {
-          // ? Maybe same problem as for arrays
-          const populatedValue = await props.document[`${props.name}_`]
-          fieldValue.value = populatedValue
-        }
+        const populatedValue = await props.document.populate(props.name)
+        fieldValue.value = populatedValue
+        // if (Array.isArray(newValue)) {
+        //     // ! Basically redoing population by hand. not ideal
+        //     // ! But on the other hand, populate need the ref document to be loaded to the DB
+        // fieldValue.value = {}
+        // for (const val of newValue) {
+        //   const subscription = await props.document.collection.database.collections[
+        //     property.value.ref
+        //   ]
+        //     .findOne(val)
+        //     .$.subscribe(doc => {
+        //       fieldValue.value[val] = doc
+        //       if (doc) subscription.unsubscribe()
+        //     })
+        // }
+        // } else {
+        //   // ? Maybe same problem as for arrays
+        //   const populatedValue = await props.document[`${props.name}_`]
+        //   fieldValue.value = populatedValue
+        // }
       } else {
         fieldValue.value = newValue
       }
@@ -132,15 +126,25 @@ export const useProperty = (props: {
 export const useProperties = (props: {
   collection?: RxCollection
   document?: RxDocument<Record<string, unknown>>
-}): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> =>
-  computed(() => {
-    const schema: RxSchema | undefined =
-      props.collection?.schema || props.document?.collection.schema
-    if (!schema)
+}): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
+  const collection = computed(() => {
+    const collection = props.collection || props.document?.collection
+    if (!collection)
       throw Error(
         'useProperties: no collection not document found in props param'
       )
+    return collection
+  })
+  const name = computed(() => collection.value.name)
+  const table = useTable(name)
+
+  return computed(() => {
+    const schema: RxSchema | undefined = collection.value.schema
     const properties = { ...schema.jsonSchema.properties }
+    // * remove array aggregates from the property list
+    table.value.relationships
+      .filter(({ rel_type }) => rel_type === 'array')
+      .forEach(({ rel_name }) => delete properties[`${rel_name}_aggregate`])
     // * remove primary key and other final fields as they can't be observed
     schema.finalFields.forEach(field => delete properties[field])
     // * remove 'system' properties
@@ -148,3 +152,4 @@ export const useProperties = (props: {
     delete properties._attachments
     return properties
   })
+}

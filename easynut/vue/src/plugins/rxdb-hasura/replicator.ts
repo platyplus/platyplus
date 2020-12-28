@@ -11,7 +11,7 @@ import {
 } from './graphql-builders'
 import { pullModifier } from './graphql-builders/pull'
 import { pushModifier } from './graphql-builders/push'
-import { fullTableName } from './helpers'
+import { debug, error, fullTableName, info, warn } from './helpers'
 
 export class GraphQLReplicator {
   httpUrl: string
@@ -28,18 +28,18 @@ export class GraphQLReplicator {
     httpUrl: string,
     token?: string
   ) {
-    console.log('Replicator: creating')
+    debug('Replicator: creating')
     this.db = db
     this.httpUrl = httpUrl
     this.setToken(token)
     for (const table of tables) {
       this.tables[fullTableName(table)] = table
     }
-    console.log('Replicator: created')
+    debug('Replicator: created')
   }
 
   setToken(token?: string): void {
-    console.log('Replicator: setToken')
+    debug('Replicator: setToken')
     this.token = token
     const authorization = token && `Bearer ${token}`
     for (const state of Object.values(this.states)) {
@@ -66,19 +66,19 @@ export class GraphQLReplicator {
   }
 
   async start(): Promise<void> {
-    console.log('Replicator: starting')
+    debug('Replicator: starting')
     for (const name of Object.keys(this.db.collections)) {
       await this.startOne(name)
     }
-    console.log('Replicator: started')
+    info('Replicator: started')
   }
 
   async stop(): Promise<void> {
-    console.log('Replicator: stopping')
+    debug('Replicator: stopping')
     for (const name of Object.keys(this.db.collections)) {
       await this.stopOne(name)
     }
-    console.log('Replicator: stopped')
+    debug('Replicator: stopped')
   }
 
   async restart(): Promise<void> {
@@ -110,7 +110,7 @@ export class GraphQLReplicator {
       deletedFlag: 'deleted'
     })
     replicationState.error$.subscribe(err => {
-      console.error('replication error:', err)
+      error('replication error:', err)
     })
 
     return replicationState
@@ -119,6 +119,7 @@ export class GraphQLReplicator {
   private setupGraphQLSubscription(collectionName: string): SubscriptionClient {
     // TODO check if it reconnects when JWT changes
     const wsUrl = httpUrlToWebSockeUrl(this.httpUrl)
+    const collection = this.db.collections[collectionName]
     const state = this.states[collectionName]
     const table = this.tables[collectionName]
     const wsClient = new SubscriptionClient(wsUrl, {
@@ -130,27 +131,27 @@ export class GraphQLReplicator {
       },
       timeout: 1000 * 60,
       //   onConnect: () => {
-      //     console.log('SubscriptionClient.onConnect()')
+      //     debug('SubscriptionClient.onConnect()')
       //   },
-      connectionCallback: () => {
-        console.log('SubscriptionClient.connectionCallback:')
-      },
+      // connectionCallback: () => {
+      //   debug('SubscriptionClient.connectionCallback:')
+      // },
       reconnectionAttempts: 10000,
       inactivityTimeout: 10 * 1000,
       lazy: true
     })
 
     const ret = wsClient.request({
-      query: subscriptionQuery(table)
+      query: subscriptionQuery(collection, table)
     })
 
     ret.subscribe({
       next(data) {
-        console.log('subscription emitted => trigger run', data)
+        info(`subscription on ${collectionName} emitted`, data)
         state.run()
       },
       error(error) {
-        console.log('got error', error)
+        warn(`subscription ${collectionName} error`, error)
       }
     })
 

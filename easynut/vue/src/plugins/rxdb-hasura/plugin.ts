@@ -1,5 +1,4 @@
 import { Instance } from '@platyplus/vue-hasura-backend-plus'
-import { pathToArray } from 'graphql/jsutils/Path'
 import { GraphQLClient } from 'graphql-request'
 import { RxCollection } from 'rxdb'
 import { App, InjectionKey, Ref, ref } from 'vue'
@@ -8,9 +7,8 @@ import { getSdk, TableFragment } from '../../generated'
 import { createDb, RxHasuraDatabase } from './database'
 import { GraphQLReplicator } from './replicator'
 export const DefaultRxDBKey = Symbol()
-import path from 'path'
 
-import { fullTableName } from './helpers'
+import { debug, fullTableName } from './helpers'
 export type RxDBHasuraPluginOptions = {
   name: string
   endpoint: string
@@ -52,7 +50,7 @@ export class RxDBHasuraPlugin {
 
   install(app: App, injectKey: string | InjectionKey<unknown>): void {
     this.hbp.auth.onAuthStateChanged(async (status: boolean) => {
-      console.log('State changed', status)
+      debug('State changed', status)
       const token = this.updateToken()
       if (status) {
         if (!this.db?.value) {
@@ -85,7 +83,7 @@ export class RxDBHasuraPlugin {
     })
 
     this.hbp.auth.onTokenChanged(() => {
-      console.log('Token changed')
+      debug('Token changed')
       this.updateToken()
     })
 
