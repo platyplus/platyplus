@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import {
   addRxPlugin,
+  checkAdapter,
   createRxDatabase,
   RxDatabase,
   RxDatabaseCreator
@@ -8,7 +9,6 @@ import {
 import { RxCollectionCreatorBase } from 'rxdb/dist/types/types'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
-import { RxDBValidatePlugin } from 'rxdb/plugins/validate'
 
 import { TableFragment } from '../../generated'
 import { Optional } from '../../utils/helpers'
@@ -16,7 +16,6 @@ import { debug, info } from './helpers'
 import { toJsonSchema } from './json-schema'
 
 addRxPlugin(RxDBReplicationGraphQLPlugin)
-addRxPlugin(RxDBValidatePlugin)
 addRxPlugin(RxDBAjvValidatePlugin)
 
 export type RxHasuraDatabase = RxDatabase & {
@@ -37,7 +36,7 @@ const addTables = async (db: RxDatabase, tables: TableFragment[]) => {
       options: {}, // (optional) Custom parameters that might be used in plugins
       migrationStrategies: {}, // (optional)
       autoMigrate: true, // (optional)
-      cacheReplacementPolicy: function() {
+      cacheReplacementPolicy: function () {
         debug('cacheReplacementPolicy')
       } // (optional) custom cache replacement policy
     }
@@ -59,6 +58,8 @@ export const createDb = async (
     settings.adapter = 'idb'
   }
 
+  // ! Causes errors when set to true. See notice in https://rxdb.info/leader-election.html
+  settings.multiInstance = false
   const db = (await createRxDatabase(
     settings as RxDatabaseCreator
   )) as RxHasuraDatabase

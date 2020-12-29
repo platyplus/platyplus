@@ -4,13 +4,18 @@ div(v-else) {{formatedValue}}
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from 'vue'
+import { computed, defineComponent, PropType, toRefs } from 'vue'
 
 import { useFormProperty } from '../../composables'
+import { GenericRxDocument } from '../../types'
 
 export default defineComponent({
   name: 'FieldDate',
   props: {
+    document: {
+      type: Object as PropType<GenericRxDocument>,
+      required: true
+    },
     value: {
       type: String,
       default: null
@@ -25,8 +30,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { name, value } = toRefs(props)
-    const model = useFormProperty(name, value)
+    const { name, document } = toRefs(props)
+    const model = useFormProperty(document, name)
     const formatedValue = computed(() =>
       new Date(props.value).toLocaleDateString()
     )

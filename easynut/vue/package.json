@@ -19,6 +19,7 @@
     "handlebars": "^4.7.6",
     "moment": "^2.29.1",
     "nhost-js-sdk": "^2.3.4",
+    "object-path-immutable": "^4.1.1",
     "pouchdb-adapter-idb": "^7.2.2",
     "pouchdb-adapter-indexeddb": "^7.2.2",
     "pouchdb-adapter-memory": "^7.2.2",

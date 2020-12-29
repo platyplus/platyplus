@@ -830,7 +830,6 @@
       - a_jsonb
       - a_numeric
       - a_real
-      - a_time
       - an_integer
       - an_uuid
       - id
@@ -844,7 +843,6 @@
       - updated_at
       - name
       - a_date
-      - a_time
       - an_integer
       - a_boolean
       - a_numeric
@@ -866,7 +864,6 @@
       - a_jsonb
       - a_numeric
       - a_real
-      - a_time
       - an_integer
       - an_uuid
       - name

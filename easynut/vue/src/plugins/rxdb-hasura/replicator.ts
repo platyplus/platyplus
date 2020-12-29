@@ -31,10 +31,10 @@ export class GraphQLReplicator {
     debug('Replicator: creating')
     this.db = db
     this.httpUrl = httpUrl
-    this.setToken(token)
     for (const table of tables) {
       this.tables[fullTableName(table)] = table
     }
+    this.setToken(token)
     debug('Replicator: created')
   }
 
@@ -107,7 +107,8 @@ export class GraphQLReplicator {
       },
       live: true,
       liveInterval: 1000 * 60 * 10, // 10 minutes
-      deletedFlag: 'deleted'
+      deletedFlag: 'deleted',
+      waitForLeadership: true // defaults to true
     })
     replicationState.error$.subscribe(err => {
       error('replication error:', err)
