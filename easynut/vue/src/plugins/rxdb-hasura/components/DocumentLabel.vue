@@ -3,7 +3,7 @@ div {{label}}
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, toRefs } from 'vue'
 
 import { useDocumentLabel } from '../composables'
 import { GenericRxDocument } from '../types'
@@ -16,7 +16,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const label = useDocumentLabel(props)
+    const { document } = toRefs(props)
+    const label = useDocumentLabel(document)
     return { label }
   }
 })
