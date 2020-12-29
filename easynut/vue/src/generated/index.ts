@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types */
 import { print } from 'graphql'
 import { GraphQLClient } from 'graphql-request'
 import gql from 'graphql-tag'
@@ -8802,14 +8803,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
     { __typename?: 'metadata_primary_key' } & Pick<
       Metadata_Primary_Key,
       'constraint_name'
-    > & {
-        columns: Array<
-          { __typename?: 'metadata_primary_key_column' } & Pick<
-            Metadata_Primary_Key_Column,
-            'column_name'
-          >
-        >
-      }
+    >
   >
   config: Maybe<
     { __typename?: 'metadata_table_config' } & Pick<
@@ -8891,9 +8885,6 @@ export const TableFragmentDoc = gql`
     ...coreTable
     primaryKey {
       constraint_name
-      columns {
-        column_name
-      }
     }
     config {
       label
@@ -8955,9 +8946,16 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper
 ) {
   return {
-    metadata(variables?: MetadataQueryVariables): Promise<MetadataQuery> {
+    metadata(
+      variables?: MetadataQueryVariables,
+      requestHeaders?: Headers
+    ): Promise<MetadataQuery> {
       return withWrapper(() =>
-        client.request<MetadataQuery>(print(MetadataDocument), variables)
+        client.request<MetadataQuery>(
+          print(MetadataDocument),
+          variables,
+          requestHeaders
+        )
       )
     }
   }
