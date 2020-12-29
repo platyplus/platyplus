@@ -2,11 +2,22 @@ import { useSubscription } from '@vueuse/rxjs'
 import Handlebars from 'handlebars'
 import { RxCollection, RxDocument, RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
-import { computed, ComputedRef, inject, isRef, Ref, ref } from 'vue'
+import {
+  computed,
+  ComputedRef,
+  inject,
+  isRef,
+  onMounted,
+  PropType,
+  provide,
+  Ref,
+  ref
+} from 'vue'
 
 import { TableFragment } from '../../generated'
 import { RxHasuraDatabase } from './database'
 import { DefaultRxDBKey, RxDBHasuraPlugin } from './plugin'
+import { GenericDocument, GenericRxDocument } from './types'
 
 export const useDB = (): ComputedRef<RxHasuraDatabase> => {
   const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
@@ -43,6 +54,10 @@ export const useCollection = (
   return computed(() => db.value?.collections[isRef(name) ? name.value : name])
 }
 
+export const useDocumentCollection = (
+  document: Ref<GenericRxDocument>
+): ComputedRef<RxCollection> => computed(() => document.value.collection)
+
 export const useCollections = (): ComputedRef<Record<string, RxCollection>> => {
   const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
   return computed(() => {
@@ -50,53 +65,56 @@ export const useCollections = (): ComputedRef<Record<string, RxCollection>> => {
   })
 }
 
-export const useFieldValue = <T>(props: {
-  document: RxDocument<Record<string, unknown>>
-  name: string
-}): ComputedRef<T> => {
-  const property = useProperty(props)
+export const useFieldValue = <T>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
+  name: Ref<string>
+): ComputedRef<T> => {
+  const property = useProperty(document, name)
   const fieldValue = ref()
   useSubscription(
-    props.document.get$(props.name).subscribe(async newValue => {
-      if (property.value.ref) {
-        const populatedValue = await props.document.populate(props.name)
-        fieldValue.value = populatedValue
-        // if (Array.isArray(newValue)) {
-        //     // ! Basically redoing population by hand. not ideal
-        //     // ! But on the other hand, populate need the ref document to be loaded to the DB
-        // fieldValue.value = {}
-        // for (const val of newValue) {
-        //   const subscription = await props.document.collection.database.collections[
-        //     property.value.ref
-        //   ]
-        //     .findOne(val)
-        //     .$.subscribe(doc => {
-        //       fieldValue.value[val] = doc
-        //       if (doc) subscription.unsubscribe()
-        //     })
-        // }
-        // } else {
-        //   // ? Maybe same problem as for arrays
-        //   const populatedValue = await props.document[`${props.name}_`]
-        //   fieldValue.value = populatedValue
-        // }
-      } else {
-        fieldValue.value = newValue
-      }
-    })
+    document.value
+      .get$(name.value)
+      .subscribe(async (newValue: GenericDocument) => {
+        if (property.value.ref) {
+          const populatedValue = await document.value.populate(name.value)
+          fieldValue.value = populatedValue
+          // if (Array.isArray(newValue)) {
+          //     // ! Basically redoing population by hand. not ideal
+          //     // ! But on the other hand, populate need the ref document to be loaded to the DB
+          // fieldValue.value = {}
+          // for (const val of newValue) {
+          //   const subscription = await props.document.collection.database.collections[
+          //     property.value.ref
+          //   ]
+          //     .findOne(val)
+          //     .$.subscribe(doc => {
+          //       fieldValue.value[val] = doc
+          //       if (doc) subscription.unsubscribe()
+          //     })
+          // }
+          // } else {
+          //   // ? Maybe same problem as for arrays
+          //   const populatedValue = await props.document[`${props.name}_`]
+          //   fieldValue.value = populatedValue
+          // }
+        } else {
+          fieldValue.value = newValue
+        }
+      })
   )
   return computed(() => fieldValue.value)
 }
 
 export const useDocumentLabel = (props: {
-  document?: RxDocument<Record<string, unknown>>
+  document?: GenericRxDocument
 }): ComputedRef<string | null> => {
   const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
-  const doc = ref<Record<string, unknown>>()
+  const doc = ref<GenericDocument>()
   return computed(() => {
     if (props.document) {
       // ? cannot use useSubscription -> not unrerigstered on unmount. Problem?
-      props.document.$.subscribe(async newValue => {
+      props.document.$.subscribe(async (newValue: GenericDocument) => {
         doc.value = newValue
       })
       const template =
@@ -111,35 +129,24 @@ export const useDocumentLabel = (props: {
   })
 }
 
-export const useProperty = (props: {
-  document: RxDocument<Record<string, unknown>>
-  name: string
-}): ComputedRef<TopLevelProperty | PrimaryProperty> =>
+export const useProperty = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
+  name: Ref<string>
+): ComputedRef<TopLevelProperty | PrimaryProperty> =>
   computed(
-    () => props.document.collection.schema.jsonSchema.properties[props.name]
+    () => document.value.collection.schema.jsonSchema.properties[name.value]
   )
 
-/**
- *
- * @param props a props reactive object with either a RxCollection `collection` or a RxDocument `document` property
- */
-export const useProperties = (props: {
-  collection?: RxCollection
-  document?: RxDocument<Record<string, unknown>>
-}): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
-  const collection = computed(() => {
-    const collection = props.collection || props.document?.collection
-    if (!collection)
-      throw Error(
-        'useProperties: no collection not document found in props param'
-      )
-    return collection
-  })
+export const useCollectionProperties = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collection: Ref<RxCollection | any>
+): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   const name = computed(() => collection.value.name)
   const table = useTable(name)
 
   return computed(() => {
-    const schema: RxSchema | undefined = collection.value.schema
+    const schema: RxSchema = collection.value.schema
     const properties = { ...schema.jsonSchema.properties }
     // * remove array aggregates from the property list
     table.value.relationships
@@ -152,4 +159,31 @@ export const useProperties = (props: {
     delete properties._attachments
     return properties
   })
+}
+
+export const useDocumentProperties = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>
+): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
+  const collection = useDocumentCollection(document)
+  return useCollectionProperties(collection)
+}
+
+export const createForm = <T>(): Ref<Record<string, T>> => {
+  const form = ref({})
+  provide('form', form)
+  return form
+}
+
+export const useFormProperty = <T>(
+  name: Ref<string>,
+  initialValue: Ref<T>
+): Ref<T> => {
+  const model = ref<T>() as Ref<T>
+  const form = inject<Ref<GenericDocument>>('form', ref({}))
+  onMounted(() => {
+    form.value[name.value] = initialValue.value
+    model.value = initialValue.value
+  })
+  return model
 }

@@ -2,6 +2,7 @@ import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
 import { TableFragment } from '../../../generated'
 import { fullTableName } from '../helpers'
+import { GenericDocument } from '../types'
 import { Modifier } from './types'
 
 export const pullQueryBuilder = (
@@ -93,7 +94,7 @@ export const pullQueryBuilder = (
   return doc => ({
     query: doc ? updateQuery : initialQuery,
 
-    variables: arrayRelationships.reduce<Record<string, unknown>>(
+    variables: arrayRelationships.reduce<GenericDocument>(
       // * add the existing updated_at array relationship aggregates if they exist
       (variables, rel) => (
         (variables[`updated_at_${rel}`] =
