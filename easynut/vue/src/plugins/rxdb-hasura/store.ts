@@ -1,12 +1,12 @@
 import * as immutable from 'object-path-immutable'
-import { RxDatabase } from 'rxdb'
+import { RxDatabase, RxDocument } from 'rxdb'
 import { Ref } from 'vue'
 import { Store } from 'vuex'
 
 import { debug, error, info } from './helpers'
 import { GenericDocument, GenericRxDocument } from './types'
 type State = {
-  forms: Record<string, Record<string, GenericDocument>>
+  forms: Record<string, Record<string, GenericDocument | RxDocument>>
 }
 const state = (): State => ({
   forms: {}
@@ -40,18 +40,25 @@ export const addModule = <R>(
           const collection = db.value[collectionName]
           for (const [documentId, formValues] of Object.entries(documents)) {
             const document = await collection.findOne(documentId).exec()
-            const changed = Object.entries(formValues).some(
-              ([key, value]) => document.get(key) !== value
-            )
-            if (changed) {
-              debug('Document changed', document, formValues)
-              try {
-                await document.atomicPatch(formValues)
-              } catch (err) {
-                error(err)
+            if (document) {
+              const changed = Object.entries(formValues).some(
+                ([key, value]) => document.get(key) !== value
+              )
+              if (changed) {
+                debug('Document changed', document, formValues)
+                try {
+                  await document.atomicPatch(formValues)
+                } catch (err) {
+                  error(err)
+                }
+              } else {
+                info('No document changed')
               }
             } else {
-              info('No document changed')
+              debug('new document', formValues)
+              const values = collection.newDocument(formValues)
+              values.set(collection.schema.primaryPath, documentId)
+              await values.save()
             }
           }
         }
