@@ -2,17 +2,13 @@
 tr(v-if="!document") loading...
 tr(v-else)
   td(v-for="property, name of properties" :key="name")
-    field(:document="document" :name="name" :editing="editing" v-model="form[name]")
+    field(:document="document" :name="name" :editing="editing")
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from 'vue'
+import { defineComponent, PropType, toRefs } from 'vue'
 
-import {
-  createForm,
-  useDocumentProperties,
-  useFormProperty
-} from '../../../composables'
+import { useDocumentProperties } from '../../../composables'
 import { GenericRxDocument } from '../../../types'
 export default defineComponent({
   name: 'ItemTable',
@@ -29,10 +25,7 @@ export default defineComponent({
   setup(props) {
     const { document } = toRefs(props)
     const properties = useDocumentProperties(document)
-    const form = createForm()
-    const id = computed(() => props.document.primary)
-    useFormProperty(id, form)
-    return { properties, form }
+    return { properties }
   }
 })
 </script>

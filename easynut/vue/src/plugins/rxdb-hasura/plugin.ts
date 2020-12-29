@@ -8,15 +8,19 @@ import { createDb, RxHasuraDatabase } from './database'
 import { GraphQLReplicator } from './replicator'
 export const DefaultRxDBKey = Symbol()
 
+import { Store } from 'vuex'
+
 import { debug, fullTableName } from './helpers'
-export type RxDBHasuraPluginOptions = {
+import { addModule } from './store'
+export type RxDBHasuraPluginOptions<S> = {
   name: string
   endpoint: string
   hbp: Instance
+  store: Store<S>
   adminSecret?: string
 }
 // TODO explicit 'logout' that destroys the database. Don't destroy when auth status changes (it means we're offline)
-export class RxDBHasuraPlugin {
+export class RxDBHasuraPlugin<S = unknown> {
   readonly client: GraphQLClient
   readonly hbp: Instance
   readonly db: Ref<RxHasuraDatabase | undefined> = ref()
@@ -25,8 +29,14 @@ export class RxDBHasuraPlugin {
   readonly name: string
   private replicator?: GraphQLReplicator
   readonly endpoint: string
-
-  constructor({ name, endpoint, adminSecret, hbp }: RxDBHasuraPluginOptions) {
+  private store: Store<S>
+  constructor({
+    name,
+    endpoint,
+    adminSecret,
+    hbp,
+    store
+  }: RxDBHasuraPluginOptions<S>) {
     this.client = new GraphQLClient(endpoint)
     if (adminSecret) {
       this.client.setHeader('x-hasura-admin-secret', adminSecret)
@@ -34,6 +44,7 @@ export class RxDBHasuraPlugin {
     this.hbp = hbp
     this.name = name
     this.endpoint = endpoint
+    this.store = store
   }
 
   private updateToken(): string {
@@ -76,6 +87,11 @@ export class RxDBHasuraPlugin {
             token
           )
           await this.replicator.start()
+
+          // * runs when db becomes leader
+          this.db.value.waitForLeadership().then(() => {
+            debug('DB took the leadership')
+          })
         }
       } else {
         await this.replicator?.stop()
@@ -96,11 +112,13 @@ export class RxDBHasuraPlugin {
     })
 
     app.provide(injectKey || DefaultRxDBKey, this)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    addModule(this.db, this.store)
   }
 }
 
-export const createRxDBHasuraPlugin = (
-  options: RxDBHasuraPluginOptions
-): RxDBHasuraPlugin => {
+export const createRxDBHasuraPlugin = <S = unknown>(
+  options: RxDBHasuraPluginOptions<S>
+): RxDBHasuraPlugin<S> => {
   return new RxDBHasuraPlugin(options)
 }

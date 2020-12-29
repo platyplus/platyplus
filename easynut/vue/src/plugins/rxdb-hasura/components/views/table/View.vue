@@ -1,9 +1,8 @@
 <template lang="pug">
 div
-  button(@click="save" v-if="editing") save
-  button(v-else @click="edit") edit
-  div {{editing}}
-  div {{form}}
+  button(v-if="!editing" @click="edit") edit
+  button(v-if="editing" @click="save") save 
+  button(v-if="editing" @click="reset") reset 
   table(border=1)
     tr
       th(v-for="property, name of properties") {{name}}
@@ -14,10 +13,10 @@ div
 import { useToggle } from '@vueuse/core'
 import { RxCollection } from 'rxdb'
 import { defineComponent, PropType, toRefs } from 'vue'
+import { useStore } from 'vuex'
 
-import { createForm, useCollectionProperties } from '../../../composables'
-import { debug, error } from '../../../helpers'
-import { GenericDocument, GenericRxDocument } from '../../../types'
+import { useCollectionProperties } from '../../../composables'
+import { GenericRxDocument } from '../../../types'
 
 export default defineComponent({
   name: 'ViewTable',
@@ -34,26 +33,16 @@ export default defineComponent({
   setup(props) {
     const { collection } = toRefs(props)
     const properties = useCollectionProperties(collection)
-    // const properties = useProperties(collection as Ref<RxCollection>)
     const [editing, edit] = useToggle()
+    const store = useStore()
     const save = async () => {
-      // TODO
-      debug('save', props.documents)
-      for (const document of props.documents) {
-        const updatedValues = form.value[document.primary]
-        if (updatedValues) {
-          try {
-            await document.atomicPatch(updatedValues)
-          } catch (err) {
-            error(err)
-          }
-        }
-      }
-      debug('save: end')
+      await store.dispatch('rxdb/save')
       editing.value = false
     }
-    let form = createForm<Record<string, GenericDocument>>()
-    return { properties, editing, edit, save, form }
+    const reset = () => {
+      store.commit('rxdb/reset')
+    }
+    return { properties, editing, edit, save, reset }
   }
 })
 </script>

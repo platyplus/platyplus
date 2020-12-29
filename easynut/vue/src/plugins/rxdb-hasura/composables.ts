@@ -10,8 +10,10 @@ import {
   onMounted,
   provide,
   Ref,
-  ref
+  ref,
+  watch
 } from 'vue'
+import { useStore } from 'vuex'
 
 import { TableFragment } from '../../generated'
 import { RxHasuraDatabase } from './database'
@@ -108,7 +110,7 @@ export const useFieldValue = <T>(
 export const useDocumentLabel = (props: {
   document?: GenericRxDocument
 }): ComputedRef<string | null> => {
-  const plugin = inject<RxDBHasuraPlugin>(DefaultRxDBKey)
+  const plugin = inject<RxDBHasuraPlugin<unknown>>(DefaultRxDBKey)
   const doc = ref<GenericDocument>()
   return computed(() => {
     if (props.document) {
@@ -168,21 +170,22 @@ export const useDocumentProperties = (
   return useCollectionProperties(collection)
 }
 
-export const createForm = <T>(): Ref<Record<string, T>> => {
-  const form = ref({})
-  provide('form', form)
-  return form
-}
-
 export const useFormProperty = <T>(
-  name: Ref<string>,
-  initialValue: Ref<T>
-): Ref<T> => {
-  const model = ref<T>() as Ref<T>
-  const form = inject<Ref<GenericDocument>>('form', ref({}))
-  onMounted(() => {
-    form.value[name.value] = initialValue.value
-    model.value = initialValue.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
+  name: Ref<string>
+): ComputedRef<T> => {
+  const store = useStore()
+
+  const model = computed<T>({
+    get: () => store.getters['rxdb/getField'](document.value, name.value) as T,
+    set: (value: T) => {
+      store.commit('rxdb/setField', {
+        document: document.value,
+        field: name.value,
+        value
+      })
+    }
   })
   return model
 }
