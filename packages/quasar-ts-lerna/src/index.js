@@ -8,7 +8,7 @@
 
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
-module.exports = function (api) {
+module.exports = function(api) {
   api.extendWebpack(cfg => {
     // add/remove/change cfg (Webpack configuration Object)T
     const plugins = cfg.resolve.plugins || []

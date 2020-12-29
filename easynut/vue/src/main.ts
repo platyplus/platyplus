@@ -16,4 +16,9 @@ const rxdbHasura = createRxDBHasuraPlugin({
   hbp
 })
 
-createApp(App).use(store).use(router).use(hbp).use(rxdbHasura).mount('#app')
+createApp(App)
+  .use(store)
+  .use(router)
+  .use(hbp)
+  .use(rxdbHasura)
+  .mount('#app')
