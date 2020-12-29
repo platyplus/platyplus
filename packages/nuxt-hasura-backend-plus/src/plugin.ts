@@ -1,9 +1,7 @@
 import {
   defineNuxtPlugin,
-  inject,
   onGlobalSetup,
-  provide,
-  ref
+  provide
 } from '@nuxtjs/composition-api'
 import decode from 'jwt-decode'
 import nhost from 'nhost-js-sdk'

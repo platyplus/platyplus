@@ -37,7 +37,7 @@ const addTables = async (db: RxDatabase, tables: TableFragment[]) => {
       options: {}, // (optional) Custom parameters that might be used in plugins
       migrationStrategies: {}, // (optional)
       autoMigrate: true, // (optional)
-      cacheReplacementPolicy: function () {
+      cacheReplacementPolicy: function() {
         debug('cacheReplacementPolicy')
       } // (optional) custom cache replacement policy
     }

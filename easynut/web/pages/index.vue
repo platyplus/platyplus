@@ -27,9 +27,8 @@ div.container
 </template>
 
 <script lang="ts">
-import { reqSsrRef, ssrRef } from '@nuxtjs/composition-api'
 import { useQuery } from '@vue/apollo-composable'
-import { computed, defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 import gql from 'graphql-tag'
 
 import {

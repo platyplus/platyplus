@@ -1,5 +1,4 @@
 import { Module } from '@nuxt/types'
-import { Ref } from '@nuxtjs/composition-api'
 import Auth from 'nhost-js-sdk/dist/Auth'
 import Storage from 'nhost-js-sdk/dist/Storage'
 import path from 'path'
@@ -22,7 +21,7 @@ interface HasuraBackendPlusModuleOptions {
 export * from './composables'
 export * from './types'
 
-const hbpModule: Module<HasuraBackendPlusModuleOptions> = function (options) {
+const hbpModule: Module<HasuraBackendPlusModuleOptions> = function(options) {
   try {
     this.addPlugin({
       src: path.resolve(__dirname, 'plugin.ts'),

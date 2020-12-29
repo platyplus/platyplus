@@ -1,6 +1,6 @@
 import { useSubscription } from '@vueuse/rxjs'
 import Handlebars from 'handlebars'
-import { RxCollection, RxDocument, RxSchema } from 'rxdb'
+import { RxCollection, RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import {
   computed,
@@ -8,7 +8,6 @@ import {
   inject,
   isRef,
   onMounted,
-  PropType,
   provide,
   Ref,
   ref

@@ -26,62 +26,54 @@ div.container
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  useContext,
-  watch
-} from '@nuxtjs/composition-api'
-import {
-  useHasuraClaims,
-  useLogin,
-  useLogout,
-  useRegister,
-  useStatus
-} from '@platyplus/nuxt-hasura-backend-plus'
-import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
-import { inject } from '@nuxtjs/composition-api'
-import { DefaultApolloClient } from '@vue/apollo-composable'
+import { defineComponent } from '@nuxtjs/composition-api'
+// import {
+//   useHasuraClaims,
+//   useLogin,
+//   useLogout,
+//   useRegister,
+//   useStatus
+// } from '@platyplus/nuxt-hasura-backend-plus'
+// import { useQuery } from '@vue/apollo-composable'
+// import gql from 'graphql-tag'
 
 export default defineComponent({
-  setup: _ => {
-    const email = ref('')
-    const password = ref('')
-    const status = useStatus()
-    const { login, error } = useLogin(email, password)
-    const data = useHasuraClaims()
-    const logout = useLogout()
-    const { register } = useRegister(email, password)
-    let ok = false
-    watch(
-      () => status.value,
-      val => {
-        ok = val
-      }
-    )
-    const { result } = useQuery(
-      gql`
-        query getUsers {
-          visite {
-            id
-          }
-        }
-      `,
-      {},
-      () => ({ enabled: ok })
-    )
-    return {
-      email,
-      password,
-      register,
-      login,
-      logout,
-      status,
-      error,
-      data
-    }
+  setup: () => {
+    // const email = ref('')
+    // const password = ref('')
+    // const status = useStatus()
+    // const { login, error } = useLogin(email, password)
+    // const data = useHasuraClaims()
+    // const logout = useLogout()
+    // const { register } = useRegister(email, password)
+    // let ok = false
+    // watch(
+    //   () => status.value,
+    //   val => {
+    //     ok = val
+    //   }
+    // )
+    // const { result } = useQuery(
+    //   gql`
+    //     query getUsers {
+    //       visite {
+    //         id
+    //       }
+    //     }
+    //   `,
+    //   {},
+    //   () => ({ enabled: ok })
+    // )
+    // return {
+    //   email,
+    //   password,
+    //   register,
+    //   login,
+    //   logout,
+    //   status,
+    //   error,
+    //   data
+    // }
   }
 })
 </script>

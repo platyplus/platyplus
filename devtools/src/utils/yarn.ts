@@ -7,7 +7,9 @@ import { PackageJson } from '../package'
 import { DEFAULT_WORKING_DIR } from '../settings'
 
 export const globalPath = (): string =>
-  execSync('yarn global bin').toString().trim()
+  execSync('yarn global bin')
+    .toString()
+    .trim()
 
 export const ensureWorkspace = async (workspace: string): Promise<void> => {
   const workspaces = [workspace]
