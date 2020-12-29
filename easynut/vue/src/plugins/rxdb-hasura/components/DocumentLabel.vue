@@ -3,15 +3,15 @@ div {{label}}
 </template>
 
 <script lang="ts">
-import { RxDocument } from 'rxdb'
 import { defineComponent, PropType } from 'vue'
 
 import { useDocumentLabel } from '../composables'
+import { GenericRxDocument } from '../types'
 export default defineComponent({
   name: 'DocumentLabel',
   props: {
     document: {
-      type: Object as PropType<RxDocument<Record<string, unknown>>>,
+      type: Object as PropType<GenericRxDocument>,
       default: null
     }
   },

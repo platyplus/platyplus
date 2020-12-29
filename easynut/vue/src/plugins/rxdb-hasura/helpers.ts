@@ -1,3 +1,5 @@
+import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
+
 import { CoreTableFragment, TableFragment } from '../../generated'
 import { ValuesOf } from '../../utils/helpers'
 
@@ -16,7 +18,7 @@ enum LOG_LEVEL {
 
 // TODO set level in an environment variable
 const VERBOSE_LEVEL =
-  process.env.NODE_ENV === 'development' ? LOG_LEVEL.INFO : LOG_LEVEL.ERROR
+  process.env.NODE_ENV === 'development' ? LOG_LEVEL.DEBUG : LOG_LEVEL.ERROR
 
 export const debug = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.DEBUG && console.log(...args)
@@ -26,6 +28,35 @@ export const warn = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.WARN && console.warn(...args)
 export const error = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.ERROR && console.warn(...args)
+
+/**
+ * returns the property type as a string, even when the type is ['typename', 'null']
+ * If string, returns the format
+ * If string and ref, returns 'object'
+ * does not allow composite types e.g. ['string', 'object']
+ */
+export const propertyType = (
+  property: TopLevelProperty | PrimaryProperty
+): string => {
+  if (!property.type)
+    throw Error(`No type in prop: ${JSON.stringify(property)}`)
+  let type: string
+  if (Array.isArray(property.type)) {
+    const res = property.type.filter(v => v !== 'null')
+    if (res.length === 1) type = res[0]
+    else
+      throw Error(
+        `Composite types are not allowed: ${JSON.stringify(property)}`
+      )
+  } else {
+    type = property.type
+  }
+  if (property.ref) {
+    if (type === 'array') return 'collection'
+    else return 'document'
+  }
+  return property.format || type
+}
 
 /**
  * * Maps all object relationships of the table, and returns the  array relationships of corresponding remote tables

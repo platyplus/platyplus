@@ -859,8 +859,16 @@
   - role: user
     permission:
       columns:
+      - a_bigint
+      - a_boolean
+      - a_citext
       - a_date
+      - a_jsonb
+      - a_numeric
+      - a_real
       - a_time
+      - an_integer
+      - an_uuid
       - name
       filter: {}
       check: null

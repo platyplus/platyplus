@@ -1,21 +1,27 @@
 <template lang="pug">
-div {{value}}
+div(v-if="editing") editing
+div(v-else) {{value}}
 </template>
 
 <script lang="ts">
-import { RxDocument } from 'rxdb'
 import { defineComponent, PropType } from 'vue'
+
+import { GenericRxDocument } from '../../types'
 
 export default defineComponent({
   name: 'FieldObject',
   props: {
     value: {
-      type: Object as PropType<RxDocument<Record<string, unknown>> | null>,
+      type: Object as PropType<GenericRxDocument | null>,
       default: null
     },
     name: {
       type: String,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   }
 })

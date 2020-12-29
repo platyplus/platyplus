@@ -5,12 +5,12 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import { TableFragment } from '../../generated'
 import { httpUrlToWebSockeUrl } from '../../utils/helpers'
 import {
+  pullModifier,
   pullQueryBuilder,
+  pushModifier,
   pushQueryBuilder,
   subscriptionQuery
 } from './graphql-builders'
-import { pullModifier } from './graphql-builders/pull'
-import { pushModifier } from './graphql-builders/push'
 import { debug, error, fullTableName, info, warn } from './helpers'
 
 export class GraphQLReplicator {

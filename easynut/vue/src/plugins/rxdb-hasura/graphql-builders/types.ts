@@ -1,1 +1,3 @@
-export type Modifier = (doc: Record<string, unknown>) => Record<string, unknown>
+import { GenericDocument } from '../types'
+
+export type Modifier = (doc: GenericDocument) => GenericDocument

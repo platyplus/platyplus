@@ -1,28 +1,32 @@
 <template lang="pug">
-div
+div(v-if="editing") editing
+div(v-else)
   document-label(v-for="obj, id in value" :document="obj")
 </template>
 
 <script lang="ts">
-import { RxDocument } from 'rxdb'
 import { defineComponent, PropType } from 'vue'
+
+import { GenericRxDocument } from '../../types'
 
 export default defineComponent({
   name: 'FieldCollection',
   props: {
     document: {
-      type: Object as PropType<RxDocument<Record<string, unknown>>>,
+      type: Object as PropType<GenericRxDocument>,
       required: true
     },
     value: {
-      type: Object as PropType<
-        Record<string, RxDocument<Record<string, unknown>>>
-      >,
+      type: Object as PropType<Record<string, GenericRxDocument>>,
       default: {}
     },
     name: {
       type: String,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   }
 })

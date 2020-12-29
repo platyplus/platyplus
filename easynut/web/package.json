@@ -20,7 +20,7 @@
     "@vue/apollo-composable": "4.0.0-alpha.10",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
-    "nhost-js-sdk": "^2.3.3",
+    "nhost-js-sdk": "^2.3.4",
     "nuxt": "^2.14.10"
   },
   "devDependencies": {

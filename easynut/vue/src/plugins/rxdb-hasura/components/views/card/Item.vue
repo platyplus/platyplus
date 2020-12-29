@@ -7,20 +7,21 @@ div(v-else) document
 </template>
 
 <script lang="ts">
-import { RxDocument } from 'rxdb'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, toRefs } from 'vue'
 
-import { useProperties } from '../../../composables'
+import { useDocumentProperties } from '../../../composables'
+import { GenericRxDocument } from '../../../types'
 export default defineComponent({
   name: 'ItemCard',
   props: {
     document: {
-      type: Object as PropType<RxDocument<Record<string, unknown>>>,
+      type: Object as PropType<GenericRxDocument>,
       required: true
     }
   },
   setup(props) {
-    const properties = useProperties(props.document)
+    const { document } = toRefs(props)
+    const properties = useDocumentProperties(document)
     return { properties }
   }
 })

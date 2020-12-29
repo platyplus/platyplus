@@ -1,5 +1,6 @@
 <template lang="pug">
-div {{value}}
+div(v-if="editing") editing
+div(v-else) {{value}}
 </template>
 
 <script lang="ts">
@@ -15,6 +16,10 @@ export default defineComponent({
     name: {
       type: String,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   }
 })
