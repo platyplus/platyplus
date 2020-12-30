@@ -803,9 +803,6 @@
           table_name: table_name
 - table:
     schema: metadata
-    name: version
-- table:
-    schema: metadata
     name: view_info
 - table:
     schema: public

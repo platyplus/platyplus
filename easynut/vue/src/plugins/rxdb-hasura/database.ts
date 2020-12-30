@@ -10,9 +10,8 @@ import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 
 import { TableFragment } from '../../generated'
-import { Optional } from '../../utils/helpers'
-import { debug, info } from './helpers'
-import { toJsonSchema } from './json-schema'
+import { debug, info, toJsonSchema } from './helpers'
+import { Optional } from './types'
 
 addRxPlugin(RxDBReplicationGraphQLPlugin)
 addRxPlugin(RxDBAjvValidatePlugin)

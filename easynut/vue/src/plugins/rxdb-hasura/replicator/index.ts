@@ -2,16 +2,12 @@ import { RxDatabase } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/plugins/replication-graphql'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
-import { TableFragment } from '../../generated'
-import { httpUrlToWebSockeUrl } from '../../utils/helpers'
-import {
-  pullModifier,
-  pullQueryBuilder,
-  pushModifier,
-  pushQueryBuilder,
-  subscriptionQuery
-} from './graphql-builders'
-import { debug, error, fullTableName, info, warn } from './helpers'
+import { TableFragment } from '../../../generated'
+import { debug, error, fullTableName, info, warn } from '../helpers'
+import { httpUrlToWebSockeUrl } from '../utils'
+import { pullModifier, pullQueryBuilder } from './pull'
+import { pushModifier, pushQueryBuilder } from './push'
+import { subscriptionQuery } from './subscribe'
 
 export class GraphQLReplicator {
   httpUrl: string
