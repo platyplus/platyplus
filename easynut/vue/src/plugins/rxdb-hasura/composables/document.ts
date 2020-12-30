@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs'
 import { v4 as uuid } from 'uuid'
-import { computed, ComputedRef, inject, onMounted, Ref, ref, watch } from 'vue'
+import { inject, onMounted, Ref, ref, watch } from 'vue'
 
 import { documentLabel } from '../helpers'
 import { DefaultRxDBKey, RxDBHasuraPlugin } from '../plugin'
@@ -13,7 +13,7 @@ import {
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<GenericRxDocument | any>
-): ComputedRef<string | null> => {
+): Readonly<Ref<Readonly<string | null>>> => {
   const plugin = inject<RxDBHasuraPlugin<unknown>>(DefaultRxDBKey)
   const result = ref<string | null>(null)
   let subscription: Subscription | undefined
@@ -32,7 +32,7 @@ export const useDocumentLabel = (
     },
     { immediate: true }
   )
-  return computed(() => result.value)
+  return result
 }
 
 export const newDocumentFactory = (

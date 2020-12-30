@@ -1,7 +1,7 @@
 import { useSubscription } from '@vueuse/rxjs'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import { computed, ComputedRef, readonly, Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 
 import {
@@ -16,7 +16,7 @@ export const useFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<GenericRxDocument | any>,
   name: Ref<string>
-): ComputedRef<T> => {
+): Readonly<Ref<Readonly<T>>> => {
   const property = useProperty(document, name)
   const fieldValue = ref()
   useSubscription(
@@ -31,7 +31,7 @@ export const useFieldValue = <T>(
         }
       })
   )
-  return computed(() => fieldValue.value)
+  return fieldValue
 }
 
 export const useProperty = (
