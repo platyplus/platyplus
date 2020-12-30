@@ -22,4 +22,12 @@ export const error = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.ERROR && console.warn(...args)
 
 export const isTextType = (type: PropertyType): boolean =>
-  ['string', 'date', 'date-time', 'time', 'email'].includes(type)
+  [
+    'string',
+    'date',
+    'date-time',
+    'time',
+    'email',
+    'document',
+    'collection'
+  ].includes(type)

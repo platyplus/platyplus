@@ -10,8 +10,8 @@ export type ValuesOf<T extends unknown[]> = T[number]
 
 export type GenericDocument = Record<string, unknown>
 // * This UnwrapRef<Ref<T>> thing is a workaround to keep Rx classes inference
-export type GenericRxDocument = UnwrapRef<Ref<RxDocument<GenericDocument>>>
-export type GenericRxCollection = UnwrapRef<Ref<RxCollection>>
+export type GenericRxDocument = RxDocument<GenericDocument>
+export type GenericRxCollection = RxCollection
 
 export type PropertyValue =
   | string
