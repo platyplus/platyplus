@@ -1,5 +1,5 @@
 <template lang="pug">
-input(v-if="editing" type="text" :placeholder="value" v-model="model")
+input(v-if="editing" type="text" :placeholder="name" v-model="model")
 div(v-else) {{value}}
 </template>
 

@@ -8,7 +8,7 @@ div
     tr
       th(v-for="property, name of properties") {{name}}
     item-table(v-for="document in documents" :key="document.id" :document="document" :editing="editing")
-    item-table(v-if="editing" :document="newDoc" editing="true")
+    item-table(v-if="editing" :document="newDoc" :editing="true")
     
 </template>
 

@@ -1,7 +1,6 @@
 <template lang="pug">
 .hello
   h1 Test
-  div authenticated: {{status}}
   div(v-if="!status")
     form
       input(v-model="email")
@@ -46,7 +45,6 @@ export default defineComponent({
 
     const store = useStore()
 
-    // TODO remove as
     const form = computed(() => store.getters['rxdb/form'])
 
     return {

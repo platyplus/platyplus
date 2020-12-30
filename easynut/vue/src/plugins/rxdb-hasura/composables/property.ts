@@ -1,16 +1,19 @@
 import { useSubscription } from '@vueuse/rxjs'
-import { RxCollection, RxSchema } from 'rxdb'
+import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { computed, ComputedRef, Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 
-import { GenericDocument, GenericRxDocument } from '../types'
+import {
+  GenericDocument,
+  GenericRxCollection,
+  GenericRxDocument
+} from '../types'
 import { useDocumentCollection } from './collection'
 import { useTable } from './table'
 
 export const useFieldValue = <T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<GenericRxDocument>,
   name: Ref<string>
 ): ComputedRef<T> => {
   const property = useProperty(document, name)
@@ -31,8 +34,7 @@ export const useFieldValue = <T>(
 }
 
 export const useProperty = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<GenericRxDocument>,
   name: Ref<string>
 ): ComputedRef<TopLevelProperty | PrimaryProperty> =>
   computed(
@@ -40,8 +42,7 @@ export const useProperty = (
   )
 
 export const useCollectionProperties = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: Ref<RxCollection | any>
+  collection: Ref<GenericRxCollection>
 ): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   const name = computed(() => collection.value.name)
   const table = useTable(name)
@@ -63,16 +64,14 @@ export const useCollectionProperties = (
 }
 
 export const useDocumentProperties = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>
+  document: Ref<GenericRxDocument>
 ): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   const collection = useDocumentCollection(document)
   return useCollectionProperties(collection)
 }
 
 export const useFormProperty = <T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<GenericRxDocument>,
   name: Ref<string>
 ): ComputedRef<T> => {
   const store = useStore()

@@ -3,7 +3,7 @@ import { RxDatabase, RxDocument } from 'rxdb'
 import { Ref } from 'vue'
 import { Store } from 'vuex'
 
-import { debug, error, info } from './helpers'
+import { castValue, debug, error, info } from './helpers'
 import { GenericDocument, GenericRxDocument } from './types'
 type State = {
   forms: Record<string, Record<string, GenericDocument | RxDocument>>
@@ -73,12 +73,13 @@ export const addModule = <R>(
           document,
           field,
           value
-        }: { document: GenericRxDocument; field: string; value: unknown }
+        }: { document: GenericRxDocument; field: string; value: string }
       ) => {
+        const collection = document.collection
         state.forms = immutable.set(
           state.forms,
-          `${document.collection.name}.${document.primary}.${field}`,
-          value
+          `${collection.name}.${document.primary}.${field}`,
+          castValue(document, field, value)
         )
       },
       reset: state => {

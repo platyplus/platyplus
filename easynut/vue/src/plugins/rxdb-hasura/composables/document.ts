@@ -1,13 +1,16 @@
 import Handlebars from 'handlebars'
-import { RxCollection } from 'rxdb'
 import { v4 as uuid } from 'uuid'
 import { computed, ComputedRef, inject, onMounted, Ref, ref } from 'vue'
 
 import { DefaultRxDBKey, RxDBHasuraPlugin } from '../plugin'
-import { GenericDocument, GenericRxDocument } from '../types'
+import {
+  GenericDocument,
+  GenericRxCollection,
+  GenericRxDocument
+} from '../types'
+
 export const useDocumentLabel = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>
+  document: Ref<GenericRxDocument>
 ): ComputedRef<string | null> => {
   const plugin = inject<RxDBHasuraPlugin<unknown>>(DefaultRxDBKey)
   const doc = ref<GenericDocument>()
@@ -30,16 +33,15 @@ export const useDocumentLabel = (
 }
 
 export const newDocumentFactory = (
-  collection: RxCollection
+  collection: GenericRxCollection
 ): GenericRxDocument => {
   const newDoc = collection.newDocument()
   newDoc[collection.schema.primaryPath] = uuid()
   return newDoc
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useNewDocumentFactory = (
-  collection: Ref<RxCollection | any>
+  collection: Ref<GenericRxCollection>
 ): {
   next: () => GenericRxDocument
   newDoc: Ref<GenericRxDocument>
