@@ -806,6 +806,25 @@
     name: view_info
 - table:
     schema: public
+    name: drug
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - updated_at
+      - name
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - name
+      filter: {}
+      check: null
+- table:
+    schema: public
     name: patient
   array_relationships:
   - name: visites
