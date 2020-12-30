@@ -1,7 +1,8 @@
-import Handlebars from 'handlebars'
+import { Subscription } from 'rxjs'
 import { v4 as uuid } from 'uuid'
-import { computed, ComputedRef, inject, onMounted, Ref, ref } from 'vue'
+import { computed, ComputedRef, inject, onMounted, Ref, ref, watch } from 'vue'
 
+import { documentLabel } from '../helpers'
 import { DefaultRxDBKey, RxDBHasuraPlugin } from '../plugin'
 import {
   GenericDocument,
@@ -10,26 +11,28 @@ import {
 } from '../types'
 
 export const useDocumentLabel = (
-  document: Ref<GenericRxDocument>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>
 ): ComputedRef<string | null> => {
   const plugin = inject<RxDBHasuraPlugin<unknown>>(DefaultRxDBKey)
-  const doc = ref<GenericDocument>()
-  return computed(() => {
-    if (document.value) {
-      // ? cannot use useSubscription -> not unrerigstered on unmount. Problem?
-      document.value.$.subscribe(async (newValue: GenericDocument) => {
-        doc.value = newValue
-      })
-      const template =
-        plugin?.tables.value[document.value.collection.name].config?.label ||
-        '{{id}}'
-      const compiledTemplate = Handlebars.compile(template, { noEscape: true })
-      return compiledTemplate(
-        // props.document?.toJSON ? props.document.toJSON() : props.document
-        doc.value
-      )
-    } else return null
-  })
+  const result = ref<string | null>(null)
+  let subscription: Subscription | undefined
+  watch(
+    () => document.value,
+    updatedDoc => {
+      if (updatedDoc) {
+        const collection = updatedDoc.collection
+        updatedDoc.$.subscribe(async (val: GenericDocument) => {
+          const table = plugin?.tables.value[collection.name]
+          result.value = documentLabel(val, collection, table)
+        })
+      } else {
+        subscription?.unsubscribe()
+      }
+    },
+    { immediate: true }
+  )
+  return computed(() => result.value)
 }
 
 export const newDocumentFactory = (
@@ -41,7 +44,8 @@ export const newDocumentFactory = (
 }
 
 export const useNewDocumentFactory = (
-  collection: Ref<GenericRxCollection>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collection: Ref<GenericRxCollection | any>
 ): {
   next: () => GenericRxDocument
   newDoc: Ref<GenericRxDocument>

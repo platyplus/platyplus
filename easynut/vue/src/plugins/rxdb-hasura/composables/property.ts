@@ -13,7 +13,8 @@ import { useDocumentCollection } from './collection'
 import { useTable } from './table'
 
 export const useFieldValue = <T>(
-  document: Ref<GenericRxDocument>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
   name: Ref<string>
 ): ComputedRef<T> => {
   const property = useProperty(document, name)
@@ -34,7 +35,8 @@ export const useFieldValue = <T>(
 }
 
 export const useProperty = (
-  document: Ref<GenericRxDocument>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
   name: Ref<string>
 ): ComputedRef<TopLevelProperty | PrimaryProperty> =>
   computed(
@@ -42,7 +44,8 @@ export const useProperty = (
   )
 
 export const useCollectionProperties = (
-  collection: Ref<GenericRxCollection>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collection: Ref<GenericRxCollection | any>
 ): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   const name = computed(() => collection.value.name)
   const table = useTable(name)
@@ -64,14 +67,16 @@ export const useCollectionProperties = (
 }
 
 export const useDocumentProperties = (
-  document: Ref<GenericRxDocument>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>
 ): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   const collection = useDocumentCollection(document)
   return useCollectionProperties(collection)
 }
 
 export const useFormProperty = <T>(
-  document: Ref<GenericRxDocument>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
   name: Ref<string>
 ): ComputedRef<T> => {
   const store = useStore()

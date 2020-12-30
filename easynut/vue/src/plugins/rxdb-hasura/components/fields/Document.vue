@@ -1,17 +1,31 @@
 <template lang="pug">
-div(v-if="editing") editing
+select(v-if="editing" v-model="model")
+  option(v-for="option in options" :value="option.id")
+    document-label(:document="option") ..
 div(v-else)
   document-label(:document="value")
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue'
+import { Subscription } from 'rxjs'
+import {
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  PropType,
+  ref,
+  toRefs
+} from 'vue'
 
-import { GenericRxDocument } from '../../types'
-
+import { useDB, useFormProperty, useProperty } from '../../composables'
+import { GenericDocument, GenericRxDocument } from '../../types'
 export default defineComponent({
   name: 'FieldDocument',
   props: {
+    document: {
+      type: Object as PropType<GenericRxDocument>,
+      required: true
+    },
     value: {
       type: Object as PropType<GenericRxDocument | null>,
       default: null
@@ -26,10 +40,28 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const isDoc = computed(() => {
-      props.value?.isInstanceOfRxDocument
+    const { name, document } = toRefs(props)
+    const model = useFormProperty<number>(document, name)
+
+    // TODO move to useOptions(document, propertyName)
+    const options = ref<Array<GenericDocument>>([])
+    const property = useProperty(document, name)
+    const db = useDB()
+    // TODO only subscribe when editing
+    let subscription: Subscription | undefined
+    onMounted(() => {
+      const reCollectionName = property.value.ref as string
+      const refCollection = db.value[reCollectionName]
+      subscription = refCollection
+        ?.find()
+        .$.subscribe((e: GenericRxDocument[]) => {
+          options.value = e
+        })
     })
-    return { isDoc }
+    onUnmounted(() => {
+      subscription?.unsubscribe()
+    })
+    return { model, options }
   }
 })
 </script>
