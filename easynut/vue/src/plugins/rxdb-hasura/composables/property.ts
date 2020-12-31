@@ -1,7 +1,7 @@
 import { useSubscription } from '@vueuse/rxjs'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
-import { computed, ComputedRef, readonly, Ref, ref } from 'vue'
+import { computed, ComputedRef, Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 
 import {

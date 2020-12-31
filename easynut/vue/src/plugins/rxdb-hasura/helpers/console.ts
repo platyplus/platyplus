@@ -20,6 +20,8 @@ export const warn = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.WARN && console.warn(...args)
 export const error = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.ERROR && console.warn(...args)
+export const errorDir = (...args: unknown[]): unknown =>
+  VERBOSE_LEVEL >= LOG_LEVEL.ERROR && console.dir(...args)
 
 export const isTextType = (type: PropertyType): boolean =>
   [
