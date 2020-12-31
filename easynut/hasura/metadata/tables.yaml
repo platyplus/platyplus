@@ -807,6 +807,15 @@
 - table:
     schema: public
     name: drug
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        name: default drug name - no choice!
+      columns:
+      - id
+      backend_only: false
   select_permissions:
   - role: user
     permission:

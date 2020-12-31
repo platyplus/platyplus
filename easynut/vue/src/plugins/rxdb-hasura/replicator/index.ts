@@ -3,7 +3,7 @@ import { RxGraphQLReplicationState } from 'rxdb/plugins/replication-graphql'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { TableFragment } from '../../../generated'
-import { debug, error, fullTableName, info, warn } from '../helpers'
+import { debug, error, errorDir, fullTableName, info, warn } from '../helpers'
 import { httpUrlToWebSockeUrl } from '../utils'
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
@@ -107,7 +107,8 @@ export class GraphQLReplicator {
       waitForLeadership: true // defaults to true
     })
     replicationState.error$.subscribe(err => {
-      error('replication error:', err)
+      error(`replication error on ${collectionName}`)
+      errorDir(err.innerErrors)
     })
 
     return replicationState
