@@ -1,17 +1,58 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-;(window as any).global = window
-;(window as any).process = {
-  env: { DEBUG: undefined }
+/* eslint-disable @typescript-eslint/no-var-requires */
+import {
+  addRxPlugin,
+  createRxDatabase,
+  RxCollection,
+  RxDatabase,
+  RxDatabaseCreator
+} from 'rxdb'
+import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
+import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
+
+import { RxHasuraPlugin } from './plugin'
+
+export { RxHasuraPlugin } from './plugin'
+export * from './helpers'
+export * from './types'
+
+export const createRxHasura = async (
+  name: string,
+  url: string,
+  token?: string
+): Promise<RxDatabase> => {
+  const settings: RxDatabaseCreator = {
+    name,
+    // password: 'myPassword', // <- password (optional)
+    multiInstance: false, // ! Causes errors when set to true. See notice in https://rxdb.info/leader-election.html
+    eventReduce: true, // <- eventReduce (optional, default: true))
+    options: {
+      url,
+      token
+    },
+    adapter: process.env.NODE_ENV === 'development' ? 'memory' : 'idb'
+  }
+
+  addRxPlugin(RxDBReplicationGraphQLPlugin)
+  addRxPlugin(RxDBAjvValidatePlugin)
+  addRxPlugin(RxHasuraPlugin)
+  if (process.env.NODE_ENV === 'development') {
+    addRxPlugin(require('pouchdb-adapter-memory'))
+  } else {
+    addRxPlugin(require('pouchdb-adapter-idb'))
+  }
+
+  const db = (await createRxDatabase<Record<string, RxCollection>>(
+    settings
+  )) as RxDatabase
+  console.info('DatabaseService: created database')
+
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(window as any)['db'] = db // write to window for debugging
+  }
+  // * runs when db becomes leader
+  // db.waitForLeadership().then(() => {
+  //   debug('DB took the leadership')
+  // })
+  return db
 }
-
-export { GraphQLReplicator } from './replicator'
-export { createDb } from './database'
-export { createRxDBHasuraPlugin, DefaultRxDBKey } from './plugin'
-export * from './composables'
-
-/** // ! GENERAL RULES ! //
- * * column `updated_at` of type `timestamptz` must exist, and must change value when row is update
- * * primary key must be column `id` of type `uuid`
- * * select permissions to `id` and `updated_at` for the connected user
- * TODO `deleted` column
- */

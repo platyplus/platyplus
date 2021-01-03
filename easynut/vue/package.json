@@ -15,7 +15,6 @@
     "@vueuse/rxjs": "^4.0.1",
     "core-js": "^3.6.5",
     "graphql": "^15.4.0",
-    "graphql-request": "^3.4.0",
     "handlebars": "^4.7.6",
     "moment": "^2.29.1",
     "nhost-js-sdk": "^2.3.4",

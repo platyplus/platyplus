@@ -13,18 +13,18 @@
     // "esModuleInterop": true,
     // "allowSyntheticDefaultImports": true,
     // "sourceMap": true,
-    // "baseUrl": ".",
     "types": ["webpack-env"],
     "paths": {
       "@/*": ["src/*"],
-      "@platyplus/*": ["packages/*/src"],
-      "*": ["../../types/*"]
+      "@platyplus/*": ["packages/*/src", "easynut/vue/src/plugins/*"],
+      "*": ["types/*"]
     }
     // TODO
     // "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.graphql",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
