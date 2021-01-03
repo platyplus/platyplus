@@ -4,9 +4,9 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 import {
   ColumnFragment,
   CoreTableFragment,
-  TableFragment
-} from '../../../generated'
-import { JsonSchemaFormat } from '../types'
+  JsonSchemaFormat,
+  Metadata
+} from '../types'
 import { propertyJsonType } from './property'
 
 export const fullTableName = (data: CoreTableFragment): string =>
@@ -26,9 +26,8 @@ const propertyFormat = (udtType: string): JsonSchemaFormat | undefined => {
   return postgresJsonSchemaFormatMapping[udtType]
 }
 
-export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
+export const toJsonSchema = (table: Metadata): RxJsonSchema => {
   // TODO get the query/mutations/subscription names for building graphql queries
-
   const result: RxJsonSchema = {
     type: 'object',
     title: fullTableName(table),
@@ -104,8 +103,8 @@ export const toJsonSchema = (table: TableFragment): RxJsonSchema => {
   table.columns.map(column => {
     // * Do not include again properties that are already mapped by an object relationship
     if (skipMappedForeignKeys.includes(column.column_name as string)) return
-    const name = column.column_name!
-    const sqlType = column.udt_name!
+    const name = column.column_name as string
+    const sqlType = column.udt_name as string
 
     const type = propertyJsonType(column)
 

@@ -20,9 +20,7 @@ const hbp = createHasuraBackendPlus({
   endpoint: 'https://hasura-backend-plus.endpoint.com'
 })
 
-createApp(App)
-  .use(hbp)
-  .mount('#app')
+createApp(App).use(hbp).mount('#app')
 ```
 
 ## Usage

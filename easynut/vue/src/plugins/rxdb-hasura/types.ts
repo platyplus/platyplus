@@ -1,25 +1,11 @@
-import { RxCollection, RxDocument } from 'rxdb/dist/types'
-import { Ref, UnwrapRef } from 'vue'
-
-// * Make one (or more) property optional
-// See: https://stackoverflow.com/questions/43159887/make-a-single-property-optional-in-typescript
-// TODO https://github.com/piotrwitek/utility-types
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+import { RxCollection, RxDocument } from 'rxdb'
 
 export type ValuesOf<T extends unknown[]> = T[number]
-
-export type GenericDocument = Record<string, unknown>
-// * This UnwrapRef<Ref<T>> thing is a workaround to keep Rx classes inference
-export type GenericRxDocument = RxDocument<GenericDocument>
-export type GenericRxCollection = RxCollection
-
-export type PropertyValue =
-  | string
-  | number
-  | boolean
-  | null
-  | Array<GenericDocument>
-  | GenericDocument
+export {
+  TableFragment as Metadata,
+  ColumnFragment,
+  CoreTableFragment
+} from './generated'
 
 export type JsonSchemaFormat =
   | 'date-time'
@@ -46,3 +32,18 @@ export type PropertyType =
   | JsonSchemaFormat
   | JsonSchemaPropertyType
   | CustomTypes
+
+export type PropertyValue =
+  | string
+  | number
+  | boolean
+  | null
+  | Array<GenericDocument>
+  | GenericDocument
+
+export type GenericDocument = Record<string, unknown>
+// * This UnwrapRef<Ref<T>> thing is a workaround to keep Rx classes inference
+export type GenericRxDocument = RxDocument<GenericDocument>
+export type GenericRxCollection = RxCollection
+export type Modifier = (doc: GenericDocument) => GenericDocument
+export type Replicator = { stop: () => Promise<void> }

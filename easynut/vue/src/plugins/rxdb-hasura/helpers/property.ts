@@ -1,15 +1,14 @@
 import { PrimaryProperty } from 'rxdb'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { ColumnFragment } from '../../../generated'
 import {
+  ColumnFragment,
   GenericRxDocument,
   JsonSchemaFormat,
   JsonSchemaPropertyType,
   PropertyType,
   PropertyValue
 } from '../types'
-import { isTextType } from './console'
 
 const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
   uuid: 'string',
@@ -74,6 +73,17 @@ export const propertyType = (
   }
   return (property.format as JsonSchemaFormat) || type
 }
+
+export const isTextType = (type: PropertyType): boolean =>
+  [
+    'string',
+    'date',
+    'date-time',
+    'time',
+    'email',
+    'document',
+    'collection'
+  ].includes(type)
 
 export const castValue = <T extends PropertyValue>(
   document: GenericRxDocument,

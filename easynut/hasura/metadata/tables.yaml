@@ -741,11 +741,11 @@
   - role: user
     permission:
       columns:
-      - table_schema
-      - table_name
       - configuration
-      - is_system_defined
       - is_enum
+      - is_system_defined
+      - table_name
+      - table_schema
       filter:
         permissions:
           role_name:

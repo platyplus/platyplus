@@ -25,10 +25,9 @@ import {
   useRegister,
   useStatus
 } from '@platyplus/vue-hasura-backend-plus'
+import { useCollections } from '@platyplus/vue-rxdb-hasura'
 import { computed, defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
-
-import { useCollections } from '../plugins/rxdb-hasura'
 
 export default defineComponent({
   name: 'HelloWorld',
@@ -42,7 +41,6 @@ export default defineComponent({
     const { register } = useRegister(email, password)
     const token = useJWT()
     const collections = useCollections()
-
     const store = useStore()
 
     const form = computed(() => store.getters['rxdb/form'])

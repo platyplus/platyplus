@@ -1,5 +1,4 @@
-import { TableFragment } from '../../../generated'
-import { ValuesOf } from '../types'
+import { Metadata, ValuesOf } from '../types'
 
 /**
  * * Maps all object relationships of the table, and returns the  array relationships of corresponding remote tables
@@ -8,19 +7,19 @@ import { ValuesOf } from '../types'
  */
 // ! Not used yet. Keep it or remove it
 export const getReverseOneToMany = (
-  table: TableFragment,
-  tables: Record<string, TableFragment>
+  table: Metadata,
+  tables: Record<string, Metadata>
 ): Array<{
-  remoteTable: TableFragment
-  from: ValuesOf<TableFragment['relationships']>
-  to: ValuesOf<TableFragment['relationships']>
+  remoteTable: Metadata
+  from: ValuesOf<Metadata['relationships']>
+  to: ValuesOf<Metadata['relationships']>
 }> =>
   table.relationships
     .filter(({ rel_type }) => rel_type === 'object')
     .reduce<
       Array<{
-        remoteTable: TableFragment
-        from: ValuesOf<TableFragment['relationships']>
+        remoteTable: Metadata
+        from: ValuesOf<Metadata['relationships']>
       }>
     >(
       (aggr, relation) => [
@@ -52,8 +51,8 @@ export const getReverseOneToMany = (
     )
     .reduce<
       Array<{
-        remoteTable: TableFragment
-        from: ValuesOf<TableFragment['relationships']>
-        to: ValuesOf<TableFragment['relationships']>
+        remoteTable: Metadata
+        from: ValuesOf<Metadata['relationships']>
+        to: ValuesOf<Metadata['relationships']>
       }>
     >((aggr, curr) => [...aggr, ...curr], [])
