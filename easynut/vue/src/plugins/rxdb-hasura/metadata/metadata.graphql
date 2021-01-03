@@ -1,5 +1,4 @@
 fragment coreTable on metadata_table {
-  full_name
   table_name
   table_schema
 }

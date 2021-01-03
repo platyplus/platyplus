@@ -8780,7 +8780,7 @@ export enum Visite_Update_Column {
 
 export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
   Metadata_Table,
-  'full_name' | 'table_name' | 'table_schema'
+  'table_name' | 'table_schema'
 >
 
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
@@ -8859,7 +8859,6 @@ export type MetadataQuery = { __typename?: 'query_root' } & {
 
 export const CoreTableFragmentDoc = gql`
   fragment coreTable on metadata_table {
-    full_name
     table_name
     table_schema
   }
