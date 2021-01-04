@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { createRxHasura } from '@platyplus/rxdb-hasura'
 import { Instance } from '@platyplus/vue-hasura-backend-plus'
 import { RxDatabase } from 'rxdb'
