@@ -61,8 +61,6 @@
     "pouchdb-adapter-memory": "^7.2.2",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.1.0",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
     "typescript": "~3.9.3",
     "webpack-bundle-analyzer": "^4.3.0"
