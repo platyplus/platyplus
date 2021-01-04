@@ -1,12 +1,12 @@
 import {
-  GenericDocument,
   GenericRxCollection,
   GenericRxDocument,
   Metadata
 } from '@platyplus/rxdb-hasura'
-import { useSubscription } from '@vueuse/rxjs'
+import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
+import { mergeMap } from 'rxjs/operators'
 import { computed, ComputedRef, Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -22,14 +22,12 @@ export const useFieldValue = <T>(
   useSubscription(
     document.value
       .get$(name.value)
-      .subscribe(async (newValue: GenericDocument) => {
-        if (property.value.ref) {
-          const populatedValue = await document.value.populate(name.value)
-          fieldValue.value = populatedValue
-        } else {
-          fieldValue.value = newValue
-        }
-      })
+      .pipe(
+        mergeMap(async value =>
+          property.value.ref ? await document.value.populate(name.value) : value
+        )
+      )
+      .subscribe(toObserver(fieldValue))
   )
   return fieldValue
 }

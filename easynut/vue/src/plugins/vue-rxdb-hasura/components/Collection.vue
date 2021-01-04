@@ -3,7 +3,7 @@ component(:is="componentName" :documents="documents" :collection="collection")
 </template>
 
 <script lang="ts">
-import { useSubscription } from '@vueuse/rxjs'
+import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { RxCollection, RxDocument } from 'rxdb'
 import { computed, defineComponent, PropType, ref } from 'vue'
 
@@ -21,12 +21,9 @@ export default defineComponent({
   },
   setup(props) {
     const documents = ref<RxDocument[]>([])
-
     useSubscription(
       // TODO not sure it's optimised at all
-      props.collection.find().$.subscribe((event: RxDocument[]) => {
-        documents.value = event
-      })
+      props.collection.find().$.subscribe(toObserver(documents))
     )
     const componentName = computed(() => `view-${props.type}`)
     return { documents, componentName }

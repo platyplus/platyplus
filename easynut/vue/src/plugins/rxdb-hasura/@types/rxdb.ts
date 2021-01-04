@@ -1,5 +1,5 @@
 import { CollectionsOfDatabase, RxCollection } from 'rxdb'
-import { Subject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 
 import { Metadata, Replicator } from '../types'
 declare module 'rxdb' {
@@ -23,7 +23,10 @@ declare module 'rxdb' {
   > = RxDatabase<Collections> & {
     readonly metadata: RxCollection<Metadata>
     readonly hasura: Record<string, RxCollection>
-    readonly setJwt: (value: string) => void
-    readonly jwt$: Subject<string>
+    readonly hasura$: BehaviorSubject<Record<string, RxCollection>>
+    readonly setJwt: (value: string | undefined) => void
+    readonly jwt$: BehaviorSubject<string | undefined>
+    readonly setStatus: (value: boolean, jwt?: string) => void
+    readonly status$: BehaviorSubject<boolean>
   }
 }

@@ -8,15 +8,8 @@ div(v-else)
 
 <script lang="ts">
 import { GenericDocument, GenericRxDocument } from '@platyplus/rxdb-hasura'
-import { Subscription } from 'rxjs'
-import {
-  defineComponent,
-  onMounted,
-  onUnmounted,
-  PropType,
-  ref,
-  toRefs
-} from 'vue'
+import { toObserver, useSubscription } from '@vueuse/rxjs'
+import { defineComponent, onMounted, PropType, ref, toRefs } from 'vue'
 
 import { useDB, useFormProperty, useProperty } from '../../composables'
 export default defineComponent({
@@ -43,23 +36,15 @@ export default defineComponent({
     const { name, document } = toRefs(props)
     const model = useFormProperty<number>(document, name)
 
-    // TODO move to useOptions(document, propertyName)
+    // TODO move to a new useOptions(document, propertyName)
     const options = ref<Array<GenericDocument>>([])
     const property = useProperty(document, name)
     const db = useDB()
-    // TODO only subscribe when editing
-    let subscription: Subscription | undefined
     onMounted(() => {
-      const reCollectionName = property.value.ref as string
-      const refCollection = db.value?.[reCollectionName]
-      subscription = refCollection
-        ?.find()
-        .$.subscribe((e: GenericRxDocument[]) => {
-          options.value = e
-        })
-    })
-    onUnmounted(() => {
-      subscription?.unsubscribe()
+      // TODO only subscribe when editing
+      const refCollection = db.value?.[property.value.ref as string]
+      refCollection &&
+        useSubscription(refCollection.find().$.subscribe(toObserver(options)))
     })
     return { model, options }
   }

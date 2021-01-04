@@ -29,16 +29,18 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
   store
 }: RxDBHasuraPluginOptions<S>): RxHasuraPlugin => {
   const db = ref<RxDatabase | undefined>()
-  const install = (app: App, injectKey: string | InjectionKey<unknown>) => {
-    hbp.auth.onAuthStateChanged(async (status: boolean) => {
-      if (status && !db.value) {
-        // * Create and bind the DB
-        db.value = await createRxHasura(name, endpoint, hbp.auth.getJWTToken())
-      }
-    })
-
-    hbp.auth.onTokenChanged(() => {
-      db.value?.setJwt(hbp.auth.getJWTToken())
+  const install = async (
+    app: App,
+    injectKey: string | InjectionKey<unknown>
+  ) => {
+    createRxHasura(name, endpoint, hbp.auth.getJWTToken()).then(value => {
+      db.value = value
+      hbp.auth.onAuthStateChanged(async (status: boolean) => {
+        value.setStatus(status, hbp.auth.getJWTToken())
+      })
+      hbp.auth.onTokenChanged(() => {
+        value.setJwt(hbp.auth.getJWTToken())
+      })
     })
 
     // * Load all components from the `./components` directory
