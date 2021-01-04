@@ -3,8 +3,8 @@
   h1 Test
   div(v-if="!status")
     form
-      input(v-model="email")
-      input(type="password" v-model="password" current-password)
+      input(v-model="email" autocomplete="username")
+      input(type="password" v-model="password" autocomplete="current-password")
     button(@click="register") Register
     button(@click="login") Login
     div {{error}}

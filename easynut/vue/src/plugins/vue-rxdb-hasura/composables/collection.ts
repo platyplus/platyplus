@@ -1,5 +1,6 @@
 import { GenericRxCollection, GenericRxDocument } from '@platyplus/rxdb-hasura'
-import { computed, ComputedRef, isRef, Ref } from 'vue'
+import { toObserver, useSubscription } from '@vueuse/rxjs'
+import { computed, ComputedRef, isRef, Ref, ref, watchEffect } from 'vue'
 
 import { useDB } from './database'
 
@@ -15,9 +16,13 @@ export const useDocumentCollection = (
   document: Ref<GenericRxDocument | any>
 ): ComputedRef<GenericRxCollection> => computed(() => document.value.collection)
 
-export const useCollections = (): ComputedRef<
-  Record<string, GenericRxCollection>
-> => {
+export const useCollections = (): Ref<Record<string, GenericRxCollection>> => {
   const db = useDB()
-  return computed(() => db?.value?.hasura || {})
+  const collections: Ref<Record<string, GenericRxCollection>> = ref({})
+  watchEffect(
+    () =>
+      db.value &&
+      useSubscription(db.value.hasura$.subscribe(toObserver(collections)))
+  )
+  return collections
 }

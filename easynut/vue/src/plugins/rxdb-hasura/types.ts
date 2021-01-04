@@ -46,4 +46,7 @@ export type GenericDocument = Record<string, unknown>
 export type GenericRxDocument = RxDocument<GenericDocument>
 export type GenericRxCollection = RxCollection
 export type Modifier = (doc: GenericDocument) => GenericDocument
-export type Replicator = { stop: () => Promise<void> }
+export type Replicator = {
+  start: () => Promise<void>
+  stop: () => Promise<void>
+}

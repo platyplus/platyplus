@@ -8,7 +8,7 @@ enum LOG_LEVEL {
 
 // TODO set level in an environment variable
 const VERBOSE_LEVEL =
-  process.env.NODE_ENV === 'development' ? LOG_LEVEL.DEBUG : LOG_LEVEL.ERROR
+  process.env.NODE_ENV === 'development' ? LOG_LEVEL.INFO : LOG_LEVEL.ERROR
 
 export const debug = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.DEBUG && console.log(...args)

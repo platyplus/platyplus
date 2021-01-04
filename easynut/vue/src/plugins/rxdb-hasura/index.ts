@@ -44,7 +44,6 @@ export const createRxHasura = async (
   const db = (await createRxDatabase<Record<string, RxCollection>>(
     settings
   )) as RxDatabase
-  console.info('DatabaseService: created database')
 
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
