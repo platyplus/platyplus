@@ -1,12 +1,12 @@
 <template lang="pug">
-component(:is="componentName" v-bind="props" :value="value")
+component(:is="componentName" v-bind="props")
 </template>
 
 <script lang="ts">
 import { GenericRxDocument, propertyType } from '@platyplus/rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
-import { useFieldValue, useProperty } from '../composables'
+import { useProperty } from '../composables'
 
 export default defineComponent({
   name: 'Field',
@@ -26,8 +26,7 @@ export default defineComponent({
     const componentName = computed(
       () => 'field-' + propertyType(property.value)
     )
-    const value = useFieldValue(document, name)
-    return { componentName, props, value }
+    return { componentName, props }
   }
 })
 </script>

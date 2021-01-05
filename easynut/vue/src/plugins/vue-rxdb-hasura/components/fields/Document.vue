@@ -1,15 +1,24 @@
 <template lang="pug">
-select(v-if="editing" v-model="model")
-  option(v-for="option in options" :value="option.id")
-    document-label(:document="option") ..
+Dropdown(v-if="editing" v-model="model" :options="options" optionValue="id" placeholder="Select an item")
+  template(#option="slotProps")
+    document-label(:document="slotProps.option")
+  template(#value="slotProps")
+    document-label(:document="refDocument")
 div(v-else)
-  document-label(:document="value")
+  document-label(:document="refDocument")
 </template>
 
 <script lang="ts">
 import { GenericDocument, GenericRxDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
-import { defineComponent, onMounted, PropType, ref, toRefs } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  PropType,
+  ref,
+  toRefs
+} from 'vue'
 
 import { useDB, useFormProperty, useProperty } from '../../composables'
 export default defineComponent({
@@ -18,10 +27,6 @@ export default defineComponent({
     document: {
       type: Object as PropType<GenericRxDocument>,
       required: true
-    },
-    value: {
-      type: Object as PropType<GenericRxDocument | null>,
-      default: null
     },
     name: {
       type: String,
@@ -34,11 +39,15 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const model = useFormProperty<number>(document, name)
+    const { model, changed } = useFormProperty<string>(document, name)
 
     // TODO move to a new useOptions(document, propertyName)
     const options = ref<Array<GenericDocument>>([])
     const property = useProperty(document, name)
+    const refDocument = computed(() =>
+      options.value.find(doc => doc.id === model.value)
+    )
+
     const db = useDB()
     onMounted(() => {
       // TODO only subscribe when editing
@@ -46,7 +55,7 @@ export default defineComponent({
       refCollection &&
         useSubscription(refCollection.find().$.subscribe(toObserver(options)))
     })
-    return { model, options }
+    return { model, options, refDocument, changed }
   }
 })
 </script>

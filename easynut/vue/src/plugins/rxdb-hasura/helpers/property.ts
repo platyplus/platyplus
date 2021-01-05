@@ -88,10 +88,13 @@ export const isTextType = (type: PropertyType): boolean =>
 export const castValue = <T extends PropertyValue>(
   document: GenericRxDocument,
   propertyName: string,
-  value: string
+  value: string | boolean
 ): T => {
   const type = propertyType(
     document.collection.schema.jsonSchema.properties[propertyName]
   )
-  return isTextType(type) ? value : JSON.parse(value)
+
+  return typeof value === 'boolean' || isTextType(type)
+    ? value
+    : JSON.parse(value)
 }

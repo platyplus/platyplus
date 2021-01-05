@@ -1,14 +1,24 @@
 <template lang="pug">
-div
+div(class="card")
   button(v-if="!editing" @click="edit") edit
   button(v-if="editing" @click="save") save 
   button(v-if="editing" @click="reset") reset 
-  button(v-if="editing" @click="cancel") cancel 
-  table(border=1)
-    tr
-      th(v-for="property, name of properties") {{name}}
-    item-table(v-for="document in documents" :key="document.id" :document="document" :editing="editing")
-    item-table(v-if="editing" :document="newDoc" :editing="true")
+  button(v-if="editing" @click="cancel") cancel
+  DataTable(:value="documents" editMode="cell" class="editable-cells-table")
+    Column(v-for="property, name of properties" :field="name" :header="name" :key="name")
+      template(#editor="slotProps")
+        div.p-fluid
+          field(:document="slotProps.data" :name="name" :editing="true")
+      template(#body="slotProps")
+        div.p-fluid
+          field(:document="slotProps.data" :name="name" :editing="false")
+      
+       
+  //- table(border=1)
+  //-   tr
+  //-     th(v-for="property, name of properties") {{name}}
+  //-   item-table(v-for="document in documents" :key="document.id" :document="document" :editing="editing")
+  //-   item-table(v-if="editing" :document="newDoc" :editing="true")
     
 </template>
 

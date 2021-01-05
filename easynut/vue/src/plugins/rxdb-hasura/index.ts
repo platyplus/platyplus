@@ -17,8 +17,7 @@ export * from './types'
 
 export const createRxHasura = async (
   name: string,
-  url: string,
-  token?: string
+  url: string
 ): Promise<RxDatabase> => {
   const settings: RxDatabaseCreator = {
     name,
@@ -26,8 +25,7 @@ export const createRxHasura = async (
     multiInstance: false, // ! Causes errors when set to true. See notice in https://rxdb.info/leader-election.html
     eventReduce: true, // <- eventReduce (optional, default: true))
     options: {
-      url,
-      token
+      url
     },
     adapter: process.env.NODE_ENV === 'development' ? 'memory' : 'idb'
   }

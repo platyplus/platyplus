@@ -7,7 +7,9 @@ import {
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
-import { onMounted, Ref, ref, watchEffect } from 'vue'
+import { computed, onMounted, Ref, ref, unref, watchEffect } from 'vue'
+
+import { useCollection } from './collection'
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<GenericRxDocument | any>
