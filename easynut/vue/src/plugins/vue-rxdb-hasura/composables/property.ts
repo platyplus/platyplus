@@ -8,7 +8,7 @@ import equal from 'deep-equal'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { mergeMap } from 'rxjs/operators'
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import { computed, ComputedRef, Ref, ref, WritableComputedRef } from 'vue'
 import { useStore } from 'vuex'
 
 import { useDocumentCollection } from './collection'
@@ -87,7 +87,7 @@ export const useFormProperty = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<GenericRxDocument | any>,
   name: Ref<string>
-): { model: ComputedRef<T>; changed: ComputedRef<boolean> } => {
+): { model: WritableComputedRef<T>; changed: ComputedRef<boolean> } => {
   const fieldValue = useFieldValue<T>(document, name)
   const store = useStore()
 
