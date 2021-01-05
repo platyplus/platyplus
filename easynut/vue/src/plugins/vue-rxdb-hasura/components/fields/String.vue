@@ -1,6 +1,6 @@
 <template lang="pug">
-input(v-if="editing" type="text" :placeholder="name" v-model="model")
-div(v-else) {{value}}
+InputText(v-if="editing" :placeholder="name" v-model="model" type="text")
+div(v-else) {{model}}
 </template>
 
 <script lang="ts">
@@ -15,10 +15,6 @@ export default defineComponent({
       type: Object as PropType<GenericRxDocument>,
       required: true
     },
-    value: {
-      type: [String, Number, Object, Array, Boolean],
-      default: ''
-    },
     name: {
       type: String,
       required: true
@@ -30,8 +26,8 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const model = useFormProperty<string>(document, name)
-    return { model }
+    const { model, changed } = useFormProperty<string>(document, name)
+    return { model, changed }
   }
 })
 </script>

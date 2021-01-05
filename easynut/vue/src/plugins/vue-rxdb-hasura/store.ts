@@ -24,16 +24,12 @@ export const addModule = <R>(
     state,
     getters: {
       form: state => state.forms,
-      getField: state => (document: GenericRxDocument, field: string) => {
-        if (document) {
-          return (
-            immutable.get(
-              state.forms,
-              `${document.collection.name}.${document.primary}.${field}`
-            ) || document.get(field)
-          )
-        }
-      }
+      getField: state => (document: GenericRxDocument, field: string) =>
+        document &&
+        immutable.get(
+          state.forms,
+          `${document.collection.name}.${document.primary}.${field}`
+        )
     },
     actions: {
       save: async ({ state, commit }) => {

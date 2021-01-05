@@ -1,5 +1,5 @@
 <template lang="pug">
-input(v-if="editing" type="date" :placeholder="name" v-model="model")
+Calendar(v-if="editing" id="dateformat" v-model="model" dateFormat="yy-mm-dd")
 div(v-else) {{formatedValue}}
 </template>
 
@@ -16,10 +16,6 @@ export default defineComponent({
       type: Object as PropType<GenericRxDocument>,
       required: true
     },
-    value: {
-      type: String,
-      default: null
-    },
     name: {
       type: String,
       required: true
@@ -31,9 +27,9 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const model = useFormProperty(document, name)
+    const { model } = useFormProperty<string>(document, name)
     const formatedValue = computed(() =>
-      new Date(props.value).toLocaleDateString()
+      new Date(model.value).toLocaleDateString()
     )
     return { formatedValue, model }
   }

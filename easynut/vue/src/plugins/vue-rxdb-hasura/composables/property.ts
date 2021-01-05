@@ -4,6 +4,7 @@ import {
   Metadata
 } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
+import equal from 'deep-equal'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { mergeMap } from 'rxjs/operators'
@@ -12,7 +13,7 @@ import { useStore } from 'vuex'
 
 import { useDocumentCollection } from './collection'
 
-export const useFieldValue = <T>(
+export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<GenericRxDocument | any>,
   name: Ref<string>
@@ -28,6 +29,18 @@ export const useFieldValue = <T>(
         )
       )
       .subscribe(toObserver(fieldValue))
+  )
+  return fieldValue
+}
+
+export const useFieldValue = <T>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<GenericRxDocument | any>,
+  name: Ref<string>
+): Readonly<Ref<Readonly<T>>> => {
+  const fieldValue = ref()
+  useSubscription(
+    document.value.get$(name.value).subscribe(toObserver(fieldValue))
   )
   return fieldValue
 }
@@ -74,18 +87,30 @@ export const useFormProperty = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<GenericRxDocument | any>,
   name: Ref<string>
-): ComputedRef<T> => {
+): { model: ComputedRef<T>; changed: ComputedRef<boolean> } => {
+  const fieldValue = useFieldValue<T>(document, name)
   const store = useStore()
 
   const model = computed<T>({
-    get: () => store.getters['rxdb/getField'](document.value, name.value) as T,
+    get: () =>
+      (store.getters['rxdb/getField'](document.value, name.value) as T) ??
+      fieldValue.value,
     set: (value: T) => {
       store.commit('rxdb/setField', {
         document: document.value,
         field: name.value,
-        value
+        value: !equal(fieldValue.value, value) ? value : value ?? undefined
       })
     }
   })
-  return model
+  const changed = computed(
+    () =>
+      store.getters['rxdb/getField'](document.value, name.value) !==
+        undefined &&
+      !equal(
+        fieldValue.value,
+        store.getters['rxdb/getField'](document.value, name.value)
+      )
+  )
+  return { model, changed }
 }
