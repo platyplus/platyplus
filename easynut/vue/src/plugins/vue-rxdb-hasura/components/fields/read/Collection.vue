@@ -1,15 +1,14 @@
 <template lang="pug">
-Checkbox(v-model="model" :binary="true")
+document-label(v-for="document, id in refCollection" :document="document")
 </template>
 
 <script lang="ts">
 import { GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { useRefFieldValue } from '@platyplus/vue-rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
-import { useFormProperty } from '../../composables'
-
 export default defineComponent({
-  name: 'FieldBoolean',
+  name: 'FieldReadCollection',
   props: {
     document: {
       type: Object as PropType<GenericRxDocument>,
@@ -18,16 +17,15 @@ export default defineComponent({
     name: {
       type: String,
       required: true
-    },
-    editing: {
-      type: Boolean,
-      default: false
     }
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<boolean>(document, name)
-    return { model }
+    const refCollection = useRefFieldValue<Array<GenericRxDocument>>(
+      document,
+      name
+    )
+    return { refCollection }
   }
 })
 </script>

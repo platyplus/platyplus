@@ -1,17 +1,15 @@
 <template lang="pug">
 div(class="card")
-  button(v-if="!editing" @click="edit") edit
-  button(v-if="editing" @click="save") save 
-  button(v-if="editing" @click="reset") reset 
-  button(v-if="editing" @click="cancel") cancel
   DataTable(:value="documents" editMode="cell" class="editable-cells-table")
     Column(v-for="property, name of properties" :field="name" :header="name" :key="name")
-      template(#editor="slotProps")
+      // ? show only when the column is editable?
+      // ! each cell can have different rights
+      template(#editor="slotProps" v-if="editing && canUpdate(name)")
         div.p-fluid
-          field(:document="slotProps.data" :name="name" :editing="true")
+          field-edit-inline(:document="slotProps.data" :name="name")
       template(#body="slotProps")
         div.p-fluid
-          field(:document="slotProps.data" :name="name" :editing="false")
+          field-read(:document="slotProps.data" :name="name")
       
        
   //- table(border=1)
@@ -24,10 +22,8 @@ div(class="card")
 
 <script lang="ts">
 import { GenericRxDocument } from '@platyplus/rxdb-hasura'
-import { useToggle } from '@vueuse/core'
 import { RxCollection } from 'rxdb'
 import { defineComponent, PropType, toRefs } from 'vue'
-import { useStore } from 'vuex'
 
 import {
   useCollectionProperties,
@@ -35,7 +31,7 @@ import {
 } from '../../../composables'
 
 export default defineComponent({
-  name: 'ViewTable',
+  name: 'CollectionTable',
   props: {
     documents: {
       type: Array as PropType<GenericRxDocument[]>,
@@ -44,27 +40,26 @@ export default defineComponent({
     collection: {
       type: Object as PropType<RxCollection>,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
     const { collection } = toRefs(props)
     const { newDoc, next } = useNewDocumentFactory(collection)
     const properties = useCollectionProperties(collection)
-    const [editing, edit] = useToggle()
-    const store = useStore()
-    const save = async () => {
-      await store.dispatch('rxdb/save')
-      editing.value = false
-      await next()
-    }
-    const reset = () => {
-      store.commit('rxdb/reset')
-    }
-    const cancel = () => {
-      reset()
-      editing.value = false
-    }
-    return { properties, editing, edit, save, reset, cancel, newDoc }
+
+    // TODO make it work with relationships
+    // TODO will require to check the hasura permission rule e.g. {field:{_eq: "blah"}}
+    // TODO will also require to check the postgres CHECK constraint?
+    const canUpdate = (propertyName: string): boolean =>
+      !!collection.value.metadata.columns.find(
+        col => col.column_name === propertyName
+      )?.canUpdate.length
+
+    return { properties, newDoc, canUpdate }
   }
 })
 </script>

@@ -1,15 +1,13 @@
 <template lang="pug">
-InputNumber(v-if="editing" :placeholder="name" v-model="model")
-div(v-else) {{model}}
+document-label(:document="refDocument")
 </template>
 
 <script lang="ts">
 import { GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { useRefFieldValue } from '@platyplus/vue-rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
-
-import { useFormProperty } from '../../composables'
 export default defineComponent({
-  name: 'FieldNumber',
+  name: 'FieldReadDocument',
   props: {
     document: {
       type: Object as PropType<GenericRxDocument>,
@@ -26,8 +24,8 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<number>(document, name)
-    return { model }
+    const refDocument = useRefFieldValue<GenericRxDocument>(document, name)
+    return { refDocument }
   }
 })
 </script>

@@ -1,15 +1,15 @@
 <template lang="pug">
-InputText(v-if="editing" :placeholder="name" v-model="model" type="text")
-div(v-else) {{model}}
+InputNumber(:placeholder="name" v-model="model" mode="decimal") 
 </template>
 
 <script lang="ts">
 import { GenericRxDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
-import { useFormProperty } from '../../composables'
+import { useFormProperty } from '../../../composables'
+
 export default defineComponent({
-  name: 'FieldString',
+  name: 'FieldEditInteger',
   props: {
     document: {
       type: Object as PropType<GenericRxDocument>,
@@ -18,16 +18,12 @@ export default defineComponent({
     name: {
       type: String,
       required: true
-    },
-    editing: {
-      type: Boolean,
-      default: false
     }
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model, changed } = useFormProperty<string>(document, name)
-    return { model, changed }
+    const { model } = useFormProperty<number>(document, name)
+    return { model }
   }
 })
 </script>
