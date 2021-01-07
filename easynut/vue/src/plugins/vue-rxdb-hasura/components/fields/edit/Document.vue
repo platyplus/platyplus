@@ -1,11 +1,9 @@
 <template lang="pug">
-Dropdown(v-if="editing" v-model="model" :options="options" optionValue="id" placeholder="Select an item")
+Dropdown(v-model="model" :options="options" optionValue="id" placeholder="Select an item")
   template(#option="slotProps")
     document-label(:document="slotProps.option")
   template(#value="slotProps")
     document-label(:document="refDocument")
-div(v-else)
-  document-label(:document="refDocument")
 </template>
 
 <script lang="ts">
@@ -20,9 +18,9 @@ import {
   toRefs
 } from 'vue'
 
-import { useDB, useFormProperty, useProperty } from '../../composables'
+import { useDB, useFormProperty, useProperty } from '../../../composables'
 export default defineComponent({
-  name: 'FieldDocument',
+  name: 'FieldEditDocument',
   props: {
     document: {
       type: Object as PropType<GenericRxDocument>,
@@ -31,17 +29,13 @@ export default defineComponent({
     name: {
       type: String,
       required: true
-    },
-    editing: {
-      type: Boolean,
-      default: false
     }
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model, changed } = useFormProperty<string>(document, name)
+    const { model } = useFormProperty<string>(document, name)
 
-    // TODO move to a new useOptions(document, propertyName)
+    // TODO move to a new useOptions(document, propertyName) ?
     const options = ref<Array<GenericDocument>>([])
     const property = useProperty(document, name)
     const refDocument = computed(() =>
@@ -49,13 +43,13 @@ export default defineComponent({
     )
 
     const db = useDB()
+    // ? Really necessary to pass through 'onMounted'?
     onMounted(() => {
-      // TODO only subscribe when editing
       const refCollection = db.value?.[property.value.ref as string]
       refCollection &&
         useSubscription(refCollection.find().$.subscribe(toObserver(options)))
     })
-    return { model, options, refDocument, changed }
+    return { model, options, refDocument }
   }
 })
 </script>

@@ -1,6 +1,5 @@
 <template lang="pug">
-div(v-if="editing") editing
-div(v-else) {{value}}
+document-label(v-for="obj, id in value" :document="obj")
 </template>
 
 <script lang="ts">
@@ -8,19 +7,15 @@ import { GenericRxDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
-  name: 'FieldObject',
+  name: 'FieldReadArray',
   props: {
-    value: {
-      type: Object as PropType<GenericRxDocument | null>,
-      default: null
+    document: {
+      type: Object as PropType<GenericRxDocument>,
+      required: true
     },
     name: {
       type: String,
       required: true
-    },
-    editing: {
-      type: Boolean,
-      default: false
     }
   }
 })

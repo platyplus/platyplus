@@ -18,16 +18,11 @@ export const useRefFieldValue = <T>(
   document: Ref<GenericRxDocument | any>,
   name: Ref<string>
 ): Readonly<Ref<Readonly<T>>> => {
-  const property = useProperty(document, name)
   const fieldValue = ref()
   useSubscription(
     document.value
       .get$(name.value)
-      .pipe(
-        mergeMap(async value =>
-          property.value.ref ? await document.value.populate(name.value) : value
-        )
-      )
+      .pipe(mergeMap(async () => await document.value.populate(name.value)))
       .subscribe(toObserver(fieldValue))
   )
   return fieldValue

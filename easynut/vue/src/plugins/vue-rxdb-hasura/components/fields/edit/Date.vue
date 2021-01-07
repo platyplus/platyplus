@@ -1,13 +1,12 @@
 <template lang="pug">
-Calendar(v-if="editing" v-model="proxyDate" dateFormat="dd/mm/yyyy" appendTo="body")
-div(v-else) {{formatedValue}}
+Calendar(v-model="proxyDate" dateFormat="dd/mm/yyyy" appendTo="body")
 </template>
 
 <script lang="ts">
 import { GenericRxDocument } from '@platyplus/rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
-import { useFormProperty } from '../../composables'
+import { useFormProperty } from '../../../composables'
 
 // * Converts a JS date to a `yyyy-mm-dd` format. See https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
 const dateToStringDateOnly = (value: Date): string =>
@@ -15,7 +14,7 @@ const dateToStringDateOnly = (value: Date): string =>
     .toISOString()
     .split('T')[0]
 export default defineComponent({
-  name: 'FieldDate',
+  name: 'FieldEditDate',
   props: {
     document: {
       type: Object as PropType<GenericRxDocument>,
@@ -34,16 +33,13 @@ export default defineComponent({
     // TODO internationalize dateFormat, but preferably without using momentjs (too big)
     const { name, document } = toRefs(props)
     const { model } = useFormProperty<string>(document, name)
-    const formatedValue = computed(
-      () => new Date(model.value).toLocaleDateString() // TODO <-- here (and in the template as well)
-    )
     const proxyDate = computed<Date>({
       get: () => new Date(model.value),
       set: (value: Date) => {
         model.value = dateToStringDateOnly(value)
       }
     })
-    return { formatedValue, proxyDate }
+    return { proxyDate }
   }
 })
 </script>

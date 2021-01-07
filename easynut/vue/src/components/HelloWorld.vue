@@ -11,10 +11,15 @@
   div(v-else)
     button(@click="logout") Logout
   div token {{token}}
-  div form: {{form}}
+  button(v-if="!editing" @click="edit") edit
+  button(v-if="editing" @click="save") save 
+  button(v-if="editing" @click="reset") reset 
+  button(v-if="editing" @click="cancel") cancel
+  div(v-if="editing") form: {{form}}
+
   div(v-for="collection of collections")
     h3 {{collection.name}}
-    collection(:collection="collection")
+    collection(:collection="collection" :editing="editing")
 </template>
 
 <script lang="ts">
@@ -26,6 +31,7 @@ import {
   useStatus
 } from '@platyplus/vue-hasura-backend-plus'
 import { useCollections } from '@platyplus/vue-rxdb-hasura'
+import { useToggle } from '@vueuse/core'
 import { computed, defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -45,6 +51,20 @@ export default defineComponent({
 
     const form = computed(() => store.getters['rxdb/form'])
 
+    const [editing, edit] = useToggle()
+    const save = async () => {
+      await store.dispatch('rxdb/save')
+      editing.value = false
+      // await next()
+    }
+    const reset = () => {
+      store.commit('rxdb/reset')
+    }
+    const cancel = () => {
+      reset()
+      editing.value = false
+    }
+
     return {
       email,
       password,
@@ -56,7 +76,12 @@ export default defineComponent({
       data,
       token,
       collections,
-      form
+      form,
+      save,
+      reset,
+      cancel,
+      editing,
+      edit
     }
   }
 })

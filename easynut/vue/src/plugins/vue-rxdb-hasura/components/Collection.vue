@@ -25,7 +25,7 @@ export default defineComponent({
       // TODO not sure it's optimised at all
       props.collection.find().$.subscribe(toObserver(documents))
     )
-    const componentName = computed(() => `view-${props.type}`)
+    const componentName = computed(() => `collection-${props.type}`)
     return { documents, componentName }
   }
 })
