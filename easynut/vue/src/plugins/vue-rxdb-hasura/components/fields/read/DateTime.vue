@@ -3,7 +3,7 @@ div {{formatedValue}}
 </template>
 
 <script lang="ts">
-import { GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useFieldValue } from '@platyplus/vue-rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
@@ -11,7 +11,7 @@ export default defineComponent({
   name: 'FieldReadDateTime',
   props: {
     document: {
-      type: Object as PropType<GenericRxDocument>,
+      type: Object as PropType<ContentsDocument>,
       required: true
     },
     name: {

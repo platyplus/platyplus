@@ -17,6 +17,21 @@ fragment table on metadata_table {
   config {
     label
   }
+  canSelect_aggregate {
+    aggregate {
+      count
+    }
+  }
+  canInsert_aggregate {
+    aggregate {
+      count
+    }
+  }
+  canUpdate_aggregate {
+    aggregate {
+      count
+    }
+  }
   relationships {
     rel_name
     rel_type

@@ -4,9 +4,10 @@ div(class="card")
     Column(v-for="property, name of properties" :field="name" :header="name" :key="name")
       // ? show only when the column is editable?
       // ! each cell can have different rights
-      template(#editor="slotProps" v-if="editing && canUpdate(name)")
+      template(#editor="slotProps")
         div.p-fluid
-          field-edit-inline(:document="slotProps.data" :name="name")
+          field-edit-inline(v-if="editing && canEditDocument(slotProps.data) && canEditField(name)" :document="slotProps.data" :name="name")
+          field-read(v-else :document="slotProps.data" :name="name")
       template(#body="slotProps")
         div.p-fluid
           field-read(:document="slotProps.data" :name="name")
@@ -21,8 +22,7 @@ div(class="card")
 </template>
 
 <script lang="ts">
-import { GenericRxDocument } from '@platyplus/rxdb-hasura'
-import { RxCollection } from 'rxdb'
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
 import {
@@ -34,11 +34,11 @@ export default defineComponent({
   name: 'CollectionTable',
   props: {
     documents: {
-      type: Array as PropType<GenericRxDocument[]>,
+      type: Array as PropType<ContentsDocument[]>,
       default: []
     },
     collection: {
-      type: Object as PropType<RxCollection>,
+      type: Object as PropType<ContentsCollection>,
       required: true
     },
     editing: {
@@ -48,18 +48,19 @@ export default defineComponent({
   },
   setup(props) {
     const { collection } = toRefs(props)
-    const { newDoc, next } = useNewDocumentFactory(collection)
+    const { newDoc } = useNewDocumentFactory(collection)
     const properties = useCollectionProperties(collection)
 
     // TODO make it work with relationships
     // TODO will require to check the hasura permission rule e.g. {field:{_eq: "blah"}}
     // TODO will also require to check the postgres CHECK constraint?
-    const canUpdate = (propertyName: string): boolean =>
+    const canEditField = (propertyName: string): boolean =>
       !!collection.value.metadata.columns.find(
         col => col.column_name === propertyName
       )?.canUpdate.length
-
-    return { properties, newDoc, canUpdate }
+    const canEditDocument = (doc: ContentsDocument): boolean => doc.canEdit()
+    // TODO canEditCollection
+    return { properties, newDoc, canEditField, canEditDocument }
   }
 })
 </script>

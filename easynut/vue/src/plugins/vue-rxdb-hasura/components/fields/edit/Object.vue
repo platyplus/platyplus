@@ -3,14 +3,14 @@ div TODO editing
 </template>
 
 <script lang="ts">
-import { GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'FieldEditObject',
   props: {
     document: {
-      type: Object as PropType<GenericRxDocument | null>,
+      type: Object as PropType<ContentsDocument | null>,
       default: null
     },
     name: {

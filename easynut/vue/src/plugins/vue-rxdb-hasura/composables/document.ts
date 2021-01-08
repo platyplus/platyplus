@@ -1,25 +1,24 @@
 import {
-  documentLabel,
-  GenericDocument,
-  GenericRxCollection,
-  GenericRxDocument
+  Contents,
+  ContentsCollection,
+  ContentsDocument,
+  documentLabel
 } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
-import { computed, onMounted, Ref, ref, unref, watchEffect } from 'vue'
+import { onMounted, Ref, ref, watchEffect } from 'vue'
 
-import { useCollection } from './collection'
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>
+  document: Ref<ContentsDocument | any>
 ): Readonly<Ref<Readonly<string | null>>> => {
   const result = ref<string | null>(null)
   watchEffect(() => {
     document.value &&
       useSubscription(
         document.value.$.pipe(
-          map<GenericDocument, string | null>(val =>
+          map<Contents, string | null>(val =>
             documentLabel(val, document.value.collection)
           )
         ).subscribe(toObserver(result))
@@ -29,8 +28,8 @@ export const useDocumentLabel = (
 }
 
 export const newDocumentFactory = (
-  collection: GenericRxCollection
-): GenericRxDocument => {
+  collection: ContentsCollection
+): ContentsDocument => {
   const newDoc = collection.newDocument()
   newDoc[collection.schema.primaryPath] = uuid()
   return newDoc
@@ -38,17 +37,17 @@ export const newDocumentFactory = (
 
 export const useNewDocumentFactory = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: Ref<GenericRxCollection | any>
+  collection: Ref<ContentsCollection | any>
 ): {
-  next: () => GenericRxDocument
-  newDoc: Ref<GenericRxDocument>
+  next: () => ContentsDocument
+  newDoc: Ref<ContentsDocument>
 } => {
-  const newDoc = ref() as Ref<GenericRxDocument>
+  const newDoc = ref() as Ref<ContentsDocument>
   onMounted(() => {
     newDoc.value = newDocumentFactory(collection.value)
   })
   return {
-    next: (): GenericRxDocument => {
+    next: (): ContentsDocument => {
       newDoc.value = newDocumentFactory(collection.value)
       return newDoc.value
     },

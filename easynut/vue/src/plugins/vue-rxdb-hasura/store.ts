@@ -1,22 +1,22 @@
 import {
   castValue,
-  GenericDocument,
-  GenericRxDocument
+  Contents,
+  ContentsDocument,
+  Database
 } from '@platyplus/rxdb-hasura'
 import * as immutable from 'object-path-immutable'
-import { RxDatabase, RxDocument } from 'rxdb'
 import { Ref } from 'vue'
 import { Store } from 'vuex'
 
 type State = {
-  forms: Record<string, Record<string, GenericDocument | RxDocument>>
+  forms: Record<string, Record<string, Contents>>
 }
 const state = (): State => ({
   forms: {}
 })
 
 export const addModule = <R>(
-  db: Ref<RxDatabase | undefined>,
+  db: Ref<Database | undefined>,
   store: Store<R>
 ): void => {
   store.registerModule('rxdb', {
@@ -24,7 +24,7 @@ export const addModule = <R>(
     state,
     getters: {
       form: state => state.forms,
-      getField: state => (document: GenericRxDocument, field: string) =>
+      getField: state => (document: ContentsDocument, field: string) =>
         document &&
         immutable.get(
           state.forms,
@@ -68,7 +68,7 @@ export const addModule = <R>(
           document,
           field,
           value
-        }: { document: GenericRxDocument; field: string; value: string }
+        }: { document: ContentsDocument; field: string; value: string }
       ) => {
         const collection = document.collection
         state.forms = immutable.set(

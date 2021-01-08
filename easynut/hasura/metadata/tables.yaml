@@ -329,6 +329,7 @@
       filter:
         role_name:
           _eq: x-hasura-role
+      allow_aggregations: true
 - table:
     schema: metadata
     name: permission_select_columns
@@ -381,6 +382,7 @@
       filter:
         role_name:
           _eq: x-hasura-role
+      allow_aggregations: true
 - table:
     schema: metadata
     name: permission_update_columns
@@ -433,6 +435,7 @@
       filter:
         role_name:
           _eq: x-hasura-role
+      allow_aggregations: true
 - table:
     schema: metadata
     name: primary_key
@@ -656,6 +659,33 @@
           table_schema: table_schema
           table_name: table_name
   array_relationships:
+  - name: canInsert
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_insert_columns
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: canSelect
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_select_columns
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: canUpdate
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: permission_update_columns
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
   - name: checkContraints
     using:
       manual_configuration:

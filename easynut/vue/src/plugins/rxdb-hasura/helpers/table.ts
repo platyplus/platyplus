@@ -9,7 +9,7 @@ import {
 } from '../types'
 import { propertyJsonType } from './property'
 
-export const fullTableName = (data: CoreTableFragment): string =>
+export const metadataName = (data: CoreTableFragment): string =>
   data.table_schema === 'public'
     ? `${data.table_name}`
     : `${data.table_schema}_${data.table_name}`
@@ -30,7 +30,7 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
   // TODO get the query/mutations/subscription names for building graphql queries
   const result: RxJsonSchema = {
     type: 'object',
-    title: fullTableName(table),
+    title: metadataName(table),
     description: '', // TODO table comment not in metadata yet
     version: 0,
     properties: {},
@@ -58,7 +58,7 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
     const mappingItem = relationship.mapping[0]
     const column = mappingItem.column as ColumnFragment
     const refTable = mappingItem.remoteTable as CoreTableFragment
-    const ref = fullTableName(refTable)
+    const ref = metadataName(refTable)
     const type = propertyJsonType(column)
     if (relationship.mapping.length !== 1)
       throw Error(

@@ -1,19 +1,19 @@
-import { RxCollection, RxGraphQLReplicationQueryBuilder } from 'rxdb'
+import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import stringifyObject from 'stringify-object'
 
 import { debug } from '../console'
-import { fullTableName } from '../helpers'
-import { GenericDocument, Modifier } from '../types'
+import { metadataName } from '../helpers'
+import { Contents, ContentsCollection, Modifier } from '../types'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
-const isNewDocument = (doc: GenericDocument): boolean => !doc.updated_at
+const isNewDocument = (doc: Contents): boolean => !doc.updated_at
 
 export const pushQueryBuilder = (
-  collection: RxCollection
+  collection: ContentsCollection
 ): RxGraphQLReplicationQueryBuilder => {
   const table = collection.metadata
-  const title = fullTableName(table)
-  return ({ _isNew, ...doc }: GenericDocument) => {
+  const title = metadataName(table)
+  return ({ _isNew, ...doc }: Contents) => {
     debug('push query builder in', doc)
     // const { _isNew, ...insertDoc } = doc
     const { id, ...updateDoc } = doc
@@ -33,7 +33,7 @@ export const pushQueryBuilder = (
   }
 }
 
-export const pushModifier = (collection: RxCollection): Modifier => {
+export const pushModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
   const objectRelationships = table.relationships
     .filter(({ rel_type }) => rel_type === 'object')
@@ -83,6 +83,6 @@ export const pushModifier = (collection: RxCollection): Modifier => {
     for (const field of excluded) delete doc[field]
 
     debug('pushModifier: out', { ...doc })
-    return { id, _isNew, ...doc }
+    return { _isNew, ...doc, id }
   }
 }

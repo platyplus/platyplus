@@ -3,7 +3,7 @@ Calendar(v-model="proxyDate" dateFormat="dd/mm/yyyy" appendTo="body")
 </template>
 
 <script lang="ts">
-import { GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
 import { useFormProperty } from '../../../composables'
@@ -17,7 +17,7 @@ export default defineComponent({
   name: 'FieldEditDate',
   props: {
     document: {
-      type: Object as PropType<GenericRxDocument>,
+      type: Object as PropType<ContentsDocument>,
       required: true
     },
     name: {

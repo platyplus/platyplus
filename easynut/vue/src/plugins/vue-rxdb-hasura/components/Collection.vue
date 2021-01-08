@@ -3,15 +3,14 @@ component(:is="componentName" :documents="documents" :collection="collection")
 </template>
 
 <script lang="ts">
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
-import { RxCollection, RxDocument } from 'rxdb'
 import { computed, defineComponent, PropType, ref } from 'vue'
-
 export default defineComponent({
   name: 'Collection',
   props: {
     collection: {
-      type: Object as PropType<RxCollection>,
+      type: Object as PropType<ContentsCollection>,
       required: true
     },
     type: {
@@ -20,11 +19,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const documents = ref<RxDocument[]>([])
-    useSubscription(
-      // TODO not sure it's optimised at all
-      props.collection.find().$.subscribe(toObserver(documents))
-    )
+    // TODO not sure it's optimised
+    const documents = ref<ContentsDocument[]>([])
+    useSubscription(props.collection.find().$.subscribe(toObserver(documents)))
     const componentName = computed(() => `collection-${props.type}`)
     return { documents, componentName }
   }

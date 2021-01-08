@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
-import { RxCollection, RxDatabase, RxPlugin } from 'rxdb'
+import { RxPlugin } from 'rxdb'
 import { BehaviorSubject } from 'rxjs'
 
 import { info } from './console'
 import { createContentReplicator } from './contents/replicator'
 import { createMetadataReplicator } from './metadata/replicator'
 import { metadataSchema } from './metadata/schema'
+import { ContentsCollection, Database } from './types'
 
 // const forbiddenInsert = table.columns
 //   .filter(column => !column.canInsert.length)
@@ -19,11 +20,11 @@ import { metadataSchema } from './metadata/schema'
 // TODO 4. Raise an error otherwise
 // TODO BUT we don't want these values to be sent over to the server => delete forbidden keys in the replicator push event
 // TODO in the replicator: in the upsert stuff, use only permitted columns in the insert and the update (on conflict) part
-// db.collections[name].preInsert((data: GenericDocument) => {
+// db.collections[name].preInsert((data: Contents) => {
 //   forbiddenInsert.forEach(column => delete data[column])
 //   return data
 // }, false)
-// db.collections[name].preSave((data: GenericDocument) => {
+// db.collections[name].preSave((data: Contents) => {
 //   forbibbenUpdate.forEach(column => delete data[column])
 //   return data
 // }, false)
@@ -31,12 +32,11 @@ import { metadataSchema } from './metadata/schema'
 // info(`DatabaseService: initialised ${tablesArray.length} collections`)
 const jwt = new BehaviorSubject<string | undefined>(undefined)
 const status = new BehaviorSubject<boolean>(false)
-const hasura = new BehaviorSubject<Record<string, RxCollection>>({})
-
-const hasuraCollections = (db: RxDatabase) =>
+const hasura = new BehaviorSubject<Record<string, ContentsCollection>>({})
+const hasuraCollections = (db: Database) =>
   Object.keys(db.collections)
     .filter(colName => db.collections[colName].options.metadata)
-    .reduce<Record<string, RxCollection>>(
+    .reduce<Record<string, ContentsCollection>>(
       (aggr, curr) => ((aggr[curr] = db.collections[curr]), aggr),
       {}
     )
@@ -47,19 +47,19 @@ export const RxHasuraPlugin: RxPlugin = {
   prototypes: {
     RxDatabase: (proto: any) => {
       Object.defineProperty(proto, 'hasura$', {
-        get: function (this: RxDatabase) {
+        get: function (this: Database) {
           return hasura
         }
       })
 
       Object.defineProperty(proto, 'status$', {
-        get: function (this: RxDatabase) {
+        get: function (this: Database) {
           return status
         }
       })
 
       proto.setStatus = function (
-        this: RxDatabase,
+        this: Database,
         value: boolean,
         jwt?: string
       ) {
@@ -67,32 +67,25 @@ export const RxHasuraPlugin: RxPlugin = {
         this.jwt$.next(jwt)
       }
 
-      proto.setJwt = function (this: RxDatabase, value: string) {
+      proto.setJwt = function (this: Database, value: string) {
         this.jwt$.next(value)
       }
 
       Object.defineProperty(proto, 'jwt$', {
-        get: function (this: RxDatabase) {
+        get: function (this: Database) {
           return jwt
         }
       })
 
       Object.defineProperty(proto, 'hasura', {
-        get: function (this: RxDatabase) {
+        get: function (this: Database) {
           return hasura.getValue()
-        }
-      })
-    },
-    RxCollection: (proto: any) => {
-      Object.defineProperty(proto, 'metadata', {
-        get: function (this: RxCollection) {
-          return this._metadata
         }
       })
     }
   },
   hooks: {
-    createRxDatabase: async (db: RxDatabase): Promise<void> => {
+    createRxDatabase: async (db: Database): Promise<void> => {
       info(`Add metadata to RxDatabase ${db.name}`)
       await db.addCollections({
         metadata: {
@@ -104,13 +97,15 @@ export const RxHasuraPlugin: RxPlugin = {
       hasura.next(hasuraCollections(db))
     },
 
-    createRxCollection: async (collection: RxCollection): Promise<void> => {
+    createRxCollection: async (
+      collection: ContentsCollection
+    ): Promise<void> => {
       if (collection.options.metadata) {
-        collection._metadata = collection.options.metadata
+        collection.metadata = collection.options.metadata
         await createContentReplicator(collection)
         info(`create RxCollection ${collection.name}`)
         hasura.next({
-          ...hasuraCollections(collection.database as RxDatabase),
+          ...hasuraCollections(collection.database),
           [collection.name]: collection
         })
       }
