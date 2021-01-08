@@ -1,10 +1,9 @@
-import { RxCollection } from 'rxdb'
+import { metadataName } from '../helpers'
+import { ContentsCollection } from '../types'
 
-import { fullTableName } from '../helpers'
-
-export const subscriptionQuery = (collection: RxCollection): string => {
+export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = collection.metadata
-  const title = fullTableName(table)
+  const title = metadataName(table)
   // TODO limit: 1
   const now = new Date(Date.now()).toUTCString()
   const arrayRels = table.relationships

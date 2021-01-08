@@ -2108,9 +2108,15 @@ export type Metadata_Column_Info_Min_Order_By = {
 
 /** ordering options when selecting data from "metadata.column_info" */
 export type Metadata_Column_Info_Order_By = {
-  canInsert_aggregate: Maybe<Metadata_Permission_Insert_Columns_Aggregate_Order_By>
-  canSelect_aggregate: Maybe<Metadata_Permission_Select_Columns_Aggregate_Order_By>
-  canUpdate_aggregate: Maybe<Metadata_Permission_Update_Columns_Aggregate_Order_By>
+  canInsert_aggregate: Maybe<
+    Metadata_Permission_Insert_Columns_Aggregate_Order_By
+  >
+  canSelect_aggregate: Maybe<
+    Metadata_Permission_Select_Columns_Aggregate_Order_By
+  >
+  canUpdate_aggregate: Maybe<
+    Metadata_Permission_Update_Columns_Aggregate_Order_By
+  >
   character_maximum_length: Maybe<Order_By>
   character_octet_length: Maybe<Order_By>
   character_set_catalog: Maybe<Order_By>
@@ -4648,6 +4654,18 @@ export enum Metadata_Schema_Info_Select_Column {
 export type Metadata_Table = {
   __typename?: 'metadata_table'
   /** An array relationship */
+  canInsert: Array<Metadata_Permission_Insert_Columns>
+  /** An aggregated array relationship */
+  canInsert_aggregate: Metadata_Permission_Insert_Columns_Aggregate
+  /** An array relationship */
+  canSelect: Array<Metadata_Permission_Select_Columns>
+  /** An aggregated array relationship */
+  canSelect_aggregate: Metadata_Permission_Select_Columns_Aggregate
+  /** An array relationship */
+  canUpdate: Array<Metadata_Permission_Update_Columns>
+  /** An aggregated array relationship */
+  canUpdate_aggregate: Metadata_Permission_Update_Columns_Aggregate
+  /** An array relationship */
   checkContraints: Array<Metadata_Check_Constraint>
   /** An aggregated array relationship */
   checkContraints_aggregate: Metadata_Check_Constraint_Aggregate
@@ -4666,7 +4684,6 @@ export type Metadata_Table = {
   foreignKeys: Array<Metadata_Foreign_Key_Constraint>
   /** An aggregated array relationship */
   foreignKeys_aggregate: Metadata_Foreign_Key_Constraint_Aggregate
-  full_name: Maybe<Scalars['String']>
   /** An object relationship */
   info: Maybe<Metadata_Table_Info>
   is_enum: Maybe<Scalars['Boolean']>
@@ -4695,6 +4712,60 @@ export type Metadata_Table = {
   uniqueConstraints: Array<Metadata_Unique_Constraint>
   /** An aggregated array relationship */
   uniqueConstraints_aggregate: Metadata_Unique_Constraint_Aggregate
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableCanInsertArgs = {
+  distinct_on: Maybe<Array<Metadata_Permission_Insert_Columns_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Permission_Insert_Columns_Order_By>>
+  where: Maybe<Metadata_Permission_Insert_Columns_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableCanInsert_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Permission_Insert_Columns_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Permission_Insert_Columns_Order_By>>
+  where: Maybe<Metadata_Permission_Insert_Columns_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableCanSelectArgs = {
+  distinct_on: Maybe<Array<Metadata_Permission_Select_Columns_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Permission_Select_Columns_Order_By>>
+  where: Maybe<Metadata_Permission_Select_Columns_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableCanSelect_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Permission_Select_Columns_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Permission_Select_Columns_Order_By>>
+  where: Maybe<Metadata_Permission_Select_Columns_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableCanUpdateArgs = {
+  distinct_on: Maybe<Array<Metadata_Permission_Update_Columns_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Permission_Update_Columns_Order_By>>
+  where: Maybe<Metadata_Permission_Update_Columns_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableCanUpdate_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Permission_Update_Columns_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Permission_Update_Columns_Order_By>>
+  where: Maybe<Metadata_Permission_Update_Columns_Bool_Exp>
 }
 
 /** columns and relationships of "metadata.table" */
@@ -4875,8 +4946,6 @@ export type Metadata_Table_Aggregate = {
 export type Metadata_Table_Aggregate_Fields = {
   __typename?: 'metadata_table_aggregate_fields'
   count: Maybe<Scalars['Int']>
-  max: Maybe<Metadata_Table_Max_Fields>
-  min: Maybe<Metadata_Table_Min_Fields>
 }
 
 /** aggregate fields of "metadata.table" */
@@ -4888,8 +4957,6 @@ export type Metadata_Table_Aggregate_FieldsCountArgs = {
 /** order by aggregate values of table "metadata.table" */
 export type Metadata_Table_Aggregate_Order_By = {
   count: Maybe<Order_By>
-  max: Maybe<Metadata_Table_Max_Order_By>
-  min: Maybe<Metadata_Table_Min_Order_By>
 }
 
 /** append existing jsonb value of filtered columns with new jsonb value */
@@ -4907,13 +4974,15 @@ export type Metadata_Table_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Table_Bool_Exp>>>
   _not: Maybe<Metadata_Table_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Table_Bool_Exp>>>
+  canInsert: Maybe<Metadata_Permission_Insert_Columns_Bool_Exp>
+  canSelect: Maybe<Metadata_Permission_Select_Columns_Bool_Exp>
+  canUpdate: Maybe<Metadata_Permission_Update_Columns_Bool_Exp>
   checkContraints: Maybe<Metadata_Check_Constraint_Bool_Exp>
   columns: Maybe<Metadata_Column_Info_Bool_Exp>
   computedFields: Maybe<Metadata_Computed_Field_Bool_Exp>
   config: Maybe<Metadata_Table_Config_Bool_Exp>
   configuration: Maybe<Jsonb_Comparison_Exp>
   foreignKeys: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
-  full_name: Maybe<String_Comparison_Exp>
   info: Maybe<Metadata_Table_Info_Bool_Exp>
   is_enum: Maybe<Boolean_Comparison_Exp>
   is_system_defined: Maybe<Boolean_Comparison_Exp>
@@ -5259,34 +5328,11 @@ export type Metadata_Table_Insert_Input = {
   computedFields: Maybe<Metadata_Computed_Field_Arr_Rel_Insert_Input>
   config: Maybe<Metadata_Table_Config_Obj_Rel_Insert_Input>
   configuration: Maybe<Scalars['jsonb']>
-  full_name: Maybe<Scalars['String']>
   is_enum: Maybe<Scalars['Boolean']>
   is_system_defined: Maybe<Scalars['Boolean']>
   relationships: Maybe<Metadata_Relationship_Arr_Rel_Insert_Input>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
-}
-
-/** aggregate max on columns */
-export type Metadata_Table_Max_Fields = {
-  __typename?: 'metadata_table_max_fields'
-  full_name: Maybe<Scalars['String']>
-}
-
-/** order by max() on columns of table "metadata.table" */
-export type Metadata_Table_Max_Order_By = {
-  full_name: Maybe<Order_By>
-}
-
-/** aggregate min on columns */
-export type Metadata_Table_Min_Fields = {
-  __typename?: 'metadata_table_min_fields'
-  full_name: Maybe<Scalars['String']>
-}
-
-/** order by min() on columns of table "metadata.table" */
-export type Metadata_Table_Min_Order_By = {
-  full_name: Maybe<Order_By>
 }
 
 /** response of any mutation on the table "metadata.table" */
@@ -5305,24 +5351,38 @@ export type Metadata_Table_Obj_Rel_Insert_Input = {
 
 /** ordering options when selecting data from "metadata.table" */
 export type Metadata_Table_Order_By = {
+  canInsert_aggregate: Maybe<
+    Metadata_Permission_Insert_Columns_Aggregate_Order_By
+  >
+  canSelect_aggregate: Maybe<
+    Metadata_Permission_Select_Columns_Aggregate_Order_By
+  >
+  canUpdate_aggregate: Maybe<
+    Metadata_Permission_Update_Columns_Aggregate_Order_By
+  >
   checkContraints_aggregate: Maybe<Metadata_Check_Constraint_Aggregate_Order_By>
   columns_aggregate: Maybe<Metadata_Column_Info_Aggregate_Order_By>
   computedFields_aggregate: Maybe<Metadata_Computed_Field_Aggregate_Order_By>
   config: Maybe<Metadata_Table_Config_Order_By>
   configuration: Maybe<Order_By>
-  foreignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
-  full_name: Maybe<Order_By>
+  foreignKeys_aggregate: Maybe<
+    Metadata_Foreign_Key_Constraint_Aggregate_Order_By
+  >
   info: Maybe<Metadata_Table_Info_Order_By>
   is_enum: Maybe<Order_By>
   is_system_defined: Maybe<Order_By>
   permissions_aggregate: Maybe<Metadata_Permission_Agg_Aggregate_Order_By>
   primaryKey: Maybe<Metadata_Primary_Key_Order_By>
   primaryKeys_aggregate: Maybe<Metadata_Primary_Key_Aggregate_Order_By>
-  refForeignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
+  refForeignKeys_aggregate: Maybe<
+    Metadata_Foreign_Key_Constraint_Aggregate_Order_By
+  >
   relationships_aggregate: Maybe<Metadata_Relationship_Aggregate_Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
-  uniqueConstraints_aggregate: Maybe<Metadata_Unique_Constraint_Aggregate_Order_By>
+  uniqueConstraints_aggregate: Maybe<
+    Metadata_Unique_Constraint_Aggregate_Order_By
+  >
 }
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
@@ -5334,8 +5394,6 @@ export type Metadata_Table_Prepend_Input = {
 export enum Metadata_Table_Select_Column {
   /** column name */
   Configuration = 'configuration',
-  /** column name */
-  FullName = 'full_name',
   /** column name */
   IsEnum = 'is_enum',
   /** column name */
@@ -5349,7 +5407,6 @@ export enum Metadata_Table_Select_Column {
 /** input type for updating data in table "metadata.table" */
 export type Metadata_Table_Set_Input = {
   configuration: Maybe<Scalars['jsonb']>
-  full_name: Maybe<Scalars['String']>
   is_enum: Maybe<Scalars['Boolean']>
   is_system_defined: Maybe<Scalars['Boolean']>
   table_name: Maybe<Scalars['name']>
@@ -5605,7 +5662,9 @@ export type Mutation_Root = {
   /** delete single row from the table: "drug" */
   delete_drug_by_pk: Maybe<Drug>
   /** delete data from the table: "metadata.computed_field" */
-  delete_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
+  delete_metadata_computed_field: Maybe<
+    Metadata_Computed_Field_Mutation_Response
+  >
   /** delete data from the table: "metadata.custom_type" */
   delete_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** delete data from the table: "metadata.function" */
@@ -5659,7 +5718,9 @@ export type Mutation_Root = {
   /** insert a single row into the table: "drug" */
   insert_drug_one: Maybe<Drug>
   /** insert data into the table: "metadata.computed_field" */
-  insert_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
+  insert_metadata_computed_field: Maybe<
+    Metadata_Computed_Field_Mutation_Response
+  >
   /** insert a single row into the table: "metadata.computed_field" */
   insert_metadata_computed_field_one: Maybe<Metadata_Computed_Field>
   /** insert data into the table: "metadata.custom_type" */
@@ -5723,7 +5784,9 @@ export type Mutation_Root = {
   /** update single row of the table: "drug" */
   update_drug_by_pk: Maybe<Drug>
   /** update data of the table: "metadata.computed_field" */
-  update_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
+  update_metadata_computed_field: Maybe<
+    Metadata_Computed_Field_Mutation_Response
+  >
   /** update data of the table: "metadata.custom_type" */
   update_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** update data of the table: "metadata.function" */
@@ -8801,6 +8864,33 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       'label'
     >
   >
+  canSelect_aggregate: {
+    __typename?: 'metadata_permission_select_columns_aggregate'
+  } & {
+    aggregate: Maybe<
+      {
+        __typename?: 'metadata_permission_select_columns_aggregate_fields'
+      } & Pick<Metadata_Permission_Select_Columns_Aggregate_Fields, 'count'>
+    >
+  }
+  canInsert_aggregate: {
+    __typename?: 'metadata_permission_insert_columns_aggregate'
+  } & {
+    aggregate: Maybe<
+      {
+        __typename?: 'metadata_permission_insert_columns_aggregate_fields'
+      } & Pick<Metadata_Permission_Insert_Columns_Aggregate_Fields, 'count'>
+    >
+  }
+  canUpdate_aggregate: {
+    __typename?: 'metadata_permission_update_columns_aggregate'
+  } & {
+    aggregate: Maybe<
+      {
+        __typename?: 'metadata_permission_update_columns_aggregate_fields'
+      } & Pick<Metadata_Permission_Update_Columns_Aggregate_Fields, 'count'>
+    >
+  }
   relationships: Array<
     { __typename?: 'metadata_relationship' } & Pick<
       Metadata_Relationship,
@@ -8878,6 +8968,21 @@ export const TableFragmentDoc = gql`
     }
     config {
       label
+    }
+    canSelect_aggregate {
+      aggregate {
+        count
+      }
+    }
+    canInsert_aggregate {
+      aggregate {
+        count
+      }
+    }
+    canUpdate_aggregate {
+      aggregate {
+        count
+      }
     }
     relationships {
       rel_name

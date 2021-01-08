@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars'
 
-import { GenericDocument, GenericRxCollection } from '../types'
+import { Contents, ContentsCollection } from '../types'
 
 export const documentLabel = (
-  doc: GenericDocument,
-  collection: GenericRxCollection
+  doc: Contents,
+  collection: ContentsCollection
 ): string | null => {
   const template =
     collection.metadata.config?.label || `{{${collection.schema.primaryPath}}}`

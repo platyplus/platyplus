@@ -1,17 +1,17 @@
-import { RxCollection, RxGraphQLReplicationQueryBuilder } from 'rxdb'
+import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
-import { fullTableName } from '../helpers'
-import { GenericDocument, Modifier } from '../types'
+import { metadataName } from '../helpers'
+import { Contents, ContentsCollection, Modifier } from '../types'
 
 export const pullQueryBuilder = (
-  collection: RxCollection,
+  collection: ContentsCollection,
   batchSize: number
 ): RxGraphQLReplicationQueryBuilder => {
   const table = collection.metadata
   const fields = table.columns
     .filter(column => column.canSelect.length)
     .map(col => col.column_name)
-  const title = fullTableName(table)
+  const title = metadataName(table)
 
   // * Add array relationships and their aggregates to the list of query fiels
   const arrayRelationships = table.relationships
@@ -93,7 +93,7 @@ export const pullQueryBuilder = (
   return doc => ({
     query: doc ? updateQuery : initialQuery,
 
-    variables: arrayRelationships.reduce<GenericDocument>(
+    variables: arrayRelationships.reduce<Contents>(
       // * add the existing updated_at array relationship aggregates if they exist
       (variables, rel) => (
         (variables[`updated_at_${rel}`] =
@@ -111,7 +111,7 @@ export const pullQueryBuilder = (
   })
 }
 
-export const pullModifier = (collection: RxCollection): Modifier => {
+export const pullModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
   const cleansedRelationships = table.relationships.map(rel => {
     return {

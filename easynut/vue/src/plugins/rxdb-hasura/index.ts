@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import {
-  addRxPlugin,
-  createRxDatabase,
-  RxCollection,
-  RxDatabase,
-  RxDatabaseCreator
-} from 'rxdb'
+import { addRxPlugin, createRxDatabase, RxDatabaseCreator } from 'rxdb'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 
 import { RxHasuraPlugin } from './plugin'
+import { Database, DatabaseCollections } from './types'
 
 export { RxHasuraPlugin } from './plugin'
 export * from './helpers'
@@ -18,7 +13,7 @@ export * from './types'
 export const createRxHasura = async (
   name: string,
   url: string
-): Promise<RxDatabase> => {
+): Promise<Database> => {
   const settings: RxDatabaseCreator = {
     name,
     // password: 'myPassword', // <- password (optional)
@@ -39,9 +34,7 @@ export const createRxHasura = async (
     addRxPlugin(require('pouchdb-adapter-idb'))
   }
 
-  const db = (await createRxDatabase<Record<string, RxCollection>>(
-    settings
-  )) as RxDatabase
+  const db = (await createRxDatabase<DatabaseCollections>(settings)) as Database
 
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,5 +44,6 @@ export const createRxHasura = async (
   // db.waitForLeadership().then(() => {
   //   debug('DB took the leadership')
   // })
+
   return db
 }

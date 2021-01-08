@@ -3,7 +3,7 @@ component(:is="componentName" v-bind="props")
 </template>
 
 <script lang="ts">
-import { GenericRxDocument, propertyType } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, propertyType } from '@platyplus/rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
 import { useProperty } from '../composables'
@@ -12,7 +12,7 @@ export default defineComponent({
   name: 'FieldRead',
   props: {
     document: {
-      type: Object as PropType<GenericRxDocument>,
+      type: Object as PropType<ContentsDocument>,
       required: true
     },
     name: {

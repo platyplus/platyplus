@@ -7,7 +7,7 @@ div(v-else) document
 </template>
 
 <script lang="ts">
-import { GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
 import { useDocumentProperties } from '../../../composables'
@@ -15,7 +15,7 @@ export default defineComponent({
   name: 'ItemCard',
   props: {
     document: {
-      type: Object as PropType<GenericRxDocument>,
+      type: Object as PropType<ContentsDocument>,
       required: true
     }
   },

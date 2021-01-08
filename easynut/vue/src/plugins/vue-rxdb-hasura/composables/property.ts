@@ -1,6 +1,6 @@
 import {
-  GenericRxCollection,
-  GenericRxDocument,
+  ContentsCollection,
+  ContentsDocument,
   Metadata
 } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
@@ -15,7 +15,7 @@ import { useDocumentCollection } from './collection'
 
 export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<ContentsDocument | any>,
   name: Ref<string>
 ): Readonly<Ref<Readonly<T>>> => {
   const fieldValue = ref()
@@ -30,7 +30,7 @@ export const useRefFieldValue = <T>(
 
 export const useFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<ContentsDocument | any>,
   name: Ref<string>
 ): Readonly<Ref<Readonly<T>>> => {
   const fieldValue = ref()
@@ -42,7 +42,7 @@ export const useFieldValue = <T>(
 
 export const useProperty = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<ContentsDocument | any>,
   name: Ref<string>
 ): ComputedRef<TopLevelProperty | PrimaryProperty> =>
   computed(
@@ -51,7 +51,7 @@ export const useProperty = (
 
 export const useCollectionProperties = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: Ref<GenericRxCollection | any>
+  collection: Ref<ContentsCollection | any>
 ): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   return computed(() => {
     const schema: RxSchema = collection.value.schema
@@ -72,7 +72,7 @@ export const useCollectionProperties = (
 
 export const useDocumentProperties = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>
+  document: Ref<ContentsDocument | any>
 ): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
   const collection = useDocumentCollection(document)
   return useCollectionProperties(collection)
@@ -80,7 +80,7 @@ export const useDocumentProperties = (
 
 export const useFormProperty = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<GenericRxDocument | any>,
+  document: Ref<ContentsDocument | any>,
   name: Ref<string>
 ): { model: WritableComputedRef<T>; changed: ComputedRef<boolean> } => {
   const fieldValue = useFieldValue<T>(document, name)

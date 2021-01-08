@@ -4,7 +4,7 @@ import 'primevue/resources/themes/saga-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 
-import { createRxHasura } from '@platyplus/rxdb-hasura'
+import { createRxHasura, Database } from '@platyplus/rxdb-hasura'
 import { Instance } from '@platyplus/vue-hasura-backend-plus'
 import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
@@ -17,7 +17,6 @@ import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
-import { RxDatabase } from 'rxdb'
 import { App, InjectionKey, Ref, ref } from 'vue'
 import { Store } from 'vuex'
 
@@ -33,7 +32,7 @@ export type RxDBHasuraPluginOptions<S> = {
 }
 
 export type RxHasuraPlugin = {
-  db: Ref<RxDatabase | undefined>
+  db: Ref<Database | undefined>
   install(app: App, injectKey: string | InjectionKey<unknown>): void
 }
 
@@ -44,7 +43,7 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
   hbp,
   store
 }: RxDBHasuraPluginOptions<S>): RxHasuraPlugin => {
-  const db = ref<RxDatabase | undefined>()
+  const db = ref<Database | undefined>()
   const install = async (
     app: App,
     injectKey: string | InjectionKey<unknown>

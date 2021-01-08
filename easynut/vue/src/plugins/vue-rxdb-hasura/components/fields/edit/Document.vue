@@ -7,7 +7,7 @@ Dropdown(v-model="model" :options="options" optionValue="id" placeholder="Select
 </template>
 
 <script lang="ts">
-import { GenericDocument, GenericRxDocument } from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import {
   computed,
@@ -23,7 +23,7 @@ export default defineComponent({
   name: 'FieldEditDocument',
   props: {
     document: {
-      type: Object as PropType<GenericRxDocument>,
+      type: Object as PropType<ContentsDocument>,
       required: true
     },
     name: {
@@ -36,7 +36,7 @@ export default defineComponent({
     const { model } = useFormProperty<string>(document, name)
 
     // TODO move to a new useOptions(document, propertyName) ?
-    const options = ref<Array<GenericDocument>>([])
+    const options = ref<Array<Contents>>([])
     const property = useProperty(document, name)
     const refDocument = computed(() =>
       options.value.find(doc => doc.id === model.value)

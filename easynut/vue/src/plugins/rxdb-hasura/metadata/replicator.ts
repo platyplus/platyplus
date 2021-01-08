@@ -1,9 +1,4 @@
-import {
-  RxChangeEvent,
-  RxCollection,
-  RxDatabase,
-  SyncOptionsGraphQL
-} from 'rxdb'
+import { RxChangeEvent, SyncOptionsGraphQL } from 'rxdb'
 
 export type MetadataReplicatorOptions = {
   url: string
@@ -15,16 +10,16 @@ import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-g
 import { Subscription } from 'rxjs'
 
 import { debug, warn } from '../console'
-import { fullTableName, toJsonSchema } from '../helpers'
+import { contentsCollectionCreator } from '../contents/collection-creator'
+import { metadataName, toJsonSchema } from '../helpers'
+import { Database, Metadata, MetadataCollection } from '../types'
 import docQuery from './metadata.graphql'
 
 const query = print(docQuery)
 const noopQuery =
   '{metadata_table(where:{_and:[{table_schema: {_eq: "noop"}},{table_schema: {_neq: "noop"}}]}) {table_name}}'
 
-const createMetadataReplicatorOptions = (
-  db: RxDatabase
-): SyncOptionsGraphQL => {
+const createMetadataReplicatorOptions = (db: Database): SyncOptionsGraphQL => {
   const token = db.jwt$.getValue()
   const headers: Record<string, string> = token
     ? { Authorization: `Bearer ${token}` }
@@ -37,7 +32,7 @@ const createMetadataReplicatorOptions = (
         query: doc ? noopQuery : query,
         variables: {}
       }),
-      modifier: doc => ({ ...doc, full_name: fullTableName(doc) })
+      modifier: doc => ({ ...doc, full_name: metadataName(doc) })
     },
     live: true,
     liveInterval: 1000 * 60 * 10, // 10 minutes
@@ -46,9 +41,9 @@ const createMetadataReplicatorOptions = (
 }
 
 export const createMetadataReplicator = async (
-  metadata: RxCollection
+  metadata: MetadataCollection
 ): Promise<void> => {
-  const db = metadata.database as RxDatabase
+  const db = metadata.database
 
   let state: RxGraphQLReplicationState | undefined
   let metaSubscription: Subscription | undefined
@@ -57,16 +52,15 @@ export const createMetadataReplicator = async (
 
   const start = async (): Promise<void> => {
     state = metadata.syncGraphQL(createMetadataReplicatorOptions(db))
-    metaSubscription = metadata.$.subscribe(async (event: RxChangeEvent) => {
-      if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
-        await metadata.database.addCollections({
-          [event.documentId]: {
-            schema: toJsonSchema(event.documentData),
-            options: { metadata: event.documentData }
-          }
-        })
+    metaSubscription = metadata.$.subscribe(
+      async (event: RxChangeEvent<Metadata>) => {
+        if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
+          await metadata.database.addCollections({
+            [event.documentId]: contentsCollectionCreator(event.documentData)
+          })
+        }
       }
-    })
+    )
     errorSubscription = state.error$.subscribe(data => {
       warn('metadata sync error', data)
     })

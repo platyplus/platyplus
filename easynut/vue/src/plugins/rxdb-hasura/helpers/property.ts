@@ -3,7 +3,7 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import {
   ColumnFragment,
-  GenericRxDocument,
+  ContentsDocument,
   JsonSchemaFormat,
   JsonSchemaPropertyType,
   PropertyType,
@@ -86,7 +86,7 @@ export const isTextType = (type: PropertyType): boolean =>
   ].includes(type)
 
 export const castValue = <T extends PropertyValue>(
-  document: GenericRxDocument,
+  document: ContentsDocument,
   propertyName: string,
   value: string | boolean
 ): T => {

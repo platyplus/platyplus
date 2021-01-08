@@ -7,18 +7,18 @@ div
 </template>
 
 <script lang="ts">
-import { RxCollection, RxDocument } from 'rxdb'
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ViewCard',
   props: {
     collection: {
-      type: Object as PropType<RxCollection>,
+      type: Object as PropType<ContentsCollection>,
       default: null
     },
     documents: {
-      type: Object as PropType<RxDocument[]>,
+      type: Object as PropType<ContentsDocument[]>,
       default: []
     }
   }
