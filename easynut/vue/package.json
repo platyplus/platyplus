@@ -10,6 +10,7 @@
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@platyplus/humanitarian-icons": "^0.0.1",
     "@platyplus/vue-hasura-backend-plus": "^0.0.1",
     "@vueuse/core": "^4.0.1",
     "@vueuse/rxjs": "^4.0.1",
@@ -17,6 +18,7 @@
     "deep-equal": "^2.0.5",
     "graphql": "^15.4.0",
     "handlebars": "^4.7.6",
+    "mitt": "^2.1.0",
     "moment": "^2.29.1",
     "nhost-js-sdk": "^2.3.4",
     "object-path-immutable": "^4.1.1",

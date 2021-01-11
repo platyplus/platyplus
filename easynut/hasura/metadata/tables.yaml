@@ -797,9 +797,13 @@
   - role: user
     permission:
       columns:
-      - table_schema
+      - title
+      - description
+      - document_label
+      - document_title
+      - icon
       - table_name
-      - label
+      - table_schema
       filter:
         table:
           permissions:
@@ -837,15 +841,6 @@
 - table:
     schema: public
     name: drug
-  insert_permissions:
-  - role: user
-    permission:
-      check: {}
-      set:
-        name: default drug name - no choice!
-      columns:
-      - id
-      backend_only: false
   select_permissions:
   - role: user
     permission:
@@ -855,13 +850,6 @@
       - name
       filter: {}
       allow_aggregations: true
-  update_permissions:
-  - role: user
-    permission:
-      columns:
-      - name
-      filter: {}
-      check: null
 - table:
     schema: public
     name: patient

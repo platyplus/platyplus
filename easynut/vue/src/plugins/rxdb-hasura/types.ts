@@ -1,4 +1,4 @@
-import { KeyFunctionMap, RxCollection, RxDatabase, RxDocument } from 'rxdb'
+import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { BehaviorSubject } from 'rxjs'
 
 import { TableFragment as Metadata } from './generated'
@@ -49,13 +49,21 @@ export type Contents = Record<string, unknown> & {
 export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods>
 
 export type ContentsDocumentMethods = {
-  canEdit: () => boolean
+  canEdit: (propertyName?: string) => boolean
   canSave: () => boolean
+  // ? editableProperties(): Property[]
+  // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)
 }
 
-// TODO custom methods
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type ContentsCollectionMethods = {}
+export type ContentsCollectionMethods = {
+  title: () => string
+  description: () => string
+  icon: () => string
+  canInsert: (propertyName?: string) => boolean
+  canUpdate: (propertyName?: string) => boolean
+  // ? insertableProperties(): Property[]
+  // ? updatableProperties(): Property[]
+}
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   metadata: Metadata

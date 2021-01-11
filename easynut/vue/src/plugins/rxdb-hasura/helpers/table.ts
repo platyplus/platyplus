@@ -30,7 +30,7 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
   // TODO get the query/mutations/subscription names for building graphql queries
   const result: RxJsonSchema = {
     type: 'object',
-    title: metadataName(table),
+    title: table.config?.title || metadataName(table),
     description: '', // TODO table comment not in metadata yet
     version: 0,
     properties: {},

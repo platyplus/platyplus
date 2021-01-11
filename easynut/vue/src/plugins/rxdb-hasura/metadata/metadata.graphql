@@ -15,7 +15,11 @@ fragment table on metadata_table {
     constraint_name
   }
   config {
-    label
+    title
+    description
+    icon
+    document_title
+    document_label
   }
   canSelect_aggregate {
     aggregate {
