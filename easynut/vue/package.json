@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "yarn serve",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@platyplus/humanitarian-icons": "^0.0.1",

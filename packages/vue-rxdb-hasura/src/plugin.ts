@@ -13,6 +13,7 @@ import Column from 'primevue/column'
 import ColumnGroup from 'primevue/columngroup'
 import PrimeVue from 'primevue/config'
 import DataTable from 'primevue/datatable'
+import DataView from 'primevue/dataview'
 import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
@@ -80,6 +81,7 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
     app.component('Dropdown', Dropdown)
     app.component('InputNumber', InputNumber)
     app.component('InputText', InputText)
+    app.component('DataView', DataView)
   }
   return { db, install }
 }

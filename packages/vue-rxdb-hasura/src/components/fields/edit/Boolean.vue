@@ -4,7 +4,7 @@ Checkbox(v-model="model" :binary="true")
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { defineComponent, PropType, toRefs } from 'vue'
+import { defineComponent, onMounted, PropType, toRefs } from 'vue'
 
 import { useFormProperty } from '../../../composables'
 
@@ -19,12 +19,20 @@ export default defineComponent({
       type: String,
       required: true
     },
+    inTable: {
+      type: Boolean,
+      default: false
+    },
     editing: {
       type: Boolean,
       default: false
     }
   },
   setup(props) {
+    onMounted(() => {
+      // * Hack to change value on first click in datatables
+      if (props.inTable) model.value = !model.value
+    })
     const { name, document } = toRefs(props)
     const { model } = useFormProperty<boolean>(document, name)
     return { model }

@@ -20,6 +20,7 @@ fragment table on metadata_table {
     icon
     document_title
     document_label
+    default_view
   }
   canSelect_aggregate {
     aggregate {

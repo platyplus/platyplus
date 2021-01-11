@@ -3,7 +3,7 @@ DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datat
   Column(v-for="property, name of properties" :field="name" :header="collection.title(name)" :key="name")
     template(#editor="slotProps" v-if="editing")
       div.p-fluid
-        field-edit-inline(v-if="slotProps.data.canEdit(name)" :document="slotProps.data" :name="name")
+        field-edit-inline(v-if="slotProps.data.canEdit(name)" :document="slotProps.data" :name="name" :inTable="true")
         field-read(v-else :document="slotProps.data" :name="name")
     template(#body="slotProps")
       div.p-fluid

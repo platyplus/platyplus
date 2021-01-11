@@ -59,6 +59,7 @@ export type ContentsCollectionMethods = {
   title: (property?: string) => string
   description: (property?: string) => string
   icon: (property?: string) => string
+  defaultView: () => string
   canInsert: (propertyName?: string) => boolean
   canUpdate: (propertyName?: string) => boolean
   // ? insertableProperties(): Property[]
