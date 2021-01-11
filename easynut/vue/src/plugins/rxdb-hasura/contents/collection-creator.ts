@@ -2,6 +2,7 @@ import { RxCollectionCreatorBase } from 'rxdb/dist/types/types'
 
 import { toJsonSchema } from '../helpers'
 import { Metadata } from '../types'
+import { collectionMethods } from './collection-methods'
 import { documentMethods } from './document-methods'
 
 export const contentsCollectionCreator = (
@@ -9,7 +10,7 @@ export const contentsCollectionCreator = (
 ): RxCollectionCreatorBase => {
   return {
     schema: toJsonSchema(metadata),
-    statics: {},
+    statics: collectionMethods,
     methods: documentMethods,
     options: { metadata }
   }

@@ -1,0 +1,30 @@
+{
+  "name": "@platyplus/humanitarian-icons",
+  "private": false,
+  "version": "0.0.1",
+  "description": "Humanitarian Icons",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://platy.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platydev.git",
+    "directory": "packages/humanitarian-icons"
+  },
+  "license": "MIT",
+  "main": "./dist",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && mkdir -p dist && fantasticon",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "fantasticon": "^1.0.30"
+  },
+  "dependencies": {}
+}

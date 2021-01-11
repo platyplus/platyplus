@@ -61,7 +61,7 @@ export const createContentReplicator = async (
   }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
-    // TODO check if it reconnects when JWT changes
+    // TODO problem when JWT is not valid anymore
     const wsUrl = httpUrlToWebSockeUrl(url)
     const token = db.jwt$.getValue()
     const headers = token ? { Authorization: `Bearer ${token}` } : {}

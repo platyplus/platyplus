@@ -7,8 +7,10 @@ import { useDB } from './database'
 export const useCollection = (
   name: string | Ref<string>
 ): ComputedRef<ContentsCollection | undefined> => {
-  const db = useDB()
-  return computed(() => db.value?.collections[unref(name)])
+  const collections = useCollections()
+  return computed(() => {
+    return collections.value?.[unref(name)]
+  })
 }
 
 export const useDocumentCollection = (

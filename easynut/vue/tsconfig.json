@@ -17,6 +17,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@platyplus/*": ["packages/*/src", "easynut/vue/src/plugins/*"],
+
+      "@platyplus/humanitarian-icons/*": ["packages/humanitarian-icons/dist/*"],
       "*": ["types/*"]
     }
     // TODO
@@ -28,7 +30,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "public/**/*"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

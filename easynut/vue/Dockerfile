@@ -12,11 +12,13 @@ COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.bui
 #
 COPY --chown=node:node easynut/vue/package.json easynut/vue/yarn.* /home/node/app/easynut/vue/
 COPY --chown=node:node packages/vue-hasura-backend-plus/package.json packages/vue-hasura-backend-plus/yarn.* /home/node/app/packages/vue-hasura-backend-plus/
+COPY --chown=node:node packages/humanitarian-icons/package.json packages/humanitarian-icons/yarn.* /home/node/app/packages/humanitarian-icons/
 
 RUN yarn
 #
 COPY --chown=node:node easynut/vue /home/node/app/easynut/vue
 COPY --chown=node:node packages/vue-hasura-backend-plus /home/node/app/packages/vue-hasura-backend-plus
+COPY --chown=node:node packages/humanitarian-icons /home/node/app/packages/humanitarian-icons
 
 # RUN yarn workspace @platyplus/easy-vue add typescript@'<4.1' && yarn build
 RUN yarn build

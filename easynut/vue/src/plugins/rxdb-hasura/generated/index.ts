@@ -4999,11 +4999,15 @@ export type Metadata_Table_Bool_Exp = {
 /** columns and relationships of "metadata.table_config" */
 export type Metadata_Table_Config = {
   __typename?: 'metadata_table_config'
-  label: Scalars['String']
+  description: Maybe<Scalars['String']>
+  document_label: Scalars['String']
+  document_title: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
   /** An object relationship */
   table: Maybe<Metadata_Table>
   table_name: Scalars['String']
   table_schema: Scalars['String']
+  title: Maybe<Scalars['String']>
 }
 
 /** aggregated selection of "metadata.table_config" */
@@ -5045,10 +5049,14 @@ export type Metadata_Table_Config_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Table_Config_Bool_Exp>>>
   _not: Maybe<Metadata_Table_Config_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Table_Config_Bool_Exp>>>
-  label: Maybe<String_Comparison_Exp>
+  description: Maybe<String_Comparison_Exp>
+  document_label: Maybe<String_Comparison_Exp>
+  document_title: Maybe<String_Comparison_Exp>
+  icon: Maybe<String_Comparison_Exp>
   table: Maybe<Metadata_Table_Bool_Exp>
   table_name: Maybe<String_Comparison_Exp>
   table_schema: Maybe<String_Comparison_Exp>
+  title: Maybe<String_Comparison_Exp>
 }
 
 /** unique or primary key constraints on table "metadata.table_config" */
@@ -5059,40 +5067,60 @@ export enum Metadata_Table_Config_Constraint {
 
 /** input type for inserting data into table "metadata.table_config" */
 export type Metadata_Table_Config_Insert_Input = {
-  label: Maybe<Scalars['String']>
+  description: Maybe<Scalars['String']>
+  document_label: Maybe<Scalars['String']>
+  document_title: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
   table: Maybe<Metadata_Table_Obj_Rel_Insert_Input>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
 }
 
 /** aggregate max on columns */
 export type Metadata_Table_Config_Max_Fields = {
   __typename?: 'metadata_table_config_max_fields'
-  label: Maybe<Scalars['String']>
+  description: Maybe<Scalars['String']>
+  document_label: Maybe<Scalars['String']>
+  document_title: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
 }
 
 /** order by max() on columns of table "metadata.table_config" */
 export type Metadata_Table_Config_Max_Order_By = {
-  label: Maybe<Order_By>
+  description: Maybe<Order_By>
+  document_label: Maybe<Order_By>
+  document_title: Maybe<Order_By>
+  icon: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
+  title: Maybe<Order_By>
 }
 
 /** aggregate min on columns */
 export type Metadata_Table_Config_Min_Fields = {
   __typename?: 'metadata_table_config_min_fields'
-  label: Maybe<Scalars['String']>
+  description: Maybe<Scalars['String']>
+  document_label: Maybe<Scalars['String']>
+  document_title: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
 }
 
 /** order by min() on columns of table "metadata.table_config" */
 export type Metadata_Table_Config_Min_Order_By = {
-  label: Maybe<Order_By>
+  description: Maybe<Order_By>
+  document_label: Maybe<Order_By>
+  document_title: Maybe<Order_By>
+  icon: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
+  title: Maybe<Order_By>
 }
 
 /** response of any mutation on the table "metadata.table_config" */
@@ -5119,10 +5147,14 @@ export type Metadata_Table_Config_On_Conflict = {
 
 /** ordering options when selecting data from "metadata.table_config" */
 export type Metadata_Table_Config_Order_By = {
-  label: Maybe<Order_By>
+  description: Maybe<Order_By>
+  document_label: Maybe<Order_By>
+  document_title: Maybe<Order_By>
+  icon: Maybe<Order_By>
   table: Maybe<Metadata_Table_Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
+  title: Maybe<Order_By>
 }
 
 /** primary key columns input for table: "metadata.table_config" */
@@ -5134,28 +5166,48 @@ export type Metadata_Table_Config_Pk_Columns_Input = {
 /** select columns of table "metadata.table_config" */
 export enum Metadata_Table_Config_Select_Column {
   /** column name */
-  Label = 'label',
+  Description = 'description',
+  /** column name */
+  DocumentLabel = 'document_label',
+  /** column name */
+  DocumentTitle = 'document_title',
+  /** column name */
+  Icon = 'icon',
   /** column name */
   TableName = 'table_name',
   /** column name */
-  TableSchema = 'table_schema'
+  TableSchema = 'table_schema',
+  /** column name */
+  Title = 'title'
 }
 
 /** input type for updating data in table "metadata.table_config" */
 export type Metadata_Table_Config_Set_Input = {
-  label: Maybe<Scalars['String']>
+  description: Maybe<Scalars['String']>
+  document_label: Maybe<Scalars['String']>
+  document_title: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
 }
 
 /** update columns of table "metadata.table_config" */
 export enum Metadata_Table_Config_Update_Column {
   /** column name */
-  Label = 'label',
+  Description = 'description',
+  /** column name */
+  DocumentLabel = 'document_label',
+  /** column name */
+  DocumentTitle = 'document_title',
+  /** column name */
+  Icon = 'icon',
   /** column name */
   TableName = 'table_name',
   /** column name */
-  TableSchema = 'table_schema'
+  TableSchema = 'table_schema',
+  /** column name */
+  Title = 'title'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -8861,7 +8913,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   config: Maybe<
     { __typename?: 'metadata_table_config' } & Pick<
       Metadata_Table_Config,
-      'label'
+      'title' | 'description' | 'icon' | 'document_title' | 'document_label'
     >
   >
   canSelect_aggregate: {
@@ -8967,7 +9019,11 @@ export const TableFragmentDoc = gql`
       constraint_name
     }
     config {
-      label
+      title
+      description
+      icon
+      document_title
+      document_label
     }
     canSelect_aggregate {
       aggregate {
