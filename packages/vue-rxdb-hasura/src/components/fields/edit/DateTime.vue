@@ -1,0 +1,30 @@
+<template lang="pug">
+Calendar(v-model="model" :showTime="true" :showSeconds="true" appendTo="body")
+</template>
+
+<script lang="ts">
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { defineComponent, PropType, toRefs } from 'vue'
+
+import { useFormProperty } from '../../../composables'
+
+export default defineComponent({
+  name: 'FieldEditDateTime',
+  props: {
+    document: {
+      type: Object as PropType<ContentsDocument>,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  setup(props) {
+    // TODO internationalize preferably without using momentjs (too big)
+    const { name, document } = toRefs(props)
+    const { model } = useFormProperty<string>(document, name)
+    return { model }
+  }
+})
+</script>

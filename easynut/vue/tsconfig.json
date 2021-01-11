@@ -16,8 +16,7 @@
     "types": ["webpack-env"],
     "paths": {
       "@/*": ["src/*"],
-      "@platyplus/*": ["packages/*/src", "easynut/vue/src/plugins/*"],
-
+      "@platyplus/*": ["packages/*/src"],
       "@platyplus/humanitarian-icons/*": ["packages/humanitarian-icons/dist/*"],
       "*": ["types/*"]
     }

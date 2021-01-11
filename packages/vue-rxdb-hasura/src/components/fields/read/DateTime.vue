@@ -4,8 +4,9 @@ div {{formatedValue}}
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useFieldValue } from '@platyplus/vue-rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
+
+import { useFieldValue } from '../../../composables'
 
 export default defineComponent({
   name: 'FieldReadDateTime',

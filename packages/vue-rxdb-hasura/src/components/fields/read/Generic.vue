@@ -1,13 +1,14 @@
 <template lang="pug">
-div TODO editing
+div {{value}}
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useFormProperty } from '@platyplus/vue-rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
+
+import { useFieldValue } from '../../../composables'
 export default defineComponent({
-  name: 'FieldEditTime',
+  name: 'FieldReadGeneric',
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,
@@ -20,9 +21,8 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<number>(document, name)
-    // TODO
-    return { model }
+    const value = useFieldValue<unknown>(document, name)
+    return { value }
   }
 })
 </script>

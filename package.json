@@ -19,7 +19,7 @@
     "lint-fix": "eslint . --ext .js,.ts,.vue --fix",
     "pre-commit": "yarn lint-staged",
     "pre-push": "yarn format-check",
-    "clean": "lerna clean && lerna run clean",
+    "clean": "lerna run clean && lerna clean",
     "postinstall": "lerna link",
     "test": "lerna run test --parallel",
     "typecheck": "lerna run typecheck",

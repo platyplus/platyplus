@@ -1,14 +1,14 @@
 <template lang="pug">
-document-label(v-for="document, id in refCollection" :document="document")
+div {{formatedValue}}
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useRefFieldValue } from '@platyplus/vue-rxdb-hasura'
-import { defineComponent, PropType, toRefs } from 'vue'
+import { computed, defineComponent, PropType, toRefs } from 'vue'
 
+import { useFieldValue } from '../../../composables'
 export default defineComponent({
-  name: 'FieldReadCollection',
+  name: 'FieldReadTime',
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,
@@ -21,11 +21,10 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const refCollection = useRefFieldValue<Array<ContentsDocument>>(
-      document,
-      name
-    )
-    return { refCollection }
+    const value = useFieldValue<string>(document, name)
+    // TODO internationalize preferably without using momentjs (too big)
+    const formatedValue = computed(() => value.value.substr(0, 8))
+    return { formatedValue }
   }
 })
 </script>
