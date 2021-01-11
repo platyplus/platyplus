@@ -1771,6 +1771,8 @@ export type Metadata_Column_Info = {
   collation_schema: Maybe<Scalars['name']>
   column_default: Maybe<Scalars['String']>
   column_name: Maybe<Scalars['name']>
+  /** An object relationship */
+  config: Maybe<Metadata_Property_Config>
   data_type: Maybe<Scalars['String']>
   datetime_precision: Maybe<Scalars['Int']>
   domain_catalog: Maybe<Scalars['name']>
@@ -1954,6 +1956,7 @@ export type Metadata_Column_Info_Bool_Exp = {
   collation_schema: Maybe<Name_Comparison_Exp>
   column_default: Maybe<String_Comparison_Exp>
   column_name: Maybe<Name_Comparison_Exp>
+  config: Maybe<Metadata_Property_Config_Bool_Exp>
   data_type: Maybe<String_Comparison_Exp>
   datetime_precision: Maybe<Int_Comparison_Exp>
   domain_catalog: Maybe<Name_Comparison_Exp>
@@ -2127,6 +2130,7 @@ export type Metadata_Column_Info_Order_By = {
   collation_schema: Maybe<Order_By>
   column_default: Maybe<Order_By>
   column_name: Maybe<Order_By>
+  config: Maybe<Metadata_Property_Config_Order_By>
   data_type: Maybe<Order_By>
   datetime_precision: Maybe<Order_By>
   domain_catalog: Maybe<Order_By>
@@ -4096,10 +4100,209 @@ export enum Metadata_Primary_Key_Select_Column {
   TableSchema = 'table_schema'
 }
 
+/** columns and relationships of "metadata.property_config" */
+export type Metadata_Property_Config = {
+  __typename?: 'metadata_property_config'
+  description: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
+  property_name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
+  title: Maybe<Scalars['String']>
+}
+
+/** aggregated selection of "metadata.property_config" */
+export type Metadata_Property_Config_Aggregate = {
+  __typename?: 'metadata_property_config_aggregate'
+  aggregate: Maybe<Metadata_Property_Config_Aggregate_Fields>
+  nodes: Array<Metadata_Property_Config>
+}
+
+/** aggregate fields of "metadata.property_config" */
+export type Metadata_Property_Config_Aggregate_Fields = {
+  __typename?: 'metadata_property_config_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Metadata_Property_Config_Max_Fields>
+  min: Maybe<Metadata_Property_Config_Min_Fields>
+}
+
+/** aggregate fields of "metadata.property_config" */
+export type Metadata_Property_Config_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "metadata.property_config" */
+export type Metadata_Property_Config_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Metadata_Property_Config_Max_Order_By>
+  min: Maybe<Metadata_Property_Config_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "metadata.property_config" */
+export type Metadata_Property_Config_Arr_Rel_Insert_Input = {
+  data: Array<Metadata_Property_Config_Insert_Input>
+  on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "metadata.property_config". All fields are combined with a logical 'AND'. */
+export type Metadata_Property_Config_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
+  _not: Maybe<Metadata_Property_Config_Bool_Exp>
+  _or: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
+  description: Maybe<String_Comparison_Exp>
+  icon: Maybe<String_Comparison_Exp>
+  property_name: Maybe<String_Comparison_Exp>
+  table_name: Maybe<String_Comparison_Exp>
+  table_schema: Maybe<String_Comparison_Exp>
+  title: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "metadata.property_config" */
+export enum Metadata_Property_Config_Constraint {
+  /** unique or primary key constraint */
+  PropertyConfigPkey = 'property_config_pkey'
+}
+
+/** input type for inserting data into table "metadata.property_config" */
+export type Metadata_Property_Config_Insert_Input = {
+  description: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
+  property_name: Maybe<Scalars['String']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Metadata_Property_Config_Max_Fields = {
+  __typename?: 'metadata_property_config_max_fields'
+  description: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
+  property_name: Maybe<Scalars['String']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Max_Order_By = {
+  description: Maybe<Order_By>
+  icon: Maybe<Order_By>
+  property_name: Maybe<Order_By>
+  table_name: Maybe<Order_By>
+  table_schema: Maybe<Order_By>
+  title: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Metadata_Property_Config_Min_Fields = {
+  __typename?: 'metadata_property_config_min_fields'
+  description: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
+  property_name: Maybe<Scalars['String']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Min_Order_By = {
+  description: Maybe<Order_By>
+  icon: Maybe<Order_By>
+  property_name: Maybe<Order_By>
+  table_name: Maybe<Order_By>
+  table_schema: Maybe<Order_By>
+  title: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "metadata.property_config" */
+export type Metadata_Property_Config_Mutation_Response = {
+  __typename?: 'metadata_property_config_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Metadata_Property_Config>
+}
+
+/** input type for inserting object relation for remote table "metadata.property_config" */
+export type Metadata_Property_Config_Obj_Rel_Insert_Input = {
+  data: Metadata_Property_Config_Insert_Input
+  on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
+}
+
+/** on conflict condition type for table "metadata.property_config" */
+export type Metadata_Property_Config_On_Conflict = {
+  constraint: Metadata_Property_Config_Constraint
+  update_columns: Array<Metadata_Property_Config_Update_Column>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
+}
+
+/** ordering options when selecting data from "metadata.property_config" */
+export type Metadata_Property_Config_Order_By = {
+  description: Maybe<Order_By>
+  icon: Maybe<Order_By>
+  property_name: Maybe<Order_By>
+  table_name: Maybe<Order_By>
+  table_schema: Maybe<Order_By>
+  title: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "metadata.property_config" */
+export type Metadata_Property_Config_Pk_Columns_Input = {
+  property_name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
+}
+
+/** select columns of table "metadata.property_config" */
+export enum Metadata_Property_Config_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Icon = 'icon',
+  /** column name */
+  PropertyName = 'property_name',
+  /** column name */
+  TableName = 'table_name',
+  /** column name */
+  TableSchema = 'table_schema',
+  /** column name */
+  Title = 'title'
+}
+
+/** input type for updating data in table "metadata.property_config" */
+export type Metadata_Property_Config_Set_Input = {
+  description: Maybe<Scalars['String']>
+  icon: Maybe<Scalars['String']>
+  property_name: Maybe<Scalars['String']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** update columns of table "metadata.property_config" */
+export enum Metadata_Property_Config_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Icon = 'icon',
+  /** column name */
+  PropertyName = 'property_name',
+  /** column name */
+  TableName = 'table_name',
+  /** column name */
+  TableSchema = 'table_schema',
+  /** column name */
+  Title = 'title'
+}
+
 /** columns and relationships of "metadata.relationship" */
 export type Metadata_Relationship = {
   __typename?: 'metadata_relationship'
   comment: Maybe<Scalars['String']>
+  /** An object relationship */
+  config: Maybe<Metadata_Property_Config>
   is_system_defined: Maybe<Scalars['Boolean']>
   /** An array relationship */
   mapping: Array<Metadata_Relationship_Mapping>
@@ -4181,6 +4384,7 @@ export type Metadata_Relationship_Bool_Exp = {
   _not: Maybe<Metadata_Relationship_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Relationship_Bool_Exp>>>
   comment: Maybe<String_Comparison_Exp>
+  config: Maybe<Metadata_Property_Config_Bool_Exp>
   is_system_defined: Maybe<Boolean_Comparison_Exp>
   mapping: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
   rel_def: Maybe<Jsonb_Comparison_Exp>
@@ -4209,6 +4413,7 @@ export type Metadata_Relationship_Delete_Key_Input = {
 /** input type for inserting data into table "metadata.relationship" */
 export type Metadata_Relationship_Insert_Input = {
   comment: Maybe<Scalars['String']>
+  config: Maybe<Metadata_Property_Config_Obj_Rel_Insert_Input>
   is_system_defined: Maybe<Scalars['Boolean']>
   rel_def: Maybe<Scalars['jsonb']>
   rel_name: Maybe<Scalars['String']>
@@ -4402,6 +4607,7 @@ export type Metadata_Relationship_Obj_Rel_Insert_Input = {
 /** ordering options when selecting data from "metadata.relationship" */
 export type Metadata_Relationship_Order_By = {
   comment: Maybe<Order_By>
+  config: Maybe<Metadata_Property_Config_Order_By>
   is_system_defined: Maybe<Order_By>
   mapping_aggregate: Maybe<Metadata_Relationship_Mapping_Aggregate_Order_By>
   rel_def: Maybe<Order_By>
@@ -5721,6 +5927,12 @@ export type Mutation_Root = {
   delete_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** delete data from the table: "metadata.function" */
   delete_metadata_function: Maybe<Metadata_Function_Mutation_Response>
+  /** delete data from the table: "metadata.property_config" */
+  delete_metadata_property_config: Maybe<
+    Metadata_Property_Config_Mutation_Response
+  >
+  /** delete single row from the table: "metadata.property_config" */
+  delete_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** delete data from the table: "metadata.relationship" */
   delete_metadata_relationship: Maybe<Metadata_Relationship_Mutation_Response>
   /** delete data from the table: "metadata.table" */
@@ -5783,6 +5995,12 @@ export type Mutation_Root = {
   insert_metadata_function: Maybe<Metadata_Function_Mutation_Response>
   /** insert a single row into the table: "metadata.function" */
   insert_metadata_function_one: Maybe<Metadata_Function>
+  /** insert data into the table: "metadata.property_config" */
+  insert_metadata_property_config: Maybe<
+    Metadata_Property_Config_Mutation_Response
+  >
+  /** insert a single row into the table: "metadata.property_config" */
+  insert_metadata_property_config_one: Maybe<Metadata_Property_Config>
   /** insert data into the table: "metadata.relationship" */
   insert_metadata_relationship: Maybe<Metadata_Relationship_Mutation_Response>
   /** insert a single row into the table: "metadata.relationship" */
@@ -5843,6 +6061,12 @@ export type Mutation_Root = {
   update_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** update data of the table: "metadata.function" */
   update_metadata_function: Maybe<Metadata_Function_Mutation_Response>
+  /** update data of the table: "metadata.property_config" */
+  update_metadata_property_config: Maybe<
+    Metadata_Property_Config_Mutation_Response
+  >
+  /** update single row of the table: "metadata.property_config" */
+  update_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** update data of the table: "metadata.relationship" */
   update_metadata_relationship: Maybe<Metadata_Relationship_Mutation_Response>
   /** update data of the table: "metadata.table" */
@@ -5948,6 +6172,18 @@ export type Mutation_RootDelete_Metadata_Custom_TypeArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Metadata_FunctionArgs = {
   where: Metadata_Function_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_Property_ConfigArgs = {
+  where: Metadata_Property_Config_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_Property_Config_By_PkArgs = {
+  property_name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
 }
 
 /** mutation root */
@@ -6113,6 +6349,18 @@ export type Mutation_RootInsert_Metadata_FunctionArgs = {
 /** mutation root */
 export type Mutation_RootInsert_Metadata_Function_OneArgs = {
   object: Metadata_Function_Insert_Input
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_Property_ConfigArgs = {
+  objects: Array<Metadata_Property_Config_Insert_Input>
+  on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_Property_Config_OneArgs = {
+  object: Metadata_Property_Config_Insert_Input
+  on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
 }
 
 /** mutation root */
@@ -6308,6 +6556,18 @@ export type Mutation_RootUpdate_Metadata_FunctionArgs = {
   _prepend: Maybe<Metadata_Function_Prepend_Input>
   _set: Maybe<Metadata_Function_Set_Input>
   where: Metadata_Function_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_Property_ConfigArgs = {
+  _set: Maybe<Metadata_Property_Config_Set_Input>
+  where: Metadata_Property_Config_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_Property_Config_By_PkArgs = {
+  _set: Maybe<Metadata_Property_Config_Set_Input>
+  pk_columns: Metadata_Property_Config_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -7011,6 +7271,12 @@ export type Query_Root = {
   metadata_primary_key_column: Array<Metadata_Primary_Key_Column>
   /** fetch aggregated fields from the table: "metadata.primary_key_column" */
   metadata_primary_key_column_aggregate: Metadata_Primary_Key_Column_Aggregate
+  /** fetch data from the table: "metadata.property_config" */
+  metadata_property_config: Array<Metadata_Property_Config>
+  /** fetch aggregated fields from the table: "metadata.property_config" */
+  metadata_property_config_aggregate: Metadata_Property_Config_Aggregate
+  /** fetch data from the table: "metadata.property_config" using primary key columns */
+  metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** fetch data from the table: "metadata.relationship" */
   metadata_relationship: Array<Metadata_Relationship>
   /** fetch aggregated fields from the table: "metadata.relationship" */
@@ -7465,6 +7731,31 @@ export type Query_RootMetadata_Primary_Key_Column_AggregateArgs = {
 }
 
 /** query root */
+export type Query_RootMetadata_Property_ConfigArgs = {
+  distinct_on: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Property_Config_Order_By>>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_Property_Config_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Property_Config_Order_By>>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_Property_Config_By_PkArgs = {
+  property_name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
+}
+
+/** query root */
 export type Query_RootMetadata_RelationshipArgs = {
   distinct_on: Maybe<Array<Metadata_Relationship_Select_Column>>
   limit: Maybe<Scalars['Int']>
@@ -7811,6 +8102,12 @@ export type Subscription_Root = {
   metadata_primary_key_column: Array<Metadata_Primary_Key_Column>
   /** fetch aggregated fields from the table: "metadata.primary_key_column" */
   metadata_primary_key_column_aggregate: Metadata_Primary_Key_Column_Aggregate
+  /** fetch data from the table: "metadata.property_config" */
+  metadata_property_config: Array<Metadata_Property_Config>
+  /** fetch aggregated fields from the table: "metadata.property_config" */
+  metadata_property_config_aggregate: Metadata_Property_Config_Aggregate
+  /** fetch data from the table: "metadata.property_config" using primary key columns */
+  metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** fetch data from the table: "metadata.relationship" */
   metadata_relationship: Array<Metadata_Relationship>
   /** fetch aggregated fields from the table: "metadata.relationship" */
@@ -8262,6 +8559,31 @@ export type Subscription_RootMetadata_Primary_Key_Column_AggregateArgs = {
   offset: Maybe<Scalars['Int']>
   order_by: Maybe<Array<Metadata_Primary_Key_Column_Order_By>>
   where: Maybe<Metadata_Primary_Key_Column_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_Property_ConfigArgs = {
+  distinct_on: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Property_Config_Order_By>>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_Property_Config_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Property_Config_Order_By>>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_Property_Config_By_PkArgs = {
+  property_name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
 }
 
 /** subscription root */
@@ -8961,6 +9283,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
               >
             }
         >
+        config: Maybe<
+          { __typename?: 'metadata_property_config' } & Pick<
+            Metadata_Property_Config,
+            'title' | 'description' | 'icon'
+          >
+        >
       }
   >
   columns: Array<
@@ -8987,6 +9315,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
         { __typename?: 'metadata_permission_update_columns' } & Pick<
           Metadata_Permission_Update_Columns,
           'role_name'
+        >
+      >
+      config: Maybe<
+        { __typename?: 'metadata_property_config' } & Pick<
+          Metadata_Property_Config,
+          'title' | 'description' | 'icon'
         >
       >
     } & ColumnFragment
@@ -9052,6 +9386,11 @@ export const TableFragmentDoc = gql`
         }
         remote_column_name
       }
+      config {
+        title
+        description
+        icon
+      }
     }
     columns {
       ...column
@@ -9066,6 +9405,11 @@ export const TableFragmentDoc = gql`
       }
       canUpdate {
         role_name
+      }
+      config {
+        title
+        description
+        icon
       }
     }
   }

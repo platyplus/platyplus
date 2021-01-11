@@ -56,9 +56,9 @@ export type ContentsDocumentMethods = {
 }
 
 export type ContentsCollectionMethods = {
-  title: () => string
-  description: () => string
-  icon: () => string
+  title: (property?: string) => string
+  description: (property?: string) => string
+  icon: (property?: string) => string
   canInsert: (propertyName?: string) => boolean
   canUpdate: (propertyName?: string) => boolean
   // ? insertableProperties(): Property[]

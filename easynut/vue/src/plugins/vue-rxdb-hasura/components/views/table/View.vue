@@ -1,6 +1,6 @@
 <template lang="pug">
 DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datatable-gridlines")
-  Column(v-for="property, name of properties" :field="name" :header="name" :key="name")
+  Column(v-for="property, name of properties" :field="name" :header="collection.title(name)" :key="name")
     template(#editor="slotProps" v-if="editing")
       div.p-fluid
         field-edit-inline(v-if="slotProps.data.canEdit(name)" :document="slotProps.data" :name="name")

@@ -1,5 +1,12 @@
 import { ContentsCollection, ContentsCollectionMethods } from '../types'
-
+const config = (collection: ContentsCollection, property?: string) =>
+  property
+    ? collection.metadata.columns.find(
+        ({ column_name }) => column_name === property
+      )?.config ||
+      collection.metadata.relationships.find(rel => rel.rel_name === property)
+        ?.config
+    : collection.metadata.config
 export const collectionMethods: ContentsCollectionMethods = {
   canInsert(this: ContentsCollection, fieldName?: string): boolean {
     // ? Check the hasura permission rule ?
@@ -57,13 +64,13 @@ export const collectionMethods: ContentsCollectionMethods = {
       return !!this.metadata.canUpdate_aggregate.aggregate?.count
     }
   },
-  title(this: ContentsCollection): string {
-    return this.metadata.config?.title || this.name
+  title(this: ContentsCollection, property?: string): string {
+    return config(this, property)?.title || property || this.name
   },
-  description(this: ContentsCollection): string {
-    return this.metadata.config?.description || ''
+  description(this: ContentsCollection, property?: string): string {
+    return config(this, property)?.description || ''
   },
-  icon(this: ContentsCollection): string {
-    return this.metadata.config?.icon || ''
+  icon(this: ContentsCollection, property?: string): string {
+    return config(this, property)?.icon || ''
   }
 }
