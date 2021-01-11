@@ -77,10 +77,32 @@ export const addModule = <R>(
           castValue(document, field, value)
         )
       },
+      resetField: (
+        state,
+        { document, field }: { document: ContentsDocument; field: string }
+      ) => {
+        const collection = document.collection
+        state.forms = deletePath(state.forms, [
+          collection.name,
+          document.primary,
+          field
+        ])
+      },
       reset: state => {
         state.forms = {}
       }
     },
     modules: {}
   })
+}
+
+// TODO move to utils
+// * Delete the deep object key described in the path, and recursively delete empty object keys
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const deletePath = (object: any, path: string[]): any => {
+  const result = immutable.del(object, path.join('.'))
+  path.pop()
+  if (path.length && !Object.keys(immutable.get(result, path.join('.'))).length)
+    return deletePath(object, path)
+  else return result
 }

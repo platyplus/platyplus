@@ -91,11 +91,17 @@ export const useFormProperty = <T>(
       (store.getters['rxdb/getField'](document.value, name.value) as T) ??
       fieldValue.value,
     set: (value: T) => {
-      store.commit('rxdb/setField', {
-        document: document.value,
-        field: name.value,
-        value: !equal(fieldValue.value, value) ? value : value ?? undefined
-      })
+      if (equal(value, fieldValue.value))
+        store.commit('rxdb/resetField', {
+          document: document.value,
+          field: name.value
+        })
+      else
+        store.commit('rxdb/setField', {
+          document: document.value,
+          field: name.value,
+          value: value ?? undefined
+        })
     }
   })
   const changed = computed(
