@@ -1,10 +1,10 @@
 <template lang="pug">
-Checkbox(v-model="value" :binary="true")
+Checkbox(v-model="model" :binary="true")
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { defineComponent, PropType, toRefs } from 'vue'
+import { computed, defineComponent, PropType, toRefs } from 'vue'
 
 import { useFieldValue } from '../../../composables'
 
@@ -27,7 +27,14 @@ export default defineComponent({
   setup(props) {
     const { name, document } = toRefs(props)
     const value = useFieldValue<boolean>(document, name)
-    return { value }
+    const model = computed({
+      get() {
+        return value.value
+      },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      set() {}
+    })
+    return { model }
   }
 })
 </script>

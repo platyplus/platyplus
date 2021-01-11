@@ -31,7 +31,8 @@
     "postbuild": "yarn run copy-files",
     "copy-files": "cpy '**/*.graphql' ../dist/ --cwd=src --parents",
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "graphql": "^15.4.0",

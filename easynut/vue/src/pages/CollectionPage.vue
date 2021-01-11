@@ -10,7 +10,7 @@
       Button.p-mr-2(v-if="editing" icon="pi pi-save" label="Save" @click="save") 
       Button.p-mr-2(v-if="editing" icon="pi pi-undo" label="Reset" @click="reset") 
       Button.p-mr-2(v-if="editing" icon="pi pi-times" label="Cancel" @click="cancel") 
-  collection(:key="collection.name" :collection="collection" :editing="editing")
+  collection(:key="collection.name" :collection="collection" :type="collection.defaultView()" :editing="editing")
 .card(v-else) loading...
 .card(v-if="collection?.canUpdate() && editing") {{form}}
 </template>

@@ -49,6 +49,10 @@ profiles:
             manual:
               - src: packages/vue-hasura-backend-plus/src/**/*
                 dest: .
+              - src: packages/rxdb-hasura/src/**/*
+                dest: .
+              - src: packages/vue-rxdb-hasura/src/**/*
+                dest: .
               - src: easynut/vue/src/**/*
                 dest: .
     deploy:

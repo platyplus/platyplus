@@ -72,5 +72,8 @@ export const collectionMethods: ContentsCollectionMethods = {
   },
   icon(this: ContentsCollection, property?: string): string {
     return config(this, property)?.icon || ''
+  },
+  defaultView(this: ContentsCollection): string {
+    return this.metadata.config?.default_view || 'table'
   }
 }

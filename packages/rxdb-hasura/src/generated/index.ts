@@ -5199,6 +5199,9 @@ export type Metadata_Table_Bool_Exp = {
 /** columns and relationships of "metadata.table_config" */
 export type Metadata_Table_Config = {
   __typename?: 'metadata_table_config'
+  /** An object relationship */
+  defaultViewType: Maybe<Metadata_View_Type>
+  default_view: Maybe<Metadata_View_Type_Enum>
   description: Maybe<Scalars['String']>
   document_label: Scalars['String']
   document_title: Maybe<Scalars['String']>
@@ -5249,6 +5252,8 @@ export type Metadata_Table_Config_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Table_Config_Bool_Exp>>>
   _not: Maybe<Metadata_Table_Config_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Table_Config_Bool_Exp>>>
+  defaultViewType: Maybe<Metadata_View_Type_Bool_Exp>
+  default_view: Maybe<Metadata_View_Type_Enum_Comparison_Exp>
   description: Maybe<String_Comparison_Exp>
   document_label: Maybe<String_Comparison_Exp>
   document_title: Maybe<String_Comparison_Exp>
@@ -5267,6 +5272,8 @@ export enum Metadata_Table_Config_Constraint {
 
 /** input type for inserting data into table "metadata.table_config" */
 export type Metadata_Table_Config_Insert_Input = {
+  defaultViewType: Maybe<Metadata_View_Type_Obj_Rel_Insert_Input>
+  default_view: Maybe<Metadata_View_Type_Enum>
   description: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
@@ -5347,6 +5354,8 @@ export type Metadata_Table_Config_On_Conflict = {
 
 /** ordering options when selecting data from "metadata.table_config" */
 export type Metadata_Table_Config_Order_By = {
+  defaultViewType: Maybe<Metadata_View_Type_Order_By>
+  default_view: Maybe<Order_By>
   description: Maybe<Order_By>
   document_label: Maybe<Order_By>
   document_title: Maybe<Order_By>
@@ -5366,6 +5375,8 @@ export type Metadata_Table_Config_Pk_Columns_Input = {
 /** select columns of table "metadata.table_config" */
 export enum Metadata_Table_Config_Select_Column {
   /** column name */
+  DefaultView = 'default_view',
+  /** column name */
   Description = 'description',
   /** column name */
   DocumentLabel = 'document_label',
@@ -5383,6 +5394,7 @@ export enum Metadata_Table_Config_Select_Column {
 
 /** input type for updating data in table "metadata.table_config" */
 export type Metadata_Table_Config_Set_Input = {
+  default_view: Maybe<Metadata_View_Type_Enum>
   description: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
@@ -5394,6 +5406,8 @@ export type Metadata_Table_Config_Set_Input = {
 
 /** update columns of table "metadata.table_config" */
 export enum Metadata_Table_Config_Update_Column {
+  /** column name */
+  DefaultView = 'default_view',
   /** column name */
   Description = 'description',
   /** column name */
@@ -5870,6 +5884,163 @@ export enum Metadata_View_Info_Select_Column {
   ViewDefinition = 'view_definition'
 }
 
+/** columns and relationships of "metadata.view_type" */
+export type Metadata_View_Type = {
+  __typename?: 'metadata_view_type'
+  description: Maybe<Scalars['String']>
+  name: Scalars['String']
+}
+
+/** aggregated selection of "metadata.view_type" */
+export type Metadata_View_Type_Aggregate = {
+  __typename?: 'metadata_view_type_aggregate'
+  aggregate: Maybe<Metadata_View_Type_Aggregate_Fields>
+  nodes: Array<Metadata_View_Type>
+}
+
+/** aggregate fields of "metadata.view_type" */
+export type Metadata_View_Type_Aggregate_Fields = {
+  __typename?: 'metadata_view_type_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Metadata_View_Type_Max_Fields>
+  min: Maybe<Metadata_View_Type_Min_Fields>
+}
+
+/** aggregate fields of "metadata.view_type" */
+export type Metadata_View_Type_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Metadata_View_Type_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "metadata.view_type" */
+export type Metadata_View_Type_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Metadata_View_Type_Max_Order_By>
+  min: Maybe<Metadata_View_Type_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "metadata.view_type" */
+export type Metadata_View_Type_Arr_Rel_Insert_Input = {
+  data: Array<Metadata_View_Type_Insert_Input>
+  on_conflict: Maybe<Metadata_View_Type_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "metadata.view_type". All fields are combined with a logical 'AND'. */
+export type Metadata_View_Type_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Metadata_View_Type_Bool_Exp>>>
+  _not: Maybe<Metadata_View_Type_Bool_Exp>
+  _or: Maybe<Array<Maybe<Metadata_View_Type_Bool_Exp>>>
+  description: Maybe<String_Comparison_Exp>
+  name: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "metadata.view_type" */
+export enum Metadata_View_Type_Constraint {
+  /** unique or primary key constraint */
+  ViewTypePkey = 'view_type_pkey'
+}
+
+export enum Metadata_View_Type_Enum {
+  Card = 'card',
+  Table = 'table'
+}
+
+/** expression to compare columns of type metadata_view_type_enum. All fields are combined with logical 'AND'. */
+export type Metadata_View_Type_Enum_Comparison_Exp = {
+  _eq: Maybe<Metadata_View_Type_Enum>
+  _in: Maybe<Array<Metadata_View_Type_Enum>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _neq: Maybe<Metadata_View_Type_Enum>
+  _nin: Maybe<Array<Metadata_View_Type_Enum>>
+}
+
+/** input type for inserting data into table "metadata.view_type" */
+export type Metadata_View_Type_Insert_Input = {
+  description: Maybe<Scalars['String']>
+  name: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Metadata_View_Type_Max_Fields = {
+  __typename?: 'metadata_view_type_max_fields'
+  description: Maybe<Scalars['String']>
+  name: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "metadata.view_type" */
+export type Metadata_View_Type_Max_Order_By = {
+  description: Maybe<Order_By>
+  name: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Metadata_View_Type_Min_Fields = {
+  __typename?: 'metadata_view_type_min_fields'
+  description: Maybe<Scalars['String']>
+  name: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "metadata.view_type" */
+export type Metadata_View_Type_Min_Order_By = {
+  description: Maybe<Order_By>
+  name: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "metadata.view_type" */
+export type Metadata_View_Type_Mutation_Response = {
+  __typename?: 'metadata_view_type_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Metadata_View_Type>
+}
+
+/** input type for inserting object relation for remote table "metadata.view_type" */
+export type Metadata_View_Type_Obj_Rel_Insert_Input = {
+  data: Metadata_View_Type_Insert_Input
+  on_conflict: Maybe<Metadata_View_Type_On_Conflict>
+}
+
+/** on conflict condition type for table "metadata.view_type" */
+export type Metadata_View_Type_On_Conflict = {
+  constraint: Metadata_View_Type_Constraint
+  update_columns: Array<Metadata_View_Type_Update_Column>
+  where: Maybe<Metadata_View_Type_Bool_Exp>
+}
+
+/** ordering options when selecting data from "metadata.view_type" */
+export type Metadata_View_Type_Order_By = {
+  description: Maybe<Order_By>
+  name: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "metadata.view_type" */
+export type Metadata_View_Type_Pk_Columns_Input = {
+  name: Scalars['String']
+}
+
+/** select columns of table "metadata.view_type" */
+export enum Metadata_View_Type_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "metadata.view_type" */
+export type Metadata_View_Type_Set_Input = {
+  description: Maybe<Scalars['String']>
+  name: Maybe<Scalars['String']>
+}
+
+/** update columns of table "metadata.view_type" */
+export enum Metadata_View_Type_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Name = 'name'
+}
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root'
@@ -5919,6 +6090,10 @@ export type Mutation_Root = {
   delete_metadata_table_config: Maybe<Metadata_Table_Config_Mutation_Response>
   /** delete single row from the table: "metadata.table_config" */
   delete_metadata_table_config_by_pk: Maybe<Metadata_Table_Config>
+  /** delete data from the table: "metadata.view_type" */
+  delete_metadata_view_type: Maybe<Metadata_View_Type_Mutation_Response>
+  /** delete single row from the table: "metadata.view_type" */
+  delete_metadata_view_type_by_pk: Maybe<Metadata_View_Type>
   /** delete data from the table: "patient" */
   delete_patient: Maybe<Patient_Mutation_Response>
   /** delete single row from the table: "patient" */
@@ -5987,6 +6162,10 @@ export type Mutation_Root = {
   insert_metadata_table_config_one: Maybe<Metadata_Table_Config>
   /** insert a single row into the table: "metadata.table" */
   insert_metadata_table_one: Maybe<Metadata_Table>
+  /** insert data into the table: "metadata.view_type" */
+  insert_metadata_view_type: Maybe<Metadata_View_Type_Mutation_Response>
+  /** insert a single row into the table: "metadata.view_type" */
+  insert_metadata_view_type_one: Maybe<Metadata_View_Type>
   /** insert data into the table: "patient" */
   insert_patient: Maybe<Patient_Mutation_Response>
   /** insert a single row into the table: "patient" */
@@ -6045,6 +6224,10 @@ export type Mutation_Root = {
   update_metadata_table_config: Maybe<Metadata_Table_Config_Mutation_Response>
   /** update single row of the table: "metadata.table_config" */
   update_metadata_table_config_by_pk: Maybe<Metadata_Table_Config>
+  /** update data of the table: "metadata.view_type" */
+  update_metadata_view_type: Maybe<Metadata_View_Type_Mutation_Response>
+  /** update single row of the table: "metadata.view_type" */
+  update_metadata_view_type_by_pk: Maybe<Metadata_View_Type>
   /** update data of the table: "patient" */
   update_patient: Maybe<Patient_Mutation_Response>
   /** update single row of the table: "patient" */
@@ -6175,6 +6358,16 @@ export type Mutation_RootDelete_Metadata_Table_ConfigArgs = {
 export type Mutation_RootDelete_Metadata_Table_Config_By_PkArgs = {
   table_name: Scalars['String']
   table_schema: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_View_TypeArgs = {
+  where: Metadata_View_Type_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_View_Type_By_PkArgs = {
+  name: Scalars['String']
 }
 
 /** mutation root */
@@ -6363,6 +6556,18 @@ export type Mutation_RootInsert_Metadata_Table_Config_OneArgs = {
 /** mutation root */
 export type Mutation_RootInsert_Metadata_Table_OneArgs = {
   object: Metadata_Table_Insert_Input
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_View_TypeArgs = {
+  objects: Array<Metadata_View_Type_Insert_Input>
+  on_conflict: Maybe<Metadata_View_Type_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_View_Type_OneArgs = {
+  object: Metadata_View_Type_Insert_Input
+  on_conflict: Maybe<Metadata_View_Type_On_Conflict>
 }
 
 /** mutation root */
@@ -6572,6 +6777,18 @@ export type Mutation_RootUpdate_Metadata_Table_ConfigArgs = {
 export type Mutation_RootUpdate_Metadata_Table_Config_By_PkArgs = {
   _set: Maybe<Metadata_Table_Config_Set_Input>
   pk_columns: Metadata_Table_Config_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_View_TypeArgs = {
+  _set: Maybe<Metadata_View_Type_Set_Input>
+  where: Metadata_View_Type_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_View_Type_By_PkArgs = {
+  _set: Maybe<Metadata_View_Type_Set_Input>
+  pk_columns: Metadata_View_Type_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -7285,6 +7502,12 @@ export type Query_Root = {
   metadata_view_info: Array<Metadata_View_Info>
   /** fetch aggregated fields from the table: "metadata.view_info" */
   metadata_view_info_aggregate: Metadata_View_Info_Aggregate
+  /** fetch data from the table: "metadata.view_type" */
+  metadata_view_type: Array<Metadata_View_Type>
+  /** fetch aggregated fields from the table: "metadata.view_type" */
+  metadata_view_type_aggregate: Metadata_View_Type_Aggregate
+  /** fetch data from the table: "metadata.view_type" using primary key columns */
+  metadata_view_type_by_pk: Maybe<Metadata_View_Type>
   /** fetch data from the table: "patient" */
   patient: Array<Patient>
   /** fetch aggregated fields from the table: "patient" */
@@ -7894,6 +8117,29 @@ export type Query_RootMetadata_View_Info_AggregateArgs = {
 }
 
 /** query root */
+export type Query_RootMetadata_View_TypeArgs = {
+  distinct_on: Maybe<Array<Metadata_View_Type_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_View_Type_Order_By>>
+  where: Maybe<Metadata_View_Type_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_View_Type_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_View_Type_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_View_Type_Order_By>>
+  where: Maybe<Metadata_View_Type_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_View_Type_By_PkArgs = {
+  name: Scalars['String']
+}
+
+/** query root */
 export type Query_RootPatientArgs = {
   distinct_on: Maybe<Array<Patient_Select_Column>>
   limit: Maybe<Scalars['Int']>
@@ -8116,6 +8362,12 @@ export type Subscription_Root = {
   metadata_view_info: Array<Metadata_View_Info>
   /** fetch aggregated fields from the table: "metadata.view_info" */
   metadata_view_info_aggregate: Metadata_View_Info_Aggregate
+  /** fetch data from the table: "metadata.view_type" */
+  metadata_view_type: Array<Metadata_View_Type>
+  /** fetch aggregated fields from the table: "metadata.view_type" */
+  metadata_view_type_aggregate: Metadata_View_Type_Aggregate
+  /** fetch data from the table: "metadata.view_type" using primary key columns */
+  metadata_view_type_by_pk: Maybe<Metadata_View_Type>
   /** fetch data from the table: "patient" */
   patient: Array<Patient>
   /** fetch aggregated fields from the table: "patient" */
@@ -8725,6 +8977,29 @@ export type Subscription_RootMetadata_View_Info_AggregateArgs = {
 }
 
 /** subscription root */
+export type Subscription_RootMetadata_View_TypeArgs = {
+  distinct_on: Maybe<Array<Metadata_View_Type_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_View_Type_Order_By>>
+  where: Maybe<Metadata_View_Type_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_View_Type_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_View_Type_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_View_Type_Order_By>>
+  where: Maybe<Metadata_View_Type_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_View_Type_By_PkArgs = {
+  name: Scalars['String']
+}
+
+/** subscription root */
 export type Subscription_RootPatientArgs = {
   distinct_on: Maybe<Array<Patient_Select_Column>>
   limit: Maybe<Scalars['Int']>
@@ -9205,7 +9480,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   config: Maybe<
     { __typename?: 'metadata_table_config' } & Pick<
       Metadata_Table_Config,
-      'title' | 'description' | 'icon' | 'document_title' | 'document_label'
+      | 'title'
+      | 'description'
+      | 'icon'
+      | 'document_title'
+      | 'document_label'
+      | 'default_view'
     >
   >
   canSelect_aggregate: {
@@ -9328,6 +9608,7 @@ export const TableFragmentDoc = gql`
       icon
       document_title
       document_label
+      default_view
     }
     canSelect_aggregate {
       aggregate {

@@ -34,10 +34,16 @@ export const useFieldValue = <T>(
   name: Ref<string>
 ): Readonly<Ref<Readonly<T>>> => {
   const fieldValue = ref()
+  const store = useStore()
+
   useSubscription(
     document.value.get$(name.value).subscribe(toObserver(fieldValue))
   )
-  return fieldValue
+  return computed(
+    () =>
+      (store.getters['rxdb/getField'](document.value, name.value) as T) ??
+      fieldValue.value
+  )
 }
 
 export const useProperty = (
@@ -87,9 +93,7 @@ export const useFormProperty = <T>(
   const store = useStore()
 
   const model = computed<T>({
-    get: () =>
-      (store.getters['rxdb/getField'](document.value, name.value) as T) ??
-      fieldValue.value,
+    get: () => fieldValue.value,
     set: (value: T) => {
       if (equal(value, fieldValue.value))
         store.commit('rxdb/resetField', {

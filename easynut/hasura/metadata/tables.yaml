@@ -818,6 +818,9 @@
     schema: metadata
     name: table_config
   object_relationships:
+  - name: defaultViewType
+    using:
+      foreign_key_constraint_on: default_view
   - name: table
     using:
       manual_configuration:
@@ -831,13 +834,14 @@
   - role: user
     permission:
       columns:
-      - title
+      - default_view
       - description
       - document_label
       - document_title
       - icon
       - table_name
       - table_schema
+      - title
       filter:
         table:
           permissions:
@@ -873,6 +877,10 @@
     schema: metadata
     name: view_info
 - table:
+    schema: metadata
+    name: view_type
+  is_enum: true
+- table:
     schema: public
     name: drug
   select_permissions:
@@ -900,15 +908,10 @@
     permission:
       check: {}
       columns:
-      - a_bigint
       - a_boolean
-      - a_citext
       - a_date
-      - a_jsonb
       - a_numeric
-      - a_real
       - an_integer
-      - an_uuid
       - id
       - name
       backend_only: false
@@ -916,33 +919,23 @@
   - role: user
     permission:
       columns:
-      - id
-      - updated_at
-      - name
-      - a_date
-      - an_integer
       - a_boolean
+      - a_date
       - a_numeric
-      - an_uuid
-      - a_jsonb
-      - a_bigint
-      - a_real
-      - a_citext
+      - an_integer
+      - id
+      - name
+      - updated_at
       filter: {}
       allow_aggregations: true
   update_permissions:
   - role: user
     permission:
       columns:
-      - a_bigint
       - a_boolean
-      - a_citext
       - a_date
-      - a_jsonb
       - a_numeric
-      - a_real
       - an_integer
-      - an_uuid
       - name
       filter: {}
       check: null
