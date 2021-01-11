@@ -48,6 +48,11 @@ fragment table on metadata_table {
       }
       remote_column_name
     }
+    config {
+      title
+      description
+      icon
+    }
   }
   columns {
     ...column
@@ -62,6 +67,11 @@ fragment table on metadata_table {
     }
     canUpdate {
       role_name
+    }
+    config {
+      title
+      description
+      icon
     }
   }
 }

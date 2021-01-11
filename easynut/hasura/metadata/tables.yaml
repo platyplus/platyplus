@@ -103,6 +103,16 @@
     schema: metadata
     name: column_info
   object_relationships:
+  - name: config
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: property_config
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          column_name: property_name
   - name: primaryKey
     using:
       manual_configuration:
@@ -510,8 +520,32 @@
               _eq: x-hasura-role
 - table:
     schema: metadata
+    name: property_config
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - property_name
+      - title
+      - description
+      - icon
+      filter: {}
+- table:
+    schema: metadata
     name: relationship
   object_relationships:
+  - name: config
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: property_config
+        column_mapping:
+          rel_name: property_name
+          table_schema: table_schema
+          table_name: table_name
   - name: table
     using:
       manual_configuration:
