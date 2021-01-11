@@ -27,7 +27,7 @@ export class Instance {
     this.claims = ref<HasuraClaims>()
     this.authenticated = ref(false)
     this.token = ref()
-    options.router.beforeEach(async (to, from, next) => {
+    options.router?.beforeEach(async (to, from, next) => {
       if (this.auth.isAuthenticated() === null) {
         this.authenticated.value = await new Promise<boolean>(resolve => {
           this.auth.onAuthStateChanged((status: boolean) => {

@@ -8,5 +8,5 @@ export type HasuraClaims = Record<string, unknown> | undefined
 export type HasuraBackendPlusPluginOptions = {
   endpoint: string
   refreshInSeconds?: number
-  router: Router
+  router?: Router
 }
