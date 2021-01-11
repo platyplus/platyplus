@@ -1,5 +1,12 @@
 # Roadmap
 
+## Wrap up the rxdb stuff
+
+- [ ] Add a vue service
+- [ ] Command to set the frontend out of the box
+- [ ] Command to load metadata and migrations
+- [ ] command to dump `metadata.table_config`, `metadata.property_config` etc
+
 ## Step 1b: HBP Helm Charts
 
 - [ ] HBP README: expose Hasura endpoint as well
