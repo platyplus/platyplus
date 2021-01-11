@@ -7,7 +7,6 @@ import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
 import { useFormProperty } from '../../../composables'
-
 export default defineComponent({
   name: 'FieldEditInteger',
   props: {
