@@ -1,13 +1,14 @@
 <template lang="pug">
-div {{value}}
+document-label(:document="refDocument")
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useFieldValue } from '@platyplus/vue-rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
+
+import { useRefFieldValue } from '../../../composables'
 export default defineComponent({
-  name: 'FieldReadGeneric',
+  name: 'FieldReadDocument',
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,
@@ -16,12 +17,16 @@ export default defineComponent({
     name: {
       type: String,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const value = useFieldValue<unknown>(document, name)
-    return { value }
+    const refDocument = useRefFieldValue<ContentsDocument>(document, name)
+    return { refDocument }
   }
 })
 </script>

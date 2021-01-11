@@ -1,0 +1,64 @@
+{
+  "name": "@platyplus/vue-rxdb-hasura",
+  "platyplus": {
+    "type": "typescript"
+  },
+  "private": false,
+  "version": "0.0.1",
+  "description": "RxDB Hasura plugin",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://github.com/platyplus/platydev.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platydev.git",
+    "directory": "packages/vue-rxdb-hasura"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vue-cli-service build --target lib --watch",
+    "dev:docker": "vue-cli-service build --target lib --watch ./src/index.ts",
+    "prepublish": "yarn run build",
+    "build": "vue-cli-service build --target lib ./src/index.ts",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "deep-equal": "^2.0.5",
+    "@platyplus/rxdb-hasura": "0.0.1",
+    "@platyplus/vue-hasura-backend-plus": "0.0.1",
+    "@vueuse/core": "^4.0.1",
+    "@vueuse/rxjs": "^4.0.1",
+    "object-path-immutable": "^4.1.1",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primevue": "^3.1.1",
+    "rxdb": "^9.11.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  }
+}

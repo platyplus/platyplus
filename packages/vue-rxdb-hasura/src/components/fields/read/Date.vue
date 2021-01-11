@@ -4,11 +4,12 @@ div {{formatedValue}}
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useFieldValue } from '@platyplus/vue-rxdb-hasura'
-import moment from 'moment'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
+
+import { useFieldValue } from '../../../composables'
+
 export default defineComponent({
-  name: 'FieldReadTime',
+  name: 'FieldReadDate',
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,
@@ -20,11 +21,12 @@ export default defineComponent({
     }
   },
   setup(props) {
+    // TODO internationalize dateFormat, but preferably without using momentjs (too big)
     const { name, document } = toRefs(props)
-    const value = useFieldValue<unknown>(document, name)
-    // TODO get rid of moment
-    const formatedValue = computed(() =>
-      moment(value.value, 'HH:mm:ss.SSSSSSZZ').format('HH:mm:ss')
+    const value = useFieldValue<string>(document, name)
+
+    const formatedValue = computed(
+      () => new Date(value.value).toLocaleDateString() // TODO <-- here (and in the template as well)
     )
     return { formatedValue }
   }

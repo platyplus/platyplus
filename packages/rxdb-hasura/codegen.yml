@@ -3,9 +3,9 @@ schema:
   - http://hasura.localhost/v1/graphql:
       headers:
         x-hasura-admin-secret: development-hasura-admin-secret
-documents: 'src/plugins/rxdb-hasura/**/*.graphql'
+documents: 'src/**/*.graphql'
 generates:
-  src/plugins/rxdb-hasura/generated/index.ts:
+  src/generated/index.ts:
     plugins:
       - add:
           content: /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types */

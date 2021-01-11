@@ -1,14 +1,15 @@
 <template lang="pug">
-Calendar(v-model="model" :showTime="true" :showSeconds="true" appendTo="body")
+Checkbox(v-model="value" :binary="true")
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useFormProperty } from '@platyplus/vue-rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
+import { useFieldValue } from '../../../composables'
+
 export default defineComponent({
-  name: 'FieldEditDateTime',
+  name: 'FieldReadBoolean',
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,
@@ -17,13 +18,16 @@ export default defineComponent({
     name: {
       type: String,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
-    // TODO internationalize preferably without using momentjs (too big)
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<string>(document, name)
-    return { model }
+    const value = useFieldValue<boolean>(document, name)
+    return { value }
   }
 })
 </script>
