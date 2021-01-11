@@ -35,6 +35,7 @@ export default defineComponent({
     const hbpLogout = useLogout()
     const logout = async () => {
       await hbpLogout()
+      // TODO destroy RXDB databases as well => in vue-rxdb plugin
       router.push('/')
     }
     return { expanded, toggle, logout }
