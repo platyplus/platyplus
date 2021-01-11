@@ -24,18 +24,23 @@
 
 <script lang="ts">
 import { useLogout } from '@platyplus/vue-hasura-backend-plus'
+import { useDB } from '@platyplus/vue-rxdb-hasura'
 import { useToggle } from '@vueuse/core'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup() {
+    const db = useDB()
     const [expanded, toggle] = useToggle(false)
     const router = useRouter()
     const hbpLogout = useLogout()
     const logout = async () => {
       await hbpLogout()
-      // TODO destroy RXDB databases as well => in vue-rxdb plugin
+      // * destroy RXDB databases as well
+      // ? => in vue-rxdb plugin ?
+      // TODO not sure it's working
+      await db.value?.remove()
       router.push('/')
     }
     return { expanded, toggle, logout }

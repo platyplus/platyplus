@@ -17,7 +17,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 const hbp = createHasuraBackendPlus({
-  endpoint: 'https://hasura-backend-plus.endpoint.com'
+  endpoint: 'https://hasura-backend-plus.endpoint.com',
+  refreshInSeconds: 600, // Defaults to 600 (10 minutes)
+  router // Optional: vue-router instance. When set, will make sure the authentication is know prior to any routing
 })
 
 createApp(App).use(hbp).mount('#app')
