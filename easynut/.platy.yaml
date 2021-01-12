@@ -1,5 +1,0 @@
-services:
-  - package: "@platyplus/easy-hbp"
-  - package: "@platyplus/hasura-easy"
-name: easynut
-description: easynut

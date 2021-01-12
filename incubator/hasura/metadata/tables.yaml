@@ -818,9 +818,6 @@
     schema: metadata
     name: table_config
   object_relationships:
-  - name: defaultViewType
-    using:
-      foreign_key_constraint_on: default_view
   - name: table
     using:
       manual_configuration:
@@ -876,10 +873,6 @@
 - table:
     schema: metadata
     name: view_info
-- table:
-    schema: metadata
-    name: view_type
-  is_enum: true
 - table:
     schema: public
     name: drug
