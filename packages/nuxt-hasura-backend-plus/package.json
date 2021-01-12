@@ -3,7 +3,7 @@
   "platyplus": {
     "type": "typescript"
   },
-  "private": false,
+  "private": true,
   "version": "0.2.0",
   "description": "Nuxt plugin for Hasura Backend Plus",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
