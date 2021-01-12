@@ -28,7 +28,7 @@ COPY --chown=node:node packages/humanitarian-icons /home/node/app/packages/human
 COPY --chown=node:node packages/rxdb-hasura /home/node/app/packages/rxdb-hasura
 COPY --chown=node:node packages/vue-rxdb-hasura /home/node/app/packages/vue-rxdb-hasura
 
-# RUN yarn workspace @platyplus/easy-vue add typescript@'<4'
+# RUN yarn workspace @platyplus/incubator-vue add typescript@'<4'
 
-CMD yarn workspace @platyplus/easy-vue dev
+CMD yarn workspace @platyplus/incubator-vue dev
 # CMD lerna run --parallel dev

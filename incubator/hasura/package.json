@@ -1,17 +1,17 @@
 {
-  "name": "@platyplus/easy-hbp",
+  "name": "@platyplus/incubator-hasura",
   "private": true,
   "platyplus": {
-    "type": "hasura-backend-plus"
+    "type": "hasura"
   },
   "version": "0.0.1",
-  "description": "hasura-backend-plus service",
+  "description": "hasura service",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://github.com/platyplus/platydev.git",
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platydev.git",
-    "directory": "easynut/hbp"
+    "directory": "easynut/hasura"
   },
   "license": "MIT",
   "publishConfig": {
