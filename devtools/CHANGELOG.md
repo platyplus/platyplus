@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.8.0...@platyplus/devtools@0.9.0) (2021-01-12)
+
+
+### Features
+
+* working on metadata and vue ([db19a7e](https://github.com/platyplus/platydev/commit/db19a7ee686a6cc34ef874e2dc8ab044268f98b7))
+
+
+
+
+
 # [0.8.0](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.7.0...@platyplus/devtools@0.8.0) (2020-12-09)
 
 

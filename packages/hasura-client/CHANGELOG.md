@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/platyplus/platydev/compare/@platyplus/hasura-client@0.0.9...@platyplus/hasura-client@0.1.0) (2021-01-12)
+
+
+### Features
+
+* working on metadata and vue ([db19a7e](https://github.com/platyplus/platydev/commit/db19a7ee686a6cc34ef874e2dc8ab044268f98b7))
+
+
+
+
+
 ## [0.0.9](https://github.com/platyplus/platydev/compare/@platyplus/hasura-client@0.0.8...@platyplus/hasura-client@0.0.9) (2020-12-06)
 
 **Note:** Version bump only for package @platyplus/hasura-client

@@ -4,7 +4,7 @@
     "type": "typescript"
   },
   "private": false,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "RxDB Hasura plugin",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://github.com/platyplus/platydev.git",
@@ -46,16 +46,16 @@
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
-    "@types/uuid": "^8.3.0",
     "@graphql-codegen/add": "^2.0.2",
     "@graphql-codegen/cli": "1.20.0",
     "@graphql-codegen/introspection": "1.18.1",
+    "@graphql-codegen/typescript": "^1.19.0",
     "@graphql-codegen/typescript-document-nodes": "1.17.9",
     "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
     "@graphql-codegen/typescript-graphql-request": "^3.0.0",
     "@graphql-codegen/typescript-operations": "^1.17.13",
-    "@graphql-codegen/typescript": "^1.19.0",
     "@types/stringify-object": "^3.3.0",
+    "@types/uuid": "^8.3.0",
     "@types/ws": "^7.4.0",
     "cpy": "^8.1.1",
     "pouchdb-adapter-idb": "^7.2.2",

@@ -4,7 +4,7 @@
     "type": "typescript"
   },
   "private": false,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "RxDB Hasura plugin",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://github.com/platyplus/platydev.git",
@@ -31,17 +31,17 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "uuid": "^8.3.2",
-    "deep-equal": "^2.0.5",
-    "@platyplus/rxdb-hasura": "0.0.1",
-    "@platyplus/vue-hasura-backend-plus": "0.0.1",
+    "@platyplus/rxdb-hasura": "^0.1.0",
+    "@platyplus/vue-hasura-backend-plus": "^0.1.0",
     "@vueuse/core": "^4.0.1",
     "@vueuse/rxjs": "^4.0.1",
+    "deep-equal": "^2.0.5",
     "object-path-immutable": "^4.1.1",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primevue": "^3.1.1",
-    "rxdb": "^9.11.0"
+    "rxdb": "^9.11.0",
+    "uuid": "^8.3.2"
   },
   "peerDependencies": {
     "vue": "^3.0.0",
@@ -50,13 +50,13 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.3.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/platyplus/platydev/compare/@platyplus/fs@0.1.3...@platyplus/fs@0.2.0) (2021-01-12)
+
+
+### Features
+
+* basic forms update ([2d9d41b](https://github.com/platyplus/platydev/commit/2d9d41b1c71907cb47dba9121af5191eb7e1edb1))
+
+
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/@platyplus/fs@0.1.2...@platyplus/fs@0.1.3) (2020-12-06)
 
 **Note:** Version bump only for package @platyplus/fs
