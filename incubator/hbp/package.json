@@ -7,7 +7,7 @@
   "version": "0.0.1",
   "description": "hasura-backend-plus service",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "homepage": "https://github.com/platyplus/platydev.git",
+  "homepage": "https://platy.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platydev.git",
