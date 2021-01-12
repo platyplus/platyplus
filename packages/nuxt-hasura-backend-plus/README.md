@@ -2,6 +2,13 @@
 
 Nuxt module for Hasura Backend Plus
 
+**Important note: this package is NOT STABLE.**
+
+This package is not actively developped anymore, mostly because:
+
+- Nuxt is not ready to work with Vue 3 and does not seamlessly work with the composition API
+- The composition API of Apollo Vue is not stable enough yet.
+
 ## Installation
 
 ```sh
