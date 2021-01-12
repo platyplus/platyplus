@@ -1,5 +1,5 @@
 services:
   - package: "@platyplus/incubator-hbp"
   - package: "@platyplus/incubator-hasura"
-name: easynut
-description: easynut
+name: incubator
+description: incubator

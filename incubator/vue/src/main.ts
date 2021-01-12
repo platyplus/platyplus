@@ -15,7 +15,7 @@ const hbp = createHasuraBackendPlus({
 })
 
 const rxdbHasura = createVueRxDBHasuraPlugin({
-  name: 'easynut',
+  name: 'incubator',
   endpoint: 'http://hasura.localhost/v1/graphql',
   store,
   hbp

@@ -4,27 +4,27 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-    - image: easynut-hasura
+    - image: incubator-hasura
       context: hasura
-    - image: easynut-vue
+    - image: incubator-vue
       context: ..
       docker:
-        dockerfile: easynut/vue/Dockerfile
-    - image: easynut-hbp
+        dockerfile: incubator/vue/Dockerfile
+    - image: incubator-hbp
       context: hbp
 deploy:
   helm:
     releases:
-      - name: easynut
+      - name: incubator
         chartPath: helm
         skipBuildDependencies: false
         artifactOverrides:
           hasura:
-            image: easynut-hasura
+            image: incubator-hasura
           vue:
-            image: easynut-vue
+            image: incubator-vue
           hbp:
-            image: easynut-hbp
+            image: incubator-hbp
 profiles:
   - name: dev
     activation:
@@ -33,7 +33,7 @@ profiles:
       tagPolicy:
         sha256: {}
       artifacts:
-        - image: easynut-hasura
+        - image: incubator-hasura
           context: hasura
           sync:
             manual:
@@ -41,10 +41,10 @@ profiles:
                 dest: /hasura-migrations
               - src: metadata/*
                 dest: /hasura-metadata
-        - image: easynut-vue
+        - image: incubator-vue
           context: ..
           docker:
-            dockerfile: easynut/vue/Dockerfile-development
+            dockerfile: incubator/vue/Dockerfile-development
           sync:
             manual:
               - src: packages/vue-hasura-backend-plus/src/**/*
@@ -53,12 +53,12 @@ profiles:
                 dest: .
               - src: packages/vue-rxdb-hasura/src/**/*
                 dest: .
-              - src: easynut/vue/src/**/*
+              - src: incubator/vue/src/**/*
                 dest: .
     deploy:
       helm:
         releases:
-          - name: easynut
+          - name: incubator
             chartPath: helm
             skipBuildDependencies: false
             setValues:
@@ -86,6 +86,6 @@ profiles:
                   "hosts[0].name": hbp.localhost
             artifactOverrides:
               hasura:
-                image: easynut-hasura
+                image: incubator-hasura
               vue:
-                image: easynut-vue
+                image: incubator-vue

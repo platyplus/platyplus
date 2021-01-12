@@ -1,9 +1,9 @@
 // TODO make it work monorepo
 module.exports = {
   client: {
-    includes: ['./easynut/vue/src/**/*.graphql'],
+    includes: ['./incubator/vue/src/**/*.graphql'],
     service: {
-      name: 'easynut-hasura',
+      name: 'incubator-hasura',
       url: 'http://hasura.localhost/v1/graphql',
       // optional headers
       headers: {

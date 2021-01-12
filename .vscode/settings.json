@@ -26,5 +26,8 @@
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "none",
-  "prettier.arrowParens": "avoid"
+  "prettier.arrowParens": "avoid",
+  "favorites.resources": [
+    "incubator/vue/src"
+  ]
 }

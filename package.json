@@ -6,7 +6,7 @@
       "packages/*",
       "devtools",
       "documentation",
-      "easynut/*"
+      "incubator/*"
     ]
   },
   "scripts": {

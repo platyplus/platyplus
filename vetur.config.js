@@ -13,7 +13,7 @@ module.exports = {
   projects: [
     './', // shorthand for only root.
     {
-      root: './easynut/vue'
+      root: './incubator/vue'
       // **optional** default: `[]`
       // Register globally Vue component glob.
       // If you set it, you can get completion by that components.

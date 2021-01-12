@@ -1,6 +1,6 @@
 apiVersion: v2
-description: easynut
-name: easynut
+description: incubator
+name: incubator
 version: 0.0.1
 dependencies:
   - name: traefik
