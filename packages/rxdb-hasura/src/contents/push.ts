@@ -1,4 +1,3 @@
-import deepEqual from 'deep-equal'
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import stringifyObject from 'stringify-object'
 
@@ -83,20 +82,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     ]
     for (const field of excluded) delete data[field]
 
-    const doc = await collection.findOne(id).exec()
-    const changed =
-      doc &&
-      Object.entries(data).some(([key, value]) => {
-        if (typeof doc[key] === 'object' && typeof value === 'object')
-          return !deepEqual(doc[key], value)
-        else return doc[key] !== value
-      })
-    if (changed) {
-      debug('pushModifier: out', { ...data })
-      return { _isNew, ...data, id }
-    } else {
-      debug('pushModifier: out: no changes')
-      return null
-    }
+    debug('pushModifier: out', { ...data })
+    return { _isNew, ...data, id }
   }
 }

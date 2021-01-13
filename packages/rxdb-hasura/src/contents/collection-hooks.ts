@@ -29,6 +29,7 @@ const documentLocks: Record<string, boolean> = {}
 export const createHooks = (collection: ContentsCollection): void => {
   debug('Installing hooks')
   collection.preInsert(data => {
+    // TODO
     console.log('preinsert', data)
   }, false)
   collection.preSave(async (data, doc) => {
@@ -45,16 +46,13 @@ export const createHooks = (collection: ContentsCollection): void => {
         return value.ref === collection.name
       })?.[0]
       if (!mirrorRelation) return
-      console.log('HERE')
       if (rel.rel_type === 'array') {
-        console.log('array')
         // * When a One-to-Many (array) relationship changes, update the potential mirror Many-to-One (object) relationship in the referenced collection
         const oldValue = (doc[relName] || []) as string[]
         const newValue = (data[relName] || []) as string[]
         // * Changes foreign key in the new referenced documents
         const additions = newValue.filter(value => !oldValue.includes(value))
         for (const addition of additions) {
-          console.log('addition', addition)
           const refDoc: ContentsDocument | null = await refCollection
             .findOne(addition)
             .exec()
@@ -67,18 +65,15 @@ export const createHooks = (collection: ContentsCollection): void => {
         // TODO if cascade, remove the document
         const deletions = oldValue.filter(value => !newValue.includes(value))
         for (const deletion of deletions) {
-          console.log('deletion', deletion)
           const refDoc: ContentsDocument | null = await refCollection
             .findOne(deletion)
             .exec()
-          console.log('found', refDoc)
           if (refDoc && !documentLocks[refDoc.primary])
             await refDoc.atomicPatch({
               [mirrorRelation]: undefined
             })
         }
       } else if (rel.rel_type === 'object') {
-        console.log('object')
         // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
         const oldValue = doc[relName] as string | undefined
         const newValue = data[relName] as string | undefined
