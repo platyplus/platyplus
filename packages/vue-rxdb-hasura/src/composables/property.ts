@@ -8,7 +8,14 @@ import equal from 'deep-equal'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { mergeMap } from 'rxjs/operators'
-import { computed, ComputedRef, Ref, ref, WritableComputedRef } from 'vue'
+import {
+  computed,
+  ComputedRef,
+  Ref,
+  ref,
+  watch,
+  WritableComputedRef
+} from 'vue'
 import { useStore } from 'vuex'
 
 import { useDocumentCollection } from './collection'
@@ -25,7 +32,35 @@ export const useRefFieldValue = <T>(
       .pipe(mergeMap(async () => await document.value.populate(name.value)))
       .subscribe(toObserver(fieldValue))
   )
-  return fieldValue
+  const store = useStore()
+  const refCollection = computed<ContentsCollection>(() => {
+    const collection = document.value.collection
+    const refCollectionName = collection.schema.jsonSchema.properties[
+      name.value
+    ].ref as string
+    return collection.database.hasura[refCollectionName]
+  })
+  // * Check if a value is stored in the forms. In this case, fetch from the DB
+  const formValue = ref()
+  watch(
+    () =>
+      store.getters['rxdb/getField'](document.value, name.value) as
+        | string
+        | string[]
+        | null,
+    async newVal => {
+      if (typeof newVal === 'string') {
+        // * object relationship
+        formValue.value = await refCollection.value.findOne(newVal).exec()
+      } else if (Array.isArray(newVal)) {
+        // * array relationship
+        const map = await refCollection.value.findByIds(newVal)
+        formValue.value = Array.from(map.values())
+      } else formValue.value = null
+    },
+    { immediate: true }
+  )
+  return computed(() => formValue.value || fieldValue.value)
 }
 
 export const useFieldValue = <T>(
