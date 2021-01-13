@@ -11,6 +11,7 @@ import Calendar from 'primevue/calendar'
 import Checkbox from 'primevue/checkbox'
 import Column from 'primevue/column'
 import ColumnGroup from 'primevue/columngroup'
+import Chip from 'primevue/components/chip/Chip'
 import PrimeVue from 'primevue/config'
 import DataTable from 'primevue/datatable'
 import DataView from 'primevue/dataview'
@@ -18,6 +19,7 @@ import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
+import MultiSelect from 'primevue/multiselect'
 import { App, InjectionKey, Ref, ref } from 'vue'
 import { Store } from 'vuex'
 
@@ -74,14 +76,16 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
     app.component('Button', Button)
     app.component('Calendar', Calendar)
     app.component('Checkbox', Checkbox)
+    app.component('Chip', Chip)
     app.component('Column', Column)
     app.component('ColumnGroup', ColumnGroup)
     app.component('DataTable', DataTable)
+    app.component('DataView', DataView)
     app.component('Dialog', Dialog)
     app.component('Dropdown', Dropdown)
     app.component('InputNumber', InputNumber)
     app.component('InputText', InputText)
-    app.component('DataView', DataView)
+    app.component('MultiSelect', MultiSelect)
   }
   return { db, install }
 }

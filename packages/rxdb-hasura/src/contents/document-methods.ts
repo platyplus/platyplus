@@ -10,8 +10,8 @@ export const documentMethods: ContentsDocumentMethods = {
   canEdit(this: ContentsDocument, propertyName?: string) {
     const collection = this.collection as ContentsCollection // TODO write an issue or a PR in rxdb repo
     return isRxDocument(this)
-      ? collection.canInsert(propertyName)
-      : collection.canUpdate(propertyName)
+      ? collection.canUpdate(propertyName)
+      : collection.canInsert(propertyName)
   },
   canSave: () => {
     // TODO validate data

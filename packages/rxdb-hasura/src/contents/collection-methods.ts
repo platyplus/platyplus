@@ -18,12 +18,19 @@ export const collectionMethods: ContentsCollectionMethods = {
           ({ rel_name }) => rel_name === fieldName
         )
         if (relationship?.rel_type === 'object') {
-          // * object relationship
-          const columns = relationship.mapping.map(m => m.column?.column_name)
-          return columns.every(column => column && this.canInsert(column))
+          // * object relationship: check permission to insert every foreign key column
+          return relationship.mapping
+            .map(m => m.column?.column_name)
+            .every(column => column && this.canInsert(column))
         } else {
-          // TODO array relationship
-          return false
+          // * array relationship: check permission to update the foreign key columns
+          const refCollection = this.database.hasura[
+            this.schema.jsonSchema.properties[relationship?.rel_name as string]
+              .ref as string
+          ]
+          return !!relationship?.mapping.every(m =>
+            refCollection.canUpdate(m.remote_column_name as string)
+          )
         }
       } else {
         // * Column
@@ -46,12 +53,19 @@ export const collectionMethods: ContentsCollectionMethods = {
           ({ rel_name }) => rel_name === fieldName
         )
         if (relationship?.rel_type === 'object') {
-          // * object relationship
-          const columns = relationship.mapping.map(m => m.column?.column_name)
-          return columns.every(column => column && this.canUpdate(column))
+          // * object relationship: check permission to update every foreign key column
+          return relationship.mapping
+            .map(m => m.column?.column_name)
+            .every(column => column && this.canUpdate(column))
         } else {
-          // TODO array relationship
-          return false
+          // * array relationship: check permission to update the foreign key columns
+          const refCollection = this.database.hasura[
+            this.schema.jsonSchema.properties[relationship?.rel_name as string]
+              .ref as string
+          ]
+          return !!relationship?.mapping.every(m =>
+            refCollection.canUpdate(m.remote_column_name as string)
+          )
         }
       } else {
         // * Column
