@@ -4,22 +4,21 @@
     i.p-mr-2(:class="collection.icon()")
     span {{collection.title()}}
   p {{collection.description()}}
-  Toolbar.p-mb-4(v-if="collection.canUpdate()")
+  Toolbar.p-mb-4(v-if="canEdit")
     template(#left)
       Button.p-mr-2(v-if="!editing" icon="pi pi-pencil" label="Edit" @click="edit")
       Button.p-mr-2(v-if="editing" icon="pi pi-save" label="Save" @click="save") 
       Button.p-mr-2(v-if="editing" icon="pi pi-undo" label="Reset" @click="reset") 
       Button.p-mr-2(v-if="editing" icon="pi pi-times" label="Cancel" @click="cancel") 
   collection(:key="collection.name" :collection="collection" :type="collection.defaultView()" :editing="editing")
-.card(v-else) loading...
+.card(v-else) loading collection...
 .card(v-if="collection?.canUpdate() && editing") {{form}}
 </template>
 
 <script lang="ts">
 import { useCollection } from '@platyplus/vue-rxdb-hasura'
-import { useToggle } from '@vueuse/core'
 import { computed, defineComponent, toRef } from 'vue'
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -28,45 +27,66 @@ export default defineComponent({
     name: {
       type: String,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
     onBeforeRouteUpdate(() => {
-      editing.value = false
       // TODO Confirm leaving if changes in the form
     })
     onBeforeRouteLeave(() => {
       // TODO Confirm leaving if changes in the form
     })
+
+    // TODO allow creating a new document
+    const router = useRouter()
     const collectionName = toRef(props, 'name')
     const collection = useCollection(collectionName)
-    // const status = useStatus()
-    // const token = useJWT()
-    // const collections = useCollections()
+    const canEdit = computed<boolean>(
+      () =>
+        collection.value?.defaultView() !== 'card' &&
+        !!collection.value?.canUpdate()
+    )
+
     const store = useStore()
     const form = computed(() => store.getters['rxdb/form'])
-    const [editing, edit] = useToggle()
+
+    const read = () =>
+      router.replace({
+        name: 'collection',
+        params: {
+          name: props.name
+        }
+      })
+    const edit = () =>
+      router.replace({
+        name: 'collection',
+        params: {
+          name: props.name,
+          action: 'edit'
+        }
+      })
     const save = async () => {
       await store.dispatch('rxdb/save')
-      editing.value = false
-      // await next()
+      read()
     }
     const reset = () => {
       store.commit('rxdb/reset')
     }
     const cancel = () => {
       reset()
-      editing.value = false
+      read()
     }
     return {
       form,
       collection,
-      collectionName,
-      status,
       save,
       reset,
       cancel,
-      editing,
+      canEdit,
       edit
     }
   }

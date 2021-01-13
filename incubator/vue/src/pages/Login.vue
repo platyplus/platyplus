@@ -4,8 +4,8 @@
   form
     p No account yet? 
       router-link(to="/register") Sign up
-    InputText(v-model="email" id="email" type="text" placeholder="Email" autocomplete="username")
-    InputText(v-model="password" id="password" type="password" placeholder="Password" autocomplete="current-password")                    
+    InputText(v-model="email" id="email" type="text" placeholder="Email" autocomplete="username" @keyup.enter="login")
+    InputText(v-model="password" id="password" type="password" placeholder="Password" autocomplete="current-password" @keyup.enter="login")                    
     p Lost password?
     Button.p-button-rounded(@click="login") Login
   p {{error}}

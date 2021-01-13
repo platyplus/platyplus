@@ -3,4 +3,3 @@ alter table "metadata"."table_config"
            foreign key ("default_view")
            references "metadata"."view_type"
            ("name") on update restrict on delete restrict;
-insert into table "metadata"."table_config"("name") values("card", "table")

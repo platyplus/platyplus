@@ -44,7 +44,7 @@ import Carousel from 'primevue/carousel'
 import Chips from 'primevue/chips'
 import ColorPicker from 'primevue/colorpicker'
 import ContextMenu from 'primevue/contextmenu'
-import DataView from 'primevue/dataview'
+// import DataView from 'primevue/dataview'
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Fieldset from 'primevue/fieldset'
 import FileUpload from 'primevue/fileupload'
@@ -119,7 +119,7 @@ app.component('ColorPicker', ColorPicker)
 // app.component('Column', Column)
 app.component('ContextMenu', ContextMenu)
 // app.component('DataTable', DataTable)
-app.component('DataView', DataView)
+// app.component('DataView', DataView)
 app.component('DataViewLayoutOptions', DataViewLayoutOptions)
 // app.component('Dialog', Dialog)
 // app.component('Dropdown', Dropdown)

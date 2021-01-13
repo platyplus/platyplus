@@ -37,13 +37,30 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/collection/:name',
-    name: 'Collection',
+    path: '/collection/:name/:action?',
+    name: 'collection',
     component: () =>
       import(
         /* webpackChunkName: "collection" */ '../pages/CollectionPage.vue'
       ),
-    props: true,
+    props: route => ({
+      name: route.params.name,
+      editing: route.params.action === 'edit'
+    }),
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/document/:collection/:id/:action?',
+    name: 'document',
+    component: () =>
+      import(/* webpackChunkName: "document" */ '../pages/DocumentPage.vue'),
+    props: route => ({
+      name: route.params.collection,
+      id: route.params.id,
+      editing: route.params.action === 'edit'
+    }),
     meta: {
       auth: true
     }

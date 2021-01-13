@@ -1,3 +1,4 @@
+import deepEqual from 'deep-equal'
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import stringifyObject from 'stringify-object'
 
@@ -64,25 +65,38 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     .filter(column => !column.canUpdate.length)
     .map(column => column.column_name as string)
 
-  return doc => {
-    debug('pushModifier: in:', doc)
-    const _isNew = isNewDocument(doc)
-    const id = doc.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
+  return async data => {
+    debug('pushModifier: in:', data)
+    const _isNew = isNewDocument(data)
+    const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
 
     // * Object relationships:move back property name to the right foreign key column
     for (const { name, column } of objectRelationships) {
-      doc[column] = doc[name]
-      delete doc[name]
+      data[column] = data[name]
+      delete data[name]
     }
 
     // * Exclude 'always' excludable fields e.g. array relationships and not permitted columns
     const excluded = [
       ...excludeFields,
-      ...(isNewDocument(doc) ? forbiddenInsertColumns : forbiddenUpdateColumns)
+      ...(isNewDocument(data) ? forbiddenInsertColumns : forbiddenUpdateColumns)
     ]
-    for (const field of excluded) delete doc[field]
+    for (const field of excluded) delete data[field]
 
-    debug('pushModifier: out', { ...doc })
-    return { _isNew, ...doc, id }
+    const doc = await collection.findOne(id).exec()
+    const changed =
+      doc &&
+      Object.entries(data).some(([key, value]) => {
+        if (typeof doc[key] === 'object' && typeof value === 'object')
+          return !deepEqual(doc[key], value)
+        else return doc[key] !== value
+      })
+    if (changed) {
+      debug('pushModifier: out', { ...data })
+      return { _isNew, ...data, id }
+    } else {
+      debug('pushModifier: out: no changes')
+      return null
+    }
   }
 }

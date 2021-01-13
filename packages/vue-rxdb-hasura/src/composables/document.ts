@@ -7,7 +7,15 @@ import {
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
-import { onMounted, Ref, ref, watchEffect } from 'vue'
+import {
+  computed,
+  ComputedRef,
+  onMounted,
+  Ref,
+  ref,
+  unref,
+  watchEffect
+} from 'vue'
 
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,4 +61,21 @@ export const useNewDocumentFactory = (
     },
     newDoc
   }
+}
+
+export const useDocument = (
+  collection: ComputedRef<ContentsCollection | undefined>,
+  id: Ref<string> | string
+): Ref<ContentsDocument | undefined> => {
+  const document = ref<ContentsDocument>()
+  watchEffect(() => {
+    collection.value &&
+      useSubscription(
+        collection.value.findOne(unref(id)).$.subscribe(doc => {
+          document.value = doc || undefined
+        })
+      )
+  })
+
+  return computed(() => document.value)
 }

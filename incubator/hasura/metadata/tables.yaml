@@ -876,6 +876,14 @@
 - table:
     schema: public
     name: drug
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - name
+      backend_only: false
   select_permissions:
   - role: user
     permission:
@@ -885,6 +893,15 @@
       - name
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - updated_at
+      - name
+      filter: {}
+      check: null
 - table:
     schema: public
     name: patient

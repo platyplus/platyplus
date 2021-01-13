@@ -9,27 +9,16 @@ DataView(:value="documents" :layout="layout" :paginator="true" :rows="9")
   template(#list='slotProps')
     .p-col-12
       .p-col-12
-        Card.p-m-1
-          //- template(#header)
-          //-   div header
-          template(#title)
-            DocumentLabel(:document="slotProps.data")
-          //- template(#content)
-          //-   div content
-          //- template(#footer)
-          //-   div footer
+        router-link.p-md-4(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
+          Card.p-m-1
+            template(#title)
+              DocumentLabel(:document="slotProps.data")
   template(#grid='slotProps')
-    .p-md-4
+    router-link.p-col-4.p-md-4(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
       Card.p-m-1
-        //- .product-grid-item
-        //- template(#header)
-        //-   div header
         template(#title)
+          // TODO get the link from the parent component
           DocumentLabel(:document="slotProps.data")
-        //- template(#content)
-        //-   div content
-        //- template(#footer)
-        //-   div footer
 
 </template>
 

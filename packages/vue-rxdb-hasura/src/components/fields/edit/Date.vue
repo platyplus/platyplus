@@ -1,5 +1,5 @@
 <template lang="pug">
-Calendar(v-model="proxyDate" dateFormat="dd/mm/yyyy" appendTo="body")
+Calendar(v-model="proxyDate" dateFormat="dd/mm/yy" appendTo="body")
 </template>
 
 <script lang="ts">
@@ -36,7 +36,12 @@ export default defineComponent({
     const proxyDate = computed<Date>({
       get: () => new Date(model.value),
       set: (value: Date) => {
-        model.value = dateToStringDateOnly(value)
+        try {
+          model.value = dateToStringDateOnly(value)
+        } catch {
+          // TODO
+          console.log('invalid date - do nothing')
+        }
       }
     })
     return { proxyDate }

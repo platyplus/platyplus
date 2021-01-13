@@ -8,9 +8,7 @@ export const useCollection = (
   name: string | Ref<string>
 ): ComputedRef<ContentsCollection | undefined> => {
   const collections = useCollections()
-  return computed(() => {
-    return collections.value?.[unref(name)]
-  })
+  return computed(() => collections.value?.[unref(name)])
 }
 
 export const useDocumentCollection = (

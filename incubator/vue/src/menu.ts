@@ -15,7 +15,7 @@ export const useMenu = (): ComputedRef<MenuItem[]> => {
         label: collection.title(),
         icon: `pi pi-fw ${collection.icon() || 'pi-table'}`,
         to: {
-          name: 'Collection',
+          name: 'collection',
           params: {
             name: collection.name
           }

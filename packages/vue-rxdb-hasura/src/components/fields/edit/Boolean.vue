@@ -1,5 +1,6 @@
 <template lang="pug">
-Checkbox(v-model="model" :binary="true")
+div.p-component.p-inputtext
+  Checkbox(v-model="model" :binary="true")
 </template>
 
 <script lang="ts">

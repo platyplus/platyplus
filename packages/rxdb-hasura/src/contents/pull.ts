@@ -1,5 +1,6 @@
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
+import { debug } from '../console'
 import { metadataName } from '../helpers'
 import { Contents, ContentsCollection, Modifier } from '../types'
 
@@ -122,18 +123,20 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     }
   })
 
-  return doc => {
+  return async data => {
+    debug('pullModifier: in', { ...data })
     // * Flatten relationship data so it fits in the `population` system
     for (const { name, column, multiple } of cleansedRelationships) {
       if (multiple) {
         // * Array relationships: set remote id columns as an array
-        doc[name] = (doc[name] as []).map(item => item[column])
+        data[name] = (data[name] as []).map(item => item[column])
       } else {
         // * Object relationships: move foreign key columns to the property name
-        doc[name] = doc[column]
-        delete doc[column]
+        data[name] = data[column]
+        delete data[column]
       }
     }
-    return doc
+    debug('pullModifier: out', { ...data })
+    return data
   }
 }

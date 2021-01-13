@@ -1,5 +1,6 @@
 <template lang="pug">
-document-label(:document="refDocument")
+document-label(v-if="refDocument" :document="refDocument")
+div(v-else) &nbsp;
 </template>
 
 <script lang="ts">

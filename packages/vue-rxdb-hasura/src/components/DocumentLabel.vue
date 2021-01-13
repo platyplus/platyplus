@@ -1,5 +1,6 @@
 <template lang="pug">
-div {{label}}
+span(v-if="label") {{label}}
+span(v-else) &nbsp;
 </template>
 
 <script lang="ts">

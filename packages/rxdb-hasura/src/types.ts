@@ -78,7 +78,9 @@ export type ContentsCollection = RxCollection<
 >
 export type MetadataCollection = RxCollection<Metadata>
 
-export type Modifier = (doc: Contents) => Contents
+export type Modifier = (
+  doc: Contents
+) => Contents | null | Promise<Contents | null>
 
 export type Replicator = {
   start: () => Promise<void>

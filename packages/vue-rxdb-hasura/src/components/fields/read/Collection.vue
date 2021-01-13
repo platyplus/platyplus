@@ -1,5 +1,7 @@
 <template lang="pug">
-document-label(v-for="document, id in refCollection" :document="document")
+div(v-if="!refCollection") loading...
+document-label(v-else-if="refCollection.length" v-for="document, id in refCollection" :document="document")
+div(v-else) &nbsp;
 </template>
 
 <script lang="ts">
