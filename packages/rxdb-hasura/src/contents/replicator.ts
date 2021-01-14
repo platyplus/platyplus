@@ -55,6 +55,8 @@ export const createContentReplicator = async (
       if (token) headers.Authorization = `Bearer ${token}`
       else delete headers.Authorization
       replicationState.setHeaders(headers)
+      wsSubscription?.close()
+      wsSubscription = setupGraphQLSubscription()
     })
 
     return replicationState
