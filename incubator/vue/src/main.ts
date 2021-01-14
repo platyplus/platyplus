@@ -58,7 +58,6 @@ import MegaMenu from 'primevue/megamenu'
 import Menu from 'primevue/menu'
 import Menubar from 'primevue/menubar'
 import Message from 'primevue/message'
-import MultiSelect from 'primevue/multiselect'
 import OrderList from 'primevue/orderlist'
 import OrganizationChart from 'primevue/organizationchart'
 import OverlayPanel from 'primevue/overlaypanel'
@@ -137,7 +136,6 @@ app.component('MegaMenu', MegaMenu)
 app.component('Menu', Menu)
 app.component('Menubar', Menubar)
 app.component('Message', Message)
-app.component('MultiSelect', MultiSelect)
 app.component('OrderList', OrderList)
 app.component('OrganizationChart', OrganizationChart)
 app.component('OverlayPanel', OverlayPanel)

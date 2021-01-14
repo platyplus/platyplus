@@ -12,11 +12,12 @@ export * from './types'
 
 export const createRxHasura = async (
   name: string,
-  url: string
+  url: string,
+  password?: string
 ): Promise<Database> => {
   const settings: RxDatabaseCreator = {
     name,
-    // password: 'myPassword', // <- password (optional)
+    password,
     multiInstance: false, // ! Causes errors when set to true. See notice in https://rxdb.info/leader-election.html
     eventReduce: true, // <- eventReduce (optional, default: true))
     options: {
