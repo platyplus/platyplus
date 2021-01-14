@@ -71,8 +71,10 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
     // * Object relationships:move back property name to the right foreign key column
     for (const { name, column } of objectRelationships) {
-      data[column] = data[name]
-      delete data[name]
+      if (data[name] !== undefined) {
+        data[column] = data[name]
+        delete data[name]
+      }
     }
 
     // * Exclude 'always' excludable fields e.g. array relationships and not permitted columns
