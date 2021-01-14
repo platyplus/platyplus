@@ -7,7 +7,7 @@ import { toObserver, useSubscription } from '@vueuse/rxjs'
 import equal from 'deep-equal'
 import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
-import { mergeMap } from 'rxjs/operators'
+import { Subscription } from 'rxjs'
 import {
   computed,
   ComputedRef,
@@ -26,12 +26,6 @@ export const useRefFieldValue = <T>(
   name: Ref<string>
 ): Readonly<Ref<Readonly<T>>> => {
   const fieldValue = ref()
-  useSubscription(
-    document.value
-      .get$(name.value)
-      .pipe(mergeMap(async () => await document.value.populate(name.value)))
-      .subscribe(toObserver(fieldValue))
-  )
   const store = useStore()
   const refCollection = computed<ContentsCollection>(() => {
     const collection = document.value.collection
@@ -40,27 +34,32 @@ export const useRefFieldValue = <T>(
     ].ref as string
     return collection.database.hasura[refCollectionName]
   })
-  // * Check if a value is stored in the forms. In this case, fetch from the DB
-  const formValue = ref()
+  let subscription: Subscription | undefined
   watch(
     () =>
-      store.getters['rxdb/getField'](document.value, name.value) as
-        | string
-        | string[]
-        | null,
+      (store.getters['rxdb/getField'](document.value, name.value) ||
+        document.value?.get(name.value)) as string | string[] | null,
     async newVal => {
       if (typeof newVal === 'string') {
         // * object relationship
-        formValue.value = await refCollection.value.findOne(newVal).exec()
+        subscription = refCollection.value
+          .findOne(newVal)
+          .$.subscribe(toObserver(fieldValue))
       } else if (Array.isArray(newVal)) {
         // * array relationship
-        const map = await refCollection.value.findByIds(newVal)
-        formValue.value = Array.from(map.values())
-      } else formValue.value = null
+        subscription = refCollection.value
+          .findByIds$(newVal)
+          .subscribe(idMap => {
+            fieldValue.value = Array.from(idMap.values())
+          })
+      } else {
+        fieldValue.value = null
+        subscription?.unsubscribe()
+      }
     },
     { immediate: true }
   )
-  return computed(() => formValue.value || fieldValue.value)
+  return fieldValue
 }
 
 export const useFieldValue = <T>(
