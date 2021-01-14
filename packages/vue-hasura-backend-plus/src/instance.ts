@@ -18,7 +18,7 @@ export class Instance {
     nhost.initializeApp({
       base_url: options.endpoint,
       // use_cookies?: boolean;
-      refresh_interval_time: (options.refreshInSeconds || 600) * 1000 * 60
+      refresh_interval_time: (options.refreshInSeconds || 600) * 1000
       // client_storage?: ClientStorage;
       // client_storage_type?: string;
     })
