@@ -40,11 +40,9 @@ import AutoComplete from 'primevue/autocomplete'
 import Breadcrumb from 'primevue/breadcrumb'
 import Card from 'primevue/card'
 import Carousel from 'primevue/carousel'
-// import Chart from 'primevue/chart'
 import Chips from 'primevue/chips'
 import ColorPicker from 'primevue/colorpicker'
 import ContextMenu from 'primevue/contextmenu'
-// import DataView from 'primevue/dataview'
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Fieldset from 'primevue/fieldset'
 import FileUpload from 'primevue/fileupload'
@@ -107,29 +105,18 @@ app.component('Accordion', Accordion)
 app.component('AccordionTab', AccordionTab)
 app.component('AutoComplete', AutoComplete)
 app.component('Breadcrumb', Breadcrumb)
-// app.component('Button', Button)
-// app.component('Calendar', Calendar)
 app.component('Card', Card)
 app.component('Carousel', Carousel)
-// app.component('Chart', Chart)
-// app.component('Checkbox', Checkbox)
 app.component('Chips', Chips)
 app.component('ColorPicker', ColorPicker)
-// app.component('Column', Column)
 app.component('ContextMenu', ContextMenu)
-// app.component('DataTable', DataTable)
-// app.component('DataView', DataView)
 app.component('DataViewLayoutOptions', DataViewLayoutOptions)
-// app.component('Dialog', Dialog)
-// app.component('Dropdown', Dropdown)
 app.component('Fieldset', Fieldset)
 app.component('FileUpload', FileUpload)
 app.component('InlineMessage', InlineMessage)
 app.component('Inplace', Inplace)
 app.component('InputMask', InputMask)
-// app.component('InputNumber', InputNumber)
 app.component('InputSwitch', InputSwitch)
-// app.component('InputText', InputText)
 app.component('Galleria', Galleria)
 app.component('Listbox', Listbox)
 app.component('MegaMenu', MegaMenu)
