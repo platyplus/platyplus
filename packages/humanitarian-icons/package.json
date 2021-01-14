@@ -20,6 +20,7 @@
   },
   "scripts": {
     "prepublish": "yarn run build",
+    "prepare": "yarn run build",
     "build": "yarn run clean && mkdir -p dist && fantasticon",
     "clean": "rimraf dist"
   },

@@ -1,0 +1,1143 @@
+@font-face {
+font-family: "icons";
+src: url("./icons.eot?2802584d431e04a8266082c1085984ae#iefix") format("embedded-opentype"),
+url("./icons.woff2?2802584d431e04a8266082c1085984ae") format("woff2"),
+url("./icons.woff?2802584d431e04a8266082c1085984ae") format("woff");
+}
+
+i[class^="huma-"]:before, i[class*=" huma-"]:before {
+font-family: icons !important;
+font-style: normal;
+font-weight: normal !important;
+font-variant: normal;
+text-transform: none;
+line-height: 1;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+
+.huma-abduction-kidnapping:before {
+content: "\f101";
+}
+.huma-about:before {
+content: "\f102";
+}
+.huma-add-document:before {
+content: "\f103";
+}
+.huma-add:before {
+content: "\f104";
+}
+.huma-advocacy:before {
+content: "\f105";
+}
+.huma-affected-population:before {
+content: "\f106";
+}
+.huma-agile:before {
+content: "\f107";
+}
+.huma-agriculture:before {
+content: "\f108";
+}
+.huma-airport-affected:before {
+content: "\f109";
+}
+.huma-airport-closed:before {
+content: "\f10a";
+}
+.huma-airport-destroyed:before {
+content: "\f10b";
+}
+.huma-airport-military:before {
+content: "\f10c";
+}
+.huma-airport-not-affected:before {
+content: "\f10d";
+}
+.huma-airport:before {
+content: "\f10e";
+}
+.huma-alert:before {
+content: "\f10f";
+}
+.huma-analysis:before {
+content: "\f110";
+}
+.huma-apps:before {
+content: "\f111";
+}
+.huma-arrest-detention:before {
+content: "\f112";
+}
+.huma-assault:before {
+content: "\f113";
+}
+.huma-assembly-point:before {
+content: "\f114";
+}
+.huma-assessment:before {
+content: "\f115";
+}
+.huma-attack:before {
+content: "\f116";
+}
+.huma-bacteria:before {
+content: "\f117";
+}
+.huma-blanket:before {
+content: "\f118";
+}
+.huma-blog:before {
+content: "\f119";
+}
+.huma-boat:before {
+content: "\f11a";
+}
+.huma-bookmark:before {
+content: "\f11b";
+}
+.huma-border-closed:before {
+content: "\f11c";
+}
+.huma-border-crossing:before {
+content: "\f11d";
+}
+.huma-borehole:before {
+content: "\f11e";
+}
+.huma-bottled-water:before {
+content: "\f11f";
+}
+.huma-bridge-affected:before {
+content: "\f120";
+}
+.huma-bridge-closed:before {
+content: "\f121";
+}
+.huma-bridge-destroyed:before {
+content: "\f122";
+}
+.huma-bridge-not-affected:before {
+content: "\f123";
+}
+.huma-bridge:before {
+content: "\f124";
+}
+.huma-bucket:before {
+content: "\f125";
+}
+.huma-buddhist-temple:before {
+content: "\f126";
+}
+.huma-building-closed:before {
+content: "\f127";
+}
+.huma-building-facility-affected:before {
+content: "\f128";
+}
+.huma-building-facility-destroyed:before {
+content: "\f129";
+}
+.huma-building-facility-not-affected:before {
+content: "\f12a";
+}
+.huma-building:before {
+content: "\f12b";
+}
+.huma-bus:before {
+content: "\f12c";
+}
+.huma-calendar:before {
+content: "\f12d";
+}
+.huma-camp-coordination-and-camp-management:before {
+content: "\f12e";
+}
+.huma-car:before {
+content: "\f12f";
+}
+.huma-carjacking:before {
+content: "\f130";
+}
+.huma-case-management:before {
+content: "\f131";
+}
+.huma-cash-transfer:before {
+content: "\f132";
+}
+.huma-cell-tower:before {
+content: "\f133";
+}
+.huma-chart:before {
+content: "\f134";
+}
+.huma-chat:before {
+content: "\f135";
+}
+.huma-checked-mail:before {
+content: "\f136";
+}
+.huma-checkpoint:before {
+content: "\f137";
+}
+.huma-child-care-child-friendly:before {
+content: "\f138";
+}
+.huma-child-combatant:before {
+content: "\f139";
+}
+.huma-child-protection:before {
+content: "\f13a";
+}
+.huma-children:before {
+content: "\f13b";
+}
+.huma-church:before {
+content: "\f13c";
+}
+.huma-civil-military-coordination:before {
+content: "\f13d";
+}
+.huma-clinic:before {
+content: "\f13e";
+}
+.huma-clothing:before {
+content: "\f13f";
+}
+.huma-cold-wave:before {
+content: "\f140";
+}
+.huma-communal-latrine:before {
+content: "\f141";
+}
+.huma-community-building:before {
+content: "\f142";
+}
+.huma-community-engagement:before {
+content: "\f143";
+}
+.huma-computer:before {
+content: "\f144";
+}
+.huma-confined:before {
+content: "\f145";
+}
+.huma-conflict:before {
+content: "\f146";
+}
+.huma-coordinated-assessement:before {
+content: "\f147";
+}
+.huma-coordination:before {
+content: "\f148";
+}
+.huma-copy:before {
+content: "\f149";
+}
+.huma-country:before {
+content: "\f14a";
+}
+.huma-covid-19:before {
+content: "\f14b";
+}
+.huma-csv-file:before {
+content: "\f14c";
+}
+.huma-cyclone:before {
+content: "\f14d";
+}
+.huma-damaged-affected:before {
+content: "\f14e";
+}
+.huma-dangerous-area:before {
+content: "\f14f";
+}
+.huma-data:before {
+content: "\f150";
+}
+.huma-dead:before {
+content: "\f151";
+}
+.huma-debris-management:before {
+content: "\f152";
+}
+.huma-delete-account:before {
+content: "\f153";
+}
+.huma-deployment:before {
+content: "\f154";
+}
+.huma-destroyed:before {
+content: "\f155";
+}
+.huma-detergent:before {
+content: "\f156";
+}
+.huma-diplomatic-mission:before {
+content: "\f157";
+}
+.huma-distribution-site:before {
+content: "\f158";
+}
+.huma-doctor:before {
+content: "\f159";
+}
+.huma-document:before {
+content: "\f15a";
+}
+.huma-docx-file:before {
+content: "\f15b";
+}
+.huma-down:before {
+content: "\f15c";
+}
+.huma-download:before {
+content: "\f15d";
+}
+.huma-drought:before {
+content: "\f15e";
+}
+.huma-drowned:before {
+content: "\f15f";
+}
+.huma-e-mail:before {
+content: "\f160";
+}
+.huma-early-recovery:before {
+content: "\f161";
+}
+.huma-earthmound:before {
+content: "\f162";
+}
+.huma-earthquake:before {
+content: "\f163";
+}
+.huma-edit:before {
+content: "\f164";
+}
+.huma-education:before {
+content: "\f165";
+}
+.huma-elderly:before {
+content: "\f166";
+}
+.huma-emergency-telecommunications:before {
+content: "\f167";
+}
+.huma-environment:before {
+content: "\f168";
+}
+.huma-epidemic:before {
+content: "\f169";
+}
+.huma-exit-cancel:before {
+content: "\f16a";
+}
+.huma-expand-down:before {
+content: "\f16b";
+}
+.huma-expand-left:before {
+content: "\f16c";
+}
+.huma-expand-right:before {
+content: "\f16d";
+}
+.huma-expand-up:before {
+content: "\f16e";
+}
+.huma-famine:before {
+content: "\f16f";
+}
+.huma-favourite:before {
+content: "\f170";
+}
+.huma-fax:before {
+content: "\f171";
+}
+.huma-ferry:before {
+content: "\f172";
+}
+.huma-film:before {
+content: "\f173";
+}
+.huma-filter:before {
+content: "\f174";
+}
+.huma-financing:before {
+content: "\f175";
+}
+.huma-fire:before {
+content: "\f176";
+}
+.huma-fishery:before {
+content: "\f177";
+}
+.huma-flash-flood:before {
+content: "\f178";
+}
+.huma-flood:before {
+content: "\f179";
+}
+.huma-flour:before {
+content: "\f17a";
+}
+.huma-folder:before {
+content: "\f17b";
+}
+.huma-food-security:before {
+content: "\f17c";
+}
+.huma-food-warehouse:before {
+content: "\f17d";
+}
+.huma-food:before {
+content: "\f17e";
+}
+.huma-forced-entry:before {
+content: "\f17f";
+}
+.huma-forced-recruitment:before {
+content: "\f180";
+}
+.huma-fund:before {
+content: "\f181";
+}
+.huma-gap-analysis:before {
+content: "\f182";
+}
+.huma-gas-station:before {
+content: "\f183";
+}
+.huma-gender-based-violence:before {
+content: "\f184";
+}
+.huma-gender:before {
+content: "\f185";
+}
+.huma-go:before {
+content: "\f186";
+}
+.huma-government-office:before {
+content: "\f187";
+}
+.huma-group:before {
+content: "\f188";
+}
+.huma-handwashing:before {
+content: "\f189";
+}
+.huma-harassment-intimidation:before {
+content: "\f18a";
+}
+.huma-health-facility-affected:before {
+content: "\f18b";
+}
+.huma-health-facility-destroyed:before {
+content: "\f18c";
+}
+.huma-health-facility-not-affected:before {
+content: "\f18d";
+}
+.huma-health-facility:before {
+content: "\f18e";
+}
+.huma-health-post:before {
+content: "\f18f";
+}
+.huma-health-worker:before {
+content: "\f190";
+}
+.huma-health:before {
+content: "\f191";
+}
+.huma-heatwave:before {
+content: "\f192";
+}
+.huma-heavy-rain:before {
+content: "\f193";
+}
+.huma-helicopter:before {
+content: "\f194";
+}
+.huma-helipad:before {
+content: "\f195";
+}
+.huma-help:before {
+content: "\f196";
+}
+.huma-hidden:before {
+content: "\f197";
+}
+.huma-hindu-temple:before {
+content: "\f198";
+}
+.huma-hospital-bed:before {
+content: "\f199";
+}
+.huma-hospital:before {
+content: "\f19a";
+}
+.huma-hotel:before {
+content: "\f19b";
+}
+.huma-house-affected:before {
+content: "\f19c";
+}
+.huma-house-burned:before {
+content: "\f19d";
+}
+.huma-house-destroyed:before {
+content: "\f19e";
+}
+.huma-house-lockdown:before {
+content: "\f19f";
+}
+.huma-house-not-affected:before {
+content: "\f1a0";
+}
+.huma-house:before {
+content: "\f1a1";
+}
+.huma-humanitarian-access:before {
+content: "\f1a2";
+}
+.huma-humanitarian-programme-cycle:before {
+content: "\f1a3";
+}
+.huma-idp-refugee-camp:before {
+content: "\f1a4";
+}
+.huma-indigenous-people:before {
+content: "\f1a5";
+}
+.huma-infant:before {
+content: "\f1a6";
+}
+.huma-infected:before {
+content: "\f1a7";
+}
+.huma-infection-control:before {
+content: "\f1a8";
+}
+.huma-information-management:before {
+content: "\f1a9";
+}
+.huma-information-technology:before {
+content: "\f1aa";
+}
+.huma-infrastructure:before {
+content: "\f1ab";
+}
+.huma-injured:before {
+content: "\f1ac";
+}
+.huma-innovation:before {
+content: "\f1ad";
+}
+.huma-insect-infestation:before {
+content: "\f1ae";
+}
+.huma-internally-displaced:before {
+content: "\f1af";
+}
+.huma-internet:before {
+content: "\f1b0";
+}
+.huma-kitchen-set:before {
+content: "\f1b1";
+}
+.huma-laboratory:before {
+content: "\f1b2";
+}
+.huma-landslide-mudslide:before {
+content: "\f1b3";
+}
+.huma-laptop:before {
+content: "\f1b4";
+}
+.huma-latrine-cabin:before {
+content: "\f1b5";
+}
+.huma-leadership:before {
+content: "\f1b6";
+}
+.huma-learning:before {
+content: "\f1b7";
+}
+.huma-life-saving:before {
+content: "\f1b8";
+}
+.huma-link:before {
+content: "\f1b9";
+}
+.huma-livelihood:before {
+content: "\f1ba";
+}
+.huma-livestock:before {
+content: "\f1bb";
+}
+.huma-location-lockdown:before {
+content: "\f1bc";
+}
+.huma-location:before {
+content: "\f1bd";
+}
+.huma-locust-infestation:before {
+content: "\f1be";
+}
+.huma-logistics:before {
+content: "\f1bf";
+}
+.huma-map:before {
+content: "\f1c0";
+}
+.huma-market-closed:before {
+content: "\f1c1";
+}
+.huma-market:before {
+content: "\f1c2";
+}
+.huma-mask:before {
+content: "\f1c3";
+}
+.huma-mattress:before {
+content: "\f1c4";
+}
+.huma-medical-supply:before {
+content: "\f1c5";
+}
+.huma-medicine:before {
+content: "\f1c6";
+}
+.huma-meeting:before {
+content: "\f1c7";
+}
+.huma-menu:before {
+content: "\f1c8";
+}
+.huma-military-gate:before {
+content: "\f1c9";
+}
+.huma-mine:before {
+content: "\f1ca";
+}
+.huma-missing:before {
+content: "\f1cb";
+}
+.huma-mobile-clinic:before {
+content: "\f1cc";
+}
+.huma-mobile-phone:before {
+content: "\f1cd";
+}
+.huma-monitor:before {
+content: "\f1ce";
+}
+.huma-monitoring:before {
+content: "\f1cf";
+}
+.huma-more-options:before {
+content: "\f1d0";
+}
+.huma-mosque:before {
+content: "\f1d1";
+}
+.huma-mosquito-net:before {
+content: "\f1d2";
+}
+.huma-multi-cluster-sector:before {
+content: "\f1d3";
+}
+.huma-murder:before {
+content: "\f1d4";
+}
+.huma-national-army:before {
+content: "\f1d5";
+}
+.huma-needs-assessment:before {
+content: "\f1d6";
+}
+.huma-next-item:before {
+content: "\f1d7";
+}
+.huma-ngo-office:before {
+content: "\f1d8";
+}
+.huma-non-food-items-2:before {
+content: "\f1d9";
+}
+.huma-non-food-items:before {
+content: "\f1da";
+}
+.huma-not-affected:before {
+content: "\f1db";
+}
+.huma-not-infected:before {
+content: "\f1dc";
+}
+.huma-not-secured:before {
+content: "\f1dd";
+}
+.huma-notification:before {
+content: "\f1de";
+}
+.huma-nutrition:before {
+content: "\f1df";
+}
+.huma-observation-tower:before {
+content: "\f1e0";
+}
+.huma-oil-facility:before {
+content: "\f1e1";
+}
+.huma-oil:before {
+content: "\f1e2";
+}
+.huma-out-of-platform:before {
+content: "\f1e3";
+}
+.huma-partnership:before {
+content: "\f1e4";
+}
+.huma-password:before {
+content: "\f1e5";
+}
+.huma-pause:before {
+content: "\f1e6";
+}
+.huma-pdf-file:before {
+content: "\f1e7";
+}
+.huma-peacekeeping-force:before {
+content: "\f1e8";
+}
+.huma-people-in-need:before {
+content: "\f1e9";
+}
+.huma-people-targeted:before {
+content: "\f1ea";
+}
+.huma-people-with-physical-impairments:before {
+content: "\f1eb";
+}
+.huma-permanent-camp:before {
+content: "\f1ec";
+}
+.huma-person-1:before {
+content: "\f1ed";
+}
+.huma-person-2:before {
+content: "\f1ee";
+}
+.huma-photo:before {
+content: "\f1ef";
+}
+.huma-physical-closure:before {
+content: "\f1f0";
+}
+.huma-physical-distancing:before {
+content: "\f1f1";
+}
+.huma-plastic-sheeting:before {
+content: "\f1f2";
+}
+.huma-police-station:before {
+content: "\f1f3";
+}
+.huma-policy:before {
+content: "\f1f4";
+}
+.huma-population-growth:before {
+content: "\f1f5";
+}
+.huma-population-return:before {
+content: "\f1f6";
+}
+.huma-port-affected:before {
+content: "\f1f7";
+}
+.huma-port-closed:before {
+content: "\f1f8";
+}
+.huma-port-destroyed:before {
+content: "\f1f9";
+}
+.huma-port-not-affected:before {
+content: "\f1fa";
+}
+.huma-port:before {
+content: "\f1fb";
+}
+.huma-potable-water-source:before {
+content: "\f1fc";
+}
+.huma-potable-water:before {
+content: "\f1fd";
+}
+.huma-poverty:before {
+content: "\f1fe";
+}
+.huma-power-electricity-affected:before {
+content: "\f1ff";
+}
+.huma-power-electricity-not-affected:before {
+content: "\f200";
+}
+.huma-power-electricity:before {
+content: "\f201";
+}
+.huma-power-outage:before {
+content: "\f202";
+}
+.huma-pregnant:before {
+content: "\f203";
+}
+.huma-preparedness:before {
+content: "\f204";
+}
+.huma-previous-item:before {
+content: "\f205";
+}
+.huma-print:before {
+content: "\f206";
+}
+.huma-protection:before {
+content: "\f207";
+}
+.huma-public-information:before {
+content: "\f208";
+}
+.huma-radio:before {
+content: "\f209";
+}
+.huma-rebel:before {
+content: "\f20a";
+}
+.huma-reconstruction:before {
+content: "\f20b";
+}
+.huma-refugee:before {
+content: "\f20c";
+}
+.huma-registration:before {
+content: "\f20d";
+}
+.huma-relief-goods:before {
+content: "\f20e";
+}
+.huma-remote-support:before {
+content: "\f20f";
+}
+.huma-remove-document:before {
+content: "\f210";
+}
+.huma-remove:before {
+content: "\f211";
+}
+.huma-report:before {
+content: "\f212";
+}
+.huma-reporting:before {
+content: "\f213";
+}
+.huma-resilience:before {
+content: "\f214";
+}
+.huma-respiratory:before {
+content: "\f215";
+}
+.huma-response:before {
+content: "\f216";
+}
+.huma-return:before {
+content: "\f217";
+}
+.huma-rice:before {
+content: "\f218";
+}
+.huma-road-affected:before {
+content: "\f219";
+}
+.huma-road-barrier:before {
+content: "\f21a";
+}
+.huma-road-closed:before {
+content: "\f21b";
+}
+.huma-road-destroyed:before {
+content: "\f21c";
+}
+.huma-road-not-affected:before {
+content: "\f21d";
+}
+.huma-road:before {
+content: "\f21e";
+}
+.huma-roadblock:before {
+content: "\f21f";
+}
+.huma-robbery:before {
+content: "\f220";
+}
+.huma-rule-of-law-and-justice:before {
+content: "\f221";
+}
+.huma-rural-exodus:before {
+content: "\f222";
+}
+.huma-rural:before {
+content: "\f223";
+}
+.huma-safety-and-security:before {
+content: "\f224";
+}
+.huma-salt:before {
+content: "\f225";
+}
+.huma-sanitation:before {
+content: "\f226";
+}
+.huma-sanitizer:before {
+content: "\f227";
+}
+.huma-satellite-dish:before {
+content: "\f228";
+}
+.huma-save:before {
+content: "\f229";
+}
+.huma-scale-down-operation:before {
+content: "\f22a";
+}
+.huma-scale-up-operation:before {
+content: "\f22b";
+}
+.huma-school-affected:before {
+content: "\f22c";
+}
+.huma-school-closed:before {
+content: "\f22d";
+}
+.huma-school-destroyed:before {
+content: "\f22e";
+}
+.huma-school-not-affected:before {
+content: "\f22f";
+}
+.huma-school:before {
+content: "\f230";
+}
+.huma-search-and-rescue:before {
+content: "\f231";
+}
+.huma-search:before {
+content: "\f232";
+}
+.huma-secured:before {
+content: "\f233";
+}
+.huma-security:before {
+content: "\f234";
+}
+.huma-see:before {
+content: "\f235";
+}
+.huma-selected:before {
+content: "\f236";
+}
+.huma-services-and-tools:before {
+content: "\f237";
+}
+.huma-settings:before {
+content: "\f238";
+}
+.huma-sexual-and-reproductive-health:before {
+content: "\f239";
+}
+.huma-sexual-violence:before {
+content: "\f23a";
+}
+.huma-share:before {
+content: "\f23b";
+}
+.huma-shelter:before {
+content: "\f23c";
+}
+.huma-ship:before {
+content: "\f23d";
+}
+.huma-shower:before {
+content: "\f23e";
+}
+.huma-smartphone:before {
+content: "\f23f";
+}
+.huma-snow-avalanche:before {
+content: "\f240";
+}
+.huma-snowfall:before {
+content: "\f241";
+}
+.huma-soap:before {
+content: "\f242";
+}
+.huma-solid-waste:before {
+content: "\f243";
+}
+.huma-spontaneous-site:before {
+content: "\f244";
+}
+.huma-spring-water:before {
+content: "\f245";
+}
+.huma-staff-management:before {
+content: "\f246";
+}
+.huma-stop:before {
+content: "\f247";
+}
+.huma-storm-surge:before {
+content: "\f248";
+}
+.huma-storm:before {
+content: "\f249";
+}
+.huma-stove:before {
+content: "\f24a";
+}
+.huma-submersible-pump:before {
+content: "\f24b";
+}
+.huma-sugar:before {
+content: "\f24c";
+}
+.huma-table:before {
+content: "\f24d";
+}
+.huma-tarpaulin:before {
+content: "\f24e";
+}
+.huma-technological-disaster:before {
+content: "\f24f";
+}
+.huma-temporary-camp:before {
+content: "\f250";
+}
+.huma-tent:before {
+content: "\f251";
+}
+.huma-testing:before {
+content: "\f252";
+}
+.huma-time:before {
+content: "\f253";
+}
+.huma-toilet:before {
+content: "\f254";
+}
+.huma-top-ranking:before {
+content: "\f255";
+}
+.huma-tornado:before {
+content: "\f256";
+}
+.huma-trade-and-market:before {
+content: "\f257";
+}
+.huma-train:before {
+content: "\f258";
+}
+.huma-training:before {
+content: "\f259";
+}
+.huma-transition-site:before {
+content: "\f25a";
+}
+.huma-trending:before {
+content: "\f25b";
+}
+.huma-truck:before {
+content: "\f25c";
+}
+.huma-tsunami:before {
+content: "\f25d";
+}
+.huma-tunnel:before {
+content: "\f25e";
+}
+.huma-un-compound-office:before {
+content: "\f25f";
+}
+.huma-un-vehicle:before {
+content: "\f260";
+}
+.huma-university:before {
+content: "\f261";
+}
+.huma-up:before {
+content: "\f262";
+}
+.huma-upload:before {
+content: "\f263";
+}
+.huma-urban-rural:before {
+content: "\f264";
+}
+.huma-urban:before {
+content: "\f265";
+}
+.huma-user:before {
+content: "\f266";
+}
+.huma-users:before {
+content: "\f267";
+}
+.huma-vaccine:before {
+content: "\f268";
+}
+.huma-validate-account:before {
+content: "\f269";
+}
+.huma-ventilator:before {
+content: "\f26a";
+}
+.huma-video-:before {
+content: "\f26b";
+}
+.huma-violent-wind:before {
+content: "\f26c";
+}
+.huma-virus:before {
+content: "\f26d";
+}
+.huma-volcano:before {
+content: "\f26e";
+}
+.huma-walkie-talkie:before {
+content: "\f26f";
+}
+.huma-warning-error:before {
+content: "\f270";
+}
+.huma-water-sanitation-and-hygiene:before {
+content: "\f271";
+}
+.huma-water-source:before {
+content: "\f272";
+}
+.huma-water-trucking:before {
+content: "\f273";
+}
+.huma-work-from-home:before {
+content: "\f274";
+}
+.huma-worm-infestation:before {
+content: "\f275";
+}
+.huma-xlsx-file:before {
+content: "\f276";
+}
+.huma-zip-compressed:before {
+content: "\f277";
+}
