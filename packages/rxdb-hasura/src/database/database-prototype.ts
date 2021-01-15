@@ -1,5 +1,5 @@
 import { Database } from '../types'
-import { hasura, jwt, status } from './observables'
+import { authStatus, hasura, jwt, ready } from './observables'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
 export const RxDatabase = (proto: any) => {
@@ -9,14 +9,24 @@ export const RxDatabase = (proto: any) => {
     }
   })
 
-  Object.defineProperty(proto, 'status$', {
+  Object.defineProperty(proto, 'ready$', {
     get: function (this: Database) {
-      return status
+      return ready
     }
   })
 
-  proto.setStatus = function (this: Database, value: boolean, jwt?: string) {
-    this.status$.next(value)
+  Object.defineProperty(proto, 'authStatus$', {
+    get: function (this: Database) {
+      return authStatus
+    }
+  })
+
+  proto.setAuthStatus = function (
+    this: Database,
+    value: boolean,
+    jwt?: string
+  ) {
+    this.authStatus$.next(value)
     this.jwt$.next(jwt)
   }
 

@@ -112,7 +112,7 @@ export const createContentReplicator = async (
     wsSubscription?.close()
   }
 
-  db.status$.subscribe(async (status: boolean) => {
+  db.authStatus$.subscribe(async (status: boolean) => {
     if (status) await start()
     else await stop()
   })

@@ -24,12 +24,12 @@ export const collectionMethods: ContentsCollectionMethods = {
             .every(column => column && this.canInsert(column))
         } else {
           // * array relationship: check permission to update the foreign key columns
-          const refCollection = this.database.hasura[
-            this.schema.jsonSchema.properties[relationship?.rel_name as string]
-              .ref as string
-          ]
+          const refCollectionName = this.schema.jsonSchema.properties[
+            relationship?.rel_name as string
+          ].ref as string
+          const refCollection = this.database.hasura[refCollectionName]
           return !!relationship?.mapping.every(m =>
-            refCollection.canUpdate(m.remote_column_name as string)
+            refCollection?.canUpdate(m.remote_column_name as string)
           )
         }
       } else {

@@ -13,13 +13,17 @@
   .layout-main
     .p-grid
       .p-col-12
-        router-view
+        div(v-if="isAuthRoute")
+          router-view(v-if="isReady")
+          div(v-else) loading database...
+        router-view(v-else)
         ScrollTop
   Footer
 </template>
 
 <script lang="ts">
 import { useStatus } from '@platyplus/vue-hasura-backend-plus'
+import { useIsReady } from '@platyplus/vue-rxdb-hasura'
 import { useToast } from 'primevue/components/toast/useToast'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -54,6 +58,7 @@ export default defineComponent({
     const mobileMenuActive = ref(false)
     const menuClick = ref(false)
     const route = useRoute()
+    const isAuthRoute = computed(() => !!route.meta.auth)
     const fullMenu = useMenu()
     const menu = useFilteredMenu(fullMenu, (item, r) => {
       if (r) {
@@ -66,7 +71,7 @@ export default defineComponent({
     })
 
     const status = useStatus()
-
+    const isReady = useIsReady()
     watch(
       () => route.path,
       () => {
@@ -174,6 +179,8 @@ export default defineComponent({
     })
 
     return {
+      isReady,
+      isAuthRoute,
       containerClass,
       logo,
       menu,

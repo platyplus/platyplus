@@ -53,9 +53,9 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
   ) => {
     createRxHasura(name, endpoint).then(value => {
       db.value = value
-      value.setStatus(!!hbp.auth.isAuthenticated(), hbp.auth.getJWTToken())
+      value.setAuthStatus(!!hbp.auth.isAuthenticated(), hbp.auth.getJWTToken())
       hbp.auth.onAuthStateChanged(async (status: boolean) => {
-        value.setStatus(status, hbp.auth.getJWTToken())
+        value.setAuthStatus(status, hbp.auth.getJWTToken())
       })
       hbp.auth.onTokenChanged(() => {
         value.setJwt(hbp.auth.getJWTToken())

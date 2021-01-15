@@ -8,6 +8,7 @@ export type MetadataReplicatorOptions = {
 import { print } from 'graphql/language/printer'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
+import { skip } from 'rxjs/operators'
 
 import { debug, warn } from '../console'
 import { contentsCollectionCreator } from '../contents/collection-creator'
@@ -52,6 +53,7 @@ export const createMetadataReplicator = async (
 
   const start = async (): Promise<void> => {
     state = metadata.syncGraphQL(createMetadataReplicatorOptions(db))
+    state.active$.pipe(skip(1)).subscribe(loading => db.ready$.next(!loading))
     metaSubscription = metadata.$.subscribe(
       async (event: RxChangeEvent<Metadata>) => {
         if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
@@ -82,7 +84,7 @@ export const createMetadataReplicator = async (
     errorSubscription?.unsubscribe()
   }
 
-  db.status$.subscribe(async (status: boolean) => {
+  db.authStatus$.subscribe(async (status: boolean) => {
     if (status) await start()
     else await stop()
   })

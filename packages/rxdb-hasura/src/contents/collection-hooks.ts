@@ -28,9 +28,46 @@ import { ContentsCollection, ContentsDocument } from '../types'
 const documentLocks: Record<string, boolean> = {}
 export const createHooks = (collection: ContentsCollection): void => {
   debug('Installing hooks')
-  collection.preInsert(data => {
-    // TODO
-    console.log('preinsert', data)
+  collection.postInsert(async (data, doc) => {
+    for (const rel of collection.metadata.relationships) {
+      const relName = rel.rel_name as string
+      if (!data[relName]) return // * Relation stayed null
+      const property = collection.schema.jsonSchema.properties[relName]
+      const refCollection = collection.database.hasura[property.ref as string]
+      const mirrorRelation = Object.entries(
+        refCollection.schema.jsonSchema.properties
+      ).find(([, value]) => {
+        return value.ref === collection.name
+      })?.[0]
+      if (!mirrorRelation) return
+      if (rel.rel_type === 'array') {
+        // * When a One-to-Many (array) relationship changes, update the potential mirror Many-to-One (object) relationship in the referenced collection
+        const additions = (data[relName] || []) as string[]
+        // * Changes foreign key in the new referenced documents
+        for (const addition of additions) {
+          const refDoc: ContentsDocument | null = await refCollection
+            .findOne(addition)
+            .exec()
+          if (refDoc && !documentLocks[refDoc.primary])
+            await refDoc.atomicPatch({
+              [mirrorRelation]: doc.primary
+            })
+        }
+      } else if (rel.rel_type === 'object') {
+        // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
+        const newValue = data[relName] as string | undefined
+        if (newValue) {
+          // * Add document from the One-to-Many relationship in the new Many-To-One reference
+          const refDoc: ContentsDocument | null = await refCollection
+            .findOne(newValue)
+            .exec()
+          if (refDoc && !documentLocks[refDoc.primary])
+            await refDoc.atomicPatch({
+              [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]
+            })
+        }
+      }
+    }
   }, false)
   collection.preSave(async (data, doc) => {
     documentLocks[doc.primary] = true
@@ -38,8 +75,7 @@ export const createHooks = (collection: ContentsCollection): void => {
       const relName = rel.rel_name as string
       if (!doc[relName] && !data[relName]) return // * Relation stayed null
       const property = collection.schema.jsonSchema.properties[relName]
-      const refCollection =
-        doc.collection.database.hasura[property.ref as string]
+      const refCollection = collection.database.hasura[property.ref as string]
       const mirrorRelation = Object.entries(
         refCollection.schema.jsonSchema.properties
       ).find(([, value]) => {

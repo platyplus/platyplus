@@ -99,6 +99,7 @@ export type DatabasePrototype = {
   readonly hasura$: BehaviorSubject<Record<string, ContentsCollection>>
   readonly setJwt: (value: string | undefined) => void
   readonly jwt$: BehaviorSubject<string | undefined>
-  readonly setStatus: (value: boolean, jwt?: string) => void
-  readonly status$: BehaviorSubject<boolean>
+  readonly setAuthStatus: (value: boolean, jwt?: string) => void
+  readonly authStatus$: BehaviorSubject<boolean>
+  readonly ready$: BehaviorSubject<boolean>
 }
