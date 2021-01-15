@@ -1,5 +1,5 @@
 <template lang="pug">
-div {{value}}
+div {{value || '&nbsp;'}}
 </template>
 
 <script lang="ts">

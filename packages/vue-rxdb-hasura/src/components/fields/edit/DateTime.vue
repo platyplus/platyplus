@@ -1,10 +1,10 @@
 <template lang="pug">
-Calendar(v-model="model" :showTime="true" :showSeconds="true" appendTo="body")
+Calendar(v-model="proxyDate" :showTime="true" :showSeconds="true" appendTo="body")
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { defineComponent, PropType, toRefs } from 'vue'
+import { computed, defineComponent, PropType, toRefs } from 'vue'
 
 import { useFormProperty } from '../../../composables'
 
@@ -24,7 +24,18 @@ export default defineComponent({
     // TODO internationalize preferably without using momentjs (too big)
     const { name, document } = toRefs(props)
     const { model } = useFormProperty<string>(document, name)
-    return { model }
+    const proxyDate = computed<Date>({
+      get: () => new Date(model.value || Date.now()),
+      set: (value: Date) => {
+        try {
+          model.value = value.toUTCString()
+        } catch {
+          // TODO
+          console.log('invalid date - do nothing')
+        }
+      }
+    })
+    return { proxyDate }
   }
 })
 </script>

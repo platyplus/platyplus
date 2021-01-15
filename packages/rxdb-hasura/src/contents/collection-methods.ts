@@ -81,6 +81,9 @@ export const collectionMethods: ContentsCollectionMethods = {
   title(this: ContentsCollection, property?: string): string {
     return config(this, property)?.title || property || this.name
   },
+  documentTitle(this: ContentsCollection): string {
+    return this.metadata.config?.document_title || this.name
+  },
   description(this: ContentsCollection, property?: string): string {
     return config(this, property)?.description || ''
   },

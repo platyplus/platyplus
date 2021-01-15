@@ -2,7 +2,9 @@
 .card(v-if='collection && document', :key='document.primary')
   h3
     i.p-mr-2(:class='collection.icon()')
-    document-label(:document='document')
+    h-document-label(v-if="id" :document='document')
+    span(v-else) New 
+      span.p-text-lowercase {{collection.documentTitle()}}
   Toolbar.p-mb-4(v-if='collection.canUpdate()')
     template(#left)
       Button.p-mr-2(
@@ -29,12 +31,7 @@
         label='Cancel',
         @click='cancel'
       ) 
-  div.p-fluid
-    div.p-field(v-for='property, name of properties' :key="name")
-      label(:for="name") {{name}}
-      field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
-      div(v-else).p-component.p-inputtext
-        field-read( :document="document" :name="name" )
+  h-document(:document="document" :editing="editing" layout="details")
 .card(v-else) loading document...
 .card(v-if='collection?.canUpdate() && editing') {{ form }}
 </template>
@@ -45,7 +42,7 @@ import {
   useCollectionProperties,
   useDocument
 } from '@platyplus/vue-rxdb-hasura'
-import { computed, defineComponent, toRefs } from 'vue'
+import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -57,8 +54,8 @@ export default defineComponent({
       required: true
     },
     id: {
-      type: String,
-      required: true
+      type: String as PropType<string | undefined>,
+      default: undefined
     },
     editing: {
       type: Boolean,
@@ -82,16 +79,18 @@ export default defineComponent({
 
     const store = useStore()
     const form = computed(() => store.getters['rxdb/form'])
-
     const read = () =>
+      document.value &&
       router.replace({
         name: 'document',
         params: {
           collection: props.name,
-          id: props.id
+          id: document.value.primary
         }
       })
+
     const edit = () =>
+      props.id &&
       router.replace({
         name: 'document',
         params: {
@@ -109,7 +108,8 @@ export default defineComponent({
     }
     const cancel = () => {
       reset()
-      read()
+      if (props.id) read()
+      else router.go(-1)
     }
     return {
       form,

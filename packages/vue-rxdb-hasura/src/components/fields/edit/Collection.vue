@@ -1,12 +1,12 @@
 <template lang="pug">
 MultiSelect(v-model="model" :options="options" optionValue="id" placeholder="Select options")
   template(#option="slotProps")
-    document-label(:document="slotProps.option")
+    h-document-label(:document="slotProps.option")
   template(#value="slotProps")
     div(v-if="slotProps.value && slotProps.value.length")
-      div(v-for="id in slotProps.value" :key="id").p-chip.p-component
+      div(v-for="id in slotProps.value" :key="id").p-chip.p-component.p-mr-2.p-my-1
         .p-chip-text
-          document-label(:document="optionDocument(id)")
+          h-document-label(:document="optionDocument(id)")
         span.pi.pi-times-circle.pi-chip-remove-icon(@click="remove(id)")
     div(v-else) Select
 </template>

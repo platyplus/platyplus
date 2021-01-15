@@ -14,6 +14,7 @@
     .p-grid
       .p-col-12
         router-view
+        ScrollTop
   Footer
 </template>
 

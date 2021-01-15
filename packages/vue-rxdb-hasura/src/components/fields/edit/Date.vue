@@ -34,7 +34,7 @@ export default defineComponent({
     const { name, document } = toRefs(props)
     const { model } = useFormProperty<string>(document, name)
     const proxyDate = computed<Date>({
-      get: () => new Date(model.value),
+      get: () => new Date(model.value || Date.now()),
       set: (value: Date) => {
         try {
           model.value = dateToStringDateOnly(value)

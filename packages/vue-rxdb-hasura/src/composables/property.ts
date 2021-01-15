@@ -14,6 +14,7 @@ import {
   Ref,
   ref,
   watch,
+  watchEffect,
   WritableComputedRef
 } from 'vue'
 import { useStore } from 'vuex'
@@ -69,10 +70,12 @@ export const useFieldValue = <T>(
 ): Readonly<Ref<Readonly<T>>> => {
   const fieldValue = ref()
   const store = useStore()
-
-  useSubscription(
-    document.value.get$(name.value).subscribe(toObserver(fieldValue))
+  watchEffect(() =>
+    useSubscription(
+      document.value.get$(name.value).subscribe(toObserver(fieldValue))
+    )
   )
+
   return computed(
     () =>
       (store.getters['rxdb/getField'](document.value, name.value) as T) ??
@@ -126,30 +129,20 @@ export const useFormProperty = <T>(
   const fieldValue = useFieldValue<T>(document, name)
   const store = useStore()
 
+  // TODO move setter to useFieldValue, and consider even removing the useFormProperty composable
   const model = computed<T>({
     get: () => fieldValue.value,
-    set: (value: T) => {
-      if (equal(value, fieldValue.value))
-        store.commit('rxdb/resetField', {
-          document: document.value,
-          field: name.value
-        })
-      else
-        store.commit('rxdb/setField', {
-          document: document.value,
-          field: name.value,
-          value: value ?? undefined
-        })
-    }
+    set: (value: T) =>
+      store.commit('rxdb/setField', {
+        document: document.value,
+        field: name.value,
+        value: value ?? undefined
+      })
   })
   const changed = computed(
     () =>
       store.getters['rxdb/getField'](document.value, name.value) !==
-        undefined &&
-      !equal(
-        fieldValue.value,
-        store.getters['rxdb/getField'](document.value, name.value)
-      )
+        undefined && !equal(fieldValue.value, document.value[name.value])
   )
   return { model, changed }
 }

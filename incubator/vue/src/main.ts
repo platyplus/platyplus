@@ -42,6 +42,7 @@ import Card from 'primevue/card'
 import Carousel from 'primevue/carousel'
 import Chips from 'primevue/chips'
 import ColorPicker from 'primevue/colorpicker'
+import ScrollTop from 'primevue/components/scrolltop/ScrollTop'
 import ContextMenu from 'primevue/contextmenu'
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Fieldset from 'primevue/fieldset'
@@ -89,7 +90,7 @@ import TriStateCheckbox from 'primevue/tristatecheckbox'
 
 router.beforeEach(function (to, from, next) {
   window.scrollTo(0, 0)
-  console.log(hbp.authenticated.value)
+  // * Authentication guard
   if (to.meta.auth && !hbp.authenticated.value) next('/login')
   if (hbp.authenticated.value && to.path === '/') next('/home')
   else next()
@@ -134,6 +135,7 @@ app.component('PickList', PickList)
 app.component('ProgressBar', ProgressBar)
 app.component('RadioButton', RadioButton)
 app.component('Rating', Rating)
+app.component('ScrollTop', ScrollTop)
 app.component('SelectButton', SelectButton)
 app.component('Slider', Slider)
 app.component('Sidebar', Sidebar)

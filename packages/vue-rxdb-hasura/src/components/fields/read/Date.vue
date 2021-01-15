@@ -1,5 +1,5 @@
 <template lang="pug">
-div {{formatedValue}}
+div {{formatedValue || '&nbsp;'}}
 </template>
 
 <script lang="ts">
@@ -23,10 +23,10 @@ export default defineComponent({
   setup(props) {
     // TODO internationalize dateFormat, but preferably without using momentjs (too big)
     const { name, document } = toRefs(props)
-    const value = useFieldValue<string>(document, name)
+    const value = useFieldValue<string | undefined>(document, name)
 
     const formatedValue = computed(
-      () => new Date(value.value).toLocaleDateString() // TODO <-- here (and in the template as well)
+      () => value.value && new Date(value.value).toLocaleDateString() // TODO <-- here (and in the template as well)
     )
     return { formatedValue }
   }

@@ -1,5 +1,5 @@
 <template lang="pug">
-div {{formatedValue}}
+div {{formatedValue || '&nbsp;'}}
 </template>
 
 <script lang="ts">
@@ -21,9 +21,11 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const value = useFieldValue<string>(document, name)
-    // TODO internationalize preferably without using momentjs (too big)
-    const formatedValue = computed(() => value.value.substr(0, 8))
+    const value = useFieldValue<string | undefined>(document, name)
+    // TODO internationalize, preferably without using momentjs (too big)
+    const formatedValue = computed(
+      () => value.value && value.value.substr(0, 8)
+    )
     return { formatedValue }
   }
 })

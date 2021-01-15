@@ -1,5 +1,5 @@
 <template lang="pug">
-document-label(v-for="obj, id in value" :document="obj")
+h-document-label(v-for="obj, id in value" :document="obj")
 </template>
 
 <script lang="ts">

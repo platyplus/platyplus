@@ -1,9 +1,9 @@
 <template lang="pug">
 Dropdown(v-model="model" :options="options" optionValue="id" placeholder="Select an item")
   template(#option="slotProps")
-    document-label(:document="slotProps.option")
+    h-document-label(:document="slotProps.option")
   template(#value="slotProps")
-    document-label(:document="refDocument")
+    h-document-label(:document="refDocument")
 </template>
 
 <script lang="ts">

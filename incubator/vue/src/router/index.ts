@@ -52,6 +52,19 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/document/:collection/new',
+    name: 'newDocument',
+    component: () =>
+      import(/* webpackChunkName: "collection" */ '../pages/DocumentPage.vue'),
+    props: route => ({
+      name: route.params.collection,
+      editing: true
+    }),
+    meta: {
+      auth: true
+    }
+  },
+  {
     path: '/document/:collection/:id/:action?',
     name: 'document',
     component: () =>
