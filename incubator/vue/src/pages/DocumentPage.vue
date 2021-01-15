@@ -5,28 +5,34 @@
     h-document-label(v-if="id" :document='document')
     span(v-else) New 
       span.p-text-lowercase {{collection.documentTitle()}}
-  Toolbar.p-mb-4(v-if='collection.canUpdate()')
+  Toolbar.p-mb-4
     template(#left)
       Button.p-mr-2(
-        v-if='!editing',
+        v-if='!editing && collection.canUpdate()',
         icon='pi pi-pencil',
         label='Edit',
         @click='edit'
       )
       Button.p-mr-2(
-        v-if='editing',
+        v-if='!editing && document.canDelete()',
+        icon='pi pi-times',
+        label='Delete',
+        @click='remove'
+      )
+      Button.p-mr-2(
+        v-if='editing && collection.canUpdate()',
         icon='pi pi-save',
         label='Save',
         @click='save'
       ) 
       Button.p-mr-2(
-        v-if='editing',
+        v-if='editing && collection.canUpdate()',
         icon='pi pi-undo',
         label='Reset',
         @click='reset'
       ) 
       Button.p-mr-2(
-        v-if='editing',
+        v-if='editing && collection.canUpdate()',
         icon='pi pi-times',
         label='Cancel',
         @click='cancel'
@@ -42,6 +48,7 @@ import {
   useCollectionProperties,
   useDocument
 } from '@platyplus/vue-rxdb-hasura'
+import { useConfirm } from 'primevue/useConfirm'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -111,6 +118,23 @@ export default defineComponent({
       if (props.id) read()
       else router.go(-1)
     }
+    const confirm = useConfirm()
+    const remove = () => {
+      confirm.require({
+        message: 'Are you sure you want to remove this document?',
+        header: 'Confirmation',
+        icon: 'pi pi-info-circle',
+        acceptClass: 'p-button-danger',
+        accept: async () => {
+          await document.value?.remove()
+          router.go(-1)
+        },
+        reject: () => {
+          //callback to execute when user rejects the action
+        }
+      })
+    }
+
     return {
       form,
       collection,
@@ -118,6 +142,8 @@ export default defineComponent({
       save,
       reset,
       cancel,
+      remove,
+      confirm,
       edit,
       document
     }

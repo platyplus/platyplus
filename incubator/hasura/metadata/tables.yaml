@@ -933,6 +933,7 @@
       - a_date
       - a_numeric
       - an_integer
+      - deleted
       - id
       - name
       - updated_at
@@ -946,6 +947,7 @@
       - a_date
       - a_numeric
       - an_integer
+      - deleted
       - name
       filter: {}
       check: null
@@ -981,6 +983,7 @@
   - role: user
     permission:
       columns:
+      - deleted
       - id
       - patient_id
       - test
@@ -991,6 +994,7 @@
   - role: user
     permission:
       columns:
+      - deleted
       - patient_id
       - test
       filter: {}

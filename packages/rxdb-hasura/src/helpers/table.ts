@@ -99,10 +99,11 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
     }
   })
 
-  // TODO filter out foreign keys
   table.columns.map(column => {
     // * Do not include again properties that are already mapped by an object relationship
     if (skipMappedForeignKeys.includes(column.column_name as string)) return
+    // * Do not add the deleted column to the properties
+    if (column.column_name === 'deleted') return
     const name = column.column_name as string
     const sqlType = column.udt_name as string
 

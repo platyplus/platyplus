@@ -13,6 +13,7 @@
   .layout-main
     .p-grid
       .p-col-12
+        ConfirmDialog
         div(v-if="isAuthRoute")
           router-view(v-if="isReady")
           div(v-else) loading database...

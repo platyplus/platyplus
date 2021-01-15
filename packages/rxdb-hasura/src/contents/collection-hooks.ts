@@ -28,7 +28,34 @@ import { ContentsCollection, ContentsDocument } from '../types'
 const documentLocks: Record<string, boolean> = {}
 export const createHooks = (collection: ContentsCollection): void => {
   debug('Installing hooks')
+  collection.postRemove(async (data, doc) => {
+    // TODO cascade delete
+    for (const rel of collection.metadata.relationships.filter(
+      rel => rel.rel_type === 'object'
+    )) {
+      // * Fetch the referenced document
+      const refDoc: ContentsDocument | null = await doc.populate(
+        rel.rel_name as string
+      )
+      if (refDoc && !documentLocks[refDoc.primary]) {
+        const mirrorRelation = Object.entries(
+          refDoc.collection.schema.jsonSchema.properties
+        ).find(([, value]) => {
+          return value.ref === collection.name
+        })?.[0]
+        if (mirrorRelation) {
+          // * Mirror array relationship exists and need to be updated
+          await refDoc.atomicPatch({
+            [mirrorRelation]: refDoc
+              .get(mirrorRelation)
+              .filter((cursor: string) => cursor !== doc.primary)
+          })
+        }
+      }
+    }
+  }, false)
   collection.postInsert(async (data, doc) => {
+    // TODO use 'populate' to simplify
     for (const rel of collection.metadata.relationships) {
       const relName = rel.rel_name as string
       if (!data[relName]) return // * Relation stayed null
@@ -55,21 +82,20 @@ export const createHooks = (collection: ContentsCollection): void => {
         }
       } else if (rel.rel_type === 'object') {
         // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
-        const newValue = data[relName] as string | undefined
-        if (newValue) {
-          // * Add document from the One-to-Many relationship in the new Many-To-One reference
-          const refDoc: ContentsDocument | null = await refCollection
-            .findOne(newValue)
-            .exec()
-          if (refDoc && !documentLocks[refDoc.primary])
-            await refDoc.atomicPatch({
-              [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]
-            })
-        }
+        const newValue = data[relName] as string
+        // * Add document from the One-to-Many relationship in the new Many-To-One reference
+        const refDoc: ContentsDocument | null = await refCollection
+          .findOne(newValue)
+          .exec()
+        if (refDoc && !documentLocks[refDoc.primary])
+          await refDoc.atomicPatch({
+            [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]
+          })
       }
     }
   }, false)
   collection.preSave(async (data, doc) => {
+    // TODO use 'populate' to simplify
     documentLocks[doc.primary] = true
     for (const rel of collection.metadata.relationships) {
       const relName = rel.rel_name as string

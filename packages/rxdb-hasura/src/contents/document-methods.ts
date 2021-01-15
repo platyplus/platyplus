@@ -16,5 +16,8 @@ export const documentMethods: ContentsDocumentMethods = {
     // * check hasura permissions
     // * check SQL constraints
     return true
+  },
+  canDelete(this: ContentsDocument) {
+    return this.canEdit('deleted')
   }
 }

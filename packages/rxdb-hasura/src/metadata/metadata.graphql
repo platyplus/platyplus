@@ -89,6 +89,7 @@ query metadata {
         { table_schema: { _eq: "public" } }
         { columns: { column_name: { _eq: "updated_at" } } }
         { columns: { column_name: { _eq: "id" } } }
+        { columns: { column_name: { _eq: "deleted" } } }
       ]
     }
   ) {

@@ -51,6 +51,7 @@ export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods>
 export type ContentsDocumentMethods = {
   canEdit: (propertyName?: string) => boolean
   canSave: () => boolean
+  canDelete: () => boolean
   // ? editableProperties(): Property[]
   // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)
 }

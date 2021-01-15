@@ -45,8 +45,6 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     })
 
   const excludeFields = [
-    // TODO soft delete - remove the following value
-    'deleted',
     ...table.relationships
       .filter(({ rel_type }) => rel_type === 'array')
       .reduce<string[]>(

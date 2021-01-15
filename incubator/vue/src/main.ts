@@ -43,6 +43,8 @@ import Carousel from 'primevue/carousel'
 import Chips from 'primevue/chips'
 import ColorPicker from 'primevue/colorpicker'
 import ScrollTop from 'primevue/components/scrolltop/ScrollTop'
+import ConfirmationService from 'primevue/confirmationservice'
+import ConfirmDialog from 'primevue/confirmdialog'
 import ContextMenu from 'primevue/contextmenu'
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Fieldset from 'primevue/fieldset'
@@ -87,7 +89,6 @@ import Tooltip from 'primevue/tooltip'
 import Tree from 'primevue/tree'
 import TreeTable from 'primevue/treetable'
 import TriStateCheckbox from 'primevue/tristatecheckbox'
-
 router.beforeEach(function (to, from, next) {
   window.scrollTo(0, 0)
   // * Authentication guard
@@ -97,11 +98,12 @@ router.beforeEach(function (to, from, next) {
 })
 
 app.use(ToastService)
+app.use(ConfirmationService)
 app.use(router)
 
 app.directive('tooltip', Tooltip)
 app.directive('ripple', Ripple)
-
+app.component('ConfirmDialog', ConfirmDialog)
 app.component('Accordion', Accordion)
 app.component('AccordionTab', AccordionTab)
 app.component('AutoComplete', AutoComplete)
