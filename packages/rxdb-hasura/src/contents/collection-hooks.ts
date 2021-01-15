@@ -28,32 +28,33 @@ import { ContentsCollection, ContentsDocument } from '../types'
 const documentLocks: Record<string, boolean> = {}
 export const createHooks = (collection: ContentsCollection): void => {
   debug('Installing hooks')
-  collection.postRemove(async (data, doc) => {
-    // TODO cascade delete
-    for (const rel of collection.metadata.relationships.filter(
-      rel => rel.rel_type === 'object'
-    )) {
-      // * Fetch the referenced document
-      const refDoc: ContentsDocument | null = await doc.populate(
-        rel.rel_name as string
-      )
-      if (refDoc && !documentLocks[refDoc.primary]) {
-        const mirrorRelation = Object.entries(
-          refDoc.collection.schema.jsonSchema.properties
-        ).find(([, value]) => {
-          return value.ref === collection.name
-        })?.[0]
-        if (mirrorRelation) {
-          // * Mirror array relationship exists and need to be updated
-          await refDoc.atomicPatch({
-            [mirrorRelation]: refDoc
-              .get(mirrorRelation)
-              .filter((cursor: string) => cursor !== doc.primary)
-          })
-        }
-      }
-    }
-  }, false)
+  // * The following code is commented: rxdb does not populate deleted documents :)
+  // collection.postRemove(async (data, doc) => {
+  //   // TODO cascade delete
+  //   for (const rel of collection.metadata.relationships.filter(
+  //     rel => rel.rel_type === 'object'
+  //   )) {
+  //     // * Fetch the referenced document
+  //     const refDoc: ContentsDocument | null = await doc.populate(
+  //       rel.rel_name as string
+  //     )
+  //     if (refDoc && !documentLocks[refDoc.primary]) {
+  //       const mirrorRelation = Object.entries(
+  //         refDoc.collection.schema.jsonSchema.properties
+  //       ).find(([, value]) => {
+  //         return value.ref === collection.name
+  //       })?.[0]
+  //       if (mirrorRelation) {
+  //         // * Mirror array relationship exists and need to be updated
+  //         await refDoc.atomicPatch({
+  //           [mirrorRelation]: refDoc
+  //             .get(mirrorRelation)
+  //             .filter((cursor: string) => cursor !== doc.primary)
+  //         })
+  //       }
+  //     }
+  //   }
+  // }, false)
   collection.postInsert(async (data, doc) => {
     // TODO use 'populate' to simplify
     for (const rel of collection.metadata.relationships) {
