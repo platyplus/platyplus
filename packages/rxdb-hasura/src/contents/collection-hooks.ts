@@ -36,7 +36,7 @@ export const createHooks = (collection: ContentsCollection): void => {
     documentLocks[doc.primary] = true
     for (const rel of collection.metadata.relationships) {
       const relName = rel.rel_name as string
-      if (!doc[relName] || !data[relName]) return // * Relation stayed null
+      if (!doc[relName] && !data[relName]) return // * Relation stayed null
       const property = collection.schema.jsonSchema.properties[relName]
       const refCollection =
         doc.collection.database.hasura[property.ref as string]
@@ -70,7 +70,7 @@ export const createHooks = (collection: ContentsCollection): void => {
             .exec()
           if (refDoc && !documentLocks[refDoc.primary])
             await refDoc.atomicPatch({
-              [mirrorRelation]: undefined
+              [mirrorRelation]: null
             })
         }
       } else if (rel.rel_type === 'object') {
