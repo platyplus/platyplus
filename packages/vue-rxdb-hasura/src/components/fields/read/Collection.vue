@@ -1,6 +1,6 @@
 <template lang="pug">
 div(v-if="!refCollection") loading...
-h-document-label(v-else-if="refCollection.length" v-for="document, id in refCollection" :document="document")
+h-document(v-else-if="refCollection.length" v-for="document, id in refCollection" :document="document" layout="chip")
 div(v-else) &nbsp;
 </template>
 
