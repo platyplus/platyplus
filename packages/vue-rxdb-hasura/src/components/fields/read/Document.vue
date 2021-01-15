@@ -1,5 +1,5 @@
 <template lang="pug">
-document-label(v-if="refDocument" :document="refDocument")
+h-document-label(v-if="refDocument" :document="refDocument")
 div(v-else) &nbsp;
 </template>
 
