@@ -1,5 +1,5 @@
 <template lang="pug">
-MultiSelect(v-model="model" :options="options" optionValue="id" placeholder="Select options")
+MultiSelect(v-model="filteredModel" :options="options" optionValue="id" placeholder="Select options")
   template(#option="slotProps")
     h-document-label(:document="slotProps.option")
   template(#value="slotProps")
@@ -42,12 +42,18 @@ export default defineComponent({
     const { model } = useFormProperty<string[]>(document, name)
     const db = useDB()
     const property = useProperty(document, name)
-
+    // * filter out removed references
+    const filteredModel = computed<string[]>({
+      get: () =>
+        model.value.filter(id =>
+          options.value.find(option => option.id === id)
+        ),
+      set: (val: string[]) => {
+        model.value = val
+      }
+    })
     // TODO move to a new useOptions(document, propertyName) ?
     const options = ref<Array<Contents>>([])
-    const refDocuments = computed(() =>
-      options.value.filter(doc => model.value.includes(doc.id))
-    )
     const optionDocument = (id: string) =>
       options.value.find(option => option.id === id)
 
@@ -59,7 +65,7 @@ export default defineComponent({
       refCollection &&
         useSubscription(refCollection.find().$.subscribe(toObserver(options)))
     })
-    return { model, options, refDocuments, optionDocument, remove }
+    return { filteredModel, options, optionDocument, remove }
   }
 })
 </script>
