@@ -92,35 +92,6 @@ export const useProperty = (
     () => document.value.collection.schema.jsonSchema.properties[name.value]
   )
 
-export const useCollectionProperties = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: Ref<ContentsCollection | any>
-): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
-  return computed(() => {
-    const schema: RxSchema = collection.value.schema
-    const metadata: Metadata = collection.value.metadata
-    const properties = { ...schema.jsonSchema.properties }
-    // * remove array aggregates from the property list
-    metadata.relationships
-      .filter(({ rel_type }) => rel_type === 'array')
-      .forEach(({ rel_name }) => delete properties[`${rel_name}_aggregate`])
-    // * remove primary key and other final fields as they can't be observed
-    schema.finalFields.forEach(field => delete properties[field])
-    // * remove 'system' properties
-    delete properties._rev
-    delete properties._attachments
-    return properties
-  })
-}
-
-export const useDocumentProperties = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>
-): ComputedRef<Record<string, TopLevelProperty | PrimaryProperty>> => {
-  const collection = useDocumentCollection(document)
-  return useCollectionProperties(collection)
-}
-
 export const useFormProperty = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<ContentsDocument | any>,

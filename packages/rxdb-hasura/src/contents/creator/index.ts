@@ -1,9 +1,9 @@
 import { RxCollectionCreatorBase } from 'rxdb/dist/types/types'
 
-import { toJsonSchema } from '../../helpers'
 import { Metadata } from '../../types'
 import { collectionMethods } from '../collection'
 import { documentMethods } from '../document'
+import { toJsonSchema } from '../schema'
 
 export const contentsCollectionCreator = (
   metadata: Metadata

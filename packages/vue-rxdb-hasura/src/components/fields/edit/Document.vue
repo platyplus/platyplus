@@ -47,7 +47,9 @@ export default defineComponent({
     onMounted(() => {
       const refCollection = db.value?.[property.value.ref as string]
       refCollection &&
-        useSubscription(refCollection.find().$.subscribe(toObserver(options)))
+        useSubscription(
+          refCollection.find().sort('label').$.subscribe(toObserver(options))
+        )
     })
     return { model, options, refDocument }
   }

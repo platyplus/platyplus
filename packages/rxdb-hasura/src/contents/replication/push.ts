@@ -2,9 +2,9 @@ import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import stringifyObject from 'stringify-object'
 
 import { debug } from '../../console'
-import { metadataName } from '../../helpers'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { computedFields } from '../computed-fields'
+import { metadataName } from '../schema'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at

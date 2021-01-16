@@ -52,11 +52,7 @@ div(v-if='collection && document', :key='document.primary')
 </template>
 
 <script lang="ts">
-import {
-  useCollection,
-  useCollectionProperties,
-  useDocument
-} from '@platyplus/vue-rxdb-hasura'
+import { useCollection, useDocument } from '@platyplus/vue-rxdb-hasura'
 import { useToggle } from '@vueuse/core'
 import { useConfirm } from 'primevue/useConfirm'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
@@ -90,7 +86,7 @@ export default defineComponent({
     const router = useRouter()
     const { id, name } = toRefs(props)
     const collection = useCollection(name)
-    const properties = useCollectionProperties(collection)
+    const properties = computed(() => collection.value?.properties)
     const document = useDocument(collection, id)
 
     const store = useStore()

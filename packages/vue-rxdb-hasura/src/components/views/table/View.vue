@@ -1,6 +1,6 @@
 <template lang="pug">
 DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datatable-gridlines")
-  Column(v-for="property, name of properties" :field="name" :header="collection.title(name)" :key="name")
+  Column(v-for="[name, property] of properties" :field="name" :header="collection.title(name)" :key="name")
     template(#editor="slotProps" v-if="editing")
       div.p-fluid
         field-edit-inline(v-if="slotProps.data.canEdit(name)" :document="slotProps.data" :name="name" :inTable="true")
@@ -20,12 +20,9 @@ DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datat
 
 <script lang="ts">
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { defineComponent, PropType, toRefs } from 'vue'
+import { computed, defineComponent, PropType, toRefs } from 'vue'
 
-import {
-  useCollectionProperties,
-  useNewDocumentFactory
-} from '../../../composables'
+import { useNewDocumentFactory } from '../../../composables'
 
 export default defineComponent({
   name: 'CollectionTable',
@@ -46,7 +43,7 @@ export default defineComponent({
   setup(props) {
     const { collection } = toRefs(props)
     const { newDoc } = useNewDocumentFactory(collection)
-    const properties = useCollectionProperties(collection)
+    const properties = computed(() => collection.value.properties)
 
     // TODO canEditCollection
     return { properties, newDoc }

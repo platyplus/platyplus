@@ -6,7 +6,7 @@ template(v-if="doc")
       // TODO get the link from the parent component
       span {{label}}
   div.p-fluid(v-else-if="layout==='details'")
-    div.p-field( v-for='property, name of properties' :key="name")
+    div.p-field(v-for='[name, property] of properties' :key="name")
       label(:for="name") {{name}}
       field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
       div(v-else).p-component.p-inputtext
@@ -21,11 +21,7 @@ span(v-else) loading...
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
-import {
-  useCollectionProperties,
-  useDocument,
-  useDocumentLabel
-} from '../composables'
+import { useDocument, useDocumentLabel } from '../composables'
 
 export default defineComponent({
   name: 'HDocument',
@@ -56,7 +52,7 @@ export default defineComponent({
     const collectionDocument = useDocument(collection, id)
     const doc = computed(() => document.value || collectionDocument.value)
     const col = computed(() => doc.value?.collection)
-    const properties = useCollectionProperties(col)
+    const properties = computed(() => col.value.properties)
 
     const label = useDocumentLabel(document)
     return { doc, label, properties }

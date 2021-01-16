@@ -1,4 +1,5 @@
-import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
+import { PrimaryProperty, RxCollection, RxDatabase, RxDocument } from 'rxdb'
+import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { BehaviorSubject } from 'rxjs'
 
 import { TableFragment as Metadata } from './generated'
@@ -61,9 +62,9 @@ export type ContentsDocumentMethods = {
 export type ContentsCollectionMethods = {
   title: (property?: string) => string
   description: (property?: string) => string
-  documentTitle: () => string
+  documentTitle: () => string // TODO move to prototype
   icon: (property?: string) => string
-  defaultView: () => string
+  defaultView: () => string // TODO move to prototype
   canInsert: (propertyName?: string) => boolean
   canUpdate: (propertyName?: string) => boolean
   // ? insertableProperties(): Property[]
@@ -73,6 +74,7 @@ export type ContentsCollectionMethods = {
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   metadata: Metadata
   replicator: Replicator
+  properties: Map<string, TopLevelProperty | PrimaryProperty>
 }
 
 export type ContentsCollection = RxCollection<

@@ -11,8 +11,7 @@ import { Subscription } from 'rxjs'
 import { skip } from 'rxjs/operators'
 
 import { debug, warn } from '../console'
-import { contentsCollectionCreator } from '../contents/creator'
-import { metadataName } from '../helpers'
+import { contentsCollectionCreator, metadataName } from '../contents'
 import { Database, Metadata, MetadataCollection } from '../types'
 import docQuery from './metadata.graphql'
 

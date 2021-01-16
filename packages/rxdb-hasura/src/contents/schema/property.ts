@@ -1,10 +1,8 @@
 import {
   ColumnFragment,
-  ContentsDocument,
   JsonSchemaPropertyType,
-  PropertyType,
-  PropertyValue
-} from '../types'
+  PropertyType
+} from '../../types'
 
 const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
   uuid: 'string',
@@ -39,27 +37,4 @@ export const propertyJsonType = (
   const result = (postgresJsonSchemaTypeMapping[udtType] ||
     udtType) as JsonSchemaPropertyType
   return isNullable ? [result, 'null'] : result
-}
-
-export const isTextType = (type: PropertyType): boolean =>
-  [
-    'string',
-    'date',
-    'date-time',
-    'time',
-    'email',
-    'document',
-    'collection'
-  ].includes(type)
-
-export const castValue = <T extends PropertyValue>(
-  document: ContentsDocument,
-  propertyName: string,
-  value: string | boolean
-): T => {
-  const type = document.propertyType(propertyName)
-
-  return typeof value === 'boolean' || isTextType(type)
-    ? value
-    : JSON.parse(value)
 }

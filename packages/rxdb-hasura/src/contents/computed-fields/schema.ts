@@ -7,7 +7,7 @@ export const computedFieldsProperties = (
   table: Metadata
 ): Record<string, TopLevelProperty | PrimaryProperty> => ({
   label: {
-    type: ['string', 'null']
+    type: 'string'
   }
 })
 

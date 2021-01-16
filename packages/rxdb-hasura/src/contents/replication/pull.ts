@@ -1,9 +1,9 @@
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
 import { debug } from '../../console'
-import { metadataName } from '../../helpers'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { addComputedFieldsFromCollection } from '../computed-fields'
+import { metadataName } from '../schema'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,

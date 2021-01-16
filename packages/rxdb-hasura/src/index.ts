@@ -7,8 +7,9 @@ import { RxHasuraPlugin } from './plugin'
 import { Database, DatabaseCollections } from './types'
 
 export { RxHasuraPlugin } from './plugin'
-export * from './helpers'
+export * from './contents'
 export * from './types'
+export * from './helpers'
 
 export const createRxHasura = async (
   name: string,

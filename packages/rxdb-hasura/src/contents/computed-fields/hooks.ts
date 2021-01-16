@@ -7,6 +7,9 @@ import {
 export const createComputedFieldsHooks = (
   collection: ContentsCollection
 ): void => {
-  collection.preInsert(addComputedFieldsFromCollection, false)
+  collection.preInsert(
+    data => addComputedFieldsFromCollection(data, collection),
+    false
+  )
   collection.preSave(addComputedFieldsFromDoc, false)
 }

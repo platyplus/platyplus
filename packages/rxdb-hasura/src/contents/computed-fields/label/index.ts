@@ -10,5 +10,7 @@ export const label = (
     collection.metadata.config?.document_label ||
     `{{${collection.schema.primaryPath}}}`
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
-  return compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || null
+  return (
+    compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || doc.id
+  )
 }
