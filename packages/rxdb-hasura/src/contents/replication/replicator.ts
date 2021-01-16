@@ -2,9 +2,9 @@ import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-g
 import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
-import { debug, error, errorDir, info, warn } from '../console'
-import { ContentsCollection } from '../types'
-import { httpUrlToWebSockeUrl } from '../utils'
+import { debug, error, errorDir, info, warn } from '../../console'
+import { ContentsCollection } from '../../types'
+import { httpUrlToWebSockeUrl } from '../../utils'
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
 import { subscriptionQuery } from './subscribe'

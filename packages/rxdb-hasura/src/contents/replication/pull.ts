@@ -1,8 +1,9 @@
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
-import { debug } from '../console'
-import { metadataName } from '../helpers'
-import { Contents, ContentsCollection, Modifier } from '../types'
+import { debug } from '../../console'
+import { metadataName } from '../../helpers'
+import { Contents, ContentsCollection, Modifier } from '../../types'
+import { addComputedFieldsFromCollection } from '../computed-fields'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
@@ -94,7 +95,7 @@ export const pullQueryBuilder = (
   return doc => ({
     query: doc ? updateQuery : initialQuery,
 
-    variables: arrayRelationships.reduce<Contents>(
+    variables: arrayRelationships.reduce<Partial<Contents>>(
       // * add the existing updated_at array relationship aggregates if they exist
       (variables, rel) => (
         (variables[`updated_at_${rel}`] =
@@ -136,6 +137,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         delete data[column]
       }
     }
+    addComputedFieldsFromCollection(data, collection)
     debug('pullModifier: out', { ...data })
     return data
   }

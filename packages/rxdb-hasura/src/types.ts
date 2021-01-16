@@ -44,6 +44,7 @@ export type PropertyValue =
 export type Contents = Record<string, unknown> & {
   id: string
   updated_at?: string
+  label: string
 }
 
 export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods>
@@ -52,6 +53,7 @@ export type ContentsDocumentMethods = {
   canEdit: (propertyName?: string) => boolean
   canSave: () => boolean
   canDelete: () => boolean
+  propertyType: (propertyName: string) => PropertyType
   // ? editableProperties(): Property[]
   // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)
 }

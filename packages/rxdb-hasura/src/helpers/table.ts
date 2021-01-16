@@ -1,6 +1,7 @@
 import { PrimaryProperty, RxJsonSchema } from 'rxdb'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
+import { computedFieldsProperties } from '../contents/computed-fields'
 import {
   ColumnFragment,
   CoreTableFragment,
@@ -130,5 +131,9 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
     }
     result.properties[name] = property
   })
+  result.properties = {
+    ...result.properties,
+    ...computedFieldsProperties(table)
+  }
   return result
 }

@@ -1,5 +1,5 @@
-import { metadataName } from '../helpers'
-import { ContentsCollection } from '../types'
+import { metadataName } from '../../helpers'
+import { ContentsCollection } from '../../types'
 
 export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = collection.metadata

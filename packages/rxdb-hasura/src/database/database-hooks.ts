@@ -1,6 +1,5 @@
 import { info } from '../console'
-import { createMetadataReplicator } from '../metadata/replicator'
-import { metadataSchema } from '../metadata/schema'
+import { createMetadataReplicator, metadataSchema } from '../metadata'
 import { Database } from '../types'
 import { hasuraCollections } from './helpers'
 import { hasura } from './observables'

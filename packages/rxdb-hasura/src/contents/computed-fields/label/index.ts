@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars'
 
-import { Contents, ContentsCollection } from '../types'
+import { Contents, ContentsDocument } from '../../../types'
 
-export const documentLabel = (
+export const label = (
   doc: Contents,
-  collection: ContentsCollection
+  collection: ContentsDocument['collection']
 ): string | null => {
   const template =
     collection.metadata.config?.document_label ||

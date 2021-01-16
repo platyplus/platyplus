@@ -1,9 +1,10 @@
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import stringifyObject from 'stringify-object'
 
-import { debug } from '../console'
-import { metadataName } from '../helpers'
-import { Contents, ContentsCollection, Modifier } from '../types'
+import { debug } from '../../console'
+import { metadataName } from '../../helpers'
+import { Contents, ContentsCollection, Modifier } from '../../types'
+import { computedFields } from '../computed-fields'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -45,6 +46,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     })
 
   const excludeFields = [
+    ...computedFields(collection),
     ...table.relationships
       .filter(({ rel_type }) => rel_type === 'array')
       .reduce<string[]>(

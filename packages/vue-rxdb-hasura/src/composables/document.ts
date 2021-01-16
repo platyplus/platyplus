@@ -1,27 +1,17 @@
-import {
-  Contents,
-  ContentsCollection,
-  ContentsDocument,
-  documentLabel
-} from '@platyplus/rxdb-hasura'
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
-import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 import { ComputedRef, onMounted, Ref, ref, unref, watchEffect } from 'vue'
 
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>
+  document: Ref<ContentsDocument>
 ): Readonly<Ref<Readonly<string | null>>> => {
   const result = ref<string | null>(null)
   watchEffect(() => {
     document.value &&
       useSubscription(
-        document.value.$.pipe(
-          map<Contents, string | null>(val =>
-            documentLabel(val, document.value.collection)
-          )
-        ).subscribe(toObserver(result))
+        document.value.get$('label').subscribe(toObserver(result))
       )
   })
   return result

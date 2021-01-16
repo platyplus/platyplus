@@ -2,7 +2,8 @@ import {
   ContentsCollection,
   ContentsDocument,
   ContentsDocumentMethods
-} from '../types'
+} from '../../types'
+import { propertyType } from './property-type'
 
 export const documentMethods: ContentsDocumentMethods = {
   canEdit(this: ContentsDocument, propertyName?: string) {
@@ -19,5 +20,8 @@ export const documentMethods: ContentsDocumentMethods = {
   },
   canDelete(this: ContentsDocument) {
     return this.canEdit('deleted')
+  },
+  propertyType(this: ContentsDocument, propertyName: string) {
+    return propertyType(this, propertyName)
   }
 }

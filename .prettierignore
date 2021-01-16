@@ -16,3 +16,4 @@ CHANGELOG.md
 **/*.yaml
 **/.vercel
 **/.nuxt
+.favorites.json

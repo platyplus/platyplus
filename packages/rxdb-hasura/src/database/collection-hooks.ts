@@ -1,6 +1,5 @@
 import { info } from '../console'
-import { createHooks } from '../contents/collection-hooks'
-import { createContentReplicator } from '../contents/replicator'
+import { createContentReplicator, createHooks } from '../contents'
 import { ContentsCollection } from '../types'
 import { hasuraCollections } from './helpers'
 import { hasura } from './observables'

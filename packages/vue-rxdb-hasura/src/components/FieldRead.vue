@@ -3,10 +3,8 @@ component(:is="componentName" v-bind="props")
 </template>
 
 <script lang="ts">
-import { ContentsDocument, propertyType } from '@platyplus/rxdb-hasura'
-import { computed, defineComponent, PropType, toRefs } from 'vue'
-
-import { useProperty } from '../composables'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { computed, defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'FieldRead',
@@ -21,10 +19,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { document, name } = toRefs(props)
-    const property = useProperty(document, name)
     const componentName = computed(
-      () => 'field-read-' + propertyType(property.value)
+      () => 'field-read-' + props.document.propertyType(props.name)
     )
     return { componentName, props }
   }

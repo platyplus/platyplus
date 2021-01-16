@@ -3,10 +3,8 @@ component(:is="componentName" v-bind="props")
 </template>
 
 <script lang="ts">
-import { ContentsDocument, propertyType } from '@platyplus/rxdb-hasura'
-import { computed, defineComponent, PropType, toRefs } from 'vue'
-
-import { useProperty } from '../composables'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { computed, defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'FieldEditInline',
@@ -21,11 +19,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { document, name } = toRefs(props)
-    const property = useProperty(document, name)
     const componentName = computed(
       // TODO change 'field-edit-' to 'field-edit-inline-' and define field-edit-inline-* components
-      () => 'field-edit-' + propertyType(property.value)
+      () => 'field-edit-' + props.document.propertyType(props.name)
     )
     return { componentName, props }
   }
