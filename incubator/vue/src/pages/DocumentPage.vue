@@ -1,43 +1,52 @@
 <template lang="pug">
-.card(v-if='collection && document', :key='document.primary')
-  h3
-    i.p-mr-2(:class='collection.icon()')
-    h-document-label(v-if="id" :document='document')
-    span(v-else) New 
-      span.p-text-lowercase {{collection.documentTitle()}}
-  Toolbar.p-mb-4
-    template(#left)
-      Button.p-mr-2(
-        v-if='!editing && collection.canUpdate()',
-        icon='pi pi-pencil',
-        label='Edit',
-        @click='edit'
-      )
-      Button.p-mr-2(
-        v-if='!editing && document.canDelete()',
-        icon='pi pi-times',
-        label='Delete',
-        @click='remove'
-      )
-      Button.p-mr-2(
-        v-if='editing && collection.canUpdate()',
-        icon='pi pi-save',
-        label='Save',
-        @click='save'
-      ) 
-      Button.p-mr-2(
-        v-if='editing && collection.canUpdate()',
-        icon='pi pi-undo',
-        label='Reset',
-        @click='reset'
-      ) 
-      Button.p-mr-2(
-        v-if='editing && collection.canUpdate()',
-        icon='pi pi-times',
-        label='Cancel',
-        @click='cancel'
-      ) 
-  h-document(:document="document" :editing="editing" layout="details")
+div(v-if='collection && document', :key='document.primary')
+  Sidebar(v-model:visible="visibleInfo" position="right")
+    div Last updated at: {{document.updated_at}}
+    div Last updated by
+    div created by
+    div created at
+    div revisions
+  .card()
+    h3
+      i.p-mr-2(:class='collection.icon()')
+      h-document-label(v-if="id" :document='document')
+      span(v-else) New 
+        span.p-text-lowercase {{collection.documentTitle()}}
+    Toolbar.p-mb-4
+      template(#left)
+        Button.p-mr-2(
+          v-if='!editing && collection.canUpdate()',
+          icon='pi pi-pencil',
+          label='Edit',
+          @click='edit'
+        )
+        Button.p-mr-2(
+          v-if='!editing && document.canDelete()',
+          icon='pi pi-times',
+          label='Delete',
+          @click='remove'
+        )
+        Button.p-mr-2(
+          v-if='editing && collection.canUpdate()',
+          icon='pi pi-save',
+          label='Save',
+          @click='save'
+        ) 
+        Button.p-mr-2(
+          v-if='editing && collection.canUpdate()',
+          icon='pi pi-undo',
+          label='Reset',
+          @click='reset'
+        ) 
+        Button.p-mr-2(
+          v-if='editing && collection.canUpdate()',
+          icon='pi pi-times',
+          label='Cancel',
+          @click='cancel'
+        ) 
+      template(#right)
+        Button.p-button-rounded.p-button-text(icon="pi pi-info-circle" @click="toggleInfo")
+    h-document(:document="document" :editing="editing" layout="details")
 .card(v-else) loading document...
 .card(v-if='collection?.canUpdate() && editing') {{ form }}
 </template>
@@ -48,11 +57,11 @@ import {
   useCollectionProperties,
   useDocument
 } from '@platyplus/vue-rxdb-hasura'
+import { useToggle } from '@vueuse/core'
 import { useConfirm } from 'primevue/useConfirm'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-
 export default defineComponent({
   name: 'CollectionPage',
   props: {
@@ -76,7 +85,7 @@ export default defineComponent({
     onBeforeRouteLeave(() => {
       // TODO Confirm leaving if changes in the form
     })
-
+    const [visibleInfo, toggleInfo] = useToggle()
     // TODO allow creating a new document
     const router = useRouter()
     const { id, name } = toRefs(props)
@@ -136,6 +145,8 @@ export default defineComponent({
     }
 
     return {
+      visibleInfo,
+      toggleInfo,
       form,
       collection,
       properties,
