@@ -7,7 +7,7 @@ template(v-if="doc")
       span {{label}}
   div.p-fluid(v-else-if="layout==='details'")
     div.p-field(v-for='[name, property] of properties' :key="name")
-      label(:for="name") {{name}}
+      label(:for="name") {{document.collection.title(name)}}
       field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
       div(v-else).p-component.p-inputtext
         field-read(:document="document" :name="name")

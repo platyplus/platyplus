@@ -42,7 +42,9 @@ export type PropertyValue =
   | Array<Contents>
   | Contents
 
-export type Contents = Record<string, unknown> & {
+// TODO find a way to replace 'unknown' by something smarter
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Contents = Record<string, any> & {
   id: string
   updated_at?: string
   label: string

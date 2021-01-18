@@ -44,6 +44,30 @@ export const metadataSchema: RxJsonSchema = {
       items: {
         type: 'object'
       }
+    },
+    propertiesConfig: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          property_name: { type: ['string', 'null'] },
+          title: { type: ['string', 'null'] },
+          description: { type: ['string', 'null'] },
+          icon: { type: ['string', 'null'] }
+        }
+      }
+    },
+
+    computedProperties: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          transformation: { type: ['string', 'null'] },
+          template: { type: ['string', 'null'] }
+        }
+      }
     }
   }
 }

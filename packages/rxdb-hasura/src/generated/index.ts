@@ -2111,9 +2111,15 @@ export type Metadata_Column_Info_Min_Order_By = {
 
 /** ordering options when selecting data from "metadata.column_info" */
 export type Metadata_Column_Info_Order_By = {
-  canInsert_aggregate: Maybe<Metadata_Permission_Insert_Columns_Aggregate_Order_By>
-  canSelect_aggregate: Maybe<Metadata_Permission_Select_Columns_Aggregate_Order_By>
-  canUpdate_aggregate: Maybe<Metadata_Permission_Update_Columns_Aggregate_Order_By>
+  canInsert_aggregate: Maybe<
+    Metadata_Permission_Insert_Columns_Aggregate_Order_By
+  >
+  canSelect_aggregate: Maybe<
+    Metadata_Permission_Select_Columns_Aggregate_Order_By
+  >
+  canUpdate_aggregate: Maybe<
+    Metadata_Permission_Update_Columns_Aggregate_Order_By
+  >
   character_maximum_length: Maybe<Order_By>
   character_octet_length: Maybe<Order_By>
   character_set_catalog: Maybe<Order_By>
@@ -2621,6 +2627,219 @@ export type Metadata_Computed_Field_Set_Input = {
   definition: Maybe<Scalars['jsonb']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "metadata.computed_property" */
+export type Metadata_Computed_Property = {
+  __typename?: 'metadata_computed_property'
+  /** An object relationship */
+  config: Maybe<Metadata_Property_Config>
+  name: Scalars['String']
+  /** tells whether the value can be null or not. If nullable, rxdb won't be able to sort it */
+  nullable: Scalars['Boolean']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
+  template: Maybe<Scalars['String']>
+  transformation: Maybe<Scalars['String']>
+  /** JSON schema type: string, number, array, object, boolean */
+  type: Maybe<Scalars['String']>
+}
+
+/** aggregated selection of "metadata.computed_property" */
+export type Metadata_Computed_Property_Aggregate = {
+  __typename?: 'metadata_computed_property_aggregate'
+  aggregate: Maybe<Metadata_Computed_Property_Aggregate_Fields>
+  nodes: Array<Metadata_Computed_Property>
+}
+
+/** aggregate fields of "metadata.computed_property" */
+export type Metadata_Computed_Property_Aggregate_Fields = {
+  __typename?: 'metadata_computed_property_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Metadata_Computed_Property_Max_Fields>
+  min: Maybe<Metadata_Computed_Property_Min_Fields>
+}
+
+/** aggregate fields of "metadata.computed_property" */
+export type Metadata_Computed_Property_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "metadata.computed_property" */
+export type Metadata_Computed_Property_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Metadata_Computed_Property_Max_Order_By>
+  min: Maybe<Metadata_Computed_Property_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "metadata.computed_property" */
+export type Metadata_Computed_Property_Arr_Rel_Insert_Input = {
+  data: Array<Metadata_Computed_Property_Insert_Input>
+  on_conflict: Maybe<Metadata_Computed_Property_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "metadata.computed_property". All fields are combined with a logical 'AND'. */
+export type Metadata_Computed_Property_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Metadata_Computed_Property_Bool_Exp>>>
+  _not: Maybe<Metadata_Computed_Property_Bool_Exp>
+  _or: Maybe<Array<Maybe<Metadata_Computed_Property_Bool_Exp>>>
+  config: Maybe<Metadata_Property_Config_Bool_Exp>
+  name: Maybe<String_Comparison_Exp>
+  nullable: Maybe<Boolean_Comparison_Exp>
+  table_name: Maybe<String_Comparison_Exp>
+  table_schema: Maybe<String_Comparison_Exp>
+  template: Maybe<String_Comparison_Exp>
+  transformation: Maybe<String_Comparison_Exp>
+  type: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "metadata.computed_property" */
+export enum Metadata_Computed_Property_Constraint {
+  /** unique or primary key constraint */
+  ComputedPropertyPkey = 'computed_property_pkey'
+}
+
+/** input type for inserting data into table "metadata.computed_property" */
+export type Metadata_Computed_Property_Insert_Input = {
+  config: Maybe<Metadata_Property_Config_Obj_Rel_Insert_Input>
+  name: Maybe<Scalars['String']>
+  nullable: Maybe<Scalars['Boolean']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  template: Maybe<Scalars['String']>
+  transformation: Maybe<Scalars['String']>
+  type: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Metadata_Computed_Property_Max_Fields = {
+  __typename?: 'metadata_computed_property_max_fields'
+  name: Maybe<Scalars['String']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  template: Maybe<Scalars['String']>
+  transformation: Maybe<Scalars['String']>
+  type: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "metadata.computed_property" */
+export type Metadata_Computed_Property_Max_Order_By = {
+  name: Maybe<Order_By>
+  table_name: Maybe<Order_By>
+  table_schema: Maybe<Order_By>
+  template: Maybe<Order_By>
+  transformation: Maybe<Order_By>
+  type: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Metadata_Computed_Property_Min_Fields = {
+  __typename?: 'metadata_computed_property_min_fields'
+  name: Maybe<Scalars['String']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  template: Maybe<Scalars['String']>
+  transformation: Maybe<Scalars['String']>
+  type: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "metadata.computed_property" */
+export type Metadata_Computed_Property_Min_Order_By = {
+  name: Maybe<Order_By>
+  table_name: Maybe<Order_By>
+  table_schema: Maybe<Order_By>
+  template: Maybe<Order_By>
+  transformation: Maybe<Order_By>
+  type: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "metadata.computed_property" */
+export type Metadata_Computed_Property_Mutation_Response = {
+  __typename?: 'metadata_computed_property_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Metadata_Computed_Property>
+}
+
+/** input type for inserting object relation for remote table "metadata.computed_property" */
+export type Metadata_Computed_Property_Obj_Rel_Insert_Input = {
+  data: Metadata_Computed_Property_Insert_Input
+  on_conflict: Maybe<Metadata_Computed_Property_On_Conflict>
+}
+
+/** on conflict condition type for table "metadata.computed_property" */
+export type Metadata_Computed_Property_On_Conflict = {
+  constraint: Metadata_Computed_Property_Constraint
+  update_columns: Array<Metadata_Computed_Property_Update_Column>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** ordering options when selecting data from "metadata.computed_property" */
+export type Metadata_Computed_Property_Order_By = {
+  config: Maybe<Metadata_Property_Config_Order_By>
+  name: Maybe<Order_By>
+  nullable: Maybe<Order_By>
+  table_name: Maybe<Order_By>
+  table_schema: Maybe<Order_By>
+  template: Maybe<Order_By>
+  transformation: Maybe<Order_By>
+  type: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "metadata.computed_property" */
+export type Metadata_Computed_Property_Pk_Columns_Input = {
+  name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
+}
+
+/** select columns of table "metadata.computed_property" */
+export enum Metadata_Computed_Property_Select_Column {
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nullable = 'nullable',
+  /** column name */
+  TableName = 'table_name',
+  /** column name */
+  TableSchema = 'table_schema',
+  /** column name */
+  Template = 'template',
+  /** column name */
+  Transformation = 'transformation',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "metadata.computed_property" */
+export type Metadata_Computed_Property_Set_Input = {
+  name: Maybe<Scalars['String']>
+  nullable: Maybe<Scalars['Boolean']>
+  table_name: Maybe<Scalars['String']>
+  table_schema: Maybe<Scalars['String']>
+  template: Maybe<Scalars['String']>
+  transformation: Maybe<Scalars['String']>
+  type: Maybe<Scalars['String']>
+}
+
+/** update columns of table "metadata.computed_property" */
+export enum Metadata_Computed_Property_Update_Column {
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nullable = 'nullable',
+  /** column name */
+  TableName = 'table_name',
+  /** column name */
+  TableSchema = 'table_schema',
+  /** column name */
+  Template = 'template',
+  /** column name */
+  Transformation = 'transformation',
+  /** column name */
+  Type = 'type'
 }
 
 /** columns and relationships of "metadata.custom_type" */
@@ -4877,6 +5096,10 @@ export type Metadata_Table = {
   computedFields: Array<Metadata_Computed_Field>
   /** An aggregated array relationship */
   computedFields_aggregate: Metadata_Computed_Field_Aggregate
+  /** An array relationship */
+  computedProperties: Array<Metadata_Computed_Property>
+  /** An aggregated array relationship */
+  computedProperties_aggregate: Metadata_Computed_Property_Aggregate
   /** An object relationship */
   config: Maybe<Metadata_Table_Config>
   configuration: Maybe<Scalars['jsonb']>
@@ -4898,6 +5121,10 @@ export type Metadata_Table = {
   primaryKeys: Array<Metadata_Primary_Key>
   /** An aggregated array relationship */
   primaryKeys_aggregate: Metadata_Primary_Key_Aggregate
+  /** An array relationship */
+  propertiesConfig: Array<Metadata_Property_Config>
+  /** An aggregated array relationship */
+  propertiesConfig_aggregate: Metadata_Property_Config_Aggregate
   /** An array relationship */
   refForeignKeys: Array<Metadata_Foreign_Key_Constraint>
   /** An aggregated array relationship */
@@ -5023,6 +5250,24 @@ export type Metadata_TableComputedFields_AggregateArgs = {
 }
 
 /** columns and relationships of "metadata.table" */
+export type Metadata_TableComputedPropertiesArgs = {
+  distinct_on: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Computed_Property_Order_By>>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableComputedProperties_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Computed_Property_Order_By>>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
 export type Metadata_TableConfigurationArgs = {
   path: Maybe<Scalars['String']>
 }
@@ -5079,6 +5324,24 @@ export type Metadata_TablePrimaryKeys_AggregateArgs = {
   offset: Maybe<Scalars['Int']>
   order_by: Maybe<Array<Metadata_Primary_Key_Order_By>>
   where: Maybe<Metadata_Primary_Key_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TablePropertiesConfigArgs = {
+  distinct_on: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Property_Config_Order_By>>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TablePropertiesConfig_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Property_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Property_Config_Order_By>>
+  where: Maybe<Metadata_Property_Config_Bool_Exp>
 }
 
 /** columns and relationships of "metadata.table" */
@@ -5180,6 +5443,7 @@ export type Metadata_Table_Bool_Exp = {
   checkContraints: Maybe<Metadata_Check_Constraint_Bool_Exp>
   columns: Maybe<Metadata_Column_Info_Bool_Exp>
   computedFields: Maybe<Metadata_Computed_Field_Bool_Exp>
+  computedProperties: Maybe<Metadata_Computed_Property_Bool_Exp>
   config: Maybe<Metadata_Table_Config_Bool_Exp>
   configuration: Maybe<Jsonb_Comparison_Exp>
   foreignKeys: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
@@ -5189,6 +5453,7 @@ export type Metadata_Table_Bool_Exp = {
   permissions: Maybe<Metadata_Permission_Agg_Bool_Exp>
   primaryKey: Maybe<Metadata_Primary_Key_Bool_Exp>
   primaryKeys: Maybe<Metadata_Primary_Key_Bool_Exp>
+  propertiesConfig: Maybe<Metadata_Property_Config_Bool_Exp>
   refForeignKeys: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
   relationships: Maybe<Metadata_Relationship_Bool_Exp>
   table_name: Maybe<Name_Comparison_Exp>
@@ -5591,10 +5856,12 @@ export enum Metadata_Table_Info_Select_Column {
 /** input type for inserting data into table "metadata.table" */
 export type Metadata_Table_Insert_Input = {
   computedFields: Maybe<Metadata_Computed_Field_Arr_Rel_Insert_Input>
+  computedProperties: Maybe<Metadata_Computed_Property_Arr_Rel_Insert_Input>
   config: Maybe<Metadata_Table_Config_Obj_Rel_Insert_Input>
   configuration: Maybe<Scalars['jsonb']>
   is_enum: Maybe<Scalars['Boolean']>
   is_system_defined: Maybe<Scalars['Boolean']>
+  propertiesConfig: Maybe<Metadata_Property_Config_Arr_Rel_Insert_Input>
   relationships: Maybe<Metadata_Relationship_Arr_Rel_Insert_Input>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
@@ -5616,26 +5883,42 @@ export type Metadata_Table_Obj_Rel_Insert_Input = {
 
 /** ordering options when selecting data from "metadata.table" */
 export type Metadata_Table_Order_By = {
-  canInsert_aggregate: Maybe<Metadata_Permission_Insert_Columns_Aggregate_Order_By>
-  canSelect_aggregate: Maybe<Metadata_Permission_Select_Columns_Aggregate_Order_By>
-  canUpdate_aggregate: Maybe<Metadata_Permission_Update_Columns_Aggregate_Order_By>
+  canInsert_aggregate: Maybe<
+    Metadata_Permission_Insert_Columns_Aggregate_Order_By
+  >
+  canSelect_aggregate: Maybe<
+    Metadata_Permission_Select_Columns_Aggregate_Order_By
+  >
+  canUpdate_aggregate: Maybe<
+    Metadata_Permission_Update_Columns_Aggregate_Order_By
+  >
   checkContraints_aggregate: Maybe<Metadata_Check_Constraint_Aggregate_Order_By>
   columns_aggregate: Maybe<Metadata_Column_Info_Aggregate_Order_By>
   computedFields_aggregate: Maybe<Metadata_Computed_Field_Aggregate_Order_By>
+  computedProperties_aggregate: Maybe<
+    Metadata_Computed_Property_Aggregate_Order_By
+  >
   config: Maybe<Metadata_Table_Config_Order_By>
   configuration: Maybe<Order_By>
-  foreignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
+  foreignKeys_aggregate: Maybe<
+    Metadata_Foreign_Key_Constraint_Aggregate_Order_By
+  >
   info: Maybe<Metadata_Table_Info_Order_By>
   is_enum: Maybe<Order_By>
   is_system_defined: Maybe<Order_By>
   permissions_aggregate: Maybe<Metadata_Permission_Agg_Aggregate_Order_By>
   primaryKey: Maybe<Metadata_Primary_Key_Order_By>
   primaryKeys_aggregate: Maybe<Metadata_Primary_Key_Aggregate_Order_By>
-  refForeignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
+  propertiesConfig_aggregate: Maybe<Metadata_Property_Config_Aggregate_Order_By>
+  refForeignKeys_aggregate: Maybe<
+    Metadata_Foreign_Key_Constraint_Aggregate_Order_By
+  >
   relationships_aggregate: Maybe<Metadata_Relationship_Aggregate_Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
-  uniqueConstraints_aggregate: Maybe<Metadata_Unique_Constraint_Aggregate_Order_By>
+  uniqueConstraints_aggregate: Maybe<
+    Metadata_Unique_Constraint_Aggregate_Order_By
+  >
 }
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
@@ -5915,13 +6198,23 @@ export type Mutation_Root = {
   /** delete single row from the table: "drug" */
   delete_drug_by_pk: Maybe<Drug>
   /** delete data from the table: "metadata.computed_field" */
-  delete_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
+  delete_metadata_computed_field: Maybe<
+    Metadata_Computed_Field_Mutation_Response
+  >
+  /** delete data from the table: "metadata.computed_property" */
+  delete_metadata_computed_property: Maybe<
+    Metadata_Computed_Property_Mutation_Response
+  >
+  /** delete single row from the table: "metadata.computed_property" */
+  delete_metadata_computed_property_by_pk: Maybe<Metadata_Computed_Property>
   /** delete data from the table: "metadata.custom_type" */
   delete_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** delete data from the table: "metadata.function" */
   delete_metadata_function: Maybe<Metadata_Function_Mutation_Response>
   /** delete data from the table: "metadata.property_config" */
-  delete_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
+  delete_metadata_property_config: Maybe<
+    Metadata_Property_Config_Mutation_Response
+  >
   /** delete single row from the table: "metadata.property_config" */
   delete_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** delete data from the table: "metadata.relationship" */
@@ -5973,9 +6266,17 @@ export type Mutation_Root = {
   /** insert a single row into the table: "drug" */
   insert_drug_one: Maybe<Drug>
   /** insert data into the table: "metadata.computed_field" */
-  insert_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
+  insert_metadata_computed_field: Maybe<
+    Metadata_Computed_Field_Mutation_Response
+  >
   /** insert a single row into the table: "metadata.computed_field" */
   insert_metadata_computed_field_one: Maybe<Metadata_Computed_Field>
+  /** insert data into the table: "metadata.computed_property" */
+  insert_metadata_computed_property: Maybe<
+    Metadata_Computed_Property_Mutation_Response
+  >
+  /** insert a single row into the table: "metadata.computed_property" */
+  insert_metadata_computed_property_one: Maybe<Metadata_Computed_Property>
   /** insert data into the table: "metadata.custom_type" */
   insert_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** insert a single row into the table: "metadata.custom_type" */
@@ -5985,7 +6286,9 @@ export type Mutation_Root = {
   /** insert a single row into the table: "metadata.function" */
   insert_metadata_function_one: Maybe<Metadata_Function>
   /** insert data into the table: "metadata.property_config" */
-  insert_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
+  insert_metadata_property_config: Maybe<
+    Metadata_Property_Config_Mutation_Response
+  >
   /** insert a single row into the table: "metadata.property_config" */
   insert_metadata_property_config_one: Maybe<Metadata_Property_Config>
   /** insert data into the table: "metadata.relationship" */
@@ -6041,13 +6344,23 @@ export type Mutation_Root = {
   /** update single row of the table: "drug" */
   update_drug_by_pk: Maybe<Drug>
   /** update data of the table: "metadata.computed_field" */
-  update_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
+  update_metadata_computed_field: Maybe<
+    Metadata_Computed_Field_Mutation_Response
+  >
+  /** update data of the table: "metadata.computed_property" */
+  update_metadata_computed_property: Maybe<
+    Metadata_Computed_Property_Mutation_Response
+  >
+  /** update single row of the table: "metadata.computed_property" */
+  update_metadata_computed_property_by_pk: Maybe<Metadata_Computed_Property>
   /** update data of the table: "metadata.custom_type" */
   update_metadata_custom_type: Maybe<Metadata_Custom_Type_Mutation_Response>
   /** update data of the table: "metadata.function" */
   update_metadata_function: Maybe<Metadata_Function_Mutation_Response>
   /** update data of the table: "metadata.property_config" */
-  update_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
+  update_metadata_property_config: Maybe<
+    Metadata_Property_Config_Mutation_Response
+  >
   /** update single row of the table: "metadata.property_config" */
   update_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** update data of the table: "metadata.relationship" */
@@ -6145,6 +6458,18 @@ export type Mutation_RootDelete_Drug_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Metadata_Computed_FieldArgs = {
   where: Metadata_Computed_Field_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_Computed_PropertyArgs = {
+  where: Metadata_Computed_Property_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_Computed_Property_By_PkArgs = {
+  name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
 }
 
 /** mutation root */
@@ -6312,6 +6637,18 @@ export type Mutation_RootInsert_Metadata_Computed_FieldArgs = {
 /** mutation root */
 export type Mutation_RootInsert_Metadata_Computed_Field_OneArgs = {
   object: Metadata_Computed_Field_Insert_Input
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_Computed_PropertyArgs = {
+  objects: Array<Metadata_Computed_Property_Insert_Input>
+  on_conflict: Maybe<Metadata_Computed_Property_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_Computed_Property_OneArgs = {
+  object: Metadata_Computed_Property_Insert_Input
+  on_conflict: Maybe<Metadata_Computed_Property_On_Conflict>
 }
 
 /** mutation root */
@@ -6520,6 +6857,18 @@ export type Mutation_RootUpdate_Metadata_Computed_FieldArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootUpdate_Metadata_Computed_PropertyArgs = {
+  _set: Maybe<Metadata_Computed_Property_Set_Input>
+  where: Metadata_Computed_Property_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_Computed_Property_By_PkArgs = {
+  _set: Maybe<Metadata_Computed_Property_Set_Input>
+  pk_columns: Metadata_Computed_Property_Pk_Columns_Input
+}
+
+/** mutation root */
 export type Mutation_RootUpdate_Metadata_Custom_TypeArgs = {
   _append: Maybe<Metadata_Custom_Type_Append_Input>
   _delete_at_path: Maybe<Metadata_Custom_Type_Delete_At_Path_Input>
@@ -6689,6 +7038,7 @@ export type Patient = {
   a_real: Maybe<Scalars['Float']>
   an_integer: Maybe<Scalars['Int']>
   an_uuid: Maybe<Scalars['uuid']>
+  deleted: Scalars['Boolean']
   id: Scalars['uuid']
   name: Scalars['String']
   updated_at: Scalars['timestamptz']
@@ -6807,6 +7157,7 @@ export type Patient_Bool_Exp = {
   a_real: Maybe<Float_Comparison_Exp>
   an_integer: Maybe<Int_Comparison_Exp>
   an_uuid: Maybe<Uuid_Comparison_Exp>
+  deleted: Maybe<Boolean_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   name: Maybe<String_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
@@ -6853,6 +7204,7 @@ export type Patient_Insert_Input = {
   a_real: Maybe<Scalars['Float']>
   an_integer: Maybe<Scalars['Int']>
   an_uuid: Maybe<Scalars['uuid']>
+  deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
   name: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -6950,6 +7302,7 @@ export type Patient_Order_By = {
   a_real: Maybe<Order_By>
   an_integer: Maybe<Order_By>
   an_uuid: Maybe<Order_By>
+  deleted: Maybe<Order_By>
   id: Maybe<Order_By>
   name: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -6987,6 +7340,8 @@ export enum Patient_Select_Column {
   /** column name */
   AnUuid = 'an_uuid',
   /** column name */
+  Deleted = 'deleted',
+  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
@@ -7005,6 +7360,7 @@ export type Patient_Set_Input = {
   a_real: Maybe<Scalars['Float']>
   an_integer: Maybe<Scalars['Int']>
   an_uuid: Maybe<Scalars['uuid']>
+  deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
   name: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -7098,6 +7454,8 @@ export enum Patient_Update_Column {
   AnInteger = 'an_integer',
   /** column name */
   AnUuid = 'an_uuid',
+  /** column name */
+  Deleted = 'deleted',
   /** column name */
   Id = 'id',
   /** column name */
@@ -7214,6 +7572,12 @@ export type Query_Root = {
   metadata_computed_field: Array<Metadata_Computed_Field>
   /** fetch aggregated fields from the table: "metadata.computed_field" */
   metadata_computed_field_aggregate: Metadata_Computed_Field_Aggregate
+  /** fetch data from the table: "metadata.computed_property" */
+  metadata_computed_property: Array<Metadata_Computed_Property>
+  /** fetch aggregated fields from the table: "metadata.computed_property" */
+  metadata_computed_property_aggregate: Metadata_Computed_Property_Aggregate
+  /** fetch data from the table: "metadata.computed_property" using primary key columns */
+  metadata_computed_property_by_pk: Maybe<Metadata_Computed_Property>
   /** fetch data from the table: "metadata.custom_type" */
   metadata_custom_type: Array<Metadata_Custom_Type>
   /** fetch aggregated fields from the table: "metadata.custom_type" */
@@ -7531,6 +7895,31 @@ export type Query_RootMetadata_Computed_Field_AggregateArgs = {
   offset: Maybe<Scalars['Int']>
   order_by: Maybe<Array<Metadata_Computed_Field_Order_By>>
   where: Maybe<Metadata_Computed_Field_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_Computed_PropertyArgs = {
+  distinct_on: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Computed_Property_Order_By>>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_Computed_Property_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Computed_Property_Order_By>>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_Computed_Property_By_PkArgs = {
+  name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
 }
 
 /** query root */
@@ -8045,6 +8434,12 @@ export type Subscription_Root = {
   metadata_computed_field: Array<Metadata_Computed_Field>
   /** fetch aggregated fields from the table: "metadata.computed_field" */
   metadata_computed_field_aggregate: Metadata_Computed_Field_Aggregate
+  /** fetch data from the table: "metadata.computed_property" */
+  metadata_computed_property: Array<Metadata_Computed_Property>
+  /** fetch aggregated fields from the table: "metadata.computed_property" */
+  metadata_computed_property_aggregate: Metadata_Computed_Property_Aggregate
+  /** fetch data from the table: "metadata.computed_property" using primary key columns */
+  metadata_computed_property_by_pk: Maybe<Metadata_Computed_Property>
   /** fetch data from the table: "metadata.custom_type" */
   metadata_custom_type: Array<Metadata_Custom_Type>
   /** fetch aggregated fields from the table: "metadata.custom_type" */
@@ -8362,6 +8757,31 @@ export type Subscription_RootMetadata_Computed_Field_AggregateArgs = {
   offset: Maybe<Scalars['Int']>
   order_by: Maybe<Array<Metadata_Computed_Field_Order_By>>
   where: Maybe<Metadata_Computed_Field_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_Computed_PropertyArgs = {
+  distinct_on: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Computed_Property_Order_By>>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_Computed_Property_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Computed_Property_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Computed_Property_Order_By>>
+  where: Maybe<Metadata_Computed_Property_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_Computed_Property_By_PkArgs = {
+  name: Scalars['String']
+  table_name: Scalars['String']
+  table_schema: Scalars['String']
 }
 
 /** subscription root */
@@ -9027,6 +9447,7 @@ export type Uuid_Comparison_Exp = {
  */
 export type Visite = {
   __typename?: 'visite'
+  deleted: Scalars['Boolean']
   id: Scalars['uuid']
   /** An object relationship */
   patient: Maybe<Patient>
@@ -9074,6 +9495,7 @@ export type Visite_Bool_Exp = {
   _and: Maybe<Array<Maybe<Visite_Bool_Exp>>>
   _not: Maybe<Visite_Bool_Exp>
   _or: Maybe<Array<Maybe<Visite_Bool_Exp>>>
+  deleted: Maybe<Boolean_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   patient: Maybe<Patient_Bool_Exp>
   patient_id: Maybe<Uuid_Comparison_Exp>
@@ -9089,6 +9511,7 @@ export enum Visite_Constraint {
 
 /** input type for inserting data into table "visite" */
 export type Visite_Insert_Input = {
+  deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
   patient: Maybe<Patient_Obj_Rel_Insert_Input>
   patient_id: Maybe<Scalars['uuid']>
@@ -9154,6 +9577,7 @@ export type Visite_On_Conflict = {
 
 /** ordering options when selecting data from "visite" */
 export type Visite_Order_By = {
+  deleted: Maybe<Order_By>
   id: Maybe<Order_By>
   patient: Maybe<Patient_Order_By>
   patient_id: Maybe<Order_By>
@@ -9169,6 +9593,8 @@ export type Visite_Pk_Columns_Input = {
 /** select columns of table "visite" */
 export enum Visite_Select_Column {
   /** column name */
+  Deleted = 'deleted',
+  /** column name */
   Id = 'id',
   /** column name */
   PatientId = 'patient_id',
@@ -9180,6 +9606,7 @@ export enum Visite_Select_Column {
 
 /** input type for updating data in table "visite" */
 export type Visite_Set_Input = {
+  deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
@@ -9188,6 +9615,8 @@ export type Visite_Set_Input = {
 
 /** update columns of table "visite" */
 export enum Visite_Update_Column {
+  /** column name */
+  Deleted = 'deleted',
   /** column name */
   Id = 'id',
   /** column name */
@@ -9224,6 +9653,18 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       | 'document_title'
       | 'document_label'
       | 'default_view'
+    >
+  >
+  propertiesConfig: Array<
+    { __typename?: 'metadata_property_config' } & Pick<
+      Metadata_Property_Config,
+      'property_name' | 'title' | 'description' | 'icon'
+    >
+  >
+  computedProperties: Array<
+    { __typename?: 'metadata_computed_property' } & Pick<
+      Metadata_Computed_Property,
+      'name' | 'type' | 'nullable' | 'transformation' | 'template'
     >
   >
   canSelect_aggregate: {
@@ -9271,12 +9712,6 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
               >
             }
         >
-        config: Maybe<
-          { __typename?: 'metadata_property_config' } & Pick<
-            Metadata_Property_Config,
-            'title' | 'description' | 'icon'
-          >
-        >
       }
   >
   columns: Array<
@@ -9303,12 +9738,6 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
         { __typename?: 'metadata_permission_update_columns' } & Pick<
           Metadata_Permission_Update_Columns,
           'role_name'
-        >
-      >
-      config: Maybe<
-        { __typename?: 'metadata_property_config' } & Pick<
-          Metadata_Property_Config,
-          'title' | 'description' | 'icon'
         >
       >
     } & ColumnFragment
@@ -9348,6 +9777,19 @@ export const TableFragmentDoc = gql`
       document_label
       default_view
     }
+    propertiesConfig {
+      property_name
+      title
+      description
+      icon
+    }
+    computedProperties {
+      name
+      type
+      nullable
+      transformation
+      template
+    }
     canSelect_aggregate {
       aggregate {
         count
@@ -9375,11 +9817,6 @@ export const TableFragmentDoc = gql`
         }
         remote_column_name
       }
-      config {
-        title
-        description
-        icon
-      }
     }
     columns {
       ...column
@@ -9395,11 +9832,6 @@ export const TableFragmentDoc = gql`
       canUpdate {
         role_name
       }
-      config {
-        title
-        description
-        icon
-      }
     }
   }
   ${CoreTableFragmentDoc}
@@ -9413,6 +9845,7 @@ export const MetadataDocument = gql`
           { table_schema: { _eq: "public" } }
           { columns: { column_name: { _eq: "updated_at" } } }
           { columns: { column_name: { _eq: "id" } } }
+          { columns: { column_name: { _eq: "deleted" } } }
         ]
       }
     ) {

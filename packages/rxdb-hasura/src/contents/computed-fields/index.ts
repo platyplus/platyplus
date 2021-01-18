@@ -1,4 +1,4 @@
-export { computedFieldsProperties, computedFields } from './schema'
+export { createComputedFieldsProperties, computedFields } from './schema'
 export { createComputedFieldsHooks } from './hooks'
 export {
   addComputedFieldsFromCollection,

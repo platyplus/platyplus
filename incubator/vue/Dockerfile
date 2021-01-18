@@ -15,6 +15,7 @@ COPY --chown=node:node packages/vue-hasura-backend-plus/package.json packages/vu
 COPY --chown=node:node packages/humanitarian-icons/package.json packages/humanitarian-icons/yarn.* /home/node/app/packages/humanitarian-icons/
 COPY --chown=node:node packages/rxdb-hasura/package.json packages/rxdb-hasura/yarn.* /home/node/app/packages/rxdb-hasura/
 COPY --chown=node:node packages/vue-rxdb-hasura/package.json packages/vue-rxdb-hasura/yarn.* /home/node/app/packages/vue-rxdb-hasura/
+COPY --chown=node:node packages/jsonata-schema/package.json packages/jsonata-schema/yarn.* /home/node/app/packages/jsonata-schema/
 
 RUN yarn
 #
@@ -23,6 +24,7 @@ COPY --chown=node:node packages/vue-hasura-backend-plus /home/node/app/packages/
 COPY --chown=node:node packages/humanitarian-icons /home/node/app/packages/humanitarian-icons
 COPY --chown=node:node packages/rxdb-hasura /home/node/app/packages/rxdb-hasura
 COPY --chown=node:node packages/vue-rxdb-hasura /home/node/app/packages/vue-rxdb-hasura
+COPY --chown=node:node packages/jsonata-schema /home/node/app/packages/jsonata-schema
 
 # RUN yarn workspace @platyplus/incubator-vue add typescript@'<4.1' && yarn build
 RUN yarn build

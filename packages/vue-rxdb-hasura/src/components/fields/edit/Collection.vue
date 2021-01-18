@@ -39,15 +39,15 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<string[]>(document, name)
+    const { model } = useFormProperty<string[] | undefined>(document, name)
     const db = useDB()
     const property = useProperty(document, name)
     // * filter out removed references
     const filteredModel = computed<string[]>({
       get: () =>
-        model.value.filter(id =>
+        model.value?.filter(id =>
           options.value.find(option => option.id === id)
-        ),
+        ) || [],
       set: (val: string[]) => {
         model.value = val
       }
@@ -58,13 +58,16 @@ export default defineComponent({
       options.value.find(option => option.id === id)
 
     const remove = (id: string) =>
-      (model.value = model.value.filter(curs => curs !== id))
+      (model.value = model.value?.filter(curs => curs !== id))
     // ? Really necessary to pass through 'onMounted'?
     onMounted(() => {
       const refCollection = db.value?.[property.value.ref as string]
       refCollection &&
         useSubscription(
-          refCollection.find().sort('label').$.subscribe(toObserver(options))
+          refCollection
+            .find()
+            .sort('label')
+            .$.subscribe(toObserver(options))
         )
     })
     return { filteredModel, options, optionDocument, remove }

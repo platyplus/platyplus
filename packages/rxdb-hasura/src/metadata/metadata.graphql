@@ -22,6 +22,19 @@ fragment table on metadata_table {
     document_label
     default_view
   }
+  propertiesConfig {
+    property_name
+    title
+    description
+    icon
+  }
+  computedProperties {
+    name
+    type
+    nullable
+    transformation
+    template
+  }
   canSelect_aggregate {
     aggregate {
       count
@@ -49,11 +62,6 @@ fragment table on metadata_table {
       }
       remote_column_name
     }
-    config {
-      title
-      description
-      icon
-    }
   }
   columns {
     ...column
@@ -68,11 +76,6 @@ fragment table on metadata_table {
     }
     canUpdate {
       role_name
-    }
-    config {
-      title
-      description
-      icon
     }
   }
 }

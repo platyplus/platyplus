@@ -1,8 +1,16 @@
+import deepmerge from 'deepmerge'
+import jsonata from 'jsonata'
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
 import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { addComputedFieldsFromCollection } from '../computed-fields'
+import {
+  FieldMap,
+  objectSchemaToGraphqlFields,
+  rxdbJsonataPaths
+} from '../../utils'
+import { label } from '../computed-fields/label'
+import { addComputedFieldsFromLoadedData } from '../computed-fields/utils'
 import { metadataName } from '../schema'
 
 export const pullQueryBuilder = (
@@ -10,24 +18,46 @@ export const pullQueryBuilder = (
   batchSize: number
 ): RxGraphQLReplicationQueryBuilder => {
   const table = collection.metadata
-  const fields = table.columns
-    .filter(column => column.canSelect.length)
-    .map(col => col.column_name)
   const title = metadataName(table)
 
-  // * Add array relationships and their aggregates to the list of query fiels
+  // * Get the list of array relationship names
   const arrayRelationships = table.relationships
     .filter(rel => rel.rel_type === 'array')
-    .map(relationship => {
-      const remoteColumns = relationship.mapping.map(
-        item => item.column?.column_name
-      )
-      fields.push(`${relationship.rel_name} { ${remoteColumns.join(' ')} }`)
-      fields.push(
-        `${relationship.rel_name}_aggregate { aggregate { max { updated_at } } }`
-      )
-      return relationship.rel_name
-    })
+    .map(relationship => relationship.rel_name as string)
+
+  const fieldsObject = deepmerge.all<FieldMap>([
+    // * Column fields
+    table.columns
+      .filter(column => column.canSelect.length)
+      .reduce<FieldMap>(
+        (aggr, curr) => ((aggr[curr.column_name as string] = true), aggr),
+
+        {}
+      ),
+    // * Add fields required for array relationships
+    // * - keys as per defined in the relationship mapping
+    // * - aggregate (last updated_at) so when it changes it will trigger a new pull
+    ...table.relationships
+      .filter(rel => rel.rel_type === 'array')
+      .map(
+        relationship =>
+          ({
+            [relationship.rel_name as string]: relationship.mapping
+              .map(item => item.column?.column_name)
+              .reduce<FieldMap>(
+                (aggr, curr) => ((aggr[curr as string] = true), aggr),
+                {}
+              ),
+            [`${relationship.rel_name}_aggregate`]: {
+              aggregate: { max: { updated_at: true } }
+            }
+          } as FieldMap)
+      ),
+    // * Add fields required for computed properties
+    ...table.computedProperties
+      .filter(prop => prop.transformation)
+      .map(prop => rxdbJsonataPaths(prop.transformation as string, collection))
+  ])
 
   // * Include the latest documents
   const commonOrConditions = ['{ updated_at: { _gt: $updatedAt } }']
@@ -79,9 +109,8 @@ export const pullQueryBuilder = (
               },
             limit: ${batchSize},
             order_by: [ {updated_at: asc} ]
-      ){ ${fields.join(' ')} }
+      )${objectSchemaToGraphqlFields(fieldsObject)}
   }`
-
   // * Query definition when the replicator sent a document
   const updateQuery = `query query${title} (${updateVariableDeclarations}){
     ${title} (
@@ -90,8 +119,9 @@ export const pullQueryBuilder = (
             },
           limit: ${batchSize},
           order_by: [ {updated_at: asc} ]
-    ){ ${fields.join(' ')} }
+    )${objectSchemaToGraphqlFields(fieldsObject)}
 }`
+
   return doc => ({
     query: doc ? updateQuery : initialQuery,
 
@@ -126,6 +156,8 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
 
   return async data => {
     debug('pullModifier: in', { ...data })
+    data.label = label(data, collection) || ''
+    data = addComputedFieldsFromLoadedData(data, collection)
     // * Flatten relationship data so it fits in the `population` system
     for (const { name, column, multiple } of cleansedRelationships) {
       if (multiple) {
@@ -137,7 +169,6 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         delete data[column]
       }
     }
-    addComputedFieldsFromCollection(data, collection)
     debug('pullModifier: out', { ...data })
     return data
   }

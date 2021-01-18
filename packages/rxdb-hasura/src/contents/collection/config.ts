@@ -1,12 +1,11 @@
 import { ContentsCollection, ContentsCollectionMethods } from '../../types'
 const config = (collection: ContentsCollection, property?: string) =>
   property
-    ? collection.metadata.columns.find(
-        ({ column_name }) => column_name === property
-      )?.config ||
-      collection.metadata.relationships.find(rel => rel.rel_name === property)
-        ?.config
+    ? collection.metadata.propertiesConfig.find(
+        ({ property_name }) => property_name === property
+      )
     : collection.metadata.config
+
 export const collectionConfigMethods: Pick<
   ContentsCollectionMethods,
   'title' | 'documentTitle' | 'description' | 'icon' | 'defaultView'

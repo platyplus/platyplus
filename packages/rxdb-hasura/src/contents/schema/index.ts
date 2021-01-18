@@ -1,7 +1,7 @@
 import { RxJsonSchema } from 'rxdb'
 
 import { CoreTableFragment, Metadata } from '../../types'
-import { computedFieldsProperties } from '../computed-fields'
+import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from './columns'
 import { indexes } from './indexes'
 import { createRelationshipProperties } from './relationships'
@@ -19,7 +19,11 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
     title: table.config?.title || metadataName(table),
     description: '', // TODO table comment not in metadata yet
     version: 0,
-    properties: {},
+    properties: {
+      ...createColumnProperties(table),
+      ...createRelationshipProperties(table),
+      ...createComputedFieldsProperties(table)
+    },
     required: requiredProperties(table),
     indexes: indexes(table)
   }
@@ -36,14 +40,5 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
   // TODO relationships
   // ? additionalProperties: true
 
-  const columnProperties = createColumnProperties(table)
-  const relationshipProperties = createRelationshipProperties(table)
-
-  result.properties = {
-    ...columnProperties,
-    ...relationshipProperties,
-    ...result.properties,
-    ...computedFieldsProperties(table)
-  }
   return result
 }

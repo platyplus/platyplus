@@ -237,6 +237,32 @@
           table_name: table_name
 - table:
     schema: metadata
+    name: computed_property
+  object_relationships:
+  - name: config
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: property_config
+        column_mapping:
+          name: property_name
+          table_schema: table_schema
+          table_name: table_name
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - name
+      - transformation
+      - template
+      - type
+      - nullable
+      filter: {}
+- table:
+    schema: metadata
     name: custom_type
 - table:
     schema: metadata
@@ -747,6 +773,15 @@
         column_mapping:
           table_schema: table_schema
           table_name: table_name
+  - name: computedProperties
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: computed_property
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
   - name: foreignKeys
     using:
       manual_configuration:
@@ -771,6 +806,15 @@
         remote_table:
           schema: metadata
           name: primary_key
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: propertiesConfig
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: property_config
         column_mapping:
           table_schema: table_schema
           table_name: table_name
