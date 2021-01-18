@@ -4318,6 +4318,7 @@ export type Metadata_Property_Config = {
   __typename?: 'metadata_property_config'
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
+  order: Scalars['Int']
   property_name: Scalars['String']
   table_name: Scalars['String']
   table_schema: Scalars['String']
@@ -4334,9 +4335,17 @@ export type Metadata_Property_Config_Aggregate = {
 /** aggregate fields of "metadata.property_config" */
 export type Metadata_Property_Config_Aggregate_Fields = {
   __typename?: 'metadata_property_config_aggregate_fields'
+  avg: Maybe<Metadata_Property_Config_Avg_Fields>
   count: Maybe<Scalars['Int']>
   max: Maybe<Metadata_Property_Config_Max_Fields>
   min: Maybe<Metadata_Property_Config_Min_Fields>
+  stddev: Maybe<Metadata_Property_Config_Stddev_Fields>
+  stddev_pop: Maybe<Metadata_Property_Config_Stddev_Pop_Fields>
+  stddev_samp: Maybe<Metadata_Property_Config_Stddev_Samp_Fields>
+  sum: Maybe<Metadata_Property_Config_Sum_Fields>
+  var_pop: Maybe<Metadata_Property_Config_Var_Pop_Fields>
+  var_samp: Maybe<Metadata_Property_Config_Var_Samp_Fields>
+  variance: Maybe<Metadata_Property_Config_Variance_Fields>
 }
 
 /** aggregate fields of "metadata.property_config" */
@@ -4347,15 +4356,34 @@ export type Metadata_Property_Config_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "metadata.property_config" */
 export type Metadata_Property_Config_Aggregate_Order_By = {
+  avg: Maybe<Metadata_Property_Config_Avg_Order_By>
   count: Maybe<Order_By>
   max: Maybe<Metadata_Property_Config_Max_Order_By>
   min: Maybe<Metadata_Property_Config_Min_Order_By>
+  stddev: Maybe<Metadata_Property_Config_Stddev_Order_By>
+  stddev_pop: Maybe<Metadata_Property_Config_Stddev_Pop_Order_By>
+  stddev_samp: Maybe<Metadata_Property_Config_Stddev_Samp_Order_By>
+  sum: Maybe<Metadata_Property_Config_Sum_Order_By>
+  var_pop: Maybe<Metadata_Property_Config_Var_Pop_Order_By>
+  var_samp: Maybe<Metadata_Property_Config_Var_Samp_Order_By>
+  variance: Maybe<Metadata_Property_Config_Variance_Order_By>
 }
 
 /** input type for inserting array relation for remote table "metadata.property_config" */
 export type Metadata_Property_Config_Arr_Rel_Insert_Input = {
   data: Array<Metadata_Property_Config_Insert_Input>
   on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
+}
+
+/** aggregate avg on columns */
+export type Metadata_Property_Config_Avg_Fields = {
+  __typename?: 'metadata_property_config_avg_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by avg() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Avg_Order_By = {
+  order: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "metadata.property_config". All fields are combined with a logical 'AND'. */
@@ -4365,6 +4393,7 @@ export type Metadata_Property_Config_Bool_Exp = {
   _or: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
   description: Maybe<String_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
+  order: Maybe<Int_Comparison_Exp>
   property_name: Maybe<String_Comparison_Exp>
   table_name: Maybe<String_Comparison_Exp>
   table_schema: Maybe<String_Comparison_Exp>
@@ -4377,10 +4406,16 @@ export enum Metadata_Property_Config_Constraint {
   PropertyConfigPkey = 'property_config_pkey'
 }
 
+/** input type for incrementing integer column in table "metadata.property_config" */
+export type Metadata_Property_Config_Inc_Input = {
+  order: Maybe<Scalars['Int']>
+}
+
 /** input type for inserting data into table "metadata.property_config" */
 export type Metadata_Property_Config_Insert_Input = {
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
+  order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
@@ -4392,6 +4427,7 @@ export type Metadata_Property_Config_Max_Fields = {
   __typename?: 'metadata_property_config_max_fields'
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
+  order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
@@ -4402,6 +4438,7 @@ export type Metadata_Property_Config_Max_Fields = {
 export type Metadata_Property_Config_Max_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
+  order: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
@@ -4413,6 +4450,7 @@ export type Metadata_Property_Config_Min_Fields = {
   __typename?: 'metadata_property_config_min_fields'
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
+  order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
@@ -4423,6 +4461,7 @@ export type Metadata_Property_Config_Min_Fields = {
 export type Metadata_Property_Config_Min_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
+  order: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
@@ -4455,6 +4494,7 @@ export type Metadata_Property_Config_On_Conflict = {
 export type Metadata_Property_Config_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
+  order: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
@@ -4475,6 +4515,8 @@ export enum Metadata_Property_Config_Select_Column {
   /** column name */
   Icon = 'icon',
   /** column name */
+  Order = 'order',
+  /** column name */
   PropertyName = 'property_name',
   /** column name */
   TableName = 'table_name',
@@ -4488,10 +4530,55 @@ export enum Metadata_Property_Config_Select_Column {
 export type Metadata_Property_Config_Set_Input = {
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
+  order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
+}
+
+/** aggregate stddev on columns */
+export type Metadata_Property_Config_Stddev_Fields = {
+  __typename?: 'metadata_property_config_stddev_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by stddev() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Stddev_Order_By = {
+  order: Maybe<Order_By>
+}
+
+/** aggregate stddev_pop on columns */
+export type Metadata_Property_Config_Stddev_Pop_Fields = {
+  __typename?: 'metadata_property_config_stddev_pop_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_pop() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Stddev_Pop_Order_By = {
+  order: Maybe<Order_By>
+}
+
+/** aggregate stddev_samp on columns */
+export type Metadata_Property_Config_Stddev_Samp_Fields = {
+  __typename?: 'metadata_property_config_stddev_samp_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_samp() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Stddev_Samp_Order_By = {
+  order: Maybe<Order_By>
+}
+
+/** aggregate sum on columns */
+export type Metadata_Property_Config_Sum_Fields = {
+  __typename?: 'metadata_property_config_sum_fields'
+  order: Maybe<Scalars['Int']>
+}
+
+/** order by sum() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Sum_Order_By = {
+  order: Maybe<Order_By>
 }
 
 /** update columns of table "metadata.property_config" */
@@ -4501,6 +4588,8 @@ export enum Metadata_Property_Config_Update_Column {
   /** column name */
   Icon = 'icon',
   /** column name */
+  Order = 'order',
+  /** column name */
   PropertyName = 'property_name',
   /** column name */
   TableName = 'table_name',
@@ -4508,6 +4597,39 @@ export enum Metadata_Property_Config_Update_Column {
   TableSchema = 'table_schema',
   /** column name */
   Title = 'title'
+}
+
+/** aggregate var_pop on columns */
+export type Metadata_Property_Config_Var_Pop_Fields = {
+  __typename?: 'metadata_property_config_var_pop_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by var_pop() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Var_Pop_Order_By = {
+  order: Maybe<Order_By>
+}
+
+/** aggregate var_samp on columns */
+export type Metadata_Property_Config_Var_Samp_Fields = {
+  __typename?: 'metadata_property_config_var_samp_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by var_samp() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Var_Samp_Order_By = {
+  order: Maybe<Order_By>
+}
+
+/** aggregate variance on columns */
+export type Metadata_Property_Config_Variance_Fields = {
+  __typename?: 'metadata_property_config_variance_fields'
+  order: Maybe<Scalars['Float']>
+}
+
+/** order by variance() on columns of table "metadata.property_config" */
+export type Metadata_Property_Config_Variance_Order_By = {
+  order: Maybe<Order_By>
 }
 
 /** columns and relationships of "metadata.relationship" */
@@ -6892,12 +7014,14 @@ export type Mutation_RootUpdate_Metadata_FunctionArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Metadata_Property_ConfigArgs = {
+  _inc: Maybe<Metadata_Property_Config_Inc_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   where: Metadata_Property_Config_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootUpdate_Metadata_Property_Config_By_PkArgs = {
+  _inc: Maybe<Metadata_Property_Config_Inc_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   pk_columns: Metadata_Property_Config_Pk_Columns_Input
 }
@@ -9658,7 +9782,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   propertiesConfig: Array<
     { __typename?: 'metadata_property_config' } & Pick<
       Metadata_Property_Config,
-      'property_name' | 'title' | 'description' | 'icon'
+      'order' | 'property_name' | 'title' | 'description' | 'icon'
     >
   >
   computedProperties: Array<
@@ -9777,7 +9901,8 @@ export const TableFragmentDoc = gql`
       document_label
       default_view
     }
-    propertiesConfig {
+    propertiesConfig(order_by: { order: asc }) {
+      order
       property_name
       title
       description

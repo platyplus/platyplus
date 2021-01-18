@@ -22,7 +22,8 @@ fragment table on metadata_table {
     document_label
     default_view
   }
-  propertiesConfig {
+  propertiesConfig(order_by: { order: asc }) {
+    order
     property_name
     title
     description

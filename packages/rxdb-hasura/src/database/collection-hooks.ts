@@ -6,6 +6,10 @@ import { ContentsCollection } from '../types'
 import { hasuraCollections } from './helpers'
 import { hasura } from './observables'
 
+const compare = (a: number | undefined, b: number | undefined) => {
+  return a || b ? (!a ? 1 : !b ? -1 : a - b) : 0
+}
+
 const collectionProperties = (
   collection: ContentsCollection
 ): Map<string, TopLevelProperty | PrimaryProperty> => {
@@ -24,11 +28,19 @@ const collectionProperties = (
     ...schema.finalFields.map(field => field)
   ]
 
+  // * Return the collection properties, ordered from the propertiesConfig 'order' fields
+  // ? somehow already ordered in the graphql query
+  const configuredProperties = collection.metadata.propertiesConfig.reduce<
+    Record<string, number>
+  >((aggr, config) => ((aggr[config.property_name] = config.order), aggr), {})
   return new Map(
     Object.entries(schema.jsonSchema.properties)
       .filter(([name]) => !excludedProperties.includes(name))
-      // TODO sort
-      .sort()
+      .sort(
+        ([keyA], [keyB]) =>
+          compare(configuredProperties[keyA], configuredProperties[keyB]) ||
+          keyA.localeCompare(keyB)
+      )
   )
 }
 

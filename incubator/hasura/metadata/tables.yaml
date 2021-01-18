@@ -551,13 +551,15 @@
   - role: user
     permission:
       columns:
-      - table_schema
-      - table_name
-      - property_name
-      - title
       - description
       - icon
+      - order
+      - property_name
+      - table_name
+      - table_schema
+      - title
       filter: {}
+      allow_aggregations: true
 - table:
     schema: metadata
     name: relationship

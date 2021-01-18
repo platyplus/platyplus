@@ -4,10 +4,11 @@ template(v-if="doc")
   Card.p-m-1.p-p-2(v-else-if="layout==='card'" style="border: 1px solid #dee2e6;")
     template(#title)
       // TODO get the link from the parent component
-      span {{label}}
+      span.p-text-capitalize {{label}}
   div.p-fluid(v-else-if="layout==='details'")
     div.p-field(v-for='[name, property] of properties' :key="name")
-      label(:for="name") {{document.collection.title(name)}}
+      i.pi.p-mx-2(v-if="document.collection.icon(name)" :class="document.collection.icon(name)")
+      label.p-text-capitalize(:for="name") {{document.collection.title(name)}}
       field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
       div(v-else).p-component.p-inputtext
         field-read(:document="document" :name="name")

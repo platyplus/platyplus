@@ -50,6 +50,7 @@ export const metadataSchema: RxJsonSchema = {
       items: {
         type: 'object',
         properties: {
+          order: { type: ['number'] },
           property_name: { type: ['string', 'null'] },
           title: { type: ['string', 'null'] },
           description: { type: ['string', 'null'] },
