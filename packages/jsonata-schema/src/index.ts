@@ -6,15 +6,16 @@ type SchemaType = {
   [key: string]: SchemaTypeValue
 }
 
+const recurse = (ps: any[]): SchemaType => {
+  if (typeof ps[0] === 'string') return { [ps[0]]: recurse(ps.slice(1)) }
+  else return ps[0] || true
+}
+
 const jsonataSchema = (path: ExprNode): any => {
   if (path.type === 'name') {
     return path.value
   } else if (path.type === 'path' && path.steps) {
     const steps = path.steps.map(step => jsonataSchema(step))
-    const recurse = (ps: any[]): SchemaType => {
-      if (typeof ps[0] === 'string') return { [ps[0]]: recurse(ps.slice(1)) }
-      else return ps[0] || true
-    }
     return recurse(steps)
   } else if (path.arguments) {
     return path.arguments.reduce((aggr, arg) => {
@@ -28,12 +29,21 @@ const jsonataSchema = (path: ExprNode): any => {
       jsonataSchema(exp)
       return aggr
     }, {})
-  } else if (path.type === 'binary') {
+  } else if (path.type === 'binary' || path.type === 'apply') {
     return {
       ...jsonataSchema((path as any).lhs as ExprNode),
       ...jsonataSchema((path as any).rhs as ExprNode)
     }
-  } else return true
+  } else if (path.type === 'unary') {
+    return jsonataSchema((path as any).lhs as ExprNode)
+  } else if (Array.isArray(path)) {
+    return path.reduce<any>((aggr, curr) => {
+      aggr = { ...aggr, ...jsonataSchema(curr) }
+      return aggr
+    }, {})
+  } else {
+    return true
+  }
 }
 
 export const jsonataPaths = (expression: string): SchemaType =>
