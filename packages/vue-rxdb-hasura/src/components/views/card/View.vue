@@ -3,7 +3,10 @@ DataView(:value="documents" :layout="layout")
   template(#header)
     div.p-grid.p-nogutter
       div.p-col-6(style="text-align: left")
-        Dropdown(v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Price" @change="onSortChange($event)")
+        span.p-input-icon-left.p-input-icon-right
+          i.pi.pi-search
+          InputText(placeholder="Search" v-model="filter" type="text")
+          i.pi.pi-times(v-show="filter" @click="filter = ''")
       div.p-col-6.p-text-right
         div.p-d-inline-flex
           div.p-mr-3
@@ -17,7 +20,6 @@ DataView(:value="documents" :layout="layout")
         Card.p-m-1
           template(#title)
             h-document-label(:document="slotProps.data" layout="label")
-
   template(#grid='slotProps')
     router-link.p-col-4.p-md-4(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
       h-document(:document="slotProps.data" layout="card")
@@ -25,6 +27,8 @@ DataView(:value="documents" :layout="layout")
 
 <script lang="ts">
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { debouncedWatch } from '@vueuse/core'
+import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
@@ -33,33 +37,30 @@ export default defineComponent({
     collection: {
       type: Object as PropType<ContentsCollection>,
       default: null
-    },
-    documents: {
-      type: Object as PropType<ContentsDocument[]>,
-      default: []
     }
   },
-  setup() {
+  setup(props) {
     const layout = ref('list')
     const sortKey = ref()
-    const sortOptions = ref()
-    return { layout, sortKey, sortOptions }
+    const filter = ref()
+    const documents = ref<ContentsDocument[]>([])
+    debouncedWatch(
+      () => filter.value,
+      val => {
+        useSubscription(
+          props.collection
+            .find({
+              selector: { label: { $regex: new RegExp(val, 'i') } }
+            })
+            .sort('label')
+            .$.subscribe(toObserver(documents))
+        )
+      },
+      { immediate: true, debounce: 300 }
+    )
+    return { layout, sortKey, filter, documents }
   }
 })
 </script>
 
-<style>
-.p-list-list-wrapper {
-  overflow: auto;
-}
-.p-list-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-.p-list-item {
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-</style>
+<style></style>

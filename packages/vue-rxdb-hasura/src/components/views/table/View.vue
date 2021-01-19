@@ -20,17 +20,14 @@ DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datat
 
 <script lang="ts">
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { computed, defineComponent, PropType, toRefs } from 'vue'
+import { toObserver, useSubscription } from '@vueuse/rxjs'
+import { computed, defineComponent, PropType, Ref, ref, toRef } from 'vue'
 
 import { useNewDocumentFactory } from '../../../composables'
 
 export default defineComponent({
   name: 'CollectionTable',
   props: {
-    documents: {
-      type: Array as PropType<ContentsDocument[]>,
-      default: []
-    },
     collection: {
       type: Object as PropType<ContentsCollection>,
       required: true
@@ -41,12 +38,20 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { collection } = toRefs(props)
+    const collection = toRef(props, 'collection')
     const { newDoc } = useNewDocumentFactory(collection)
     const properties = computed(() => collection.value.properties)
+    // TODO not sure it's optimised
+    const documents = ref<ContentsDocument[]>([])
+    useSubscription(
+      props.collection
+        .find()
+        .sort('label')
+        .$.subscribe(toObserver(documents))
+    )
 
     // TODO canEditCollection
-    return { properties, newDoc }
+    return { properties, newDoc, documents }
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template lang="pug">
-component(:is="componentName" :documents="documents" :collection="collection")
+component(:is="componentName" :collection="collection")
 </template>
 
 <script lang="ts">
@@ -19,16 +19,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // TODO not sure it's optimised
-    const documents = ref<ContentsDocument[]>([])
-    useSubscription(
-      props.collection
-        .find()
-        .sort('label')
-        .$.subscribe(toObserver(documents))
-    )
     const componentName = computed(() => `collection-${props.type}`)
-    return { documents, componentName }
+    return { componentName }
   }
 })
 </script>
