@@ -1,5 +1,5 @@
 <template lang="pug">
-h-document-label(v-for="obj, id in value" :document="obj")
+FieldReadGeneric(:document="document" :name="name")
 </template>
 
 <script lang="ts">

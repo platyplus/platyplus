@@ -23,5 +23,19 @@ export const documentMethods: ContentsDocumentMethods = {
   },
   propertyType(this: ContentsDocument, propertyName: string) {
     return propertyType(this, propertyName)
+  },
+  readComponent(this: ContentsDocument, propertyName: string) {
+    const collection = this.collection as ContentsCollection
+    const config = collection.metadata.propertiesConfig.find(
+      config => config.property_name === propertyName
+    )
+    return config?.read_component || propertyType(this, propertyName)
+  },
+  readComponentOptions(this: ContentsDocument, propertyName: string) {
+    const collection = this.collection as ContentsCollection
+    const config = collection.metadata.propertiesConfig.find(
+      config => config.property_name === propertyName
+    )
+    return config?.read_component_options
   }
 }

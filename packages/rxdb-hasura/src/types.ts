@@ -57,6 +57,10 @@ export type ContentsDocumentMethods = {
   canSave: () => boolean
   canDelete: () => boolean
   propertyType: (propertyName: string) => PropertyType
+  readComponent: (propertyName: string) => string
+  readComponentOptions: (
+    propertyName: string
+  ) => Record<string, unknown> | undefined | null
   // ? editableProperties(): Property[]
   // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)
 }

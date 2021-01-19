@@ -4317,12 +4317,26 @@ export enum Metadata_Primary_Key_Select_Column {
 export type Metadata_Property_Config = {
   __typename?: 'metadata_property_config'
   description: Maybe<Scalars['String']>
+  edit_component: Maybe<Scalars['String']>
+  edit_component_options: Maybe<Scalars['jsonb']>
   icon: Maybe<Scalars['String']>
   order: Scalars['Int']
   property_name: Scalars['String']
+  read_component: Maybe<Scalars['String']>
+  read_component_options: Maybe<Scalars['jsonb']>
   table_name: Scalars['String']
   table_schema: Scalars['String']
   title: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "metadata.property_config" */
+export type Metadata_Property_ConfigEdit_Component_OptionsArgs = {
+  path: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "metadata.property_config" */
+export type Metadata_Property_ConfigRead_Component_OptionsArgs = {
+  path: Maybe<Scalars['String']>
 }
 
 /** aggregated selection of "metadata.property_config" */
@@ -4369,6 +4383,12 @@ export type Metadata_Property_Config_Aggregate_Order_By = {
   variance: Maybe<Metadata_Property_Config_Variance_Order_By>
 }
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Metadata_Property_Config_Append_Input = {
+  edit_component_options: Maybe<Scalars['jsonb']>
+  read_component_options: Maybe<Scalars['jsonb']>
+}
+
 /** input type for inserting array relation for remote table "metadata.property_config" */
 export type Metadata_Property_Config_Arr_Rel_Insert_Input = {
   data: Array<Metadata_Property_Config_Insert_Input>
@@ -4392,9 +4412,13 @@ export type Metadata_Property_Config_Bool_Exp = {
   _not: Maybe<Metadata_Property_Config_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
   description: Maybe<String_Comparison_Exp>
+  edit_component: Maybe<String_Comparison_Exp>
+  edit_component_options: Maybe<Jsonb_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
   order: Maybe<Int_Comparison_Exp>
   property_name: Maybe<String_Comparison_Exp>
+  read_component: Maybe<String_Comparison_Exp>
+  read_component_options: Maybe<Jsonb_Comparison_Exp>
   table_name: Maybe<String_Comparison_Exp>
   table_schema: Maybe<String_Comparison_Exp>
   title: Maybe<String_Comparison_Exp>
@@ -4406,6 +4430,24 @@ export enum Metadata_Property_Config_Constraint {
   PropertyConfigPkey = 'property_config_pkey'
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Metadata_Property_Config_Delete_At_Path_Input = {
+  edit_component_options: Maybe<Array<Maybe<Scalars['String']>>>
+  read_component_options: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Metadata_Property_Config_Delete_Elem_Input = {
+  edit_component_options: Maybe<Scalars['Int']>
+  read_component_options: Maybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Metadata_Property_Config_Delete_Key_Input = {
+  edit_component_options: Maybe<Scalars['String']>
+  read_component_options: Maybe<Scalars['String']>
+}
+
 /** input type for incrementing integer column in table "metadata.property_config" */
 export type Metadata_Property_Config_Inc_Input = {
   order: Maybe<Scalars['Int']>
@@ -4414,9 +4456,13 @@ export type Metadata_Property_Config_Inc_Input = {
 /** input type for inserting data into table "metadata.property_config" */
 export type Metadata_Property_Config_Insert_Input = {
   description: Maybe<Scalars['String']>
+  edit_component: Maybe<Scalars['String']>
+  edit_component_options: Maybe<Scalars['jsonb']>
   icon: Maybe<Scalars['String']>
   order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
+  read_component: Maybe<Scalars['String']>
+  read_component_options: Maybe<Scalars['jsonb']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -4426,9 +4472,11 @@ export type Metadata_Property_Config_Insert_Input = {
 export type Metadata_Property_Config_Max_Fields = {
   __typename?: 'metadata_property_config_max_fields'
   description: Maybe<Scalars['String']>
+  edit_component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
+  read_component: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -4437,9 +4485,11 @@ export type Metadata_Property_Config_Max_Fields = {
 /** order by max() on columns of table "metadata.property_config" */
 export type Metadata_Property_Config_Max_Order_By = {
   description: Maybe<Order_By>
+  edit_component: Maybe<Order_By>
   icon: Maybe<Order_By>
   order: Maybe<Order_By>
   property_name: Maybe<Order_By>
+  read_component: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
   title: Maybe<Order_By>
@@ -4449,9 +4499,11 @@ export type Metadata_Property_Config_Max_Order_By = {
 export type Metadata_Property_Config_Min_Fields = {
   __typename?: 'metadata_property_config_min_fields'
   description: Maybe<Scalars['String']>
+  edit_component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
+  read_component: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -4460,9 +4512,11 @@ export type Metadata_Property_Config_Min_Fields = {
 /** order by min() on columns of table "metadata.property_config" */
 export type Metadata_Property_Config_Min_Order_By = {
   description: Maybe<Order_By>
+  edit_component: Maybe<Order_By>
   icon: Maybe<Order_By>
   order: Maybe<Order_By>
   property_name: Maybe<Order_By>
+  read_component: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
   title: Maybe<Order_By>
@@ -4493,9 +4547,13 @@ export type Metadata_Property_Config_On_Conflict = {
 /** ordering options when selecting data from "metadata.property_config" */
 export type Metadata_Property_Config_Order_By = {
   description: Maybe<Order_By>
+  edit_component: Maybe<Order_By>
+  edit_component_options: Maybe<Order_By>
   icon: Maybe<Order_By>
   order: Maybe<Order_By>
   property_name: Maybe<Order_By>
+  read_component: Maybe<Order_By>
+  read_component_options: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
   title: Maybe<Order_By>
@@ -4508,16 +4566,30 @@ export type Metadata_Property_Config_Pk_Columns_Input = {
   table_schema: Scalars['String']
 }
 
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Metadata_Property_Config_Prepend_Input = {
+  edit_component_options: Maybe<Scalars['jsonb']>
+  read_component_options: Maybe<Scalars['jsonb']>
+}
+
 /** select columns of table "metadata.property_config" */
 export enum Metadata_Property_Config_Select_Column {
   /** column name */
   Description = 'description',
+  /** column name */
+  EditComponent = 'edit_component',
+  /** column name */
+  EditComponentOptions = 'edit_component_options',
   /** column name */
   Icon = 'icon',
   /** column name */
   Order = 'order',
   /** column name */
   PropertyName = 'property_name',
+  /** column name */
+  ReadComponent = 'read_component',
+  /** column name */
+  ReadComponentOptions = 'read_component_options',
   /** column name */
   TableName = 'table_name',
   /** column name */
@@ -4529,9 +4601,13 @@ export enum Metadata_Property_Config_Select_Column {
 /** input type for updating data in table "metadata.property_config" */
 export type Metadata_Property_Config_Set_Input = {
   description: Maybe<Scalars['String']>
+  edit_component: Maybe<Scalars['String']>
+  edit_component_options: Maybe<Scalars['jsonb']>
   icon: Maybe<Scalars['String']>
   order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
+  read_component: Maybe<Scalars['String']>
+  read_component_options: Maybe<Scalars['jsonb']>
   table_name: Maybe<Scalars['String']>
   table_schema: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -4586,11 +4662,19 @@ export enum Metadata_Property_Config_Update_Column {
   /** column name */
   Description = 'description',
   /** column name */
+  EditComponent = 'edit_component',
+  /** column name */
+  EditComponentOptions = 'edit_component_options',
+  /** column name */
   Icon = 'icon',
   /** column name */
   Order = 'order',
   /** column name */
   PropertyName = 'property_name',
+  /** column name */
+  ReadComponent = 'read_component',
+  /** column name */
+  ReadComponentOptions = 'read_component_options',
   /** column name */
   TableName = 'table_name',
   /** column name */
@@ -7014,14 +7098,24 @@ export type Mutation_RootUpdate_Metadata_FunctionArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Metadata_Property_ConfigArgs = {
+  _append: Maybe<Metadata_Property_Config_Append_Input>
+  _delete_at_path: Maybe<Metadata_Property_Config_Delete_At_Path_Input>
+  _delete_elem: Maybe<Metadata_Property_Config_Delete_Elem_Input>
+  _delete_key: Maybe<Metadata_Property_Config_Delete_Key_Input>
   _inc: Maybe<Metadata_Property_Config_Inc_Input>
+  _prepend: Maybe<Metadata_Property_Config_Prepend_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   where: Metadata_Property_Config_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootUpdate_Metadata_Property_Config_By_PkArgs = {
+  _append: Maybe<Metadata_Property_Config_Append_Input>
+  _delete_at_path: Maybe<Metadata_Property_Config_Delete_At_Path_Input>
+  _delete_elem: Maybe<Metadata_Property_Config_Delete_Elem_Input>
+  _delete_key: Maybe<Metadata_Property_Config_Delete_Key_Input>
   _inc: Maybe<Metadata_Property_Config_Inc_Input>
+  _prepend: Maybe<Metadata_Property_Config_Prepend_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   pk_columns: Metadata_Property_Config_Pk_Columns_Input
 }
@@ -7098,12 +7192,14 @@ export type Mutation_RootUpdate_Users_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_VisiteArgs = {
+  _inc: Maybe<Visite_Inc_Input>
   _set: Maybe<Visite_Set_Input>
   where: Visite_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootUpdate_Visite_By_PkArgs = {
+  _inc: Maybe<Visite_Inc_Input>
   _set: Maybe<Visite_Set_Input>
   pk_columns: Visite_Pk_Columns_Input
 }
@@ -9573,11 +9669,13 @@ export type Visite = {
   __typename?: 'visite'
   deleted: Scalars['Boolean']
   id: Scalars['uuid']
+  muac: Scalars['Int']
   /** An object relationship */
   patient: Maybe<Patient>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
+  visit_date: Scalars['timestamptz']
 }
 
 /** aggregated selection of "visite" */
@@ -9590,9 +9688,17 @@ export type Visite_Aggregate = {
 /** aggregate fields of "visite" */
 export type Visite_Aggregate_Fields = {
   __typename?: 'visite_aggregate_fields'
+  avg: Maybe<Visite_Avg_Fields>
   count: Maybe<Scalars['Int']>
   max: Maybe<Visite_Max_Fields>
   min: Maybe<Visite_Min_Fields>
+  stddev: Maybe<Visite_Stddev_Fields>
+  stddev_pop: Maybe<Visite_Stddev_Pop_Fields>
+  stddev_samp: Maybe<Visite_Stddev_Samp_Fields>
+  sum: Maybe<Visite_Sum_Fields>
+  var_pop: Maybe<Visite_Var_Pop_Fields>
+  var_samp: Maybe<Visite_Var_Samp_Fields>
+  variance: Maybe<Visite_Variance_Fields>
 }
 
 /** aggregate fields of "visite" */
@@ -9603,15 +9709,34 @@ export type Visite_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "visite" */
 export type Visite_Aggregate_Order_By = {
+  avg: Maybe<Visite_Avg_Order_By>
   count: Maybe<Order_By>
   max: Maybe<Visite_Max_Order_By>
   min: Maybe<Visite_Min_Order_By>
+  stddev: Maybe<Visite_Stddev_Order_By>
+  stddev_pop: Maybe<Visite_Stddev_Pop_Order_By>
+  stddev_samp: Maybe<Visite_Stddev_Samp_Order_By>
+  sum: Maybe<Visite_Sum_Order_By>
+  var_pop: Maybe<Visite_Var_Pop_Order_By>
+  var_samp: Maybe<Visite_Var_Samp_Order_By>
+  variance: Maybe<Visite_Variance_Order_By>
 }
 
 /** input type for inserting array relation for remote table "visite" */
 export type Visite_Arr_Rel_Insert_Input = {
   data: Array<Visite_Insert_Input>
   on_conflict: Maybe<Visite_On_Conflict>
+}
+
+/** aggregate avg on columns */
+export type Visite_Avg_Fields = {
+  __typename?: 'visite_avg_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by avg() on columns of table "visite" */
+export type Visite_Avg_Order_By = {
+  muac: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "visite". All fields are combined with a logical 'AND'. */
@@ -9621,10 +9746,12 @@ export type Visite_Bool_Exp = {
   _or: Maybe<Array<Maybe<Visite_Bool_Exp>>>
   deleted: Maybe<Boolean_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
+  muac: Maybe<Int_Comparison_Exp>
   patient: Maybe<Patient_Bool_Exp>
   patient_id: Maybe<Uuid_Comparison_Exp>
   test: Maybe<String_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
+  visit_date: Maybe<Timestamptz_Comparison_Exp>
 }
 
 /** unique or primary key constraints on table "visite" */
@@ -9633,48 +9760,63 @@ export enum Visite_Constraint {
   VisitePkey = 'visite_pkey'
 }
 
+/** input type for incrementing integer column in table "visite" */
+export type Visite_Inc_Input = {
+  muac: Maybe<Scalars['Int']>
+}
+
 /** input type for inserting data into table "visite" */
 export type Visite_Insert_Input = {
   deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
+  muac: Maybe<Scalars['Int']>
   patient: Maybe<Patient_Obj_Rel_Insert_Input>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
+  visit_date: Maybe<Scalars['timestamptz']>
 }
 
 /** aggregate max on columns */
 export type Visite_Max_Fields = {
   __typename?: 'visite_max_fields'
   id: Maybe<Scalars['uuid']>
+  muac: Maybe<Scalars['Int']>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
+  visit_date: Maybe<Scalars['timestamptz']>
 }
 
 /** order by max() on columns of table "visite" */
 export type Visite_Max_Order_By = {
   id: Maybe<Order_By>
+  muac: Maybe<Order_By>
   patient_id: Maybe<Order_By>
   test: Maybe<Order_By>
   updated_at: Maybe<Order_By>
+  visit_date: Maybe<Order_By>
 }
 
 /** aggregate min on columns */
 export type Visite_Min_Fields = {
   __typename?: 'visite_min_fields'
   id: Maybe<Scalars['uuid']>
+  muac: Maybe<Scalars['Int']>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
+  visit_date: Maybe<Scalars['timestamptz']>
 }
 
 /** order by min() on columns of table "visite" */
 export type Visite_Min_Order_By = {
   id: Maybe<Order_By>
+  muac: Maybe<Order_By>
   patient_id: Maybe<Order_By>
   test: Maybe<Order_By>
   updated_at: Maybe<Order_By>
+  visit_date: Maybe<Order_By>
 }
 
 /** response of any mutation on the table "visite" */
@@ -9703,10 +9845,12 @@ export type Visite_On_Conflict = {
 export type Visite_Order_By = {
   deleted: Maybe<Order_By>
   id: Maybe<Order_By>
+  muac: Maybe<Order_By>
   patient: Maybe<Patient_Order_By>
   patient_id: Maybe<Order_By>
   test: Maybe<Order_By>
   updated_at: Maybe<Order_By>
+  visit_date: Maybe<Order_By>
 }
 
 /** primary key columns input for table: "visite" */
@@ -9721,20 +9865,70 @@ export enum Visite_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Muac = 'muac',
+  /** column name */
   PatientId = 'patient_id',
   /** column name */
   Test = 'test',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VisitDate = 'visit_date'
 }
 
 /** input type for updating data in table "visite" */
 export type Visite_Set_Input = {
   deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
+  muac: Maybe<Scalars['Int']>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
+  visit_date: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate stddev on columns */
+export type Visite_Stddev_Fields = {
+  __typename?: 'visite_stddev_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by stddev() on columns of table "visite" */
+export type Visite_Stddev_Order_By = {
+  muac: Maybe<Order_By>
+}
+
+/** aggregate stddev_pop on columns */
+export type Visite_Stddev_Pop_Fields = {
+  __typename?: 'visite_stddev_pop_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_pop() on columns of table "visite" */
+export type Visite_Stddev_Pop_Order_By = {
+  muac: Maybe<Order_By>
+}
+
+/** aggregate stddev_samp on columns */
+export type Visite_Stddev_Samp_Fields = {
+  __typename?: 'visite_stddev_samp_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_samp() on columns of table "visite" */
+export type Visite_Stddev_Samp_Order_By = {
+  muac: Maybe<Order_By>
+}
+
+/** aggregate sum on columns */
+export type Visite_Sum_Fields = {
+  __typename?: 'visite_sum_fields'
+  muac: Maybe<Scalars['Int']>
+}
+
+/** order by sum() on columns of table "visite" */
+export type Visite_Sum_Order_By = {
+  muac: Maybe<Order_By>
 }
 
 /** update columns of table "visite" */
@@ -9744,11 +9938,48 @@ export enum Visite_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Muac = 'muac',
+  /** column name */
   PatientId = 'patient_id',
   /** column name */
   Test = 'test',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VisitDate = 'visit_date'
+}
+
+/** aggregate var_pop on columns */
+export type Visite_Var_Pop_Fields = {
+  __typename?: 'visite_var_pop_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by var_pop() on columns of table "visite" */
+export type Visite_Var_Pop_Order_By = {
+  muac: Maybe<Order_By>
+}
+
+/** aggregate var_samp on columns */
+export type Visite_Var_Samp_Fields = {
+  __typename?: 'visite_var_samp_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by var_samp() on columns of table "visite" */
+export type Visite_Var_Samp_Order_By = {
+  muac: Maybe<Order_By>
+}
+
+/** aggregate variance on columns */
+export type Visite_Variance_Fields = {
+  __typename?: 'visite_variance_fields'
+  muac: Maybe<Scalars['Float']>
+}
+
+/** order by variance() on columns of table "visite" */
+export type Visite_Variance_Order_By = {
+  muac: Maybe<Order_By>
 }
 
 export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
@@ -9782,7 +10013,15 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   propertiesConfig: Array<
     { __typename?: 'metadata_property_config' } & Pick<
       Metadata_Property_Config,
-      'order' | 'property_name' | 'title' | 'description' | 'icon'
+      | 'order'
+      | 'property_name'
+      | 'title'
+      | 'description'
+      | 'icon'
+      | 'read_component'
+      | 'read_component_options'
+      | 'edit_component'
+      | 'edit_component_options'
     >
   >
   computedProperties: Array<
@@ -9907,6 +10146,10 @@ export const TableFragmentDoc = gql`
       title
       description
       icon
+      read_component
+      read_component_options
+      edit_component
+      edit_component_options
     }
     computedProperties {
       name

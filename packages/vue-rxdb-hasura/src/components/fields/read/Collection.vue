@@ -20,6 +20,10 @@ export default defineComponent({
     name: {
       type: String,
       required: true
+    },
+    options: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup(props) {

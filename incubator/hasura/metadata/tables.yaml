@@ -552,9 +552,13 @@
     permission:
       columns:
       - description
+      - edit_component
+      - edit_component_options
       - icon
       - order
       - property_name
+      - read_component
+      - read_component_options
       - table_name
       - table_schema
       - title

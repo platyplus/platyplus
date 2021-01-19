@@ -1,5 +1,5 @@
 <template lang="pug">
-component(:is="componentName" v-bind="props")
+component(:is="componentName" v-bind="props" :options="options")
 </template>
 
 <script lang="ts">
@@ -19,10 +19,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const componentName = computed(
-      () => 'field-read-' + props.document.propertyType(props.name)
+    const componentName = computed(() => {
+      console.log(props.document.readComponent(props.name))
+      return 'field-read-' + props.document.readComponent(props.name)
+    })
+    const options = computed(() =>
+      props.document.readComponentOptions(props.name)
     )
-    return { componentName, props }
+    return { componentName, props, options }
   }
 })
 </script>
