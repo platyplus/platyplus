@@ -5,7 +5,7 @@
 ```
 visites.{
   'period': $toMillis(updated_at) ~> $fromMillis('[D01]/[M01]/[Y]')
-  }{\`period\`:  $count($)}
+  }{`period`:  $count($)}
 ```
 
 returns

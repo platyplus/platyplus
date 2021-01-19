@@ -1,5 +1,5 @@
 <template lang="pug">
-Calendar(v-model="proxyDate" :showTime="true" :showSeconds="true" appendTo="body")
+Calendar(v-model="proxyDate" :showTime="true" :showSeconds="true" appendTo="body" dateFormat="dd/mm/yyyy")
 </template>
 
 <script lang="ts">
@@ -28,7 +28,7 @@ export default defineComponent({
       get: () => new Date(model.value || Date.now()),
       set: (value: Date) => {
         try {
-          model.value = value.toUTCString()
+          model.value = value.toISOString()
         } catch {
           // TODO
           console.log('invalid date - do nothing')

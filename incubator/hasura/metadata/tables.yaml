@@ -1022,8 +1022,10 @@
       check: {}
       columns:
       - id
+      - muac
       - patient_id
       - test
+      - visit_date
       backend_only: false
   select_permissions:
   - role: user
@@ -1031,9 +1033,11 @@
       columns:
       - deleted
       - id
+      - muac
       - patient_id
       - test
       - updated_at
+      - visit_date
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -1041,7 +1045,9 @@
     permission:
       columns:
       - deleted
+      - muac
       - patient_id
       - test
+      - visit_date
       filter: {}
       check: null

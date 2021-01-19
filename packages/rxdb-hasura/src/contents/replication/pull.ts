@@ -1,5 +1,4 @@
 import deepmerge from 'deepmerge'
-import jsonata from 'jsonata'
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 
 import { debug } from '../../console'

@@ -8,6 +8,7 @@ import { createRxHasura, Database } from '@platyplus/rxdb-hasura'
 import { Instance } from '@platyplus/vue-hasura-backend-plus'
 import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
+import Chart from 'primevue/chart'
 import Checkbox from 'primevue/checkbox'
 import Column from 'primevue/column'
 import ColumnGroup from 'primevue/columngroup'
@@ -75,6 +76,7 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
     app.use(PrimeVue)
     app.component('Button', Button)
     app.component('Calendar', Calendar)
+    app.component('Chart', Chart)
     app.component('Checkbox', Checkbox)
     app.component('Chip', Chip)
     app.component('Column', Column)

@@ -45,7 +45,7 @@ export const createContentReplicator = async (
     })
     replicationState.error$.subscribe(err => {
       error(`replication error on ${collection.name}`)
-      errorDir(err.innerErrors)
+      errorDir(err)
     })
 
     jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {

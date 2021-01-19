@@ -1,11 +1,6 @@
-import {
-  ContentsCollection,
-  ContentsDocument,
-  Metadata
-} from '@platyplus/rxdb-hasura'
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import equal from 'deep-equal'
-import { RxSchema } from 'rxdb'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { Subscription } from 'rxjs'
 import {
@@ -18,8 +13,6 @@ import {
   WritableComputedRef
 } from 'vue'
 import { useStore } from 'vuex'
-
-import { useDocumentCollection } from './collection'
 
 export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

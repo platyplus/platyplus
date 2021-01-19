@@ -12,11 +12,16 @@ import {
 import { label } from './label'
 
 type ComputedProperty = {
+  name: string
   transformation?: string
   template?: string
   type: JsonSchemaPropertyType
 }
 
+// * Computes the propertey:
+// * 1. use the jsonata transformation, if any
+// * 2. use the handlebars template, if any
+// * 3. check the result type fits with the property type
 const evaluate = (data: any, property: ComputedProperty): any => {
   const { transformation, template, type } = property
   let result: any
@@ -33,19 +38,32 @@ const evaluate = (data: any, property: ComputedProperty): any => {
       )
     }
 
-    const arrayType = typeof type === 'string' ? [type] : type
+    const typeArray = typeof type === 'string' ? [type] : type
+    const resultType = typeof result
+    const isNullable = typeArray.includes('null')
+    const nullResult = result === null || result === undefined
 
-    if (!arrayType.includes('null') && !result) {
-      if (arrayType.includes('array')) return []
-      if (arrayType.includes('object')) return {}
-      if (arrayType.includes('number')) return 0
-      if (arrayType.includes('string')) return ''
-    } else if (arrayType.includes('string')) {
+    if (typeArray.includes('string')) {
+      if (nullResult) {
+        if (isNullable) return null
+        else return ''
+      }
       if (typeof result === 'string') return result
       else return JSON.stringify(result)
-    } else {
-      return result
+    } else if (typeArray.includes('array')) {
+      if (nullResult && !isNullable) return []
+      if (!Array.isArray(result)) throw Error('should be an array')
+    } else if (typeArray.includes('object')) {
+      if (nullResult && !isNullable) return {}
+      if (resultType !== 'object') throw Error('should be an object')
+    } else if (typeArray.includes('number')) {
+      if (nullResult && !isNullable) return {}
+      if (resultType !== 'number') throw Error('should be a number')
+    } else if (typeArray.includes('boolean')) {
+      if (nullResult && !isNullable) return false
+      if (resultType !== 'boolean') throw Error('should be a boolean')
     }
+    return result
   } catch (error) {
     console.warn('Error in computing', { data, property })
     console.warn(error)
