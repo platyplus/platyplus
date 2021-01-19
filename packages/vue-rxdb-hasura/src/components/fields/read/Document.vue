@@ -1,5 +1,6 @@
 <template lang="pug">
-h-document-label(v-if="refDocument" :document="refDocument")
+router-link(v-if="refDocument" :to="{ name: 'document', params: { collection: refDocument.collection.name, id: refDocument.primary }}")
+  h-document(:document="refDocument" layout="chip")
 div(v-else) &nbsp;
 </template>
 

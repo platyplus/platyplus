@@ -19,10 +19,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const componentName = computed(() => {
-      console.log(props.document.readComponent(props.name))
-      return 'field-read-' + props.document.readComponent(props.name)
-    })
+    const componentName = computed(
+      () => 'field-read-' + props.document.readComponent(props.name)
+    )
     const options = computed(() =>
       props.document.readComponentOptions(props.name)
     )

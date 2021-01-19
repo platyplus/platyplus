@@ -1,6 +1,8 @@
 <template lang="pug">
 div(v-if="!refCollection") loading...
-h-document(v-else-if="refCollection.length" v-for="document, id in refCollection" :document="document" layout="chip")
+template(v-else-if="refCollection.length" v-for="document, id in refCollection")
+  router-link(:to="{ name: 'document', params: { collection: document.collection.name, id: document.primary }}")
+    h-document(:document="document" layout="chip")
 div(v-else) &nbsp;
 </template>
 
