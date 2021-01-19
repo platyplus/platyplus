@@ -4,7 +4,7 @@ Chart(type="line" :data="data" :options="options")
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { computed, defineComponent, PropType, toRefs } from 'vue'
+import { defineComponent, PropType, reactive, toRefs, watchEffect } from 'vue'
 
 import { useFieldValue } from '../../../composables'
 export default defineComponent({
@@ -26,17 +26,19 @@ export default defineComponent({
   setup(props) {
     const { name, document } = toRefs(props)
     const value = useFieldValue<unknown>(document, name)
-    const data = computed(() => {
-      return {
-        datasets: [
-          {
-            label: document.value.label,
-            backgroundColor: '#42A5F5',
-            data: value.value
-          }
-        ]
-      }
+    const data = reactive({
+      datasets: [
+        {
+          label: document.value.label,
+          backgroundColor: '#42A5F5',
+          data: value.value
+        }
+      ]
     })
+    watchEffect(() => {
+      data.datasets[0].data = value.value
+    })
+
     return { value, data }
   }
 })
