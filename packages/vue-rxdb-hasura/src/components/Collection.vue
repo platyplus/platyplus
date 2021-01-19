@@ -3,9 +3,8 @@ component(:is="componentName" :collection="collection")
 </template>
 
 <script lang="ts">
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { toObserver, useSubscription } from '@vueuse/rxjs'
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { computed, defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'Collection',
   props: {

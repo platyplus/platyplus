@@ -21,7 +21,7 @@ DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datat
 <script lang="ts">
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
-import { computed, defineComponent, PropType, Ref, ref, toRef } from 'vue'
+import { computed, defineComponent, PropType, ref, toRef } from 'vue'
 
 import { useNewDocumentFactory } from '../../../composables'
 
