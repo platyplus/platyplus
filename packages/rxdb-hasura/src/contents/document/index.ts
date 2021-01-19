@@ -1,3 +1,4 @@
+export * from './property-type'
 import {
   ContentsCollection,
   ContentsDocument,
@@ -21,9 +22,6 @@ export const documentMethods: ContentsDocumentMethods = {
   canDelete(this: ContentsDocument) {
     return this.canEdit('deleted')
   },
-  propertyType(this: ContentsDocument, propertyName: string) {
-    return propertyType(this, propertyName)
-  },
   readComponent(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection
     const config = collection.metadata.propertiesConfig.find(
@@ -37,5 +35,19 @@ export const documentMethods: ContentsDocumentMethods = {
       config => config.property_name === propertyName
     )
     return config?.read_component_options
+  },
+  editComponent(this: ContentsDocument, propertyName: string) {
+    const collection = this.collection as ContentsCollection
+    const config = collection.metadata.propertiesConfig.find(
+      config => config.property_name === propertyName
+    )
+    return config?.edit_component || propertyType(this, propertyName)
+  },
+  editComponentOptions(this: ContentsDocument, propertyName: string) {
+    const collection = this.collection as ContentsCollection
+    const config = collection.metadata.propertiesConfig.find(
+      config => config.property_name === propertyName
+    )
+    return config?.edit_component_options
   }
 }

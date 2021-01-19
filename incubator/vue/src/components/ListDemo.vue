@@ -60,7 +60,7 @@
                   <span
                     :class="
                       'product-badge status-' +
-                      slotProps.data.inventoryStatus.toLowerCase()
+                        slotProps.data.inventoryStatus.toLowerCase()
                     "
                     >{{ slotProps.data.inventoryStatus }}</span
                   >
@@ -82,7 +82,7 @@
                   <span
                     :class="
                       'product-badge status-' +
-                      slotProps.data.inventoryStatus.toLowerCase()
+                        slotProps.data.inventoryStatus.toLowerCase()
                     "
                     >{{ slotProps.data.inventoryStatus }}</span
                   >

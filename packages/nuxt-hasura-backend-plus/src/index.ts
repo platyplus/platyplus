@@ -21,7 +21,7 @@ interface HasuraBackendPlusModuleOptions {
 export * from './composables'
 export * from './types'
 
-const hbpModule: Module<HasuraBackendPlusModuleOptions> = function (options) {
+const hbpModule: Module<HasuraBackendPlusModuleOptions> = function(options) {
   try {
     this.addPlugin({
       src: path.resolve(__dirname, 'plugin.ts'),

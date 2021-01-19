@@ -89,7 +89,7 @@ import Tooltip from 'primevue/tooltip'
 import Tree from 'primevue/tree'
 import TreeTable from 'primevue/treetable'
 import TriStateCheckbox from 'primevue/tristatecheckbox'
-router.beforeEach(function (to, from, next) {
+router.beforeEach(function(to, from, next) {
   window.scrollTo(0, 0)
   // * Authentication guard
   if (to.meta.auth && !hbp.authenticated.value) next('/login')

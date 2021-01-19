@@ -22,7 +22,10 @@ export default defineComponent({
     // TODO not sure it's optimised
     const documents = ref<ContentsDocument[]>([])
     useSubscription(
-      props.collection.find().sort('label').$.subscribe(toObserver(documents))
+      props.collection
+        .find()
+        .sort('label')
+        .$.subscribe(toObserver(documents))
     )
     const componentName = computed(() => `collection-${props.type}`)
     return { documents, componentName }

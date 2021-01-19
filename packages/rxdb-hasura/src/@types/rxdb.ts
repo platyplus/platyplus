@@ -6,7 +6,8 @@ declare module 'rxdb' {
     database: Database
   }
 
-  export type RxDatabase<
-    Collections = CollectionsOfDatabase
-  > = RxDatabase<Collections> & DatabasePrototype
+  export type RxDatabase<Collections = CollectionsOfDatabase> = RxDatabase<
+    Collections
+  > &
+    DatabasePrototype
 }

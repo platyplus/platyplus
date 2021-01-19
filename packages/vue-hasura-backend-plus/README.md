@@ -22,7 +22,9 @@ const hbp = createHasuraBackendPlus({
   router // Optional: vue-router instance. When set, will make sure the authentication is know prior to any routing
 })
 
-createApp(App).use(hbp).mount('#app')
+createApp(App)
+  .use(hbp)
+  .mount('#app')
 ```
 
 ## Usage

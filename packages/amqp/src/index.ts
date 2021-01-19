@@ -8,12 +8,12 @@ import { Channel, connect } from 'amqplib'
 
 export const createChannel = async (url: string): Promise<Channel> => {
   const connection = await connect(url)
-  connection.on('error', function (err) {
+  connection.on('error', function(err) {
     if (err.message !== 'Connection closing') {
       console.error('[AMQP] connection error', err.message)
     }
   })
-  connection.on('close', function () {
+  connection.on('close', function() {
     console.error('[AMQP] reconnecting')
     return setTimeout(createChannel, 1000)
   })

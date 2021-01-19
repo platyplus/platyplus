@@ -1,3 +1,4 @@
+import { propertyType } from '../contents'
 import { ContentsDocument, PropertyType, PropertyValue } from '../types'
 
 const isTextType = (type: PropertyType): boolean =>
@@ -16,7 +17,7 @@ export const castValue = <T extends PropertyValue>(
   propertyName: string,
   value: string | boolean
 ): T => {
-  const type = document.propertyType(propertyName)
+  const type = propertyType(document, propertyName)
 
   return typeof value === 'boolean' || isTextType(type)
     ? value

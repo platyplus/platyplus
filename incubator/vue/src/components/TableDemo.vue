@@ -66,7 +66,7 @@
                 :alt="slotProps.data.representative.name"
                 :src="
                   'assets/layout/images/avatar/' +
-                  slotProps.data.representative.image
+                    slotProps.data.representative.image
                 "
                 width="32"
                 style="vertical-align: middle"
@@ -174,7 +174,7 @@
                 :alt="slotProps.data.representative.name"
                 :src="
                   'assets/layout/images/avatar/' +
-                  slotProps.data.representative.image
+                    slotProps.data.representative.image
                 "
                 width="32"
                 style="vertical-align: middle"
@@ -265,7 +265,7 @@
               <span
                 :class="
                   'product-badge status-' +
-                  slotProps.data.inventoryStatus.toLowerCase()
+                    slotProps.data.inventoryStatus.toLowerCase()
                 "
                 >{{ slotProps.data.inventoryStatus }}</span
               >
@@ -292,7 +292,7 @@
                     <span
                       :class="
                         'order-badge order-' +
-                        slotProps.data.status.toLowerCase()
+                          slotProps.data.status.toLowerCase()
                       "
                       >{{ slotProps.data.status }}</span
                     >
@@ -352,7 +352,7 @@
               :alt="slotProps.data.representative.name"
               :src="
                 'assets/layout/images/avatar/' +
-                slotProps.data.representative.image
+                  slotProps.data.representative.image
               "
               width="32"
               style="vertical-align: middle"
