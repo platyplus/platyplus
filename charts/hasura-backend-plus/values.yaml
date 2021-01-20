@@ -81,7 +81,7 @@ auth:
     hibp: false
     registrationCustomFields: []
     minPasswordLength: 3
-    defaultAllowedRoles: null # defaults to auth.registration.defaultUserRole
+    defaultAllowedRoles: null # defaults to auth.registration.defaultUserRole + me
   cookies:
     secret: null
     secure: false

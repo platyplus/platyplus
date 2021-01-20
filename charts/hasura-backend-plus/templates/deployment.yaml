@@ -151,7 +151,7 @@ spec:
             {{- if .Values.auth.registration.defaultAllowedRoles }}
               value: "{{ join "," .Values.auth.registration.defaultAllowedRoles }}"
             {{- else }}
-              value: "{{ .Values.auth.registration.defaultUserRole }}"
+              value: "{{ .Values.auth.registration.defaultUserRole }},me"
             {{- end }}
             - name: COOKIE_SECRET
               valueFrom:
