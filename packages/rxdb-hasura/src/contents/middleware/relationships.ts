@@ -48,7 +48,8 @@ const postInsertRelationship = (
     const relName = rel.rel_name as string
     if (!data[relName]) return // * Relation stayed null
     const property = collection.schema.jsonSchema.properties[relName]
-    const refCollection = collection.database.hasura[property.ref as string]
+    const refCollection =
+      collection.database.collections[property.ref as string]
     const mirrorRelation = Object.entries(
       refCollection.schema.jsonSchema.properties
     ).find(([, value]) => {
@@ -95,7 +96,8 @@ const preSaveRelationship = (
     const relName = rel.rel_name as string
     if (!doc[relName] && !data[relName]) return // * Relation stayed null
     const property = collection.schema.jsonSchema.properties[relName]
-    const refCollection = collection.database.hasura[property.ref as string]
+    const refCollection =
+      collection.database.collections[property.ref as string]
     const mirrorRelation = Object.entries(
       refCollection.schema.jsonSchema.properties
     ).find(([, value]) => {

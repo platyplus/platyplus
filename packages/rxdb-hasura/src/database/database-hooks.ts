@@ -2,7 +2,7 @@ import { info } from '../console'
 import { createMetadataReplicator, metadataSchema } from '../metadata'
 import { Database } from '../types'
 import { hasuraCollections } from './helpers'
-import { hasura } from './observables'
+import { contents } from './observables'
 
 export const createRxDatabase = async (db: Database): Promise<void> => {
   info(`Add metadata to RxDatabase ${db.name}`)
@@ -13,5 +13,5 @@ export const createRxDatabase = async (db: Database): Promise<void> => {
     }
   })
   await createMetadataReplicator(db.metadata)
-  hasura.next(hasuraCollections(db))
+  contents.next(hasuraCollections(db))
 }

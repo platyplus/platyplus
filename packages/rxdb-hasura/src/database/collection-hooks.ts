@@ -4,7 +4,7 @@ import { info } from '../console'
 import { createContentReplicator, createHooks } from '../contents'
 import { ContentsCollection } from '../types'
 import { hasuraCollections } from './helpers'
-import { hasura } from './observables'
+import { contents } from './observables'
 
 const compare = (a: number | undefined, b: number | undefined) => {
   return a || b ? (!a ? 1 : !b ? -1 : a - b) : 0
@@ -53,7 +53,7 @@ export const createRxCollection = async (
     await createContentReplicator(collection)
     info(`create RxCollection ${collection.name}`)
     createHooks(collection)
-    hasura.next({
+    contents.next({
       ...hasuraCollections(collection.database),
       [collection.name]: collection
     })

@@ -109,8 +109,8 @@ export type DatabaseCollections = {
 export type Database = RxDatabase<DatabaseCollections>
 
 export type DatabasePrototype = {
-  readonly hasura: Record<string, ContentsCollection>
-  readonly hasura$: BehaviorSubject<Record<string, ContentsCollection>>
+  // readonly contents: Record<string, ContentsCollection>
+  readonly contents$: BehaviorSubject<Record<string, ContentsCollection>>
   readonly setJwt: (value: string | undefined) => void
   readonly jwt$: BehaviorSubject<string | undefined>
   readonly setAuthStatus: (value: boolean, jwt?: string) => void

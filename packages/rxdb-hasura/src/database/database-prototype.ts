@@ -1,11 +1,11 @@
 import { Database } from '../types'
-import { authStatus, hasura, jwt, ready } from './observables'
+import { authStatus, contents, jwt, ready } from './observables'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
 export const RxDatabase = (proto: any) => {
-  Object.defineProperty(proto, 'hasura$', {
+  Object.defineProperty(proto, 'contents$', {
     get: function(this: Database) {
-      return hasura
+      return contents
     }
   })
 
@@ -36,9 +36,9 @@ export const RxDatabase = (proto: any) => {
     }
   })
 
-  Object.defineProperty(proto, 'hasura', {
+  Object.defineProperty(proto, 'contents', {
     get: function(this: Database) {
-      return hasura.getValue()
+      return contents.getValue()
     }
   })
 }

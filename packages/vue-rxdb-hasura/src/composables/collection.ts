@@ -22,7 +22,7 @@ export const useCollections = (): Ref<Record<string, ContentsCollection>> => {
   watchEffect(
     () =>
       db.value &&
-      useSubscription(db.value.hasura$.subscribe(toObserver(collections)))
+      useSubscription(db.value.contents$.subscribe(toObserver(collections)))
   )
   return collections
 }

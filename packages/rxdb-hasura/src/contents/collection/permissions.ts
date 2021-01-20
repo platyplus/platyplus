@@ -22,7 +22,7 @@ export const collectionPermissionMethods: Pick<
           const refCollectionName = this.schema.jsonSchema.properties[
             relationship?.rel_name as string
           ].ref as string
-          const refCollection = this.database.hasura[refCollectionName]
+          const refCollection = this.database[refCollectionName]
           return !!relationship?.mapping.every(m =>
             refCollection?.canUpdate(m.remote_column_name as string)
           )
@@ -54,7 +54,7 @@ export const collectionPermissionMethods: Pick<
             .every(column => column && this.canUpdate(column))
         } else {
           // * array relationship: check permission to update the foreign key columns
-          const refCollection = this.database.hasura[
+          const refCollection = this.database.collections[
             this.schema.jsonSchema.properties[relationship?.rel_name as string]
               .ref as string
           ]

@@ -26,7 +26,7 @@ export const useRefFieldValue = <T>(
     const refCollectionName = collection.schema.jsonSchema.properties[
       name.value
     ].ref as string
-    return collection.database.hasura[refCollectionName]
+    return collection.database.collections[refCollectionName]
   })
   let subscription: Subscription | undefined
   watch(

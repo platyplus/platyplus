@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs'
 import { ContentsCollection } from '../types'
 export const jwt = new BehaviorSubject<string | undefined>(undefined)
 export const authStatus = new BehaviorSubject<boolean>(false)
-export const hasura = new BehaviorSubject<Record<string, ContentsCollection>>(
+export const contents = new BehaviorSubject<Record<string, ContentsCollection>>(
   {}
 )
 export const ready = new BehaviorSubject(false)
