@@ -94,8 +94,8 @@ query metadata {
   metadata_table(
     where: {
       _and: [
-        { table_schema: { _eq: "public" } }
         { columns: { column_name: { _eq: "updated_at" } } }
+        # TODO make it work with other id names e.g. string
         { columns: { column_name: { _eq: "id" } } }
         { columns: { column_name: { _eq: "deleted" } } }
       ]

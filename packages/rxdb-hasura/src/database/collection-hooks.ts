@@ -19,6 +19,7 @@ const collectionProperties = (
     '_rev',
     '_attachments',
     'updated_at',
+    'created_at',
     'label',
     // * array aggregates from the property list
     ...collection.metadata.relationships
@@ -48,9 +49,10 @@ export const createRxCollection = async (
   collection: ContentsCollection
 ): Promise<void> => {
   if (collection.options.metadata) {
+    collection.role = collection.options.role
     collection.metadata = collection.options.metadata
     collection.properties = collectionProperties(collection)
-    await createContentReplicator(collection)
+    await createContentReplicator(collection, collection.options.role)
     info(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({

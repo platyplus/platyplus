@@ -13,20 +13,20 @@ import { skip } from 'rxjs/operators'
 import { debug, warn } from '../console'
 import { contentsCollectionCreator, metadataName } from '../contents'
 import { Database, Metadata, MetadataCollection } from '../types'
+import { createHeaders } from '../utils'
 import docQuery from './metadata.graphql'
 
 const query = print(docQuery)
 const noopQuery =
   '{metadata_table(where:{_and:[{table_schema: {_eq: "noop"}},{table_schema: {_neq: "noop"}}]}) {table_name}}'
 
-const createMetadataReplicatorOptions = (db: Database): SyncOptionsGraphQL => {
-  const token = db.jwt$.getValue()
-  const headers: Record<string, string> = token
-    ? { Authorization: `Bearer ${token}` }
-    : {}
+const createMetadataReplicatorOptions = (
+  db: Database,
+  role?: string
+): SyncOptionsGraphQL => {
   return {
     url: db.options.url,
-    headers,
+    headers: createHeaders(db.jwt$.getValue(), role),
     pull: {
       queryBuilder: doc => ({
         query: doc ? noopQuery : query,
@@ -41,7 +41,8 @@ const createMetadataReplicatorOptions = (db: Database): SyncOptionsGraphQL => {
 }
 
 export const createMetadataReplicator = async (
-  metadata: MetadataCollection
+  metadata: MetadataCollection,
+  role?: string
 ): Promise<void> => {
   const db = metadata.database
 
@@ -51,15 +52,21 @@ export const createMetadataReplicator = async (
   let errorSubscription: Subscription | undefined
 
   const start = async (): Promise<void> => {
-    state = metadata.syncGraphQL(createMetadataReplicatorOptions(db))
+    state = metadata.syncGraphQL(createMetadataReplicatorOptions(db, role))
     state.active$.pipe(skip(1)).subscribe(loading => {
       if (!loading) db.ready$.next(true)
     })
     metaSubscription = metadata.$.subscribe(
       async (event: RxChangeEvent<Metadata>) => {
         if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
+          const collectionName = role
+            ? `${metadataName(event.documentData)}_${role}`
+            : metadataName(event.documentData)
           await metadata.database.addCollections({
-            [event.documentId]: contentsCollectionCreator(event.documentData)
+            [collectionName]: contentsCollectionCreator(
+              event.documentData,
+              role
+            )
           })
         }
       }
@@ -70,10 +77,7 @@ export const createMetadataReplicator = async (
     jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {
       debug('Replicator (metadata): set token')
       // TODO change in websocket as well
-      const headers = state?.headers || {}
-      if (token) headers.Authorization = `Bearer ${token}`
-      else delete headers.Authorization
-      state?.setHeaders(headers)
+      state?.setHeaders(createHeaders(token, role))
     })
     await state.awaitInitialReplication()
   }
@@ -87,6 +91,7 @@ export const createMetadataReplicator = async (
   }
 
   db.authStatus$.subscribe(async (status: boolean) => {
+    debug('[metadata] auth status change', status)
     if (status) await start()
     else await stop()
   })

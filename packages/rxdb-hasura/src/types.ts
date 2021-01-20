@@ -81,6 +81,7 @@ export type ContentsCollectionMethods = {
 }
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
+  role?: string
   metadata: Metadata
   replicator: Replicator
   properties: Map<string, TopLevelProperty | PrimaryProperty>
@@ -104,6 +105,7 @@ export type Replicator = {
 
 export type DatabaseCollections = {
   metadata: RxCollection<Metadata>
+  profile_metadata: RxCollection<Metadata>
 } & Record<string, ContentsCollection>
 
 export type Database = RxDatabase<DatabaseCollections>

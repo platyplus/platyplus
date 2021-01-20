@@ -37,7 +37,7 @@ export const pushQueryBuilder = (
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
   const objectRelationships = table.relationships
-    .filter(({ rel_type }) => rel_type === 'object')
+    .filter(({ rel_type, mapping }) => rel_type === 'object' && mapping.length)
     .map(rel => {
       return {
         name: rel.rel_name as string,

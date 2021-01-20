@@ -4,7 +4,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { debug, error, errorDir, info, warn } from '../../console'
 import { ContentsCollection } from '../../types'
-import { httpUrlToWebSockeUrl } from '../../utils'
+import { createHeaders, httpUrlToWebSockeUrl } from '../../utils'
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
 import { subscriptionQuery } from './subscribe'
@@ -12,7 +12,8 @@ import { subscriptionQuery } from './subscribe'
 const DEFAULT_BATCH_SIZE = 5
 
 export const createContentReplicator = async (
-  collection: ContentsCollection
+  collection: ContentsCollection,
+  role?: string
 ): Promise<void> => {
   const url = collection.database.options.url
   const db = collection.database
@@ -22,13 +23,9 @@ export const createContentReplicator = async (
   let jwtSubscription: Subscription | undefined
 
   const setupGraphQLReplication = async (): Promise<RxGraphQLReplicationState> => {
-    const token = db.jwt$.getValue()
-    const headers: Record<string, string> = token
-      ? { Authorization: `Bearer ${token}` }
-      : {}
     const replicationState = collection.syncGraphQL({
       url,
-      headers,
+      headers: createHeaders(db.jwt$.getValue()),
       push: {
         batchSize: DEFAULT_BATCH_SIZE,
         queryBuilder: pushQueryBuilder(collection),
@@ -48,13 +45,9 @@ export const createContentReplicator = async (
       errorDir(err)
     })
 
-    jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {
+    jwtSubscription = db.jwt$.subscribe((token?: string) => {
       debug(`Replicator (${collection.name}): set token`)
-      // TODO change in websocket as well
-      const headers = replicationState.headers
-      if (token) headers.Authorization = `Bearer ${token}`
-      else delete headers.Authorization
-      replicationState.setHeaders(headers)
+      replicationState.setHeaders(createHeaders(token, role))
       wsSubscription?.close()
       wsSubscription = setupGraphQLSubscription()
     })
@@ -63,10 +56,8 @@ export const createContentReplicator = async (
   }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
-    // TODO problem when JWT is not valid anymore
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const token = db.jwt$.getValue()
-    const headers = token ? { Authorization: `Bearer ${token}` } : {}
+    const headers = createHeaders(db.jwt$.getValue(), role)
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {
@@ -103,7 +94,7 @@ export const createContentReplicator = async (
 
   const start = async (): Promise<void> => {
     state = await setupGraphQLReplication()
-    wsSubscription = setupGraphQLSubscription()
+    // wsSubscription = setupGraphQLSubscription()
   }
 
   const stop = async (): Promise<void> => {
@@ -113,6 +104,7 @@ export const createContentReplicator = async (
   }
 
   db.authStatus$.subscribe(async (status: boolean) => {
+    debug('[contents] auth status change', status)
     if (status) await start()
     else await stop()
   })

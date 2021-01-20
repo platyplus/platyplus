@@ -1,5 +1,6 @@
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
+import { map } from 'rxjs/operators'
 import { computed, ComputedRef, Ref, ref, unref, watchEffect } from 'vue'
 
 import { useDB } from './database'
@@ -25,4 +26,22 @@ export const useCollections = (): Ref<Record<string, ContentsCollection>> => {
       useSubscription(db.value.contents$.subscribe(toObserver(collections)))
   )
   return collections
+}
+
+export const useSingleton = (
+  collectionName: string | Ref<string>
+): Readonly<Ref<ContentsDocument | undefined>> => {
+  const document: Ref<ContentsDocument | undefined> = ref()
+  const collection = useCollection(collectionName)
+  watchEffect(() => {
+    collection.value &&
+      useSubscription(
+        collection.value
+          .find()
+          .limit(1)
+          .$.pipe(map(x => x[0]))
+          .subscribe(toObserver(document))
+      )
+  })
+  return document
 }

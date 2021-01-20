@@ -164,6 +164,64 @@
           table_name: table_name
           column_name: column_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_catalog
+      - table_schema
+      - table_name
+      - column_name
+      - ordinal_position
+      - column_default
+      - is_nullable
+      - data_type
+      - character_maximum_length
+      - character_octet_length
+      - numeric_precision
+      - numeric_precision_radix
+      - numeric_scale
+      - datetime_precision
+      - interval_type
+      - interval_precision
+      - character_set_catalog
+      - character_set_schema
+      - character_set_name
+      - collation_catalog
+      - collation_schema
+      - collation_name
+      - domain_catalog
+      - domain_schema
+      - domain_name
+      - udt_catalog
+      - udt_schema
+      - udt_name
+      - scope_catalog
+      - scope_schema
+      - scope_name
+      - maximum_cardinality
+      - dtd_identifier
+      - is_self_referencing
+      - is_identity
+      - identity_generation
+      - identity_start
+      - identity_increment
+      - identity_maximum
+      - identity_minimum
+      - identity_cycle
+      - is_generated
+      - generation_expression
+      - is_updatable
+      filter:
+        _or:
+        - canSelect:
+            role_name:
+              _eq: x-hasura-role
+        - canInsert:
+            role_name:
+              _eq: x-hasura-role
+        - canUpdate:
+            role_name:
+              _eq: x-hasura-role
   - role: user
     permission:
       columns:
@@ -250,6 +308,17 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - name
+      - transformation
+      - template
+      - type
+      - nullable
+      filter: {}
   - role: user
     permission:
       columns:
@@ -355,6 +424,17 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - role_name
+      - column_name
+      filter:
+        role_name:
+          _eq: x-hasura-role
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -408,6 +488,17 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - role_name
+      - column_name
+      filter:
+        role_name:
+          _eq: x-hasura-role
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -461,6 +552,17 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - role_name
+      - column_name
+      filter:
+        role_name:
+          _eq: x-hasura-role
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -497,6 +599,17 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - constraint_name
+      filter:
+        table:
+          permissions:
+            role_name:
+              _eq: x-hasura-role
   - role: user
     permission:
       columns:
@@ -532,6 +645,18 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - constraint_name
+      - table_schema
+      - table_name
+      - column_name
+      filter:
+        table:
+          permissions:
+            role_name:
+              _eq: x-hasura-role
   - role: user
     permission:
       columns:
@@ -548,6 +673,22 @@
     schema: metadata
     name: property_config
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - description
+      - edit_component
+      - edit_component_options
+      - icon
+      - order
+      - property_name
+      - read_component
+      - read_component_options
+      - table_name
+      - table_schema
+      - title
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -598,6 +739,23 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - rel_name
+      - rel_type
+      - rel_def
+      - comment
+      - is_system_defined
+      filter:
+        mapping:
+          column:
+            table:
+              permissions:
+                role_name:
+                  _eq: x-hasura-role
   - role: user
     permission:
       columns:
@@ -658,6 +816,26 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - rel_name
+      - remote_schema_name
+      - remote_table_name
+      - column_name
+      - remote_column_name
+      filter:
+        _and:
+        - table:
+            permissions:
+              role_name:
+                _eq: x-hasura-role
+        - remoteTable:
+            permissions:
+              role_name:
+                _eq: x-hasura-role
   - role: user
     permission:
       columns:
@@ -852,6 +1030,18 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - configuration
+      - is_enum
+      - is_system_defined
+      - table_name
+      - table_schema
+      filter:
+        permissions:
+          role_name:
+            _eq: X-Hasura-role
   - role: user
     permission:
       columns:
@@ -878,6 +1068,22 @@
           table_schema: table_schema
           table_name: table_name
   select_permissions:
+  - role: me
+    permission:
+      columns:
+      - default_view
+      - description
+      - document_label
+      - document_title
+      - icon
+      - table_name
+      - table_schema
+      - title
+      filter:
+        table:
+          permissions:
+            role_name:
+              _eq: x-hasura-role
   - role: user
     permission:
       columns:
@@ -1042,6 +1248,27 @@
           name: accounts
         column_mapping:
           id: user_id
+  select_permissions:
+  - role: me
+    permission:
+      columns:
+      - avatar_url
+      - created_at
+      - deleted
+      - display_name
+      - id
+      - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: me
+    permission:
+      columns:
+      - avatar_url
+      - display_name
+      filter: {}
+      check: null
 - table:
     schema: public
     name: visite

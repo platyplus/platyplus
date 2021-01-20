@@ -37,7 +37,7 @@ export const pullQueryBuilder = (
     // * - keys as per defined in the relationship mapping
     // * - aggregate (last updated_at) so when it changes it will trigger a new pull
     ...table.relationships
-      .filter(rel => rel.rel_type === 'array')
+      .filter(rel => rel.rel_type === 'array' && rel.mapping.length)
       .map(
         relationship =>
           ({
@@ -144,14 +144,16 @@ export const pullQueryBuilder = (
 
 export const pullModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
-  const cleansedRelationships = table.relationships.map(rel => {
-    return {
-      multiple: rel.rel_type === 'array',
-      name: rel.rel_name as string,
-      column: rel.mapping[0].column?.column_name as string,
-      remoteColumn: rel.mapping[0].remote_column_name as string
-    }
-  })
+  const cleansedRelationships = table.relationships
+    .filter(relationship => relationship.mapping.length)
+    .map(rel => {
+      return {
+        multiple: rel.rel_type === 'array',
+        name: rel.rel_name as string,
+        column: rel.mapping[0].column?.column_name as string,
+        remoteColumn: rel.mapping[0].remote_column_name as string
+      }
+    })
 
   return async data => {
     debug('pullModifier: in', { ...data })

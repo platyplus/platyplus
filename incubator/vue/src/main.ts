@@ -37,6 +37,7 @@ import './assets/layout/flags/flags.css'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import AutoComplete from 'primevue/autocomplete'
+import Avatar from 'primevue/avatar'
 import Breadcrumb from 'primevue/breadcrumb'
 import Card from 'primevue/card'
 import Carousel from 'primevue/carousel'
@@ -101,8 +102,10 @@ app.use(ToastService)
 app.use(ConfirmationService)
 app.use(router)
 
+// TODO prefix with 'p-'
 app.directive('tooltip', Tooltip)
 app.directive('ripple', Ripple)
+app.component('PAvatar', Avatar)
 app.component('ConfirmDialog', ConfirmDialog)
 app.component('Accordion', Accordion)
 app.component('AccordionTab', AccordionTab)

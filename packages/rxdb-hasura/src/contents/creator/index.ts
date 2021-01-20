@@ -6,12 +6,13 @@ import { documentMethods } from '../document'
 import { toJsonSchema } from '../schema'
 
 export const contentsCollectionCreator = (
-  metadata: Metadata
+  metadata: Metadata,
+  role?: string
 ): RxCollectionCreatorBase => {
   return {
     schema: toJsonSchema(metadata),
     statics: collectionMethods,
     methods: documentMethods,
-    options: { metadata }
+    options: { metadata, role }
   }
 }

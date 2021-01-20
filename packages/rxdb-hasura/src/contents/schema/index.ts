@@ -12,7 +12,7 @@ export const metadataName = (data: CoreTableFragment): string =>
     ? `${data.table_name}`
     : `${data.table_schema}_${data.table_name}`
 
-export const toJsonSchema = (table: Metadata): RxJsonSchema => {
+export const toJsonSchema = (table: Metadata, role?: string): RxJsonSchema => {
   // TODO get the query/mutations/subscription names for building graphql queries
   const result: RxJsonSchema = {
     type: 'object',
@@ -21,7 +21,7 @@ export const toJsonSchema = (table: Metadata): RxJsonSchema => {
     version: 0,
     properties: {
       ...createColumnProperties(table),
-      ...createRelationshipProperties(table),
+      ...createRelationshipProperties(table, role),
       ...createComputedFieldsProperties(table)
     },
     required: requiredProperties(table),

@@ -20,7 +20,10 @@ export const createColumnProperties = (
 ): Record<string, TopLevelProperty | PrimaryProperty> => {
   const result: Record<string, TopLevelProperty | PrimaryProperty> = {}
   const skipRelationships = table.relationships
-    .filter(relationship => relationship.rel_type === 'object')
+    .filter(
+      relationship =>
+        relationship.rel_type === 'object' && relationship.mapping.length
+    )
     .map(relationship => relationship.mapping[0].column?.column_name)
   table.columns
     // * Do not include again properties that are already mapped by an object relationship

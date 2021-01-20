@@ -1,4 +1,5 @@
 import { jsonataPaths } from '@platyplus/jsonata-schema'
+import decode from 'jwt-decode'
 
 import { ContentsCollection } from './types'
 
@@ -17,7 +18,7 @@ export interface FieldMap {
 // * Generate query fields according to the loaded schema
 // * It is meant to:
 // * - avoid sending the details of GraphQL JSON fields
-// * - systematically add default fields of properties (`id` and `deleted`)
+// * - systematically add default fields of properties (primary key and `deleted`)
 const generateRxdbJsonataPaths = (
   schema: FieldMap,
   collection?: ContentsCollection
@@ -25,9 +26,10 @@ const generateRxdbJsonataPaths = (
   const subFields = Object.entries(schema).reduce<FieldMap>(
     (aggr, [key, value]) => {
       const ref = collection?.schema.jsonSchema.properties[key].ref
-      if (ref) {
-        if (value === true) aggr[key] = { id: true, deleted: true }
-        else
+      if (collection && ref) {
+        if (value === true) {
+          aggr[key] = { [collection.schema.primaryPath]: true, deleted: true }
+        } else
           aggr[key] = generateRxdbJsonataPaths(value, collection?.database[ref])
       } else aggr[key] = true
 
@@ -57,4 +59,28 @@ export const objectSchemaToGraphqlFields = (
   } else {
     return path
   }
+}
+
+type Claims = Record<string, unknown> & {
+  ['https://hasura.io/jwt/claims']: {
+    [key: string]: string | string[] | undefined
+    'x-hasura-allowed-roles': string[]
+    'x-hasura-default-role': string
+  }
+}
+
+export const createHeaders = (
+  token?: string,
+  role?: string
+): Record<string, string> => {
+  const headers: Record<string, string> = {}
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+    const hasuraClaims = decode<Claims>(token)['https://hasura.io/jwt/claims']
+    const allowedRoles = hasuraClaims['x-hasura-allowed-roles']
+    const defaultRole = hasuraClaims['x-hasura-default-role']
+    if (role && role !== defaultRole && allowedRoles.includes(role))
+      headers['x-hasura-role'] = role
+  }
+  return headers
 }

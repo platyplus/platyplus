@@ -10,8 +10,13 @@ export const createRxDatabase = async (db: Database): Promise<void> => {
     metadata: {
       schema: metadataSchema,
       autoMigrate: true
+    },
+    profile_metadata: {
+      schema: metadataSchema,
+      autoMigrate: true
     }
   })
   await createMetadataReplicator(db.metadata)
+  await createMetadataReplicator(db.profile_metadata, 'me')
   contents.next(hasuraCollections(db))
 }
