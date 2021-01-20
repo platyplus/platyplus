@@ -10,12 +10,13 @@
       span.layout-topbar-item-text Events
       span.layout-topbar-icon.pi.pi-calendar
       span.layout-topbar-badge 5
-    button.p-link
+    button.p-link(v-if="false")
       span.layout-topbar-item-text Settings
       span.layout-topbar-icon.pi.pi-cog
-    button.p-link(v-if="connected")
-      span.layout-topbar-item-text User
-      span.layout-topbar-icon.pi.pi-user
+    router-link(v-if="connected" :to="{ name: 'profile' }")
+      button.p-link
+        span.layout-topbar-item-text User
+        span.layout-topbar-icon.pi.pi-user
 
 </template>
 <script lang="ts">

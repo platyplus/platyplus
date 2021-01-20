@@ -9,10 +9,10 @@
   transition(name='layout-submenu-wrapper')
     ul(v-show='expanded')
       li
-        router-link(:to="{ name: 'document', params: { collection: 'users_me', id: profile.id }}")
+        router-link(:to="{ name: 'profile' }")
           button.p-link
             i.pi.pi-fw.pi-user
-            span Account
+            span Profile
       li
         button.p-link
           i.pi.pi-fw.pi-inbox
@@ -26,10 +26,12 @@
 
 <script lang="ts">
 import { useLogout } from '@platyplus/vue-hasura-backend-plus'
-import { useDB, useSingleton } from '@platyplus/vue-rxdb-hasura'
+import { useDB } from '@platyplus/vue-rxdb-hasura'
 import { useToggle } from '@vueuse/core'
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
+
+import { useDisplayName, useInitial, useProfile } from '../composables'
 
 export default defineComponent({
   setup() {
@@ -37,7 +39,7 @@ export default defineComponent({
     const [expanded, toggle] = useToggle(false)
     const router = useRouter()
     const hbpLogout = useLogout()
-    const profile = useSingleton('users_me')
+    const profile = useProfile()
     const logout = async () => {
       await hbpLogout()
       // * destroy RXDB databases as well
@@ -46,12 +48,8 @@ export default defineComponent({
       await db.value?.remove()
       router.push('/')
     }
-    const displayName = computed<string | undefined>(() => {
-      // * Use either 'display_name' or the label, if the label is not the user id.
-      const label = profile.value?.label
-      return label === profile.value?.id ? profile.value?.display_name : label
-    })
-    const initial = computed(() => displayName.value?.charAt(0).toUpperCase())
+    const displayName = useDisplayName(profile)
+    const initial = useInitial(displayName)
     return { expanded, toggle, logout, profile, displayName, initial }
   }
 })

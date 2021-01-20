@@ -77,6 +77,18 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       auth: true
     }
+  },
+  {
+    path: '/profile/:action?',
+    name: 'profile',
+    component: () =>
+      import(/* webpackChunkName: "document" */ '../pages/Profile.vue'),
+    props: route => ({
+      editing: route.params.action === 'edit'
+    }),
+    meta: {
+      auth: true
+    }
   }
 ]
 

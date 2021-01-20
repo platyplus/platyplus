@@ -59,7 +59,7 @@ import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 export default defineComponent({
-  name: 'CollectionPage',
+  name: 'DocumentPage',
   props: {
     name: {
       type: String,

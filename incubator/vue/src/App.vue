@@ -29,7 +29,7 @@ import { useToast } from 'primevue/components/toast/useToast'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { useFilteredMenu } from './composables/menu'
+import { useFilteredMenu } from './composables'
 import Footer from './layout/Footer.vue'
 import Menu from './layout/Menu.vue'
 import Profile from './layout/Profile.vue'
@@ -102,11 +102,7 @@ export default defineComponent({
         : 'layout-sidebar-light'
     ])
 
-    const logo = computed(() =>
-      layoutColorMode.value === 'dark'
-        ? 'assets/layout/images/logo-white.svg'
-        : 'assets/layout/images/logo.svg'
-    )
+    const logo = computed(() => 'assets/layout/images/logo-white.svg')
 
     const addClass = (element: Element, className: string) => {
       if (element.classList) element.classList.add(className)
