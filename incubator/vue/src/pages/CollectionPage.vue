@@ -5,8 +5,10 @@
     span {{collection.title()}}
   p {{collection.description()}}
   Toolbar.p-mb-4(v-if="canEdit")
+    // TODO put toolbar in the table view component
     template(#left)
       Button.p-mr-2(v-if="!editing" icon="pi pi-pencil" label="Edit" @click="edit")
+      Button.p-mr-2(v-if="!editing" icon="pi pi-plus" label="Create" @click="create")
       Button.p-mr-2(v-if="editing" icon="pi pi-save" label="Save" @click="save") 
       Button.p-mr-2(v-if="editing" icon="pi pi-undo" label="Reset" @click="reset") 
       Button.p-mr-2(v-if="editing" icon="pi pi-times" label="Cancel" @click="cancel") 
@@ -69,6 +71,13 @@ export default defineComponent({
           action: 'edit'
         }
       })
+    const create = () =>
+      router.push({
+        name: 'newDocument',
+        params: {
+          collection: props.name
+        }
+      })
     const save = async () => {
       await store.dispatch('rxdb/save')
       read()
@@ -87,7 +96,8 @@ export default defineComponent({
       reset,
       cancel,
       canEdit,
-      edit
+      edit,
+      create
     }
   }
 })

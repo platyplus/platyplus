@@ -954,6 +954,35 @@
       check: null
 - table:
     schema: public
+    name: lab_test
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - deleted
+      - id
+      - name
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - deleted
+      - name
+      - updated_at
+      - id
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - deleted
+      - name
+      filter: {}
+      check: null
+- table:
+    schema: public
     name: patient
   array_relationships:
   - name: visites
