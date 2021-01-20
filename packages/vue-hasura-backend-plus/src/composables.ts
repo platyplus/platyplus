@@ -58,6 +58,8 @@ export const useRegister = (
       try {
         error.value = undefined
         await auth.register(email.value, password.value)
+        // TODO handle account activation
+        await auth.login(email.value, password.value)
       } catch (err) {
         error.value = err
       }
