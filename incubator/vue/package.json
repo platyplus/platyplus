@@ -11,7 +11,7 @@
     "@platyplus/humanitarian-icons": "^0.1.0",
     "@platyplus/rxdb-hasura": "^0.1.0",
     "@platyplus/vue-hasura-backend-plus": "^0.1.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.8.3",
     "mitt": "^2.1.0",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
@@ -19,21 +19,21 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@types/node": "^14.14.16",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@types/node": "^14.14.22",
+    "@vue/cli-plugin-babel": "~4.5.10",
+    "@vue/cli-plugin-pwa": "~4.5.10",
+    "@vue/cli-plugin-router": "~4.5.10",
+    "@vue/cli-plugin-typescript": "~4.5.10",
+    "@vue/cli-plugin-vuex": "~4.5.10",
+    "@vue/cli-service": "~4.5.10",
+    "@vue/compiler-sfc": "^3.0.5",
     "pouchdb-adapter-memory": "^7.2.2",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.1.0",
-    "sass": "^1.32.0",
-    "sass-loader": "^10.1.0",
+    "sass": "^1.32.5",
+    "sass-loader": "^10.1.1",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
     "typescript": "~3.9.3",
-    "webpack-bundle-analyzer": "^4.3.0"
+    "webpack-bundle-analyzer": "^4.4.0"
   }
 }

@@ -25,6 +25,6 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
-    "fantasticon": "^1.0.30"
+    "fantasticon": "^1.0.31"
   }
 }

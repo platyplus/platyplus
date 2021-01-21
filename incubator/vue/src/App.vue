@@ -25,7 +25,7 @@
 <script lang="ts">
 import { useStatus } from '@platyplus/vue-hasura-backend-plus'
 import { useIsReady } from '@platyplus/vue-rxdb-hasura'
-import { useToast } from 'primevue/components/toast/useToast'
+import { useToast } from 'primevue/usetoast'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 

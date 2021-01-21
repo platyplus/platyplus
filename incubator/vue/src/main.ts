@@ -43,7 +43,6 @@ import Card from 'primevue/card'
 import Carousel from 'primevue/carousel'
 import Chips from 'primevue/chips'
 import ColorPicker from 'primevue/colorpicker'
-import ScrollTop from 'primevue/components/scrolltop/ScrollTop'
 import ConfirmationService from 'primevue/confirmationservice'
 import ConfirmDialog from 'primevue/confirmdialog'
 import ContextMenu from 'primevue/contextmenu'
@@ -72,6 +71,7 @@ import ProgressBar from 'primevue/progressbar'
 import RadioButton from 'primevue/radiobutton'
 import Rating from 'primevue/rating'
 import Ripple from 'primevue/ripple'
+import ScrollTop from 'primevue/scrolltop'
 import SelectButton from 'primevue/selectbutton'
 import Sidebar from 'primevue/sidebar'
 import Slider from 'primevue/slider'
@@ -90,7 +90,7 @@ import Tooltip from 'primevue/tooltip'
 import Tree from 'primevue/tree'
 import TreeTable from 'primevue/treetable'
 import TriStateCheckbox from 'primevue/tristatecheckbox'
-router.beforeEach(function(to, from, next) {
+router.beforeEach(function (to, from, next) {
   window.scrollTo(0, 0)
   // * Authentication guard
   if (to.meta.auth && !hbp.authenticated.value) next('/login')

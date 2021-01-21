@@ -1,5 +1,5 @@
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { computed, ComputedRef, Ref, ref, watch } from 'vue'
+import { Ref, ref, watch } from 'vue'
 
 // * Use either 'display_name' or the label, if the label is not the user id.
 export const useDisplayName = (

@@ -54,7 +54,7 @@ div(v-if='collection && document', :key='document.primary')
 <script lang="ts">
 import { useCollection, useDocument } from '@platyplus/vue-rxdb-hasura'
 import { useToggle } from '@vueuse/core'
-import { useConfirm } from 'primevue/useConfirm'
+import { useConfirm } from 'primevue/useconfirm'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
