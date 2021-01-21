@@ -11,8 +11,17 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/debug',
+    name: 'debug',
+    component: () =>
+      import(/* webpackChunkName: "public-home" */ '../pages/Debug.vue'),
+    meta: {
+      auth: true
+    }
+  },
+  {
     path: '/home',
-    name: 'Home',
+    name: 'home',
     component: () => import(/* webpackChunkName: "home" */ '../pages/Home.vue'),
     meta: {
       auth: true
@@ -20,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () =>
       import(/* webpackChunkName: "login" */ '../pages/Login.vue'),
     meta: {
@@ -29,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/register',
-    name: 'Register',
+    name: 'register',
     component: () =>
       import(/* webpackChunkName: "register" */ '../pages/Register.vue'),
     meta: {

@@ -3,12 +3,11 @@
   h2 Register
   form
     p Already have an account? 
-      router-link(to="/login") Login
+      router-link(:to="{name: 'login'}") Login
     InputText(v-model="email" id="email" type="text" placeholder="Email" autocomplete="username")
     InputText(v-model="password" id="password" type="password" placeholder="Password" autocomplete="current-password")                    
     Button.p-button-rounded(@click="registerUser") Register
   p {{error}}
-  p -{{status}}-
 </template>
 
 <script lang="ts">

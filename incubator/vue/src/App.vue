@@ -6,7 +6,7 @@
       :class="sidebarClass"
       @click="onSidebarClick")  
       .layout-logo    
-        router-link(to="/")
+        router-link(:to="{name: 'home'}")
           img(alt="Logo" :src="logo")
       Profile(v-if="status")
       Menu(:model="menu" @menuitem-click="onMenuItemClick")

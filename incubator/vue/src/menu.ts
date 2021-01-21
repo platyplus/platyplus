@@ -23,6 +23,7 @@ export const useMenu = (): ComputedRef<MenuItem[]> => {
             }
           }
         }
-      })
+      }),
+    { label: 'Debug', icon: 'pi pi-fw pi-cog', to: { name: 'debug' } }
   ])
 }

@@ -3,7 +3,7 @@
   h2 Login
   form
     p No account yet? 
-      router-link(to="/register") Sign up
+      router-link(:to="{name: 'register'}") Sign up
     InputText(v-model="email" id="email" type="text" placeholder="Email" autocomplete="username" @keyup.enter="login")
     InputText(v-model="password" id="password" type="password" placeholder="Password" autocomplete="current-password" @keyup.enter="login")                    
     p Lost password?
