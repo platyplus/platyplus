@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
-import { RxCollectionHookCallback } from 'rxdb'
+import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
 
 import {
   Contents,
   ContentsCollection,
+  ContentsDocument,
   ContentsDocumentMethods,
   JsonSchemaPropertyType
 } from '../../types'
+import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
 import { label } from './label'
 
 type ComputedProperty = {
@@ -70,16 +72,83 @@ const evaluate = (data: any, property: ComputedProperty): any => {
   }
 }
 
+// * Recursively loads data from a document according to a field map
+const recurseLoading = async (
+  doc: ContentsDocument | Contents,
+  collection: ContentsCollection,
+  fieldMap: FieldMapItem
+): Promise<Contents> => {
+  return await Object.entries(fieldMap).reduce<any>(
+    async (aggr, [key, value]) => {
+      const ref = collection.schema.jsonSchema.properties[key]?.ref
+      if (ref) {
+        const refCollection = collection.database[ref]
+        if (Array.isArray(doc[key])) {
+          aggr[key] = await Promise.all(
+            doc[key].map(
+              async (id: string) =>
+                await recurseLoading(
+                  await refCollection.findOne(id).exec(),
+                  refCollection,
+                  value
+                )
+            )
+          )
+        } else {
+          aggr[key] = await recurseLoading(
+            await refCollection.findOne(doc[key]).exec(),
+            refCollection,
+            value
+          )
+        }
+      } else if (value) {
+        ;(await aggr)[key] = doc[key]
+      }
+      return aggr
+    },
+    {}
+  )
+}
+
+// * Expand data from dependend relationships according to a jsonata expression's needs
+const expandRxDBData = async (
+  contents: Contents,
+  collection: ContentsCollection,
+  expression: string
+): Promise<Contents | null> => {
+  const paths = rxdbJsonataPaths(expression, collection)
+  return removeDeleted(await recurseLoading(contents, collection, paths))
+}
+
+// * Compute the property from either raw content or its expanded values
+// * when a collection is passed either from doc.collection or from the optional arg
+export const compute = async (
+  doc: ContentsDocument | Contents,
+  property: ComputedProperty,
+  collection?: ContentsCollection
+): Promise<any> => {
+  const col = isRxDocument(doc) ? doc.collection : collection
+  const data =
+    col && property.transformation
+      ? await expandRxDBData(
+          doc,
+          col as ContentsCollection,
+          property.transformation
+        )
+      : doc
+  return evaluate(data, property as ComputedProperty)
+}
+
 export const addComputedFieldsFromCollection = async (
   data: Contents,
   collection: ContentsCollection
 ): Promise<void> => {
   for (const property of collection.metadata.computedProperties) {
-    if (property.transformation) {
-      // TODO load data with jsonata schema
-      // TODO hide deleted documents
-      data[property.name] = evaluate(data, property as ComputedProperty)
-    }
+    data[property.name] = compute(
+      data,
+      property as ComputedProperty,
+      collection
+    )
   }
   data.label = label(data, collection) || ''
 }

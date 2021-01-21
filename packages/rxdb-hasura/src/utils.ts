@@ -10,7 +10,7 @@ export const httpUrlToWebSockeUrl = (url: string): string =>
 export const webSocketUrlToHttpUrl = (url: string): string =>
   url.replace(/(ws)(s)?:\/\//, 'http$2://')
 
-type FieldMapItem = FieldMap | true
+export type FieldMapItem = FieldMap | true
 export interface FieldMap {
   [key: string]: FieldMapItem
 }
