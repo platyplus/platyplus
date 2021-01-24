@@ -680,6 +680,7 @@
       - edit_component
       - edit_component_options
       - icon
+      - json_schema
       - order
       - property_name
       - read_component
@@ -696,6 +697,7 @@
       - edit_component
       - edit_component_options
       - icon
+      - json_schema
       - order
       - property_name
       - read_component

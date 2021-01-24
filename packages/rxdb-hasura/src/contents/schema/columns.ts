@@ -33,8 +33,9 @@ export const createColumnProperties = (
     .map(column => {
       const sqlType = column.udt_name as string
       const type = propertyJsonType(column)
-
-      const property: TopLevelProperty = {
+      // * Load custom JSON Schema, if it exists
+      const customSchema = column.config?.json_schema
+      const property: TopLevelProperty = customSchema || {
         type
       }
 

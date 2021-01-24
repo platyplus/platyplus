@@ -1640,6 +1640,171 @@ export type Jsonb_Comparison_Exp = {
   _nin: Maybe<Array<Scalars['jsonb']>>
 }
 
+/** columns and relationships of "lab_test" */
+export type Lab_Test = {
+  __typename?: 'lab_test'
+  deleted: Scalars['Boolean']
+  id: Scalars['uuid']
+  name: Scalars['String']
+  updated_at: Scalars['timestamptz']
+}
+
+/** aggregated selection of "lab_test" */
+export type Lab_Test_Aggregate = {
+  __typename?: 'lab_test_aggregate'
+  aggregate: Maybe<Lab_Test_Aggregate_Fields>
+  nodes: Array<Lab_Test>
+}
+
+/** aggregate fields of "lab_test" */
+export type Lab_Test_Aggregate_Fields = {
+  __typename?: 'lab_test_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Lab_Test_Max_Fields>
+  min: Maybe<Lab_Test_Min_Fields>
+}
+
+/** aggregate fields of "lab_test" */
+export type Lab_Test_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Lab_Test_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "lab_test" */
+export type Lab_Test_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Lab_Test_Max_Order_By>
+  min: Maybe<Lab_Test_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "lab_test" */
+export type Lab_Test_Arr_Rel_Insert_Input = {
+  data: Array<Lab_Test_Insert_Input>
+  on_conflict: Maybe<Lab_Test_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "lab_test". All fields are combined with a logical 'AND'. */
+export type Lab_Test_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Lab_Test_Bool_Exp>>>
+  _not: Maybe<Lab_Test_Bool_Exp>
+  _or: Maybe<Array<Maybe<Lab_Test_Bool_Exp>>>
+  deleted: Maybe<Boolean_Comparison_Exp>
+  id: Maybe<Uuid_Comparison_Exp>
+  name: Maybe<String_Comparison_Exp>
+  updated_at: Maybe<Timestamptz_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "lab_test" */
+export enum Lab_Test_Constraint {
+  /** unique or primary key constraint */
+  LabTestPkey = 'lab_test_pkey'
+}
+
+/** input type for inserting data into table "lab_test" */
+export type Lab_Test_Insert_Input = {
+  deleted: Maybe<Scalars['Boolean']>
+  id: Maybe<Scalars['uuid']>
+  name: Maybe<Scalars['String']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate max on columns */
+export type Lab_Test_Max_Fields = {
+  __typename?: 'lab_test_max_fields'
+  id: Maybe<Scalars['uuid']>
+  name: Maybe<Scalars['String']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** order by max() on columns of table "lab_test" */
+export type Lab_Test_Max_Order_By = {
+  id: Maybe<Order_By>
+  name: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Lab_Test_Min_Fields = {
+  __typename?: 'lab_test_min_fields'
+  id: Maybe<Scalars['uuid']>
+  name: Maybe<Scalars['String']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** order by min() on columns of table "lab_test" */
+export type Lab_Test_Min_Order_By = {
+  id: Maybe<Order_By>
+  name: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "lab_test" */
+export type Lab_Test_Mutation_Response = {
+  __typename?: 'lab_test_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Lab_Test>
+}
+
+/** input type for inserting object relation for remote table "lab_test" */
+export type Lab_Test_Obj_Rel_Insert_Input = {
+  data: Lab_Test_Insert_Input
+  on_conflict: Maybe<Lab_Test_On_Conflict>
+}
+
+/** on conflict condition type for table "lab_test" */
+export type Lab_Test_On_Conflict = {
+  constraint: Lab_Test_Constraint
+  update_columns: Array<Lab_Test_Update_Column>
+  where: Maybe<Lab_Test_Bool_Exp>
+}
+
+/** ordering options when selecting data from "lab_test" */
+export type Lab_Test_Order_By = {
+  deleted: Maybe<Order_By>
+  id: Maybe<Order_By>
+  name: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "lab_test" */
+export type Lab_Test_Pk_Columns_Input = {
+  id: Scalars['uuid']
+}
+
+/** select columns of table "lab_test" */
+export enum Lab_Test_Select_Column {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "lab_test" */
+export type Lab_Test_Set_Input = {
+  deleted: Maybe<Scalars['Boolean']>
+  id: Maybe<Scalars['uuid']>
+  name: Maybe<Scalars['String']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** update columns of table "lab_test" */
+export enum Lab_Test_Update_Column {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
 /** columns and relationships of "metadata.check_constraint" */
 export type Metadata_Check_Constraint = {
   __typename?: 'metadata_check_constraint'
@@ -4320,6 +4485,7 @@ export type Metadata_Property_Config = {
   edit_component: Maybe<Scalars['String']>
   edit_component_options: Maybe<Scalars['jsonb']>
   icon: Maybe<Scalars['String']>
+  json_schema: Maybe<Scalars['jsonb']>
   order: Scalars['Int']
   property_name: Scalars['String']
   read_component: Maybe<Scalars['String']>
@@ -4331,6 +4497,11 @@ export type Metadata_Property_Config = {
 
 /** columns and relationships of "metadata.property_config" */
 export type Metadata_Property_ConfigEdit_Component_OptionsArgs = {
+  path: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "metadata.property_config" */
+export type Metadata_Property_ConfigJson_SchemaArgs = {
   path: Maybe<Scalars['String']>
 }
 
@@ -4386,6 +4557,7 @@ export type Metadata_Property_Config_Aggregate_Order_By = {
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Metadata_Property_Config_Append_Input = {
   edit_component_options: Maybe<Scalars['jsonb']>
+  json_schema: Maybe<Scalars['jsonb']>
   read_component_options: Maybe<Scalars['jsonb']>
 }
 
@@ -4415,6 +4587,7 @@ export type Metadata_Property_Config_Bool_Exp = {
   edit_component: Maybe<String_Comparison_Exp>
   edit_component_options: Maybe<Jsonb_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
+  json_schema: Maybe<Jsonb_Comparison_Exp>
   order: Maybe<Int_Comparison_Exp>
   property_name: Maybe<String_Comparison_Exp>
   read_component: Maybe<String_Comparison_Exp>
@@ -4433,18 +4606,21 @@ export enum Metadata_Property_Config_Constraint {
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Metadata_Property_Config_Delete_At_Path_Input = {
   edit_component_options: Maybe<Array<Maybe<Scalars['String']>>>
+  json_schema: Maybe<Array<Maybe<Scalars['String']>>>
   read_component_options: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Metadata_Property_Config_Delete_Elem_Input = {
   edit_component_options: Maybe<Scalars['Int']>
+  json_schema: Maybe<Scalars['Int']>
   read_component_options: Maybe<Scalars['Int']>
 }
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Metadata_Property_Config_Delete_Key_Input = {
   edit_component_options: Maybe<Scalars['String']>
+  json_schema: Maybe<Scalars['String']>
   read_component_options: Maybe<Scalars['String']>
 }
 
@@ -4459,6 +4635,7 @@ export type Metadata_Property_Config_Insert_Input = {
   edit_component: Maybe<Scalars['String']>
   edit_component_options: Maybe<Scalars['jsonb']>
   icon: Maybe<Scalars['String']>
+  json_schema: Maybe<Scalars['jsonb']>
   order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
   read_component: Maybe<Scalars['String']>
@@ -4550,6 +4727,7 @@ export type Metadata_Property_Config_Order_By = {
   edit_component: Maybe<Order_By>
   edit_component_options: Maybe<Order_By>
   icon: Maybe<Order_By>
+  json_schema: Maybe<Order_By>
   order: Maybe<Order_By>
   property_name: Maybe<Order_By>
   read_component: Maybe<Order_By>
@@ -4569,6 +4747,7 @@ export type Metadata_Property_Config_Pk_Columns_Input = {
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Metadata_Property_Config_Prepend_Input = {
   edit_component_options: Maybe<Scalars['jsonb']>
+  json_schema: Maybe<Scalars['jsonb']>
   read_component_options: Maybe<Scalars['jsonb']>
 }
 
@@ -4582,6 +4761,8 @@ export enum Metadata_Property_Config_Select_Column {
   EditComponentOptions = 'edit_component_options',
   /** column name */
   Icon = 'icon',
+  /** column name */
+  JsonSchema = 'json_schema',
   /** column name */
   Order = 'order',
   /** column name */
@@ -4604,6 +4785,7 @@ export type Metadata_Property_Config_Set_Input = {
   edit_component: Maybe<Scalars['String']>
   edit_component_options: Maybe<Scalars['jsonb']>
   icon: Maybe<Scalars['String']>
+  json_schema: Maybe<Scalars['jsonb']>
   order: Maybe<Scalars['Int']>
   property_name: Maybe<Scalars['String']>
   read_component: Maybe<Scalars['String']>
@@ -4667,6 +4849,8 @@ export enum Metadata_Property_Config_Update_Column {
   EditComponentOptions = 'edit_component_options',
   /** column name */
   Icon = 'icon',
+  /** column name */
+  JsonSchema = 'json_schema',
   /** column name */
   Order = 'order',
   /** column name */
@@ -6403,6 +6587,10 @@ export type Mutation_Root = {
   delete_drug: Maybe<Drug_Mutation_Response>
   /** delete single row from the table: "drug" */
   delete_drug_by_pk: Maybe<Drug>
+  /** delete data from the table: "lab_test" */
+  delete_lab_test: Maybe<Lab_Test_Mutation_Response>
+  /** delete single row from the table: "lab_test" */
+  delete_lab_test_by_pk: Maybe<Lab_Test>
   /** delete data from the table: "metadata.computed_field" */
   delete_metadata_computed_field: Maybe<
     Metadata_Computed_Field_Mutation_Response
@@ -6471,6 +6659,10 @@ export type Mutation_Root = {
   insert_drug: Maybe<Drug_Mutation_Response>
   /** insert a single row into the table: "drug" */
   insert_drug_one: Maybe<Drug>
+  /** insert data into the table: "lab_test" */
+  insert_lab_test: Maybe<Lab_Test_Mutation_Response>
+  /** insert a single row into the table: "lab_test" */
+  insert_lab_test_one: Maybe<Lab_Test>
   /** insert data into the table: "metadata.computed_field" */
   insert_metadata_computed_field: Maybe<
     Metadata_Computed_Field_Mutation_Response
@@ -6549,6 +6741,10 @@ export type Mutation_Root = {
   update_drug: Maybe<Drug_Mutation_Response>
   /** update single row of the table: "drug" */
   update_drug_by_pk: Maybe<Drug>
+  /** update data of the table: "lab_test" */
+  update_lab_test: Maybe<Lab_Test_Mutation_Response>
+  /** update single row of the table: "lab_test" */
+  update_lab_test_by_pk: Maybe<Lab_Test>
   /** update data of the table: "metadata.computed_field" */
   update_metadata_computed_field: Maybe<
     Metadata_Computed_Field_Mutation_Response
@@ -6658,6 +6854,16 @@ export type Mutation_RootDelete_DrugArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Drug_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Lab_TestArgs = {
+  where: Lab_Test_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Lab_Test_By_PkArgs = {
   id: Scalars['uuid']
 }
 
@@ -6833,6 +7039,18 @@ export type Mutation_RootInsert_DrugArgs = {
 export type Mutation_RootInsert_Drug_OneArgs = {
   object: Drug_Insert_Input
   on_conflict: Maybe<Drug_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Lab_TestArgs = {
+  objects: Array<Lab_Test_Insert_Input>
+  on_conflict: Maybe<Lab_Test_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Lab_Test_OneArgs = {
+  object: Lab_Test_Insert_Input
+  on_conflict: Maybe<Lab_Test_On_Conflict>
 }
 
 /** mutation root */
@@ -7049,6 +7267,18 @@ export type Mutation_RootUpdate_DrugArgs = {
 export type Mutation_RootUpdate_Drug_By_PkArgs = {
   _set: Maybe<Drug_Set_Input>
   pk_columns: Drug_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Lab_TestArgs = {
+  _set: Maybe<Lab_Test_Set_Input>
+  where: Lab_Test_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Lab_Test_By_PkArgs = {
+  _set: Maybe<Lab_Test_Set_Input>
+  pk_columns: Lab_Test_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -7780,6 +8010,12 @@ export type Query_Root = {
   drug_aggregate: Drug_Aggregate
   /** fetch data from the table: "drug" using primary key columns */
   drug_by_pk: Maybe<Drug>
+  /** fetch data from the table: "lab_test" */
+  lab_test: Array<Lab_Test>
+  /** fetch aggregated fields from the table: "lab_test" */
+  lab_test_aggregate: Lab_Test_Aggregate
+  /** fetch data from the table: "lab_test" using primary key columns */
+  lab_test_by_pk: Maybe<Lab_Test>
   /** fetch data from the table: "metadata.check_constraint" */
   metadata_check_constraint: Array<Metadata_Check_Constraint>
   /** fetch aggregated fields from the table: "metadata.check_constraint" */
@@ -8060,6 +8296,29 @@ export type Query_RootDrug_AggregateArgs = {
 
 /** query root */
 export type Query_RootDrug_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** query root */
+export type Query_RootLab_TestArgs = {
+  distinct_on: Maybe<Array<Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Lab_Test_Order_By>>
+  where: Maybe<Lab_Test_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootLab_Test_AggregateArgs = {
+  distinct_on: Maybe<Array<Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Lab_Test_Order_By>>
+  where: Maybe<Lab_Test_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootLab_Test_By_PkArgs = {
   id: Scalars['uuid']
 }
 
@@ -8642,6 +8901,12 @@ export type Subscription_Root = {
   drug_aggregate: Drug_Aggregate
   /** fetch data from the table: "drug" using primary key columns */
   drug_by_pk: Maybe<Drug>
+  /** fetch data from the table: "lab_test" */
+  lab_test: Array<Lab_Test>
+  /** fetch aggregated fields from the table: "lab_test" */
+  lab_test_aggregate: Lab_Test_Aggregate
+  /** fetch data from the table: "lab_test" using primary key columns */
+  lab_test_by_pk: Maybe<Lab_Test>
   /** fetch data from the table: "metadata.check_constraint" */
   metadata_check_constraint: Array<Metadata_Check_Constraint>
   /** fetch aggregated fields from the table: "metadata.check_constraint" */
@@ -8922,6 +9187,29 @@ export type Subscription_RootDrug_AggregateArgs = {
 
 /** subscription root */
 export type Subscription_RootDrug_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** subscription root */
+export type Subscription_RootLab_TestArgs = {
+  distinct_on: Maybe<Array<Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Lab_Test_Order_By>>
+  where: Maybe<Lab_Test_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootLab_Test_AggregateArgs = {
+  distinct_on: Maybe<Array<Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Lab_Test_Order_By>>
+  where: Maybe<Lab_Test_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootLab_Test_By_PkArgs = {
   id: Scalars['uuid']
 }
 
@@ -9466,6 +9754,7 @@ export type Users = {
   account: Maybe<Auth_Accounts>
   avatar_url: Maybe<Scalars['String']>
   created_at: Scalars['timestamptz']
+  deleted: Scalars['Boolean']
   display_name: Maybe<Scalars['String']>
   id: Scalars['uuid']
   updated_at: Scalars['timestamptz']
@@ -9513,6 +9802,7 @@ export type Users_Bool_Exp = {
   account: Maybe<Auth_Accounts_Bool_Exp>
   avatar_url: Maybe<String_Comparison_Exp>
   created_at: Maybe<Timestamptz_Comparison_Exp>
+  deleted: Maybe<Boolean_Comparison_Exp>
   display_name: Maybe<String_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
@@ -9529,6 +9819,7 @@ export type Users_Insert_Input = {
   account: Maybe<Auth_Accounts_Obj_Rel_Insert_Input>
   avatar_url: Maybe<Scalars['String']>
   created_at: Maybe<Scalars['timestamptz']>
+  deleted: Maybe<Scalars['Boolean']>
   display_name: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -9599,6 +9890,7 @@ export type Users_Order_By = {
   account: Maybe<Auth_Accounts_Order_By>
   avatar_url: Maybe<Order_By>
   created_at: Maybe<Order_By>
+  deleted: Maybe<Order_By>
   display_name: Maybe<Order_By>
   id: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -9616,6 +9908,8 @@ export enum Users_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  Deleted = 'deleted',
+  /** column name */
   DisplayName = 'display_name',
   /** column name */
   Id = 'id',
@@ -9627,6 +9921,7 @@ export enum Users_Select_Column {
 export type Users_Set_Input = {
   avatar_url: Maybe<Scalars['String']>
   created_at: Maybe<Scalars['timestamptz']>
+  deleted: Maybe<Scalars['Boolean']>
   display_name: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -9638,6 +9933,8 @@ export enum Users_Update_Column {
   AvatarUrl = 'avatar_url',
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Deleted = 'deleted',
   /** column name */
   DisplayName = 'display_name',
   /** column name */
@@ -10103,6 +10400,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
           'role_name'
         >
       >
+      config: Maybe<
+        { __typename?: 'metadata_property_config' } & Pick<
+          Metadata_Property_Config,
+          'json_schema'
+        >
+      >
     } & ColumnFragment
   >
 } & CoreTableFragment
@@ -10200,6 +10503,9 @@ export const TableFragmentDoc = gql`
       canUpdate {
         role_name
       }
+      config {
+        json_schema
+      }
     }
   }
   ${CoreTableFragmentDoc}
@@ -10210,7 +10516,6 @@ export const MetadataDocument = gql`
     metadata_table(
       where: {
         _and: [
-          { table_schema: { _eq: "public" } }
           { columns: { column_name: { _eq: "updated_at" } } }
           { columns: { column_name: { _eq: "id" } } }
           { columns: { column_name: { _eq: "deleted" } } }

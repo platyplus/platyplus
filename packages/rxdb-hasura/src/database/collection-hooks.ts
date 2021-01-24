@@ -52,12 +52,12 @@ export const createRxCollection = async (
     collection.role = collection.options.role
     collection.metadata = collection.options.metadata
     collection.properties = collectionProperties(collection)
-    await createContentReplicator(collection, collection.options.role)
     info(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({
       ...hasuraCollections(collection.database),
       [collection.name]: collection
     })
+    await createContentReplicator(collection, collection.options.role)
   }
 }

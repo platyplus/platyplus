@@ -27,7 +27,7 @@ export const RxDatabase = (proto: any) => {
   }
 
   proto.setJwt = function(this: Database, value: string) {
-    this.jwt$.next(value)
+    if (value !== this.jwt$.getValue()) this.jwt$.next(value)
   }
 
   Object.defineProperty(proto, 'jwt$', {

@@ -58,7 +58,8 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
       hbp.auth.onAuthStateChanged(async (status: boolean) => {
         value.setAuthStatus(status, hbp.auth.getJWTToken())
       })
-      hbp.auth.onTokenChanged(() => {
+      hbp.auth.onTokenChanged((token?: string) => {
+        console.warn('onTokenChanged', token)
         value.setJwt(hbp.auth.getJWTToken())
       })
     })

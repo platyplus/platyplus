@@ -80,6 +80,14 @@ export const createMetadataReplicator = async (
       state?.setHeaders(createHeaders(token, role))
     })
     await state.awaitInitialReplication()
+    // TODO recreate collections when using indexeddb?
+    // const existingCollections = await metadata.find().exec()
+    // for (const collection of existingCollections) {
+    //   const table = collection.toJSON()
+    //   await metadata.database.addCollections({
+    //     [metadataName(table)]: contentsCollectionCreator(table, role)
+    //   })
+    // }
   }
 
   const stop = async (): Promise<void> => {

@@ -30,8 +30,16 @@ export const createRxHasura = async (
   addRxPlugin(RxDBReplicationGraphQLPlugin)
   addRxPlugin(RxDBAjvValidatePlugin)
   addRxPlugin(RxHasuraPlugin)
+  addRxPlugin(require('rxdb/plugins/migration'))
+  addRxPlugin(require('rxdb/plugins/leader-election'))
+  addRxPlugin(require('rxdb/plugins/update'))
+  addRxPlugin(require('rxdb/plugins/watch-for-changes'))
+  addRxPlugin(require('rxdb/plugins/adapter-check'))
+  addRxPlugin(require('rxdb/plugins/query-builder'))
+
   if (process.env.NODE_ENV === 'development') {
     addRxPlugin(require('pouchdb-adapter-memory'))
+    addRxPlugin(require('rxdb/plugins/dev-mode'))
   } else {
     addRxPlugin(require('pouchdb-adapter-idb'))
   }

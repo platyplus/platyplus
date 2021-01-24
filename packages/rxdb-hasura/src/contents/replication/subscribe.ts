@@ -1,6 +1,6 @@
 import { ContentsCollection } from '../../types'
 import { metadataName } from '../schema'
-
+// TODO optimize the subscription to its minimum
 export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = collection.metadata
   const title = metadataName(table)

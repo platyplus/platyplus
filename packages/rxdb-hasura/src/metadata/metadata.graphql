@@ -82,6 +82,9 @@ fragment table on metadata_table {
     canUpdate {
       role_name
     }
+    config {
+      json_schema
+    }
   }
 }
 
