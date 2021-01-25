@@ -25,7 +25,7 @@ export default defineComponent({
     const registerUser = async () => {
       await register()
       if (!error.value) {
-        router.push('/')
+        router.push({ name: 'root' })
       }
     }
     return {

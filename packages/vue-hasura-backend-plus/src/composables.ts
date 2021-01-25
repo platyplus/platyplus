@@ -76,9 +76,16 @@ export const useJWT = (): ComputedRef<string | undefined> => {
   return computed(() => instance.token.value)
 }
 
-export const useAllowedRoles = (): Readonly<Ref<string[]>> => {
+export const useAllowedRoles = (
+  excludeRole: string | string[] = []
+): Readonly<Ref<string[]>> => {
   const instance = injectInstance()
-  return computed(() => instance.claims.value?.['x-hasura-allowed-roles'] || [])
+  const exclude = Array.isArray(excludeRole) ? excludeRole : [excludeRole]
+  return computed(() =>
+    (instance.claims.value?.['x-hasura-allowed-roles'] || []).filter(
+      role => !exclude.includes(role)
+    )
+  )
 }
 
 export const useDefaultRole = (): Readonly<Ref<string | undefined>> => {

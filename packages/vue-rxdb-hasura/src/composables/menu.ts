@@ -19,7 +19,7 @@ export const useFilteredMenu = (
       href: string
     }
   ) => boolean
-): ComputedRef<MenuItem[]> => {
+): Readonly<Ref<MenuItem[]>> => {
   const router = useRouter()
 
   const recursiveFilter = (items: MenuItem[]) =>
@@ -67,12 +67,15 @@ export const useFullMenu = (
   const roleMenu = useRoleMenu(role)
   return computed<MenuItem[]>(() => {
     return [
-      { label: 'Home', icon: 'pi pi-fw pi-home', to: '/' },
-      { label: 'Home', icon: 'pi pi-fw pi-home', to: '/home' },
-      { label: 'Login', icon: 'pi pi-fw pi-sign-in', to: '/login' },
-      { label: 'Register', icon: 'pi pi-fw pi-user-plus', to: '/register' },
-      ...roleMenu.value,
-      { label: 'Debug', icon: 'pi pi-fw pi-cog', to: { name: 'debug' } }
+      { label: 'Home', icon: 'pi pi-fw pi-home', to: { name: 'root' } },
+      { label: 'Home', icon: 'pi pi-fw pi-home', to: { name: 'home' } },
+      { label: 'Login', icon: 'pi pi-fw pi-sign-in', to: { name: 'login' } },
+      {
+        label: 'Register',
+        icon: 'pi pi-fw pi-user-plus',
+        to: { name: 'register' }
+      },
+      ...roleMenu.value
     ]
   })
 }

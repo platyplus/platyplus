@@ -1,6 +1,6 @@
 <template lang="pug">
 .layout-menu-container
-  h-submenu(:items="model" class="layout-menu" :root="true" @menuitem-click="onMenuItemClick")
+  h-submenu(:items="model" class="layout-menu" :root="true" @item-click="onItemClick")
 </template>
 
 <script lang="ts">
@@ -16,12 +16,12 @@ export default defineComponent({
       default: []
     }
   },
-  emits: ['menuitem-click'],
+  emits: ['item-click'],
   setup(_, { emit }) {
-    const onMenuItemClick = (event: Event) => {
-      emit('menuitem-click', event)
+    const onItemClick = (event: Event) => {
+      emit('item-click', event)
     }
-    return { onMenuItemClick }
+    return { onItemClick }
   }
 })
 </script>

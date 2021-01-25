@@ -62,10 +62,11 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
       router.beforeEach(function (to, from, next) {
         window.scrollTo(0, 0)
         // * Authentication guard
-        if (to.meta.auth && !hbp.authenticated.value) next('/login')
-        else if (hbp.authenticated.value && to.path === '/') next('/home')
+        if (to.meta.auth && !hbp.authenticated.value) next({ name: 'login' })
+        else if (hbp.authenticated.value && to.path === '/')
+          next({ name: 'home' })
         // * 404
-        else if (!to.matched.length) next('/')
+        else if (!to.matched.length) next({ name: 'root' })
         else next()
       })
     }

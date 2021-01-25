@@ -26,7 +26,7 @@ export default defineComponent({
     const { login: hbpLogin, error } = useLogin(email, password)
     const login = async () => {
       await hbpLogin()
-      if (!error.value) router.replace(route.redirectedFrom || '/home')
+      if (!error.value) router.replace(route.redirectedFrom || { name: 'home' })
     }
     return {
       email,

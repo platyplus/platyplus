@@ -8,13 +8,12 @@ transition(name="layout-sidebar")
             router-link(:to="{name: 'home'}")
                 img(alt="Logo" :src="logo")
         h-profile(v-if="status")
-        h-menu(:model="menu" @menuitem-click="onMenuItemClick")
+        h-menu(:model="menu" @item-click="onItemClick")
 </template>
 
 <script lang="ts">
 import { useStatus } from '@platyplus/vue-hasura-backend-plus'
 import { useFilteredMenu, useFullMenu } from '@platyplus/vue-rxdb-hasura'
-import { useVModel } from '@vueuse/core'
 import { useToast } from 'primevue/usetoast'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -93,8 +92,8 @@ export default defineComponent({
     const isDesktop = computed(() => window.innerWidth > 1024)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onMenuItemClick = (event: any) => {
-      console.log('onMenuItemClick')
+    const onItemClick = (event: any) => {
+      console.log('onItemClick')
       if (event.item && !event.item.items) {
         menuActive.value = false
       }
@@ -121,7 +120,7 @@ export default defineComponent({
       logo,
       menu,
       status,
-      onMenuItemClick
+      onItemClick
     }
   }
 })

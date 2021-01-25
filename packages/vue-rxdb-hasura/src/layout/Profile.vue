@@ -47,7 +47,7 @@ export default defineComponent({
       // ? => in vue-rxdb plugin ?
       // TODO not sure it's working
       await db.value?.remove()
-      router.push('/')
+      router.push({ name: 'root' })
     }
     const displayName = useDisplayName(profile)
     const initial = useInitial(displayName)
