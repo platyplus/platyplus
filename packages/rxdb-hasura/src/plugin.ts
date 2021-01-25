@@ -1,6 +1,6 @@
 import { RxPlugin } from 'rxdb'
 
-import { createRxCollection, createRxDatabase, RxDatabase } from './database'
+import { createRxCollection, RxDatabase } from './database'
 
 export const RxHasuraPlugin: RxPlugin = {
   name: 'hasura-plugin',
@@ -10,7 +10,6 @@ export const RxHasuraPlugin: RxPlugin = {
     RxDatabase
   },
   hooks: {
-    createRxDatabase,
     createRxCollection
   }
 }

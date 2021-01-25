@@ -16,7 +16,7 @@ import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'Login',
+  name: 'Register',
   setup() {
     const router = useRouter()
     const email = ref('')

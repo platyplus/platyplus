@@ -2,7 +2,8 @@ import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { info } from '../console'
 import { createContentReplicator, createHooks } from '../contents'
-import { ContentsCollection } from '../types'
+import { createMetadataReplicator } from '../metadata'
+import { ContentsCollection, MetadataCollection } from '../types'
 import { hasuraCollections } from './helpers'
 import { contents } from './observables'
 
@@ -49,6 +50,7 @@ export const createRxCollection = async (
   collection: ContentsCollection
 ): Promise<void> => {
   if (collection.options.metadata) {
+    // * Metadata option => this is a Contents collection
     collection.role = collection.options.role
     collection.metadata = collection.options.metadata
     collection.properties = collectionProperties(collection)
@@ -59,5 +61,11 @@ export const createRxCollection = async (
       [collection.name]: collection
     })
     await createContentReplicator(collection, collection.options.role)
+  } else if (collection.options.isMetadata) {
+    // * isMetadata option => this is a Metadata collection
+    await createMetadataReplicator(
+      (collection as unknown) as MetadataCollection,
+      collection.options.role
+    )
   }
 }

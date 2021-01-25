@@ -6,6 +6,7 @@
 
 export { createVueRxDBHasuraPlugin, DefaultRxDBKey } from './plugin'
 export * from './composables'
+export * from './routes'
 
 /** // ! GENERAL RULES ! //
  * * column `updated_at` of type `timestamptz` must exist, and must change value when row is update

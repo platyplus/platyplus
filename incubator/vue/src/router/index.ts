@@ -1,3 +1,4 @@
+import { allRoutes } from '@platyplus/vue-rxdb-hasura'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
@@ -31,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes: [...routes, ...allRoutes]
 })
 
 export default router

@@ -13,8 +13,7 @@
       .p-col-12
         p-confirm-dialog
         div(v-if="isAuthRoute")
-          router-view(v-if="isReady")
-          div(v-else) loading database...
+          router-view
         router-view(v-else)
         p-scroll-top
   h-footer
@@ -22,11 +21,7 @@
 
 <script lang="ts">
 import { useStatus } from '@platyplus/vue-hasura-backend-plus'
-import {
-  useFilteredMenu,
-  useFullMenu,
-  useIsReady
-} from '@platyplus/vue-rxdb-hasura'
+import { useFilteredMenu, useFullMenu } from '@platyplus/vue-rxdb-hasura'
 import { useWindowSize } from '@vueuse/core'
 import { useToast } from 'primevue/usetoast'
 import { computed, defineComponent, ref, watch } from 'vue'
@@ -52,7 +47,6 @@ export default defineComponent({
     })
 
     const status = useStatus()
-    const isReady = useIsReady()
 
     watch(
       () => route.path,
@@ -110,7 +104,6 @@ export default defineComponent({
     })
 
     return {
-      isReady,
       isAuthRoute,
       containerClass,
       menu,

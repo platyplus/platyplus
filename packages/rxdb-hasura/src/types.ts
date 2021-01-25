@@ -126,5 +126,4 @@ export type DatabasePrototype = {
   readonly jwt$: BehaviorSubject<string | undefined>
   readonly setAuthStatus: (value: boolean, jwt?: string) => void
   readonly authStatus$: BehaviorSubject<boolean>
-  readonly ready$: BehaviorSubject<boolean>
 }

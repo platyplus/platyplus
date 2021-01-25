@@ -5,7 +5,7 @@ import { Router } from 'vue-router'
 import { Store } from 'vuex'
 
 import { loadPrimeVue } from './primevue'
-import { routes } from './routes'
+import { allRoutes } from './routes'
 import { addModule } from './store'
 export const DefaultRxDBKey = Symbol()
 
@@ -42,7 +42,7 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
         value.setAuthStatus(status, hbp.auth.getJWTToken())
       })
       hbp.auth.onTokenChanged((token?: string) => {
-        console.warn('onTokenChanged', token)
+        console.log('onTokenChanged', token)
         value.setJwt(hbp.auth.getJWTToken())
       })
     })
@@ -59,11 +59,7 @@ export const createVueRxDBHasuraPlugin = <S = unknown>({
     addModule(db, store)
     loadPrimeVue(app)
     if (router) {
-      routes.forEach(route => router.addRoute(route))
-
       router.beforeEach(function (to, from, next) {
-        // * Hack: when using router.addRoute, the routes are not matched when starting the application from a specific url
-        if (to.matched.length === 0 && !to.redirectedFrom) next(to.fullPath)
         window.scrollTo(0, 0)
         // * Authentication guard
         if (to.meta.auth && !hbp.authenticated.value) next('/login')

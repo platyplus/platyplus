@@ -7,4 +7,3 @@ export const authStatus = new BehaviorSubject<boolean>(false)
 export const contents = new BehaviorSubject<Record<string, ContentsCollection>>(
   {}
 )
-export const ready = new BehaviorSubject(false)

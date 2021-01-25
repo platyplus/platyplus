@@ -1,17 +1,11 @@
 import { Database } from '../types'
-import { authStatus, contents, jwt, ready } from './observables'
+import { authStatus, contents, jwt } from './observables'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
 export const RxDatabase = (proto: any) => {
   Object.defineProperty(proto, 'contents$', {
     get: function (this: Database) {
       return contents
-    }
-  })
-
-  Object.defineProperty(proto, 'ready$', {
-    get: function (this: Database) {
-      return ready
     }
   })
 

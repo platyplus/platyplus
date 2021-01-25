@@ -62,12 +62,16 @@ export const objectSchemaToGraphqlFields = (
 }
 
 type Claims = Record<string, unknown> & {
-  ['https://hasura.io/jwt/claims']: {
-    [key: string]: string | string[] | undefined
-    'x-hasura-allowed-roles': string[]
-    'x-hasura-default-role': string
-  }
+  ['https://hasura.io/jwt/claims']: HasuraClaims
 }
+type HasuraClaims = {
+  [key: string]: string | string[] | undefined
+  'x-hasura-allowed-roles': string[]
+  'x-hasura-default-role': string
+}
+
+export const hasuraClaims = (token: string): HasuraClaims =>
+  decode<Claims>(token)['https://hasura.io/jwt/claims']
 
 export const createHeaders = (
   role: string,
@@ -76,9 +80,9 @@ export const createHeaders = (
   const headers: Record<string, string> = {}
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
-    const hasuraClaims = decode<Claims>(token)['https://hasura.io/jwt/claims']
-    const allowedRoles = hasuraClaims['x-hasura-allowed-roles']
-    const defaultRole = hasuraClaims['x-hasura-default-role']
+    const hasura = hasuraClaims(token)
+    const allowedRoles = hasura['x-hasura-allowed-roles']
+    const defaultRole = hasura['x-hasura-default-role']
     if (role !== defaultRole && allowedRoles.includes(role))
       headers['x-hasura-role'] = role
   }

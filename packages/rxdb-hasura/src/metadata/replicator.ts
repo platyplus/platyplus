@@ -53,9 +53,9 @@ export const createMetadataReplicator = async (
 
   const start = async (): Promise<void> => {
     state = metadata.syncGraphQL(createMetadataReplicatorOptions(db, role))
-    state.active$.pipe(skip(1)).subscribe(loading => {
-      if (!loading) db.ready$.next(true)
-    })
+    // state.active$.pipe(skip(1)).subscribe(loading => {
+    //   if (!loading) db.ready$.next(true)
+    // })
     metaSubscription = metadata.$.subscribe(
       async (event: RxChangeEvent<Metadata>) => {
         if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
@@ -94,7 +94,7 @@ export const createMetadataReplicator = async (
     metaSubscription?.unsubscribe()
     jwtSubscription?.unsubscribe()
     errorSubscription?.unsubscribe()
-    db.ready$.next(false)
+    // db.ready$.next(false)
   }
 
   db.authStatus$.subscribe(async (status: boolean) => {
