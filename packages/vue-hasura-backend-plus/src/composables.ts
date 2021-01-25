@@ -1,5 +1,5 @@
 import { LoginData } from 'nhost-js-sdk/dist/types'
-import { computed, ComputedRef, inject, Ref, ref } from 'vue'
+import { computed, ComputedRef, inject, Ref, ref } from 'vue-demi'
 
 import { DefaultHasuraBackendPlusKey } from './inject-key'
 import { Instance } from './instance'
@@ -68,10 +68,20 @@ export const useRegister = (
   }
 }
 
-export const useHasuraClaims = (): Readonly<Ref<HasuraClaims>> =>
+export const useHasuraClaims = (): Readonly<Ref<HasuraClaims | undefined>> =>
   injectInstance().claims
 
 export const useJWT = (): ComputedRef<string | undefined> => {
   const instance = injectInstance()
   return computed(() => instance.token.value)
+}
+
+export const useAllowedRoles = (): Readonly<Ref<string[]>> => {
+  const instance = injectInstance()
+  return computed(() => instance.claims.value?.['x-hasura-allowed-roles'] || [])
+}
+
+export const useDefaultRole = (): Readonly<Ref<string | undefined>> => {
+  const instance = injectInstance()
+  return computed(() => instance.claims.value?.['x-hasura-default-role'])
 }

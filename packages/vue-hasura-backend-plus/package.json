@@ -32,10 +32,12 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "nhost-js-sdk": "^2.3.4"
+    "nhost-js-sdk": "^2.3.4",
+    "vue-demi": "^0.6.0"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "@vue/composition-api": "^1.0.0-beta.1",
+    "vue": "^2.0.0 || >=3.0.0-rc.0"
   },
   "optionalDependencies": {
     "vue-router": "^4.0.0-0"

@@ -2,7 +2,7 @@ import decode from 'jwt-decode'
 import nhost from 'nhost-js-sdk'
 import Auth from 'nhost-js-sdk/dist/Auth'
 import Storage from 'nhost-js-sdk/dist/Storage'
-import { App, Ref, ref } from 'vue'
+import { App, Ref, ref } from 'vue-demi'
 
 import { DefaultHasuraBackendPlusKey } from './inject-key'
 import { Claims, HasuraBackendPlusPluginOptions, HasuraClaims } from './types'
@@ -10,7 +10,7 @@ import { Claims, HasuraBackendPlusPluginOptions, HasuraClaims } from './types'
 export class Instance {
   auth: Auth
   storage: Storage
-  claims: Ref<HasuraClaims>
+  claims: Ref<HasuraClaims | undefined>
   token: Ref<string | undefined>
   authenticated: Ref<boolean>
 
@@ -24,7 +24,7 @@ export class Instance {
     })
     this.auth = nhost.auth()
     this.storage = nhost.storage()
-    this.claims = ref<HasuraClaims>()
+    this.claims = ref<HasuraClaims | undefined>()
     this.authenticated = ref(false)
     this.token = ref()
     options.router?.beforeEach(async (to, from, next) => {
@@ -40,9 +40,11 @@ export class Instance {
     this.auth.onAuthStateChanged((logged_in: boolean) => {
       this.authenticated.value = logged_in
       if (logged_in) {
-        this.token.value = this.auth.getJWTToken()
-        const fullClaims: Claims = decode(this.auth.getJWTToken())
-        this.claims.value = fullClaims['https://hasura.io/jwt/claims']
+        const token = this.auth.getJWTToken()
+        this.token.value = token
+        this.claims.value = decode<Claims>(token)[
+          'https://hasura.io/jwt/claims'
+        ]
       } else {
         this.token.value = undefined
         this.claims.value = undefined

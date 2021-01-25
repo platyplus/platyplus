@@ -1,6 +1,7 @@
 # `@platyplus/vue-hasura-backend-plus`
 
-Vue 3 plugin for Hasura Backend Plus
+Vue plugin for Hasura Backend Plus.
+Works either with Vue 3 or the Vue Composition API, thanks to [Vue Demi]('https://github.com/vueuse/vue-demi').
 
 ## Installation
 
@@ -22,7 +23,9 @@ const hbp = createHasuraBackendPlus({
   router // Optional: vue-router instance. When set, will make sure the authentication is know prior to any routing
 })
 
-createApp(App).use(hbp).mount('#app')
+createApp(App)
+  .use(hbp)
+  .mount('#app')
 ```
 
 ## Usage
@@ -34,3 +37,5 @@ Vue compositions:
 - useLogout
 - useStatus
 - useHasuraClaims
+- useAllowedRoles
+- useDefaultRole
