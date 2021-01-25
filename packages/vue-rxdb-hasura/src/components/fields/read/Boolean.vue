@@ -1,5 +1,5 @@
 <template lang="pug">
-Checkbox(v-model="model" :binary="true")
+p-checkbox(v-model="model" :binary="true")
 </template>
 
 <script lang="ts">

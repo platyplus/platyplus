@@ -1,5 +1,5 @@
 <template lang="pug">
-Calendar(v-model="proxyDate" dateFormat="dd/mm/yy" appendTo="body")
+p-calendar(v-model="proxyDate" dateFormat="dd/mm/yy" appendTo="body")
 </template>
 
 <script lang="ts">

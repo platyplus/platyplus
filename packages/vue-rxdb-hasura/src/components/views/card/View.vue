@@ -1,11 +1,11 @@
 <template lang="pug">
-DataView(:value="documents" :layout="layout")
+p-data-view(:value="documents" :layout="layout")
   template(#header)
     div.p-grid.p-nogutter
       div.p-col-6(style="text-align: left")
         span.p-input-icon-left.p-input-icon-right
           i.pi.pi-search
-          InputText(placeholder="Search" v-model="filter" type="text")
+          p-input-text(placeholder="Search" v-model="filter" type="text")
           i.pi.pi-times(v-show="filter" @click="filter = ''")
       div.p-col-6.p-text-right
         div.p-d-inline-flex
@@ -13,11 +13,11 @@ DataView(:value="documents" :layout="layout")
             router-link.p-md-4(v-if="collection.canInsert()" :to="{ name: 'newDocument', params: { collection: collection.name}}")
               button.p-button.p-button-icon-only
                 i.pi.pi-plus
-          DataViewLayoutOptions(v-model="layout")
+          p-data-view-layout-options(v-model="layout")
   template(#list='slotProps')
     .p-col-12.p-nogutter
       router-link.p-col-12(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
-        Card.p-m-1
+        p-card.p-m-1
           template(#title)
             h-document-label(:document="slotProps.data" layout="label")
   template(#grid='slotProps')

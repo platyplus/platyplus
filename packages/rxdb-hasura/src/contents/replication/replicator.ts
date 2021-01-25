@@ -13,7 +13,7 @@ const DEFAULT_BATCH_SIZE = 5
 
 export const createContentReplicator = async (
   collection: ContentsCollection,
-  role?: string
+  role: string
 ): Promise<void> => {
   const url = collection.database.options.url
   const db = collection.database
@@ -25,7 +25,7 @@ export const createContentReplicator = async (
   const setupGraphQLReplication = async (): Promise<RxGraphQLReplicationState> => {
     const replicationState = collection.syncGraphQL({
       url,
-      headers: createHeaders(db.jwt$.getValue()),
+      headers: createHeaders(role, db.jwt$.getValue()),
       push: {
         batchSize: DEFAULT_BATCH_SIZE,
         queryBuilder: pushQueryBuilder(collection),
@@ -47,7 +47,7 @@ export const createContentReplicator = async (
 
     jwtSubscription = db.jwt$.subscribe((token?: string) => {
       debug(`Replicator (${collection.name}): set token`)
-      replicationState.setHeaders(createHeaders(token, role))
+      replicationState.setHeaders(createHeaders(role, token))
       wsSubscription?.close()
       wsSubscription = setupGraphQLSubscription()
     })
@@ -57,7 +57,7 @@ export const createContentReplicator = async (
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(db.jwt$.getValue(), role)
+    const headers = createHeaders(role, db.jwt$.getValue())
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {

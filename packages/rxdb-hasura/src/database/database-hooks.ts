@@ -7,16 +7,16 @@ import { contents } from './observables'
 export const createRxDatabase = async (db: Database): Promise<void> => {
   info(`Add metadata to RxDatabase ${db.name}`)
   await db.addCollections({
-    metadata: {
+    user_metadata: {
       schema: metadataSchema,
       autoMigrate: true
     },
-    profile_metadata: {
+    me_metadata: {
       schema: metadataSchema,
       autoMigrate: true
     }
   })
-  await createMetadataReplicator(db.metadata)
-  await createMetadataReplicator(db.profile_metadata, 'me')
+  await createMetadataReplicator(db.user_metadata, 'user')
+  await createMetadataReplicator(db.me_metadata, 'me')
   contents.next(hasuraCollections(db))
 }

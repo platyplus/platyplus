@@ -22,11 +22,11 @@ const noopQuery =
 
 const createMetadataReplicatorOptions = (
   db: Database,
-  role?: string
+  role: string
 ): SyncOptionsGraphQL => {
   return {
     url: db.options.url,
-    headers: createHeaders(db.jwt$.getValue(), role),
+    headers: createHeaders(role, db.jwt$.getValue()),
     pull: {
       queryBuilder: doc => ({
         query: doc ? noopQuery : query,
@@ -42,7 +42,7 @@ const createMetadataReplicatorOptions = (
 
 export const createMetadataReplicator = async (
   metadata: MetadataCollection,
-  role?: string
+  role: string
 ): Promise<void> => {
   const db = metadata.database
 
@@ -59,9 +59,8 @@ export const createMetadataReplicator = async (
     metaSubscription = metadata.$.subscribe(
       async (event: RxChangeEvent<Metadata>) => {
         if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
-          const collectionName = role
-            ? `${metadataName(event.documentData)}_${role}`
-            : metadataName(event.documentData)
+          const collectionName = `${role}_${metadataName(event.documentData)}`
+
           await metadata.database.addCollections({
             [collectionName]: contentsCollectionCreator(
               event.documentData,
@@ -77,7 +76,7 @@ export const createMetadataReplicator = async (
     jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {
       debug('Replicator (metadata): set token')
       // TODO change in websocket as well
-      state?.setHeaders(createHeaders(token, role))
+      state?.setHeaders(createHeaders(role, token))
     })
     await state.awaitInitialReplication()
     // TODO recreate collections when using indexeddb?

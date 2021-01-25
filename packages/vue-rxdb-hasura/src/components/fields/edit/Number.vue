@@ -1,5 +1,5 @@
 <template lang="pug">
-InputNumber(:placeholder="name" v-model="model" mode="decimal")
+p-input-text(:placeholder="name" v-model="model" mode="decimal")
 </template>
 
 <script lang="ts">

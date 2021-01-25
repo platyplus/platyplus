@@ -21,7 +21,7 @@ export default defineComponent({
   setup(props) {
     const componentName = computed(
       // TODO change 'field-edit-' to 'field-edit-inline-' and define field-edit-inline-* components
-      () => 'field-edit-' + props.document.editComponent(props.name)
+      () => 'h-field-edit-' + props.document.editComponent(props.name)
     )
     return { componentName, props }
   }

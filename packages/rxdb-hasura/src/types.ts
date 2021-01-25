@@ -81,7 +81,7 @@ export type ContentsCollectionMethods = {
 }
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
-  role?: string
+  role: string
   metadata: Metadata
   replicator: Replicator
   properties: Map<string, TopLevelProperty | PrimaryProperty>
@@ -103,12 +103,21 @@ export type Replicator = {
   stop: () => Promise<void>
 }
 
-export type DatabaseCollections = {
-  metadata: RxCollection<Metadata>
-  profile_metadata: RxCollection<Metadata>
-} & Record<string, ContentsCollection>
+type Roles = 'user' | 'me'
 
-export type Database = RxDatabase<DatabaseCollections>
+type MetadataCollections<T extends Roles> = Record<
+  `${Roles | T}_metadata`,
+  RxCollection<Metadata>
+>
+type ContentsColections = Record<string, ContentsCollection>
+
+export type DatabaseCollections<
+  T extends Roles = Roles
+> = MetadataCollections<T> & ContentsColections
+
+export type Database<T extends Roles = Roles> = RxDatabase<
+  DatabaseCollections<T>
+>
 
 export type DatabasePrototype = {
   // readonly contents: Record<string, ContentsCollection>

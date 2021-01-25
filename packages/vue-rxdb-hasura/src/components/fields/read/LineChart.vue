@@ -1,5 +1,5 @@
 <template lang="pug">
-Chart(type="line" :data="data" :options="options")
+p-chart(type="line" :data="data" :options="options")
 </template>
 
 <script lang="ts">

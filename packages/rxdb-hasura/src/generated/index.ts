@@ -2276,15 +2276,9 @@ export type Metadata_Column_Info_Min_Order_By = {
 
 /** ordering options when selecting data from "metadata.column_info" */
 export type Metadata_Column_Info_Order_By = {
-  canInsert_aggregate: Maybe<
-    Metadata_Permission_Insert_Columns_Aggregate_Order_By
-  >
-  canSelect_aggregate: Maybe<
-    Metadata_Permission_Select_Columns_Aggregate_Order_By
-  >
-  canUpdate_aggregate: Maybe<
-    Metadata_Permission_Update_Columns_Aggregate_Order_By
-  >
+  canInsert_aggregate: Maybe<Metadata_Permission_Insert_Columns_Aggregate_Order_By>
+  canSelect_aggregate: Maybe<Metadata_Permission_Select_Columns_Aggregate_Order_By>
+  canUpdate_aggregate: Maybe<Metadata_Permission_Update_Columns_Aggregate_Order_By>
   character_maximum_length: Maybe<Order_By>
   character_octet_length: Maybe<Order_By>
   character_set_catalog: Maybe<Order_By>
@@ -6273,26 +6267,16 @@ export type Metadata_Table_Obj_Rel_Insert_Input = {
 
 /** ordering options when selecting data from "metadata.table" */
 export type Metadata_Table_Order_By = {
-  canInsert_aggregate: Maybe<
-    Metadata_Permission_Insert_Columns_Aggregate_Order_By
-  >
-  canSelect_aggregate: Maybe<
-    Metadata_Permission_Select_Columns_Aggregate_Order_By
-  >
-  canUpdate_aggregate: Maybe<
-    Metadata_Permission_Update_Columns_Aggregate_Order_By
-  >
+  canInsert_aggregate: Maybe<Metadata_Permission_Insert_Columns_Aggregate_Order_By>
+  canSelect_aggregate: Maybe<Metadata_Permission_Select_Columns_Aggregate_Order_By>
+  canUpdate_aggregate: Maybe<Metadata_Permission_Update_Columns_Aggregate_Order_By>
   checkContraints_aggregate: Maybe<Metadata_Check_Constraint_Aggregate_Order_By>
   columns_aggregate: Maybe<Metadata_Column_Info_Aggregate_Order_By>
   computedFields_aggregate: Maybe<Metadata_Computed_Field_Aggregate_Order_By>
-  computedProperties_aggregate: Maybe<
-    Metadata_Computed_Property_Aggregate_Order_By
-  >
+  computedProperties_aggregate: Maybe<Metadata_Computed_Property_Aggregate_Order_By>
   config: Maybe<Metadata_Table_Config_Order_By>
   configuration: Maybe<Order_By>
-  foreignKeys_aggregate: Maybe<
-    Metadata_Foreign_Key_Constraint_Aggregate_Order_By
-  >
+  foreignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
   info: Maybe<Metadata_Table_Info_Order_By>
   is_enum: Maybe<Order_By>
   is_system_defined: Maybe<Order_By>
@@ -6300,15 +6284,11 @@ export type Metadata_Table_Order_By = {
   primaryKey: Maybe<Metadata_Primary_Key_Order_By>
   primaryKeys_aggregate: Maybe<Metadata_Primary_Key_Aggregate_Order_By>
   propertiesConfig_aggregate: Maybe<Metadata_Property_Config_Aggregate_Order_By>
-  refForeignKeys_aggregate: Maybe<
-    Metadata_Foreign_Key_Constraint_Aggregate_Order_By
-  >
+  refForeignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
   relationships_aggregate: Maybe<Metadata_Relationship_Aggregate_Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
-  uniqueConstraints_aggregate: Maybe<
-    Metadata_Unique_Constraint_Aggregate_Order_By
-  >
+  uniqueConstraints_aggregate: Maybe<Metadata_Unique_Constraint_Aggregate_Order_By>
 }
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
@@ -6592,13 +6572,9 @@ export type Mutation_Root = {
   /** delete single row from the table: "lab_test" */
   delete_lab_test_by_pk: Maybe<Lab_Test>
   /** delete data from the table: "metadata.computed_field" */
-  delete_metadata_computed_field: Maybe<
-    Metadata_Computed_Field_Mutation_Response
-  >
+  delete_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
   /** delete data from the table: "metadata.computed_property" */
-  delete_metadata_computed_property: Maybe<
-    Metadata_Computed_Property_Mutation_Response
-  >
+  delete_metadata_computed_property: Maybe<Metadata_Computed_Property_Mutation_Response>
   /** delete single row from the table: "metadata.computed_property" */
   delete_metadata_computed_property_by_pk: Maybe<Metadata_Computed_Property>
   /** delete data from the table: "metadata.custom_type" */
@@ -6606,9 +6582,7 @@ export type Mutation_Root = {
   /** delete data from the table: "metadata.function" */
   delete_metadata_function: Maybe<Metadata_Function_Mutation_Response>
   /** delete data from the table: "metadata.property_config" */
-  delete_metadata_property_config: Maybe<
-    Metadata_Property_Config_Mutation_Response
-  >
+  delete_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
   /** delete single row from the table: "metadata.property_config" */
   delete_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** delete data from the table: "metadata.relationship" */
@@ -6664,15 +6638,11 @@ export type Mutation_Root = {
   /** insert a single row into the table: "lab_test" */
   insert_lab_test_one: Maybe<Lab_Test>
   /** insert data into the table: "metadata.computed_field" */
-  insert_metadata_computed_field: Maybe<
-    Metadata_Computed_Field_Mutation_Response
-  >
+  insert_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
   /** insert a single row into the table: "metadata.computed_field" */
   insert_metadata_computed_field_one: Maybe<Metadata_Computed_Field>
   /** insert data into the table: "metadata.computed_property" */
-  insert_metadata_computed_property: Maybe<
-    Metadata_Computed_Property_Mutation_Response
-  >
+  insert_metadata_computed_property: Maybe<Metadata_Computed_Property_Mutation_Response>
   /** insert a single row into the table: "metadata.computed_property" */
   insert_metadata_computed_property_one: Maybe<Metadata_Computed_Property>
   /** insert data into the table: "metadata.custom_type" */
@@ -6684,9 +6654,7 @@ export type Mutation_Root = {
   /** insert a single row into the table: "metadata.function" */
   insert_metadata_function_one: Maybe<Metadata_Function>
   /** insert data into the table: "metadata.property_config" */
-  insert_metadata_property_config: Maybe<
-    Metadata_Property_Config_Mutation_Response
-  >
+  insert_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
   /** insert a single row into the table: "metadata.property_config" */
   insert_metadata_property_config_one: Maybe<Metadata_Property_Config>
   /** insert data into the table: "metadata.relationship" */
@@ -6746,13 +6714,9 @@ export type Mutation_Root = {
   /** update single row of the table: "lab_test" */
   update_lab_test_by_pk: Maybe<Lab_Test>
   /** update data of the table: "metadata.computed_field" */
-  update_metadata_computed_field: Maybe<
-    Metadata_Computed_Field_Mutation_Response
-  >
+  update_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
   /** update data of the table: "metadata.computed_property" */
-  update_metadata_computed_property: Maybe<
-    Metadata_Computed_Property_Mutation_Response
-  >
+  update_metadata_computed_property: Maybe<Metadata_Computed_Property_Mutation_Response>
   /** update single row of the table: "metadata.computed_property" */
   update_metadata_computed_property_by_pk: Maybe<Metadata_Computed_Property>
   /** update data of the table: "metadata.custom_type" */
@@ -6760,9 +6724,7 @@ export type Mutation_Root = {
   /** update data of the table: "metadata.function" */
   update_metadata_function: Maybe<Metadata_Function_Mutation_Response>
   /** update data of the table: "metadata.property_config" */
-  update_metadata_property_config: Maybe<
-    Metadata_Property_Config_Mutation_Response
-  >
+  update_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
   /** update single row of the table: "metadata.property_config" */
   update_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
   /** update data of the table: "metadata.relationship" */

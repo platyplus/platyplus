@@ -1,5 +1,5 @@
 <template lang="pug">
-MultiSelect(v-model="filteredModel" :options="options" optionValue="id" placeholder="Select options")
+p-multi-select(v-model="filteredModel" :options="options" optionValue="id" placeholder="Select options")
   template(#option="slotProps")
     h-document-label(:document="slotProps.option")
   template(#value="slotProps")
@@ -64,10 +64,7 @@ export default defineComponent({
       const refCollection = db.value?.[property.value.ref as string]
       refCollection &&
         useSubscription(
-          refCollection
-            .find()
-            .sort('label')
-            .$.subscribe(toObserver(options))
+          refCollection.find().sort('label').$.subscribe(toObserver(options))
         )
     })
     return { filteredModel, options, optionDocument, remove }

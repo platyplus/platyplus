@@ -1,7 +1,7 @@
 <template lang="pug">
 template(v-if="doc")
   span(v-if="layout==='label'") {{label}}
-  Card.p-m-1.p-p-2(v-else-if="layout==='card'" style="border: 1px solid #dee2e6;")
+  p-card.p-m-1.p-p-2(v-else-if="layout==='card'" style="border: 1px solid #dee2e6;")
     template(#title)
       // TODO get the link from the parent component
       span.p-text-capitalize {{label}}
@@ -9,9 +9,9 @@ template(v-if="doc")
     div.p-field(v-for='[name, property] of properties' :key="name")
       i.pi.p-mx-2(v-if="document.collection.icon(name)" :class="document.collection.icon(name)")
       label.p-text-capitalize(:for="name") {{document.collection.title(name)}}
-      field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
+      h-field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
       div(v-else).p-component.p-inputtext
-        field-read(:document="document" :name="name")
+        h-field-read(:document="document" :name="name")
   div(v-else-if="layout==='chip'").p-chip.p-component.p-mr-2.p-mb-1
     .p-chip-text {{label}}
   span(v-else) TODO other layout for {{doc.primary}}
@@ -25,7 +25,7 @@ import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { useDocument, useDocumentLabel } from '../composables'
 
 export default defineComponent({
-  name: 'HDocument',
+  name: 'Document',
   props: {
     collection: {
       type: Object as PropType<ContentsCollection | undefined>,

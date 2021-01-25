@@ -1,5 +1,5 @@
 <template lang="pug">
-InputText(:placeholder="name" v-model="model" type="text")
+p-input-text(:placeholder="name" v-model="model" type="text")
 </template>
 
 <script lang="ts">

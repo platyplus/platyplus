@@ -20,7 +20,7 @@ export default defineComponent({
   },
   setup(props) {
     const componentName = computed(
-      () => 'field-read-' + props.document.readComponent(props.name)
+      () => 'h-field-read-' + props.document.readComponent(props.name)
     )
     const options = computed(() =>
       props.document.readComponentOptions(props.name)

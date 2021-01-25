@@ -5,7 +5,7 @@ import { ComputedRef, onMounted, Ref, ref, unref, watchEffect } from 'vue'
 
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument>
+  document: Ref<ContentsDocument | any>
 ): Readonly<Ref<Readonly<string | null>>> => {
   const result = ref<string | null>(null)
   watchEffect(() => {

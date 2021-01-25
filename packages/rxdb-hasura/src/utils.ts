@@ -70,8 +70,8 @@ type Claims = Record<string, unknown> & {
 }
 
 export const createHeaders = (
-  token?: string,
-  role?: string
+  role: string,
+  token?: string
 ): Record<string, string> => {
   const headers: Record<string, string> = {}
   if (token) {
@@ -79,7 +79,7 @@ export const createHeaders = (
     const hasuraClaims = decode<Claims>(token)['https://hasura.io/jwt/claims']
     const allowedRoles = hasuraClaims['x-hasura-allowed-roles']
     const defaultRole = hasuraClaims['x-hasura-default-role']
-    if (role && role !== defaultRole && allowedRoles.includes(role))
+    if (role !== defaultRole && allowedRoles.includes(role))
       headers['x-hasura-role'] = role
   }
   return headers

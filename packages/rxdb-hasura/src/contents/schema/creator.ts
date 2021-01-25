@@ -8,7 +8,7 @@ import { metadataName } from './name'
 import { createRelationshipProperties } from './relationships'
 import { requiredProperties } from './required'
 
-export const toJsonSchema = (table: Metadata, role?: string): RxJsonSchema => {
+export const toJsonSchema = (table: Metadata, role: string): RxJsonSchema => {
   // TODO get the query/mutations/subscription names for building graphql queries
   const result: RxJsonSchema = {
     // keyCompression: true,

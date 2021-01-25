@@ -5,14 +5,14 @@
   p(v-if="status") token {{token}}
 .card
   h5 Controls
-  Button.p-mr-1(v-if="!editing" @click="edit") edit
-  Button.p-mr-1(v-if="editing" @click="save") save 
-  Button.p-mr-1(v-if="editing" @click="reset") reset 
-  Button.p-mr-1(v-if="editing" @click="cancel") cancel
+  p-button.p-mr-1(v-if="!editing" @click="edit") edit
+  p-button.p-mr-1(v-if="editing" @click="save") save 
+  p-button.p-mr-1(v-if="editing" @click="reset") reset 
+  p-button.p-mr-1(v-if="editing" @click="cancel") cancel
   div(v-if="editing") form: {{form}}
 .card(v-for="collection of collections")
   h5 {{collection.name}}
-  collection(:collection="collection" :editing="editing")
+  h-collection(:collection="collection" :editing="editing")
 </template>
 
 <script lang="ts">

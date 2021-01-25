@@ -20,7 +20,7 @@ export default defineComponent({
   },
   setup(props) {
     const componentName = computed(
-      () => 'field-edit-' + props.document.editComponent(props.name)
+      () => 'h-field-edit-' + props.document.editComponent(props.name)
     )
     return { componentName, props }
   }

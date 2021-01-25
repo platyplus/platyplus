@@ -1,5 +1,5 @@
 <template lang="pug">
-Dropdown(v-model="model" :options="options" optionValue="id" placeholder="Select an item")
+p-dropdown(v-model="model" :options="options" optionValue="id" placeholder="Select an item")
   template(#option="slotProps")
     h-document-label(:document="slotProps.option")
   template(#value="slotProps")
@@ -48,10 +48,7 @@ export default defineComponent({
       const refCollection = db.value?.[property.value.ref as string]
       refCollection &&
         useSubscription(
-          refCollection
-            .find()
-            .sort('label')
-            .$.subscribe(toObserver(options))
+          refCollection.find().sort('label').$.subscribe(toObserver(options))
         )
     })
     return { model, options, refDocument }

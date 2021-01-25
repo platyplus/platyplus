@@ -10,7 +10,7 @@ import { defineComponent, PropType, toRefs } from 'vue'
 import { useDocumentLabel } from '../composables'
 
 export default defineComponent({
-  name: 'HDocumentLabel',
+  name: 'DocumentLabel',
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,

@@ -1,5 +1,5 @@
 const Handlebars = require('handlebars')
-Handlebars.registerHelper('lowercase', function(aString) {
+Handlebars.registerHelper('lowercase', function (aString) {
   return aString.toLowerCase()
 })
 

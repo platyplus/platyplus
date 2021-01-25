@@ -1,5 +1,5 @@
 <template lang="pug">
-FieldReadGeneric(:document="document" :name="name")
+h-field-read-generic(:document="document" :name="name")
 </template>
 
 <script lang="ts">

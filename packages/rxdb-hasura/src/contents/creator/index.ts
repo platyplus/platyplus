@@ -7,10 +7,10 @@ import { toJsonSchema } from '../schema'
 
 export const contentsCollectionCreator = (
   metadata: Metadata,
-  role?: string
+  role: string
 ): RxCollectionCreatorBase => {
   return {
-    schema: toJsonSchema(metadata),
+    schema: toJsonSchema(metadata, role),
     statics: collectionMethods,
     methods: documentMethods,
     options: { metadata, role }

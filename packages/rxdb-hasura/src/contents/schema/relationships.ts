@@ -6,7 +6,7 @@ import { propertyJsonType } from './property'
 
 export const createRelationshipProperties = (
   table: Metadata,
-  role?: string
+  role: string
 ): Record<string, TopLevelProperty | PrimaryProperty> => {
   const result: Record<string, TopLevelProperty | PrimaryProperty> = {}
   table.relationships
@@ -16,9 +16,8 @@ export const createRelationshipProperties = (
       const mappingItem = relationship.mapping[0]
       const column = mappingItem.column as ColumnFragment
       const refTable = mappingItem.remoteTable as CoreTableFragment
-      const ref = role
-        ? `${metadataName(refTable)}_${role}`
-        : metadataName(refTable)
+      const ref = `${role}_${metadataName(refTable)}`
+
       const type = propertyJsonType(column)
       if (relationship.mapping.length !== 1)
         throw Error(

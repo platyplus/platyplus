@@ -18,7 +18,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const componentName = computed(() => `collection-${props.type}`)
+    const componentName = computed(() => `h-collection-${props.type}`)
     return { componentName }
   }
 })

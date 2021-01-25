@@ -1,5 +1,5 @@
 <template lang="pug">
-Calendar(v-model="proxyDate" :showTime="true" :showSeconds="true" appendTo="body" dateFormat="dd/mm/yyyy")
+p-calendar(v-model="proxyDate" :showTime="true" :showSeconds="true" appendTo="body" dateFormat="dd/mm/yyyy")
 </template>
 
 <script lang="ts">

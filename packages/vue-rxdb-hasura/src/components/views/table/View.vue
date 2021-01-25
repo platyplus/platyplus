@@ -1,13 +1,13 @@
 <template lang="pug">
-DataTable(:value="documents" editMode="cell" class="editable-cells-table p-datatable-gridlines")
-  Column(v-for="[name, property] of properties" :field="name" :header="collection.title(name)" :key="name")
+p-data-table(:value="documents" editMode="cell" class="editable-cells-table p-datatable-gridlines")
+  p-column(v-for="[name, property] of properties" :field="name" :header="collection.title(name)" :key="name")
     template(#editor="slotProps" v-if="editing")
       div.p-fluid
-        field-edit-inline(v-if="slotProps.data.canEdit(name)" :document="slotProps.data" :name="name" :inTable="true")
-        field-read(v-else :document="slotProps.data" :name="name")
+        h-field-edit-inline(v-if="slotProps.data.canEdit(name)" :document="slotProps.data" :name="name" :inTable="true")
+        h-field-read(v-else :document="slotProps.data" :name="name")
     template(#body="slotProps")
       div.p-fluid
-        field-read(:document="slotProps.data" :name="name")
+        h-field-read(:document="slotProps.data" :name="name")
       
        
   //- table(border=1)
@@ -44,10 +44,7 @@ export default defineComponent({
     // TODO not sure it's optimised
     const documents = ref<ContentsDocument[]>([])
     useSubscription(
-      props.collection
-        .find()
-        .sort('label')
-        .$.subscribe(toObserver(documents))
+      props.collection.find().sort('label').$.subscribe(toObserver(documents))
     )
 
     // TODO canEditCollection
