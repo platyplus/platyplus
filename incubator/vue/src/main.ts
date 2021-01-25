@@ -24,10 +24,4 @@ const rxdbHasura = createVueRxDBHasuraPlugin({
   router
 })
 
-const app = createApp(App)
-app.use(store)
-app.use(router)
-app.use(hbp)
-app.use(rxdbHasura)
-
-app.mount('#app')
+createApp(App).use(store).use(router).use(hbp).use(rxdbHasura).mount('#app')
