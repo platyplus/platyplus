@@ -1,7 +1,7 @@
 apiVersion: v2
 description: incubator
 name: incubator
-version: 0.0.7
+version: 0.0.8
 dependencies:
   - name: traefik
     version: v8.9.1
@@ -23,4 +23,4 @@ dependencies:
     repository: file://../../charts/hasura-backend-plus
     version: 0.1.9
 annotations:
-  artifacthub.io/changes: "- fix: deactivate bundle analyser when running in CI mode"
+  artifacthub.io/changes: "- fix: use nginx"
