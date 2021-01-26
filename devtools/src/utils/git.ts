@@ -8,13 +8,15 @@ import parseGitConfig, { Options } from 'parse-git-config'
 type AuthorInfo = { name: string; email: string }
 
 export const getGlobalGitAuthorInfo = async (): Promise<AuthorInfo> => {
+  console.log('HERE')
   const globalGitConfigPath = getGitConfigPath('global')
   const parsedConfig = await parseGitConfig({
     path: globalGitConfigPath
   } as Options)
   if (parsedConfig && parsedConfig.user) return parsedConfig.user as AuthorInfo
   else {
-    console.error(globalGitConfigPath, parsedConfig)
+    console.log('THERE')
+    console.error(globalGitConfigPath)
     throw Error('Cannot find global git config or user info')
   }
 }
