@@ -17,11 +17,6 @@ dependencies:
     alias: vue
     repository: file://../../charts/standard-service
     version: 0.1.6
-  - name: standard-service
-    condition: web.enabled
-    alias: web
-    repository: file://../../charts/standard-service
-    version: 0.1.6
   - name: hasura-backend-plus
     condition: hbp.enabled
     alias: hbp

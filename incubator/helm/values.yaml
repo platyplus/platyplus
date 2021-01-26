@@ -15,13 +15,6 @@ hasura:
   enabled: true
   ingress:
     enabled: true
-web:
-  enabled: false
-  ingress:
-    enabled: true
-  imageConfig:
-    tag: latest
-    pullPolicy: IfNotPresent
 vue:
   enabled: true
   ingress:
