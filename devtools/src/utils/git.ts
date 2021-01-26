@@ -13,7 +13,10 @@ export const getGlobalGitAuthorInfo = async (): Promise<AuthorInfo> => {
     path: globalGitConfigPath
   } as Options)
   if (parsedConfig && parsedConfig.user) return parsedConfig.user as AuthorInfo
-  else throw Error('Cannot find global git config or user info')
+  else {
+    console.log(globalGitConfigPath, parsedConfig)
+    throw Error('Cannot find global git config or user info')
+  }
 }
 
 export const getOriginUrl = async (
