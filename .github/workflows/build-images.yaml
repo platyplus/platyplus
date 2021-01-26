@@ -70,6 +70,8 @@ jobs:
       - name: Set services matrix
         id: set-matrix
         run: |
+          yarn
+          yarn platy list services --all --json
           platy list services --all --json
           matrix=$(platy list services --all --json | jq -c '{include: .}')
           echo "::set-output name=matrix::$matrix"          
