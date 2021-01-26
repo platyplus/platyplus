@@ -35,10 +35,11 @@
 </template>
 
 <script lang="ts">
-import { useDisplayName, useProfile } from '@platyplus/vue-rxdb-hasura'
 import { computed, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+
+import { useDisplayName, useProfile } from '../../composables'
 export default defineComponent({
   name: 'ProfilePage',
   props: {

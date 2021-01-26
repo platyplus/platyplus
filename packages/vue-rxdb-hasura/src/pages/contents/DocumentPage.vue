@@ -52,12 +52,13 @@ div(v-if='collection && document', :key='document.primary')
 </template>
 
 <script lang="ts">
-import { useCollection, useDocument } from '@platyplus/vue-rxdb-hasura'
 import { useToggle } from '@vueuse/core'
 import { useConfirm } from 'primevue/useconfirm'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+
+import { useCollection, useDocument } from '../../composables'
 export default defineComponent({
   name: 'DocumentPage',
   props: {

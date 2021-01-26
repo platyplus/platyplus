@@ -18,10 +18,11 @@
 </template>
 
 <script lang="ts">
-import { useCollection } from '@platyplus/vue-rxdb-hasura'
 import { computed, defineComponent, toRef } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+
+import { useCollection } from '../../composables'
 
 export default defineComponent({
   name: 'CollectionPage',

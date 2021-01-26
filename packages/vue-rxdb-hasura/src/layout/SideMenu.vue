@@ -13,10 +13,11 @@ transition(name="layout-sidebar")
 
 <script lang="ts">
 import { useStatus } from '@platyplus/vue-hasura-backend-plus'
-import { useFilteredMenu, useFullMenu } from '@platyplus/vue-rxdb-hasura'
 import { useToast } from 'primevue/usetoast'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+
+import { useFilteredMenu, useFullMenu } from '../composables'
 export default defineComponent({
   name: 'SideMenu',
   props: {
@@ -40,8 +41,6 @@ export default defineComponent({
     )
     const toast = useToast()
     const layoutColorMode = ref('dark')
-    const staticMenuInactive = ref(false)
-    const overlayMenuActive = ref(false)
     const mobileMenuActive = ref(false)
     const route = useRoute()
     const fullMenu = useFullMenu()
