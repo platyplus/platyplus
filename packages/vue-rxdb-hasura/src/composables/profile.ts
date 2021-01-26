@@ -1,4 +1,4 @@
-import { ContentsDocument } from '@platyplus/rxdb-hasura/src'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useSingleton } from '@platyplus/vue-rxdb-hasura'
 import { Ref } from 'vue'
 
