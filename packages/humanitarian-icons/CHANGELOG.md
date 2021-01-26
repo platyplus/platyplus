@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/platyplus/platydev/compare/@platyplus/humanitarian-icons@0.1.2...@platyplus/humanitarian-icons@0.1.3) (2021-01-26)
+
+**Note:** Version bump only for package @platyplus/humanitarian-icons
+
+
+
+
+
 ## [0.1.2](https://github.com/platyplus/platydev/compare/@platyplus/humanitarian-icons@0.1.1...@platyplus/humanitarian-icons@0.1.2) (2021-01-26)
 
 

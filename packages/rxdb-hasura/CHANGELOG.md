@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/platyplus/platydev/compare/@platyplus/rxdb-hasura@0.2.1...@platyplus/rxdb-hasura@0.2.2) (2021-01-26)
+
+
+### Bug Fixes
+
+* use cpy-cli, not cpy ([0050b57](https://github.com/platyplus/platydev/commit/0050b574b848cf9a949a6f213f0965fc9fc29fd1))
+
+
+
+
+
 ## [0.2.1](https://github.com/platyplus/platydev/compare/@platyplus/rxdb-hasura@0.2.0...@platyplus/rxdb-hasura@0.2.1) (2021-01-26)
 
 
