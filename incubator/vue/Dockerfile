@@ -7,6 +7,8 @@ RUN npm i lerna -g --loglevel error
 USER node
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
+ARG CI=true
+ENV CI=$CI
 
 COPY --chown=node:node package.json yarn.* lerna.json tsconfig.json tsconfig.build.json .eslintrc.js .eslintignore ./
 #
