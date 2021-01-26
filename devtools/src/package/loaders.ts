@@ -1,8 +1,6 @@
 import { LernaPackage } from '@lerna/package'
 import fs from '@platyplus/fs'
 import { getLernaDependencies } from '@platyplus/lerna'
-import getGitConfigPath from 'git-config-path'
-import parseGitConfig, { Options } from 'parse-git-config'
 import path from 'path'
 
 import { DEFAULT_WORKING_DIR } from '../settings'
@@ -23,14 +21,6 @@ const fromNpmPackage = async (
   const relativePath = path.relative(DEFAULT_WORKING_DIR, absolutePath)
   const [directory, name] = relativePath.split('/')
   const pathToRoot = path.relative(absolutePath, DEFAULT_WORKING_DIR)
-  // TODO REMOVE THIS CRAP
-  console.log('CONFIG PATH')
-  console.log(getGitConfigPath('global'))
-  const globalGitConfigPath = getGitConfigPath('global')
-  const config = await parseGitConfig({
-    path: globalGitConfigPath
-  } as Options)
-  console.log(config)
   return {
     private: !!privatePackage,
     type: platyplus?.type,
