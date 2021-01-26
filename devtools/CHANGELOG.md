@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.9.0...@platyplus/devtools@0.9.1) (2021-01-26)
+
+
+### Bug Fixes
+
+* do not throw error if git user info is not available ([a5c1db6](https://github.com/platyplus/platydev/commit/a5c1db64cb34e3a0892b30842f5ada357a891094))
+
+
+### Performance Improvements
+
+* remove source code out of npm packages ([d6876c6](https://github.com/platyplus/platydev/commit/d6876c64efa6f12afd9aa0fd5c618c0e3ba3c705))
+
+
+
+
+
 # [0.9.0](https://github.com/platyplus/platydev/compare/@platyplus/devtools@0.8.0...@platyplus/devtools@0.9.0) (2021-01-12)
 
 

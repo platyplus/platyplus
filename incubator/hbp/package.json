@@ -4,7 +4,7 @@
   "platyplus": {
     "type": "hasura-backend-plus"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "hasura-backend-plus service",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",

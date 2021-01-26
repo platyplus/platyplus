@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.13](https://github.com/platyplus/platydev/compare/@platyplus/lerna@0.0.12...@platyplus/lerna@0.0.13) (2021-01-26)
+
+
+### Performance Improvements
+
+* remove source code out of npm packages ([d6876c6](https://github.com/platyplus/platydev/commit/d6876c64efa6f12afd9aa0fd5c618c0e3ba3c705))
+
+
+
+
+
 ## [0.0.12](https://github.com/platyplus/platydev/compare/@platyplus/lerna@0.0.11...@platyplus/lerna@0.0.12) (2020-12-07)
 
 **Note:** Version bump only for package @platyplus/lerna

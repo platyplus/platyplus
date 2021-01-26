@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/platyplus/platydev/compare/@platyplus/nuxt-hasura-backend-plus@0.2.0...@platyplus/nuxt-hasura-backend-plus@0.2.1) (2021-01-26)
+
+
+### Performance Improvements
+
+* make nuxt package private ([cc9c82d](https://github.com/platyplus/platydev/commit/cc9c82d0b1f613b75a58cfb45cad21dbfa42e758))
+
+
+
+
+
 # [0.2.0](https://github.com/platyplus/platydev/compare/@platyplus/nuxt-hasura-backend-plus@0.1.2...@platyplus/nuxt-hasura-backend-plus@0.2.0) (2021-01-12)
 
 

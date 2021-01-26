@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/platyplus/platydev/compare/@platyplus/quasar-app-extension-ts-lerna@0.1.3...@platyplus/quasar-app-extension-ts-lerna@0.1.4) (2021-01-26)
+
+
+### Performance Improvements
+
+* remove source code out of npm packages ([d6876c6](https://github.com/platyplus/platydev/commit/d6876c64efa6f12afd9aa0fd5c618c0e3ba3c705))
+
+
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/@platyplus/quasar-app-extension-ts-lerna@0.1.2...@platyplus/quasar-app-extension-ts-lerna@0.1.3) (2020-12-07)
 
 **Note:** Version bump only for package @platyplus/quasar-app-extension-ts-lerna

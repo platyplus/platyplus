@@ -4,7 +4,7 @@
     "type": "typescript"
   },
   "private": false,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "RxDB Hasura plugin",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -35,7 +35,7 @@
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@platyplus/jsonata-schema": "^0.0.1",
+    "@platyplus/jsonata-schema": "^0.1.0",
     "deepmerge": "^4.2.2",
     "graphql": "^15.4.0",
     "handlebars": "^4.7.6",

@@ -1,7 +1,7 @@
 {
   "name": "@platyplus/amqp",
   "private": false,
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "AMQP utils",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",

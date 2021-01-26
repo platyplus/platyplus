@@ -4,7 +4,7 @@
     "type": "typescript"
   },
   "private": false,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "RxDB Hasura plugin",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -31,8 +31,8 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@platyplus/rxdb-hasura": "^0.1.0",
-    "@platyplus/vue-hasura-backend-plus": "^0.1.0",
+    "@platyplus/rxdb-hasura": "^0.2.0",
+    "@platyplus/vue-hasura-backend-plus": "^0.2.0",
     "@vueuse/core": "^4.0.10",
     "@vueuse/rxjs": "^4.0.10",
     "chart.js": "^2.9.4",

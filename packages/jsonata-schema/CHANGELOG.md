@@ -1,0 +1,12 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 0.1.0 (2021-01-26)
+
+
+### Features
+
+* computed properties ([7a7a4f2](https://github.com/platyplus/platydev/commit/7a7a4f2bab688420fc8397cd56c9f7e0abbf9e6f))
+* extend jsonata-schema scope ([a88696b](https://github.com/platyplus/platydev/commit/a88696b7ea6c88ec58f11f4e3598923d23bcbd3e))

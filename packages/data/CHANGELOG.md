@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.11](https://github.com/platyplus/platydev/compare/@platyplus/data@0.0.10...@platyplus/data@0.0.11) (2021-01-26)
+
+
+### Performance Improvements
+
+* remove source code out of npm packages ([d6876c6](https://github.com/platyplus/platydev/commit/d6876c64efa6f12afd9aa0fd5c618c0e3ba3c705))
+
+
+
+
+
 ## [0.0.10](https://github.com/platyplus/platydev/compare/@platyplus/data@0.0.9...@platyplus/data@0.0.10) (2020-12-07)
 
 **Note:** Version bump only for package @platyplus/data
