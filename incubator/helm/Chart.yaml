@@ -1,7 +1,7 @@
 apiVersion: v2
 description: incubator
 name: incubator
-version: 0.0.6
+version: 0.0.7
 dependencies:
   - name: traefik
     version: v8.9.1
