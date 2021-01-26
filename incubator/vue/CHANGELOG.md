@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/platyplus/platydev/compare/@platyplus/incubator-vue@0.2.2...@platyplus/incubator-vue@0.2.3) (2021-01-26)
+
+
+### Bug Fixes
+
+* deactivate bundle analyser when running in CI mode ([e98badd](https://github.com/platyplus/platydev/commit/e98badda257701127cea5635edc80bf5d34c21ea))
+
+
+
+
+
 ## [0.2.2](https://github.com/platyplus/platydev/compare/@platyplus/incubator-vue@0.2.1...@platyplus/incubator-vue@0.2.2) (2021-01-26)
 
 **Note:** Version bump only for package @platyplus/incubator-vue
