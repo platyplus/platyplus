@@ -2,13 +2,15 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
+const plugins = process.env.CI ? [] : [new BundleAnalyzerPlugin()]
+
 module.exports = {
   devServer: {
     disableHostCheck: true
   },
 
   configureWebpack: {
-    plugins: [new BundleAnalyzerPlugin()],
+    plugins,
     resolve: {
       plugins: [
         new TsconfigPathsPlugin({
