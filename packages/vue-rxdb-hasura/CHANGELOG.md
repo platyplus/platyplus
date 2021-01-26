@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/platyplus/platydev/compare/@platyplus/vue-rxdb-hasura@0.2.2...@platyplus/vue-rxdb-hasura@0.2.3) (2021-01-26)
+
+
+### Bug Fixes
+
+* correct imports ([4f0253a](https://github.com/platyplus/platydev/commit/4f0253ad5a71402a01f1c2ca98bd8c263cea1c38))
+
+
+
+
+
 ## [0.2.2](https://github.com/platyplus/platydev/compare/@platyplus/vue-rxdb-hasura@0.2.1...@platyplus/vue-rxdb-hasura@0.2.2) (2021-01-26)
 
 

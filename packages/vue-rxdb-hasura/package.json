@@ -4,7 +4,7 @@
     "type": "typescript"
   },
   "private": false,
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "RxDB Hasura plugin",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
