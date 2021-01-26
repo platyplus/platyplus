@@ -1,7 +1,7 @@
 apiVersion: v2
 description: incubator
 name: incubator
-version: 0.0.1
+version: 0.0.2
 dependencies:
   - name: traefik
     version: v8.9.1
@@ -27,3 +27,38 @@ dependencies:
     alias: hbp
     repository: file://../../charts/hasura-backend-plus
     version: 0.1.9
+annotations:
+  artifacthub.io/changes: >-
+    - feat: optimistic compute properties from rxdb so it is available offline
+
+    - feat: profile page
+
+    - feat: sync collections from multiple roles - and adapt it to profile management
+
+    - feat: add a 'create' button in the collection page
+
+    - fix: fix refresh problem in chart component
+
+    - feat: custom components, and line char
+
+    - feat: computed properties
+
+    - feat: delete a document
+
+    - feat: insert documents, including references
+
+    - feat: insert new document
+
+    - fix: include generated icons in the repo
+
+    - feat: edit array relationship
+
+    - feat: document page and better object relationship sync
+
+    - fix: show only collections from the default role in the menu
+
+    - fix: login after register
+
+    - feat: order properties, and show property icons
+
+    - feat: skeleton of document information panel
