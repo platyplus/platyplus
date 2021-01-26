@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.14](https://github.com/platyplus/platydev/compare/@platyplus/lerna@0.0.13...@platyplus/lerna@0.0.14) (2021-01-26)
+
+
+### Bug Fixes
+
+* correct import ([60bee2d](https://github.com/platyplus/platydev/commit/60bee2d62db7b84b83e2ae9410685219012f6244))
+
+
+
+
+
 ## [0.0.13](https://github.com/platyplus/platydev/compare/@platyplus/lerna@0.0.12...@platyplus/lerna@0.0.13) (2021-01-26)
 
 

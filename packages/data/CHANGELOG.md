@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](https://github.com/platyplus/platydev/compare/@platyplus/data@0.0.11...@platyplus/data@0.0.12) (2021-01-26)
+
+
+### Bug Fixes
+
+* correct import ([60bee2d](https://github.com/platyplus/platydev/commit/60bee2d62db7b84b83e2ae9410685219012f6244))
+
+
+
+
+
 ## [0.0.11](https://github.com/platyplus/platydev/compare/@platyplus/data@0.0.10...@platyplus/data@0.0.11) (2021-01-26)
 
 

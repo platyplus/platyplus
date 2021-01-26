@@ -6,7 +6,7 @@
       "**"
     ]
   },
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Platy DevTools website",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
   "homepage": "https://platy.dev",
@@ -22,7 +22,7 @@
   "license": "MIT",
   "main": "index.js",
   "devDependencies": {
-    "@platyplus/lerna": "^0.0.13",
+    "@platyplus/lerna": "^0.0.14",
     "glob": "^7.1.6",
     "vuepress": "^1.8.0",
     "yaml": "^1.10.0"

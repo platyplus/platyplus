@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/incubator-vue",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "dev": "yarn serve",
@@ -8,9 +8,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@platyplus/humanitarian-icons": "^0.1.1",
-    "@platyplus/rxdb-hasura": "^0.2.0",
-    "@platyplus/vue-hasura-backend-plus": "^0.2.0",
+    "@platyplus/humanitarian-icons": "^0.1.2",
+    "@platyplus/rxdb-hasura": "^0.2.1",
+    "@platyplus/vue-hasura-backend-plus": "^0.2.1",
     "core-js": "^3.8.3",
     "mitt": "^2.1.0",
     "register-service-worker": "^1.7.1",
