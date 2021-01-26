@@ -68,7 +68,6 @@ profiles:
                 ingress:
                   enabled: true
                   "hosts[0].name": hasura.localhost
-                  "hosts[1].name": bis.localhost
                 postgresql:
                   postgresqlPassword: development-postgres-password
                 adminSecret: development-hasura-admin-secret

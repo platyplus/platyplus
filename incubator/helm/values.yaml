@@ -20,5 +20,6 @@ vue:
   ingress:
     enabled: true
   imageConfig:
+    repository: platyplus/incubator-vue
     tag: latest
     pullPolicy: IfNotPresent
