@@ -48,7 +48,7 @@ export const useNewDocumentFactory = (
 // * Returns the document with the given id, or a new temporary document otherwise
 export const useDocument = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: ComputedRef<ContentsCollection | any | undefined>,
+  collection: Ref<ContentsCollection | any | undefined>,
   id: Ref<string | undefined> | string | undefined
 ): Ref<ContentsDocument | undefined> => {
   const document = ref<ContentsDocument>()

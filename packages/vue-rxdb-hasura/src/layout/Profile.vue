@@ -26,12 +26,11 @@
 
 <script lang="ts">
 import { useLogout } from '@platyplus/vue-hasura-backend-plus'
-import { useDB, useDisplayName, useProfile } from '@platyplus/vue-rxdb-hasura'
 import { useToggle } from '@vueuse/core'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { useInitial } from '../composables'
+import { useDB, useDisplayName, useInitial, useProfile } from '../composables'
 
 export default defineComponent({
   name: 'Profile',

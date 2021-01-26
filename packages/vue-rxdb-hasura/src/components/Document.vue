@@ -53,7 +53,7 @@ export default defineComponent({
     const collectionDocument = useDocument(collection, id)
     const doc = computed(() => document.value || collectionDocument.value)
     const col = computed(() => doc.value?.collection)
-    const properties = computed(() => col.value.properties)
+    const properties = computed(() => col.value?.properties)
 
     const label = useDocumentLabel(document)
     return { doc, label, properties }
