@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/platyplus/platydev/compare/@platyplus/incubator-vue@0.2.3...@platyplus/incubator-vue@0.2.4) (2021-01-26)
+
+
+### Bug Fixes
+
+* use nginx ([8d2cdeb](https://github.com/platyplus/platydev/commit/8d2cdebe5a9246a9188a40285d9f7a2d997347a4))
+
+
+
+
+
 ## [0.2.3](https://github.com/platyplus/platydev/compare/@platyplus/incubator-vue@0.2.2...@platyplus/incubator-vue@0.2.3) (2021-01-26)
 
 
