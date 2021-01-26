@@ -34,5 +34,6 @@
   },
   "dependencies": {
     "jsonata": "^1.8.4"
-  }
+  },
+  "gitHead": "cb30dc36ad4b80da5b8979f5f8e71083ed39559c"
 }

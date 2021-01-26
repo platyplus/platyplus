@@ -26,5 +26,6 @@
   },
   "devDependencies": {
     "fantasticon": "^1.0.31"
-  }
+  },
+  "gitHead": "cb30dc36ad4b80da5b8979f5f8e71083ed39559c"
 }
