@@ -4,17 +4,10 @@ description: Standard microservice
 home: https://platy.dev/charts/standard-service.html
 source: https://github.com/platyplus/platydev/tree/master/charts/standard-service
 type: application
-version: 0.1.6
+version: 0.1.7
 dependencies:
   - name: common
     version: 0.7.1
     repository: https://charts.bitnami.com/bitnami
 annotations:
-  artifacthub.io/changes: |-
-    - fix: correct ingress with skaffold
-    - fix: bump hasura version
-    - fix: loop curl data-binary
-    - fix: adjust standard service chart to traefik/cert-manager
-    - fix: fix last bugs in hasura helm chart, and document
-    - feat: add all HBP env vars to Helm Chart
-    - fix: remove duplicate name property in chart
+  artifacthub.io/changes: "- feat: get configuration from config.json at runtime"
