@@ -1,7 +1,7 @@
 apiVersion: v2
 description: incubator
 name: incubator
-version: 0.0.8
+version: 0.0.9
 dependencies:
   - name: traefik
     version: v8.9.1
@@ -16,11 +16,11 @@ dependencies:
     condition: vue.enabled
     alias: vue
     repository: file://../../charts/standard-service
-    version: 0.1.6
+    version: 0.1.7
   - name: hasura-backend-plus
     condition: hbp.enabled
     alias: hbp
     repository: file://../../charts/hasura-backend-plus
     version: 0.1.9
 annotations:
-  artifacthub.io/changes: "- fix: use nginx"
+  artifacthub.io/changes: "- feat: get configuration from config.json at runtime"

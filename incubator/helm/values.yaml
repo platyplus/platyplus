@@ -28,5 +28,5 @@ vue:
   configFile:
     enabled: true
     values:
-      HBP_ENDPOINT: null # Hasura-Backend-Plus http(s) endpoint
-      HASURA_ENDPOINT: null # Hasura-Backend-Plus http(s) endpoint
+      ? HBP_ENDPOINT
+      ? HASURA_ENDPOINT
