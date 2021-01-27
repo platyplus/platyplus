@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/platyplus/platydev/compare/@platyplus/vue-rxdb-hasura@0.2.5...@platyplus/vue-rxdb-hasura@0.3.0) (2021-01-27)
+
+
+### Features
+
+* get configuration from config.json at runtime ([332c735](https://github.com/platyplus/platydev/commit/332c7358a78e80d5daeed60a8f9795b774c96d4c))
+
+
+
+
+
 ## [0.2.5](https://github.com/platyplus/platydev/compare/@platyplus/vue-rxdb-hasura@0.2.4...@platyplus/vue-rxdb-hasura@0.2.5) (2021-01-26)
 
 **Note:** Version bump only for package @platyplus/vue-rxdb-hasura
