@@ -12,6 +12,9 @@ hbp:
 traefik:
   enabled: false
 hasura:
+  imageConfig:
+    repository: platyplus/hasura-vue
+    tag: latest
   enabled: true
   ingress:
     enabled: true
@@ -22,4 +25,8 @@ vue:
   imageConfig:
     repository: platyplus/incubator-vue
     tag: latest
-    pullPolicy: IfNotPresent
+  configFile:
+    enabled: true
+    values:
+      HBP_ENDPOINT: null # Hasura-Backend-Plus http(s) endpoint
+      HASURA_ENDPOINT: null # Hasura-Backend-Plus http(s) endpoint

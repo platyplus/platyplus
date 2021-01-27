@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const plugins = process.env.CI ? [] : [new BundleAnalyzerPlugin()]
 
 module.exports = {
+  publicPath: '/',
   devServer: {
     disableHostCheck: true
   },

@@ -1,7 +1,6 @@
 # TODO
 
 - [ ] livenessProbe / readinessProbe
-- [ ] generic ingress
 
 ## Contribute
 

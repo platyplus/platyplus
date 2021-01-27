@@ -13,6 +13,12 @@ connect:
     configMap: "{{ .Release.Name }}-rabbitmq"
     secret: "{{ .Release.Name }}-rabbitmq"
     
+configFile:
+  enabled: false
+  name: config.json
+  path: /usr/share/nginx/html
+  values: {}
+
 replicaCount: 1
 
 imageConfig:

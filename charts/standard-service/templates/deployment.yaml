@@ -1,7 +1,8 @@
+{{- $fullname := include "standard-service.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "standard-service.fullname" . }}
+  name: {{ $fullname }}
   labels:
     {{- include "standard-service.labels" . | nindent 4 }}
 spec:
@@ -27,6 +28,15 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "standard-service.serviceAccountName" . }}
+      volumes:
+      {{- if .Values.configFile.enabled }}
+        - name: config-file
+          configMap:
+            name: "{{ $fullname }}"
+            items:
+              - key: {{ .Values.configFile.name }}
+                path: {{ .Values.configFile.name }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -43,6 +53,12 @@ spec:
             - name: http
               containerPort: {{ .Values.targetPort }}
               protocol: TCP
+          volumeMounts:
+          {{- if .Values.configFile.enabled }}
+            - name: config-file
+              mountPath: "{{ .Values.configFile.path }}/{{ .Values.configFile.name }}"
+              subPath: "{{ .Values.configFile.name }}"
+          {{- end }}
           env:            
             {{- if .Values.connect.hasura.enabled }}
             - name: HASURA_ENDPOINT

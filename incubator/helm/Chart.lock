@@ -1,0 +1,15 @@
+dependencies:
+- name: traefik
+  repository: https://containous.github.io/traefik-helm-chart
+  version: 8.9.1
+- name: hasura
+  repository: file://../../charts/hasura
+  version: 0.1.5
+- name: standard-service
+  repository: file://../../charts/standard-service
+  version: 0.1.6
+- name: hasura-backend-plus
+  repository: file://../../charts/hasura-backend-plus
+  version: 0.1.9
+digest: sha256:78a8ef6d3acc725ae6745e0ab4e59f91221c0a66306dc9c063480aed20a82982
+generated: "2021-01-27T08:41:08.066557+01:00"

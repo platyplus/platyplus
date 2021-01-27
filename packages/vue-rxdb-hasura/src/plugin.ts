@@ -5,7 +5,6 @@ import { Router } from 'vue-router'
 import { Store } from 'vuex'
 
 import { loadPrimeVue } from './primevue'
-import { allRoutes } from './routes'
 import { addModule } from './store'
 export const DefaultRxDBKey = Symbol()
 

@@ -1,0 +1,18 @@
+{{- $fullname := include "standard-service.fullname" . -}}
+{{- if .Values.configFile.enabled }}
+{{- $context := $ -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullname }}
+  namespace: default
+data:
+  {{- $list := dict "vars" (list) -}}
+  {{- range $key, $value := .Values.configFile.values }}
+    {{- $noop := (printf "%s: %s" ($key | quote) (coalesce ((include "common.tplvalues.render" (dict "value" $value "context" $context))|quote) "null")) | append $list.vars | set $list "vars" -}}
+  {{- end }}
+  {{ .Values.configFile.name }}: |
+    {
+      {{ join ", " $list.vars }}
+    }
+{{- end }}
