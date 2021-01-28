@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/frontend",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "dev": "yarn serve",
@@ -8,7 +8,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@platyplus/humanitarian-icons": "^0.1.3",
+    "@platyplus/humanitarian-icons": "^0.1.4",
     "@platyplus/rxdb-hasura": "^0.2.2",
     "@platyplus/vue-hasura-backend-plus": "^0.2.1",
     "core-js": "^3.8.3",
