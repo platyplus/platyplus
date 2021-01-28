@@ -1,6 +1,4 @@
-# Incubator application
-
-Application showcasing work in progress.
+# Platyplus
 
 ## Work in progress
 
@@ -20,16 +18,16 @@ hbp:
         tls: true
 hasura:
   imageConfig:
-    repository: platyplus/hasura-vue # Hasura docker image with correct migrations/metadata
+    repository: platyplus/hasura # Hasura docker image with correct migrations/metadata
     tag: latest
     pullPolicy: Always
   ingress:
     hosts:
       - name: hasura.mydomain.com
         tls: true
-vue:
+frontend:
   imageConfig:
-    repository: platyplus/incubator-vue # Nginx docker image
+    repository: platyplus/frontend # Nginx docker image
     tag: latest
     pullPolicy: Always
   ingress:
@@ -44,5 +42,5 @@ vue:
 
 ```sh
 helm repo add platydev https://charts.platy.dev
-helm install my-incubator platydev/incubator
+helm install my-platyplus platydev/platyplus
 ```

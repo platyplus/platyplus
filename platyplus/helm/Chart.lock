@@ -7,9 +7,9 @@ dependencies:
   version: 0.1.5
 - name: standard-service
   repository: file://../../charts/standard-service
-  version: 0.1.6
+  version: 0.1.7
 - name: hasura-backend-plus
   repository: file://../../charts/hasura-backend-plus
   version: 0.1.9
-digest: sha256:78a8ef6d3acc725ae6745e0ab4e59f91221c0a66306dc9c063480aed20a82982
-generated: "2021-01-27T08:41:08.066557+01:00"
+digest: sha256:615306a25e461c1cbb0c1a1e6090f1d50553884bbd92ebc2fce2e89c0c58f15f
+generated: "2021-01-28T09:05:36.854637+01:00"

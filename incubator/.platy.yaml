@@ -1,5 +1,0 @@
-services:
-  - package: "@platyplus/incubator-hbp"
-  - package: "@platyplus/incubator-hasura"
-name: incubator
-description: incubator

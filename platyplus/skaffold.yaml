@@ -4,27 +4,27 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-    - image: incubator-hasura
+    - image: hasura
       context: hasura
-    - image: incubator-vue
+    - image: frontend
       context: ..
       docker:
-        dockerfile: incubator/vue/Dockerfile
-    - image: incubator-hbp
+        dockerfile: platyplus/frontend/Dockerfile
+    - image: platyplus-hbp
       context: hbp
 deploy:
   helm:
     releases:
-      - name: incubator
+      - name: platyplus
         chartPath: helm
         skipBuildDependencies: false
         artifactOverrides:
           hasura:
-            image: incubator-hasura
-          vue:
-            image: incubator-vue
+            image: hasura
+          frontend:
+            image: frontend
           hbp:
-            image: incubator-hbp
+            image: platyplus-hbp
 profiles:
   - name: dev
     activation:
@@ -33,7 +33,7 @@ profiles:
       tagPolicy:
         sha256: {}
       artifacts:
-        - image: incubator-hasura
+        - image: hasura
           context: hasura
           sync:
             manual:
@@ -41,10 +41,10 @@ profiles:
                 dest: /hasura-migrations
               - src: metadata/*
                 dest: /hasura-metadata
-        - image: incubator-vue
+        - image: frontend
           context: ..
           docker:
-            dockerfile: incubator/vue/Dockerfile-development
+            dockerfile: platyplus/frontend/Dockerfile-development
           sync:
             manual:
               - src: packages/vue-hasura-backend-plus/src/**/*
@@ -53,12 +53,12 @@ profiles:
                 dest: .
               - src: packages/vue-rxdb-hasura/src/**/*
                 dest: .
-              - src: incubator/vue/src/**/*
+              - src: platyplus/frontend/src/**/*
                 dest: .
     deploy:
       helm:
         releases:
-          - name: incubator
+          - name: platyplus
             chartPath: helm
             skipBuildDependencies: false
             setValues:
@@ -74,12 +74,12 @@ profiles:
                 jwt:
                   key: long-hasura-jwt-more-than-thirty-two-characters
                   algorithm: HS256
-              vue:
+              frontend:
                 ingress:
-                  "hosts[0].name": vue.localhost
+                  "hosts[0].name": www.localhost
                 targetPort: 8080
                 configFile:
-                  path: /home/node/app/incubator/vue/public
+                  path: /home/node/app/platyplus/frontend/public
                   values:
                     HASURA_ENDPOINT: http://hasura.localhost
                     HBP_ENDPOINT: http://hbp.localhost
@@ -89,6 +89,6 @@ profiles:
                   enabled: true
             artifactOverrides:
               hasura:
-                image: incubator-hasura
-              vue:
-                image: incubator-vue
+                image: hasura
+              frontend:
+                image: frontend

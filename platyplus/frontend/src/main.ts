@@ -21,7 +21,7 @@ fetchConfig().then(config => {
   })
 
   const rxdbHasura = createVueRxDBHasuraPlugin({
-    name: 'incubator',
+    name: 'platyplus',
     endpoint: config.hasura,
     store,
     hbp,

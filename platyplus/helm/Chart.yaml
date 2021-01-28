@@ -1,7 +1,7 @@
 apiVersion: v2
-description: incubator
-name: incubator
-version: 0.0.9
+description: platyplus
+name: platyplus
+version: 0.0.1
 dependencies:
   - name: traefik
     version: v8.9.1
@@ -13,8 +13,8 @@ dependencies:
     repository: file://../../charts/hasura
     version: 0.1.5
   - name: standard-service
-    condition: vue.enabled
-    alias: vue
+    condition: frontend.enabled
+    alias: frontend
     repository: file://../../charts/standard-service
     version: 0.1.7
   - name: hasura-backend-plus

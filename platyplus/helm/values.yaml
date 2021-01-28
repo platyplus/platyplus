@@ -13,17 +13,17 @@ traefik:
   enabled: false
 hasura:
   imageConfig:
-    repository: platyplus/hasura-vue
+    repository: platyplus/hasura
     tag: latest
   enabled: true
   ingress:
     enabled: true
-vue:
+frontend:
   enabled: true
   ingress:
     enabled: true
   imageConfig:
-    repository: platyplus/incubator-vue
+    repository: platyplus/frontend
     tag: latest
   configFile:
     enabled: true
