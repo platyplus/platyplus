@@ -201,6 +201,8 @@ A child [Bitnami Minio Helm chart](https://github.com/bitnami/charts/tree/master
 If you want to use storage endpoints and connect to an existing S3-compatible instance, you must set the following parameters in your `values.yaml` file:
 
 ```yaml
+minio:
+  enabled: false
 storage:
   enabled: true # default
   external:
