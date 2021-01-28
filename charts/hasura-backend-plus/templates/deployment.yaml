@@ -148,10 +148,13 @@ spec:
             - name: MIN_PASSWORD_LENGTH
               value: "{{ .Values.auth.registration.minPasswordLength }}"
             - name: DEFAULT_ALLOWED_USER_ROLES
-            {{- if .Values.auth.registration.defaultAllowedRoles }}
-              value: "{{ join "," .Values.auth.registration.defaultAllowedRoles }}"
+            {{- $defaultAllowedRoles := ternary (join "," .Values.auth.registration.defaultAllowedRoles) (printf "%s,me" .Values.auth.registration.defaultUserRole) (default false .Values.auth.registration.defaultAllowedRoles) }}
+              value: "{{ $defaultAllowedRoles }}"
+            - name: ALLOWED_USER_ROLES
+            {{- if .Values.auth.registration.allowedRoles }}
+              value: "{{ join "," .Values.auth.registration.allowedRoles }}"
             {{- else }}
-              value: "{{ .Values.auth.registration.defaultUserRole }},me"
+              value: "{{ $defaultAllowedRoles }}"
             {{- end }}
             - name: COOKIE_SECRET
               valueFrom:

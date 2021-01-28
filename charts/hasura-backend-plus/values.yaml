@@ -82,6 +82,7 @@ auth:
     registrationCustomFields: []
     minPasswordLength: 3
     defaultAllowedRoles: null # defaults to auth.registration.defaultUserRole + me
+    allowedRoles: null # defaults to auth.registration.defaultAllowedRoles
   cookies:
     secret: null
     secure: false

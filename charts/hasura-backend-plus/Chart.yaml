@@ -6,7 +6,7 @@ sources:
   - https://github.com/platyplus/platydev/tree/master/charts/hasura-backend-plus
   - https://github.com/nhost/hasura-backend-plus
 icon: https://nhost.github.io/hasura-backend-plus/logo.png
-appVersion: 2.0.0
+appVersion: 2.2.2
 version: 0.1.9
 dependencies:
   - name: minio
