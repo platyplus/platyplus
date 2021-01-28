@@ -10,7 +10,7 @@ build:
       context: ..
       docker:
         dockerfile: platyplus/frontend/Dockerfile
-    - image: platyplus-hbp
+    - image: hbp
       context: hbp
 deploy:
   helm:
@@ -24,7 +24,7 @@ deploy:
           frontend:
             image: frontend
           hbp:
-            image: platyplus-hbp
+            image: hbp
 profiles:
   - name: dev
     activation:
