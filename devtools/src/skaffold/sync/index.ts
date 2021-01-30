@@ -91,7 +91,7 @@ export const loadSkaffoldConfiguration = async (
       set(
         skaffold,
         `${helmPath}.artifactOverrides.${service.name}.image`,
-        `${service.directory}-${service.name}`
+        service.name
       )
     }
 
@@ -117,7 +117,7 @@ export const loadSkaffoldConfiguration = async (
         set(
           skaffold,
           `${devHelmPath}.artifactOverrides.${service.name}.image`,
-          `${service.directory}-${service.name}`
+          service.name
         )
       }
       if (dev.helm?.setValues) {

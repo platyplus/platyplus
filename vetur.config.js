@@ -13,7 +13,7 @@ module.exports = {
   projects: [
     './', // shorthand for only root.
     {
-      root: './incubator/vue'
+      root: './platyplus/frontend'
       // **optional** default: `[]`
       // Register globally Vue component glob.
       // If you set it, you can get completion by that components.

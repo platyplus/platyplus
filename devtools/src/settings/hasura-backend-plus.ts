@@ -7,13 +7,10 @@ import { ServiceConfig } from '../service'
 import { DEFAULT_WORKING_DIR } from '.'
 import { ServiceTypeConfig } from './types'
 
-export const hasuraBackendPlusConfig: ServiceTypeConfig = ({
-  directory,
-  name
-}) => ({
+export const hasuraBackendPlusConfig: ServiceTypeConfig = ({ name }) => ({
   main: {
     build: {
-      image: `${directory}-${name}`,
+      image: name,
       context: name
     }
   },

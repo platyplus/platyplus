@@ -8,11 +8,7 @@ import { ServiceTypeConfig } from './types'
 
 export const HASURA_ADMIN_SECRET = 'development-hasura-admin-secret'
 
-export const hasuraConfig: ServiceTypeConfig = ({
-  directory,
-  name,
-  absolutePath
-}) => {
+export const hasuraConfig: ServiceTypeConfig = ({ name, absolutePath }) => {
   // TODO set env variables, somehow
   // ? create a global .env file, one prod, one dev?
   // ? Add env vars in the init/postInstall() method?
@@ -20,13 +16,13 @@ export const hasuraConfig: ServiceTypeConfig = ({
   return {
     main: {
       build: {
-        image: `${directory}-${name}`,
+        image: name,
         context: `${name}`
       }
     },
     dev: {
       build: {
-        image: `${directory}-${name}`,
+        image: name,
         context: `${name}`
       },
       files: [
