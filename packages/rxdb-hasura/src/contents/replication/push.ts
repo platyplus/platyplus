@@ -37,7 +37,12 @@ export const pushQueryBuilder = (
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
   const objectRelationships = table.relationships
-    .filter(({ rel_type, mapping }) => rel_type === 'object' && mapping.length)
+    .filter(
+      ({ rel_type, mapping }) =>
+        rel_type === 'object' &&
+        mapping.length === 1 && // * filter multi-columns relationships
+        mapping[0].column?.column_name !== collection.schema.primaryPath // * filter relationships using the primary key as foreign key
+    )
     .map(rel => {
       return {
         name: rel.rel_name as string,

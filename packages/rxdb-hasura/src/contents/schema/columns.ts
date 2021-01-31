@@ -22,12 +22,17 @@ export const createColumnProperties = (
   const skipRelationships = table.relationships
     .filter(
       relationship =>
-        relationship.rel_type === 'object' && relationship.mapping.length
+        relationship.rel_type === 'object' && relationship.mapping.length === 1
     )
     .map(relationship => relationship.mapping[0].column?.column_name)
   table.columns
-    // * Do not include again properties that are already mapped by an object relationship
-    .filter(column => !skipRelationships.includes(column.column_name as string))
+    .filter(
+      column =>
+        // *filter properties that are already mapped by an object relationship
+        !skipRelationships.includes(column.column_name as string) ||
+        // * filter relationships using the primary key as foreign key
+        column.primaryKey
+    )
     // * Do not add the deleted column to the properties
     .filter(column => column.column_name !== 'deleted')
     .map(column => {

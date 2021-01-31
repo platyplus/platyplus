@@ -9,8 +9,13 @@ export const createRelationshipProperties = (
   role: string
 ): Record<string, TopLevelProperty | PrimaryProperty> => {
   const result: Record<string, TopLevelProperty | PrimaryProperty> = {}
+  const primaryKeyColumn = table.primaryKey?.columns[0].column_name
   table.relationships
-    .filter(relationship => relationship.mapping.length)
+    .filter(
+      relationship =>
+        relationship.mapping.length === 1 && // * filter multi-columns relationships
+        relationship.mapping[0].column?.column_name !== primaryKeyColumn // * filter relationships using the primary key as foreign key
+    ) // * object relationship with multi-column keys are not supported
     .map(relationship => {
       const relName = relationship.rel_name as string
       const mappingItem = relationship.mapping[0]
@@ -19,10 +24,6 @@ export const createRelationshipProperties = (
       const ref = `${role}_${metadataName(refTable)}`
 
       const type = propertyJsonType(column)
-      if (relationship.mapping.length !== 1)
-        throw Error(
-          'object relationship with multi-column keys are not supported'
-        )
       if (relationship.rel_type === 'object') {
         // * Object relationships
         result[relName] = {
