@@ -27,6 +27,9 @@ export const metadataSchema: RxJsonSchema = {
     primaryKey: {
       type: 'object'
     },
+    indexes: {
+      type: 'array'
+    },
     config: {
       type: ['object', 'null']
     },

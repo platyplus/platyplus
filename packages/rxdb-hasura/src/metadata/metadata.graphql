@@ -13,6 +13,15 @@ fragment table on metadata_table {
   ...coreTable
   primaryKey {
     constraint_name
+    columns {
+      column_name
+    }
+  }
+  indexes {
+    index_name
+    columns {
+      column_name
+    }
   }
   config {
     title

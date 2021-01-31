@@ -1,8 +1,20 @@
 import { Metadata } from '../../types'
+import { propertyJsonType } from './property'
 
-// TODO indexes
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const indexes = (table: Metadata): (string | string[])[] => {
-  const result: (string | string[])[] = ['label']
-  return result
-}
+// * Map PostgreSQL indexes
+export const indexes = (table: Metadata): (string | string[])[] =>
+  table.indexes
+    .filter(({ columns }) =>
+      columns.every(({ column_name }) => {
+        const column = table.columns.find(c => c.column_name === column_name)
+        const type = column && propertyJsonType(column)
+        return (
+          // TODO raise warning when postgresql index cannot be converted into an RxDB index
+          typeof type === 'string' &&
+          ['string', 'number', 'integer'].includes(type)
+        )
+      })
+    )
+    .map(({ columns }) =>
+      columns.map(({ column_name }) => column_name as string)
+    )

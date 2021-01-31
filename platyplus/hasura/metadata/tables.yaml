@@ -363,6 +363,55 @@
     name: function_agg
 - table:
     schema: metadata
+    name: index
+  array_relationships:
+  - name: columns
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: index_column
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+          index_name: index_name
+  select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - index_name
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - index_name
+      - table_name
+      - table_schema
+      filter: {}
+- table:
+    schema: metadata
+    name: index_column
+  select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - index_name
+      - column_name
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - column_name
+      - index_name
+      - table_name
+      - table_schema
+      filter: {}
+- table:
+    schema: metadata
     name: permission_agg
   object_relationships:
   - name: role
@@ -593,9 +642,9 @@
       manual_configuration:
         remote_table:
           schema: metadata
-          name: primary_key_column
+          name: index_column
         column_mapping:
-          constraint_name: constraint_name
+          constraint_name: index_name
           table_schema: table_schema
           table_name: table_name
   select_permissions:
@@ -652,23 +701,15 @@
       - table_schema
       - table_name
       - column_name
-      filter:
-        table:
-          permissions:
-            role_name:
-              _eq: x-hasura-role
+      filter: {}
   - role: user
     permission:
       columns:
       - constraint_name
-      - table_schema
       - table_name
+      - table_schema
       - column_name
-      filter:
-        table:
-          permissions:
-            role_name:
-              _eq: x-hasura-role
+      filter: {}
 - table:
     schema: metadata
     name: property_config
@@ -974,6 +1015,15 @@
         remote_table:
           schema: metadata
           name: foreign_key_constraint
+        column_mapping:
+          table_schema: table_schema
+          table_name: table_name
+  - name: indexes
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: index
         column_mapping:
           table_schema: table_schema
           table_name: table_name
