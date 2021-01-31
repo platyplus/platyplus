@@ -1,21 +1,13 @@
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { Ref, ref, watch } from 'vue'
+import { computed, Ref } from 'vue'
+
+import { usePropertyValue } from './property'
 
 // * Use either 'display_name' or the label, if the label is not the user id.
 export const useDisplayName = (
-  profile: Ref<ContentsDocument | undefined>
+  doc: Ref<ContentsDocument | undefined>
 ): Readonly<Ref<string | undefined>> => {
-  const displayName = ref<string>()
-  watch(
-    () => profile.value,
-    doc => {
-      doc &&
-        doc.$.subscribe(doc => {
-          const label = doc?.label
-          displayName.value =
-            label === profile.value?.id ? profile.value?.display_name : label
-        })
-    }
-  )
-  return displayName
+  const displayName = usePropertyValue<string>(doc, 'display_name')
+  const label = usePropertyValue<string>(doc, 'label')
+  return computed(() => (doc.value?.id ? displayName.value : label.value))
 }

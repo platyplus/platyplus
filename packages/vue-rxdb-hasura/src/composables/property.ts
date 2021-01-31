@@ -8,8 +8,8 @@ import {
   ComputedRef,
   Ref,
   ref,
+  unref,
   watch,
-  watchEffect,
   WritableComputedRef
 } from 'vue'
 import { useStore } from 'vuex'
@@ -56,22 +56,35 @@ export const useRefFieldValue = <T>(
   return fieldValue
 }
 
+// * Reactive value of a document property
+export const usePropertyValue = <T>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  document: Ref<ContentsDocument | any>,
+  name: Ref<string> | string
+): Readonly<Ref<Readonly<T | undefined>>> => {
+  const value = ref<T>()
+  watch(
+    () => unref(name) && document.value,
+    doc =>
+      doc &&
+      useSubscription(doc.get$(unref(name)).subscribe(toObserver(value))),
+    { immediate: true }
+  )
+  return value
+}
+
+// * Reactive value of a form property
 export const useFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<ContentsDocument | any>,
-  name: Ref<string>
-): Readonly<Ref<Readonly<T>>> => {
-  const fieldValue = ref()
+  name: Ref<string> | string
+): Readonly<Ref<Readonly<T | undefined>>> => {
+  const fieldValue = usePropertyValue<T>(document, name)
   const store = useStore()
-  watchEffect(() =>
-    useSubscription(
-      document.value.get$(name.value).subscribe(toObserver(fieldValue))
-    )
-  )
 
   return computed(
     () =>
-      (store.getters['rxdb/getField'](document.value, name.value) as T) ??
+      (store.getters['rxdb/getField'](document.value, unref(name)) as T) ??
       fieldValue.value
   )
 }
@@ -89,14 +102,17 @@ export const useFormProperty = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<ContentsDocument | any>,
   name: Ref<string>
-): { model: WritableComputedRef<T>; changed: ComputedRef<boolean> } => {
+): {
+  model: WritableComputedRef<T | undefined>
+  changed: ComputedRef<boolean>
+} => {
   const fieldValue = useFieldValue<T>(document, name)
   const store = useStore()
 
   // TODO move setter to useFieldValue, and consider even removing the useFormProperty composable
-  const model = computed<T>({
+  const model = computed<T | undefined>({
     get: () => fieldValue.value,
-    set: (value: T) =>
+    set: (value: T | undefined) =>
       store.commit('rxdb/setField', {
         document: document.value,
         field: name.value,

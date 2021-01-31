@@ -1,7 +1,7 @@
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { v4 as uuid } from 'uuid'
-import { ComputedRef, onMounted, Ref, ref, unref, watchEffect } from 'vue'
+import { onMounted, Ref, ref, unref, watchEffect } from 'vue'
 
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

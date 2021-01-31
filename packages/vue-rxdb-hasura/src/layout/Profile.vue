@@ -1,7 +1,7 @@
 <template lang="pug">
 .layout-profile(v-if="profile")
   div
-    p-avatar(v-if="profile.avatar_url" :image="profile.avatar_url" size="xlarge" label="")
+    p-avatar(v-if="avatar" :image="avatar" size="xlarge" label="")
     p-avatar.p-mb-1(v-else :label="initial" shape="circle" size="xlarge" style="background-color:#2196F3; color: #ffffff")
   button.p-link.layout-profile-link(@click='toggle()')
     span.username {{displayName}}
@@ -30,7 +30,13 @@ import { useToggle } from '@vueuse/core'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { useDB, useDisplayName, useInitial, useProfile } from '../composables'
+import {
+  useDB,
+  useDisplayName,
+  useInitial,
+  useProfile,
+  usePropertyValue
+} from '../composables'
 
 export default defineComponent({
   name: 'Profile',
@@ -50,7 +56,8 @@ export default defineComponent({
     }
     const displayName = useDisplayName(profile)
     const initial = useInitial(displayName)
-    return { expanded, toggle, logout, profile, displayName, initial }
+    const avatar = usePropertyValue<string>(profile, 'avatar_url')
+    return { expanded, toggle, logout, profile, displayName, initial, avatar }
   }
 })
 </script>
