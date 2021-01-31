@@ -7,8 +7,8 @@
   p-toolbar.p-mb-4(v-if="canEdit")
     // TODO put toolbar in the table view component
     template(#left)
-      p-button.p-mr-2(v-if="!editing" icon="pi pi-pencil" label="Edit" @click="edit")
-      p-button.p-mr-2(v-if="!editing" icon="pi pi-plus" label="Create" @click="create")
+      p-button.p-mr-2(v-if="!editing && canUpdate" icon="pi pi-pencil" label="Edit" @click="edit")
+      p-button.p-mr-2(v-if="!editing && canInsert" icon="pi pi-plus" label="Create" @click="create")
       p-button.p-mr-2(v-if="editing" icon="pi pi-save" label="Save" @click="save") 
       p-button.p-mr-2(v-if="editing" icon="pi pi-undo" label="Reset" @click="reset") 
       p-button.p-mr-2(v-if="editing" icon="pi pi-times" label="Cancel" @click="cancel") 
@@ -49,11 +49,14 @@ export default defineComponent({
     const collectionName = toRef(props, 'name')
     const collection = useCollection(collectionName)
     const canEdit = computed<boolean>(
-      () =>
-        collection.value?.defaultView() !== 'card' &&
-        !!collection.value?.canUpdate()
+      () => collection.value?.defaultView() !== 'card'
     )
-
+    const canUpdate = computed<boolean>(
+      () => canEdit.value && !!collection.value?.canUpdate()
+    )
+    const canInsert = computed<boolean>(
+      () => canEdit.value && !!collection.value?.canInsert()
+    )
     const store = useStore()
     const form = computed(() => store.getters['rxdb/form'])
 
@@ -97,6 +100,8 @@ export default defineComponent({
       reset,
       cancel,
       canEdit,
+      canInsert,
+      canUpdate,
       edit,
       create
     }

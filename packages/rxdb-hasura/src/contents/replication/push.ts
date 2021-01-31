@@ -4,7 +4,7 @@ import stringifyObject from 'stringify-object'
 import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { computedFields } from '../computed-fields'
-import { metadataName } from '../schema'
+import { filteredRelationships, metadataName } from '../schema'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -16,7 +16,6 @@ export const pushQueryBuilder = (
   const title = metadataName(table)
   return ({ _isNew, ...doc }: Contents) => {
     debug('push query builder in', doc)
-    // const { _isNew, ...insertDoc } = doc
     const { id, ...updateDoc } = doc
     const query = _isNew
       ? `mutation { insert_${title}_one(object:${stringifyObject(doc, {
@@ -36,13 +35,8 @@ export const pushQueryBuilder = (
 
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
-  const objectRelationships = table.relationships
-    .filter(
-      ({ rel_type, mapping }) =>
-        rel_type === 'object' &&
-        mapping.length === 1 && // * filter multi-columns relationships
-        mapping[0].column?.column_name !== collection.schema.primaryPath // * filter relationships using the primary key as foreign key
-    )
+  const objectRelationships = filteredRelationships(table)
+    .filter(({ rel_type }) => rel_type === 'object')
     .map(rel => {
       return {
         name: rel.rel_name as string,
@@ -62,12 +56,18 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
       )
   ]
 
-  const forbiddenInsertColumns = table.columns
-    .filter(column => !column.canInsert.length)
-    .map(column => column.column_name as string)
-  const forbiddenUpdateColumns = table.columns
-    .filter(column => !column.canUpdate.length)
-    .map(column => column.column_name as string)
+  const forbiddenInsertColumns =
+    collection.role === 'admin'
+      ? []
+      : table.columns
+          .filter(column => !column.canInsert.length)
+          .map(column => column.column_name as string)
+  const forbiddenUpdateColumns =
+    collection.role === 'admin'
+      ? []
+      : table.columns
+          .filter(column => !column.canUpdate.length)
+          .map(column => column.column_name as string)
 
   return async data => {
     debug('pushModifier: in:', data)

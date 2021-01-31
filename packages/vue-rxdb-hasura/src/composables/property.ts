@@ -44,7 +44,7 @@ export const useRefFieldValue = <T>(
         subscription = refCollection.value
           .findByIds$(newVal)
           .subscribe(idMap => {
-            fieldValue.value = Array.from(idMap.values())
+            fieldValue.value = [...idMap.values()]
           })
       } else {
         fieldValue.value = null

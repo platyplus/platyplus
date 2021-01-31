@@ -4,6 +4,7 @@ export const collectionPermissionMethods: Pick<
   'canInsert' | 'canUpdate'
 > = {
   canInsert(this: ContentsCollection, fieldName?: string): boolean {
+    if (this.role === 'admin') return true
     // ? Check the hasura permission rule ?
     if (fieldName) {
       const property = this.schema.jsonSchema.properties[fieldName]
@@ -39,6 +40,7 @@ export const collectionPermissionMethods: Pick<
     }
   },
   canUpdate(this: ContentsCollection, fieldName?: string): boolean {
+    if (this.role === 'admin') return true
     // ? Check the hasura permission rule ?
     if (fieldName) {
       const property = this.schema.jsonSchema.properties[fieldName]

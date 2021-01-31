@@ -10,7 +10,7 @@ import {
 } from '../../utils'
 import { label } from '../computed-fields/label'
 import { addComputedFieldsFromLoadedData } from '../computed-fields/utils'
-import { metadataName } from '../schema'
+import { filteredRelationships, metadataName } from '../schema'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
@@ -24,15 +24,17 @@ export const pullQueryBuilder = (
     .filter(rel => rel.rel_type === 'array')
     .map(relationship => relationship.rel_name as string)
 
+  const columns =
+    collection.role === 'admin'
+      ? table.columns
+      : table.columns.filter(column => column.canSelect.length)
   const fieldsObject = deepmerge.all<FieldMap>([
     // * Column fields
-    table.columns
-      .filter(column => column.canSelect.length)
-      .reduce<FieldMap>(
-        (aggr, curr) => ((aggr[curr.column_name as string] = true), aggr),
+    columns.reduce<FieldMap>(
+      (aggr, curr) => ((aggr[curr.column_name as string] = true), aggr),
 
-        {}
-      ),
+      {}
+    ),
     // * Add fields required for array relationships
     // * - keys as per defined in the relationship mapping
     // * - aggregate (last updated_at) so when it changes it will trigger a new pull
@@ -129,22 +131,14 @@ export const pullQueryBuilder = (
 }
 
 export const pullModifier = (collection: ContentsCollection): Modifier => {
-  const table = collection.metadata
-  const cleansedRelationships = table.relationships
-    .filter(
-      ({ mapping }) =>
-        mapping.length === 1 && // * filter multi-columns relationships
-        mapping[0].column?.column_name !== collection.schema.primaryPath // * filter relationships using the primary key as foreign key
-    )
-    .map(rel => {
-      return {
-        multiple: rel.rel_type === 'array',
-        name: rel.rel_name as string,
-        column: rel.mapping[0].column?.column_name as string,
-        remoteColumn: rel.mapping[0].remote_column_name as string
-      }
+  const cleansedRelationships = filteredRelationships(collection.metadata).map(
+    ({ rel_type, rel_name, mapping }) => ({
+      multiple: rel_type === 'array',
+      name: rel_name as string,
+      column: mapping[0].column?.column_name as string,
+      remoteColumn: mapping[0].remote_column_name as string
     })
-
+  )
   return async data => {
     debug('pullModifier: in', { ...data })
     data.label = label(data, collection) || ''
