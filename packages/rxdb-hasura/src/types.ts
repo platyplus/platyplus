@@ -60,6 +60,7 @@ export type ContentsDocumentMethods = {
   readComponentOptions: (
     propertyName: string
   ) => Record<string, unknown> | undefined | null
+  componentName: () => string
   editComponent: (propertyName: string) => string
   editComponentOptions: (
     propertyName: string
@@ -73,7 +74,7 @@ export type ContentsCollectionMethods = {
   description: (property?: string) => string
   documentTitle: () => string // TODO move to prototype
   icon: (property?: string) => string
-  defaultView: () => string // TODO move to prototype
+  componentName: () => string // TODO move to prototype
   canInsert: (propertyName?: string) => boolean
   canUpdate: (propertyName?: string) => boolean
   // ? insertableProperties(): Property[]

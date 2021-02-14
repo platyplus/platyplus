@@ -13,12 +13,15 @@ export default defineComponent({
       required: true
     },
     type: {
-      type: String,
-      default: 'table'
+      type: String as PropType<string | undefined>,
+      required: false,
+      default: undefined
     }
   },
   setup(props) {
-    const componentName = computed(() => `h-collection-${props.type}`)
+    const componentName = computed(
+      () => `h-collection-${props.type || props.collection.componentName()}`
+    )
     return { componentName }
   }
 })

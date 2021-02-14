@@ -1123,7 +1123,7 @@
   - role: me
     permission:
       columns:
-      - default_view
+      - component
       - description
       - document_label
       - document_title
@@ -1139,7 +1139,7 @@
   - role: user
     permission:
       columns:
-      - default_view
+      - component
       - description
       - document_label
       - document_title

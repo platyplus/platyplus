@@ -1,6 +1,6 @@
 <template lang="pug">
 router-link(v-if="refDocument" :to="{ name: 'document', params: { collection: refDocument.collection.name, id: refDocument.primary }}")
-  h-document(:document="refDocument" layout="chip")
+  h-document(:document="refDocument" type="chip")
 div(v-else) &nbsp;
 </template>
 

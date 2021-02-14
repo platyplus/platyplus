@@ -1,4 +1,5 @@
 import { ContentsCollection, ContentsCollectionMethods } from '../../types'
+import { systemCollectionComponent } from '../system'
 const config = (collection: ContentsCollection, property?: string) =>
   property
     ? collection.metadata.propertiesConfig.find(
@@ -8,7 +9,7 @@ const config = (collection: ContentsCollection, property?: string) =>
 
 export const collectionConfigMethods: Pick<
   ContentsCollectionMethods,
-  'title' | 'documentTitle' | 'description' | 'icon' | 'defaultView'
+  'title' | 'documentTitle' | 'description' | 'icon' | 'componentName'
 > = {
   title(this: ContentsCollection, property?: string): string {
     return config(this, property)?.title || property || this.name
@@ -22,7 +23,11 @@ export const collectionConfigMethods: Pick<
   icon(this: ContentsCollection, property?: string): string {
     return config(this, property)?.icon || ''
   },
-  defaultView(this: ContentsCollection): string {
-    return this.metadata.config?.default_view || 'table'
+  componentName(this: ContentsCollection): string {
+    return (
+      this.metadata.config?.component ||
+      systemCollectionComponent(this) ||
+      'table'
+    )
   }
 }

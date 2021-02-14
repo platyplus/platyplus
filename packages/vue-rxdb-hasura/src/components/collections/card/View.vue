@@ -1,5 +1,5 @@
 <template lang="pug">
-p-data-view(:value="documents" :layout="layout")
+p-data-view(:value="documents" :type="type")
   template(#header)
     div.p-grid.p-nogutter
       div.p-col-6(style="text-align: left")
@@ -13,16 +13,16 @@ p-data-view(:value="documents" :layout="layout")
             router-link.p-md-4(v-if="collection.canInsert()" :to="{ name: 'newDocument', params: { collection: collection.name}}")
               button.p-button.p-button-icon-only
                 i.pi.pi-plus
-          p-data-view-layout-options(v-model="layout")
+          p-data-view-layout-options(v-model="type")
   template(#list='slotProps')
     .p-col-12.p-nogutter
       router-link.p-col-12(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
         p-card.p-m-1
           template(#title)
-            h-document-label(:document="slotProps.data" layout="label")
+            h-document-label(:document="slotProps.data" type="label")
   template(#grid='slotProps')
     router-link.p-col-4.p-md-4(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
-      h-document(:document="slotProps.data" layout="card")
+      h-document(:document="slotProps.data" type="card")
 </template>
 
 <script lang="ts">
@@ -40,7 +40,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const layout = ref('list')
+    const type = ref('list')
     const sortKey = ref()
     const filter = ref()
     const documents = ref<ContentsDocument[]>([])
@@ -58,7 +58,7 @@ export default defineComponent({
       },
       { immediate: true, debounce: 300 }
     )
-    return { layout, sortKey, filter, documents }
+    return { type, sortKey, filter, documents }
   }
 })
 </script>

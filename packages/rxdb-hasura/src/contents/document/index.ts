@@ -4,6 +4,7 @@ import {
   ContentsDocument,
   ContentsDocumentMethods
 } from '../../types'
+import { systemDocumentComponent } from '../system'
 import { propertyType } from './property-type'
 
 export const documentMethods: ContentsDocumentMethods = {
@@ -35,6 +36,9 @@ export const documentMethods: ContentsDocumentMethods = {
       config => config.property_name === propertyName
     )
     return config?.read_component_options
+  },
+  componentName(this: ContentsDocument) {
+    return systemDocumentComponent(this) || 'card'
   },
   editComponent(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection

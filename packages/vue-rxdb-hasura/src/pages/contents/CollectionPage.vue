@@ -12,7 +12,7 @@
       p-button.p-mr-2(v-if="editing" icon="pi pi-save" label="Save" @click="save") 
       p-button.p-mr-2(v-if="editing" icon="pi pi-undo" label="Reset" @click="reset") 
       p-button.p-mr-2(v-if="editing" icon="pi pi-times" label="Cancel" @click="cancel") 
-  h-collection(:key="collection.name" :collection="collection" :type="collection.defaultView()" :editing="editing")
+  h-collection(:key="collection.name" :collection="collection" :editing="editing")
 .card(v-else) loading collection...
 .card(v-if="collection?.canUpdate() && editing") {{form}}
 </template>
@@ -49,7 +49,7 @@ export default defineComponent({
     const collectionName = toRef(props, 'name')
     const collection = useCollection(collectionName)
     const canEdit = computed<boolean>(
-      () => collection.value?.defaultView() !== 'card'
+      () => collection.value?.componentName() !== 'card'
     )
     const canUpdate = computed<boolean>(
       () => canEdit.value && !!collection.value?.canUpdate()

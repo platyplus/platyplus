@@ -29,7 +29,7 @@ fragment table on metadata_table {
     icon
     document_title
     document_label
-    default_view
+    component
   }
   propertiesConfig(order_by: { order: asc }) {
     order

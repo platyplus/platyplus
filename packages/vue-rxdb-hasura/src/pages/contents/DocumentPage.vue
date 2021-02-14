@@ -46,7 +46,7 @@ div(v-if='collection && document', :key='document.primary')
         ) 
       template(#right)
         p-button.p-button-rounded.p-button-text(icon="pi pi-info-circle" @click="toggleInfo")
-    h-document(:document="document" :editing="editing" layout="details")
+    h-document(:document="document" :editing="editing" type="details")
 .card(v-else) loading document...
 .card(v-if='collection?.canUpdate() && editing') {{ form }}
 </template>

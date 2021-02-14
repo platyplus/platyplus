@@ -135,8 +135,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     ({ rel_type, rel_name, mapping }) => ({
       multiple: rel_type === 'array',
       name: rel_name as string,
-      column: mapping[0].column?.column_name as string,
-      remoteColumn: mapping[0].remote_column_name as string
+      column: mapping[0].column?.column_name as string
     })
   )
   return async data => {

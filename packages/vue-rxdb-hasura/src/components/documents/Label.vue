@@ -7,7 +7,7 @@ span(v-else) &nbsp;
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
-import { useDocumentLabel } from '../composables'
+import { useDocumentLabel } from '../../composables'
 
 export default defineComponent({
   name: 'DocumentLabel',

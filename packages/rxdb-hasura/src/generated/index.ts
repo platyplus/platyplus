@@ -6053,7 +6053,7 @@ export type Metadata_Table_Bool_Exp = {
 /** columns and relationships of "metadata.table_config" */
 export type Metadata_Table_Config = {
   __typename?: 'metadata_table_config'
-  default_view: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   deleted: Scalars['Boolean']
   description: Maybe<Scalars['String']>
   document_label: Scalars['String']
@@ -6107,7 +6107,7 @@ export type Metadata_Table_Config_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Table_Config_Bool_Exp>>>
   _not: Maybe<Metadata_Table_Config_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Table_Config_Bool_Exp>>>
-  default_view: Maybe<String_Comparison_Exp>
+  component: Maybe<String_Comparison_Exp>
   deleted: Maybe<Boolean_Comparison_Exp>
   description: Maybe<String_Comparison_Exp>
   document_label: Maybe<String_Comparison_Exp>
@@ -6131,7 +6131,7 @@ export enum Metadata_Table_Config_Constraint {
 
 /** input type for inserting data into table "metadata.table_config" */
 export type Metadata_Table_Config_Insert_Input = {
-  default_view: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
@@ -6148,7 +6148,7 @@ export type Metadata_Table_Config_Insert_Input = {
 /** aggregate max on columns */
 export type Metadata_Table_Config_Max_Fields = {
   __typename?: 'metadata_table_config_max_fields'
-  default_view: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   description: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
@@ -6162,7 +6162,7 @@ export type Metadata_Table_Config_Max_Fields = {
 
 /** order by max() on columns of table "metadata.table_config" */
 export type Metadata_Table_Config_Max_Order_By = {
-  default_view: Maybe<Order_By>
+  component: Maybe<Order_By>
   description: Maybe<Order_By>
   document_label: Maybe<Order_By>
   document_title: Maybe<Order_By>
@@ -6177,7 +6177,7 @@ export type Metadata_Table_Config_Max_Order_By = {
 /** aggregate min on columns */
 export type Metadata_Table_Config_Min_Fields = {
   __typename?: 'metadata_table_config_min_fields'
-  default_view: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   description: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
@@ -6191,7 +6191,7 @@ export type Metadata_Table_Config_Min_Fields = {
 
 /** order by min() on columns of table "metadata.table_config" */
 export type Metadata_Table_Config_Min_Order_By = {
-  default_view: Maybe<Order_By>
+  component: Maybe<Order_By>
   description: Maybe<Order_By>
   document_label: Maybe<Order_By>
   document_title: Maybe<Order_By>
@@ -6227,7 +6227,7 @@ export type Metadata_Table_Config_On_Conflict = {
 
 /** ordering options when selecting data from "metadata.table_config" */
 export type Metadata_Table_Config_Order_By = {
-  default_view: Maybe<Order_By>
+  component: Maybe<Order_By>
   deleted: Maybe<Order_By>
   description: Maybe<Order_By>
   document_label: Maybe<Order_By>
@@ -6249,7 +6249,7 @@ export type Metadata_Table_Config_Pk_Columns_Input = {
 /** select columns of table "metadata.table_config" */
 export enum Metadata_Table_Config_Select_Column {
   /** column name */
-  DefaultView = 'default_view',
+  Component = 'component',
   /** column name */
   Deleted = 'deleted',
   /** column name */
@@ -6274,7 +6274,7 @@ export enum Metadata_Table_Config_Select_Column {
 
 /** input type for updating data in table "metadata.table_config" */
 export type Metadata_Table_Config_Set_Input = {
-  default_view: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
@@ -6290,7 +6290,7 @@ export type Metadata_Table_Config_Set_Input = {
 /** update columns of table "metadata.table_config" */
 export enum Metadata_Table_Config_Update_Column {
   /** column name */
-  DefaultView = 'default_view',
+  Component = 'component',
   /** column name */
   Deleted = 'deleted',
   /** column name */
@@ -10604,7 +10604,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       | 'icon'
       | 'document_title'
       | 'document_label'
-      | 'default_view'
+      | 'component'
     >
   >
   propertiesConfig: Array<
@@ -10750,7 +10750,7 @@ export const TableFragmentDoc = gql`
       icon
       document_title
       document_label
-      default_view
+      component
     }
     propertiesConfig(order_by: { order: asc }) {
       order

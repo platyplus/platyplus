@@ -29,7 +29,7 @@
         label='Cancel',
         @click='cancel'
       ) 
-  h-document(:document="profile" :editing="editing" layout="details")
+  h-document(:document="profile" :editing="editing" type="details")
 .card(v-else) loading profile... -{{profile}}-
 .card(v-if='editing') {{ form }}
 </template>
