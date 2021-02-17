@@ -3,6 +3,7 @@ import {
   JsonSchemaPropertyType,
   PropertyType
 } from '../../types'
+import { isIdColumn } from './id'
 
 const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
   uuid: 'string',
@@ -20,7 +21,8 @@ const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
   // int: 'integer',
   int4: 'integer',
   int8: 'integer',
-  float4: 'number'
+  float4: 'number',
+  name: 'string'
   // bigint: 'integer',
   // real: 'number',
   // decimal: 'number'
@@ -36,5 +38,5 @@ export const propertyJsonType = (
     throw Error(`PostgresSQL type "${udtType}" is not mapped to JSON Schema`)
   const result = (postgresJsonSchemaTypeMapping[udtType] ||
     udtType) as JsonSchemaPropertyType
-  return isNullable ? [result, 'null'] : result
+  return isNullable && !isIdColumn(columnInfo) ? [result, 'null'] : result
 }

@@ -8,7 +8,6 @@ export type MetadataReplicatorOptions = {
 import { print } from 'graphql/language/printer'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
-import { skip } from 'rxjs/operators'
 
 import { debug, warn } from '../console'
 import { contentsCollectionCreator, metadataName } from '../contents'
@@ -31,8 +30,7 @@ const createMetadataReplicatorOptions = (
       queryBuilder: doc => ({
         query: doc ? noopQuery : query,
         variables: {}
-      }),
-      modifier: doc => ({ ...doc, full_name: metadataName(doc) })
+      })
     },
     live: true,
     liveInterval: 1000 * 60 * 10, // 10 minutes

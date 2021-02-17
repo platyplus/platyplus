@@ -30,7 +30,7 @@ p-data-view(:value="documents" :type="type")
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { debouncedWatch } from '@vueuse/core'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
-import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
   name: 'CollectionTableConfig',
@@ -45,9 +45,6 @@ export default defineComponent({
     const sortKey = ref()
     const filter = ref()
     const documents = ref<ContentsDocument[]>([])
-    onMounted(() => {
-      console.log(props.collection)
-    })
     debouncedWatch(
       () => filter.value,
       val => {

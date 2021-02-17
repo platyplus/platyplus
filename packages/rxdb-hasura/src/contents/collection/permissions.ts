@@ -4,6 +4,8 @@ export const collectionPermissionMethods: Pick<
   'canInsert' | 'canUpdate'
 > = {
   canInsert(this: ContentsCollection, fieldName?: string): boolean {
+    // * PostgreSQL views cannot be edited (as of now)
+    if (this.metadata.view) return false
     if (this.role === 'admin') return true
     // ? Check the hasura permission rule ?
     if (fieldName) {
@@ -40,6 +42,8 @@ export const collectionPermissionMethods: Pick<
     }
   },
   canUpdate(this: ContentsCollection, fieldName?: string): boolean {
+    // * PostgreSQL views cannot be edited (as of now)
+    if (this.metadata.view) return false
     if (this.role === 'admin') return true
     // ? Check the hasura permission rule ?
     if (fieldName) {

@@ -1,4 +1,5 @@
 fragment coreTable on metadata_table {
+  id
   table_name
   table_schema
 }
@@ -11,6 +12,9 @@ fragment column on metadata_column_info {
 
 fragment table on metadata_table {
   ...coreTable
+  view {
+    id
+  }
   primaryKey {
     constraint_name
     columns {
@@ -64,7 +68,19 @@ fragment table on metadata_table {
       count
     }
   }
-  relationships {
+  relationships(
+    where: {
+      mapping: {
+        remoteTable: {
+          _and: [
+            { columns: { column_name: { _eq: "id" } } }
+            { columns: { column_name: { _eq: "updated_at" } } }
+            { columns: { column_name: { _eq: "deleted" } } }
+          ]
+        }
+      }
+    }
+  ) {
     rel_name
     rel_type
     mapping {
@@ -97,17 +113,11 @@ fragment table on metadata_table {
   }
 }
 
-# * Already filtered according to user permissions.
-# * > only maps the `public` schema
-# TODO move to permission: only allow users to see the `public` schema
-# * > need an `updated_at` column
-# ! > need an `id` column -> what if the primary key is not the id column?
 query metadata {
   metadata_table(
     where: {
       _and: [
         { columns: { column_name: { _eq: "updated_at" } } }
-        # TODO make it work with other id names e.g. string
         { columns: { column_name: { _eq: "id" } } }
         { columns: { column_name: { _eq: "deleted" } } }
       ]

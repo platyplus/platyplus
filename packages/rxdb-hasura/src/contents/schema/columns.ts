@@ -1,6 +1,8 @@
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 
+import { ColumnFragment } from '../../generated'
 import { JsonSchemaFormat, Metadata } from '../../types'
+import { isIdColumn } from './id'
 import { propertyJsonType } from './property'
 
 const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
@@ -9,6 +11,14 @@ const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
   time: 'time',
   timetz: 'time',
   date: 'date'
+}
+
+export const graphQLColumnType = (
+  column?: ColumnFragment
+): 'uuid' | 'String' => {
+  // TODO incomplete
+  if (column?.udt_name === 'uuid') return 'uuid'
+  else return 'String'
 }
 
 const propertyFormat = (udtType: string): JsonSchemaFormat | undefined => {
@@ -31,7 +41,7 @@ export const createColumnProperties = (
         // *filter properties that are already mapped by an object relationship
         !skipRelationships.includes(column.column_name as string) ||
         // * filter relationships using the primary key as foreign key
-        column.primaryKey
+        isIdColumn(column)
     )
     // * Do not add the deleted column to the properties
     .filter(column => column.column_name !== 'deleted')
@@ -51,7 +61,7 @@ export const createColumnProperties = (
         }
       }
       // * Set primary key column
-      if (column.primaryKey) {
+      if (isIdColumn(column)) {
         ;(property as PrimaryProperty).primary = true
       }
       result[column.column_name as string] = property

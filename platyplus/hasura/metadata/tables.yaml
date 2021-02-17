@@ -97,8 +97,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
 - table:
     schema: metadata
     name: column_info
@@ -110,9 +109,7 @@
           schema: metadata
           name: property_config
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: property_name
+          id: property_id
   - name: primaryKey
     using:
       manual_configuration:
@@ -120,9 +117,7 @@
           schema: metadata
           name: primary_key_column
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
+          id: column_id
   - name: table
     using:
       manual_configuration:
@@ -130,19 +125,16 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   array_relationships:
   - name: canInsert
     using:
       manual_configuration:
         remote_table:
           schema: metadata
-          name: permission_insert_columns
+          name: permission_select_columns
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
+          id: column_id
   - name: canSelect
     using:
       manual_configuration:
@@ -150,9 +142,7 @@
           schema: metadata
           name: permission_select_columns
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
+          id: column_id
   - name: canUpdate
     using:
       manual_configuration:
@@ -160,9 +150,7 @@
           schema: metadata
           name: permission_update_columns
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
+          id: column_id
   select_permissions:
   - role: me
     permission:
@@ -211,17 +199,13 @@
       - is_generated
       - generation_expression
       - is_updatable
+      - id
+      - table_id
       filter:
-        _or:
-        - canSelect:
+        canSelect:
+          role:
             role_name:
-              _eq: x-hasura-role
-        - canInsert:
-            role_name:
-              _eq: x-hasura-role
-        - canUpdate:
-            role_name:
-              _eq: x-hasura-role
+              _eq: X-Hasura-role
   - role: user
     permission:
       columns:
@@ -269,17 +253,13 @@
       - is_generated
       - generation_expression
       - is_updatable
+      - id
+      - table_id
       filter:
-        _or:
-        - canSelect:
+        canSelect:
+          role:
             role_name:
-              _eq: x-hasura-role
-        - canInsert:
-            role_name:
-              _eq: x-hasura-role
-        - canUpdate:
-            role_name:
-              _eq: x-hasura-role
+              _eq: X-Hasura-role
 - table:
     schema: metadata
     name: computed_field
@@ -291,42 +271,30 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
 - table:
     schema: metadata
     name: computed_property
-  object_relationships:
-  - name: config
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: property_config
-        column_mapping:
-          name: property_name
-          table_schema: table_schema
-          table_name: table_name
   select_permissions:
   - role: me
     permission:
       columns:
-      - table_schema
-      - table_name
       - name
       - transformation
       - template
       - type
       - nullable
+      - id
+      - table_id
       filter: {}
   - role: user
     permission:
       columns:
-      - table_schema
-      - table_name
       - name
-      - transformation
+      - table_id
       - template
+      - transformation
+      - id
       - type
       - nullable
       filter: {}
@@ -336,25 +304,6 @@
 - table:
     schema: metadata
     name: foreign_key_constraint
-  object_relationships:
-  - name: refTable
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: table
-        column_mapping:
-          ref_table_table_schema: table_schema
-          ref_table: table_name
-  - name: table
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: table
-        column_mapping:
-          table_schema: table_schema
-          table_name: table_name
 - table:
     schema: metadata
     name: function
@@ -372,9 +321,7 @@
           schema: metadata
           name: index_column
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          index_name: index_name
+          id: index_id
   select_permissions:
   - role: me
     permission:
@@ -421,7 +368,7 @@
           schema: metadata
           name: role
         column_mapping:
-          role_name: role_name
+          role_name: id
   - name: table
     using:
       manual_configuration:
@@ -429,8 +376,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
 - table:
     schema: metadata
     name: permission_insert_columns
@@ -442,19 +388,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
-  - name: permission
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: permission_agg
-        column_mapping:
-          role_name: role_name
-          table_schema: table_schema
-          table_name: table_name
+          column_id: id
   - name: role
     using:
       manual_configuration:
@@ -462,7 +396,7 @@
           schema: metadata
           name: role
         column_mapping:
-          role_name: role_name
+          role_name: id
   - name: table
     using:
       manual_configuration:
@@ -470,8 +404,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   select_permissions:
   - role: me
     permission:
@@ -506,19 +439,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
-  - name: permission
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: permission_agg
-        column_mapping:
-          role_name: role_name
-          table_schema: table_schema
-          table_name: table_name
+          column_id: id
   - name: role
     using:
       manual_configuration:
@@ -526,7 +447,7 @@
           schema: metadata
           name: role
         column_mapping:
-          role_name: role_name
+          role_name: id
   - name: table
     using:
       manual_configuration:
@@ -534,8 +455,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   select_permissions:
   - role: me
     permission:
@@ -570,19 +490,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
-  - name: permission
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: permission_agg
-        column_mapping:
-          role_name: role_name
-          table_schema: table_schema
-          table_name: table_name
+          column_id: id
   - name: role
     using:
       manual_configuration:
@@ -590,7 +498,7 @@
           schema: metadata
           name: role
         column_mapping:
-          role_name: role_name
+          role_name: id
   - name: table
     using:
       manual_configuration:
@@ -598,8 +506,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   select_permissions:
   - role: me
     permission:
@@ -634,8 +541,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   array_relationships:
   - name: columns
     using:
@@ -644,9 +550,7 @@
           schema: metadata
           name: index_column
         column_mapping:
-          constraint_name: index_name
-          table_schema: table_schema
-          table_name: table_name
+          id: index_id
   select_permissions:
   - role: me
     permission:
@@ -681,9 +585,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
+          column_id: id
   - name: table
     using:
       manual_configuration:
@@ -691,8 +593,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   select_permissions:
   - role: me
     permission:
@@ -721,16 +622,16 @@
       - edit_component
       - edit_component_options
       - icon
+      - id
       - json_schema
       - order
+      - property_id
       - property_name
       - read_component
       - read_component_options
-      - table_name
-      - table_schema
+      - table_id
       - title
       filter: {}
-      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -738,30 +639,20 @@
       - edit_component
       - edit_component_options
       - icon
+      - id
       - json_schema
       - order
+      - property_id
       - property_name
       - read_component
       - read_component_options
-      - table_name
-      - table_schema
+      - table_id
       - title
       filter: {}
-      allow_aggregations: true
 - table:
     schema: metadata
     name: relationship
   object_relationships:
-  - name: config
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: property_config
-        column_mapping:
-          rel_name: property_name
-          table_schema: table_schema
-          table_name: table_name
   - name: table
     using:
       manual_configuration:
@@ -769,8 +660,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   array_relationships:
   - name: mapping
     using:
@@ -779,43 +669,42 @@
           schema: metadata
           name: relationship_mapping
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: relationship_id
+  - name: mapping_
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: relationship_mapping
+        column_mapping:
+          id: column_id
   select_permissions:
   - role: me
     permission:
       columns:
-      - table_schema
-      - table_name
+      - comment
+      - id
+      - is_system_defined
+      - rel_def
       - rel_name
       - rel_type
-      - rel_def
-      - comment
-      - is_system_defined
-      filter:
-        mapping:
-          column:
-            table:
-              permissions:
-                role_name:
-                  _eq: x-hasura-role
+      - table_id
+      - table_name
+      - table_schema
+      filter: {}
   - role: user
     permission:
       columns:
-      - table_schema
-      - table_name
+      - comment
+      - id
+      - is_system_defined
+      - rel_def
       - rel_name
       - rel_type
-      - rel_def
-      - comment
-      - is_system_defined
-      filter:
-        mapping:
-          column:
-            table:
-              permissions:
-                role_name:
-                  _eq: x-hasura-role
+      - table_id
+      - table_name
+      - table_schema
+      filter: {}
 - table:
     schema: metadata
     name: relationship_mapping
@@ -827,9 +716,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-          column_name: column_name
+          column_id: id
   - name: remoteColumn
     using:
       manual_configuration:
@@ -837,9 +724,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          remote_column_name: column_name
-          remote_schema_name: table_schema
-          remote_table_name: table_name
+          remote_column_id: id
   - name: remoteTable
     using:
       manual_configuration:
@@ -847,8 +732,7 @@
           schema: metadata
           name: table
         column_mapping:
-          remote_schema_name: table_schema
-          remote_table_name: table_name
+          remote_table_id: id
   - name: table
     using:
       manual_configuration:
@@ -856,49 +740,42 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          table_id: id
   select_permissions:
   - role: me
     permission:
       columns:
-      - table_schema
-      - table_name
-      - rel_name
-      - remote_schema_name
-      - remote_table_name
+      - column_id
       - column_name
+      - id
+      - rel_name
+      - relationship_id
+      - remote_column_id
       - remote_column_name
-      filter:
-        _and:
-        - table:
-            permissions:
-              role_name:
-                _eq: x-hasura-role
-        - remoteTable:
-            permissions:
-              role_name:
-                _eq: x-hasura-role
+      - remote_schema_name
+      - remote_table_id
+      - remote_table_name
+      - table_id
+      - table_name
+      - table_schema
+      filter: {}
   - role: user
     permission:
       columns:
-      - table_schema
-      - table_name
-      - rel_name
-      - remote_schema_name
-      - remote_table_name
+      - column_id
       - column_name
+      - id
+      - rel_name
+      - relationship_id
+      - remote_column_id
       - remote_column_name
-      filter:
-        _and:
-        - table:
-            permissions:
-              role_name:
-                _eq: x-hasura-role
-        - remoteTable:
-            permissions:
-              role_name:
-                _eq: x-hasura-role
+      - remote_schema_name
+      - remote_table_id
+      - remote_table_name
+      - table_id
+      - table_name
+      - table_schema
+      filter: {}
 - table:
     schema: metadata
     name: role
@@ -910,7 +787,7 @@
           schema: metadata
           name: permission_agg
         column_mapping:
-          role_name: role_name
+          id: role_name
 - table:
     schema: metadata
     name: schema_info
@@ -925,8 +802,7 @@
           schema: metadata
           name: table_config
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: info
     using:
       manual_configuration:
@@ -934,8 +810,7 @@
           schema: metadata
           name: table_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: primaryKey
     using:
       manual_configuration:
@@ -943,8 +818,15 @@
           schema: metadata
           name: primary_key
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
+  - name: view
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: view_info
+        column_mapping:
+          id: table_id
   array_relationships:
   - name: canInsert
     using:
@@ -953,8 +835,7 @@
           schema: metadata
           name: permission_insert_columns
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: canSelect
     using:
       manual_configuration:
@@ -962,8 +843,7 @@
           schema: metadata
           name: permission_select_columns
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: canUpdate
     using:
       manual_configuration:
@@ -971,17 +851,15 @@
           schema: metadata
           name: permission_update_columns
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-  - name: checkContraints
+          id: table_id
+  - name: checkConstraints
     using:
       manual_configuration:
         remote_table:
           schema: metadata
           name: check_constraint
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: columns
     using:
       manual_configuration:
@@ -989,8 +867,7 @@
           schema: metadata
           name: column_info
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: computedFields
     using:
       manual_configuration:
@@ -998,8 +875,7 @@
           schema: metadata
           name: computed_field
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: computedProperties
     using:
       manual_configuration:
@@ -1007,8 +883,7 @@
           schema: metadata
           name: computed_property
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: foreignKeys
     using:
       manual_configuration:
@@ -1016,8 +891,7 @@
           schema: metadata
           name: foreign_key_constraint
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: indexes
     using:
       manual_configuration:
@@ -1025,8 +899,7 @@
           schema: metadata
           name: index
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: permissions
     using:
       manual_configuration:
@@ -1034,8 +907,7 @@
           schema: metadata
           name: permission_agg
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: primaryKeys
     using:
       manual_configuration:
@@ -1043,8 +915,7 @@
           schema: metadata
           name: primary_key
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: propertiesConfig
     using:
       manual_configuration:
@@ -1052,8 +923,7 @@
           schema: metadata
           name: property_config
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   - name: refForeignKeys
     using:
       manual_configuration:
@@ -1061,8 +931,7 @@
           schema: metadata
           name: foreign_key_constraint
         column_mapping:
-          table_schema: ref_table_table_schema
-          table_name: ref_table
+          id: ref_id
   - name: relationships
     using:
       manual_configuration:
@@ -1070,55 +939,51 @@
           schema: metadata
           name: relationship
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
-  - name: uniqueConstraints
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: unique_constraint
-        column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: table_id
   select_permissions:
   - role: me
     permission:
       columns:
       - configuration
+      - id
       - is_enum
       - is_system_defined
       - table_name
       - table_schema
       filter:
-        permissions:
-          role_name:
-            _eq: X-Hasura-role
+        _and:
+        - columns:
+            column_name:
+              _eq: id
+        - canSelect:
+            column_name:
+              _eq: updated_at
+        - canSelect:
+            column_name:
+              _eq: deleted
   - role: user
     permission:
       columns:
       - configuration
+      - id
       - is_enum
       - is_system_defined
       - table_name
       - table_schema
       filter:
-        permissions:
-          role_name:
-            _eq: X-Hasura-role
+        _and:
+        - canSelect:
+            column_name:
+              _eq: id
+        - canSelect:
+            column_name:
+              _eq: updated_at
+        - canSelect:
+            column_name:
+              _eq: deleted
 - table:
     schema: metadata
     name: table_config
-  object_relationships:
-  - name: table
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: table
-        column_mapping:
-          table_schema: table_schema
-          table_name: table_name
   select_permissions:
   - role: me
     permission:
@@ -1128,14 +993,10 @@
       - document_label
       - document_title
       - icon
-      - table_name
-      - table_schema
+      - id
+      - table_id
       - title
-      filter:
-        table:
-          permissions:
-            role_name:
-              _eq: x-hasura-role
+      filter: {}
   - role: user
     permission:
       columns:
@@ -1144,14 +1005,10 @@
       - document_label
       - document_title
       - icon
-      - table_name
-      - table_schema
+      - id
+      - table_id
       - title
-      filter:
-        table:
-          permissions:
-            role_name:
-              _eq: x-hasura-role
+      filter: {}
 - table:
     schema: metadata
     name: table_info
@@ -1163,8 +1020,7 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: id
 - table:
     schema: metadata
     name: unique_constraint
@@ -1176,11 +1032,52 @@
           schema: metadata
           name: table
         column_mapping:
-          table_schema: table_schema
-          table_name: table_name
+          id: id
 - table:
     schema: metadata
     name: view_info
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          id: id
+  select_permissions:
+  - role: me
+    permission:
+      columns:
+      - id
+      filter:
+        table:
+          _and:
+          - columns:
+              column_name:
+                _eq: id
+          - canSelect:
+              column_name:
+                _eq: updated_at
+          - canSelect:
+              column_name:
+                _eq: deleted
+  - role: user
+    permission:
+      columns:
+      - id
+      filter:
+        table:
+          _and:
+          - columns:
+              column_name:
+                _eq: id
+          - canSelect:
+              column_name:
+                _eq: updated_at
+          - canSelect:
+              column_name:
+                _eq: deleted
 - table:
     schema: public
     name: drug

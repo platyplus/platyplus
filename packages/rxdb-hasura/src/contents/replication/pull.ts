@@ -10,7 +10,12 @@ import {
 } from '../../utils'
 import { label } from '../computed-fields/label'
 import { addComputedFieldsFromLoadedData } from '../computed-fields/utils'
-import { filteredRelationships, metadataName } from '../schema'
+import {
+  filteredRelationships,
+  graphQLColumnType,
+  metadataName
+} from '../schema'
+import { getId } from '../schema/id'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
@@ -18,7 +23,7 @@ export const pullQueryBuilder = (
 ): RxGraphQLReplicationQueryBuilder => {
   const table = collection.metadata
   const title = metadataName(table)
-
+  const idKey = getId(collection.metadata)
   // * Get the list of array relationship names
   const arrayRelationships = table.relationships
     .filter(rel => rel.rel_type === 'array')
@@ -65,19 +70,21 @@ export const pullQueryBuilder = (
   const orConditions = [
     // * Include the latest documents
     '{ updated_at: { _gt: $updatedAt } }',
-    '{ updated_at: { _eq: $updatedAt }, id: { _gt: $id } }',
+    `{ updated_at: { _eq: $updatedAt }, ${idKey}: { _gt: $id } }`,
     // TODO check
     ...arrayRelationships.map(
       rel => `{ _and: [
-    {${rel}: { updated_at: { _gt: $updated_at_${rel} } } }
-    {id: { _eq: $id } }
-  ]}`
+      {${rel}: { updated_at: { _gt: $updated_at_${rel} } } }
+      {id: { _eq: $id } }
+    ]}`
     )
   ]
-
-  // * Always ask for an updatedAt variable
+  const idColumn = collection.metadata.columns.find(
+    ({ column_name }) => column_name === idKey
+  )
   const variableDeclarations = [
-    ['id', 'uuid'],
+    [idKey, graphQLColumnType(idColumn)],
+    // * Always ask for an updatedAt variable
     ['updatedAt', 'timestamptz'],
     // TODO doesn't work when a relationship item has been removed (same pb in the subscription)
     ...arrayRelationships.map(rel => [`updated_at_${rel}`, 'timestamptz'])
@@ -85,12 +92,9 @@ export const pullQueryBuilder = (
     .map(([name, type]) => `$${name}: ${type}`)
     .join(', ')
 
-  // * Ask for the doc it when re-fetching a document
-  // TODO get the name/type from the schema, rather than hard coding 'id'
-
   const orderBy = [
     ['updated_at', 'asc'],
-    ['id', 'asc']
+    [idKey, 'asc']
   ]
 
   const strOrderBy = orderBy
@@ -122,7 +126,7 @@ export const pullQueryBuilder = (
           // * Add the doc timestamp if it exists, set to minimum otherwise
           updatedAt: doc?.updated_at || new Date(0).toISOString(),
           // * Add the doc id if exists
-          id: doc?.id || '00000000-0000-0000-0000-000000000000'
+          id: doc?.[idKey] || '00000000-0000-0000-0000-000000000000'
         }
       )
     }
@@ -139,7 +143,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     })
   )
   return async data => {
-    debug('pullModifier: in', { ...data })
+    debug('pullModifier: in', collection.name, { ...data })
     data.label = label(data, collection) || ''
     data = addComputedFieldsFromLoadedData(data, collection)
     // * Flatten relationship data so it fits in the `population` system
@@ -153,7 +157,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         delete data[column]
       }
     }
-    debug('pullModifier: out', { ...data })
+    debug('pullModifier: out', collection.name, { ...data })
     return data
   }
 }

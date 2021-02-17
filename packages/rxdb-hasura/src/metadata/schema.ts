@@ -17,7 +17,10 @@ export const metadataSchema: RxJsonSchema = {
   description: 'Ha',
   type: 'object',
   properties: {
-    full_name: { type: 'string', primary: true },
+    id: {
+      type: 'string',
+      primary: true
+    },
     table_name: {
       type: 'string'
     },
@@ -25,10 +28,13 @@ export const metadataSchema: RxJsonSchema = {
       type: 'string'
     },
     primaryKey: {
-      type: 'object'
+      type: ['object', 'null']
     },
     indexes: {
       type: 'array'
+    },
+    view: {
+      type: ['object', 'null']
     },
     config: {
       type: ['object', 'null']
