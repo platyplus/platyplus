@@ -1,6 +1,7 @@
 <template lang="pug">
 div(v-if='collection && document', :key='document.primary')
   p-sidebar(v-model:visible="visibleInfo" position="right")
+    div TODO accessible outside of the toolbar
     div Last updated at: {{document.updated_at}}
     div Last updated by
     div created by
@@ -9,10 +10,10 @@ div(v-if='collection && document', :key='document.primary')
   .card()
     h3
       i.p-mr-2(:class='collection.icon()')
-      h-document-label(v-if="id" :document='document')
+      h-document(v-if="id" :document='document' type="label")
       span(v-else) New 
         span.p-text-lowercase {{collection.documentTitle()}}
-    p-toolbar.p-mb-4
+    p-toolbar.p-mb-4(v-if="(editing && collection.canUpdate()) || (!editing && document.canDelete())")
       template(#left)
         p-button.p-mr-2(
           v-if='!editing && collection.canUpdate()',

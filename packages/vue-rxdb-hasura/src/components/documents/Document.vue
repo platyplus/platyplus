@@ -1,5 +1,6 @@
 <template lang="pug">
-component(:is="componentName" :document="document")
+component(v-if="document" :is="componentName" :document="document")
+span(v-else) loading...
 </template>
 
 <script lang="ts">
@@ -10,7 +11,8 @@ export default defineComponent({
   props: {
     document: {
       type: Object as PropType<ContentsDocument>,
-      required: true
+      required: false,
+      default: undefined
     },
     type: {
       type: String as PropType<string | undefined>,

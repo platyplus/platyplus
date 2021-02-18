@@ -49,7 +49,9 @@ export default defineComponent({
     const collectionName = toRef(props, 'name')
     const collection = useCollection(collectionName)
     const canEdit = computed<boolean>(
-      () => collection.value?.componentName() !== 'card'
+      () =>
+        collection.value?.componentName() !== 'card' &&
+        !!(collection.value?.canUpdate() || collection.value?.canInsert())
     )
     const canUpdate = computed<boolean>(
       () => canEdit.value && !!collection.value?.canUpdate()

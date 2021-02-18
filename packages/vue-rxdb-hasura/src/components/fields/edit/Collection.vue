@@ -1,12 +1,12 @@
 <template lang="pug">
 p-multi-select(v-model="filteredModel" :options="options" optionValue="id" placeholder="Select options")
   template(#option="slotProps")
-    h-document-label(:document="slotProps.option")
+    h-document(:document="slotProps.option" type="label")
   template(#value="slotProps")
     div(v-if="slotProps.value && slotProps.value.length")
       div(v-for="id in slotProps.value" :key="id").p-chip.p-component.p-mr-2.p-my-1
         .p-chip-text
-          h-document-label(:document="optionDocument(id)")
+          h-document(:document="optionDocument(id)" type="label")
         span.pi.pi-times-circle.pi-chip-remove-icon(@click="remove(id)")
     div(v-else) Select
 </template>

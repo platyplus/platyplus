@@ -614,6 +614,15 @@
 - table:
     schema: metadata
     name: property_config
+  object_relationships:
+  - name: table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          table_id: id
   select_permissions:
   - role: me
     permission:

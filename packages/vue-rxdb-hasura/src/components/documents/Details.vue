@@ -1,8 +1,11 @@
 <template lang="pug">
-p-card.p-m-1.p-p-2(style="border: 1px solid #dee2e6;")
-  template(#title)
-    // TODO get the link from the parent component
-    span.p-text-capitalize {{label}}
+div.p-fluid
+  div.p-field(v-for='[name, property] of properties' :key="name")
+    i.pi.p-mx-2(v-if="document.collection.icon(name)" :class="document.collection.icon(name)")
+    label.p-text-capitalize(:for="name") {{document.collection.title(name)}}
+    h-field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
+    div(v-else).p-component.p-inputtext
+      h-field-read(:document="document" :name="name")
 </template>
 
 <script lang="ts">
@@ -12,7 +15,7 @@ import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { useDocument, useDocumentLabel } from '../../composables'
 
 export default defineComponent({
-  name: 'DocumentCard',
+  name: 'DocumentDetails',
   props: {
     collection: {
       type: Object as PropType<ContentsCollection | undefined>,

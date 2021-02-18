@@ -1,7 +1,6 @@
 <template lang="pug">
 p-data-view(:value="documents" :type="type")
   template(#header)
-    div table config
     div.p-grid.p-nogutter
       div.p-col-6(style="text-align: left")
         span.p-input-icon-left.p-input-icon-right
@@ -20,7 +19,7 @@ p-data-view(:value="documents" :type="type")
       router-link.p-col-12(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
         p-card.p-m-1
           template(#title)
-            h-document-label(:document="slotProps.data" type="label")
+            h-document(:document="slotProps.data" type="label")
   template(#grid='slotProps')
     router-link.p-col-4.p-md-4(:to="{ name: 'document', params: { collection: collection.name, id: slotProps.data.primary }}")
       h-document(:document="slotProps.data" type="card")
@@ -33,7 +32,7 @@ import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
-  name: 'CollectionTableConfig',
+  name: 'CollectionCard',
   props: {
     collection: {
       type: Object as PropType<ContentsCollection>,

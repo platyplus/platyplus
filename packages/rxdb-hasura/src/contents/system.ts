@@ -1,3 +1,5 @@
+import { paramCase } from 'param-case'
+
 import { ContentsCollection, ContentsDocument } from '../types'
 
 // * Custom config for system collections
@@ -5,9 +7,7 @@ export const systemCollectionComponent = ({
   metadata
 }: ContentsCollection): string | undefined => {
   if (metadata.table_schema === 'metadata') {
-    if (metadata.table_name === 'table_config') {
-      return 'table-config'
-    }
+    return 'metadata-' + paramCase(metadata.table_name as string)
   }
 }
 
@@ -16,8 +16,6 @@ export const systemDocumentComponent = (
 ): string | undefined => {
   const { metadata } = document.collection as ContentsCollection
   if (metadata.table_schema === 'metadata') {
-    if (metadata.table_name === 'table_config') {
-      return 'table-config'
-    }
+    return 'metadata-' + paramCase(metadata.table_name as string)
   }
 }
