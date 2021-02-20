@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types */
+// Mocks all files ending in `.vue` showing them as plain Vue instances
 declare module '*.vue' {
-  import { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, any>
+  import { ComponentOptions } from 'vue'
+  const component: ComponentOptions
   export default component
 }

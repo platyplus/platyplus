@@ -1,9 +1,9 @@
 {
-  "name": "@platyplus/vue-hasura-backend-plus",
+  "name": "@platyplus/nuxt-hasura-backend-plus",
   "platyplus": {
     "type": "typescript"
   },
-  "private": false,
+  "private": true,
   "version": "0.2.1",
   "description": "Nuxt plugin for Hasura Backend Plus",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
@@ -11,7 +11,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/platyplus/platydev.git",
-    "directory": "packages/vue-hasura-backend-plus"
+    "directory": "packages/nuxt-hasura-backend-plus"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "dev:docker": "nodemon --exitcrash",
+    "dev:docker": "nodemon --exitcrash'",
     "prod": "node dist/index.js",
     "prepublish": "yarn run build",
     "build": "yarn run clean && tsc -p tsconfig.build.json",
@@ -32,23 +32,14 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "nhost-js-sdk": "^2.3.4",
-    "vue-demi": "^0.6.0"
-  },
-  "peerDependencies": {
-    "@vue/composition-api": "^1.0.0-beta.1",
-    "vue": "^2.0.0 || >=3.0.0-rc.0"
-  },
-  "optionalDependencies": {
-    "vue-router": "^4.0.3"
+    "@nuxtjs/composition-api": "^0.16.4",
+    "nhost-js-sdk": "^2.3.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-typescript": "^4.5.11",
-    "@vue/cli-service": "^4.5.11",
-    "@vue/compiler-sfc": "^3.0.5",
-    "vue": "^3.0.5",
-    "vue-loader": "^16.1.2",
-    "vue-router": "^4.0.3"
-  },
-  "gitHead": "cb30dc36ad4b80da5b8979f5f8e71083ed39559c"
+    "@nuxt/types": "^2.14.10",
+    "@nuxt/typescript-build": "^2.0.3",
+    "@nuxt/typescript-runtime": "^2.0.0",
+    "nuxt": "^2.14.12",
+    "vue-loader": "^16.1.2"
+  }
 }

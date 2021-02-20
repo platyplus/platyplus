@@ -1,36 +1,25 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
     // TODO merge options into global tsconfig
-    // "target": "esnext",
-    // "module": "esnext",
-    // "strict": true,
-    // "jsx": "preserve",
-    // "importHelpers": true,
-    // "moduleResolution": "node",
-    // "skipLibCheck": true,
-    // "esModuleInterop": true,
-    // "allowSyntheticDefaultImports": true,
-    // "sourceMap": true,
-    "types": ["webpack-env"],
+    "types": ["quasar", "webpack-env"],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@platyplus/*": ["packages/*/src"],
-      "@platyplus/humanitarian-icons/*": ["packages/humanitarian-icons/dist/*"],
-      "*": ["types/*"]
+      "app/*": ["*"],
+      "components/*": ["src/components/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["src/assets/*"],
+      "boot/*": ["src/boot/*"],
+      "src/*": ["src/*"],
+
+      "@platyplus/*": ["../../packages/*/src"],
+      "@platyplus/humanitarian-icons/*": [
+        "../../packages/humanitarian-icons/dist/*"
+      ],
+      "*": ["../../types/*"]
     }
-    // TODO
-    // "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.graphql",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "public/**/*"
-  ],
-  "exclude": ["node_modules", "dist"]
+
+  "exclude": ["/dist", ".quasar", "node_modules"]
 }

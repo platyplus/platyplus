@@ -45,8 +45,8 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
+    "vue": "^3.0.5",
+    "vue-router": "4.0.3",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
@@ -58,8 +58,8 @@
     "@vue/cli-plugin-vuex": "~4.5.11",
     "@vue/cli-service": "~4.5.11",
     "@vue/compiler-sfc": "^3.0.5",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
+    "vue": "^3.0.5",
+    "vue-router": "4.0.3",
     "vuex": "^4.0.0-0"
   },
   "gitHead": "7392d53a136ec06a950b5e494237a9d0830b731f"

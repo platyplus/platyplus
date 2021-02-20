@@ -7,6 +7,12 @@
       "devtools",
       "documentation",
       "platyplus/*"
+    ],
+    "nohoist": [
+      "**/vue-template-compiler",
+      "**/vue-template-compiler/**",
+      "**/vue-loader",
+      "**/vue-loader/**"
     ]
   },
   "scripts": {
