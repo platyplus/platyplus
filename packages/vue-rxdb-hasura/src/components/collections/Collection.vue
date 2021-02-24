@@ -1,6 +1,5 @@
 <template lang="pug">
-div collection
-  component(:is="componentName" :collection="collection")
+component(:is="componentName" :collection="collection")
 </template>
 
 <script lang="ts">
@@ -20,13 +19,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const componentName = computed(() => {
-      console.log(
-        'componentName',
-        `h-collection-${props.type || props.collection.componentName()}`
-      )
-      return `h-collection-${props.type || props.collection.componentName()}`
-    })
+    const componentName = computed(
+      () => `h-collection-${props.type || props.collection.componentName()}`
+    )
     return { componentName }
   }
 })

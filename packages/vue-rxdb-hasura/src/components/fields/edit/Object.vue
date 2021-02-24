@@ -1,5 +1,5 @@
 <template lang="pug">
-div TODO editing
+q-field(stack-label) TODO editing
 </template>
 
 <script lang="ts">

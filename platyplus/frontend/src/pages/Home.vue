@@ -1,5 +1,5 @@
 <template lang="pug">
-.card
+q-page
   h3 Home page
   p Home page of an authenticated user.
 </template>

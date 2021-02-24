@@ -12,4 +12,4 @@ dependencies:
   repository: file://../../charts/hasura-backend-plus
   version: 0.1.10
 digest: sha256:4191779c08ce4d188c4569e7f6d1d69e0353ab1ce651958585e1cf4ce5ad6cd1
-generated: "2021-02-18T21:22:31.309949+01:00"
+generated: "2021-02-24T09:17:59.889678+01:00"

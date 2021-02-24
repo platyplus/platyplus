@@ -1,5 +1,5 @@
 <template lang="pug">
-p-checkbox(v-model="model" :binary="true")
+q-toggle(v-model="model" disable)
 </template>
 
 <script lang="ts">

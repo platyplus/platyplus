@@ -28,7 +28,6 @@ export const fetchConfig = async (): Promise<Config> => {
       hbp: config.HBP_ENDPOINT || defaultHbp
     }
   } catch (e) {
-    console.error('config error', e)
     return {
       hasura: `${defaultHasura}/v1/graphql`,
       hbp: defaultHbp

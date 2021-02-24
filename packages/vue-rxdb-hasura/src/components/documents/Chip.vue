@@ -1,6 +1,5 @@
 <template lang="pug">
-.p-chip.p-component.p-mr-2.p-mb-1
-  .p-chip-text {{label}}
+q-chip {{ label }}
 </template>
 
 <script lang="ts">

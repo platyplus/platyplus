@@ -1,7 +1,7 @@
 {
-  "compilerOptions": {
-    "types": ["webpack-env"]
-  },
+  // "compilerOptions": {
+  //   "types": ["webpack-env"]
+  // },
   "extends": "../../tsconfig.json",
   "include": ["src/**/*"]
 }

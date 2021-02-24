@@ -8,7 +8,7 @@
 
 const { configure } = require('quasar/wrappers')
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function(/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: true,
@@ -19,7 +19,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: ['i18n'],
+    boot: ['i18n', 'rxdb-hasura'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ['app.sass'],
@@ -28,7 +28,7 @@ module.exports = configure(function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -60,8 +60,18 @@ module.exports = configure(function (/* ctx */) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack(/* chain */) {
-        //
+      chainWebpack(chain) {
+        chain.module
+          .rule('graphql')
+          .test(/\.graphql$/)
+          .use('graphql-tag/loader')
+          .loader('graphql-tag/loader')
+          .end()
+        chain.module
+          .rule('pug')
+          .test(/\.pug$/)
+          .use('pug-plain-loader')
+          .loader('pug-plain-loader')
       }
     },
 
@@ -87,7 +97,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Dialog']
     },
 
     // animations: 'all', // --- includes all animations
@@ -104,9 +114,9 @@ module.exports = configure(function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Quasar App`,
-        short_name: `Quasar App`,
-        description: `A Quasar Framework app`,
+        name: 'Quasar App',
+        short_name: 'Quasar App',
+        description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

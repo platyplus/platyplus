@@ -2,7 +2,7 @@
 p-card.p-m-1.p-p-2(style="border: 1px solid #dee2e6;")
   template(#title)
     // TODO get the link from the parent component
-    span.p-text-capitalize {{label}}
+    span.text-capitalize {{label}}
 </template>
 
 <script lang="ts">

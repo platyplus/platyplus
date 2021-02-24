@@ -12,7 +12,7 @@ import {
   watch,
   WritableComputedRef
 } from 'vue'
-import { useStore } from 'vuex'
+import { Computed, useStore } from 'vuex'
 
 export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,6 +105,7 @@ export const useFormProperty = <T>(
 ): {
   model: WritableComputedRef<T | undefined>
   changed: ComputedRef<boolean>
+  title: ComputedRef<string>
 } => {
   const fieldValue = useFieldValue<T>(document, name)
   const store = useStore()
@@ -124,5 +125,6 @@ export const useFormProperty = <T>(
       store.getters['rxdb/getField'](document.value, name.value) !==
         undefined && !equal(fieldValue.value, document.value[name.value])
   )
-  return { model, changed }
+  const title = computed(() => document.value.collection.title(name.value))
+  return { model, changed, title }
 }

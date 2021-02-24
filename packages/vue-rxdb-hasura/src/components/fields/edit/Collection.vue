@@ -1,14 +1,20 @@
 <template lang="pug">
-p-multi-select(v-model="filteredModel" :options="options" optionValue="id" placeholder="Select options")
-  template(#option="slotProps")
-    h-document(:document="slotProps.option" type="label")
-  template(#value="slotProps")
-    div(v-if="slotProps.value && slotProps.value.length")
-      div(v-for="id in slotProps.value" :key="id").p-chip.p-component.p-mr-2.p-my-1
-        .p-chip-text
-          h-document(:document="optionDocument(id)" type="label")
-        span.pi.pi-times-circle.pi-chip-remove-icon(@click="remove(id)")
-    div(v-else) Select
+q-select(v-model="filteredModel"
+  multiple
+  :options="options"
+  :label="title"
+  emit-value
+  option-value="id"
+  stack-label)
+  template(#selected)
+    q-chip(removable v-if="filteredModel && filteredModel.length" v-for="id in filteredModel" @remove="remove(id)")
+      h-document(:document="optionDocument(id)" type="label" )
+    div(v-else) &nbsp;
+  template(#option="scope")
+    q-item(v-bind="scope.itemProps")
+      q-item-section
+        q-item-label
+          h-document(v-if="scope.opt" :document="scope.opt" type="label")
 </template>
 
 <script lang="ts">
@@ -39,7 +45,10 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<string[] | undefined>(document, name)
+    const { model, title } = useFormProperty<string[] | undefined>(
+      document,
+      name
+    )
     const db = useDB()
     const property = useProperty(document, name)
     // * filter out removed references
@@ -57,17 +66,21 @@ export default defineComponent({
     const optionDocument = (id: string) =>
       options.value.find(option => option.id === id)
 
-    const remove = (id: string) =>
-      (model.value = model.value?.filter(curs => curs !== id))
+    const remove = (id: string) => {
+      model.value = model.value?.filter(curs => curs !== id)
+    }
     // ? Really necessary to pass through 'onMounted'?
     onMounted(() => {
       const refCollection = db.value?.[property.value.ref as string]
       refCollection &&
         useSubscription(
-          refCollection.find().sort('label').$.subscribe(toObserver(options))
+          refCollection
+            .find()
+            .sort('label')
+            .$.subscribe(toObserver(options))
         )
     })
-    return { filteredModel, options, optionDocument, remove }
+    return { filteredModel, options, optionDocument, remove, title }
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template lang="pug">
-p-input-text(:placeholder="name" v-model="model" type="text")
+q-input(:label="title" v-model="model" stack-label)
 </template>
 
 <script lang="ts">
@@ -21,8 +21,8 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<string>(document, name)
-    return { model }
+    const { model, title } = useFormProperty<string>(document, name)
+    return { model, title }
   }
 })
 </script>

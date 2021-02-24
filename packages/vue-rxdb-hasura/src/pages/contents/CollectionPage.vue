@@ -1,20 +1,24 @@
 <template lang="pug">
-.card(v-if="collection")
-  h3
-    i.p-mr-2(:class="collection.icon()")
-    span {{collection.title()}}
-  p {{collection.description()}}
-  p-toolbar.p-mb-4(v-if="canEdit")
-    // TODO put toolbar in the table view component
-    template(#left)
-      p-button.p-mr-2(v-if="!editing && canUpdate" icon="pi pi-pencil" label="Edit" @click="edit")
-      p-button.p-mr-2(v-if="!editing && canInsert" icon="pi pi-plus" label="Create" @click="create")
-      p-button.p-mr-2(v-if="editing" icon="pi pi-save" label="Save" @click="save") 
-      p-button.p-mr-2(v-if="editing" icon="pi pi-undo" label="Reset" @click="reset") 
-      p-button.p-mr-2(v-if="editing" icon="pi pi-times" label="Cancel" @click="cancel") 
-  h-collection(:key="collection.name" :collection="collection" :editing="editing")
-.card(v-else) loading collection...
-.card(v-if="collection?.canUpdate() && editing") {{form}}
+q-page
+  q-card(v-if="collection")
+    q-card-section
+      h3
+        q-icon(:name="collection.icon()")
+        span {{collection.title()}}
+      p {{collection.description()}}
+      div.q-pa-md.q-gutter-y-md.column.items-start(v-if="canEdit")
+        q-btn-group(outline)
+          // TODO put toolbar in the table view component
+          q-btn(v-if="!editing && canUpdate" icon="fas fa-edit" label="Edit" @click="edit" outline color="primary")
+          q-btn(v-if="!editing && canInsert" icon="fas fa-plus" label="Create" @click="create" outline color="primary")
+          q-btn(v-if="editing" icon="fas fa-save" label="Save" @click="save" outline color="primary") 
+          q-btn(v-if="editing" icon="fas fa-undo" label="Reset" @click="reset" outline color="primary") 
+          q-btn(v-if="editing" icon="fas fa-times" label="Cancel" @click="cancel" outline color="primary") 
+      h-collection(:key="collection.name" :collection="collection" :editing="editing")
+  q-card(v-else)
+    q-card-section loading collection...
+  q-card(v-if="collection?.canUpdate() && editing")
+    q-card-section {{form}}
 </template>
 
 <script lang="ts">
@@ -50,7 +54,7 @@ export default defineComponent({
     const collection = useCollection(collectionName)
     const canEdit = computed<boolean>(
       () =>
-        collection.value?.componentName() !== 'card' &&
+        collection.value?.componentName() !== 'grid' &&
         !!(collection.value?.canUpdate() || collection.value?.canInsert())
     )
     const canUpdate = computed<boolean>(

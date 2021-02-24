@@ -1,5 +1,5 @@
 <template lang="pug">
-div TODO editing
+q-field(:label="title" stack-label) TODO editing
 </template>
 
 <script lang="ts">
@@ -21,9 +21,9 @@ export default defineComponent({
   },
   setup(props) {
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<number>(document, name)
+    const { model, title } = useFormProperty<number>(document, name)
     // TODO
-    return { model }
+    return { model, title }
   }
 })
 </script>

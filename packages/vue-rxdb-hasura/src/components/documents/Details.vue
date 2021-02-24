@@ -1,11 +1,17 @@
 <template lang="pug">
-div.p-fluid
-  div.p-field(v-for='[name, property] of properties' :key="name")
-    i.pi.p-mx-2(v-if="document.collection.icon(name)" :class="document.collection.icon(name)")
-    label.p-text-capitalize(:for="name") {{document.collection.title(name)}}
-    h-field-edit(v-if="editing && document.canEdit(name)" :document="document" :name="name" :label="true")
-    div(v-else).p-component.p-inputtext
-      h-field-read(:document="document" :name="name")
+div
+  template(v-for='[name, property] of properties' :key="name")
+    //- q-icon(v-if="document.collection.icon(name)" :name="document.collection.icon(name)")
+    h-field-edit(v-if="editing && document.canEdit(name)"
+      :document="document"
+      :name="name"
+      :label="document.collection.title(name)")
+    q-field(v-else
+      :label="document.collection.title(name)"
+      stack-label)
+      template(#control)
+        div.self-center.full-width.no-outline
+          h-field-read( :document="document" :name="name")
 </template>
 
 <script lang="ts">

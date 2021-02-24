@@ -5,7 +5,7 @@ import { useCollections } from './collection'
 
 export type MenuItem = {
   label: string
-  icon: string
+  icon?: string
   to?: RouteLocationRaw
   items?: MenuItem[]
   command?: () => void
@@ -44,38 +44,23 @@ export const useRoleMenu = (
   return computed<MenuItem[]>(() => {
     const unwrappedRole = unref(role)
     const roles = Array.isArray(unwrappedRole) ? unwrappedRole : [unwrappedRole]
-    return Object.values(collections.value)
-      .filter(collection => roles.includes(collection.role)) // * Show only collections from the given user role
-      .map(collection => {
-        return {
-          label: collection.title(),
-          icon: `pi pi-fw ${collection.icon() || 'pi-table'}`,
-          to: {
-            name: 'collection',
-            params: {
-              name: collection.name
+
+    return roles.map(role => ({
+      label: role,
+      items: Object.values(collections.value)
+        .filter(collection => collection.role === role)
+        .map(collection => {
+          return {
+            label: collection.title(),
+            icon: collection.icon() || 'fas fa-table',
+            to: {
+              name: 'collection',
+              params: {
+                name: collection.name
+              }
             }
           }
-        }
-      })
-  })
-}
-
-export const useFullMenu = (
-  role: string | string[] | Ref<string | string[]> = 'user'
-): ComputedRef<MenuItem[]> => {
-  const roleMenu = useRoleMenu(role)
-  return computed<MenuItem[]>(() => {
-    return [
-      { label: 'Home', icon: 'pi pi-fw pi-home', to: { name: 'root' } },
-      { label: 'Home', icon: 'pi pi-fw pi-home', to: { name: 'home' } },
-      { label: 'Login', icon: 'pi pi-fw pi-sign-in', to: { name: 'login' } },
-      {
-        label: 'Register',
-        icon: 'pi pi-fw pi-user-plus',
-        to: { name: 'register' }
-      },
-      ...roleMenu.value
-    ]
+        })
+    }))
   })
 }

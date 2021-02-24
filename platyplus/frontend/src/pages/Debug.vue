@@ -1,18 +1,20 @@
 <template lang="pug">
-.card
+q-page
   h3 Debug page
   p A few things to check everything works.
   p(v-if="status") token {{token}}
-.card
-  h5 Controls
-  p-button.p-mr-1(v-if="!editing" @click="edit") edit
-  p-button.p-mr-1(v-if="editing" @click="save") save 
-  p-button.p-mr-1(v-if="editing" @click="reset") reset 
-  p-button.p-mr-1(v-if="editing" @click="cancel") cancel
-  div(v-if="editing") form: {{form}}
-.card(v-for="collection of collections")
-  h5 {{collection.name}}
-  h-collection(:collection="collection" :editing="editing")
+q-card
+  q-card-section
+    h5 Controls
+    q-btn(v-if="!editing" @click="edit") edit
+    q-btn(v-if="editing" @click="save") save 
+    q-btn(v-if="editing" @click="reset") reset 
+    q-btn(v-if="editing" @click="cancel") cancel
+    div(v-if="editing") form: {{form}}
+q-card(v-for="collection of collections")
+  q-card-section
+    h5 {{collection.name}}
+    h-collection(:collection="collection" :editing="editing")
 </template>
 
 <script lang="ts">

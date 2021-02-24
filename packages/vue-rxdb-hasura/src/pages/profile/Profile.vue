@@ -1,37 +1,17 @@
 <template lang="pug">
-.card(v-if="profile")
-  h3
-    i.p-mr-2(class='')
-    span {{displayName}}
-  p-toolbar.p-mb-4
-    template(#left)
-      p-button.p-mr-2(
-        v-if='!editing',
-        icon='pi pi-pencil',
-        label='Edit',
-        @click='edit'
-      )
-      p-button.p-mr-2(
-        v-if='editing',
-        icon='pi pi-save',
-        label='Save',
-        @click='save'
-      ) 
-      p-button.p-mr-2(
-        v-if='editing',
-        icon='pi pi-undo',
-        label='Reset',
-        @click='reset'
-      ) 
-      p-button.p-mr-2(
-        v-if='editing',
-        icon='pi pi-times',
-        label='Cancel',
-        @click='cancel'
-      ) 
-  h-document(:document="profile" :editing="editing" type="details")
-.card(v-else) loading profile... -{{profile}}-
-.card(v-if='editing') {{ form }}
+q-page
+  q-card(v-if="profile")
+    q-card-section(v-if="profile")
+      h3 {{displayName}}
+      q-btn-group(outline)
+        q-btn(v-if="!editing" icon="fas fa-edit" label="Edit" @click="edit" outline color="primary")
+        q-btn(v-if="editing" icon="fas fa-save" label="Save" @click="save" outline color="primary")
+        q-btn(v-if="editing" icon="fas fa-undo" label="Reset" @click="reset" outline color="primary")
+        q-btn(v-if="editing" icon="fas fa-times" label="Cancel" @click="cancel" outline color="primary")
+      h-document(:document="profile" :editing="editing" type="details")
+    q-card-section(v-else) loading profile... -{{profile}}-
+  q-card(v-if='editing')
+    q-card-section {{ form }}
 </template>
 
 <script lang="ts">

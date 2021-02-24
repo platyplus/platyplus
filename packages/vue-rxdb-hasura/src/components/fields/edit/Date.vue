@@ -1,18 +1,23 @@
 <template lang="pug">
-p-calendar(v-model="proxyDate" dateFormat="dd/mm/yy" appendTo="body")
+q-input(v-model="proxyDate" :label="title" stack-label mask="##/##/####")
+  template(#append)
+    q-icon.cursor-pointer(name="event")
+      q-popup-proxy(ref="qDateProxy" transition-show="scale" transition-hide="scale")
+        q-date(v-model="proxyDate" :mask='format')
+          div.row.items-center.justify-end
+            q-btn(v-close-popup label="Close" color="primary" flat)    
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { computed, defineComponent, PropType, toRefs } from 'vue'
+import { defineComponent, PropType, toRefs } from 'vue'
 
-import { useFormProperty } from '../../../composables'
+import {
+  unicodeDateFormat,
+  useFormattedDateTime,
+  useFormProperty
+} from '../../../composables'
 
-// * Converts a JS date to a `yyyy-mm-dd` format. See https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
-const dateToStringDateOnly = (value: Date): string =>
-  new Date(value.getTime() - value.getTimezoneOffset() * 60 * 1000)
-    .toISOString()
-    .split('T')[0]
 export default defineComponent({
   name: 'FieldEditDate',
   props: {
@@ -32,19 +37,12 @@ export default defineComponent({
   setup(props) {
     // TODO internationalize dateFormat, but preferably without using momentjs (too big)
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<string>(document, name)
-    const proxyDate = computed<Date>({
-      get: () => new Date(model.value || Date.now()),
-      set: (value: Date) => {
-        try {
-          model.value = dateToStringDateOnly(value)
-        } catch {
-          // TODO
-          console.log('invalid date - do nothing')
-        }
-      }
-    })
-    return { proxyDate }
+    const { model, title } = useFormProperty<string>(document, name)
+    const { model: proxyDate, format } = useFormattedDateTime(
+      model,
+      unicodeDateFormat
+    )
+    return { proxyDate, format, title }
   }
 })
 </script>

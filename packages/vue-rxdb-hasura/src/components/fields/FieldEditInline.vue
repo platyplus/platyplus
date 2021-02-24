@@ -1,5 +1,5 @@
 <template lang="pug">
-component(:is="componentName" v-bind="props")
+component(:is="componentName" v-bind="props" :label="undefined" borderless)
 </template>
 
 <script lang="ts">

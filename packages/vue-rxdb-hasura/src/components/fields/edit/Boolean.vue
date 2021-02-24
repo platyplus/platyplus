@@ -1,13 +1,14 @@
 <template lang="pug">
-div.p-component.p-inputtext
-  p-checkbox(v-model="model" :binary="true")
+q-field(:label="title" stack-label)
+  template(#control)
+    q-toggle(v-model="model" label="")
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { defineComponent, onMounted, PropType, toRefs } from 'vue'
 
-import { useFormProperty } from '../../../composables'
+import { useFormProperty, useProperty } from '../../../composables'
 
 export default defineComponent({
   name: 'FieldEditBoolean',
@@ -35,8 +36,10 @@ export default defineComponent({
       if (props.inTable) model.value = !model.value
     })
     const { name, document } = toRefs(props)
-    const { model } = useFormProperty<boolean>(document, name)
-    return { model }
+    const property = useProperty(document, name)
+    const { model, title } = useFormProperty<boolean>(document, name)
+    // TODO allow undefined value if property is not required
+    return { model, property, title }
   }
 })
 </script>

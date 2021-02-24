@@ -37,6 +37,7 @@
     "@vueuse/rxjs": "^4.0.10",
     "chart.js": "^2.9.4",
     "deep-equal": "^2.0.5",
+    "luxon": "^1.26.0",
     "object-path-immutable": "^4.1.1",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
@@ -45,11 +46,13 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
+    "quasar": "^2.0.0-beta.6",
     "vue": "^3.0.5",
     "vue-router": "4.0.3",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/luxon": "^1.26.0",
     "@types/uuid": "^8.3.0",
     "@vue/cli-plugin-babel": "~4.5.11",
     "@vue/cli-plugin-pwa": "~4.5.11",
@@ -58,6 +61,7 @@
     "@vue/cli-plugin-vuex": "~4.5.11",
     "@vue/cli-service": "~4.5.11",
     "@vue/compiler-sfc": "^3.0.5",
+    "quasar": "^2.0.0-beta.6",
     "vue": "^3.0.5",
     "vue-router": "4.0.3",
     "vuex": "^4.0.0-0"
