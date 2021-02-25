@@ -49,6 +49,16 @@ export const useRoleMenu = (
       label: role,
       items: Object.values(collections.value)
         .filter(collection => collection.role === role)
+        // * Always hide unecessary system collections
+        .filter(
+          collection =>
+            !(
+              collection.metadata.table_schema === 'metadata' &&
+              ['property_config', 'table_config'].includes(
+                collection.metadata.table_name as string
+              )
+            )
+        )
         .map(collection => {
           return {
             label: collection.title(),

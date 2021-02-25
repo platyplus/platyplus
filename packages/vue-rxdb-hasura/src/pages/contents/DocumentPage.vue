@@ -49,7 +49,7 @@ q-page
             label='Cancel',
             @click='cancel'
           ) 
-      h-document(:document="document" :editing="editing" type="details")
+      h-document(:document="document" :editing="editing")
   q-card(v-else)
     q-card-section loading document...
   q-card(v-if='collection?.canUpdate() && editing')

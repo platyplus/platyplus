@@ -38,7 +38,7 @@ export const documentMethods: ContentsDocumentMethods = {
     return config?.read_component_options
   },
   componentName(this: ContentsDocument) {
-    return systemDocumentComponent(this) || 'card'
+    return systemDocumentComponent(this) || 'details'
   },
   editComponent(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection

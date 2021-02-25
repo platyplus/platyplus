@@ -1,9 +1,10 @@
 <template lang="pug">
-component(:is="componentName" :collection="collection")
+component(:is="componentName" v-bind="props")
 </template>
 
 <script lang="ts">
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { MangoQuery } from 'rxdb'
 import { computed, defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'Collection',
@@ -16,13 +17,17 @@ export default defineComponent({
       type: String as PropType<string | undefined>,
       required: false,
       default: undefined
+    },
+    query: {
+      type: Object as PropType<MangoQuery<ContentsDocument>>,
+      default: {}
     }
   },
   setup(props) {
     const componentName = computed(
       () => `h-collection-${props.type || props.collection.componentName()}`
     )
-    return { componentName }
+    return { props, componentName }
   }
 })
 </script>

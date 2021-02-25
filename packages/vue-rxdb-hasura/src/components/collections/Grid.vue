@@ -1,5 +1,5 @@
 <template lang="pug">
-h-collection-table(:collection="collection" grid)          
+h-collection-table(v-bind="props" grid)
 </template>
 
 <script lang="ts">
@@ -13,6 +13,9 @@ export default defineComponent({
       type: Object as PropType<ContentsCollection>,
       required: true
     }
+  },
+  setup(props) {
+    return { props }
   }
 })
 </script>

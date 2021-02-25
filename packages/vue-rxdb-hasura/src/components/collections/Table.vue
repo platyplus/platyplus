@@ -1,5 +1,5 @@
 <template lang="pug">
-q-table(:columns="columns" :rows="documents" row-key="id" :grid="grid")
+q-table(:columns="columns" :rows="documents" row-key="id" v-bind="props")
   // TODO https://next.quasar.dev/vue-components/table#Custom-top
   template(#body="props")
     q-tr(:props="props")
@@ -15,12 +15,12 @@ q-table(:columns="columns" :rows="documents" row-key="id" :grid="grid")
         q-card
           q-card-section
             h-document(:document="props.row" type="label")
-
 </template>
 
 <script lang="ts">
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
+import { MangoQuery } from 'rxdb'
 import { computed, defineComponent, PropType, ref, toRef } from 'vue'
 
 import { useNewDocumentFactory } from '../../composables'
@@ -39,6 +39,10 @@ export default defineComponent({
     grid: {
       type: Boolean,
       default: false
+    },
+    query: {
+      type: Object as PropType<MangoQuery<ContentsDocument>>,
+      default: {}
     }
   },
   setup(props) {
@@ -60,13 +64,13 @@ export default defineComponent({
     const documents = ref<ContentsDocument[]>([])
     useSubscription(
       props.collection
-        .find()
+        .find(props.query)
         .sort('label')
         .$.subscribe(toObserver(documents))
     )
 
     // TODO canEditCollection
-    return { properties, newDoc, documents, columns }
+    return { props, properties, newDoc, documents, columns }
   }
 })
 </script>

@@ -1,5 +1,6 @@
 <template lang="pug">
 div TODO table
+  h-collection-grid(:collection="collection" :pagination="{rowsPerPage:0}" :query="{selector: {table_schema: 'public'}}")          
 </template>
 
 <script lang="ts">

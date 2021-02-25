@@ -1,6 +1,6 @@
 <template lang="pug">
-component(v-if="editing" is="field-read" v-bind="props")
-component(v-else="editing" is="field-edit" v-bind="props")
+h-field-edit(v-if="editing" v-bind="props")
+h-field-read(v-else v-bind="props")
 </template>
 
 <script lang="ts">

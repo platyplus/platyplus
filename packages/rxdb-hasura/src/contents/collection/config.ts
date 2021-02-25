@@ -1,4 +1,5 @@
 import { ContentsCollection, ContentsCollectionMethods } from '../../types'
+import { metadataName } from '../schema'
 import { systemCollectionComponent } from '../system'
 const config = (collection: ContentsCollection, property?: string) =>
   property
@@ -12,10 +13,12 @@ export const collectionConfigMethods: Pick<
   'title' | 'documentTitle' | 'description' | 'icon' | 'componentName'
 > = {
   title(this: ContentsCollection, property?: string): string {
-    return config(this, property)?.title || property || this.name
+    return (
+      config(this, property)?.title || property || metadataName(this.metadata)
+    )
   },
   documentTitle(this: ContentsCollection): string {
-    return this.metadata.config?.document_title || this.name
+    return this.metadata.config?.document_title || this.title()
   },
   description(this: ContentsCollection, property?: string): string {
     return config(this, property)?.description || ''

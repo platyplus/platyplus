@@ -12,7 +12,7 @@ import {
   watch,
   WritableComputedRef
 } from 'vue'
-import { Computed, useStore } from 'vuex'
+import { useStore } from 'vuex'
 
 export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
