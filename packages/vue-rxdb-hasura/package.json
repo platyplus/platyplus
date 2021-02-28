@@ -39,6 +39,7 @@
     "deep-equal": "^2.0.5",
     "luxon": "^1.26.0",
     "object-path-immutable": "^4.1.1",
+    "param-case": "^3.0.4",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primevue": "3.1.2",

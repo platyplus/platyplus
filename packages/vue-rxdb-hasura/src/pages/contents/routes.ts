@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/collection/:name/:action?',
     name: 'collection',
     component: () =>
-      import(/* webpackChunkName: "collection" */ './CollectionPage.vue'),
+      import(/* webpackChunkName: "collection" */ './Collection.vue'),
     props: route => ({
       name: route.params.name,
       editing: route.params.action === 'edit'
@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/document/:collection/new',
     name: 'newDocument',
     component: () =>
-      import(/* webpackChunkName: "collection" */ './DocumentPage.vue'),
+      import(/* webpackChunkName: "collection" */ './Document.vue'),
     props: route => ({
       name: route.params.collection,
       editing: true
@@ -31,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/document/:collection/:id/:action?',
     name: 'document',
     component: () =>
-      import(/* webpackChunkName: "document" */ './DocumentPage.vue'),
+      import(/* webpackChunkName: "document" */ './Document.vue'),
     props: route => ({
       name: route.params.collection,
       id: route.params.id,

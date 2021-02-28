@@ -3,6 +3,7 @@ import { propertyJsonType } from './property'
 
 // * PostgreSQL indexes + label
 export const indexes = (table: Metadata): (string | string[])[] => {
+  // TODO map foreign keys e.g. table.config.table_id -> index on table_id
   // * Map PostgreSQL indexes
   const postgresIndexes = table.indexes
     .filter(({ columns }) =>

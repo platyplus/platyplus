@@ -11,7 +11,7 @@ div
       stack-label)
       template(#control)
         div.self-center.full-width.no-outline
-          h-field-read( :document="document" :name="name")
+          h-field-read(:document="document" :name="name")
 </template>
 
 <script lang="ts">

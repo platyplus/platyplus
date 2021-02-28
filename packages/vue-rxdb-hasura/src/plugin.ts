@@ -7,7 +7,6 @@ import { Store } from 'vuex'
 import { loadPrimeVue } from './primevue'
 import { addModule } from './store'
 export const DefaultRxDBKey = Symbol()
-
 export type RxDBHasuraPluginOptions<S> = {
   name: string
   endpoint: string

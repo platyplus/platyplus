@@ -2,24 +2,11 @@ import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { ColumnFragment, CoreTableFragment, Metadata } from '../..'
 import { metadataName } from '.'
-import { getId } from './id'
 import { propertyJsonType } from './property'
 export const filteredRelationships = (
   table: Metadata
-): Metadata['relationships'] => {
-  const primaryKeyColumn = getId(table)
-  return table.relationships.filter(
-    relationship =>
-      relationship.mapping.length === 1 && // * filter multi-columns relationships
-      !(
-        // * filter object relationships using the primary key as foreign key
-        (
-          relationship.rel_type === 'object' &&
-          relationship.mapping[0].column?.column_name === primaryKeyColumn
-        )
-      )
-  )
-}
+): Metadata['relationships'] =>
+  table.relationships.filter(relationship => relationship.mapping.length === 1)
 
 export const createRelationshipProperties = (
   table: Metadata,
@@ -37,7 +24,7 @@ export const createRelationshipProperties = (
     if (relationship.rel_type === 'object') {
       // * Object relationships
       result[relName] = {
-        type,
+        type: ['string', 'null'], // ? null only if relationship is nullable?
         ref
       }
     } else if (relationship.rel_type === 'array') {

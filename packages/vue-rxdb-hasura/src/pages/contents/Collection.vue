@@ -3,7 +3,7 @@ q-page
   q-card(v-if="collection")
     q-card-section
       h3
-        q-icon(:name="collection.icon()")
+        q-icon.q-pa-sm(:name="collection.icon()")
         span {{collection.title()}}
       p {{collection.description()}}
       div.q-pa-md.q-gutter-y-md.column.items-start(v-if="canEdit")
@@ -29,7 +29,7 @@ import { useStore } from 'vuex'
 import { useCollection } from '../../composables'
 
 export default defineComponent({
-  name: 'CollectionPage',
+  name: 'PageCollection',
   props: {
     name: {
       type: String,

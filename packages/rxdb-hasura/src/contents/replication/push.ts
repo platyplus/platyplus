@@ -35,6 +35,8 @@ export const pushQueryBuilder = (
 
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   const table = collection.metadata
+  // * Don't push changes on views
+  if (table.view) return () => null
   const objectRelationships = filteredRelationships(table)
     .filter(({ rel_type }) => rel_type === 'object')
     .map(rel => {

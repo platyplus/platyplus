@@ -1,6 +1,7 @@
 import {
   castValue,
   Contents,
+  ContentsCollection,
   ContentsDocument,
   Database
 } from '@platyplus/rxdb-hasura'
@@ -29,7 +30,9 @@ export const addModule = <R>(
         immutable.get(
           state.forms,
           `${document.collection.name}.${document.primary}.${field}`
-        )
+        ),
+      getCollection: state => (collection: ContentsCollection) =>
+        immutable.get(state.forms, collection.name)
     },
     actions: {
       save: async ({ state, commit }) => {
@@ -73,7 +76,7 @@ export const addModule = <R>(
         const collection = document.collection
         state.forms = immutable.set(
           state.forms,
-          `${collection.name}.${document.primary}.${field}`,
+          [collection.name, document.primary, field],
           castValue(document, field, value)
         )
       },

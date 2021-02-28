@@ -3,7 +3,7 @@ q-page
   q-card(v-if='collection && document', :key='document.primary')
     q-card-section
       h3
-        q-icon(:name="collection.icon()")
+        q-icon.q-pa-sm(:name="collection.icon()")
         h-document(v-if="id" :document='document' type="label")
         span(v-else) New 
           span.text-lowercase {{collection.documentTitle()}}
@@ -70,7 +70,7 @@ import { useStore } from 'vuex'
 
 import { useCollection, useDocument } from '../../composables'
 export default defineComponent({
-  name: 'DocumentPage',
+  name: 'PageDocument',
   props: {
     name: {
       type: String,

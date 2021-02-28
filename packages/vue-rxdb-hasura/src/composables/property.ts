@@ -17,33 +17,39 @@ import { useStore } from 'vuex'
 export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<ContentsDocument | any>,
-  name: Ref<string>
+  name: Ref<string> | string
 ): Readonly<Ref<Readonly<T>>> => {
   const fieldValue = ref()
   const store = useStore()
   const refCollection = computed<ContentsCollection>(() => {
-    const collection = document.value.collection
+    const collection = document.value.collection as ContentsCollection
     const refCollectionName = collection.schema.jsonSchema.properties[
-      name.value
+      unref(name)
     ].ref as string
     return collection.database.collections[refCollectionName]
+  })
+  const refKey = computed<string>(() => {
+    const collection = document.value.collection as ContentsCollection
+    return collection.metadata.relationships.find(
+      rel => rel.rel_name === unref(name)
+    )?.mapping[0].remote_column_name as string
   })
   let subscription: Subscription | undefined
   watch(
     () =>
-      (store.getters['rxdb/getField'](document.value, name.value) ||
-        document.value?.get(name.value)) as string | string[] | null,
+      (store.getters['rxdb/getField'](document.value, unref(name)) ||
+        document.value?.get(unref(name))) as string | string[] | null,
     async newVal => {
       if (typeof newVal === 'string') {
         // * object relationship
         subscription = refCollection.value
-          .findOne(newVal)
+          .findOne({ selector: { [refKey.value]: newVal } })
           .$.subscribe(toObserver(fieldValue))
       } else if (Array.isArray(newVal)) {
         // * array relationship
         subscription = refCollection.value
-          .findByIds$(newVal)
-          .subscribe(idMap => {
+          .find({ selector: { id: { $in: newVal } } }) // ! TODO inverted remote_column_name, can't use refKey.value
+          .$.subscribe(idMap => {
             fieldValue.value = [...idMap.values()]
           })
       } else {
@@ -64,10 +70,8 @@ export const usePropertyValue = <T>(
 ): Readonly<Ref<Readonly<T | undefined>>> => {
   const value = ref<T>()
   watch(
-    () => unref(name) && document.value,
-    doc =>
-      doc &&
-      useSubscription(doc.get$(unref(name)).subscribe(toObserver(value))),
+    () => unref(name) && document.value?.get$(unref(name)),
+    prop => prop && useSubscription(prop.subscribe(toObserver(value))),
     { immediate: true }
   )
   return value
@@ -101,7 +105,7 @@ export const useProperty = (
 export const useFormProperty = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<ContentsDocument | any>,
-  name: Ref<string>
+  name: Ref<string> | string
 ): {
   model: WritableComputedRef<T | undefined>
   changed: ComputedRef<boolean>
@@ -116,15 +120,15 @@ export const useFormProperty = <T>(
     set: (value: T | undefined) =>
       store.commit('rxdb/setField', {
         document: document.value,
-        field: name.value,
+        field: unref(name),
         value: value ?? undefined
       })
   })
   const changed = computed(
     () =>
-      store.getters['rxdb/getField'](document.value, name.value) !==
-        undefined && !equal(fieldValue.value, document.value[name.value])
+      store.getters['rxdb/getField'](document.value, unref(name)) !==
+        undefined && !equal(fieldValue.value, document.value[unref(name)])
   )
-  const title = computed(() => document.value.collection.title(name.value))
+  const title = computed(() => document.value.collection.title(unref(name)))
   return { model, changed, title }
 }

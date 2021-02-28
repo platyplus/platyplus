@@ -29,10 +29,59 @@ export const pullQueryBuilder = (
     .filter(rel => rel.rel_type === 'array')
     .map(relationship => relationship.rel_name as string)
 
-  const columns =
-    collection.role === 'admin'
-      ? table.columns
-      : table.columns.filter(column => column.canSelect.length)
+  // * List columns referencing other tables, except its own primary key
+  const foreignKeyColumns = table.relationships.reduce<string[]>(
+    (aggr, curr) => {
+      aggr.push(
+        ...curr.mapping.reduce<string[]>((mAggr, mCurr) => {
+          if (mCurr.column?.column_name !== idKey)
+            mAggr.push(mCurr.column?.column_name as string)
+          return mAggr
+        }, [])
+      )
+      return aggr
+    },
+    []
+  )
+  const columns = (collection.role === 'admin'
+    ? table.columns
+    : table.columns.filter(column => column.canSelect.length)
+  )
+    // * Filter out columns referencing other tables
+    .filter(column => !foreignKeyColumns.includes(column.column_name as string))
+
+  const objectRelationshipFields = filteredRelationships(table)
+    .filter(rel => rel.rel_type === 'object')
+    .map(
+      relationship =>
+        ({
+          [relationship.rel_name as string]: relationship.mapping
+            .map(item => item.remote_column_name)
+            .reduce<FieldMap>(
+              (aggr, curr) => ((aggr[curr as string] = true), aggr),
+              { updated_at: true }
+            )
+        } as FieldMap)
+    )
+  // * - keys as per defined in the relationship mapping
+  // * - aggregate (last updated_at) so when it changes it will trigger a new pull
+  const arrayRelationshipFields = filteredRelationships(table)
+    .filter(rel => rel.rel_type === 'array')
+    .map(
+      relationship =>
+        ({
+          [relationship.rel_name as string]: relationship.mapping
+            .map(item => item.column?.column_name)
+            .reduce<FieldMap>(
+              (aggr, curr) => ((aggr[curr as string] = true), aggr),
+              {}
+            ),
+          [`${relationship.rel_name}_aggregate`]: {
+            aggregate: { max: { updated_at: true } }
+          }
+        } as FieldMap)
+    )
+
   const fieldsObject = deepmerge.all<FieldMap>([
     // * Column fields
     columns.reduce<FieldMap>(
@@ -41,26 +90,9 @@ export const pullQueryBuilder = (
       {}
     ),
     // * Add fields required for array relationships
-    // * - keys as per defined in the relationship mapping
-    // * - aggregate (last updated_at) so when it changes it will trigger a new pull
-    ...table.relationships
-      .filter(
-        rel => rel.rel_type === 'array' && rel.mapping.length === 1 // * filter multi-columns relationships
-      )
-      .map(
-        relationship =>
-          ({
-            [relationship.rel_name as string]: relationship.mapping
-              .map(item => item.column?.column_name)
-              .reduce<FieldMap>(
-                (aggr, curr) => ((aggr[curr as string] = true), aggr),
-                {}
-              ),
-            [`${relationship.rel_name}_aggregate`]: {
-              aggregate: { max: { updated_at: true } }
-            }
-          } as FieldMap)
-      ),
+    ...arrayRelationshipFields,
+    // * Add fields required for object relationships
+    ...objectRelationshipFields,
     // * Add fields required for computed properties
     ...table.computedProperties
       .filter(prop => prop.transformation)
@@ -77,6 +109,7 @@ export const pullQueryBuilder = (
       {${rel}: { updated_at: { _gt: $updated_at_${rel} } } }
       {id: { _eq: $id } }
     ]}`
+      // ? add conditions on object relationships?
     )
   ]
   const idColumn = collection.metadata.columns.find(
@@ -139,7 +172,9 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     ({ rel_type, rel_name, mapping }) => ({
       multiple: rel_type === 'array',
       name: rel_name as string,
-      column: mapping[0].column?.column_name as string
+      key: (rel_type === 'array'
+        ? mapping[0].column?.column_name
+        : mapping[0].remote_column_name) as string
     })
   )
   return async data => {
@@ -147,14 +182,13 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     data.label = label(data, collection) || ''
     data = addComputedFieldsFromLoadedData(data, collection)
     // * Flatten relationship data so it fits in the `population` system
-    for (const { name, column, multiple } of cleansedRelationships) {
+    for (const { name, key, multiple } of cleansedRelationships) {
       if (multiple) {
         // * Array relationships: set remote id columns as an array
-        data[name] = (data[name] as []).map(item => item[column])
+        data[name] = (data[name] as []).map(item => item[key])
       } else {
         // * Object relationships: move foreign key columns to the property name
-        data[name] = data[column]
-        delete data[column]
+        if (data[name]) data[name] = data[name][key]
       }
     }
     debug('pullModifier: out', collection.name, { ...data })
