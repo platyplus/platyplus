@@ -17,11 +17,13 @@ export const useDocumentLabel = (
   return result
 }
 
+// TODO move to rxdb-hasura
 export const newDocumentFactory = (
-  collection: ContentsCollection
+  collection: ContentsCollection,
+  id = uuid()
 ): ContentsDocument => {
   const newDoc = collection.newDocument()
-  newDoc[collection.schema.primaryPath] = uuid()
+  newDoc[collection.schema.primaryPath] = id
   return newDoc
 }
 
