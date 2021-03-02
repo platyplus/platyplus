@@ -161,7 +161,7 @@ export default defineComponent({
               .filter(
                 name =>
                   ![
-                    getId(me.valuetadata.value),
+                    getId(metadata.value),
                     'deleted',
                     'updated_at',
                     'created_at'
