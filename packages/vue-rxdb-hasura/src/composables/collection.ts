@@ -35,7 +35,7 @@ export const useSingleton = (
   const document: Ref<ContentsDocument | undefined> = ref()
   const collection = useCollection(collectionName)
   watch(
-    () => collection.value,
+    collection,
     col => {
       col &&
         useSubscription(

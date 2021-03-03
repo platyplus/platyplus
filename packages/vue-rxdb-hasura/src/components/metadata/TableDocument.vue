@@ -49,21 +49,18 @@ div(v-else) loading document...
 <script lang="ts">
 import {
   ContentsDocument,
-  getId,
-  Metadata,
-  metadataName
+  CoreTableFragment,
+  getId
 } from '@platyplus/rxdb-hasura'
 import {
-  newDocumentFactory,
   useComponentsList,
-  useDB,
-  useFormProperty,
-  useRefFieldValue
+  useEmbeddedRefFieldValue,
+  useFormProperty
 } from '@platyplus/vue-rxdb-hasura'
-import { v4 as uuid } from 'uuid'
-import { computed, defineComponent, PropType, Ref, ref, toRef } from 'vue'
+import { computed, defineComponent, PropType, Ref, toRef } from 'vue'
 import { useStore } from 'vuex'
 
+import { useDocumentMetadata } from '../../composables/document'
 export default defineComponent({
   name: 'DocumentMetadataTable',
   props: {
@@ -79,65 +76,17 @@ export default defineComponent({
   },
   setup(props) {
     const document = toRef(props, 'document') as Ref<
-      ContentsDocument | undefined
+      (ContentsDocument & CoreTableFragment) | undefined
     >
 
     const store = useStore()
     const form = computed(() => store.getters['rxdb/form']) // TODO remove, debug only
 
     const componentOptions = useComponentsList('h-collection-')
-    const db = useDB()
-    const existingConfig = useRefFieldValue(document, 'config')
-    const newConfig = ref<ContentsDocument | undefined>()
-    // TODO make this generic for similar cases:
-    // TODO - create object relationship of a document
-    // TODO - add item to array relationship of a document
-    const config = computed<ContentsDocument | undefined>(() => {
-      if (existingConfig.value !== null) return existingConfig.value
-      else {
-        const doc = document.value
-        if (!newConfig.value && doc) {
-          const collectionName = `${doc.collection.role}_metadata_table_config`
-          const configCollection = db.value?.[collectionName]
-          if (configCollection) {
-            const tableId = `${doc.table_schema}.${doc.table_name}`
-            const storeContents: Record<string, ContentsDocument> =
-              store.getters['rxdb/getCollection'](configCollection) || {}
-            // * Get the id back from the forms, or use a default uuid
-            const id =
-              Object.entries(storeContents).find(
-                ([, doc]) => doc.table_id === tableId
-              )?.[0] || uuid()
-            // * Create a temporary document
-            // TODO side effect -> change computed config to watch/watchEffect
-            newConfig.value = newDocumentFactory(configCollection, id)
-            // * Store the table id in the new config document
-            store.commit('rxdb/setField', {
-              document: newConfig.value,
-              field: 'table_id',
-              value: tableId
-            })
-            // * Store the table config id in the table document
-            store.commit('rxdb/setField', {
-              document: document.value,
-              field: 'config',
-              value: tableId
-            })
-          }
-        }
-        return newConfig.value
-      }
-    })
+    const config = useEmbeddedRefFieldValue(document, 'config')
 
     const { model: component } = useFormProperty<string>(config, 'component')
-
-    const metadata = computed<Metadata | undefined>(() => {
-      const doc = document.value
-      return (
-        doc &&
-        db.value?.[`${doc.collection.role}_${metadataName(doc)}`]?.metadata
-      )
-    })
+    const metadata = useDocumentMetadata(document)
 
     const properties = computed<string[]>(() =>
       // TODO filter out columns/relationshios: reuse the logic from replication pull

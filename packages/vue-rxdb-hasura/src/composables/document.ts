@@ -1,7 +1,11 @@
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import {
+  ContentsCollection,
+  ContentsDocument,
+  Metadata
+} from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import { v4 as uuid } from 'uuid'
-import { onMounted, Ref, ref, unref, watchEffect } from 'vue'
+import { computed, onMounted, Ref, ref, unref, watchEffect } from 'vue'
 
 export const useDocumentLabel = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,3 +78,12 @@ export const useDocument = (
 
   return document
 }
+
+export const useDocumentMetadata = (
+  document: Ref<ContentsDocument | undefined>
+): Ref<Readonly<Metadata | undefined>> =>
+  computed(() =>
+    document.value
+      ? (document.value.collection.metadata as Metadata)
+      : undefined
+  )

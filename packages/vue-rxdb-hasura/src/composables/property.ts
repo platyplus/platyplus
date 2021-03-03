@@ -1,8 +1,14 @@
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import {
+  ArrayElement,
+  ContentsCollection,
+  ContentsDocument,
+  Metadata
+} from '@platyplus/rxdb-hasura'
 import { toObserver, useSubscription } from '@vueuse/rxjs'
 import equal from 'deep-equal'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { Subscription } from 'rxjs'
+import { v4 as uuid } from 'uuid'
 import {
   computed,
   ComputedRef,
@@ -14,6 +20,9 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 
+import { newDocumentFactory, useDocumentMetadata } from './document'
+
+// TODO not T but ContentsDocument or ContentsDocument[]
 export const useRefFieldValue = <T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   document: Ref<ContentsDocument | any>,
@@ -55,6 +64,69 @@ export const useRefFieldValue = <T>(
       } else {
         fieldValue.value = null
         subscription?.unsubscribe()
+      }
+    },
+    { immediate: true }
+  )
+  return fieldValue
+}
+
+/**
+ * * Return a document ref corresponding to the `name` relationship in the initial documentRef
+ * * If the relationship does not exist, create a temporary document and set it to the vuex forms
+ * * -> it allows for instance to read/edit the patient details while editing/creating a `visit { patient { name } }`
+ * @param documentRef
+ * @param name
+ */
+// TODO make it work with array relationships
+// ? Permissions?
+export const useEmbeddedRefFieldValue = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  documentRef: Ref<ContentsDocument | any>,
+  name: Ref<string> | string
+): Readonly<Ref<Readonly<ContentsDocument | undefined>>> => {
+  const existingRef = useRefFieldValue<ContentsDocument>(documentRef, name)
+  const fieldValue = ref<ContentsDocument | undefined>()
+  const store = useStore()
+  const metadataRef = useDocumentMetadata(documentRef)
+  watch(
+    [existingRef, documentRef, metadataRef],
+    ([existing, document, metadata]) => {
+      if (document && metadata) {
+        const {
+          remote_column_name,
+          remoteTable
+        } = (metadata.relationships.find(
+          rel => rel.rel_name === unref(name)
+        ) as ArrayElement<Metadata['relationships']>).mapping[0]
+        if (existing === null) {
+          const collectionName = `${document.collection.role}_${remoteTable?.table_schema}_${remoteTable?.table_name}`
+          const configCollection = document.collection.database[collectionName]
+          const storeContents: Record<string, ContentsDocument> =
+            store.getters['rxdb/getCollection'](configCollection) || {}
+          const refIdColumn = remote_column_name as string
+          // * Get the id back from the forms, or use a default uuid
+          const id =
+            Object.entries(storeContents).find(
+              ([, doc]) => doc[refIdColumn] === document.primary
+            )?.[0] || uuid()
+          // * Create a temporary document
+          fieldValue.value = newDocumentFactory(configCollection, id)
+          // * Store the table id in the new config document
+          store.commit('rxdb/setField', {
+            document: fieldValue.value,
+            field: refIdColumn,
+            value: document.primary
+          })
+          // * Store the table config id in the table document
+          store.commit('rxdb/setField', {
+            document: document,
+            field: unref(name),
+            value: document.primary
+          })
+        } else {
+          fieldValue.value = existingRef.value
+        }
       }
     },
     { immediate: true }

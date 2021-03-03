@@ -3,6 +3,10 @@ import decode from 'jwt-decode'
 
 import { ContentsCollection } from './types'
 
+export type ArrayElement<
+  ArrayType extends readonly unknown[]
+> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never
+
 // TODO consider moving to a dedicated package
 export const httpUrlToWebSockeUrl = (url: string): string =>
   url.replace(/(http)(s)?:\/\//, 'ws$2://')
