@@ -1,4 +1,5 @@
 import { ContentsCollection } from './types';
+export declare type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 export declare const httpUrlToWebSockeUrl: (url: string) => string;
 export declare const webSocketUrlToHttpUrl: (url: string) => string;
 export declare type FieldMapItem = FieldMap | true;

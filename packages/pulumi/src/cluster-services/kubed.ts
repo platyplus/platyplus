@@ -1,8 +1,8 @@
 import * as kubernetes from '@pulumi/kubernetes'
 import * as pulumi from '@pulumi/pulumi'
+
 import { childName, getNameSpace } from '../helpers'
 import { CommonServiceOptions } from '../types'
-
 
 type KubedOptions = CommonServiceOptions
 
@@ -12,7 +12,7 @@ export const kubed = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: KubedOptions
-) => {
+): { chart: kubernetes.helm.v3.Chart } => {
   const ns = getNameSpace(provider, options.namespace)
 
   const chart = new kubernetes.helm.v3.Chart(
@@ -23,7 +23,7 @@ export const kubed = (
       fetchOpts: {
         repo: 'https://charts.appscode.com/stable'
       },
-      namespace: ns.metadata.name,
+      namespace: ns.metadata.name
     },
     { provider }
   )

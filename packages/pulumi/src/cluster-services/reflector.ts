@@ -1,8 +1,8 @@
 import * as kubernetes from '@pulumi/kubernetes'
 import * as pulumi from '@pulumi/pulumi'
+
 import { childName, getNameSpace } from '../helpers'
 import { CommonServiceOptions } from '../types'
-
 
 type ReflectorOptions = CommonServiceOptions
 
@@ -11,7 +11,7 @@ export const reflector = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: ReflectorOptions
-) => {
+): { chart: kubernetes.helm.v3.Chart } => {
   const ns = getNameSpace(provider, options.namespace)
 
   const chart = new kubernetes.helm.v3.Chart(
@@ -22,7 +22,7 @@ export const reflector = (
       fetchOpts: {
         repo: 'https://emberstack.github.io/helm-charts'
       },
-      namespace: ns.metadata.name,
+      namespace: ns.metadata.name
     },
     { provider }
   )

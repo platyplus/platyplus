@@ -2,38 +2,39 @@
 
 ### Create the system columns
 
-|name| type|default|
-|------------|------------|--|
-|`id`|                    `gen_random_uuid()` |         primary key|
-|`updated_at`| `timestamptz` | Hasura built-in function |
-|`deleted`| `boolean` | `false` |
+| name         | type                | default                  |
+| ------------ | ------------------- | ------------------------ |
+| `id`         | `gen_random_uuid()` | primary key              |
+| `updated_at` | `timestamptz`       | Hasura built-in function |
+| `deleted`    | `boolean`           | `false`                  |
+
 ### Create columns
 
--   type mapping
+- type mapping
 
--   required fields and is_nullable
+- required fields and is_nullable
 
--   default values
+- default values
 
 ### Create relationships
 
--   the primary key should be not used as a foreign key in the same table
+- the primary key should be not used as a foreign key in the same table
 
--   Many to One / One to Many
+- Many to One / One to Many
 
--   unidirectional / bidirectional
+- unidirectional / bidirectional
 
--   Many to Many
+- Many to Many
 
 ### Create indexes
 
 Although the following indexes are not mandatory, they are strongly recommended to reach acceptable performance in the fetching data between the backend and the frontend in GraphQL:
 
--   (updated_at)
--   (updated_at, id)
--   
+- (updated_at)
+- (updated_at, id)
+-
 
--   sortable fields?
+- sortable fields?
 
 ### Update Hasura role permissions
 
@@ -53,11 +54,11 @@ Some configuration cannot be inferred from the PostgreSQL schema or the Hasura m
 
 It is worth to mention that the Hasura migration system only tracks DDL and not DML (data) operations, meaning the information stored in these tables won't be automatically added to the migration files. It is recommended to [create manual migrations](https://hasura.io/docs/1.0/graphql/core/migrations/advanced/writing-migrations-manually.html) with this configuration data so it becomes part of any deployment of the application.
 
--   tables
+- tables
 
--   column/properties
+- column/properties
 
--   bookmarks
+- bookmarks
 
 ## Roles and permissions
 
@@ -67,13 +68,13 @@ Every user can have multiple roles, although Hasura does not combine multiple ro
 
 Platyplus comes with four pre-defined system roles:
 
--   `user` is the default role allocated to an end user.
+- `user` is the default role allocated to an end user.
 
--   `me` is the role that allows access to information related to the authenticated user.
+- `me` is the role that allows access to information related to the authenticated user.
 
--   `admin` corresponds to the Hasura admin role, meaning
+- `admin` corresponds to the Hasura admin role, meaning
 
--   `anonymous` is the role used to define access rights to unauthenticated users i.e. public access to the GraphQL API. By default, nothing can be accessed publicly.
+- `anonymous` is the role used to define access rights to unauthenticated users i.e. public access to the GraphQL API. By default, nothing can be accessed publicly.
 
 ### Create a new role
 

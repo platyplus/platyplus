@@ -1,13 +1,12 @@
 import { ClusterConfigOutput } from '../types'
 import { kubed } from './kubed'
 import { reflector } from './reflector'
-import { monitoring } from './monitoring'
 
 export const initClusterServices = (
   name: string,
   config: ClusterConfigOutput
-) => {
-  const { appServices, clusterServices, pulumiProvider, domain } = config
+): void => {
+  const { clusterServices, pulumiProvider } = config
   const { namespace } = clusterServices
 
   if (clusterServices.kubed.enabled) {

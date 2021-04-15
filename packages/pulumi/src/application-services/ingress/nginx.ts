@@ -1,13 +1,13 @@
 import * as kubernetes from '@pulumi/kubernetes'
 import { ProviderResource } from '@pulumi/pulumi'
-import { childName, getNameSpace } from '../../helpers'
 
+import { childName, getNameSpace } from '../../helpers'
 
 export const ingressNginx = (
   parentName: string,
   provider: ProviderResource,
-  namespace: string 
-) => {
+  namespace: string
+): { name: string; chart: kubernetes.helm.v3.Chart } => {
   const ns = getNameSpace(provider, namespace)
   const name = 'ingress-nginx'
   // TODO https://github.com/pulumi/pulumi-kubernetes/issues/555

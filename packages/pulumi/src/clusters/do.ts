@@ -19,7 +19,7 @@ export const DO_DEFAULT_NODE_POOL: KubernetesClusterNodePool = {
 export const digitalOceanCluster = (
   name: string,
   args?: Partial<KubernetesClusterArgs>
-) => {
+): { cluster: digitalocean.KubernetesCluster; provider: Provider } => {
   const { region, nodePool, version, ...otherArgs } = args || {}
 
   const cluster = new KubernetesCluster(name, {

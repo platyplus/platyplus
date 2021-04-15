@@ -2,10 +2,10 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 // Export members:
-export * from "./provider";
+export * from './provider'
 
 // Export sub-modules:
-import * as acme from "./acme";
-import * as certmanager from "./certmanager";
-import * as types from "./types";
-export {acme, certmanager, types};
+import * as acme from './acme'
+import * as certmanager from './certmanager'
+import * as types from './types'
+export { acme, certmanager, types }

@@ -1,12 +1,12 @@
 import { ClusterConfigOutput } from '../types'
-import { ingress } from './ingress'
 import { certManager } from './cert-manager'
 import { helmRegistry } from './helm-registry'
+import { ingress } from './ingress'
 
 export const initApplicationServices = (
   name: string,
   config: ClusterConfigOutput
-) => {
+): void => {
   const { domain, appServices, provider, pulumiProvider } = config
   const { namespace } = appServices
 
@@ -21,6 +21,7 @@ export const initApplicationServices = (
     })
   }
   if (appServices.helmRegistry.enabled) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { enabled, ...options } = appServices.helmRegistry
     helmRegistry(name, provider, pulumiProvider, {
       ...options,

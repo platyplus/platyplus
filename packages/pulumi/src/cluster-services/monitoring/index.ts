@@ -1,5 +1,6 @@
 import * as kubernetes from '@pulumi/kubernetes'
 import * as pulumi from '@pulumi/pulumi'
+
 import { childName, getDomains, getNameSpace } from '../../helpers'
 import { MonitoringInitOptions } from './types'
 
@@ -11,7 +12,7 @@ export const monitoring = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: MonitoringInitOptions
-) => {
+): { chart: kubernetes.helm.v3.Chart } => {
   const { namespace, domain, ingress } = options
   const ns = getNameSpace(provider, namespace)
   const domains = getDomains(domain)

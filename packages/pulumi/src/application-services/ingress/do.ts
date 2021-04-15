@@ -1,14 +1,15 @@
 import { DnsRecord, Domain } from '@pulumi/digitalocean'
 import * as pulumi from '@pulumi/pulumi'
+
+import { getNameSpace } from '../../helpers'
 import { ingressNginx } from './nginx'
 import { IngressOptions } from './types'
-import { getNameSpace } from '../../helpers'
 
 export const digitalOceanIngress = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: IngressOptions
-) => {
+): { ingressIp: pulumi.Output<string> } => {
   const domain = options.domain
   const domainsResources = domain.map(d => {
     return {

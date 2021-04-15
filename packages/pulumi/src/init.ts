@@ -1,15 +1,15 @@
 import * as pulumi from '@pulumi/pulumi'
+import merge from 'deepmerge'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'yaml'
-import merge from 'deepmerge'
 
-import { DEFAULT_CLUSTER_CONFIG } from './defaults'
-import { initCluster } from './clusters'
-import { initClusterServices } from './cluster-services'
 import { initApplicationServices } from './application-services'
-import { ClusterConfig, ClusterConfigOutput, ClustersConfig } from './types'
+import { initClusterServices } from './cluster-services'
+import { initCluster } from './clusters'
+import { DEFAULT_CLUSTER_CONFIG } from './defaults'
 import { getDomains } from './helpers'
+import { ClusterConfig, ClusterConfigOutput, ClustersConfig } from './types'
 
 export const initClusters = (): Map<string, ClusterConfigOutput> => {
   // * If `clusters.yaml` exists, load its contents
@@ -32,10 +32,10 @@ export const initClusters = (): Map<string, ClusterConfigOutput> => {
     Object.entries(clustersConfig).map(([name, rawConfig]) => {
       // * Fill missing cluster configuration with defaults
       const config = merge<ClusterConfig>(DEFAULT_CLUSTER_CONFIG, rawConfig)
-      const { domain, appServices, clusterServices, provider } = config
-    // * Create the Kubernetes cluster
-    const { provider: pulumiProvider, cluster } = initCluster(name, config)
-    const fullConfig = {
+      const { domain, appServices, clusterServices } = config
+      // * Create the Kubernetes cluster
+      const { provider: pulumiProvider, cluster } = initCluster(name, config)
+      const fullConfig = {
         ...config,
         pulumiProvider,
         cluster,
@@ -43,23 +43,14 @@ export const initClusters = (): Map<string, ClusterConfigOutput> => {
       }
       // * Create cluster services, if enabled
       if (clusterServices?.enabled) {
-        initClusterServices(
-          name,
-          fullConfig
-        )
+        initClusterServices(name, fullConfig)
       }
       // * Create applications services, if enabled
       if (appServices?.enabled) {
-        initApplicationServices(
-          name,
-          fullConfig
-        )
+        initApplicationServices(name, fullConfig)
       }
       // * Return general configuration so it can be used later on
-      return [
-        name,
-        fullConfig
-      ]
+      return [name, fullConfig]
     })
   )
 }

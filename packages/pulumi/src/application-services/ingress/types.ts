@@ -1,7 +1,6 @@
-import { DnsDomain, CommonServiceOptions } from '../../types'
+import { CommonServiceOptions, DnsDomain } from '../../types'
 
 export type IngressOptions = CommonServiceOptions & {
-    domain: DnsDomain[]
-    email?: string
-  }
-  
+  domain: DnsDomain[]
+  email?: string
+}

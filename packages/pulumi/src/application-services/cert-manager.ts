@@ -1,8 +1,9 @@
 import * as kubernetes from '@pulumi/kubernetes'
 import * as pulumi from '@pulumi/pulumi'
+
 import { certmanager } from '../crds/certificates'
 import { childName, getNameSpace } from '../helpers'
-import { DnsDomain, CommonServiceOptions } from '../types'
+import { CommonServiceOptions, DnsDomain } from '../types'
 
 /* 
 https://cert-manager.io/next-docs/usage/ingress/
@@ -21,7 +22,7 @@ export const certManager = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: CertManagerApplicationServicesOptions
-) => {
+): { chart: kubernetes.helm.v3.Chart } => {
   const { domain, namespace } = options
   const email = options?.email || `admin@${domain[0].name}`
 
@@ -42,7 +43,7 @@ export const certManager = (
   )
 
   const dnsSecret = new kubernetes.core.v1.Secret(
-    childName(parentName, `cert-manager-dns-secrets`),
+    childName(parentName, 'cert-manager-dns-secrets'),
     {
       metadata: {
         name: 'cert-manager-dns-secrets',
@@ -62,7 +63,7 @@ export const certManager = (
 
   // TODO remove?
   new certmanager.v1.Certificate(
-    childName(parentName, `acme-crt`),
+    childName(parentName, 'acme-crt'),
     {
       metadata: {
         name: 'acme-crt',
@@ -77,7 +78,7 @@ export const certManager = (
         secretName: 'acme-crt-secret',
         dnsNames: domain.map(({ name }) => [name, `*.${name}`]).flat(),
         issuerRef: {
-          name: `letsencrypt-production`,
+          name: 'letsencrypt-production',
           kind: 'ClusterIssuer'
         }
       }
@@ -90,7 +91,7 @@ export const certManager = (
   ns.metadata.name.apply(
     namespace =>
       new kubernetes.core.v1.Secret(
-        childName(parentName, `acme-crt-secret-mirror`),
+        childName(parentName, 'acme-crt-secret-mirror'),
         {
           metadata: {
             name: 'acme-crt-secret-mirror',

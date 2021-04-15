@@ -51,6 +51,8 @@ const pushQueryBuilder = (collection) => {
 exports.pushQueryBuilder = pushQueryBuilder;
 const pushModifier = (collection) => {
     const table = collection.metadata;
+    if (table.view)
+        return () => null;
     const objectRelationships = schema_1.filteredRelationships(table)
         .filter(({ rel_type }) => rel_type === 'object')
         .map(rel => {

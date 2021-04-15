@@ -31,6 +31,7 @@ Object.defineProperty(exports, "RxHasuraPlugin", { enumerable: true, get: functi
 __exportStar(require("./contents"), exports);
 __exportStar(require("./types"), exports);
 __exportStar(require("./helpers"), exports);
+__exportStar(require("./utils"), exports);
 const utils_1 = require("./utils");
 const createRxHasura = (name, url, password) => __awaiter(void 0, void 0, void 0, function* () {
     const settings = {

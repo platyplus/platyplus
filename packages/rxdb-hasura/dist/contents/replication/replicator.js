@@ -43,7 +43,7 @@ const createContentReplicator = (collection, role) => __awaiter(void 0, void 0, 
         });
         replicationState.error$.subscribe(err => {
             console_1.error(`replication error on ${collection.name}`);
-            console.log(err);
+            console_1.errorDir(err);
         });
         jwtSubscription = db.jwt$.subscribe((token) => {
             console_1.debug(`Replicator (${collection.name}): set token`);

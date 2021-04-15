@@ -1,6 +1,7 @@
 import * as digitalocean from '@pulumi/digitalocean'
 import * as kubernetes from '@pulumi/kubernetes'
 import * as pulumi from '@pulumi/pulumi'
+
 import { DO_DEFAULT_REGION } from '../../clusters'
 import { childName, getNameSpace } from '../../helpers'
 import { HelmRegistryInitOptions } from './types'
@@ -9,7 +10,7 @@ export const digitalOceanHelmRegistry = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: HelmRegistryInitOptions
-) => {
+): { name: string; chart: kubernetes.helm.v3.Chart } => {
   const { domain, namespace } = options
   const ns = getNameSpace(provider, namespace)
   const name = options.name || 'charts'

@@ -1,7 +1,7 @@
-import { DnsDomain, CommonServiceOptions } from '../../types'
+import { CommonServiceOptions, DnsDomain } from '../../types'
 
 type MonitoringIngressOptions = {
-  enabled: Boolean
+  enabled: boolean
   subdomain: string | null
   path: string
 }

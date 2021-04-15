@@ -1,5 +1,6 @@
 import { KubernetesCluster } from '@pulumi/digitalocean'
 import * as kubernetes from '@pulumi/kubernetes'
+
 import { HelmRegistryOptions } from './application-services/helm-registry/types'
 import { MonitoringOptions } from './cluster-services/monitoring/types'
 
@@ -28,7 +29,6 @@ export type AppServicesConfig = {
     enabled: boolean
   }
 }
-
 
 export type ClusterServicesConfig = {
   enabled: boolean

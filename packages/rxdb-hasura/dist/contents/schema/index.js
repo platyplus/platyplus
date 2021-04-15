@@ -17,4 +17,5 @@ __exportStar(require("./name"), exports);
 __exportStar(require("./property"), exports);
 __exportStar(require("./relationships"), exports);
 __exportStar(require("./required"), exports);
+__exportStar(require("./id"), exports);
 //# sourceMappingURL=index.js.map

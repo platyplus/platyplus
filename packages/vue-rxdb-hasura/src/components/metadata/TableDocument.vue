@@ -95,7 +95,7 @@ export default defineComponent({
         return meta
           ? [
               ...meta.columns
-                .map(({ column_name, udt_name }) => column_name as string)
+                .map(({ column_name }) => column_name as string)
                 .filter(
                   name =>
                     ![
@@ -106,7 +106,7 @@ export default defineComponent({
                     ].includes(name)
                 ),
               ...meta.relationships.map(
-                ({ rel_name, rel_type }) => rel_name as string
+                ({ rel_name }) => rel_name as string
               ),
               ...meta.computedProperties.map(({ name }) => name)
             ]
