@@ -1,0 +1,51 @@
+{
+  "name": "@platyplus/infrastructure",
+  "private": false,
+  "version": "0.0.1",
+  "description": "Set of pulumi modules to manage Kubernetes clusters",
+  "keywords": [
+    "pulumi",
+    "kubernetes",
+    "helm",
+    "charts",
+    "typescript",
+    "k8s",
+    "cert-manager",
+    "ingress",
+    "prometheus"
+  ],
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://platy.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platydev.git",
+    "directory": "platyplus/hasura"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "yarn run clean && tsc -p tsconfig.build.json",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@pulumi/digitalocean": "^3.6.1",
+    "@pulumi/kubernetes": "^2.8.4",
+    "@pulumi/pulumi": "2.24.1",
+    "deepmerge": "^4.2.2",
+    "param-case": "^3.0.4",
+    "yaml": "^1.10.2"
+  }
+}
