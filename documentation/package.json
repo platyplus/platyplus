@@ -24,7 +24,7 @@
   "devDependencies": {
     "@platyplus/lerna": "^0.0.14",
     "glob": "^7.1.6",
-    "vuepress": "^1.8.0",
+    "vuepress": "^1.8.2",
     "yaml": "^1.10.0"
   }
 }

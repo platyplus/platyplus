@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["es2019"],
+    "skipLibCheck": true,
+    "types": ["node", "webpack-env"],
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "resolveJsonModule": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,

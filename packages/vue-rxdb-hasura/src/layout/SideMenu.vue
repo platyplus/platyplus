@@ -17,7 +17,7 @@ import { useToast } from 'primevue/usetoast'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { useFilteredMenu, useFullMenu } from '../composables'
+import { useFilteredMenu, useRoleMenu } from '../composables'
 export default defineComponent({
   name: 'SideMenu',
   props: {
@@ -43,7 +43,7 @@ export default defineComponent({
     const layoutColorMode = ref('dark')
     const mobileMenuActive = ref(false)
     const route = useRoute()
-    const fullMenu = useFullMenu()
+    const fullMenu = useRoleMenu()
     const menu = useFilteredMenu(fullMenu, (item, r) => {
       if (r) {
         if (status.value) {

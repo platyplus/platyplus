@@ -26,7 +26,7 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<Array<unknown>>,
-      default: []
+      default: () => []
     },
     root: {
       type: Boolean,

@@ -12,6 +12,14 @@ module.exports = configure(function (/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: true,
+    // {
+    //   tsCheckerConfig: {
+    //     eslint: {
+    //       enabled: true,
+    //       files: './src/**/*.{ts,tsx,js,jsx,vue}',
+    //     },
+    //   },
+    // },
 
     // https://quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,

@@ -1,7 +1,0 @@
-platy-plus:
-  appServices:
-    helmRegistry:
-      enabled: true
-  domain: 
-    - name: platy.plus
-      root: 76.76.21.21 # * platy.dev root domain, pointing to vercel (technical documentation from platyplus repo)

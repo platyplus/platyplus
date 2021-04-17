@@ -26,7 +26,7 @@
     "dev": "vue-cli-service build --target lib --watch",
     "dev:docker": "vue-cli-service build --target lib --watch ./src/index.ts",
     "prepublish": "yarn run build",
-    "build": "vue-cli-service build --target lib ./src/index.ts",
+    "build": "yarn run clean && vue-cli-service build --target lib ./src/index.ts",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "clean": "rimraf dist"
   },
@@ -47,14 +47,15 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "quasar": "^2.0.0-beta.6",
+    "quasar": "^2.0.0-beta.12",
     "vue": "^3.0.5",
-    "vue-router": "4.0.3",
+    "vue-router": "4.0.5",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@types/luxon": "^1.26.0",
     "@types/uuid": "^8.3.0",
+    "@types/webpack-env": "^1.16.0",
     "@vue/cli-plugin-babel": "~4.5.11",
     "@vue/cli-plugin-pwa": "~4.5.11",
     "@vue/cli-plugin-router": "~4.5.11",
@@ -62,9 +63,11 @@
     "@vue/cli-plugin-vuex": "~4.5.11",
     "@vue/cli-service": "~4.5.11",
     "@vue/compiler-sfc": "^3.0.5",
-    "quasar": "^2.0.0-beta.6",
+    "quasar": "^2.0.0-beta.12",
+    "sass": "^1.32.8",
+    "sass-loader": "^10",
     "vue": "^3.0.5",
-    "vue-router": "4.0.3",
+    "vue-router": "4.0.5",
     "vuex": "^4.0.0-0"
   },
   "gitHead": "7392d53a136ec06a950b5e494237a9d0830b731f"

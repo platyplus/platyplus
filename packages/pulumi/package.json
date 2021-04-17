@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/pulumi",
-  "private": false,
+  "private": true,
   "version": "0.0.1",
   "description": "Set of pulumi modules to manage Kubernetes clusters",
   "keywords": [

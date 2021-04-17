@@ -17,7 +17,7 @@ import routes from './routes'
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
-export default route<StateInterface>(function (/* { store, ssrContext } */) {
+export default route<StateInterface>((/* { store, ssrContext } */) => {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'

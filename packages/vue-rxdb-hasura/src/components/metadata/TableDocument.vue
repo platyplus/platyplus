@@ -1,48 +1,60 @@
 <template lang="pug">
-div(v-if="document")
-  q-btn(@click="save") Save
-  q-field(label="Table schema" stack-label)
+div(v-if='document')
+  q-btn(@click='save') Save
+  q-field(label='Table schema', stack-label)
     template(#control)
-      h-field-read(:document="document" name="table_schema")
-  q-field(label="Table name" stack-label)
+      h-field-read(:document='document', name='table_schema')
+  q-field(label='Table name', stack-label)
     template(#control)
-      h-field-read(:document="document" name="table_name")
-  q-field(label="Properties" stack-label)
+      h-field-read(:document='document', name='table_name')
+  q-field(label='Properties', stack-label)
     template(#control)
       q-list.col-12
-        q-expansion-item(v-for="property in propertiesConfig"
-            expand-separator 
-            :icon="property.icon"
-            :label="property.property_name"
-            :key="property.property_name"
-            :caption="property.description")
+        q-expansion-item(
+          v-for='property in propertiesConfig',
+          expand-separator,
+          :icon='property.icon',
+          :label='property.property_name',
+          :key='property.property_name',
+          :caption='property.description'
+        )
           q-card
-            q-card-section {{property}}
-  template(v-if="config")
-    h-field-edit(:document="config"
-      name="document_label"
-      label="Label"
-      placeholder="Handlebars template for a given document")
-    h-field-edit(:document="config"
-      name="title"
-      label="Title"
-      placeholder="Title of the collection")
-    h-field-edit-icon(:document="config"
-      name="icon"
-      label="Icon"
-      placeholder="Icon of the collection")
-    h-field-edit(:document="config"
-      name="description"
-      label="Description"
-      placeholder="Short description of the collection")
-    h-field-edit(:document="config" name="document_title")
-    q-select(v-model="component"
-      clearable
-      :options="componentOptions"
-      label="Component"
-      stack-label)
+            q-card-section {{ property }}
+  template(v-if='config')
+    h-field-edit(
+      :document='config',
+      name='document_label',
+      label='Label',
+      placeholder='Handlebars template for a given document'
+    )
+    h-field-edit(
+      :document='config',
+      name='title',
+      label='Title',
+      placeholder='Title of the collection'
+    )
+    h-field-edit-icon(
+      :document='config',
+      name='icon',
+      label='Icon',
+      placeholder='Icon of the collection'
+    )
+    h-field-edit(
+      :document='config',
+      name='description',
+      label='Description',
+      placeholder='Short description of the collection'
+    )
+    h-field-edit(:document='config', name='document_title')
+    q-select(
+      v-model='component',
+      clearable,
+      :options='componentOptions',
+      label='Component',
+      stack-label
+    )
   div(v-else) loading config...
-  div form {{form}}
+  div form {{ form }}
 div(v-else) loading document...
 </template>
 
@@ -52,15 +64,16 @@ import {
   CoreTableFragment,
   getId
 } from '@platyplus/rxdb-hasura'
-import {
-  useComponentsList,
-  useEmbeddedRefFieldValue,
-  useFormProperty
-} from '@platyplus/vue-rxdb-hasura'
 import { computed, defineComponent, PropType, Ref, toRef } from 'vue'
 import { useStore } from 'vuex'
 
-import { useDocumentMetadata } from '../../composables/document'
+import {
+  useComponentsList,
+  useDocumentMetadata,
+  useEmbeddedRefFieldValue,
+  useFormProperty
+} from '../../composables'
+
 export default defineComponent({
   name: 'DocumentMetadataTable',
   props: {
@@ -105,9 +118,7 @@ export default defineComponent({
                       'created_at'
                     ].includes(name)
                 ),
-              ...meta.relationships.map(
-                ({ rel_name }) => rel_name as string
-              ),
+              ...meta.relationships.map(({ rel_name }) => rel_name as string),
               ...meta.computedProperties.map(({ name }) => name)
             ]
           : []

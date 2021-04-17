@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "rootDir": "./src"
   },
   "include": ["src/**/*"]
 }

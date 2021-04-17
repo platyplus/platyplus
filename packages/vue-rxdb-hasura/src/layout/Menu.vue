@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     model: {
       type: Array as PropType<Array<unknown>>,
-      default: []
+      default: () => []
     }
   },
   emits: ['item-click'],

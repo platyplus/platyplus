@@ -1,28 +1,29 @@
 <template lang="pug">
-q-input(v-model='proxyDate' :label="title" stack-label)
+q-input(v-model='proxyDate', :label='title', stack-label)
   template(v-slot:prepend)
     q-icon.cursor-pointer(name='event')
-      q-popup-proxy(transition-show='scale' transition-hide='scale')
-        q-date(v-model='proxyDate' :mask='format')
+      q-popup-proxy(transition-show='scale', transition-hide='scale')
+        q-date(v-model='proxyDate', :mask='format')
           .row.items-center.justify-end
-            q-btn(v-close-popup label='Close' color='primary' flat)
+            q-btn(v-close-popup, label='Close', color='primary', flat)
   template(v-slot:append)
     q-icon.cursor-pointer(name='access_time')
-      q-popup-proxy(transition-show='scale' transition-hide='scale')
-        q-time(v-model='proxyDate' :mask='format' format24h with-seconds)
+      q-popup-proxy(transition-show='scale', transition-hide='scale')
+        q-time(v-model='proxyDate', :mask='format', format24h, with-seconds)
           .row.items-center.justify-end
-            q-btn(v-close-popup label='Close' color='primary' flat)
+            q-btn(v-close-popup, label='Close', color='primary', flat)
 </template>
 
 <script lang="ts">
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import {
-  unicodeDateTimeFormat,
-  useFormattedDateTime
-} from '@platyplus/vue-rxdb-hasura'
 import { defineComponent, PropType, toRefs } from 'vue'
 
-import { useFormProperty } from '../../../composables'
+import {
+  unicodeDateTimeFormat,
+  useFormattedDateTime,
+  useFormProperty
+} from '../../../composables'
+
 export default defineComponent({
   name: 'FieldEditDateTime',
   props: {

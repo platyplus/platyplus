@@ -20,7 +20,7 @@ export default defineComponent({
     },
     query: {
       type: Object as PropType<MangoQuery<ContentsDocument>>,
-      default: {}
+      default: () => ({})
     }
   },
   setup(props) {

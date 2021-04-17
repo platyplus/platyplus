@@ -1,0 +1,36 @@
+{
+  "name": "@platyplus/infrastructure",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Platyplus infrastructure",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://platy.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platydev.git",
+    "directory": "infrastructure"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "platy": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "start": "pulumi up",
+    "test": "pulumi preview"
+  },
+  "dependencies": {
+    "@platyplus/pulumi": "^0.0.1"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "tsconfig-paths": "^3.9.0"
+  }
+}
