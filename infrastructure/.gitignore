@@ -13,7 +13,6 @@ include/
 yarn.lock
 package-lock.json
 Pulumi.*.yaml
-!Pulumi.example.yaml
 .idea/
 .ionide/
 *.iml

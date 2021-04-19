@@ -7,6 +7,12 @@
       "devtools",
       "infrastructure",
       "platyplus/*"
+    ],
+    "nohoist": [
+      "**/@quasar",
+      "**/@quasar/**",
+      "**/quasar",
+      "**/quasar/**"
     ]
   },
   "scripts": {
