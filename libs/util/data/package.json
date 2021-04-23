@@ -1,0 +1,12 @@
+{
+  "name": "@platyplus/data",
+  "version": "0.0.12",
+  "description": "Utils for manipulating JS objects, arrays and other data structures",
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://platy.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platyplus/platydev.git",
+    "directory": "packages/data"
+  }
+}

@@ -176,6 +176,128 @@
           }
         }
       }
+    },
+    "util-amqp": {
+      "root": "libs/util/amqp",
+      "sourceRoot": "libs/util/amqp/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/amqp",
+            "tsConfig": "libs/util/amqp/tsconfig.lib.json",
+            "project": "libs/util/amqp/package.json",
+            "entryFile": "libs/util/amqp/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/util/amqp/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/util/amqp/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/amqp"],
+          "options": {
+            "jestConfig": "libs/util/amqp/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "util-data": {
+      "root": "libs/util/data",
+      "sourceRoot": "libs/util/data/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/data",
+            "tsConfig": "libs/util/data/tsconfig.lib.json",
+            "project": "libs/util/data/package.json",
+            "entryFile": "libs/util/data/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/util/data/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/util/data/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/data"],
+          "options": {
+            "jestConfig": "libs/util/data/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "data-access-rxdb-hasura": {
+      "root": "libs/data-access/rxdb-hasura",
+      "sourceRoot": "libs/data-access/rxdb-hasura/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/data-access/rxdb-hasura",
+            "tsConfig": "libs/data-access/rxdb-hasura/tsconfig.lib.json",
+            "project": "libs/data-access/rxdb-hasura/package.json",
+            "entryFile": "libs/data-access/rxdb-hasura/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/data-access/rxdb-hasura/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-access/rxdb-hasura/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access/rxdb-hasura"],
+          "options": {
+            "jestConfig": "libs/data-access/rxdb-hasura/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

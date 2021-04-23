@@ -8,8 +8,10 @@ import {
   VideoCameraOutlined,
   UserOutlined
 } from '@ant-design/icons'
+import { createRxHasura } from '@platyplus/rxdb-hasura'
 
-function CustomApp({ Component, pageProps }: AppProps) {
+async function CustomApp({ Component, pageProps }: AppProps) {
+  await createRxHasura('test-db', 'url')
   return (
     <NhostAuthProvider auth={auth}>
       <Layout

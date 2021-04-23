@@ -17,7 +17,10 @@
     "paths": {
       "@platyplus/hbp": ["libs/hbp/src/index.ts"],
       "@platyplus/auth": ["libs/auth/src/index.ts"],
-      "@platyplus/layout": ["libs/layout/src/index.ts"]
+      "@platyplus/layout": ["libs/layout/src/index.ts"],
+      "@platyplus/amqp": ["libs/util/amqp/src/index.ts"],
+      "@platyplus/data": ["libs/util/data/src/index.ts"],
+      "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,10 +1,10 @@
+import { Channel, connect } from 'amqplib'
+
 const RABBITMQ_DEFAULT_USER = process.env.RABBITMQ_DEFAULT_USER || 'guest'
 const RABBITMQ_DEFAULT_PASS = process.env.RABBITMQ_DEFAULT_PASS || 'guest'
 const RABBITMQ_HOST = process.env.RABBITMQ_HOST || 'rabbitmq'
 
 const RABBITMQ_URL = `amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@${RABBITMQ_HOST}`
-
-import { Channel, connect } from 'amqplib'
 
 export const createChannel = async (url: string): Promise<Channel> => {
   const connection = await connect(url)
@@ -31,7 +31,7 @@ export const startQueue = async (
   console.log(' [*] Waiting for messages in %s.', q.queue)
   await channel.consume(
     q.queue,
-    msg => {
+    (msg) => {
       if (msg) {
         const strMessage = msg.content.toString()
         console.log(
