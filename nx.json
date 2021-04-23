@@ -1,0 +1,26 @@
+{
+  "implicitDependencies": {
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    ".eslintrc.json": "*"
+  },
+  "affected": { "defaultBase": "master" },
+  "npmScope": "platyplus",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "NDgxYWU4NDEtMzU1YS00MjYxLThlNGEtNDgxMDY5MDk4ZGMzfHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "projects": {
+    "platyplus": { "tags": [] },
+    "platyplus-e2e": { "tags": [], "implicitDependencies": ["platyplus"] },
+    "hbp": { "tags": [] },
+    "auth": { "tags": [] },
+    "layout": { "tags": [] }
+  }
+}

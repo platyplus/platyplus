@@ -1,0 +1,108 @@
+name: build docker images
+on:
+  push:
+    branches:
+      - master
+jobs:
+  projects:
+    name: List projects
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      # ! Use the last published version of PDT
+      - name: Install PlatyDev Tools
+        run: |
+          yarn global add @platyplus/devtools lerna
+          echo "$(yarn global bin)" >> $GITHUB_PATH
+      - name: Set projects matrix
+        id: set-matrix
+        run: |
+          matrix=$(platy list projects --json | jq -c '{include: .}')
+          echo "::set-output name=matrix::$matrix"          
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+  build:
+    name: "Build and push docker images"
+    needs: projects
+    strategy:
+      matrix: ${{fromJson(needs.projects.outputs.matrix)}}
+    runs-on: ubuntu-latest
+    container: gcr.io/k8s-skaffold/skaffold:v1.17.0
+    steps:
+      - uses: actions/checkout@v2
+      - name: config default-repo
+        working-directory: ${{ matrix.directory }}
+        run: skaffold config set default-repo platyplus
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: build
+        working-directory: ${{ matrix.directory }}
+        run: skaffold build
+  services:
+    name: List services
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      # ! Use the last published version of PDT
+      - name: Install PlatyDev Tools
+        run: |
+          yarn global add @platyplus/devtools lerna
+          echo "$(yarn global bin)" >> $GITHUB_PATH
+      - name: Set services matrix
+        id: set-matrix
+        run: |
+          platy list services --all --json
+          matrix=$(platy list services --all --json | jq -c '{include: .}')
+          echo "::set-output name=matrix::$matrix"          
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+  tag:
+  # ? separate workflow? tag when event is tag (on project-specific tags)
+    name: Tag docker images
+    needs: [build, services]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.services.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # * Remove the first character (@) of the NPM package name to create the Docker package name
+      - id: package
+        run: |
+          result="${{ matrix.package }}"
+          result="${result:1}"
+          echo "::set-output name=result::$result"          
+      # * Tag with version only if tag on the current commit
+      # ! si tag pas dans HEAD, check si image:tag present dans docker hub. Si pas, tag and push? warning?
+      - name: tag
+        run: |
+          tags=$(git tag --points-at HEAD)
+          tag="${{ matrix.package }}/${{ matrix.version }}"
+          if [[ $tags == *"$tag"* ]]; then
+            docker pull ${{ steps.package.outputs.result }}:latest
+            docker tag ${{ steps.package.outputs.result }}:latest ${{ steps.package.outputs.result }}:${{ matrix.version }}
+            docker push ${{ steps.package.outputs.result }}:${{ matrix.version }}
+          fi
