@@ -69,10 +69,10 @@ export const createRxHasura = async (
     }
   })
 
-  if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(window as any)['db'] = db // write to window for debugging
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   ;(window as any)['db'] = db // write to window for debugging
+  // }
   // * runs when db becomes leader
   // db.waitForLeadership().then(() => {
   //   debug('DB took the leadership')

@@ -8,7 +8,8 @@ import { debug, warn } from '../console'
 import { contentsCollectionCreator, metadataName } from '../contents'
 import { Database, Metadata, MetadataCollection } from '../types'
 import { createHeaders } from '../utils'
-import docQuery from './metadata.graphql'
+import docQuery from './metadata'
+
 export type MetadataReplicatorOptions = {
   url: string
   batchSize?: number

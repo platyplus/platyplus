@@ -19,11 +19,14 @@
   "projects": {
     "platyplus": { "tags": [] },
     "platyplus-e2e": { "tags": [], "implicitDependencies": ["platyplus"] },
-    "hbp": { "tags": [] },
-    "auth": { "tags": [] },
-    "layout": { "tags": [] },
+    "data-access-hasura-client": { "tags": [] },
+    "data-access-hbp": { "tags": [] },
+    "data-access-rxdb-hasura": { "tags": [] },
     "util-amqp": { "tags": [] },
     "util-data": { "tags": [] },
-    "data-access-rxdb-hasura": { "tags": [] }
+    "util-jsonata-schema": { "tags": [] },
+    "ui-auth": { "tags": [] },
+    "ui-layout": { "tags": [] },
+    "ui-navigation": { "tags": [] }
   }
 }

@@ -15,12 +15,17 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@platyplus/hbp": ["libs/hbp/src/index.ts"],
-      "@platyplus/auth": ["libs/auth/src/index.ts"],
-      "@platyplus/layout": ["libs/layout/src/index.ts"],
+      "@platyplus/hasura-client": [
+        "libs/data-access/hasura-client/src/index.ts"
+      ],
+      "@platyplus/hbp": ["libs/data-access/hbp/src/index.ts"],
+      "@platyplus/auth": ["libs/ui/auth/src/index.ts"],
+      "@platyplus/layout": ["libs/ui/layout/src/index.ts"],
       "@platyplus/amqp": ["libs/util/amqp/src/index.ts"],
       "@platyplus/data": ["libs/util/data/src/index.ts"],
-      "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"]
+      "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"],
+      "@platyplus/jsonata-schema": ["libs/util/jsonata-schema/src/index.ts"],
+      "@platyplus/navigation": ["libs/ui/navigation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

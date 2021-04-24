@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs'
 import { TableFragment as Metadata } from './generated'
 export type ValuesOf<T extends unknown[]> = T[number]
 
-export { ColumnFragment, CoreTableFragment } from './generated'
-export { Metadata }
+export type { ColumnFragment, CoreTableFragment } from './generated'
+export type { Metadata }
 
 export type JsonSchemaFormat =
   | 'date-time'

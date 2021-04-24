@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styles from './index.module.less'
 import Link from 'next/link'
 import { usePageTitle } from '@platyplus/layout'
-export function Index() {
+import { useDB } from './rxdb-hasura-provider'
+
+export const Index: FunctionComponent = () => {
   usePageTitle('Platyplus home page')
+  const { db } = useDB()
+
   /*
    * Replace the elements below with your own.
    *
@@ -12,6 +16,7 @@ export function Index() {
   return (
     <div className={styles.page}>
       <h2>Resources &amp; Tools</h2>
+      <div>{db.name}</div>
       <Link href="/login">Login</Link>
       <Link href="/register">Register</Link>
       <p>Thank you for using and showing some ♥ for Nx.</p>
