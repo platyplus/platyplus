@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { createGlobalState, useTitle } from 'react-use'
-import './title.module.less'
 
 export const useTitleState = createGlobalState<string>('')
 

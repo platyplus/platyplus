@@ -11,7 +11,7 @@ import { RxDBHasuraProvider } from './rxdb-hasura-provider'
 
 import { createClient } from 'nhost-js-sdk'
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const { auth, storage } = createClient({
     baseURL: process.env.NEXT_PUBLIC_HBP_ENDPOINT
   })
@@ -39,4 +39,4 @@ function CustomApp({ Component, pageProps }: AppProps) {
     </HbpProvider>
   )
 }
-export default CustomApp
+export default App
