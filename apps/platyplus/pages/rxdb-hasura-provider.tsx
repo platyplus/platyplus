@@ -38,7 +38,6 @@ export const RxDBHasuraProvider: FunctionComponent<{
     }
   }, [db])
 
-  // TODO custom spinner
   if (state.loading) return <Loading />
   else
     return (

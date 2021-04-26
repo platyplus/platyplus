@@ -44,6 +44,7 @@ function App({ Component, pageProps }: AppProps) {
                 title="Settings"
                 href="/settings"
               />
+              <div>dudule</div>
             </>
           }
         >
