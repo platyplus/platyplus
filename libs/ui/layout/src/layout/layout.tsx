@@ -1,20 +1,19 @@
-import { ReactNode } from 'react'
+import { FunctionComponent, ReactNode } from 'react'
 import { useToggle } from 'react-use'
 import { Layout as AntLayout } from 'antd'
 import './layout.module.less'
 import Header from '../header/header'
 
 const { Content, Sider } = AntLayout
-export type LayoutProps = {
-  menu?: ReactNode
-  children?: ReactNode
-}
 
-export const Layout = ({ menu, children }: LayoutProps) => {
+export const Layout: FunctionComponent<{
+  sideMenu?: ReactNode
+  statusMenu?: ReactNode
+}> = ({ sideMenu, statusMenu, children }) => {
   const [collapsed, toggle] = useToggle(true)
   return (
     <AntLayout id="app">
-      {menu && (
+      {sideMenu && (
         <Sider
           trigger={null}
           collapsible
@@ -28,11 +27,16 @@ export const Layout = ({ menu, children }: LayoutProps) => {
           }}
         >
           <div className="logo" />
-          {menu}
+          {sideMenu}
         </Sider>
       )}
       <AntLayout className="site-layout">
-        <Header menu={menu} collapsed={collapsed} toggle={toggle} />
+        <Header
+          sideMenu={sideMenu}
+          statusMenu={statusMenu}
+          collapsed={collapsed}
+          toggle={toggle}
+        />
         <Content
           className="site-layout-background"
           style={{

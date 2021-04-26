@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app'
-import { Layout } from '@platyplus/layout'
+import { Layout, StatusMenuItem } from '@platyplus/layout'
 import { Menu } from 'antd'
 import { HbpProvider } from '@platyplus/hbp'
 import {
@@ -8,7 +8,7 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { RxDBHasuraProvider } from './rxdb-hasura-provider'
-
+import { SettingOutlined } from '@ant-design/icons'
 import { createClient } from 'nhost-js-sdk'
 
 function App({ Component, pageProps }: AppProps) {
@@ -19,7 +19,7 @@ function App({ Component, pageProps }: AppProps) {
     <HbpProvider auth={auth} storage={storage}>
       <RxDBHasuraProvider auth={auth}>
         <Layout
-          menu={
+          sideMenu={
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<UserOutlined />}>
                 nav 1
@@ -31,6 +31,20 @@ function App({ Component, pageProps }: AppProps) {
                 nav 3
               </Menu.Item>
             </Menu>
+          }
+          statusMenu={
+            <>
+              <StatusMenuItem
+                icon={SettingOutlined}
+                title="Settings"
+                href="/settings"
+              />
+              <StatusMenuItem
+                icon={SettingOutlined}
+                title="Settings"
+                href="/settings"
+              />
+            </>
           }
         >
           <Component {...pageProps} />

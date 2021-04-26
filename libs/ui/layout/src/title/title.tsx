@@ -18,14 +18,16 @@ export const usePageTitle = (title: string) => {
 
 export function Title(props: TitleProps) {
   const [title] = useTitleState()
-  return (
-    <>
-      <Head>
-        <title>{title}</title>
-      </Head>
-      <span>{title}</span>
-    </>
-  )
+  if (title)
+    return (
+      <>
+        <Head>
+          <title>{title}</title>
+        </Head>
+        <span>{title}</span>
+      </>
+    )
+  else return null
 }
 
 export default Title

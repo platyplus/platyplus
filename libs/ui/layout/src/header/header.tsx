@@ -6,6 +6,7 @@ import { SettingOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { Row, Col } from 'antd'
 import Link from 'next/link'
+import StatusMenu from '../status-menu/status-menu'
 
 const headerProps = {
   className: 'site-layout-background',
@@ -31,39 +32,29 @@ const toolBarStyle = {
 }
 
 export const Header: FunctionComponent<{
-  menu?: ReactNode
+  sideMenu?: ReactNode
+  statusMenu?: ReactNode
   toggle?: () => void
   collapsed?: boolean
 }> = (props) => {
   const [title] = useTitleState()
-  if (props.menu)
+  if (props.sideMenu || title)
     return (
       <Layout.Header {...headerProps}>
         <Row justify="space-between">
           <Col>
-            {React.createElement(
-              props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: 'trigger',
-                onClick: props.toggle
-              }
-            )}
+            {props.sideMenu &&
+              React.createElement(
+                props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                  className: 'trigger',
+                  onClick: props.toggle
+                }
+              )}
             <Title />
           </Col>
-          <Col style={toolBarStyle}>
-            <HeaderItem
-              icon={SettingOutlined}
-              title="Settings"
-              href="/settings"
-            />
-          </Col>
+          <StatusMenu>{props.statusMenu}</StatusMenu>
         </Row>
-      </Layout.Header>
-    )
-  else if (title)
-    return (
-      <Layout.Header {...headerProps}>
-        <Title />
       </Layout.Header>
     )
   else return null
