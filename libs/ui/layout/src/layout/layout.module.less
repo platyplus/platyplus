@@ -14,6 +14,24 @@
 // @border-color-base: #d9d9d9; // major border color
 // @box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers
 
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  height: 100%;
+}
+
+#app {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
 #app .logo {
   height: 32px;
   margin: 16px;

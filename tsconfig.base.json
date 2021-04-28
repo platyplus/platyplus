@@ -25,7 +25,8 @@
       "@platyplus/data": ["libs/util/data/src/index.ts"],
       "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"],
       "@platyplus/jsonata-schema": ["libs/util/jsonata-schema/src/index.ts"],
-      "@platyplus/navigation": ["libs/ui/navigation/src/index.ts"]
+      "@platyplus/navigation": ["libs/ui/navigation/src/index.ts"],
+      "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -27,6 +27,7 @@
   },
   "private": true,
   "dependencies": {
+    "@ant-design/pro-field": "^1.15.4",
     "@nhost/react-auth": "^1.0.5",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
@@ -82,7 +83,7 @@
     "@nrwl/jest": "12.0.8",
     "@nrwl/linter": "12.0.8",
     "@nrwl/next": "12.0.8",
-    "@nrwl/nx-cloud": "latest",
+    "@nrwl/nx-cloud": "^12.0.0",
     "@nrwl/react": "12.0.8",
     "@nrwl/tao": "12.0.8",
     "@nrwl/web": "12.0.8",

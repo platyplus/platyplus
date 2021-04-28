@@ -1,13 +1,14 @@
 import { FunctionComponent, ReactNode } from 'react'
 import { useToggle } from 'react-use'
-import { Layout as AntLayout } from 'antd'
+import { Layout as AntLayout, MenuItemProps } from 'antd'
 import './layout.module.less'
 import Header from '../header/header'
+import SideMenu, { SideMenuItem } from '../side-menu/side-menu'
 
 const { Content, Sider } = AntLayout
 
 export const Layout: FunctionComponent<{
-  sideMenu?: ReactNode
+  sideMenu?: SideMenuItem[]
   statusMenu?: ReactNode
 }> = ({ sideMenu, statusMenu, children }) => {
   const [collapsed, toggle] = useToggle(true)
@@ -27,7 +28,7 @@ export const Layout: FunctionComponent<{
           }}
         >
           <div className="logo" />
-          {sideMenu}
+          <SideMenu menu={sideMenu} />
         </Sider>
       )}
       <AntLayout className="site-layout">
