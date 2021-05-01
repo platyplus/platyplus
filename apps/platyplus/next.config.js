@@ -14,6 +14,10 @@ if (typeof require !== 'undefined') {
   }
 }
 
+// const withBundleAnalyzer = require('@next/bundle-analyzer')({
+//   enabled: true
+// })
+
 module.exports = withNx(
   withCSS({
     nx: {

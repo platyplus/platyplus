@@ -20,3 +20,6 @@ export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
     [K in Keys]-?: Required<Pick<T, K>> &
       Partial<Record<Exclude<Keys, K>, undefined>>
   }[Keys]
+
+// * See https://stackoverflow.com/questions/45894524/getting-type-of-a-property-of-a-typescript-class-using-keyof-operator
+export type PropType<TObj, TProp extends keyof TObj> = TObj[TProp]

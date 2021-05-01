@@ -1,73 +1,93 @@
 import { AppProps } from 'next/app'
-import { Layout, StatusMenuItem } from '@platyplus/layout'
+import { Layout, SideMenuItem, StatusMenuItem } from '@platyplus/layout'
 import { HbpProvider } from '@platyplus/hbp'
-import { UserOutlined } from '@ant-design/icons'
 import { RxDBHasuraProvider } from './rxdb-hasura-provider'
-import { SettingOutlined } from '@ant-design/icons'
 import { createClient } from 'nhost-js-sdk'
+import { Icon } from 'rsuite'
+import 'rsuite/lib/styles/index.less' // or 'rsuite/dist/styles/rsuite-default.css'
+import '../styles/theme.less'
+import { useState } from 'react'
+import React from 'react'
+import { AuthStatusMenu } from '@platyplus/auth'
+
+const publicSideMenu: SideMenuItem[] = [
+  {
+    icon: 'home',
+    title: 'Home',
+    href: '/'
+  },
+  {
+    icon: 'sign-in',
+    title: 'Login',
+    href: '/login'
+  },
+  {
+    icon: 'user-plus',
+    title: 'Register',
+    href: '/register'
+  }
+]
+const authSideMenu: SideMenuItem[] = [
+  {
+    icon: 'home',
+    title: 'Home',
+    href: '/home'
+  },
+  {
+    icon: 'pie-chart',
+    title: 'A submenu',
+    children: [
+      {
+        icon: 'facebook-official',
+        title: 'Test',
+        href: '/test'
+      }
+    ]
+  }
+]
+
+const { auth, storage } = createClient({
+  baseURL: process.env.NEXT_PUBLIC_HBP_ENDPOINT
+})
 
 function App({ Component, pageProps }: AppProps) {
-  const { auth, storage } = createClient({
-    baseURL: process.env.NEXT_PUBLIC_HBP_ENDPOINT
+  const [authenticated, setAuthenticated] = useState(auth.isAuthenticated())
+
+  auth.onAuthStateChanged((isAuth) => {
+    setAuthenticated(isAuth)
   })
+  const statusMenu = (
+    <>
+      <StatusMenuItem
+        icon="facebook-official"
+        title="Facebook"
+        href="https://facebook.com"
+        color="blue"
+      />
+      <AuthStatusMenu />
+    </>
+  )
   return (
-    <div
-      style={{
-        height: '100%'
-      }}
-    >
-      <HbpProvider auth={auth} storage={storage}>
-        <RxDBHasuraProvider auth={auth}>
-          <Layout
-            sideMenu={[
-              {
-                icon: <UserOutlined />,
-                title: 'Home',
-                href: '/'
-              },
-              {
-                icon: <UserOutlined />,
-                title: 'Login',
-                href: '/login'
-              },
-              {
-                icon: <UserOutlined />,
-                title: 'Register',
-                href: '/register'
-              },
-              {
-                icon: <UserOutlined />,
-                title: 'A submenu',
-                children: [
-                  {
-                    icon: <UserOutlined />,
-                    title: 'Test',
-                    href: '/test'
-                  }
-                ]
-              }
-            ]}
-            statusMenu={
-              <>
-                <StatusMenuItem
-                  icon={SettingOutlined}
-                  title="Settings"
-                  href="/settings"
-                />
-                <StatusMenuItem
-                  icon={SettingOutlined}
-                  title="Settings"
-                  href="/settings"
-                />
-                <div>dudule</div>
-              </>
-            }
-          >
-            <Component {...pageProps} />
-          </Layout>
-        </RxDBHasuraProvider>
-      </HbpProvider>
-    </div>
+    <HbpProvider auth={auth} storage={storage}>
+      <RxDBHasuraProvider auth={auth}>
+        <Layout
+          logo={
+            <div className="logo">
+              <Icon
+                icon="logo-analytics"
+                size="lg"
+                style={{ verticalAlign: 0 }}
+              />
+              <span style={{ marginLeft: 12 }}> PlatyPlus</span>
+            </div>
+          }
+          sideMenu={authenticated ? authSideMenu : publicSideMenu}
+          statusMenu={statusMenu}
+        >
+          <Component {...pageProps} />
+        </Layout>
+      </RxDBHasuraProvider>
+    </HbpProvider>
   )
 }
 export default App

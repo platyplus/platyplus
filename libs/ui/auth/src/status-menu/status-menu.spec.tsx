@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react'
 
-import Title from './title'
+import StatusMenu from './status-menu'
 
-describe('Title', () => {
+describe('StatusMenu', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Title />)
+    const { baseElement } = render(<StatusMenu />)
     expect(baseElement).toBeTruthy()
   })
 })

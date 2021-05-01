@@ -1,7 +1,7 @@
 import { createRxHasura, Database } from '@platyplus/rxdb-hasura'
-import { createContext, FunctionComponent, useContext } from 'react'
+import React, { createContext, FunctionComponent, useContext } from 'react'
 import { createGlobalState, useAsync } from 'react-use'
-import React from 'react'
+
 import Auth from 'nhost-js-sdk/dist/Auth'
 import { Loading } from '@platyplus/navigation'
 

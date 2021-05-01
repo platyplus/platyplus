@@ -1,77 +1,77 @@
 import { useRouter } from 'next/router'
-import { Form, Input, Button, Checkbox } from 'antd'
-import './login.module.less'
-import { FunctionComponent } from 'react'
+import {
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Button,
+  ButtonToolbar,
+  Schema,
+  FlexboxGrid,
+  Panel
+} from 'rsuite'
+
+import { FunctionComponent, useState } from 'react'
 import { useHbp } from '@platyplus/hbp'
 
-const { Item } = Form
-
-const layout = {
-  // labelCol: { span: 8 },
-  // wrapperCol: { span: 16 }
-}
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 }
-}
+const { StringType } = Schema.Types
+const model = Schema.Model({
+  email: StringType()
+    .isEmail('Please enter a valid email address.')
+    .isRequired('This field is required.'),
+  password: StringType().isRequired('This field is required.')
+})
 
 export const Login: FunctionComponent<{ redirect?: string }> = ({
   redirect = '/'
 }) => {
   const router = useRouter()
+  const [formValue, setFormValue] = useState({ email: '', password: '' })
   const { auth } = useHbp()
-  const onFinish = async (values) => {
-    try {
-      await auth.login(values)
-    } catch (error) {
-      console.log(error)
-      return alert('login failed')
+  const login = async (check: boolean) => {
+    if (check) {
+      await model.checkAsync(formValue)
+      try {
+        await auth.login(formValue)
+      } catch (error) {
+        console.log(error)
+        return alert('login failed')
+      }
+      router.push(redirect)
     }
-    router.push(redirect)
-  }
-
-  const onFinishFailed = async () => {
-    console.log('failed')
   }
 
   return (
-    <Form
-      {...layout}
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}
-      >
-        <Input />
-      </Item>
-
-      <Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-        <Input.Password />
-      </Item>
-
-      <Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Item>
-
-      <Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Item>
-      {/* <Item>
-        <Link href="/register">
-          <a>Register</a>
-        </Link>
-      </Item> */}
-    </Form>
+    <FlexboxGrid justify="center">
+      <FlexboxGrid.Item colspan={12}>
+        <Panel header={<h3>Login</h3>} bordered>
+          <Form
+            model={model}
+            fluid
+            onSubmit={login}
+            formValue={formValue}
+            onChange={(v: typeof formValue) => setFormValue(v)}
+          >
+            <FormGroup>
+              <ControlLabel>Email address</ControlLabel>
+              <FormControl name="email" />
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Password</ControlLabel>
+              <FormControl name="password" type="password" />
+            </FormGroup>
+            <FormGroup>
+              <ButtonToolbar>
+                <Button appearance="primary" type="submit">
+                  Sign in
+                </Button>
+                <Button appearance="link">Forgot password?</Button>
+              </ButtonToolbar>
+            </FormGroup>
+          </Form>
+        </Panel>
+      </FlexboxGrid.Item>
+    </FlexboxGrid>
   )
 }
 export default Login
