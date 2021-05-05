@@ -16,7 +16,7 @@ export const Index: FunctionComponent = () => {
   } else
     return (
       <div className={styles.page}>
-        <h2>Welcome, stranger?</h2>
+        <h2>Welcome, stranger</h2>
       </div>
     )
 }
