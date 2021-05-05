@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "*.Tiltfile": "python",
+    "Tiltfile": "python"
+  }
+}
