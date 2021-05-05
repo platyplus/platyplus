@@ -1,0 +1,11 @@
+.github
+.helm
+.vercel
+.vscode
+charts
+devtools
+dist
+documentation
+infrastructure
+migrate
+node_modules

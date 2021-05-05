@@ -17,7 +17,7 @@ data:
   {{- end }}
 {{- end }}
 {{- if not (.Values.hasura.enabled) }}
-  hasura.endpoint: "http://{{ .Release.Name }}-hasura/v1/graphql"
+  hasura.endpoint: "{{.Values.hasura.endpoint }}"
 {{- end }}
 {{- if .Values.storage.enabled }}
   {{- if .Values.minio.enabled }}

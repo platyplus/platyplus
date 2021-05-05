@@ -1,63 +1,52 @@
-import React, { FunctionComponent, ReactNode } from 'react'
-import { Layout } from 'antd'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
-import { Title, useTitleState } from '../title/title'
-import { SettingOutlined } from '@ant-design/icons'
-import { Tooltip } from 'antd'
-import { Row, Col } from 'antd'
-import Link from 'next/link'
+import './header.module.less'
+
+import { Header as GenericHeader, Icon, IconButton } from 'rsuite'
+import { FunctionComponent, ReactNode } from 'react'
+import { createGlobalState, useTitle } from 'react-use'
+
+import Head from 'next/head'
+import { useEffect } from 'react'
 import StatusMenu from '../status-menu/status-menu'
 
-const headerProps = {
-  className: 'site-layout-background',
-  style: { padding: 0 }
+export const useTitleState = createGlobalState<string>('')
+
+export const usePageTitle = (title: string) => {
+  useTitle(title)
+  const [titleState, setTitleState] = useTitleState()
+  useEffect(() => {
+    setTitleState(title)
+  })
+  return [titleState, setTitleState]
 }
-
-const iconStyle = { fontSize: '18px', color: ' #08c' }
-const HeaderItem: FunctionComponent<{
-  icon: React.ElementType
-  title: string
-  href: string
-}> = ({ icon, title, href }) => (
-  <Link href={href}>
-    <Tooltip title={title}>
-      {React.createElement(icon, { style: iconStyle })}
-    </Tooltip>
-  </Link>
-)
-
-const toolBarStyle = {
-  margin: '0 24px',
-  padding: '0 8px'
-}
-
 export const Header: FunctionComponent<{
-  sideMenu?: ReactNode
   statusMenu?: ReactNode
   toggle?: () => void
   collapsed?: boolean
-}> = (props) => {
+  sideMenu?: boolean
+}> = ({ toggle, statusMenu, sideMenu }) => {
   const [title] = useTitleState()
-  if (props.sideMenu || title)
-    return (
-      <Layout.Header {...headerProps}>
-        <Row justify="space-between">
-          <Col>
-            {props.sideMenu &&
-              React.createElement(
-                props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                {
-                  className: 'trigger',
-                  onClick: props.toggle
-                }
-              )}
-            <Title />
-          </Col>
-          <StatusMenu>{props.statusMenu}</StatusMenu>
-        </Row>
-      </Layout.Header>
-    )
-  else return null
+  return (
+    <GenericHeader>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <div className="container">
+        <div>
+          {sideMenu && (
+            <IconButton
+              appearance="subtle"
+              placement="left"
+              onClick={toggle}
+              size="lg"
+              icon={<Icon icon="align-justify" />}
+            />
+          )}
+          <div>{title}</div>
+        </div>
+        <StatusMenu>{statusMenu}</StatusMenu>
+      </div>
+    </GenericHeader>
+  )
 }
 
 export default Header

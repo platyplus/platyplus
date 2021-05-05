@@ -9,6 +9,7 @@ module.exports = {
     '<rootDir>/libs/util/jsonata-schema',
     '<rootDir>/libs/ui/auth',
     '<rootDir>/libs/ui/layout',
-    '<rootDir>/libs/ui/navigation'
+    '<rootDir>/libs/ui/navigation',
+    '<rootDir>/libs/util/ts-types'
   ]
 }

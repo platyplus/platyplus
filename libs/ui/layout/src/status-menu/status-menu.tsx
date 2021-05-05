@@ -1,33 +1,40 @@
-import React, { FunctionComponent } from 'react'
-import { Tooltip } from 'antd'
-import { Col, Row } from 'antd'
-import Link from 'next/link'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { ItemProps } from '../types'
+import {
+  ButtonToolbar,
+  Icon,
+  IconButton,
+  IconButtonProps,
+  Tooltip,
+  Whisper
+} from 'rsuite'
+import { TypeAttributes } from 'rsuite/lib/@types/common'
 
-const iconStyle = { fontSize: '18px', color: ' #08c' }
-
-export const StatusMenuItem: FunctionComponent<{
-  icon: React.ElementType
-  title: string
-  href: string
-}> = ({ icon, title, href }) => (
-  <Link href={href}>
-    <Tooltip title={title}>
-      {React.createElement(icon, { style: iconStyle })}
-    </Tooltip>
-  </Link>
+export const StatusMenuItem: FunctionComponent<
+  ItemProps & Omit<IconButtonProps, 'icon'>
+> = ({ icon, title, href, ...iconButtonProps }) => (
+  <Whisper
+    placement="bottom"
+    trigger="hover"
+    speaker={<Tooltip>{title}</Tooltip>}
+  >
+    <IconButton
+      icon={<Icon icon={icon} />}
+      circle
+      href={href}
+      {...iconButtonProps}
+    />
+  </Whisper>
 )
 
-const StyledCol = styled(Col)`
-  margin: 0 24px;
-  > * {
-    display: inline;
-    padding-left: 12px;
-  }
+const StyledButtonToolbar = styled(ButtonToolbar)`
+  margin-top: 12px;
+  margin-right: 24px;
 `
 
 export const StatusMenu: FunctionComponent = (props) => (
-  <StyledCol>{props.children}</StyledCol>
+  <StyledButtonToolbar>{props.children}</StyledButtonToolbar>
 )
 
 export default StatusMenu
