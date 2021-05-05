@@ -1,0 +1,27 @@
+name: deploy helm charts
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'charts/**'
+      - '*/helm/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Package global charts
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm package charts/* --dependency-update --destination dist
+      - name: Package project charts
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: |
+            /bin/bash <<'EOF'
+            shopt -s nullglob
+            for f in */helm; do helm package $f --dependency-update --destination dist; done
+            EOF
+      - name: Upload charts
+        run: for f in dist/*; do curl --user ${{ secrets.CHARTMUSEUM_USER }}:${{ secrets.CHARTMUSEUM_PASSWORD }} --data-binary @$f https://charts.platy.dev/api/charts; done

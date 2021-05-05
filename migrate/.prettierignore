@@ -1,0 +1,19 @@
+**/tests/fixtures/**/*
+**/tests/fixture-project/**/*
+**/dist
+**/lib
+**/coverage
+**/shared-fixtures
+**/tests/integration/fixtures/**/*
+**/.vscode
+**/.quasar
+**/.nyc_output
+.github
+CONTRIBUTORS.md
+
+# Ignore CHANGELOG.md files to avoid issues with automated release job
+CHANGELOG.md
+**/*.yaml
+**/.vercel
+**/.nuxt
+.favorites.json

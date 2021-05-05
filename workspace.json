@@ -1,0 +1,479 @@
+{
+  "version": 2,
+  "cli": { "defaultCollection": "@nrwl/next" },
+  "defaultProject": "platyplus",
+  "generators": {
+    "@nrwl/react": { "application": { "babel": true } },
+    "@nrwl/next": { "application": { "style": "less", "linter": "eslint" } }
+  },
+  "projects": {
+    "platyplus": {
+      "root": "apps/platyplus",
+      "sourceRoot": "apps/platyplus",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/platyplus",
+            "outputPath": "dist/apps/platyplus"
+          },
+          "configurations": { "production": {} }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": { "buildTarget": "platyplus:build", "dev": true },
+          "configurations": {
+            "production": {
+              "buildTarget": "platyplus:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": { "buildTarget": "platyplus:build:production" }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/platyplus"],
+          "options": {
+            "jestConfig": "apps/platyplus/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/platyplus/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "platyplus-e2e": {
+      "root": "apps/platyplus-e2e",
+      "sourceRoot": "apps/platyplus-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/platyplus-e2e/cypress.json",
+            "tsConfig": "apps/platyplus-e2e/tsconfig.e2e.json",
+            "devServerTarget": "platyplus:serve"
+          },
+          "configurations": {
+            "production": { "devServerTarget": "platyplus:serve:production" }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"] }
+        }
+      }
+    },
+    "data-access-hbp": {
+      "root": "libs/data-access/hbp",
+      "sourceRoot": "libs/data-access/hbp/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/data-access/hbp",
+            "tsConfig": "libs/data-access/hbp/tsconfig.lib.json",
+            "project": "libs/data-access/hbp/package.json",
+            "entryFile": "libs/data-access/hbp/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/data-access/hbp/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/data-access/hbp/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access/hbp"],
+          "options": {
+            "jestConfig": "libs/data-access/hbp/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "data-access-hasura-client": {
+      "root": "libs/data-access/hasura-client",
+      "sourceRoot": "libs/data-access/hasura-client/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/data-access/hasura-client",
+            "tsConfig": "libs/data-access/hasura-client/tsconfig.lib.json",
+            "project": "libs/data-access/hasura-client/package.json",
+            "entryFile": "libs/data-access/hasura-client/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/data-access/hasura-client/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-access/hasura-client/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access/hasura-client"],
+          "options": {
+            "jestConfig": "libs/data-access/hasura-client/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-auth": {
+      "root": "libs/ui/auth",
+      "sourceRoot": "libs/ui/auth/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/auth",
+            "tsConfig": "libs/ui/auth/tsconfig.lib.json",
+            "project": "libs/ui/auth/package.json",
+            "entryFile": "libs/ui/auth/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              { "glob": "libs/ui/auth/README.md", "input": ".", "output": "." }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/auth/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/auth"],
+          "options": {
+            "jestConfig": "libs/ui/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-layout": {
+      "root": "libs/ui/layout",
+      "sourceRoot": "libs/ui/layout/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/layout",
+            "tsConfig": "libs/ui/layout/tsconfig.lib.json",
+            "project": "libs/ui/layout/package.json",
+            "entryFile": "libs/ui/layout/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/ui/layout/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/layout/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/layout"],
+          "options": {
+            "jestConfig": "libs/ui/layout/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "util-amqp": {
+      "root": "libs/util/amqp",
+      "sourceRoot": "libs/util/amqp/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/amqp",
+            "tsConfig": "libs/util/amqp/tsconfig.lib.json",
+            "project": "libs/util/amqp/package.json",
+            "entryFile": "libs/util/amqp/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/util/amqp/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/util/amqp/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/amqp"],
+          "options": {
+            "jestConfig": "libs/util/amqp/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "util-data": {
+      "root": "libs/util/data",
+      "sourceRoot": "libs/util/data/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/data",
+            "tsConfig": "libs/util/data/tsconfig.lib.json",
+            "project": "libs/util/data/package.json",
+            "entryFile": "libs/util/data/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/util/data/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/util/data/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/data"],
+          "options": {
+            "jestConfig": "libs/util/data/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "data-access-rxdb-hasura": {
+      "root": "libs/data-access/rxdb-hasura",
+      "sourceRoot": "libs/data-access/rxdb-hasura/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/data-access/rxdb-hasura",
+            "tsConfig": "libs/data-access/rxdb-hasura/tsconfig.lib.json",
+            "project": "libs/data-access/rxdb-hasura/package.json",
+            "entryFile": "libs/data-access/rxdb-hasura/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/data-access/rxdb-hasura/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-access/rxdb-hasura/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access/rxdb-hasura"],
+          "options": {
+            "jestConfig": "libs/data-access/rxdb-hasura/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "util-jsonata-schema": {
+      "root": "libs/util/jsonata-schema",
+      "sourceRoot": "libs/util/jsonata-schema/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/jsonata-schema",
+            "tsConfig": "libs/util/jsonata-schema/tsconfig.lib.json",
+            "project": "libs/util/jsonata-schema/package.json",
+            "entryFile": "libs/util/jsonata-schema/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/util/jsonata-schema/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util/jsonata-schema/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/jsonata-schema"],
+          "options": {
+            "jestConfig": "libs/util/jsonata-schema/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-navigation": {
+      "root": "libs/ui/navigation",
+      "sourceRoot": "libs/ui/navigation/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/navigation",
+            "tsConfig": "libs/ui/navigation/tsconfig.lib.json",
+            "project": "libs/ui/navigation/package.json",
+            "entryFile": "libs/ui/navigation/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/ui/navigation/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/navigation/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/navigation"],
+          "options": {
+            "jestConfig": "libs/ui/navigation/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "util-ts-types": {
+      "root": "libs/util/ts-types",
+      "sourceRoot": "libs/util/ts-types/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/ts-types",
+            "tsConfig": "libs/util/ts-types/tsconfig.lib.json",
+            "project": "libs/util/ts-types/package.json",
+            "entryFile": "libs/util/ts-types/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/util/ts-types/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/util/ts-types/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/ts-types"],
+          "options": {
+            "jestConfig": "libs/util/ts-types/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}

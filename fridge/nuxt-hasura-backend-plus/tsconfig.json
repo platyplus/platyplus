@@ -1,5 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
-  "compilerOptions": { "types": ["@nuxt/types"] }
-}

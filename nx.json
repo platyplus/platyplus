@@ -1,0 +1,70 @@
+{
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "platyplus",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "OGExYWRjYmYtMTNlMy00OWRlLWFiNDktZWJmNGMzNzc1ZWI1fHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "projects": {
+    "platyplus": {
+      "tags": []
+    },
+    "platyplus-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "platyplus"
+      ]
+    },
+    "data-access-hasura-client": {
+      "tags": []
+    },
+    "data-access-hbp": {
+      "tags": []
+    },
+    "data-access-rxdb-hasura": {
+      "tags": []
+    },
+    "util-amqp": {
+      "tags": []
+    },
+    "util-data": {
+      "tags": []
+    },
+    "util-jsonata-schema": {
+      "tags": []
+    },
+    "ui-auth": {
+      "tags": []
+    },
+    "ui-layout": {
+      "tags": []
+    },
+    "ui-navigation": {
+      "tags": []
+    },
+    "util-ts-types": {
+      "tags": []
+    }
+  }
+}
