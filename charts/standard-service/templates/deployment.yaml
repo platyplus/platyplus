@@ -61,50 +61,50 @@ spec:
           {{- end }}
           env:            
             {{- if .Values.connect.hasura.enabled }}
-            - name: HASURA_ENDPOINT
+            - name: "{{- .Values.connect.hasura.envName.endpoint }}"
               valueFrom:
                 configMapKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
                   key: endpoint
-            - name: HASURA_GRAPHQL_ADMIN_SECRET
+            - name: "{{- .Values.connect.hasura.envName.secret }}"
               valueFrom:
                 secretKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
                   key: adminSecret
             {{- end }}
             {{- if .Values.connect.minio.enabled }}
-            - name: S3_ENDPOINT
+            - name: "{{- .Values.connect.minio.envName.endpoint }}"
               valueFrom:
                 configMapKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
                   key: endpoint
-            - name: S3_BUCKET
+            - name: "{{- .Values.connect.minio.envName.bucket }}"
               valueFrom:
                 configMapKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.configMap "context" $) }}"
                   key: defaultBuckets
-            - name: S3_ACCESS_KEY_ID
+            - name: "{{- .Values.connect.minio.envName.key }}"
               valueFrom:
                 secretKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
                   key: access-key
-            - name: S3_SECRET_ACCESS_KEY
+            - name: "{{- .Values.connect.minio.envName.secret }}"
               valueFrom:
                 secretKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.minio.secret "context" $) }}"
                   key: secret-key
-            - name: S3_SSL_ENABLED
+            - name: "{{- .Values.connect.minio.envName.ssl }}"
               value: "false"
             {{- end }}
             {{- if .Values.connect.rabbitmq.enabled }}
-            - name: RABBITMQ_HOST
+            - name: "{{- .Values.connect.rabbitmq.envName.host }}"
               value: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.rabbitmq.host "context" $) }}"
-            - name: RABBITMQ_DEFAULT_USER
+            - name: "{{- .Values.connect.rabbitmq.envName.user }}"
               valueFrom:
                 configMapKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.rabbitmq.configMap "context" $) }}"
                   key: username
-            - name: RABBITMQ_DEFAULT_PASS
+            - name: "{{- .Values.connect.rabbitmq.envName.password }}"
               valueFrom:
                 secretKeyRef:
                   name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.rabbitmq.secret "context" $) }}"

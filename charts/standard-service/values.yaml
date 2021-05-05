@@ -1,18 +1,31 @@
-connect: 
+connect:
   hasura:
     enabled: false
-    configMap: "{{ .Release.Name }}-hasura"
-    secret: "{{ .Release.Name }}-hasura"
+    envName:
+      endpoint: HASURA_ENDPOINT
+      secret: HASURA_GRAPHQL_ADMIN_SECRET
+    configMap: '{{ .Release.Name }}-hasura'
+    secret: '{{ .Release.Name }}-hasura'
   minio:
     enabled: false
-    configMap: "{{ .Release.Name }}-minio"
-    secret: "{{ .Release.Name }}-minio"
+    envName:
+      endpoint: S3_ENDPOINT
+      bucket: S3_BUCKET
+      key: S3_ACCESS_KEY_ID
+      secret: S3_SECRET_ACCESS_KEY
+      ssl: S3_SSL_ENABLED
+    configMap: '{{ .Release.Name }}-minio'
+    secret: '{{ .Release.Name }}-minio'
   rabbitmq:
     enabled: false
-    host: "{{ .Release.Name }}-rabbitmq"
-    configMap: "{{ .Release.Name }}-rabbitmq"
-    secret: "{{ .Release.Name }}-rabbitmq"
-    
+    envName:
+      host: RABBITMQ_HOST
+      user: RABBITMQ_DEFAULT_USER
+      password: RABBITMQ_DEFAULT_PASS
+    host: '{{ .Release.Name }}-rabbitmq'
+    configMap: '{{ .Release.Name }}-rabbitmq'
+    secret: '{{ .Release.Name }}-rabbitmq'
+
 configFile:
   enabled: false
   name: config.json
@@ -27,8 +40,8 @@ imageConfig:
   # tag: ""
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+fullnameOverride: ''
 
 extraEnv: []
 
@@ -39,14 +52,16 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: ''
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -91,7 +106,8 @@ ingress:
 #      ## Secrets must be added manually to the namespace
 #      tlsSecret: my-service.domain2-tls
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
