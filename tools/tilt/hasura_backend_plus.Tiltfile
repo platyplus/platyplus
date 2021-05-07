@@ -9,7 +9,7 @@ def hasura_backend_plus(release_name='',
                         resource_name='hasura-backend-plus',
                         port=9000,
                         tag='latest',
-                        hasura_endpoint='http://hasura:8080/v1/graphql',
+                        hasura_endpoint='http://hasura/v1/graphql',
                         # ? change hbp helm chart so we can set an existing secret path in values.yaml ?
                         hasura_secret='hasura-dev-secret',
                         yaml=''

@@ -263,8 +263,6 @@ spec:
                   name: "{{ $fullname }}"
                   key: apple.private-key
             {{- end }}
-            - name: MINIO_NAME
-              value: "{{ $s3Connect }}{{.Values.minio.enabled }}"
             - name: STORAGE_ENABLE
               value: "{{ .Values.storage.enabled }}"
             {{- if .Values.storage.enabled }}
