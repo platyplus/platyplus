@@ -474,6 +474,78 @@
           }
         }
       }
+    },
+    "infrastructure": {
+      "root": "apps/infrastructure",
+      "sourceRoot": "apps/infrastructure",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/infrastructure",
+            "main": "apps/infrastructure/index.ts",
+            "tsConfig": "apps/infrastructure/tsconfig.app.json",
+            "assets": ["apps/infrastructure/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/infrastructure/environments/environment.ts",
+                  "with": "apps/infrastructure/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/infrastructure/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/infrastructure"],
+          "options": {
+            "jestConfig": "apps/infrastructure/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "util-pulumi": {
+      "root": "libs/util/pulumi",
+      "sourceRoot": "libs/util/pulumi/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/util/pulumi/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/pulumi"],
+          "options": {
+            "jestConfig": "libs/util/pulumi/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/pulumi",
+            "tsConfig": "libs/util/pulumi/tsconfig.lib.json",
+            "packageJson": "libs/util/pulumi/package.json",
+            "main": "libs/util/pulumi/src/index.ts",
+            "assets": ["libs/util/pulumi/*.md"]
+          }
+        }
+      }
     }
   }
 }

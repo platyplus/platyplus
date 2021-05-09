@@ -28,6 +28,9 @@
   "private": true,
   "dependencies": {
     "@nhost/react-auth": "^1.0.5",
+    "@pulumi/digitalocean": "^4.1.0",
+    "@pulumi/kubernetes": "^3.1.1",
+    "@pulumi/pulumi": "^3.2.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
@@ -35,6 +38,7 @@
     "babel-plugin-import": "^1.13.3",
     "core-js": "^3.6.5",
     "deep-equal": "^2.0.5",
+    "deepmerge": "^4.2.2",
     "document-register-element": "1.13.1",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",
@@ -61,7 +65,8 @@
     "styled-components": "^5.2.3",
     "subscriptions-transport-ws": "^0.9.18",
     "tslib": "^2.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "@babel/core": "7.13.16",
@@ -83,6 +88,7 @@
     "@nrwl/jest": "12.0.8",
     "@nrwl/linter": "12.0.8",
     "@nrwl/next": "12.0.8",
+    "@nrwl/node": "^12.1.1",
     "@nrwl/nx-cloud": "^12.0.0",
     "@nrwl/react": "12.0.8",
     "@nrwl/tao": "12.0.8",

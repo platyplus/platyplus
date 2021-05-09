@@ -1,0 +1,19 @@
+{
+  "name": "@platyplus/pulumi",
+  "version": "0.0.1",
+  "description": "Set of pulumi modules to manage Kubernetes clusters",
+  "keywords": [
+    "pulumi",
+    "kubernetes",
+    "helm",
+    "charts",
+    "typescript",
+    "k8s",
+    "cert-manager",
+    "ingress",
+    "prometheus"
+  ],
+  "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
+  "homepage": "https://platy.dev",
+  "license": "MIT"
+}

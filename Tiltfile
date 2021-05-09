@@ -4,11 +4,19 @@ load('./tools/tilt/node.Tiltfile', 'node')
 
 hasura(path='./hasura', tag='v1.3.3')
 hasura_backend_plus()
-node(name='frontend',
-     env={
-         'NEXT_PUBLIC_HBP_ENDPOINT': 'http://localhost:9000',
-         'NEXT_PUBLIC_HASURA_ENDPOINT': 'http://localhost:8080/v1/graphql'
-     },
-     global_packages=['@nrwl/cli'],
-     ignore=['hasura']
-     )
+# node(name='frontend',
+#      env={
+#          'NEXT_PUBLIC_HBP_ENDPOINT': 'http://localhost:9000',
+#          'NEXT_PUBLIC_HASURA_ENDPOINT': 'http://localhost:8080/v1/graphql'
+#      },
+#      global_packages=['@nrwl/cli'],
+#      ignore=['hasura']
+#      )
+local_resource('nx', serve_cmd='nx serve',
+               env={
+                   'NEXT_PUBLIC_HBP_ENDPOINT': 'http://localhost:9000',
+                   'NEXT_PUBLIC_HASURA_ENDPOINT': 'http://localhost:8080/v1/graphql'
+               },
+
+               links=[
+                   link('http://localhost:4200/', 'Frontend')],)

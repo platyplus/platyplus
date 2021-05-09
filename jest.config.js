@@ -10,6 +10,8 @@ module.exports = {
     '<rootDir>/libs/ui/auth',
     '<rootDir>/libs/ui/layout',
     '<rootDir>/libs/ui/navigation',
-    '<rootDir>/libs/util/ts-types'
+    '<rootDir>/libs/util/ts-types',
+    '<rootDir>/apps/infrastructure',
+    '<rootDir>/libs/util/pulumi'
   ]
 }
