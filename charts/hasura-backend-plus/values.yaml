@@ -39,7 +39,7 @@ autoMigrate: true
 serverUrl: null
 
 limiter:
-  maxRequests: 1000 
+  maxRequests: 1000
   timeFrame: 900000
 
 emails:
@@ -104,34 +104,34 @@ auth:
       success: null
       error: null
     github:
-      enabled: false 
+      enabled: false
       clientId: null
       clientSecret: null
       authenticationUrl: null
       tokenUrl: null
       userProfileUrl: null
     google:
-      enabled: false 
+      enabled: false
       clientId: null
       clientSecret: null
     facebook:
-      enabled: false 
+      enabled: false
       clientId: null
       clientSecret: null
     linkedin:
-      enabled: false 
+      enabled: false
       clientId: null
       clientSecret: null
     windowsLive:
-      enabled: false 
+      enabled: false
       clientId: null
       clientSecret: null
     twitter:
-      enabled: false 
+      enabled: false
       consumerKey: null
       consumerSecret: null
     apple:
-      enabled: false 
+      enabled: false
       clientId: null
       teamId: null
       keyId: null
@@ -142,23 +142,42 @@ extraEnv: []
 minio:
   enabled: true
   defaultBuckets: hasura-plus
-  # accessKey: 
+  # accessKey:
   #   password: <minio-access-key>
   # secretKey:
   #   password: <minio-secret-key>
-
+connect:
+  hasura:
+    enabled: false
+    # configMap: '{{ .Release.Name }}-hasura'
+    # secret: '{{ .Release.Name }}-hasura'
+    configMap: 'hasura'
+    secret: 'hasura'
+    keys:
+      endpoint: endpoint
+      adminSecret: adminSecret
+      jwt:
+        key: jwt.key
+        algorithm: jwt.algorithm
+        claims:
+          namespace: jwt.claims.namespace
 hasura:
   enabled: true
   # If not enabled, set the following values to connect to an external instance:
   # endpoint: "https://my-hasura.com/v1/graphql"
   # adminSecret: "my-admin-secret"
+  # jwt:
+  #   key:
+  #   algorithm:
+  #   claims:
+  #     namespace:
   # Make also sure auth.jwt reflects your Hasura config
-  
+
 replicaCount: 1
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+fullnameOverride: ''
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -167,14 +186,16 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: ''
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -186,7 +207,8 @@ service:
   type: ClusterIP
   port: 80
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -210,5 +232,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-

@@ -1,5 +1,4 @@
 {{- $fullname := include "hasura-backend-plus.fullname" . -}}
-{{- $hasuraConnect := include "hasura-backend-plus.hasuraConnect" . -}}
 {{- $s3Connect := include "hasura-backend-plus.s3Connect" . -}}
 
 apiVersion: apps/v1
@@ -67,35 +66,102 @@ spec:
           {{- end }}
           env:
             - name: HASURA_ENDPOINT
+            {{- if .Values.connect.hasura.enabled }}
               valueFrom:
                 configMapKeyRef:
-            {{- if .Values.hasura.enabled }}
-                  name: "{{ $hasuraConnect }}"
-                  key: endpoint
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.endpoint "context" $) }}"
             {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Release.Name }}-hasura"
+                  key: endpoint
+              {{- else }}
+              valueFrom:
+                configMapKeyRef:
                   name: "{{ $fullname }}"
                   key: hasura.endpoint
+              {{- end }}
             {{- end }}
             - name: HASURA_GRAPHQL_ADMIN_SECRET
+            {{- if .Values.connect.hasura.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: "{{ $hasuraConnect }}"
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.adminSecret "context" $) }}"
+            {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-hasura"
                   key: adminSecret
-            - name: JWT_KEY
+              {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: "{{ $hasuraConnect }}"
+                  name: "{{ $fullname }}"
+                  key: adminSecret
+              {{- end }}
+            {{- end }}
+            - name: JWT_KEY
+            {{- if .Values.connect.hasura.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.jwt.key "context" $) }}"
+            {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-hasura"
                   key: jwt.key
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: jwt.key
+              {{- end }}
+            {{- end }}
+
             - name: JWT_ALGORITHM
+            {{- if .Values.connect.hasura.enabled }}
               valueFrom:
                 configMapKeyRef:
-                  name: "{{ $hasuraConnect }}"
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.jwt.algorithm "context" $) }}"
+            {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Release.Name }}-hasura"
                   key: jwt.algorithm
-            - name: JWT_CLAIMS_NAMESPACE
+              {{- else }}
               valueFrom:
                 configMapKeyRef:
-                  name: "{{ $hasuraConnect }}"
+                  name: "{{ $fullname }}"
+                  key: jwt.algorithm
+              {{- end }}
+            {{- end }}
+
+            - name: JWT_CLAIMS_NAMESPACE
+            {{- if .Values.connect.hasura.enabled }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.jwt.claims.namespace "context" $) }}"
+            {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Release.Name }}-hasura"
                   key: jwt.claims.namespace
+              {{- else }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: jwt.claims.namespace
+              {{- end }}
+            {{- end }}
             - name: JWT_EXPIRES_IN
               valueFrom:
                 configMapKeyRef:

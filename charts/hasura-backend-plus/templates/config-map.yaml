@@ -1,6 +1,4 @@
 {{- $fullname := include "hasura-backend-plus.fullname" . -}}
-{{- $hasuraName := include "hasura-backend-plus.hasuraConnect" . -}}
-{{- $jwtSecret := include "hasura-backend-plus.jwtSecret" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -11,12 +9,12 @@ data:
   jwt.expires.in: "{{ .Values.auth.jwt.expires.in | int }}"
   jwt.expires.refresh: "{{ .Values.auth.jwt.expires.refresh | int }}"
   jwt.customFields: "{{ join "," .Values.auth.jwt.customFields }}"
-  {{- if not (.Values.hasura.enabled) }}
-  jwt.algorithm: "{{ (fromJson $jwtSecret).type }}"
-  jwt.claims.namespace: "{{ (fromJson $jwtSecret).claims_namespace }}"
+  {{- if not (or .Values.hasura.enabled .Values.connect.hasura.enabled) }}
+  jwt.algorithm: "{{ .Values.hasura.jwt.algorithm }}"
+  jwt.claims.namespace: "{{ .Values.hasura.jwt.claims.namespace }}"
   {{- end }}
 {{- end }}
-{{- if not (.Values.hasura.enabled) }}
+{{- if not (or .Values.hasura.enabled .Values.connect.hasura.enabled) }}
   hasura.endpoint: "{{.Values.hasura.endpoint }}"
 {{- end }}
 {{- if .Values.storage.enabled }}

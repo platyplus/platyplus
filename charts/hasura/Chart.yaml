@@ -7,7 +7,7 @@ sources:
   - https://github.com/hasura/graphql-engine
 icon: https://raw.githubusercontent.com/hasura/graphql-engine/master/assets/brand/hasura_icon_blue.svg
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: v1.3.3.cli-migrations-v2
 dependencies:
   - name: postgresql
@@ -23,16 +23,4 @@ keywords:
   - postgresql
 annotations:
   artifacthub.io/changes: |-
-    - fix: loop curl data-binary
-    - fix: adjust standard service chart to traefik/cert-manager
-    - fix: use service name for certificate generation
-    - fix: correct certificates and routes
-    - fix: remove old code from config-map
-    - feat: pass metadata/migrations through config-map
-    - fix: fix last bugs in hasura helm chart, and document
-    - feat: add all HBP env vars to Helm Chart
-    - fix: escape values
-    - feat: add comprehencive paramteres to hasura helm chart
-    - feat: default traefik ingress system
-    - feat: charts
-    - feat: hasura service almost done
+    - fix: correct configmap name
