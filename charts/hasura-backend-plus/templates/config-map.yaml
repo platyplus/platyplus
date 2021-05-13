@@ -10,8 +10,8 @@ data:
   jwt.expires.refresh: "{{ .Values.auth.jwt.expires.refresh | int }}"
   jwt.customFields: "{{ join "," .Values.auth.jwt.customFields }}"
   {{- if not (or .Values.hasura.enabled .Values.connect.hasura.enabled) }}
-  jwt.algorithm: "{{ .Values.hasura.jwt.algorithm }}"
-  jwt.claims.namespace: "{{ .Values.hasura.jwt.claims.namespace }}"
+  jwt.algorithm: "{{ .Values.auth.jwt.algorithm }}"
+  jwt.claims.namespace: "{{ .Values.auth.jwt.claims.namespace }}"
   {{- end }}
 {{- end }}
 {{- if not (or .Values.hasura.enabled .Values.connect.hasura.enabled) }}

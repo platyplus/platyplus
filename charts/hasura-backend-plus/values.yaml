@@ -166,11 +166,6 @@ hasura:
   # If not enabled, set the following values to connect to an external instance:
   # endpoint: "https://my-hasura.com/v1/graphql"
   # adminSecret: "my-admin-secret"
-  # jwt:
-  #   key:
-  #   algorithm:
-  #   claims:
-  #     namespace:
   # Make also sure auth.jwt reflects your Hasura config
 
 replicaCount: 1
