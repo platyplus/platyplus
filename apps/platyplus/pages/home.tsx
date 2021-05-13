@@ -2,16 +2,20 @@ import React, { FunctionComponent } from 'react'
 import styles from './index.module.less'
 import Link from 'next/link'
 import { usePageTitle } from '@platyplus/layout'
-import { useDB } from './rxdb-hasura-provider'
+import { useDB } from '../lib/rxdb-hasura-provider'
 import { PrivateRoute } from '@platyplus/auth'
+import { useCollections } from '../lib/collection'
 
 const Home: FunctionComponent = () => {
   usePageTitle('Platyplus home page')
   const { db } = useDB()
-
+  const collections = useCollections()
   return (
     <div className={styles.page}>
       <h2>Home page</h2>
+      {Object.keys(collections).map((key) => (
+        <div key={key}>{key}</div>
+      ))}
       <div>{db.name}</div>
       <Link href="/login">Login</Link>
       <Link href="/register">Register</Link>

@@ -9,6 +9,11 @@
       "Name": "global_vars",
       "ExtensionRegistry": "https://github.com/tilt-dev/tilt-extensions",
       "TimeFetched": "2021-05-05T08:42:59.451738+02:00"
+    },
+    {
+      "Name": "hasura",
+      "ExtensionRegistry": "https://github.com/tilt-dev/tilt-extensions",
+      "TimeFetched": "2021-05-11T22:12:15.829045+02:00"
     }
   ]
 }

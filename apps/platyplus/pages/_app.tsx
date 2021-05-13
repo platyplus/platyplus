@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app'
 import { Layout, SideMenuItem, StatusMenuItem } from '@platyplus/layout'
 import { HbpProvider } from '@platyplus/hbp'
-import { RxDBHasuraProvider } from './rxdb-hasura-provider'
+import { RxDBHasuraProvider } from '../lib/rxdb-hasura-provider'
 import { createClient } from 'nhost-js-sdk'
 import { Icon } from 'rsuite'
 import 'rsuite/lib/styles/index.less' // or 'rsuite/dist/styles/rsuite-default.css'

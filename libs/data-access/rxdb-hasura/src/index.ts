@@ -2,6 +2,7 @@
 import { addRxPlugin, createRxDatabase, RxDatabaseCreator } from 'rxdb'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
+import { debug } from './console'
 
 import { hasuraCollections } from './database/helpers'
 import { metadataSchema } from './metadata'
@@ -71,12 +72,12 @@ export const createRxHasura = async (
 
   // if (process.env.NODE_ENV === 'development') {
   //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   ;(window as any)['db'] = db // write to window for debugging
+  ;(window as unknown)['db'] = db // write to window for debugging
   // }
   // * runs when db becomes leader
-  // db.waitForLeadership().then(() => {
-  //   debug('DB took the leadership')
-  // })
+  db.waitForLeadership().then(() => {
+    debug('DB took the leadership')
+  })
 
   return db
 }

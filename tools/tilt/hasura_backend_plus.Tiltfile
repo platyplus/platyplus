@@ -7,11 +7,9 @@ def hasura_backend_plus(release_name='',
                         path=None,
                         dockerfile=None,
                         resource_name='hasura-backend-plus',
+                        hasura_service='hasura',
                         port=9000,
                         tag='latest',
-                        hasura_endpoint='http://hasura/v1/graphql',
-                        # ? change hbp helm chart so we can set an existing secret path in values.yaml ?
-                        hasura_secret='hasura-dev-secret',
                         yaml=''
                         ):
     hbp_resource = '{}-{}'.format(release_name,
@@ -41,11 +39,10 @@ def hasura_backend_plus(release_name='',
                     release_name=release_name,
                     set=['image={}'.format(hbp_image),
                          'hasura.enabled=false',
-                         'hasura.endpoint={}'.format(
-                        hasura_endpoint),
-                        'hasura.adminSecret={}'.format(
-                        hasura_secret),
-                        'minio.enabled=false',  # TODO enable storage
-                        'storage.enabled=false'  # TODO enable minio
-                    ]
+                         'connect.hasura.enabled=true',
+                         'connect.hasura.configMap={}'.format(hasura_service),
+                         'connect.hasura.secret={}'.format(hasura_service),
+                         'minio.enabled=false',  # TODO enable storage
+                         'storage.enabled=false'  # TODO enable minio
+                         ]
                     )
