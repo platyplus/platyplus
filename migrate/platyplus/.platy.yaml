@@ -1,5 +1,0 @@
-services:
-  - package: "@platyplus/hbp"
-  - package: "@platyplus/hasura"
-name: platyplus
-description: platyplus

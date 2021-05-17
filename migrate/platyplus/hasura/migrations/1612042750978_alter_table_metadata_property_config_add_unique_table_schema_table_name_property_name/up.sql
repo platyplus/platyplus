@@ -1,2 +1,0 @@
-alter table "metadata"."property_config" add constraint "property_config_table_schema_table_name_property_name_key" unique ("table_schema", "table_name", "property_name");
-INSERT into auth.roles(role) VALUES ('admin');
