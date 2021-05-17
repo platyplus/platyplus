@@ -1,19 +1,8 @@
 import './side-menu.module.less'
 import React, { FunctionComponent } from 'react'
-import type { XOR } from '@platyplus/ts-types'
 import { useRouter } from 'next/router'
-import { ItemProps } from '../types'
 import { Sidenav, Nav, Dropdown, Navbar, Icon, Sidebar } from 'rsuite'
-
-export type SideMenuItem = ItemProps &
-  XOR<
-    {
-      children: Array<ItemProps & { href: string }>
-    },
-    {
-      href: string
-    }
-  >
+import { MenuItem } from '../types'
 
 const NavToggle = ({ collapsed, onChange }) => {
   return (
@@ -47,7 +36,7 @@ const NavToggle = ({ collapsed, onChange }) => {
 
 export const SideMenu: FunctionComponent<{
   logo?: React.ReactNode
-  menu?: SideMenuItem[]
+  menu?: MenuItem[]
   toggle?: () => void
   collapsed?: boolean
 }> = ({ logo, menu, collapsed, toggle }) => {
@@ -84,6 +73,7 @@ export const SideMenu: FunctionComponent<{
                         eventKey={subitem.href}
                         key={`${key}.${subitem.href}`}
                         active={router.route === subitem.href}
+                        icon={<Icon icon={subitem.icon} />}
                       >
                         {subitem.title}
                       </Dropdown.Item>

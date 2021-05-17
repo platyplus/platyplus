@@ -1,23 +1,17 @@
 import { useCollections } from './collection'
-
-export type MenuItem = {
-  label: string
-  icon?: string
-  to?: any
-  items?: MenuItem[]
-  command?: () => void
-}
+import { Icon, MenuItem } from '@platyplus/layout'
+import { useEffect, useState } from 'react'
 
 /*
 export const useFilteredMenu = (
-  menu: Ref<MenuItem[]> | MenuItem[],
+  menu: MenuItem[],
   filter: (
     item: MenuItem,
     route?: RouteLocation & {
       href: string
     }
   ) => boolean
-): Readonly<Ref<MenuItem[]>> => {
+): Readonly<MenuItem[]> => {
   const router = useRouter()
 
   const recursiveFilter = (items: MenuItem[]) =>
@@ -34,42 +28,45 @@ export const useFilteredMenu = (
 
   return computed(() => recursiveFilter(unref(menu)))
 }
-
-export const useRoleMenu = (
-  role: string | string[] | Ref<string | string[]> = 'user'
-): ComputedRef<MenuItem[]> => {
-  const collections = useCollections()
-  return computed<MenuItem[]>(() => {
-    const unwrappedRole = unref(role)
-    const roles = Array.isArray(unwrappedRole) ? unwrappedRole : [unwrappedRole]
-
-    return roles.map(role => ({
-      label: role,
-      items: Object.values(collections.value)
-        .filter(collection => collection.role === role)
-        // * Always hide unecessary system collections
-        .filter(
-          collection =>
-            !(
-              collection.metadata.table_schema === 'metadata' &&
-              ['property_config', 'table_config'].includes(
-                collection.metadata.table_name as string
-              )
-            )
-        )
-        .map(collection => {
-          return {
-            label: collection.title(),
-            icon: collection.icon() || 'fas fa-table',
-            to: {
-              name: 'collection',
-              params: {
-                name: collection.name
-              }
-            }
-          }
-        })
-    }))
-  })
-}
 */
+
+export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
+  const collections = useCollections()
+  const [menu, setMenu] = useState<MenuItem[]>([])
+  useEffect(() => {
+    const roles = Array.isArray(role) ? role : [role]
+    setMenu(
+      roles.map((role) => ({
+        title: role,
+        icon: 'table', // TODO
+        children: Object.values(collections)
+          .filter((collection) => collection.role === role)
+          // * Always hide unecessary system collections
+          .filter(
+            (collection) =>
+              !(
+                collection.metadata.table_schema === 'metadata' &&
+                ['property_config', 'table_config'].includes(
+                  collection.metadata.table_name as string
+                )
+              )
+          )
+          .map((collection) => {
+            return {
+              title: collection.title(),
+              icon: (collection.icon() as Icon) || 'table',
+              href: '/test' // TODO
+              // children: []
+              // to: {
+              //   name: 'collection',
+              //   params: {
+              //     name: collection.name
+              //   }
+              // }
+            }
+          })
+      }))
+    )
+  }, [role, collections])
+  return menu
+}

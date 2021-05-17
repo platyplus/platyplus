@@ -1,10 +1,9 @@
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
-import { useObservable } from 'react-use'
 import { map } from 'rxjs/operators'
 
 import { useDB } from './rxdb-hasura-provider'
-
+export type Collections = Record<string, ContentsCollection>
 export const useCollection = (name: string): ContentsCollection | undefined => {
   const collections = useCollections()
   const [collection, setCollection] = useState<ContentsCollection>()
@@ -24,9 +23,18 @@ export const useDocumentCollection = (
   return collection
 }
 
-export const useCollections = (): Record<string, ContentsCollection> => {
-  const { db } = useDB()
-  return useObservable<Record<string, ContentsCollection>>(db.contents$, {})
+export const useCollections = (): Collections => {
+  const db = useDB()
+  const [collections, setCollections] = useState<Collections>({})
+  useEffect(() => {
+    if (db) {
+      const subscription = db.contents$.subscribe((value) =>
+        setCollections(value)
+      )
+      return () => subscription.unsubscribe()
+    }
+  }, [db])
+  return collections
 }
 
 export const useSingleton = (

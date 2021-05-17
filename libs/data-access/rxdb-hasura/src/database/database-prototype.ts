@@ -1,7 +1,7 @@
 import { Database } from '../types'
 import { authStatus, contents, jwt } from './observables'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const RxDatabase = (proto: any) => {
   Object.defineProperty(proto, 'contents$', {
     get: function (this: Database) {
