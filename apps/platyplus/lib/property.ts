@@ -4,30 +4,19 @@ import {
   ContentsDocument,
   Metadata
 } from '@platyplus/rxdb-hasura'
-import { toObserver, useSubscription } from '@vueuse/rxjs'
 import equal from 'deep-equal'
+import { useEffect, useState } from 'react'
+import { useObservable } from 'react-use'
 import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
 import { Subscription } from 'rxjs'
 import { v4 as uuid } from 'uuid'
-import {
-  computed,
-  ComputedRef,
-  Ref,
-  ref,
-  unref,
-  watch,
-  WritableComputedRef
-} from 'vue'
-import { useStore } from 'vuex'
 
-import { newDocumentFactory, useDocumentMetadata } from './document'
+import { newDocumentFactory } from './document'
 
-// TODO not T but ContentsDocument or ContentsDocument[]
 export const useRefFieldValue = <T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>,
-  name: Ref<string> | string
-): Readonly<Ref<Readonly<T>>> => {
+  document: ContentsDocument,
+  name: string
+): Readonly<T> => {
   const fieldValue = ref()
   const store = useStore()
   const refCollection = computed<ContentsCollection>(() => {
@@ -40,7 +29,7 @@ export const useRefFieldValue = <T>(
   const refKey = computed<string>(() => {
     const collection = document.value.collection as ContentsCollection
     return collection.metadata.relationships.find(
-      rel => rel.rel_name === unref(name)
+      (rel) => rel.rel_name === unref(name)
     )?.mapping[0].remote_column_name as string
   })
   let subscription: Subscription | undefined
@@ -48,7 +37,7 @@ export const useRefFieldValue = <T>(
     () =>
       (store.getters['rxdb/getField'](document.value, unref(name)) ||
         document.value?.get(unref(name))) as string | string[] | null,
-    async newVal => {
+    async (newVal) => {
       if (typeof newVal === 'string') {
         // * object relationship
         subscription = refCollection.value
@@ -58,7 +47,7 @@ export const useRefFieldValue = <T>(
         // * array relationship
         subscription = refCollection.value
           .find({ selector: { id: { $in: newVal } } }) // ! TODO inverted remote_column_name, can't use refKey.value
-          .$.subscribe(idMap => {
+          .$.subscribe((idMap) => {
             fieldValue.value = [...idMap.values()]
           })
       } else {
@@ -81,10 +70,9 @@ export const useRefFieldValue = <T>(
 // TODO make it work with array relationships
 // ? Permissions?
 export const useEmbeddedRefFieldValue = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  documentRef: Ref<ContentsDocument | any>,
-  name: Ref<string> | string
-): Readonly<Ref<Readonly<ContentsDocument | undefined>>> => {
+  documentRef: ContentsDocument,
+  name: string
+): Readonly<ContentsDocument | undefined> => {
   const existingRef = useRefFieldValue<ContentsDocument>(documentRef, name)
   const fieldValue = ref<ContentsDocument | undefined>()
   const store = useStore()
@@ -97,7 +85,7 @@ export const useEmbeddedRefFieldValue = (
           remote_column_name,
           remoteTable
         } = (metadata.relationships.find(
-          rel => rel.rel_name === unref(name)
+          (rel) => rel.rel_name === unref(name)
         ) as ArrayElement<Metadata['relationships']>).mapping[0]
         if (existing === null) {
           const collectionName = `${document.collection.role}_${remoteTable?.table_schema}_${remoteTable?.table_name}`
@@ -136,25 +124,15 @@ export const useEmbeddedRefFieldValue = (
 
 // * Reactive value of a document property
 export const usePropertyValue = <T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>,
-  name: Ref<string> | string
-): Readonly<Ref<Readonly<T | undefined>>> => {
-  const value = ref<T>()
-  watch(
-    () => unref(name) && document.value?.get$(unref(name)),
-    prop => prop && useSubscription(prop.subscribe(toObserver(value))),
-    { immediate: true }
-  )
-  return value
-}
+  document: ContentsDocument,
+  name: string
+): Readonly<T | undefined> => useObservable(document.get$(name))
 
 // * Reactive value of a form property
 export const useFieldValue = <T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>,
-  name: Ref<string> | string
-): Readonly<Ref<Readonly<T | undefined>>> => {
+  document: ContentsDocument,
+  name: string
+): Readonly<T | undefined> => {
   const fieldValue = usePropertyValue<T>(document, name)
   const store = useStore()
 
@@ -166,22 +144,18 @@ export const useFieldValue = <T>(
 }
 
 export const useProperty = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>,
-  name: Ref<string>
-): ComputedRef<TopLevelProperty | PrimaryProperty> =>
-  computed(
-    () => document.value.collection.schema.jsonSchema.properties[name.value]
-  )
+  document: ContentsDocument,
+  name: string
+): TopLevelProperty | PrimaryProperty =>
+  document.value.collection.schema.jsonSchema.properties[name]
 
 export const useFormProperty = <T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  document: Ref<ContentsDocument | any>,
-  name: Ref<string> | string
+  document: ContentsDocument,
+  name: string
 ): {
-  model: WritableComputedRef<T | undefined>
-  changed: ComputedRef<boolean>
-  title: ComputedRef<string>
+  model: T | undefined
+  changed: boolean
+  title: string
 } => {
   const fieldValue = useFieldValue<T>(document, name)
   const store = useStore()
