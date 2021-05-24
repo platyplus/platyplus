@@ -1,4 +1,4 @@
-import { useCollections } from './collection'
+import { useContentsCollections } from './collection'
 import { Icon, MenuItem } from '@platyplus/layout'
 import { useEffect, useState } from 'react'
 
@@ -31,7 +31,7 @@ export const useFilteredMenu = (
 */
 
 export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
-  const collections = useCollections()
+  const collections = useContentsCollections()
   const [menu, setMenu] = useState<MenuItem[]>([])
   useEffect(() => {
     const roles = Array.isArray(role) ? role : [role]
@@ -55,7 +55,7 @@ export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
             return {
               title: collection.title(),
               icon: (collection.icon() as Icon) || 'table',
-              href: '/test' // TODO
+              href: `/collection/${collection.name}`
               // children: []
               // to: {
               //   name: 'collection',

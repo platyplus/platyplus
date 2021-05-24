@@ -104,7 +104,7 @@ export type Replicator = {
   stop: () => Promise<void>
 }
 
-type Roles = 'user' | 'me'
+export type Roles = 'user' | 'me'
 
 type MetadataCollections<T extends Roles> = Record<
   `${Roles | T}_metadata`,

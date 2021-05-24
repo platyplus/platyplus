@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react'
-import styled from 'styled-components'
 import { ItemProps } from '../types'
 import {
   ButtonToolbar,
@@ -9,7 +8,6 @@ import {
   Tooltip,
   Whisper
 } from 'rsuite'
-import { TypeAttributes } from 'rsuite/lib/@types/common'
 
 export const StatusMenuItem: FunctionComponent<
   ItemProps & Omit<IconButtonProps, 'icon'>
@@ -28,13 +26,8 @@ export const StatusMenuItem: FunctionComponent<
   </Whisper>
 )
 
-const StyledButtonToolbar = styled(ButtonToolbar)`
-  margin-top: 12px;
-  margin-right: 24px;
-`
-
 export const StatusMenu: FunctionComponent = (props) => (
-  <StyledButtonToolbar>{props.children}</StyledButtonToolbar>
+  <ButtonToolbar>{props.children}</ButtonToolbar>
 )
 
 export default StatusMenu

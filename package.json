@@ -60,6 +60,7 @@
     "regenerator-runtime": "0.13.7",
     "rsuite": "^4.9.4",
     "rxdb": "^9.17.1",
+    "rxdb-hooks": "^2.1.3",
     "rxjs": "^6.6.7",
     "stringify-object": "^3.3.0",
     "styled-components": "^5.2.3",

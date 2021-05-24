@@ -1,7 +1,6 @@
 import { AppProps } from 'next/app'
 import { Layout, MenuItem, StatusMenuItem } from '@platyplus/layout'
 import { HbpProvider, useAuthenticated } from '@platyplus/hbp'
-import { RxDBHasuraProvider } from '../lib/rxdb-hasura-provider'
 import { createClient } from 'nhost-js-sdk'
 import { Icon } from 'rsuite'
 import 'rsuite/lib/styles/index.less' // or 'rsuite/dist/styles/rsuite-default.css'
@@ -9,6 +8,7 @@ import '../styles/theme.less'
 import React from 'react'
 import { AuthStatusMenu } from '@platyplus/auth'
 import { useRoleMenu } from '../lib/menu'
+import { RxDBHasuraProvider } from '../lib/provider'
 
 const publicSideMenu: MenuItem[] = [
   {

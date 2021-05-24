@@ -2,15 +2,13 @@ import React, { FunctionComponent } from 'react'
 import styles from './index.module.less'
 import Link from 'next/link'
 import { usePageTitle } from '@platyplus/layout'
-import { useDB } from '../lib/rxdb-hasura-provider'
 import { PrivateRoute } from '@platyplus/auth'
-import { useCollections } from '../lib/collection'
+import { useContentsCollections } from '../lib/collection'
 import { useRoleMenu } from '../lib/menu'
 
 const Home: FunctionComponent = () => {
   usePageTitle('Platyplus home page')
-  const db = useDB()
-  const collections = useCollections()
+  const collections = useContentsCollections()
   const menu = useRoleMenu()
   return (
     <div className={styles.page}>
@@ -18,7 +16,6 @@ const Home: FunctionComponent = () => {
       {Object.keys(collections).map((key) => (
         <div key={key}>{key}</div>
       ))}
-      <div>{db.name}</div>
       <h3>Menu</h3>
       <div>
         {menu.map((item, index) => (
