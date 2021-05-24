@@ -7,7 +7,6 @@ import { useRxQuery } from 'rxdb-hooks'
 const CollectionPage: FunctionComponent = () => {
   const router = useRouter()
   const name = router.query.name as string
-  console.log(router.query)
   const collection = useContentsCollection(name)
   const query = useMemo(() => collection?.find(), [collection])
   const { isFetching, result } = useRxQuery<ContentsDocument>(query)
