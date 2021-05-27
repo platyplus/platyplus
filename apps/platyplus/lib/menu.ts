@@ -33,6 +33,7 @@ export const useFilteredMenu = (
 export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
   const collections = useContentsCollections()
   const [menu, setMenu] = useState<MenuItem[]>([])
+  const nbCollections = collections ? Object.keys(collections).length : 0
   useEffect(() => {
     const roles = Array.isArray(role) ? role : [role]
     setMenu(
@@ -67,6 +68,6 @@ export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
           })
       }))
     )
-  }, [role, collections])
+  }, [role, collections, nbCollections])
   return menu
 }

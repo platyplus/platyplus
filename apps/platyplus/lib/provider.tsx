@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 
 import Auth from 'nhost-js-sdk/dist/Auth'
 import { initializeDB } from './init-db'
-import { Provider } from 'rxdb-hooks'
+import { Provider } from './hooks'
 import { RxDatabase } from 'rxdb'
 
 export const RxDBHasuraProvider: FunctionComponent<{
@@ -19,8 +19,8 @@ export const RxDBHasuraProvider: FunctionComponent<{
       const _db = await initializeDB(name, auth)
       setDb((_db as unknown) as RxDatabase)
     }
-    initDB()
-  }, [auth, name])
+    if (!db) initDB()
+  })
 
   return <Provider db={(db as unknown) as RxDatabase}>{children}</Provider>
 }

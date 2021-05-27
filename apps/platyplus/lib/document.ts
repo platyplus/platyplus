@@ -1,6 +1,7 @@
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
+import { useRxData } from './hooks'
 
 export const useDocumentLabel = (
   document?: ContentsDocument
@@ -46,28 +47,45 @@ export const useNewDocumentFactory = (
     newDoc
   }
 }
+/*
+// TODO Returns the document with the given id, or a new temporary document otherwise
+type UseDocumentResult = {
+  document: ContentsDocument
+  isFetching: boolean
+}
+export const useDocument = (name: string, id: string) => {
+  const collection = useContentsCollection(name)
+  const [state, setState] = useState<UseDocumentResult>({
+    document: null,
+    isFetching: true
+  })
 
-// * Returns the document with the given id, or a new temporary document otherwise
-export const useDocument = (
-  collection?: ContentsCollection,
-  id?: string
-): ContentsDocument | undefined => {
-  const [document, setDocument] = useState<ContentsDocument>()
+  const query = useMemo(() => collection?.findOne(id), [collection, id])
   useEffect(() => {
-    if (collection && id) {
-      const subscription = collection
-        .findOne(id)
-        .$.subscribe((value: ContentsDocument) => setDocument(value))
+    if (collection && name && id) {
+      // TODO problem: if nothing found, we can't know if nothing is loaded yet (ongoing replication) or if the id is incorrect
+      // TODO -> check replication state?
+      const subscription = query.$.subscribe((value) =>
+        setState({ document: value, isFetching: !value })
+      )
       return () => subscription.unsubscribe()
     } else {
-      if (!document) {
-        setDocument(newDocumentFactory(collection))
-      }
+      // if (!document) {
+      // setDocument(newDocumentFactory(collection))
+      // }
     }
-  }, [collection, id, document])
-  return document
+  }, [collection, name, id, query])
+  return state
 }
-
+*/
+export const useDocument = (name: string, id: string) => {
+  // ? useMemo ?
+  const data = useRxData<ContentsDocument>(name, (collection) =>
+    collection.find().where('id').eq(id)
+  )
+  const document = data.result[0]
+  return { ...data, isFetching: document ? data.isFetching : true, document }
+}
 // ? Useless in React?
 /*
 export const useDocumentMetadata = (

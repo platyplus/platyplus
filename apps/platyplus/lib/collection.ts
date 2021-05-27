@@ -1,6 +1,5 @@
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useEffect, useState } from 'react'
-import { useRxData } from 'rxdb-hooks'
+import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { useEffect, useMemo, useState } from 'react'
 import { useDB } from './database'
 
 export type Collections = Record<string, ContentsCollection>
@@ -8,14 +7,16 @@ export type Collections = Record<string, ContentsCollection>
 export const useContentsCollections = (): Collections => {
   const db = useDB()
   const [collections, setCollections] = useState<Collections>({})
+  const initialCollections = useMemo(() => db?.collections, [db])
   useEffect(() => {
     if (db) {
+      setCollections(db.collections)
       const subscription = db.contents$.subscribe((value) =>
-        setCollections({ ...collections, ...value })
+        setCollections({ ...db.collections, ...value })
       )
       return () => subscription.unsubscribe()
     }
-  }, [db])
+  }, [db, initialCollections])
   return collections
 }
 
@@ -28,17 +29,4 @@ export const useContentsCollection = (name: string) => {
     }
   }, [collections, name])
   return collection
-}
-
-export const useSingleton = (
-  collectionName: string
-): Readonly<ContentsDocument | undefined> => {
-  const [document, setDocument] = useState<ContentsDocument | undefined>()
-  const { result } = useRxData<ContentsDocument>(collectionName, (collection) =>
-    collection.find().limit(1)
-  )
-  useEffect(() => {
-    setDocument(result[0])
-  }, [result])
-  return document
 }

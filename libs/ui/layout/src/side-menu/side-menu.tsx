@@ -49,7 +49,7 @@ export const SideMenu: FunctionComponent<{
     >
       <Sidenav
         expanded={!collapsed}
-        defaultOpenKeys={['3']}
+        defaultOpenKeys={menu.map((_, key) => key)}
         appearance="subtle"
         onSelect={(key) => {
           router.push(key)
@@ -62,6 +62,7 @@ export const SideMenu: FunctionComponent<{
               if (item.children)
                 return (
                   <Dropdown
+                    eventKey={key}
                     key={key}
                     trigger="hover"
                     title={item.title}
