@@ -30,6 +30,8 @@
     "ui-navigation": { "tags": [] },
     "util-ts-types": { "tags": [] },
     "infrastructure": { "tags": [] },
-    "util-pulumi": { "tags": [] }
+    "util-pulumi": { "tags": [] },
+    "ui-profile": { "tags": [] },
+    "data-access-react-rxdb-hasura": { "tags": [] }
   }
 }

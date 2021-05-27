@@ -1,4 +1,4 @@
-import { useContentsCollections } from './collection'
+import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
 import { Icon, MenuItem } from '@platyplus/layout'
 import { useEffect, useState } from 'react'
 

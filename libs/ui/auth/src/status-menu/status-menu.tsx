@@ -10,8 +10,9 @@ export const AuthStatusMenu = () => {
     return (
       <Whisper
         placement="bottomEnd"
-        trigger="click"
+        trigger="hover"
         triggerRef={triggerRef}
+        enterable
         speaker={
           <Popover full>
             <Dropdown.Menu>

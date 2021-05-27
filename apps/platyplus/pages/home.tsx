@@ -3,26 +3,9 @@ import styles from './index.module.less'
 import Link from 'next/link'
 import { usePageTitle } from '@platyplus/layout'
 import { PrivateRoute } from '@platyplus/auth'
-import { useContentsCollections } from '../lib/collection'
+import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
 import { useRoleMenu } from '../lib/menu'
-import { useProfile } from '../lib/profile'
-import dynamic from 'next/dynamic'
-const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
-
-const Profile: FunctionComponent = () => {
-  const profile = useProfile()
-  if (profile) {
-    return (
-      <div>
-        Bingo, profile!
-        {profile.id}
-        <div>
-          <DynamicReactJson src={profile.toJSON()} />
-        </div>
-      </div>
-    )
-  } else return null
-}
+import { Avatar } from '@platyplus/profile'
 
 const Home: FunctionComponent = () => {
   usePageTitle('Platyplus home page')
@@ -42,7 +25,7 @@ const Home: FunctionComponent = () => {
       </div>
       <Link href="/login">Login</Link>
       <Link href="/register">Register</Link>
-      <Profile />
+      <Avatar circle />
     </div>
   )
 }

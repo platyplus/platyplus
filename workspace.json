@@ -546,6 +546,88 @@
           }
         }
       }
+    },
+    "ui-profile": {
+      "root": "libs/ui/profile",
+      "sourceRoot": "libs/ui/profile/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/profile",
+            "tsConfig": "libs/ui/profile/tsconfig.lib.json",
+            "project": "libs/ui/profile/package.json",
+            "entryFile": "libs/ui/profile/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/ui/profile/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/profile/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/profile"],
+          "options": {
+            "jestConfig": "libs/ui/profile/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "data-access-react-rxdb-hasura": {
+      "root": "libs/data-access/react-rxdb-hasura",
+      "sourceRoot": "libs/data-access/react-rxdb-hasura/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/data-access/react-rxdb-hasura",
+            "tsConfig": "libs/data-access/react-rxdb-hasura/tsconfig.lib.json",
+            "project": "libs/data-access/react-rxdb-hasura/package.json",
+            "entryFile": "libs/data-access/react-rxdb-hasura/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/data-access/react-rxdb-hasura/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/data-access/react-rxdb-hasura/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data-access/react-rxdb-hasura"],
+          "options": {
+            "jestConfig": "libs/data-access/react-rxdb-hasura/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

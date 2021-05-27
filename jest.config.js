@@ -12,6 +12,8 @@ module.exports = {
     '<rootDir>/libs/ui/navigation',
     '<rootDir>/libs/util/ts-types',
     '<rootDir>/apps/infrastructure',
-    '<rootDir>/libs/util/pulumi'
+    '<rootDir>/libs/util/pulumi',
+    '<rootDir>/libs/ui/profile',
+    '<rootDir>/libs/data-access/react-rxdb-hasura'
   ]
 }

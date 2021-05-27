@@ -27,7 +27,11 @@
       "@platyplus/jsonata-schema": ["libs/util/jsonata-schema/src/index.ts"],
       "@platyplus/navigation": ["libs/ui/navigation/src/index.ts"],
       "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"],
-      "@platyplus/pulumi": ["libs/util/pulumi/src/index.ts"]
+      "@platyplus/pulumi": ["libs/util/pulumi/src/index.ts"],
+      "@platyplus/profile": ["libs/ui/profile/src/index.ts"],
+      "@platyplus/react-rxdb-hasura": [
+        "libs/data-access/react-rxdb-hasura/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

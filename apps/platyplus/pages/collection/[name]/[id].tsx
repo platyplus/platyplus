@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { FunctionComponent } from 'react'
 import { usePageTitle } from '@platyplus/layout'
-import { useDocument } from '../../../lib/document'
+import { useDocument } from '@platyplus/react-rxdb-hasura'
 
 const DocumentPage: FunctionComponent = () => {
   const router = useRouter()
