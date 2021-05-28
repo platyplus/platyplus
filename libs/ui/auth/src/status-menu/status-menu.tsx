@@ -2,11 +2,13 @@ import { useHbp } from '@platyplus/hbp'
 import { Icon, Dropdown, IconButton, Whisper, Popover } from 'rsuite'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
 import React from 'react'
+import { useAuth } from '@nhost/react-auth'
 
 export const AuthStatusMenu = () => {
   const { auth } = useHbp()
+  const { signedIn } = useAuth()
   const triggerRef = React.createRef<WhisperInstance>()
-  if (auth.isAuthenticated())
+  if (signedIn)
     return (
       <Whisper
         placement="bottomEnd"

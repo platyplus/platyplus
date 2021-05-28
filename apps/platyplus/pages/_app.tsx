@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from 'rsuite'
+import { Button, ButtonToolbar, Icon, Popover, Whisper } from 'rsuite'
 import { AppProps } from 'next/app'
 import { createClient } from 'nhost-js-sdk'
 import 'rsuite/lib/styles/index.less' // or 'rsuite/dist/styles/rsuite-default.css'
@@ -36,14 +36,14 @@ const { auth, storage } = createClient({
 
 const statusMenu = (
   <>
+    <AuthStatusMenu />
+    <ProfileStatusMenu />
     <StatusMenuItem
       icon="facebook-official"
       title="Facebook"
       href="https://facebook.com"
       color="blue"
     />
-    <AuthStatusMenu />
-    <ProfileStatusMenu />
   </>
 )
 
