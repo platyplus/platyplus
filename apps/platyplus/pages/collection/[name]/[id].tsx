@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import React, { FunctionComponent } from 'react'
 import { usePageTitle } from '@platyplus/layout'
 import { useDocument } from '@platyplus/react-rxdb-hasura'
+import { privateRoute } from '@platyplus/auth'
 
 const DocumentPage: FunctionComponent = () => {
   const router = useRouter()
@@ -15,4 +16,4 @@ const DocumentPage: FunctionComponent = () => {
   else return <div>{document.test}</div>
 }
 
-export default DocumentPage
+export default privateRoute(DocumentPage)

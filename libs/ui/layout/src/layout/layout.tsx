@@ -1,17 +1,25 @@
-import './layout.module.less'
-
 import { Container, Content } from 'rsuite'
 import { FunctionComponent, ReactNode } from 'react'
+import { useToggle } from 'react-use'
+
+import { ProfileStatusMenu } from '@platyplus/profile'
 
 import Header from '../header/header'
-import SideMenu, { SideMenuItem } from '../side-menu/side-menu'
-import { useToggle } from 'react-use'
+import SideMenu from '../side-menu/side-menu'
+import { MenuItem } from '../types'
+import { Logo } from '../logo/logo'
+import './layout.module.less'
 
 export const Layout: FunctionComponent<{
   logo?: ReactNode
-  sideMenu?: SideMenuItem[]
+  sideMenu?: MenuItem[]
   statusMenu?: ReactNode
-}> = ({ logo, sideMenu, statusMenu, children }) => {
+}> = ({
+  logo = <Logo />,
+  sideMenu,
+  statusMenu = <ProfileStatusMenu />,
+  children
+}) => {
   const [collapsed, toggle] = useToggle(false)
   const hasSideMenu = sideMenu && !!sideMenu.length
   return (

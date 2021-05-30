@@ -1,10 +1,4 @@
 import { Login } from '@platyplus/auth'
-import { usePageTitle } from '@platyplus/layout'
-import { FunctionComponent } from 'react'
+import { withTitle } from '@platyplus/layout'
 
-export const LoginPage: FunctionComponent = () => {
-  usePageTitle('Login')
-  return <Login />
-}
-
-export default LoginPage
+export default withTitle(Login, 'Login')

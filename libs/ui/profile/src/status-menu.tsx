@@ -1,46 +1,45 @@
 import React, { FunctionComponent } from 'react'
-import { Whisper, Popover, Button, Loader } from 'rsuite'
+import { Whisper, Popover, Dropdown, Icon, IconButton } from 'rsuite'
+import { useAuth } from '@nhost/react-auth'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
+import { useHbp } from '@platyplus/hbp'
 import Avatar from './avatar'
-import DisplayName from './display-name'
-
-import { useProfile } from './hook'
-
-const PopoverWithLoader = React.forwardRef((props, ref) => {
-  // TODO weird stuff. Won't align correctly if no 'waiting' step
-  const [loading, setLoading] = React.useState(true)
-
-  React.useEffect(() => {
-    setTimeout(() => setLoading(false), 1)
-  }, [])
-
-  return (
-    <Popover ref={ref} {...props} full>
-      {loading ? (
-        <Loader content="Loading..." />
-      ) : (
-        <div>
-          <Avatar />
-          Coucou <DisplayName />
-        </div>
-      )}
-    </Popover>
-  )
-})
-
-export const ProfileStatusMenu: FunctionComponent = (props) => {
-  const profile = useProfile()
-
+import { useRouter } from 'next/router'
+export const ProfileStatusMenu: FunctionComponent = () => {
+  const { auth } = useHbp()
+  const { signedIn } = useAuth()
   const triggerRef = React.createRef<WhisperInstance>()
-  // To close: triggerRef.current.close()
-  if (profile)
+  const router = useRouter()
+  if (signedIn)
     return (
       <Whisper
         placement="bottomEnd"
         trigger="hover"
         triggerRef={triggerRef}
         enterable
-        speaker={<PopoverWithLoader />}
+        speaker={
+          <Popover full>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onSelect={async () => {
+                  triggerRef.current.close()
+                  router.push('/profile')
+                }}
+              >
+                Profile
+              </Dropdown.Item>
+              <Dropdown.Item
+                icon={<Icon icon="sign-out" />}
+                onSelect={async () => {
+                  triggerRef.current.close()
+                  await auth.logout()
+                }}
+              >
+                Logout
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Popover>
+        }
       >
         <Avatar
           circle

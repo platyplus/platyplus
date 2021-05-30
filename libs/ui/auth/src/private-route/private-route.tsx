@@ -5,7 +5,7 @@ import { useAuth } from '@nhost/react-auth'
 import { AppProps } from 'next/app'
 import { Redirect } from '@platyplus/navigation'
 
-export const PrivateRoute = (Component: ElementType, redirect = '/login') => (
+export const privateRoute = (Component: ElementType, redirect = '/login') => (
   props: AppProps
 ) => {
   const router = useRouter()

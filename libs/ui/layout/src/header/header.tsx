@@ -2,22 +2,11 @@ import './header.module.less'
 
 import { Header as GenericHeader, Icon, IconButton } from 'rsuite'
 import { FunctionComponent, ReactNode } from 'react'
-import { createGlobalState, useTitle } from 'react-use'
 
 import Head from 'next/head'
-import { useEffect } from 'react'
 import StatusMenu from '../status-menu/status-menu'
+import { useTitleState } from '../title'
 
-export const useTitleState = createGlobalState<string>('')
-
-export const usePageTitle = (title: string) => {
-  useTitle(title)
-  const [titleState, setTitleState] = useTitleState()
-  useEffect(() => {
-    setTitleState(title)
-  })
-  return [titleState, setTitleState]
-}
 export const Header: FunctionComponent<{
   statusMenu?: ReactNode
   toggle?: () => void
