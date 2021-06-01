@@ -5,7 +5,7 @@ const DEFAULT_DB_NAME = 'rxdb'
 export const initializeDB = async (name: string, auth: Auth) => {
   const db = await createRxHasura(
     name || DEFAULT_DB_NAME,
-    process.env.NEXT_PUBLIC_HASURA_ENDPOINT
+    process.env.NX_HASURA_ENDPOINT
   )
   db.setAuthStatus(auth.isAuthenticated(), auth.getJWTToken())
   auth.onTokenChanged(() => {

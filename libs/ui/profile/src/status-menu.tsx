@@ -4,12 +4,12 @@ import { useAuth } from '@nhost/react-auth'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
 import { useHbp } from '@platyplus/hbp'
 import Avatar from './avatar'
-import { useRouter } from 'next/router'
+import { useHistory } from 'react-router-dom'
 export const ProfileStatusMenu: FunctionComponent = () => {
   const { auth } = useHbp()
   const { signedIn } = useAuth()
   const triggerRef = React.createRef<WhisperInstance>()
-  const router = useRouter()
+  const router = useHistory()
   if (signedIn)
     return (
       <Whisper

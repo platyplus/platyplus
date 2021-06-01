@@ -3,7 +3,6 @@ import './header.module.less'
 import { Header as GenericHeader, Icon, IconButton } from 'rsuite'
 import { FunctionComponent, ReactNode } from 'react'
 
-import Head from 'next/head'
 import StatusMenu from '../status-menu/status-menu'
 import { useTitleState } from '../title'
 
@@ -16,9 +15,10 @@ export const Header: FunctionComponent<{
   const [title] = useTitleState()
   return (
     <GenericHeader>
-      <Head>
+      {/* // TODO https://github.com/nfl/react-helmet */}
+      {/* <Head>
         <title>{title}</title>
-      </Head>
+      </Head> */}
       <div className="container">
         <div>
           {sideMenu && (
@@ -30,7 +30,7 @@ export const Header: FunctionComponent<{
               icon={<Icon icon="align-justify" />}
             />
           )}
-          <div>{title}</div>
+          <span> {title}</span>
         </div>
         <StatusMenu>{statusMenu}</StatusMenu>
       </div>

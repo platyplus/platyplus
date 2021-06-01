@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import {
   Form,
   FormGroup,
@@ -10,7 +9,7 @@ import {
   FlexboxGrid,
   Panel
 } from 'rsuite'
-
+import { useHistory } from 'react-router-dom'
 import { FunctionComponent, useState } from 'react'
 import { useHbp } from '@platyplus/hbp'
 
@@ -25,7 +24,7 @@ const model = Schema.Model({
 export const Login: FunctionComponent<{ redirect?: string }> = ({
   redirect = '/'
 }) => {
-  const router = useRouter()
+  const router = useHistory()
   const [formValue, setFormValue] = useState({ email: '', password: '' })
   const { auth } = useHbp()
   const login = async (check: boolean) => {

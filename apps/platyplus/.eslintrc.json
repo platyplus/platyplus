@@ -5,7 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["apps/platyplus/tsconfig(.*)?.json"]
+        "project": ["apps/platyplus/tsconfig.*?.json"]
       },
       "rules": {}
     },

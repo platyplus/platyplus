@@ -1,7 +1,6 @@
 import { privateRoute } from '@platyplus/auth'
-import { FunctionComponent } from 'react'
 
-export const SettingsPage: FunctionComponent = () => {
+export const SettingsPage: React.FC = () => {
   return <div>authenticated!!</div>
 }
 

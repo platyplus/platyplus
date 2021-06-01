@@ -1,13 +1,12 @@
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useContentsCollection, useRxQuery } from '@platyplus/react-rxdb-hasura'
-import { useRouter } from 'next/router'
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { List } from 'rsuite'
 import { usePageTitle } from '@platyplus/layout'
-import Link from 'next/link'
+import { useHistory } from 'react-router'
 
-const CollectionPage: FunctionComponent = () => {
-  const router = useRouter()
+const CollectionPage: React.FC = () => {
+  const router = useHistory()
   const name = router.query.name as string
   const edit = 'edit' in router.query
   const collection = useContentsCollection(name)

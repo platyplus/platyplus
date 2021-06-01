@@ -1,78 +1,26 @@
 {
   "version": 2,
-  "cli": { "defaultCollection": "@nrwl/next" },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
   "defaultProject": "platyplus",
   "generators": {
-    "@nrwl/react": { "application": { "babel": true } },
-    "@nrwl/next": { "application": { "style": "less", "linter": "eslint" } }
+    "@nrwl/react": {
+      "application": {
+        "style": "less",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "less"
+      },
+      "library": {
+        "style": "less",
+        "linter": "eslint"
+      }
+    }
   },
   "projects": {
-    "platyplus": {
-      "root": "apps/platyplus",
-      "sourceRoot": "apps/platyplus",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/next:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "root": "apps/platyplus",
-            "outputPath": "dist/apps/platyplus"
-          },
-          "configurations": { "production": {} }
-        },
-        "serve": {
-          "executor": "@nrwl/next:server",
-          "options": { "buildTarget": "platyplus:build", "dev": true },
-          "configurations": {
-            "production": {
-              "buildTarget": "platyplus:build:production",
-              "dev": false
-            }
-          }
-        },
-        "export": {
-          "executor": "@nrwl/next:export",
-          "options": { "buildTarget": "platyplus:build:production" }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/platyplus"],
-          "options": {
-            "jestConfig": "apps/platyplus/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/platyplus/**/*.{ts,tsx,js,jsx}"]
-          }
-        }
-      }
-    },
-    "platyplus-e2e": {
-      "root": "apps/platyplus-e2e",
-      "sourceRoot": "apps/platyplus-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/platyplus-e2e/cypress.json",
-            "tsConfig": "apps/platyplus-e2e/tsconfig.e2e.json",
-            "devServerTarget": "platyplus:serve"
-          },
-          "configurations": {
-            "production": { "devServerTarget": "platyplus:serve:production" }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"] }
-        }
-      }
-    },
     "data-access-hbp": {
       "root": "libs/data-access/hbp",
       "sourceRoot": "libs/data-access/hbp/src",
@@ -171,7 +119,11 @@
             "external": ["react", "react-dom"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
-              { "glob": "libs/ui/auth/README.md", "input": ".", "output": "." }
+              {
+                "glob": "libs/ui/auth/README.md",
+                "input": ".",
+                "output": "."
+              }
             ]
           }
         },
@@ -505,7 +457,9 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["apps/infrastructure/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["apps/infrastructure/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -524,7 +478,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/util/pulumi/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/util/pulumi/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -625,6 +581,106 @@
           "options": {
             "jestConfig": "libs/data-access/react-rxdb-hasura/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "platyplus": {
+      "root": "apps/platyplus",
+      "sourceRoot": "apps/platyplus/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/platyplus",
+            "index": "apps/platyplus/src/index.html",
+            "main": "apps/platyplus/src/main.tsx",
+            "polyfills": "apps/platyplus/src/polyfills.ts",
+            "tsConfig": "apps/platyplus/tsconfig.app.json",
+            "assets": [
+              "apps/platyplus/src/favicon.ico",
+              "apps/platyplus/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "apps/platyplus/webpack.config.js"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/platyplus/src/environments/environment.ts",
+                  "with": "apps/platyplus/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "platyplus:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "platyplus:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/platyplus/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/platyplus"],
+          "options": {
+            "jestConfig": "apps/platyplus/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "platyplus-e2e": {
+      "root": "apps/platyplus-e2e",
+      "sourceRoot": "apps/platyplus-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/platyplus-e2e/cypress.json",
+            "tsConfig": "apps/platyplus-e2e/tsconfig.e2e.json",
+            "devServerTarget": "platyplus:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "platyplus:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"]
           }
         }
       }

@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useHistory } from 'react-router-dom'
 import { useHbp } from '@platyplus/hbp'
 import { useState } from 'react'
 import {
@@ -31,7 +31,7 @@ const model = Schema.Model({
 })
 
 export const Register = ({ redirect = '/' }: RegisterProps) => {
-  const router = useRouter()
+  const router = useHistory()
   const [formValue, setFormValue] = useState({
     email: '',
     password: '',

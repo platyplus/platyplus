@@ -1,26 +1,29 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { ElementType } from 'react'
-import { useRouter } from 'next/router'
 import { useAuth } from '@nhost/react-auth'
-import { AppProps } from 'next/app'
-import { Redirect } from '@platyplus/navigation'
+import { Route, Redirect } from 'react-router-dom'
 
-export const privateRoute = (Component: ElementType, redirect = '/login') => (
-  props: AppProps
-) => {
-  const router = useRouter()
+export function AuthGate({ children, ...rest }) {
   const { signedIn } = useAuth()
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => {
+        // user is logged-in
+        if (signedIn === null) {
+          return <div>Loading auth status...</div>
+        }
 
-  // wait to see if the user is logged in or not.
-  if (signedIn === null) {
-    console.log('Checking auth')
-    return <div>Checking auth...</div>
-  }
-
-  if (!signedIn) {
-    router.push(redirect)
-    return <Redirect />
-  }
-
-  return <Component {...props} />
+        if (!signedIn) {
+          return (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: location }
+              }}
+            />
+          )
+        }
+        return children
+      }}
+    />
+  )
 }

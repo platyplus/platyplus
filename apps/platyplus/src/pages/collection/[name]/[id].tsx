@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router'
-import React, { FunctionComponent } from 'react'
 import { usePageTitle } from '@platyplus/layout'
 import { useDocument } from '@platyplus/react-rxdb-hasura'
 import { privateRoute } from '@platyplus/auth'
+import { useHistory } from 'react-router'
 
-const DocumentPage: FunctionComponent = () => {
-  const router = useRouter()
+const DocumentPage: React.FC = () => {
+  const router = useHistory()
   const name = router.query.name as string
   const id = router.query.id as string
   const edit = 'edit' in router.query

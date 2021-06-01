@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from 'react'
 import styles from './index.module.less'
-import { withTitle } from '@platyplus/layout'
-import { privateRoute } from '@platyplus/auth'
+import { AuthGate } from '@platyplus/auth'
 import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
 import { useRoleMenu } from '../lib/menu'
 import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
+import { usePageTitle } from '@platyplus/layout'
 
-const Home: FunctionComponent = () => {
+export const Home: React.FC<{ title: string }> = ({ title }) => {
+  usePageTitle(title)
   const collections = useContentsCollections()
   const menu = useRoleMenu()
   const profile = useProfile()
@@ -28,7 +28,13 @@ const Home: FunctionComponent = () => {
         <Avatar circle />
       </div>
     )
-  else return <div>loading...</div>
+  else return <div>loading profile...</div>
 }
 
-export default privateRoute(withTitle(Home, 'Platyplus home page'), '/')
+export const HomePage = () => (
+  <AuthGate exact path="/home">
+    <div>home???</div>
+  </AuthGate>
+)
+
+export default HomePage

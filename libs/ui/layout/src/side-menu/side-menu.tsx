@@ -1,6 +1,6 @@
 import './side-menu.module.less'
 import React, { FunctionComponent } from 'react'
-import { useRouter } from 'next/router'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Sidenav, Nav, Dropdown, Navbar, Icon, Sidebar } from 'rsuite'
 import { MenuItem } from '../types'
 
@@ -40,7 +40,8 @@ export const SideMenu: FunctionComponent<{
   toggle?: () => void
   collapsed?: boolean
 }> = ({ logo, menu, collapsed, toggle }) => {
-  const router = useRouter()
+  const history = useHistory()
+  const location = useLocation()
   return (
     <Sidebar
       style={{ display: 'flex', flexDirection: 'column' }}
@@ -52,7 +53,7 @@ export const SideMenu: FunctionComponent<{
         defaultOpenKeys={menu.map((_, key) => key)}
         appearance="subtle"
         onSelect={(key) => {
-          router.push(key)
+          history.push(key)
         }}
       >
         {logo && <Sidenav.Header>{logo}</Sidenav.Header>}
@@ -73,7 +74,7 @@ export const SideMenu: FunctionComponent<{
                       <Dropdown.Item
                         eventKey={subitem.href}
                         key={`${key}.${subitem.href}`}
-                        active={router.route === subitem.href}
+                        active={location.pathname === subitem.href}
                         icon={<Icon icon={subitem.icon} />}
                       >
                         {subitem.title}
@@ -86,7 +87,7 @@ export const SideMenu: FunctionComponent<{
                   <Nav.Item
                     key={key}
                     eventKey={item.href}
-                    active={router.route === item.href}
+                    active={location.pathname === item.href}
                     icon={<Icon icon={item.icon} />}
                   >
                     {item.title}

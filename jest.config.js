@@ -1,6 +1,6 @@
 module.exports = {
   projects: [
-    '<rootDir>/apps/platyplus',
+    '<rootDir>/apps/platyplus-nextjs',
     '<rootDir>/libs/util/amqp',
     '<rootDir>/libs/util/data',
     '<rootDir>/libs/data-access/hasura-client',
@@ -14,6 +14,7 @@ module.exports = {
     '<rootDir>/apps/infrastructure',
     '<rootDir>/libs/util/pulumi',
     '<rootDir>/libs/ui/profile',
-    '<rootDir>/libs/data-access/react-rxdb-hasura'
+    '<rootDir>/libs/data-access/react-rxdb-hasura',
+    '<rootDir>/apps/platyplus'
   ]
 }
