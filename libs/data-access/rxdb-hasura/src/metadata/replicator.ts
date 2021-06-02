@@ -77,7 +77,7 @@ export const createMetadataReplicator = async (
       // TODO change in websocket as well
       state?.setHeaders(createHeaders(role, token))
     })
-    await state.awaitInitialReplication()
+    // await state.awaitInitialReplication()
     // TODO recreate collections when using indexeddb?
     // const existingCollections = await metadata.find().exec()
     // for (const collection of existingCollections) {

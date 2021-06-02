@@ -34,7 +34,7 @@
             "tsConfig": "libs/data-access/hbp/tsconfig.lib.json",
             "project": "libs/data-access/hbp/package.json",
             "entryFile": "libs/data-access/hbp/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -74,7 +74,7 @@
             "tsConfig": "libs/data-access/hasura-client/tsconfig.lib.json",
             "project": "libs/data-access/hasura-client/package.json",
             "entryFile": "libs/data-access/hasura-client/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -116,7 +116,7 @@
             "tsConfig": "libs/ui/auth/tsconfig.lib.json",
             "project": "libs/ui/auth/package.json",
             "entryFile": "libs/ui/auth/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -156,7 +156,7 @@
             "tsConfig": "libs/ui/layout/tsconfig.lib.json",
             "project": "libs/ui/layout/package.json",
             "entryFile": "libs/ui/layout/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -196,7 +196,7 @@
             "tsConfig": "libs/util/amqp/tsconfig.lib.json",
             "project": "libs/util/amqp/package.json",
             "entryFile": "libs/util/amqp/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -236,7 +236,7 @@
             "tsConfig": "libs/util/data/tsconfig.lib.json",
             "project": "libs/util/data/package.json",
             "entryFile": "libs/util/data/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -276,7 +276,7 @@
             "tsConfig": "libs/data-access/rxdb-hasura/tsconfig.lib.json",
             "project": "libs/data-access/rxdb-hasura/package.json",
             "entryFile": "libs/data-access/rxdb-hasura/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -318,7 +318,7 @@
             "tsConfig": "libs/util/jsonata-schema/tsconfig.lib.json",
             "project": "libs/util/jsonata-schema/package.json",
             "entryFile": "libs/util/jsonata-schema/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -360,7 +360,7 @@
             "tsConfig": "libs/ui/navigation/tsconfig.lib.json",
             "project": "libs/ui/navigation/package.json",
             "entryFile": "libs/ui/navigation/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -400,7 +400,7 @@
             "tsConfig": "libs/util/ts-types/tsconfig.lib.json",
             "project": "libs/util/ts-types/package.json",
             "entryFile": "libs/util/ts-types/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -516,7 +516,7 @@
             "tsConfig": "libs/ui/profile/tsconfig.lib.json",
             "project": "libs/ui/profile/package.json",
             "entryFile": "libs/ui/profile/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -556,7 +556,7 @@
             "tsConfig": "libs/data-access/react-rxdb-hasura/tsconfig.lib.json",
             "project": "libs/data-access/react-rxdb-hasura/package.json",
             "entryFile": "libs/data-access/react-rxdb-hasura/src/index.ts",
-            "external": ["react", "react-dom"],
+            "external": ["react", "react-dom", "react-router"],
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
               {
@@ -618,7 +618,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -681,6 +681,46 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "ui-app": {
+      "root": "libs/ui/app",
+      "sourceRoot": "libs/ui/app/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/app",
+            "tsConfig": "libs/ui/app/tsconfig.lib.json",
+            "project": "libs/ui/app/package.json",
+            "entryFile": "libs/ui/app/src/index.ts",
+            "external": ["react", "react-dom", "react-router"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/ui/app/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/app"],
+          "options": {
+            "jestConfig": "libs/ui/app/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }

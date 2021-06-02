@@ -1,7 +1,7 @@
 import styles from './index.module.less'
-import { AuthGate } from '@platyplus/auth'
+import { PrivateRoute } from '@platyplus/auth'
 import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
-import { useRoleMenu } from '../lib/menu'
+import { useRoleMenu } from '../menu'
 import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
 import { usePageTitle } from '@platyplus/layout'
 
@@ -32,9 +32,9 @@ export const Home: React.FC<{ title: string }> = ({ title }) => {
 }
 
 export const HomePage = () => (
-  <AuthGate exact path="/home">
+  <PrivateRoute exact path="/home">
     <div>home???</div>
-  </AuthGate>
+  </PrivateRoute>
 )
 
 export default HomePage

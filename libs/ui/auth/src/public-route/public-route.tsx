@@ -1,7 +1,7 @@
 import { useAuth } from '@nhost/react-auth'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
 
-export const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+export const PublicRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   const { signedIn } = useAuth()
   return (
     <Route
@@ -12,17 +12,16 @@ export const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
           return <div>Loading auth status...</div>
         }
 
-        if (!signedIn) {
-          return (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: location }
-              }}
-            />
-          )
-        }
-        return children
+        if (!signedIn) return children
+
+        return (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location }
+            }}
+          />
+        )
       }}
     />
   )

@@ -1,5 +1,4 @@
 import './header.module.less'
-
 import { Header as GenericHeader, Icon, IconButton } from 'rsuite'
 import { FunctionComponent, ReactNode } from 'react'
 

@@ -15,6 +15,7 @@ module.exports = {
     '<rootDir>/libs/util/pulumi',
     '<rootDir>/libs/ui/profile',
     '<rootDir>/libs/data-access/react-rxdb-hasura',
-    '<rootDir>/apps/platyplus'
+    '<rootDir>/apps/platyplus',
+    '<rootDir>/libs/ui/app'
   ]
 }

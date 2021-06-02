@@ -1,10 +1,8 @@
 import { Icon } from 'rsuite'
-import { FunctionComponent } from 'react'
-
 import { IconNames } from 'rsuite/lib/Icon'
 import { SVGIcon } from 'rsuite/lib/@types/common'
 
-export const Logo: FunctionComponent<{
+export const Logo: React.FC<{
   icon?: IconNames | SVGIcon
   title?: string
 }> = ({ icon = 'logo-analytics', title = 'My app' }) => {

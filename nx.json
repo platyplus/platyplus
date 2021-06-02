@@ -70,6 +70,9 @@
     "platyplus-e2e": {
       "tags": [],
       "implicitDependencies": ["platyplus"]
+    },
+    "ui-app": {
+      "tags": []
     }
   }
 }

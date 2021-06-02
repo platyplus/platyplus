@@ -31,7 +31,8 @@
       "@platyplus/profile": ["libs/ui/profile/src/index.ts"],
       "@platyplus/react-rxdb-hasura": [
         "libs/data-access/react-rxdb-hasura/src/index.ts"
-      ]
+      ],
+      "@platyplus/app": ["libs/ui/app/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
