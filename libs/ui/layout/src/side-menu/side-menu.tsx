@@ -1,4 +1,3 @@
-import './side-menu.module.less'
 import React, { FunctionComponent } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Sidenav, Nav, Dropdown, Navbar, Icon, Sidebar } from 'rsuite'

@@ -1,10 +1,23 @@
-import './header.module.less'
 import { Header as GenericHeader, Icon, IconButton } from 'rsuite'
 import { FunctionComponent, ReactNode } from 'react'
 
 import StatusMenu from '../status-menu/status-menu'
 import { useTitleState } from '../title'
+import styled from 'styled-components'
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  height: ${({ theme }) => theme.headerHeight};
+  vertical-align: bottom;
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`
 export const Header: FunctionComponent<{
   statusMenu?: ReactNode
   toggle?: () => void
@@ -18,7 +31,7 @@ export const Header: FunctionComponent<{
       {/* <Head>
         <title>{title}</title>
       </Head> */}
-      <div className="container">
+      <Container>
         <div>
           {sideMenu && (
             <IconButton
@@ -32,7 +45,7 @@ export const Header: FunctionComponent<{
           <span> {title}</span>
         </div>
         <StatusMenu>{statusMenu}</StatusMenu>
-      </div>
+      </Container>
     </GenericHeader>
   )
 }

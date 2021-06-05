@@ -1,4 +1,3 @@
-import styles from './index.module.less'
 import { PrivateRoute } from '@platyplus/auth'
 import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
 import { useRoleMenu } from '../menu'
@@ -12,7 +11,7 @@ export const Home: React.FC<{ title: string }> = ({ title }) => {
   const profile = useProfile()
   if (profile)
     return (
-      <div className={styles.page}>
+      <div>
         <h2>
           Welcome, <DisplayName profile={profile} />
         </h2>

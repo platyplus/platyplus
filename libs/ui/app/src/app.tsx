@@ -7,7 +7,7 @@ import { RxDBHasuraProvider } from '@platyplus/react-rxdb-hasura'
 import { LayoutWrapper } from './layout-wrapper'
 import { AppConfig } from './types'
 // import 'rsuite/lib/styles/index.less' // or 'rsuite/dist/styles/rsuite-default.css'
-import './theme.less'
+import 'rsuite/dist/styles/rsuite-dark.css'
 
 const { auth, storage } = createClient({
   baseURL: process.env.NX_HBP_ENDPOINT

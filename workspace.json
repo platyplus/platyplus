@@ -7,15 +7,15 @@
   "generators": {
     "@nrwl/react": {
       "application": {
-        "style": "less",
+        "style": "styled-components",
         "linter": "eslint",
         "babel": true
       },
       "component": {
-        "style": "less"
+        "style": "styled-components"
       },
       "library": {
-        "style": "less",
+        "style": "styled-components",
         "linter": "eslint"
       }
     }

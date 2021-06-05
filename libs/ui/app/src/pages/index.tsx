@@ -1,4 +1,3 @@
-import styles from './index.module.less'
 import { usePageTitle } from '@platyplus/layout'
 import { useAuth } from '@nhost/react-auth'
 // import { Loading } from '@platyplus/navigation'
@@ -14,7 +13,7 @@ export const IndexPage: React.FC = () => {
     return <Redirect to="/home" />
   } else
     return (
-      <div className={styles.page}>
+      <div>
         <h2>Welcome, stranger</h2>
         <Link to="/login">Login</Link>
         <br />

@@ -1,4 +1,3 @@
-import styles from './index.module.less'
 import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
 import { PageFunction } from './types'
 import { usePageTitle } from '@platyplus/layout'
@@ -8,7 +7,7 @@ const Profile: PageFunction = ({ title }) => {
   const profile = useProfile()
   if (profile)
     return (
-      <div className={styles.page}>
+      <div>
         <h2>
           <DisplayName profile={profile} />
         </h2>
