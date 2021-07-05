@@ -1,6 +1,7 @@
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
-import { useRxData } from './hooks'
+import { useRxData } from 'rxdb-hooks'
+
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
 export const useSingleton = (
   collectionName: string

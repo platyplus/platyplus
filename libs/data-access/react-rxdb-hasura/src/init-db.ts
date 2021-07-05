@@ -1,5 +1,7 @@
-import { createRxHasura } from '@platyplus/rxdb-hasura'
 import Auth from 'nhost-js-sdk/dist/Auth'
+
+import { createRxHasura } from '@platyplus/rxdb-hasura'
+
 const DEFAULT_DB_NAME = 'rxdb'
 
 export const initializeDB = async (name: string, auth: Auth) => {

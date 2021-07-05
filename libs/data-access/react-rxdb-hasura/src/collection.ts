@@ -1,6 +1,8 @@
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { useEffect, useMemo, useState } from 'react'
 import { CollectionsOfDatabase } from 'rxdb'
+
+import { ContentsCollection } from '@platyplus/rxdb-hasura'
+
 import { useDB } from './database'
 
 export type Collections = Record<string, ContentsCollection>

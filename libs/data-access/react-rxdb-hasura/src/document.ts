@@ -1,7 +1,8 @@
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import { useRxData } from './hooks'
+import { useRxData } from 'rxdb-hooks'
+
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 export const useDocumentLabel = (
   document?: ContentsDocument

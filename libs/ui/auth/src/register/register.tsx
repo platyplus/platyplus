@@ -62,6 +62,7 @@ export const Register = ({ redirect = '/' }: RegisterProps) => {
             formValue={formValue}
             onChange={(v: typeof formValue) => setFormValue(v)}
             onCheck={(formError) => {
+              // TODO quite verbose: checks on every key entry
               console.log('error', formError)
             }}
           >

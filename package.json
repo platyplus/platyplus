@@ -57,7 +57,7 @@
     "regenerator-runtime": "0.13.7",
     "rsuite": "^4.9.4",
     "rxdb": "^9.20.0",
-    "rxdb-hooks": "^2.1.3",
+    "rxdb-hooks": "^3.0.1",
     "rxjs": "^7.1.0",
     "stream": "^0.0.2",
     "stringify-object": "^3.3.0",

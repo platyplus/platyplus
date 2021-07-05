@@ -38,6 +38,8 @@
   - Nuxt HBP plugin
   - Nuxt service
   - other packages in `migrate` dir
+- Tilt HBP extension
+- clean legacy Helm Charts (artifacthub annotation bug)
 
 ## Next
 

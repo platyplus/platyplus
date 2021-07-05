@@ -8,9 +8,9 @@ export const PublicRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
       {...rest}
       render={({ location }) => {
         // user is logged-in
-        if (signedIn === null) {
-          return <div>Loading auth status...</div>
-        }
+        // if (signedIn === null) {
+        //   return <div>Loading auth status...</div>
+        // }
 
         if (!signedIn) return children
 

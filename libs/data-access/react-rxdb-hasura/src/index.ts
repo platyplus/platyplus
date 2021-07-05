@@ -1,4 +1,3 @@
-export * from './hooks' // TODO replace by rxdb-hooks when issue is solved
 export * from './collection'
 export * from './database'
 export * from './document'

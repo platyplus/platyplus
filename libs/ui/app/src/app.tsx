@@ -10,7 +10,8 @@ import { AppConfig } from './types'
 import 'rsuite/dist/styles/rsuite-dark.css'
 
 const { auth, storage } = createClient({
-  baseURL: process.env.NX_HBP_ENDPOINT
+  baseURL: process.env.NX_HBP_ENDPOINT,
+  useCookies: false
 })
 
 export const App: React.FC<AppConfig> = (config) => (
