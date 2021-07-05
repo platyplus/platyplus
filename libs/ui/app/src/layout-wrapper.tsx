@@ -1,5 +1,3 @@
-import Auth from 'nhost-js-sdk/dist/Auth'
-
 import { Layout, Logo, MenuItem } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 
@@ -16,7 +14,6 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
   const { auth } = useHbp()
   const authenticated = useAuthenticated(auth)
 
-  // const authenticated = useAuthenticated(auth)
   const authSideMenu = useRoleMenu()
   const publicSideMenu: MenuItem[] = []
   if (config.home?.enabled !== false)
