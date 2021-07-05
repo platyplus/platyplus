@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CollectionsOfDatabase } from 'rxdb'
 
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
@@ -10,16 +10,15 @@ export type Collections = Record<string, ContentsCollection>
 export const useContentsCollections = (): Collections => {
   const db = useDB()
   const [collections, setCollections] = useState<CollectionsOfDatabase>({})
-  const initialCollections = useMemo(() => db?.collections, [db])
   useEffect(() => {
     if (db) {
       setCollections(db.collections)
       const subscription = db.contents$.subscribe((value) =>
-        setCollections({ ...db.collections, ...value })
+        setCollections((prev) => ({ ...prev, ...value }))
       )
       return () => subscription.unsubscribe()
     }
-  }, [db, initialCollections])
+  }, [db])
   return collections as Collections
 }
 

@@ -112,9 +112,8 @@ type MetadataCollections<T extends Roles> = Record<
 >
 type ContentsColections = Record<string, ContentsCollection>
 
-export type DatabaseCollections<
-  T extends Roles = Roles
-> = MetadataCollections<T> & ContentsColections
+export type DatabaseCollections<T extends Roles = Roles> =
+  MetadataCollections<T> & ContentsColections
 
 export type Database<T extends Roles = Roles> = RxDatabase<
   DatabaseCollections<T>
