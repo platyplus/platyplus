@@ -1,7 +1,6 @@
 import { Route, Switch } from 'react-router-dom'
 
 import { PrivateRoute, PublicRoute } from '@platyplus/auth'
-import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
 
 import {
   IndexPage,
@@ -12,10 +11,11 @@ import {
   DocumentPage,
   PageNotFound
 } from './pages'
-import { AppConfig } from './types'
+import { RoutesConfig } from './types'
 
 // * dynamic import depending on the routes config
-export const Routes: React.FC<AppConfig> = ({
+export const Routes: React.FC<RoutesConfig> = ({
+  title,
   login,
   register,
   home,
@@ -33,23 +33,25 @@ export const Routes: React.FC<AppConfig> = ({
         exact
         children={<DocumentPage />}
       />
-      {login?.enabled !== false && (
+      {login.enabled && (
         <PublicRoute path="/login">
-          <LoginPage title="Login" />
+          <LoginPage title={login.title} />
         </PublicRoute>
       )}
-      {register?.enabled !== false && (
+      {register.enabled && (
         <PublicRoute path="/register">
-          <RegisterPage title="Register" />
+          <RegisterPage title={register.title} />
         </PublicRoute>
       )}
-      {home?.enabled !== false && (
+      {home.enabled && (
         <PrivateRoute exact path="/home">
-          <HomePage title={login?.title || 'Home page'} />
+          <HomePage title={home.title} />
         </PrivateRoute>
       )}
-      <Route exact path="/" component={IndexPage} />
-      {notFound?.enabled !== false && (
+      <Route exact path="/">
+        <IndexPage title={title} />
+      </Route>
+      {notFound.enabled && (
         <Route path="*">
           <PageNotFound />
         </Route>

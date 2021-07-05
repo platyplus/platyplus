@@ -4,6 +4,9 @@ import { useAuthenticated, useHbp } from '@platyplus/hbp'
 import { useRoleMenu } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
+import { ComponentsContext } from './components'
+import { defaultCollectionComponents } from './collections'
+import { defaultFieldComponents } from './fields'
 
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
@@ -13,32 +16,57 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
   const { auth } = useHbp()
   const authenticated = useAuthenticated(auth)
 
-  const authSideMenu = useRoleMenu()
+  const { components, ...routesConfig } = config
+  const {
+    home = { enabled: true, title: 'Home' },
+    login = { enabled: true, title: 'Login' },
+    register = { enabled: true, title: 'Register' },
+    notFound = { enabled: true, title: '404' }
+  } = routesConfig
+
+  // * 'System' side menu e.g. login, register, home page...
+  const privateSideMenu = useRoleMenu()
   const publicSideMenu: MenuItem[] = []
-  if (config.home?.enabled !== false)
-    publicSideMenu.push({
+  if (home.enabled) {
+    publicSideMenu.unshift({
       icon: 'home',
-      title: 'Home',
+      title: home.title,
       href: '/'
     })
-  if (config.login?.enabled !== false)
+    privateSideMenu.unshift({
+      icon: 'home',
+      title: home.title,
+      href: '/'
+    })
+  }
+  if (login.enabled)
     publicSideMenu.push({
       icon: 'sign-in',
-      title: 'Login',
+      title: login.title,
       href: '/login'
     })
-  if (config.register?.enabled !== false)
+  if (register.enabled)
     publicSideMenu.push({
       icon: 'user-plus',
-      title: 'Register',
+      title: register.title,
       href: '/register'
     })
+
+  // * Load collection and field components - defaults can be overriden and/or extended
+  // TODO default collection component as an application parameter e.g. collections.default
+  const collections = {
+    ...defaultCollectionComponents,
+    ...components?.collections
+  }
+  const fields = { ...defaultFieldComponents, ...components?.fields }
   return (
-    <Layout
-      logo={<Logo title={title} />}
-      sideMenu={authenticated ? authSideMenu : publicSideMenu}
-    >
-      <Routes {...config} />
-    </Layout>
+    <ComponentsContext.Provider value={{ collections, fields }}>
+      <Layout
+        logo={<Logo title={title} />}
+        sideMenu={authenticated ? privateSideMenu : publicSideMenu}
+      >
+        <Routes {...{ home, register, login, notFound, title }} />
+      </Layout>
+    </ComponentsContext.Provider>
   )
 }

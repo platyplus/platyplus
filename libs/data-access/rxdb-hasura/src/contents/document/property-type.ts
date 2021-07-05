@@ -21,7 +21,7 @@ export const propertyType = (
     throw Error(`No type in prop: ${JSON.stringify(property)}`)
   let type: JsonSchemaPropertyType
   if (Array.isArray(property.type)) {
-    const res = property.type.filter(v => v !== 'null')
+    const res = property.type.filter((v) => v !== 'null')
     if (res.length === 1) type = res[0] as JsonSchemaPropertyType
     else
       throw Error(

@@ -6,8 +6,8 @@ import { Loading } from '@platyplus/navigation'
 
 import { useRoleMenu } from '../menu'
 
-export const HomePage: React.FC<{ title: string }> = ({ title }) => {
-  usePageTitle(title)
+export const HomePage: React.FC<{ title?: string }> = ({ title }) => {
+  usePageTitle(title || 'Home page')
   const collections = useContentsCollections()
   const menu = useRoleMenu()
   const profile = useProfile()
