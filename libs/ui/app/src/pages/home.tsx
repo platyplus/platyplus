@@ -1,10 +1,12 @@
 import { PrivateRoute } from '@platyplus/auth'
 import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
-import { useRoleMenu } from '../menu'
 import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
 import { usePageTitle } from '@platyplus/layout'
+import { Loading } from '@platyplus/navigation'
 
-export const Home: React.FC<{ title: string }> = ({ title }) => {
+import { useRoleMenu } from '../menu'
+
+export const HomePage: React.FC<{ title: string }> = ({ title }) => {
   usePageTitle(title)
   const collections = useContentsCollections()
   const menu = useRoleMenu()
@@ -27,13 +29,7 @@ export const Home: React.FC<{ title: string }> = ({ title }) => {
         <Avatar circle />
       </div>
     )
-  else return <div>loading profile...</div>
+  else return <Loading />
 }
-
-export const HomePage = () => (
-  <PrivateRoute exact path="/home">
-    <div>home???</div>
-  </PrivateRoute>
-)
 
 export default HomePage

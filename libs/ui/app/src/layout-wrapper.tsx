@@ -8,7 +8,6 @@ import { Routes } from './routes'
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
   children,
-
   ...config
 }) => {
   const { auth } = useHbp()

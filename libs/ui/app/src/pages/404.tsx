@@ -1,4 +1,9 @@
-import { withTitle } from '@platyplus/layout'
 import { NotFound } from '@platyplus/navigation'
+import { usePageTitle } from '@platyplus/layout'
 
-export default withTitle(NotFound, 'Page not found')
+export const PageNotFound: React.FC = () => {
+  usePageTitle('Page not found')
+  return <NotFound />
+}
+
+export default PageNotFound
