@@ -1,5 +1,12 @@
+import { FormControl } from 'rsuite'
 import { FieldComponent } from './types'
 
-export const StringField: FieldComponent = ({ document, field, edit }) => {
-  return edit ? <div>$edit$ {document[field]}</div> : document[field]
+export const StringField: FieldComponent = ({
+  document,
+  field,
+  edit,
+  editable
+}) => {
+  if (editable || edit) return <FormControl name={field} readOnly={!edit} />
+  else return document[field]
 }

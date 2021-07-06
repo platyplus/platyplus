@@ -7,14 +7,15 @@ import { IntegerField } from './integer'
 import { NumberField } from './number'
 import { StringField } from './string'
 import { FieldComponent } from './types'
+import { DocumentComponentWrapper } from '../documents'
 
 export const defaultFieldComponents: FieldComponentsConfig = {
   integer: IntegerField,
-  document: () => <div>..document..</div>,
+  document: DocumentComponentWrapper,
   string: StringField,
   'date-time': DateTimeField,
   boolean: ToggleField,
-  toggle: ToggleField,
+  checkbox: ToggleField,
   date: DateField,
   number: NumberField,
   collection: () => <div>..collection..</div>
@@ -25,7 +26,8 @@ export const useFieldComponents = () => useComponentsContext().fields
 export const FieldComponentWrapper: FieldComponent = ({
   document,
   field,
-  edit
+  edit,
+  editable
 }) => {
   const fieldComponents = useFieldComponents()
   const componentName = edit
@@ -33,6 +35,14 @@ export const FieldComponentWrapper: FieldComponent = ({
     : document.readComponent(field)
   const Component = componentName && fieldComponents[componentName]
   if (Component)
-    return <Component document={document} field={field} edit={edit} />
+    return (
+      <Component
+        document={document}
+        field={field}
+        edit={edit}
+        editable={editable}
+        name="label"
+      />
+    )
   else return <div>TODO: {componentName}</div>
 }

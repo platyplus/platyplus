@@ -26,31 +26,31 @@ export const documentMethods: ContentsDocumentMethods = {
   readComponent(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection
     const config = collection.metadata.propertiesConfig.find(
-      config => config.property_name === propertyName
+      (config) => config.property_name === propertyName
     )
     return config?.read_component || propertyType(this, propertyName)
   },
   readComponentOptions(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection
     const config = collection.metadata.propertiesConfig.find(
-      config => config.property_name === propertyName
+      (config) => config.property_name === propertyName
     )
     return config?.read_component_options
   },
   componentName(this: ContentsDocument) {
-    return systemDocumentComponent(this) || 'details'
+    return systemDocumentComponent(this) || 'default'
   },
   editComponent(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection
     const config = collection.metadata.propertiesConfig.find(
-      config => config.property_name === propertyName
+      (config) => config.property_name === propertyName
     )
     return config?.edit_component || propertyType(this, propertyName)
   },
   editComponentOptions(this: ContentsDocument, propertyName: string) {
     const collection = this.collection as ContentsCollection
     const config = collection.metadata.propertiesConfig.find(
-      config => config.property_name === propertyName
+      (config) => config.property_name === propertyName
     )
     return config?.edit_component_options
   }

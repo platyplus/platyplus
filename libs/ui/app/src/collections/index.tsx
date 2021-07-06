@@ -21,5 +21,7 @@ export const CollectionComponentWrapper: CollectionComponent = ({
   const collectionComponents = useCollectionComponents()
   const componentName = collection.componentName()
   const Component = componentName && collectionComponents[componentName]
-  return <Component collection={collection} data={data} edit={edit} />
+  if (Component)
+    return <Component collection={collection} data={data} edit={edit} />
+  else return <div>TODO: {componentName}</div>
 }

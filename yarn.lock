@@ -12296,7 +12296,15 @@ object-keys@^1.0.12, object-keys@^1.1.1:
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e"
   integrity sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==
 
-object-path@0.11.5:
+object-path-immutable@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/object-path-immutable/-/object-path-immutable-4.1.1.tgz#f657e9120075a9866227cb6324b90edda042118d"
+  integrity sha512-kaH7a+jzt8WhPUeA26qrBwiJFBGFCkXaa4CbCuv4+8oZgb2Qo4/NV9KN1fyd8xPzAutJvVw0mjywn+FqU1MbTA==
+  dependencies:
+    is-plain-object "^3.0.0"
+    object-path "^0.11.5"
+
+object-path@0.11.5, object-path@^0.11.5:
   version "0.11.5"
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.5.tgz#d4e3cf19601a5140a55a16ad712019a9c50b577a"
   integrity sha512-jgSbThcoR/s+XumvGMTMf81QVBmah+/Q7K7YduKeKVWL7N111unR2d6pZZarSk6kY/caeNxUDyxOvMWyzoU2eg==
@@ -18316,3 +18324,8 @@ z-schema@5.0.1:
     validator "^13.6.0"
   optionalDependencies:
     commander "^2.7.1"
+
+zustand@^3.5.5:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.5.tgz#628458ad70621ddc2a17dbee49be963e5c0dccb5"
+  integrity sha512-iTiJoxzYFtiD7DhscgwK2P4Kft1JcZEI2U7mG8IxiOFM4KpBAiJZfFop3r/3wbCuyltXI6ph1Fx90e4j/S43XA==

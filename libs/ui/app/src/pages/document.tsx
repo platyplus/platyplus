@@ -4,6 +4,8 @@ import { useDocument } from '@platyplus/react-rxdb-hasura'
 import { useParams } from 'react-router'
 import { Link, useLocation } from 'react-router-dom'
 
+import { DocumentComponentWrapper } from '../documents'
+
 export const DocumentPage: React.FC = () => {
   const { name, id } = useParams<{ name: string; id: string }>()
   const query = useQuery()
@@ -29,6 +31,7 @@ export const DocumentPage: React.FC = () => {
             </Link>
           )}
         </div>
+        <DocumentComponentWrapper document={document} edit={edit} />
       </div>
     )
 }

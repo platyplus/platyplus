@@ -7,6 +7,7 @@ import { Routes } from './routes'
 import { ComponentsContext } from './components'
 import { defaultCollectionComponents } from './collections'
 import { defaultFieldComponents } from './fields'
+import { defaultDocumentComponents } from './documents'
 
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
@@ -59,8 +60,9 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
     ...components?.collections
   }
   const fields = { ...defaultFieldComponents, ...components?.fields }
+  const documents = { ...defaultDocumentComponents, ...components?.documents }
   return (
-    <ComponentsContext.Provider value={{ collections, fields }}>
+    <ComponentsContext.Provider value={{ collections, fields, documents }}>
       <Layout
         logo={<Logo title={title} />}
         sideMenu={authenticated ? privateSideMenu : publicSideMenu}

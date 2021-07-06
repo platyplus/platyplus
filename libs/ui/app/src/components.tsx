@@ -3,7 +3,8 @@ import { ComponentsConfig } from './types'
 
 export const ComponentsContext = React.createContext<ComponentsConfig>({
   collections: {},
-  fields: {}
+  fields: {},
+  documents: {}
 })
 
 export const useComponentsContext = () => useContext(ComponentsContext)
