@@ -1,6 +1,6 @@
 import { usePageTitle } from '@platyplus/layout'
 import { Loading, useQuery } from '@platyplus/navigation'
-import { useDocument } from '@platyplus/react-rxdb-hasura'
+import { useDocument, useResetForm } from '@platyplus/react-rxdb-hasura'
 import { useParams } from 'react-router'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -14,6 +14,7 @@ export const DocumentPage: React.FC = () => {
 
   const { document, isFetching } = useDocument(name, id)
   usePageTitle(document?.label)
+  const reset = useResetForm(document)
   // TODO loading
   if (isFetching) return <Loading />
   else
@@ -22,9 +23,12 @@ export const DocumentPage: React.FC = () => {
         {document.label} - {edit ? 'edit' : 'read'}
         <div>
           {edit ? (
-            <Link to={location.pathname} replace>
-              Cancel
-            </Link>
+            <>
+              <Link to={location.pathname} replace>
+                Cancel
+              </Link>
+              <div onClick={reset}>Reset</div>
+            </>
           ) : (
             <Link to={`${location.pathname}?edit`} replace>
               Edit

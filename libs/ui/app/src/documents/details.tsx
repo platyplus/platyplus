@@ -5,14 +5,14 @@ import { useGetForm, useSetForm } from '@platyplus/react-rxdb-hasura'
 import { FieldComponentWrapper } from '../fields'
 
 export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
-  const setForm = useSetForm()
+  const setForm = useSetForm(document)
   const formValues = useGetForm(document)
   if (document?.collection.properties)
     return (
       <Form
         formValue={formValues}
         onChange={(formValue) => {
-          setForm(document, formValue)
+          setForm(formValue)
         }}
         fluid
       >

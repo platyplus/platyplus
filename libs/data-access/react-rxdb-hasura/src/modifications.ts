@@ -8,6 +8,7 @@ const useFormStore = create<{
     document: ContentsDocument,
     values: Record<string, string | boolean>
   ) => void
+  resetForm: (document: ContentsDocument) => void
 }>((set) => ({
   forms: {},
   setForm: (document, values) =>
@@ -24,7 +25,15 @@ const useFormStore = create<{
         ['forms', document.collection.name, document.primary],
         newValues
       )
-    })
+    }),
+  resetForm: (document) =>
+    set((state) =>
+      immutable.del(state, [
+        'forms',
+        document.collection.name,
+        document.primary
+      ])
+    )
 }))
 
 export const useGetForm = <T extends Record<string, unknown>>(
@@ -44,4 +53,11 @@ export const useGetForm = <T extends Record<string, unknown>>(
     }, {})
   })
 
-export const useSetForm = () => useFormStore((state) => state.setForm)
+export const useSetForm = (document: ContentsDocument) =>
+  useFormStore(
+    (state) => (values: Record<string, string | boolean>) =>
+      state.setForm(document, values)
+  )
+
+export const useResetForm = (document: ContentsDocument) =>
+  useFormStore((state) => () => state.resetForm(document))
