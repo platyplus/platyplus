@@ -23,3 +23,8 @@ export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
 
 // * See https://stackoverflow.com/questions/45894524/getting-type-of-a-property-of-a-typescript-class-using-keyof-operator
 export type PropType<TObj, TProp extends keyof TObj> = TObj[TProp]
+
+// * Make one (or more) property optional
+// See: https://stackoverflow.com/questions/43159887/make-a-single-property-optional-in-typescript
+// TODO https://github.com/piotrwitek/utility-types
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
