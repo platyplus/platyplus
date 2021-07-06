@@ -6,6 +6,7 @@ import TableCollection from './table'
 import { CollectionComponent } from './types'
 
 export const defaultCollectionComponents: CollectionComponentsConfig = {
+  default: TableCollection,
   table: TableCollection,
   list: ListCollection
 }

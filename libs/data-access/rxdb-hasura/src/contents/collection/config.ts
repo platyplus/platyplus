@@ -30,7 +30,7 @@ export const collectionConfigMethods: Pick<
     return (
       this.metadata.config?.component ||
       systemCollectionComponent(this) ||
-      'table'
+      'default'
     )
   }
 }
