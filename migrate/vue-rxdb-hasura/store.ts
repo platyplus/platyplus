@@ -24,13 +24,6 @@ export const addModule = <R>(
     namespaced: true,
     state,
     getters: {
-      form: state => state.forms,
-      getField: state => (document: ContentsDocument, field: string) =>
-        document &&
-        immutable.get(
-          state.forms,
-          `${document.collection.name}.${document.primary}.${field}`
-        ),
       getCollection: state => (collection: ContentsCollection) =>
         immutable.get(state.forms, collection.name)
     },
@@ -65,37 +58,10 @@ export const addModule = <R>(
       }
     },
     mutations: {
-      setField: (
-        state,
-        {
-          document,
-          field,
-          value
-        }: { document: ContentsDocument; field: string; value: string }
-      ) => {
-        const collection = document.collection
-        state.forms = immutable.set(
-          state.forms,
-          [collection.name, document.primary, field],
-          castValue(document, field, value)
-        )
-      },
-      resetField: (
-        state,
-        { document, field }: { document: ContentsDocument; field: string }
-      ) => {
-        const collection = document.collection
-        state.forms = deletePath(state.forms, [
-          collection.name,
-          document.primary,
-          field
-        ])
-      },
       reset: state => {
         state.forms = {}
       }
-    },
-    modules: {}
+    }
   })
 }
 

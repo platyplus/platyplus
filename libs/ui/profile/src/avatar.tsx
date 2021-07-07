@@ -7,6 +7,7 @@ export const Avatar: FunctionComponent<Omit<AvatarProps, 'src' | 'alt'>> = (
 ) => {
   const profile = useProfile()
   if (profile) {
+    // * TODO create a helper
     const initials = profile.display_name
       .split(' ')
       .map((word: string) => word[0])

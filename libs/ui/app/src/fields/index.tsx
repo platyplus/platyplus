@@ -1,5 +1,7 @@
 import { useComponentsContext } from '../components'
 import { FieldComponentsConfig } from '../types'
+import { DocumentComponentWrapper } from '../documents'
+
 import { ToggleField } from './toggle'
 import { DateField } from './date'
 import { DateTimeField } from './date-time'
@@ -7,7 +9,7 @@ import { IntegerField } from './integer'
 import { NumberField } from './number'
 import { StringField } from './string'
 import { FieldComponent } from './types'
-import { DocumentComponentWrapper } from '../documents'
+import { TimeField } from './time'
 
 export const defaultFieldComponents: FieldComponentsConfig = {
   integer: IntegerField,
@@ -17,6 +19,7 @@ export const defaultFieldComponents: FieldComponentsConfig = {
   boolean: ToggleField,
   checkbox: ToggleField,
   date: DateField,
+  time: TimeField,
   number: NumberField,
   collection: () => <div>..collection..</div>
 }
