@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { CollectionComponent } from './types'
 
-const ListCollection: CollectionComponent = ({ collection, data }) => {
+export const ListCollection: CollectionComponent = ({ collection, data }) => {
   return (
     <List>
       {data.map((item, index) => (
@@ -16,5 +16,3 @@ const ListCollection: CollectionComponent = ({ collection, data }) => {
     </List>
   )
 }
-
-export default ListCollection

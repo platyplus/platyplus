@@ -82,11 +82,23 @@ export const useDocument = (name: string, id: string) => {
 export const useDocument = (name: string, id: string) => {
   // ? useMemo ?
   const data = useRxData<ContentsDocument>(name, (collection) =>
+    // TODO findOne
     collection.find().where('id').eq(id)
   )
   const document = data.result[0]
   return { ...data, isFetching: document ? data.isFetching : true, document }
 }
+
+export const useDocuments = (name: string, ids: string[]) => {
+  // ? useMemo ?
+  const data = useRxData<ContentsDocument>(name, (collection) =>
+    // TODO findByIds
+    collection.find().where('id').in(ids)
+  )
+
+  return data
+}
+
 // ? Useless in React?
 /*
 export const useDocumentMetadata = (

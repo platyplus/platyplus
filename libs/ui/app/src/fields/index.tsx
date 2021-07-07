@@ -9,11 +9,12 @@ import { NumberField } from './number'
 import { StringField } from './string'
 import { FieldComponent } from './types'
 import { TimeField } from './time'
-import { DocumentField } from './document'
+import { DocumentSelectSingleField } from './document-select-single'
+import { DocumentSelectMultipleField } from './document-select-multiple'
 
 export const defaultFieldComponents: FieldComponentsConfig = {
   integer: IntegerField,
-  document: DocumentField,
+  document: DocumentSelectSingleField,
   string: StringField,
   'date-time': DateTimeField,
   boolean: ToggleField,
@@ -21,7 +22,7 @@ export const defaultFieldComponents: FieldComponentsConfig = {
   date: DateField,
   time: TimeField,
   number: NumberField,
-  collection: () => <div>..collection..</div>
+  collection: DocumentSelectMultipleField
 }
 
 export const useFieldComponents = () => useComponentsContext().fields

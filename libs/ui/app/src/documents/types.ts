@@ -1,10 +1,20 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import React from 'react'
+type CommonDocumentComponentProps<T = {}> = T & {
+  edit: boolean
+}
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type DocumentComponent<T = {}> = React.FC<
-  {
+  CommonDocumentComponentProps<T> & {
     document: ContentsDocument
-    edit: boolean
-  } & T
+  }
+>
+
+export type DocumentFromParamsComponent<T = {}> = React.FC<
+  CommonDocumentComponentProps<T> & {
+    componentName?: string
+    collectionName: string
+    id: string
+  }
 >

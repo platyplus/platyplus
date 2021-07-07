@@ -8,7 +8,7 @@ import { FieldComponentWrapper } from '../fields'
 
 const { Column, HeaderCell, Cell, Pagination } = Table
 
-const TableCollection: CollectionComponent = ({ collection, data }) => {
+export const TableCollection: CollectionComponent = ({ collection, data }) => {
   const history = useHistory()
   if (!collection) return null
   return (
@@ -21,7 +21,7 @@ const TableCollection: CollectionComponent = ({ collection, data }) => {
       }}
     >
       {[...collection.properties].map(([key, value]) => (
-        <Column fixed key={key}>
+        <Column flexGrow={1} key={key}>
           <HeaderCell>{collection.title(key)}</HeaderCell>
           <Cell>
             {(document: ContentsDocument) => {
@@ -40,5 +40,3 @@ const TableCollection: CollectionComponent = ({ collection, data }) => {
     </Table>
   )
 }
-
-export default TableCollection

@@ -50,7 +50,9 @@ export type Contents = Record<string, any> & {
   label: string
 }
 
-export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods>
+export type ContentsDocument =
+  | RxDocument<Contents, ContentsDocumentMethods>
+  | RxDocument<Contents>
 
 export type ContentsDocumentMethods = {
   canEdit: (propertyName?: string) => boolean
