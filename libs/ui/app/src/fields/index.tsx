@@ -1,6 +1,5 @@
 import { useComponentsContext } from '../components'
 import { FieldComponentsConfig } from '../types'
-import { DocumentComponentWrapper } from '../documents'
 
 import { ToggleField } from './toggle'
 import { DateField } from './date'
@@ -10,10 +9,11 @@ import { NumberField } from './number'
 import { StringField } from './string'
 import { FieldComponent } from './types'
 import { TimeField } from './time'
+import { DocumentField } from './document'
 
 export const defaultFieldComponents: FieldComponentsConfig = {
   integer: IntegerField,
-  document: DocumentComponentWrapper,
+  document: DocumentField,
   string: StringField,
   'date-time': DateTimeField,
   boolean: ToggleField,

@@ -38,7 +38,7 @@ export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
     setMenu(
       roles.map((role) => ({
         title: role,
-        icon: 'table', // TODO
+        icon: 'database',
         children: Object.values(collections)
           .filter((collection) => collection.role === role)
           // * Always hide unecessary system collections
