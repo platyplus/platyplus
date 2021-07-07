@@ -16,24 +16,20 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
         }}
         fluid
       >
-        {[...document.collection.properties.keys()].map(
-          (key) =>
-            document[key] != null &&
-            !Array.isArray(document[key]) && (
-              <FormGroup key={key}>
-                <ControlLabel>{key}</ControlLabel>
-                <FieldComponentWrapper
-                  document={document}
-                  field={key}
-                  edit={edit}
-                  editable={true}
-                />
-                {edit && document.collection.properties.get(key).required && (
-                  <HelpBlock>Required</HelpBlock>
-                )}
-              </FormGroup>
-            )
-        )}
+        {[...document.collection.properties.keys()].map((key) => (
+          <FormGroup key={key}>
+            <ControlLabel>{key}</ControlLabel>
+            <FieldComponentWrapper
+              document={document}
+              field={key}
+              edit={edit}
+              editable={true}
+            />
+            {edit && document.collection.properties.get(key).required && (
+              <HelpBlock>Required</HelpBlock>
+            )}
+          </FormGroup>
+        ))}
       </Form>
     )
   else return null

@@ -105,3 +105,19 @@ export const useFormChanged = (document?: ContentsDocument) => {
     )
   )
 }
+
+export const useFormSave = (document?: ContentsDocument) => {
+  const changed = useFormChanged(document)
+  const formValues = useFormValues(document)
+  const reset = useResetForm(document)
+  return async () => {
+    if (changed) {
+      if (document._isTemporary) {
+        // TODO
+        console.log('TODO DOC')
+      }
+      await document.atomicPatch(formValues)
+      reset()
+    }
+  }
+}
