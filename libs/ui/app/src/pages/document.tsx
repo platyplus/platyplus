@@ -67,6 +67,11 @@ export const DocumentPage: React.FC = () => {
     reset()
     history.replace(location.pathname)
   }
+  const remove = async () => {
+    // TODO prompt
+    await document.remove()
+    history.goBack()
+  }
   if (isFetching) return <Loading />
   else
     return (
@@ -117,7 +122,7 @@ export const DocumentPage: React.FC = () => {
                     icon="trash"
                     helper="Delete"
                     iconProps={ICON_RED}
-                    // TODO
+                    onClick={remove}
                   />
                 </ButtonGroup>
               )}

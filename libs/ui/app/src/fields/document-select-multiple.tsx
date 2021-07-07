@@ -16,7 +16,10 @@ export const DocumentSelectMultipleField: FieldComponent = ({
   // TODO async - see https://rsuitejs.com/components/check-picker/#Async
   const refCollectionName = document.collection.properties.get(field).ref
   const refCollection = document.collection.database[refCollectionName]
-  const rxQuery = useMemo(() => refCollection?.find(), [refCollection])
+  const rxQuery = useMemo(
+    () => refCollection?.find().sort('label'),
+    [refCollection]
+  )
   const { isFetching, result } = useRxQuery<Contents>(rxQuery)
   const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
   const { isFetching: isFetchingDocs, result: documents } = useDocuments(
