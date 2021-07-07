@@ -60,7 +60,7 @@
     "rsuite": "^4.9.4",
     "rxdb": "^9.20.0",
     "rxdb-hooks": "^3.0.1",
-    "rxjs": "^7.1.0",
+    "rxjs": "^7.2.0",
     "stream": "^0.0.2",
     "stringify-object": "^3.3.0",
     "styled-components": "^5.2.3",
