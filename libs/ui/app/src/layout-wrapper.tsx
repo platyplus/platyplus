@@ -22,6 +22,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
     home = { enabled: true, title: 'Home' },
     login = { enabled: true, title: 'Login' },
     register = { enabled: true, title: 'Register' },
+    profile = { enabled: true, title: 'Profile' },
     notFound = { enabled: true, title: '404' }
   } = routesConfig
 
@@ -54,7 +55,6 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
     })
 
   // * Load collection and field components - defaults can be overriden and/or extended
-  // TODO default collection component as an application parameter e.g. collections.default
   const collections = {
     ...defaultCollectionComponents,
     ...components?.collections
@@ -67,7 +67,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
         logo={<Logo title={title} />}
         sideMenu={authenticated ? privateSideMenu : publicSideMenu}
       >
-        <Routes {...{ home, register, login, notFound, title }} />
+        <Routes {...{ home, register, login, profile, notFound, title }} />
       </Layout>
     </ComponentsContext.Provider>
   )

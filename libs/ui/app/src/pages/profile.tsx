@@ -1,20 +1,25 @@
-import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
+import { DisplayName, useProfile } from '@platyplus/profile'
+import { DocumentPanel, usePageTitle } from '@platyplus/layout'
+import { useQuery } from '@platyplus/navigation'
 import { PageFunction } from './types'
-import { usePageTitle } from '@platyplus/layout'
+import { DocumentComponentWrapper } from '../documents'
+import { DocumentToolbar } from '../common'
 
-const Profile: PageFunction = ({ title }) => {
+export const ProfilePage: PageFunction = ({ title }) => {
   usePageTitle(title)
   const profile = useProfile()
+  const editing = useQuery().has('edit')
+  // TODO profile actions e.g. change/reset password
   if (profile)
     return (
       <div>
-        <h2>
-          <DisplayName profile={profile} />
-        </h2>
-        <Avatar circle />
+        <DocumentPanel
+          title={<DisplayName profile={profile} />}
+          toolbar={<DocumentToolbar document={profile} edit={editing} />}
+        >
+          <DocumentComponentWrapper document={profile} edit={editing} />
+        </DocumentPanel>
       </div>
     )
   else return <div>loading...</div>
 }
-
-export default Profile

@@ -9,7 +9,8 @@ import {
   LoginPage,
   CollectionPage,
   DocumentPage,
-  PageNotFound
+  PageNotFound,
+  ProfilePage
 } from './pages'
 import { RoutesConfig } from './types'
 
@@ -19,6 +20,7 @@ export const Routes: React.FC<RoutesConfig> = ({
   login,
   register,
   home,
+  profile,
   notFound
 }) => {
   return (
@@ -46,6 +48,11 @@ export const Routes: React.FC<RoutesConfig> = ({
       {home.enabled && (
         <PrivateRoute exact path="/home">
           <HomePage title={home.title} />
+        </PrivateRoute>
+      )}
+      {profile.enabled && (
+        <PrivateRoute exact path="/profile">
+          <ProfilePage title={profile.title} />
         </PrivateRoute>
       )}
       <Route exact path="/">

@@ -4,7 +4,7 @@ import { FieldComponent } from './fields/types'
 
 export type RoutesConfig = Partial<
   Record<
-    'home' | 'login' | 'register' | 'notFound',
+    'home' | 'login' | 'register' | 'profile' | 'notFound',
     { enabled?: boolean; title?: string }
   > & { title: string }
 >
