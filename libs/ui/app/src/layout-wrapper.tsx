@@ -5,9 +5,10 @@ import { useRoleMenu } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
+import deepMerge from 'deepmerge'
 import { defaultCollectionComponents } from './collections'
-import { defaultFieldComponents } from './fields'
 import { defaultDocumentComponents } from './documents'
+import { defaultFieldComponents } from './fields'
 
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
@@ -17,7 +18,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
   const { auth } = useHbp()
   const authenticated = useAuthenticated(auth)
 
-  const { components, ...routesConfig } = config
+  const { components = {}, ...routesConfig } = config
   const {
     home = { enabled: true, title: 'Home' },
     login = { enabled: true, title: 'Login' },
@@ -54,15 +55,18 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
       href: '/register'
     })
 
-  // * Load collection and field components - defaults can be overriden and/or extended
-  const collections = {
-    ...defaultCollectionComponents,
-    ...components?.collections
-  }
-  const fields = { ...defaultFieldComponents, ...components?.fields }
-  const documents = { ...defaultDocumentComponents, ...components?.documents }
+  // * Load components - defaults can be overriden and/or extended
+  const overridenComponents = deepMerge(
+    {
+      collections: defaultCollectionComponents,
+      fields: defaultFieldComponents,
+      documents: defaultDocumentComponents
+    },
+    components
+  )
+
   return (
-    <ComponentsContext.Provider value={{ collections, fields, documents }}>
+    <ComponentsContext.Provider value={overridenComponents}>
       <Layout
         logo={<Logo title={title} />}
         sideMenu={authenticated ? privateSideMenu : publicSideMenu}

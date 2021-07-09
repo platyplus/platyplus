@@ -4,21 +4,8 @@ import {
   useDocuments
 } from '@platyplus/react-rxdb-hasura'
 import { useComponentsContext } from '../components'
-import { CollectionComponentsConfig } from '../types'
 
 import { CollectionComponent, CollectionFromParamsComponent } from './types'
-import { LabelCollection } from './label'
-import { ListCollection } from './list'
-import { TableCollection } from './table'
-
-export const defaultCollectionComponents: CollectionComponentsConfig = {
-  default: TableCollection,
-  label: LabelCollection,
-  table: TableCollection,
-  list: ListCollection
-}
-
-export const useCollectionComponents = () => useComponentsContext().collections
 
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
@@ -26,9 +13,9 @@ export const CollectionComponentWrapper: CollectionComponent<{
   collection,
   data,
   edit = false,
-  componentName = collection.componentName()
+  componentName = collection.component()
 }) => {
-  const collectionComponents = useCollectionComponents()
+  const collectionComponents = useComponentsContext().collections
   const Component = componentName && collectionComponents[componentName]
   if (Component)
     return <Component collection={collection} data={data} edit={edit} />

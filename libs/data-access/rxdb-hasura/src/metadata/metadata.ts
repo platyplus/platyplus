@@ -43,10 +43,7 @@ export default gql`
       title
       description
       icon
-      read_component
-      read_component_options
-      edit_component
-      edit_component_options
+      component
     }
     computedProperties {
       name

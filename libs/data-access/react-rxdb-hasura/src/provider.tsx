@@ -4,7 +4,7 @@ import { Provider } from 'rxdb-hooks'
 import Auth from 'nhost-js-sdk/dist/Auth'
 
 import { initializeDB } from './init-db'
-export const RxDBHasuraProvider: React.FC<{
+export const RxDBHasuraProvider: React.ComponentType<{
   auth: Auth
   name?: string
 }> = ({ auth, name, children }) => {

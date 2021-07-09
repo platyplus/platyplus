@@ -14,7 +14,7 @@ const { auth, storage } = createClient({
   useCookies: false
 })
 
-export const App: React.FC<AppConfig> = (config) => (
+export const App: React.ComponentType<AppConfig> = (config) => (
   <BrowserRouter>
     <HbpProvider auth={auth} storage={storage}>
       <RxDBHasuraProvider auth={auth}>

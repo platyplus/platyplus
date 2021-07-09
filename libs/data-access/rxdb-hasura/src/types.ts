@@ -58,15 +58,9 @@ export type ContentsDocumentMethods = {
   canEdit: (propertyName?: string) => boolean
   canSave: () => boolean
   canDelete: () => boolean
-  readComponent: (propertyName: string) => string
-  readComponentOptions: (
-    propertyName: string
-  ) => Record<string, unknown> | undefined | null
-  componentName: () => string
-  editComponent: (propertyName: string) => string
-  editComponentOptions: (
-    propertyName: string
-  ) => Record<string, unknown> | undefined | null
+  component: (propertyName?: string) => string
+  propertyType: (propertyName: string) => string
+  // TODO propertyComponentOptions
   // ? editableProperties(): Property[]
   // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)
 }
@@ -76,7 +70,7 @@ export type ContentsCollectionMethods = {
   description: (property?: string) => string
   documentTitle: () => string // TODO move to prototype
   icon: (property?: string) => string
-  componentName: () => string // TODO move to prototype
+  component: () => string // TODO move to prototype
   canInsert: (propertyName?: string) => boolean
   canUpdate: (propertyName?: string) => boolean
   // ? insertableProperties(): Property[]

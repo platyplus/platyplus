@@ -618,34 +618,28 @@
   - role: me
     permission:
       columns:
+      - component
       - description
-      - edit_component
-      - edit_component_options
       - icon
       - id
       - json_schema
       - order
       - property_id
       - property_name
-      - read_component
-      - read_component_options
       - table_id
       - title
       filter: {}
   - role: user
     permission:
       columns:
+      - component
       - description
-      - edit_component
-      - edit_component_options
       - icon
       - id
       - json_schema
       - order
       - property_id
       - property_name
-      - read_component
-      - read_component_options
       - table_id
       - title
       filter: {}

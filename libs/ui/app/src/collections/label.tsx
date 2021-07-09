@@ -1,6 +1,6 @@
 import { CollectionComponent } from './types'
 import React from 'react'
-import { DocumentComponentWrapper } from '../documents'
+import { DocumentLabel } from '../documents'
 
 export const LabelCollection: CollectionComponent = ({ data, edit }) => {
   return (
@@ -10,11 +10,7 @@ export const LabelCollection: CollectionComponent = ({ data, edit }) => {
         .map((doc, index) => (
           <React.Fragment key={doc.primary}>
             {!!index && ', '}
-            <DocumentComponentWrapper
-              document={doc}
-              edit={edit}
-              componentName="label"
-            />
+            <DocumentLabel document={doc} edit={edit} />
           </React.Fragment>
         ))}
     </span>

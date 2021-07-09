@@ -89,7 +89,7 @@ export const useDocument = (name: string, id: string) => {
   return { ...data, isFetching: document ? data.isFetching : true, document }
 }
 
-export const useDocuments = (name: string, ids: string[]) => {
+export const useDocuments = (name: string, ids: string[] = []) => {
   // ? useMemo ?
   const data = useRxData<ContentsDocument>(name, (collection) =>
     // TODO findByIds

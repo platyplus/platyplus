@@ -10,7 +10,7 @@ const config = (collection: ContentsCollection, property?: string) =>
 
 export const collectionConfigMethods: Pick<
   ContentsCollectionMethods,
-  'title' | 'documentTitle' | 'description' | 'icon' | 'componentName'
+  'title' | 'documentTitle' | 'description' | 'icon' | 'component'
 > = {
   title(this: ContentsCollection, property?: string): string {
     return (
@@ -26,7 +26,7 @@ export const collectionConfigMethods: Pick<
   icon(this: ContentsCollection, property?: string): string {
     return config(this, property)?.icon || ''
   },
-  componentName(this: ContentsCollection): string {
+  component(this: ContentsCollection): string {
     return (
       this.metadata.config?.component ||
       systemCollectionComponent(this) ||

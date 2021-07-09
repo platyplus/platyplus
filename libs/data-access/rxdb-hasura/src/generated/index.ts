@@ -4938,8 +4938,7 @@ export type Metadata_Property_Config = {
   __typename?: 'metadata_property_config'
   deleted: Scalars['Boolean']
   description: Maybe<Scalars['String']>
-  edit_component: Maybe<Scalars['String']>
-  edit_component_options: Maybe<Scalars['jsonb']>
+  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Scalars['uuid']
   json_schema: Maybe<Scalars['jsonb']>
@@ -4947,25 +4946,18 @@ export type Metadata_Property_Config = {
   /** table_schema.table_name.property_name */
   property_id: Scalars['String']
   property_name: Scalars['String']
-  read_component: Maybe<Scalars['String']>
-  read_component_options: Maybe<Scalars['jsonb']>
   table_id: Scalars['String']
   title: Maybe<Scalars['String']>
   updated_at: Scalars['timestamptz']
 }
 
 /** columns and relationships of "metadata.property_config" */
-export type Metadata_Property_ConfigEdit_Component_OptionsArgs = {
+export type Metadata_Property_ConfigComponent_OptionsArgs = {
   path: Maybe<Scalars['String']>
 }
 
 /** columns and relationships of "metadata.property_config" */
 export type Metadata_Property_ConfigJson_SchemaArgs = {
-  path: Maybe<Scalars['String']>
-}
-
-/** columns and relationships of "metadata.property_config" */
-export type Metadata_Property_ConfigRead_Component_OptionsArgs = {
   path: Maybe<Scalars['String']>
 }
 
@@ -5015,9 +5007,7 @@ export type Metadata_Property_Config_Aggregate_Order_By = {
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Metadata_Property_Config_Append_Input = {
-  edit_component_options: Maybe<Scalars['jsonb']>
   json_schema: Maybe<Scalars['jsonb']>
-  read_component_options: Maybe<Scalars['jsonb']>
 }
 
 /** input type for inserting array relation for remote table "metadata.property_config" */
@@ -5044,16 +5034,13 @@ export type Metadata_Property_Config_Bool_Exp = {
   _or: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
   deleted: Maybe<Boolean_Comparison_Exp>
   description: Maybe<String_Comparison_Exp>
-  edit_component: Maybe<String_Comparison_Exp>
-  edit_component_options: Maybe<Jsonb_Comparison_Exp>
+  component: Maybe<String_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   json_schema: Maybe<Jsonb_Comparison_Exp>
   order: Maybe<Int_Comparison_Exp>
   property_id: Maybe<String_Comparison_Exp>
   property_name: Maybe<String_Comparison_Exp>
-  read_component: Maybe<String_Comparison_Exp>
-  read_component_options: Maybe<Jsonb_Comparison_Exp>
   table_id: Maybe<String_Comparison_Exp>
   title: Maybe<String_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
@@ -5067,23 +5054,17 @@ export enum Metadata_Property_Config_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Metadata_Property_Config_Delete_At_Path_Input = {
-  edit_component_options: Maybe<Array<Maybe<Scalars['String']>>>
   json_schema: Maybe<Array<Maybe<Scalars['String']>>>
-  read_component_options: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Metadata_Property_Config_Delete_Elem_Input = {
-  edit_component_options: Maybe<Scalars['Int']>
   json_schema: Maybe<Scalars['Int']>
-  read_component_options: Maybe<Scalars['Int']>
 }
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Metadata_Property_Config_Delete_Key_Input = {
-  edit_component_options: Maybe<Scalars['String']>
   json_schema: Maybe<Scalars['String']>
-  read_component_options: Maybe<Scalars['String']>
 }
 
 /** input type for incrementing integer column in table "metadata.property_config" */
@@ -5095,16 +5076,13 @@ export type Metadata_Property_Config_Inc_Input = {
 export type Metadata_Property_Config_Insert_Input = {
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
-  edit_component: Maybe<Scalars['String']>
-  edit_component_options: Maybe<Scalars['jsonb']>
+  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   json_schema: Maybe<Scalars['jsonb']>
   order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
-  read_component: Maybe<Scalars['String']>
-  read_component_options: Maybe<Scalars['jsonb']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -5114,13 +5092,12 @@ export type Metadata_Property_Config_Insert_Input = {
 export type Metadata_Property_Config_Max_Fields = {
   __typename?: 'metadata_property_config_max_fields'
   description: Maybe<Scalars['String']>
-  edit_component: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
-  read_component: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -5129,13 +5106,11 @@ export type Metadata_Property_Config_Max_Fields = {
 /** order by max() on columns of table "metadata.property_config" */
 export type Metadata_Property_Config_Max_Order_By = {
   description: Maybe<Order_By>
-  edit_component: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   order: Maybe<Order_By>
   property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
-  read_component: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -5145,13 +5120,12 @@ export type Metadata_Property_Config_Max_Order_By = {
 export type Metadata_Property_Config_Min_Fields = {
   __typename?: 'metadata_property_config_min_fields'
   description: Maybe<Scalars['String']>
-  edit_component: Maybe<Scalars['String']>
+  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
-  read_component: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -5160,13 +5134,12 @@ export type Metadata_Property_Config_Min_Fields = {
 /** order by min() on columns of table "metadata.property_config" */
 export type Metadata_Property_Config_Min_Order_By = {
   description: Maybe<Order_By>
-  edit_component: Maybe<Order_By>
+  component: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   order: Maybe<Order_By>
   property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
-  read_component: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -5198,16 +5171,13 @@ export type Metadata_Property_Config_On_Conflict = {
 export type Metadata_Property_Config_Order_By = {
   deleted: Maybe<Order_By>
   description: Maybe<Order_By>
-  edit_component: Maybe<Order_By>
-  edit_component_options: Maybe<Order_By>
+  component: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   json_schema: Maybe<Order_By>
   order: Maybe<Order_By>
   property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
-  read_component: Maybe<Order_By>
-  read_component_options: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -5220,9 +5190,7 @@ export type Metadata_Property_Config_Pk_Columns_Input = {
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Metadata_Property_Config_Prepend_Input = {
-  edit_component_options: Maybe<Scalars['jsonb']>
   json_schema: Maybe<Scalars['jsonb']>
-  read_component_options: Maybe<Scalars['jsonb']>
 }
 
 /** select columns of table "metadata.property_config" */
@@ -5232,9 +5200,7 @@ export enum Metadata_Property_Config_Select_Column {
   /** column name */
   Description = 'description',
   /** column name */
-  EditComponent = 'edit_component',
-  /** column name */
-  EditComponentOptions = 'edit_component_options',
+  Component = 'component',
   /** column name */
   Icon = 'icon',
   /** column name */
@@ -5248,10 +5214,6 @@ export enum Metadata_Property_Config_Select_Column {
   /** column name */
   PropertyName = 'property_name',
   /** column name */
-  ReadComponent = 'read_component',
-  /** column name */
-  ReadComponentOptions = 'read_component_options',
-  /** column name */
   TableId = 'table_id',
   /** column name */
   Title = 'title',
@@ -5263,16 +5225,13 @@ export enum Metadata_Property_Config_Select_Column {
 export type Metadata_Property_Config_Set_Input = {
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
-  edit_component: Maybe<Scalars['String']>
-  edit_component_options: Maybe<Scalars['jsonb']>
+  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   json_schema: Maybe<Scalars['jsonb']>
   order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
-  read_component: Maybe<Scalars['String']>
-  read_component_options: Maybe<Scalars['jsonb']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -5329,9 +5288,7 @@ export enum Metadata_Property_Config_Update_Column {
   /** column name */
   Description = 'description',
   /** column name */
-  EditComponent = 'edit_component',
-  /** column name */
-  EditComponentOptions = 'edit_component_options',
+  Component = 'component',
   /** column name */
   Icon = 'icon',
   /** column name */
@@ -5344,11 +5301,6 @@ export enum Metadata_Property_Config_Update_Column {
   PropertyId = 'property_id',
   /** column name */
   PropertyName = 'property_name',
-  /** column name */
-  ReadComponent = 'read_component',
-  /** column name */
-  ReadComponentOptions = 'read_component_options',
-  /** column name */
   TableId = 'table_id',
   /** column name */
   Title = 'title',
@@ -10094,13 +10046,14 @@ export type Subscription_RootMetadata_Permission_Insert_ColumnsArgs = {
 }
 
 /** subscription root */
-export type Subscription_RootMetadata_Permission_Insert_Columns_AggregateArgs = {
-  distinct_on: Maybe<Array<Metadata_Permission_Insert_Columns_Select_Column>>
-  limit: Maybe<Scalars['Int']>
-  offset: Maybe<Scalars['Int']>
-  order_by: Maybe<Array<Metadata_Permission_Insert_Columns_Order_By>>
-  where: Maybe<Metadata_Permission_Insert_Columns_Bool_Exp>
-}
+export type Subscription_RootMetadata_Permission_Insert_Columns_AggregateArgs =
+  {
+    distinct_on: Maybe<Array<Metadata_Permission_Insert_Columns_Select_Column>>
+    limit: Maybe<Scalars['Int']>
+    offset: Maybe<Scalars['Int']>
+    order_by: Maybe<Array<Metadata_Permission_Insert_Columns_Order_By>>
+    where: Maybe<Metadata_Permission_Insert_Columns_Bool_Exp>
+  }
 
 /** subscription root */
 export type Subscription_RootMetadata_Permission_Select_ColumnsArgs = {
@@ -10112,13 +10065,14 @@ export type Subscription_RootMetadata_Permission_Select_ColumnsArgs = {
 }
 
 /** subscription root */
-export type Subscription_RootMetadata_Permission_Select_Columns_AggregateArgs = {
-  distinct_on: Maybe<Array<Metadata_Permission_Select_Columns_Select_Column>>
-  limit: Maybe<Scalars['Int']>
-  offset: Maybe<Scalars['Int']>
-  order_by: Maybe<Array<Metadata_Permission_Select_Columns_Order_By>>
-  where: Maybe<Metadata_Permission_Select_Columns_Bool_Exp>
-}
+export type Subscription_RootMetadata_Permission_Select_Columns_AggregateArgs =
+  {
+    distinct_on: Maybe<Array<Metadata_Permission_Select_Columns_Select_Column>>
+    limit: Maybe<Scalars['Int']>
+    offset: Maybe<Scalars['Int']>
+    order_by: Maybe<Array<Metadata_Permission_Select_Columns_Order_By>>
+    where: Maybe<Metadata_Permission_Select_Columns_Bool_Exp>
+  }
 
 /** subscription root */
 export type Subscription_RootMetadata_Permission_Update_ColumnsArgs = {
@@ -10130,13 +10084,14 @@ export type Subscription_RootMetadata_Permission_Update_ColumnsArgs = {
 }
 
 /** subscription root */
-export type Subscription_RootMetadata_Permission_Update_Columns_AggregateArgs = {
-  distinct_on: Maybe<Array<Metadata_Permission_Update_Columns_Select_Column>>
-  limit: Maybe<Scalars['Int']>
-  offset: Maybe<Scalars['Int']>
-  order_by: Maybe<Array<Metadata_Permission_Update_Columns_Order_By>>
-  where: Maybe<Metadata_Permission_Update_Columns_Bool_Exp>
-}
+export type Subscription_RootMetadata_Permission_Update_Columns_AggregateArgs =
+  {
+    distinct_on: Maybe<Array<Metadata_Permission_Update_Columns_Select_Column>>
+    limit: Maybe<Scalars['Int']>
+    offset: Maybe<Scalars['Int']>
+    order_by: Maybe<Array<Metadata_Permission_Update_Columns_Order_By>>
+    where: Maybe<Metadata_Permission_Update_Columns_Bool_Exp>
+  }
 
 /** subscription root */
 export type Subscription_RootMetadata_Primary_KeyArgs = {
@@ -11029,15 +10984,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   propertiesConfig: Array<
     { __typename?: 'metadata_property_config' } & Pick<
       Metadata_Property_Config,
-      | 'order'
-      | 'property_name'
-      | 'title'
-      | 'description'
-      | 'icon'
-      | 'read_component'
-      | 'read_component_options'
-      | 'edit_component'
-      | 'edit_component_options'
+      'order' | 'property_name' | 'title' | 'description' | 'icon' | 'component'
     >
   >
   computedProperties: Array<
@@ -11180,10 +11127,7 @@ export const TableFragmentDoc = gql`
       title
       description
       icon
-      read_component
-      read_component_options
-      edit_component
-      edit_component_options
+      component
     }
     computedProperties {
       name
@@ -11261,7 +11205,7 @@ export const MetadataDocument = gql`
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
 
-const defaultWrapper: SdkFunctionWrapper = sdkFunction => sdkFunction()
+const defaultWrapper: SdkFunctionWrapper = (sdkFunction) => sdkFunction()
 export function getSdk(
   client: GraphQLClient,
   withWrapper: SdkFunctionWrapper = defaultWrapper

@@ -114,7 +114,7 @@ export const useFormSave = (document?: ContentsDocument) => {
     if (changed) {
       if (document._isTemporary) {
         // TODO
-        console.log('TODO DOC')
+        console.log('TODO NEW DOC')
       }
       await document.atomicPatch(formValues)
       reset()
