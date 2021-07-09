@@ -1,3 +1,4 @@
+// TODO move to another package
 enum LOG_LEVEL {
   MUTE = 0,
   ERROR = 1,

@@ -1,17 +1,20 @@
 import { Loading } from '@platyplus/navigation'
-import { useDocument } from '@platyplus/react-rxdb-hasura'
+import {
+  useDocumentComponentName,
+  useDocument
+} from '@platyplus/react-rxdb-hasura'
 import { useComponentsContext } from '../components'
 import { DocumentComponent, DocumentFromParamsComponent } from './types'
 
 export const DocumentComponentWrapper: DocumentComponent<{
   componentName?: string
-}> = ({ document, edit = false, componentName = document.component() }) => {
-  const tx = useComponentsContext()
-  console.log(tx)
+}> = ({ document, edit = false, componentName }) => {
+  const documentComponentName = useDocumentComponentName(document)
+  const name = componentName || documentComponentName
   const documentComponents = useComponentsContext().documents
-  const Component = componentName && documentComponents[componentName]
+  const Component = name && documentComponents[name]
   if (Component) return <Component document={document} edit={edit} />
-  else return <div>TODO: {componentName}</div>
+  else return <div>TODO: {name}</div>
 }
 
 export const DocumentFromParamsComponentWrapper: DocumentFromParamsComponent =

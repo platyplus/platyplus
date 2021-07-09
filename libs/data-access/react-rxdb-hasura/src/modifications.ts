@@ -3,6 +3,7 @@ import * as immutable from 'object-path-immutable'
 import deepEqual from 'deep-equal'
 
 import { castValue, Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { useDocumentProperties } from './properties'
 
 const useFormStore = create<{
   forms: Record<string, Record<string, Contents>>
@@ -60,16 +61,14 @@ export const useGetForm = <T extends Record<string, unknown>>(
   document: ContentsDocument
 ) => {
   const form = useFormValues(document)
+  const properties = useDocumentProperties(document)
   return useFormStore<T>((state) => {
     if (!document) return {}
-    return [...document.collection.properties.keys()].reduce(
-      (aggregator, key) => {
-        aggregator[key] =
-          (form[key] !== undefined ? form[key] : document[key]) ?? null
-        return aggregator
-      },
-      {}
-    )
+    return [...properties.keys()].reduce<any>((aggregator, key) => {
+      aggregator[key] =
+        (form[key] !== undefined ? form[key] : document[key]) ?? null
+      return aggregator
+    }, {})
   })
 }
 
@@ -94,9 +93,10 @@ export const useResetForm = (document: ContentsDocument) =>
  */
 export const useFormChanged = (document?: ContentsDocument) => {
   const formValues = useFormValues(document)
+  const properties = useDocumentProperties(document)
   return (
     document &&
-    [...document.collection.properties.keys()].some(
+    [...properties.keys()].some(
       (key) =>
         formValues[key] !== undefined &&
         (typeof document[key] === 'object'

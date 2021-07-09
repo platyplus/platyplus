@@ -15,45 +15,46 @@ export const createContentReplicator = async (
   collection: ContentsCollection,
   role: string
 ): Promise<void> => {
-  const url = collection.database.options.url
   const db = collection.database
+  const url = db.options.url
 
   let state: RxGraphQLReplicationState | undefined
   let wsSubscription: SubscriptionClient | undefined
   let jwtSubscription: Subscription | undefined
 
-  const setupGraphQLReplication = async (): Promise<RxGraphQLReplicationState> => {
-    const replicationState = collection.syncGraphQL({
-      url,
-      headers: createHeaders(role, db.jwt$.getValue()),
-      push: {
-        batchSize: DEFAULT_BATCH_SIZE,
-        queryBuilder: pushQueryBuilder(collection),
-        modifier: pushModifier(collection)
-      },
-      pull: {
-        queryBuilder: pullQueryBuilder(collection, DEFAULT_BATCH_SIZE),
-        modifier: pullModifier(collection)
-      },
-      live: true,
-      liveInterval: 1000 * 60 * 10, // 10 minutes
-      deletedFlag: 'deleted',
-      waitForLeadership: true // defaults to true
-    })
-    replicationState.error$.subscribe(err => {
-      error(`replication error on ${collection.name}`)
-      errorDir(err)
-    })
+  const setupGraphQLReplication =
+    async (): Promise<RxGraphQLReplicationState> => {
+      const replicationState = collection.syncGraphQL({
+        url,
+        headers: createHeaders(role, db.jwt$.getValue()),
+        push: {
+          batchSize: DEFAULT_BATCH_SIZE,
+          queryBuilder: pushQueryBuilder(collection),
+          modifier: pushModifier(collection)
+        },
+        pull: {
+          queryBuilder: pullQueryBuilder(collection, DEFAULT_BATCH_SIZE),
+          modifier: pullModifier(collection)
+        },
+        live: true,
+        liveInterval: 1000 * 60 * 10, // 10 minutes
+        deletedFlag: 'deleted',
+        waitForLeadership: true // defaults to true
+      })
+      replicationState.error$.subscribe((err) => {
+        error(`replication error on ${collection.name}`)
+        errorDir(err)
+      })
 
-    jwtSubscription = db.jwt$.subscribe((token?: string) => {
-      debug(`Replicator (${collection.name}): set token`)
-      replicationState.setHeaders(createHeaders(role, token))
-      wsSubscription?.close()
-      wsSubscription = setupGraphQLSubscription()
-    })
+      jwtSubscription = db.jwt$.subscribe((token?: string) => {
+        debug(`Replicator (${collection.name}): set token`)
+        replicationState.setHeaders(createHeaders(role, token))
+        wsSubscription?.close()
+        wsSubscription = setupGraphQLSubscription()
+      })
 
-    return replicationState
-  }
+      return replicationState
+    }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)
@@ -80,11 +81,11 @@ export const createContentReplicator = async (
     })
 
     ret.subscribe({
-      next: data => {
+      next: (data) => {
         info(`subscription on ${collection.name} emitted`, data)
         state?.run()
       },
-      error: error => {
+      error: (error) => {
         warn(`subscription ${collection.name} error`, error)
       }
     })

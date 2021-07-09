@@ -1,11 +1,13 @@
-import { jsonataPaths } from '@platyplus/jsonata-schema'
+import clone from 'clone-deep'
+import { DocumentNode } from 'graphql'
 import decode from 'jwt-decode'
+
+import { jsonataPaths } from '@platyplus/jsonata-schema'
 
 import { ContentsCollection } from './types'
 
-export type ArrayElement<
-  ArrayType extends readonly unknown[]
-> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never
 
 // TODO consider moving to a dedicated package
 export const httpUrlToWebSockeUrl = (url: string): string =>
@@ -91,4 +93,14 @@ export const createHeaders = (
       headers['x-hasura-role'] = role
   }
   return headers
+}
+
+export const queryToSubscription = (query: DocumentNode): DocumentNode => {
+  const result: typeof query = clone(query)
+  result.definitions.forEach((definition) => {
+    if (definition.kind === 'OperationDefinition') {
+      ;(definition.operation as string) = 'subscription'
+    }
+  })
+  return result
 }

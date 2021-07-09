@@ -1,13 +1,18 @@
 import { ControlLabel, Form, FormGroup, HelpBlock } from 'rsuite'
 
 import { DocumentComponent } from './types'
-import { useGetForm, useSetForm } from '@platyplus/react-rxdb-hasura'
+import {
+  useDocumentProperties,
+  useGetForm,
+  useSetForm
+} from '@platyplus/react-rxdb-hasura'
 import { FieldComponentWrapper } from '../fields'
 
 export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   const setForm = useSetForm(document)
+  const properties = useDocumentProperties(document)
   const formValues = useGetForm(document)
-  if (document?.collection.properties)
+  if (properties)
     return (
       <Form
         formValue={formValues}
@@ -16,7 +21,7 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
         }}
         fluid
       >
-        {[...document.collection.properties.keys()].map((key) => (
+        {[...properties.keys()].map((key) => (
           <FormGroup key={key}>
             <ControlLabel>{key}</ControlLabel>
             <FieldComponentWrapper
@@ -25,7 +30,7 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
               edit={edit}
               editable={true}
             />
-            {edit && document.collection.properties.get(key).required && (
+            {edit && properties.get(key).required && (
               <HelpBlock>Required</HelpBlock>
             )}
           </FormGroup>

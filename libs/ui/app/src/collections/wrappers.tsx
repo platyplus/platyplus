@@ -1,5 +1,6 @@
 import { Loading } from '@platyplus/navigation'
 import {
+  useCollectionComponentName,
   useContentsCollection,
   useDocuments
 } from '@platyplus/react-rxdb-hasura'
@@ -9,17 +10,14 @@ import { CollectionComponent, CollectionFromParamsComponent } from './types'
 
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
-}> = ({
-  collection,
-  data,
-  edit = false,
-  componentName = collection.component()
-}) => {
+}> = ({ collection, data, edit = false, componentName }) => {
+  const collectionComponentName = useCollectionComponentName(collection)
+  const name = componentName || collectionComponentName
   const collectionComponents = useComponentsContext().collections
-  const Component = componentName && collectionComponents[componentName]
+  const Component = name && collectionComponents[name]
   if (Component)
     return <Component collection={collection} data={data} edit={edit} />
-  else return <div>TODO: {componentName}</div>
+  else return <div>TODO: {name}</div>
 }
 
 export const CollectionFromParamsComponentWrapper: CollectionFromParamsComponent =

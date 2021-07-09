@@ -1,5 +1,7 @@
 import gql from 'graphql-tag'
-export default gql`
+import { print } from 'graphql/language/printer'
+import { queryToSubscription } from '../utils'
+export const query = gql`
   fragment coreTable on metadata_table {
     id
     table_name
@@ -126,3 +128,8 @@ export default gql`
     }
   }
 `
+
+export const stringQuery = print(query)
+
+export const subscription = queryToSubscription(query)
+export const stringSubscription = print(subscription)

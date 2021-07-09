@@ -59,7 +59,7 @@ export const createRxHasura = async (
         if (!db[`${role}_metadata`]) {
           await db.addCollections({
             [`${role}_metadata`]: {
-              options: { isMetadata: true, role },
+              options: { isMetadataCollection: true, role },
               schema: metadataSchema,
               autoMigrate: true
             }

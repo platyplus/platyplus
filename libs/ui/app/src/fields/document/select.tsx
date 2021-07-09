@@ -1,5 +1,8 @@
 import { Loading } from '@platyplus/navigation'
-import { useDocument } from '@platyplus/react-rxdb-hasura'
+import {
+  useDocument,
+  useDocumentProperties
+} from '@platyplus/react-rxdb-hasura'
 import { Contents } from '@platyplus/rxdb-hasura'
 import { useMemo } from 'react'
 import { FormControl, SelectPicker } from 'rsuite'
@@ -14,7 +17,8 @@ export const DocumentSelectField: FieldComponent = ({
   editable
 }) => {
   // TODO async - see https://rsuitejs.com/components/select-picker/#Async
-  const refCollectionName = document.collection.properties.get(field).ref
+  const properties = useDocumentProperties(document)
+  const refCollectionName = properties.get(field).ref
   const refCollection = document.collection.database[refCollectionName]
   const rxQuery = useMemo(
     () => refCollection?.find().sort('label'),

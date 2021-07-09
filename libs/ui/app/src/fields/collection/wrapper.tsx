@@ -1,5 +1,8 @@
 import { Loading } from '@platyplus/navigation'
-import { useDocuments } from '@platyplus/react-rxdb-hasura'
+import {
+  useDocumentProperties,
+  useDocuments
+} from '@platyplus/react-rxdb-hasura'
 import { Contents } from '@platyplus/rxdb-hasura'
 import React, { useMemo } from 'react'
 import { FormControl, TagPickerProps, CheckPickerProps } from 'rsuite'
@@ -19,7 +22,8 @@ export const CollectionField: FieldComponent<{
   component = 'label'
 }) => {
   // TODO async - see https://rsuitejs.com/components/check-picker/#Async
-  const refCollectionName = document.collection.properties.get(field).ref
+  const properties = useDocumentProperties(document)
+  const refCollectionName = properties.get(field).ref
   const refCollection = document.collection.database[refCollectionName]
   const rxQuery = useMemo(
     () => refCollection?.find().sort('label'),

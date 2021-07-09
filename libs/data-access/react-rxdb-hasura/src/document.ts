@@ -82,8 +82,7 @@ export const useDocument = (name: string, id: string) => {
 export const useDocument = (name: string, id: string) => {
   // ? useMemo ?
   const data = useRxData<ContentsDocument>(name, (collection) =>
-    // TODO findOne
-    collection.find().where('id').eq(id)
+    collection.findOne(id)
   )
   const document = data.result[0]
   return { ...data, isFetching: document ? data.isFetching : true, document }
@@ -98,16 +97,3 @@ export const useDocuments = (name: string, ids: string[] = []) => {
 
   return data
 }
-
-// ? Useless in React?
-/*
-export const useDocumentMetadata = (
-  document?: ContentsDocument
-): Readonly<Metadata | undefined> => {
-  const [value, setValue] = useState<Metadata>()
-  useEffect(() => {
-    setValue(document?.collection.metadata)
-  }, [document])
-  return value
-}
-*/

@@ -2,11 +2,12 @@ import { PrimaryProperty, RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { BehaviorSubject } from 'rxjs'
 
-import { TableFragment as Metadata } from './generated'
+import { TableFragment } from './generated'
 export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
-export type { Metadata }
+export type Metadata = TableFragment
+export type MetadataDocument = RxDocument<Metadata>
 
 export type JsonSchemaFormat =
   | 'date-time'
@@ -79,7 +80,7 @@ export type ContentsCollectionMethods = {
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string
-  metadata: Metadata
+  metadata: MetadataDocument
   replicator: Replicator
   properties: Map<string, TopLevelProperty | PrimaryProperty>
 }

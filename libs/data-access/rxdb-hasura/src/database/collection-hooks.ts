@@ -6,6 +6,7 @@ import { createMetadataReplicator } from '../metadata'
 import { ContentsCollection, MetadataCollection } from '../types'
 import { hasuraCollections } from './helpers'
 import { contents } from './observables'
+import { skip } from 'rxjs/operators'
 
 const compare = (a: number | undefined, b: number | undefined) => {
   return a || b ? (!a ? 1 : !b ? -1 : a - b) : 0
@@ -27,7 +28,7 @@ const collectionProperties = (
       .filter(({ rel_type }) => rel_type === 'array')
       .map(({ rel_name }) => `${rel_name}_aggregate`),
     // * primary key and other final fields as they can't be observed
-    ...schema.finalFields.map(field => field)
+    ...schema.finalFields.map((field) => field)
   ]
 
   // * Return the collection properties, ordered from the propertiesConfig 'order' fields
@@ -54,6 +55,10 @@ export const createRxCollection = async (
     collection.role = collection.options.role
     collection.metadata = collection.options.metadata
     collection.properties = collectionProperties(collection)
+    collection.metadata.$.pipe(skip(1)).subscribe((newMeta) => {
+      // * set property again everytime metadata changes
+      collection.properties = collectionProperties(collection)
+    })
     info(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({
@@ -61,10 +66,10 @@ export const createRxCollection = async (
       [collection.name]: collection
     })
     await createContentReplicator(collection, collection.options.role)
-  } else if (collection.options.isMetadata) {
+  } else if (collection.options.isMetadataCollection) {
     // * isMetadata option => this is a Metadata collection
     await createMetadataReplicator(
-      (collection as unknown) as MetadataCollection,
+      collection as unknown as MetadataCollection,
       collection.options.role
     )
   }
