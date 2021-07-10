@@ -5,9 +5,12 @@ import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { CollectionComponent } from './types'
 import { FieldComponentWrapper } from '../fields'
-import { useCollectionProperties } from '@platyplus/react-rxdb-hasura'
+import {
+  PropertyTitle,
+  useCollectionProperties
+} from '@platyplus/react-rxdb-hasura'
 
-const { Column, HeaderCell, Cell, Pagination } = Table
+const { Column, HeaderCell, Cell } = Table
 
 export const TableCollection: CollectionComponent = ({ collection, data }) => {
   const history = useHistory()
@@ -22,9 +25,11 @@ export const TableCollection: CollectionComponent = ({ collection, data }) => {
         history.push(`/collection/${collection.name}/${data.id}`)
       }}
     >
-      {[...properties].map(([key, value]) => (
-        <Column flexGrow={1} key={key}>
-          <HeaderCell>{collection.title(key)}</HeaderCell>
+      {[...properties].map(([property, value]) => (
+        <Column flexGrow={1} key={property}>
+          <HeaderCell>
+            <PropertyTitle collection={collection} property={property} />
+          </HeaderCell>
           <Cell>
             {(document: ContentsDocument) => {
               if (document.collection.name === collection.name)
@@ -32,7 +37,7 @@ export const TableCollection: CollectionComponent = ({ collection, data }) => {
                   <FieldComponentWrapper
                     document={document}
                     edit={false}
-                    field={key}
+                    field={property}
                   />
                 )
             }}

@@ -6,7 +6,7 @@ import { TableFragment } from './generated'
 export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
-export type Metadata = TableFragment
+export type Metadata = TableFragment & { id: string } // TODO generate again as 'id' seems to be missing
 export type MetadataDocument = RxDocument<Metadata>
 
 export type JsonSchemaFormat =

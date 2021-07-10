@@ -3,7 +3,7 @@ import * as immutable from 'object-path-immutable'
 import deepEqual from 'deep-equal'
 
 import { castValue, Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useDocumentProperties } from './properties'
+import { useDocumentProperties } from './metadata'
 
 const useFormStore = create<{
   forms: Record<string, Record<string, Contents>>
