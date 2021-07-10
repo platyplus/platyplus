@@ -10,11 +10,10 @@ export const useCollectionMetadata = (
 ): Readonly<Metadata | null> => {
   const [result, setResult] = useState<Metadata>(null)
   useEffect(() => {
-    if (collection) {
+    if (collection?.metadata) {
       const subscription = collection.metadata.$.subscribe((value) =>
         setResult(value)
       )
-
       return () => subscription.unsubscribe()
     }
   }, [collection])
@@ -24,4 +23,16 @@ export const useCollectionMetadata = (
 export const useDocumentMetadata = (
   document?: ContentsDocument
 ): Readonly<Metadata | undefined> =>
-  useCollectionMetadata(document.collection as ContentsCollection)
+  useCollectionMetadata(document?.collection as ContentsCollection)
+
+/*
+
+export const useDocumentMetadataConfig = (
+  document: ContentsDocument,
+  property?: string
+) =>
+  useCollectionMetadataConfig(
+    document.collection as ContentsCollection,
+    property
+  )
+*/

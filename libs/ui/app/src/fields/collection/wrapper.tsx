@@ -1,12 +1,18 @@
-import { Loading } from '@platyplus/navigation'
+import React, { useMemo } from 'react'
+import {
+  FormControl,
+  TagPickerProps,
+  CheckPickerProps,
+  Animation
+} from 'rsuite'
+import { useRxQuery } from 'rxdb-hooks'
+
 import {
   useDocumentProperties,
   useDocuments
 } from '@platyplus/react-rxdb-hasura'
 import { Contents } from '@platyplus/rxdb-hasura'
-import React, { useMemo } from 'react'
-import { FormControl, TagPickerProps, CheckPickerProps } from 'rsuite'
-import { useRxQuery } from 'rxdb-hooks'
+
 import { CollectionFromParamsComponentWrapper } from '../../collections'
 import { FieldComponent } from '../types'
 
@@ -36,27 +42,28 @@ export const CollectionField: FieldComponent<{
     refCollectionName,
     document[field]
   )
-
-  if (isFetching) return <Loading />
-  // TODO bug - when picking one checkbox
-  if (edit) {
-    return (
-      <FormControl
-        name={field}
-        readOnly={!edit}
-        accepter={(props) => (
-          <Accepter data={options} cleanable={edit} {...props} />
-        )}
-      />
-    )
-  } else if (isFetchingDocs) return <Loading />
-  else
-    return (
-      <CollectionFromParamsComponentWrapper
-        collectionName={refCollectionName}
-        ids={document[field]}
-        componentName={component}
-        edit={false}
-      />
-    )
+  return (
+    <Animation.Fade in={!isFetching && !isFetchingDocs}>
+      {(props, ref) => (
+        <div {...props}>
+          {edit ? (
+            <FormControl
+              name={field}
+              readOnly={!edit}
+              accepter={(props) => (
+                <Accepter data={options} cleanable={edit} {...props} />
+              )}
+            />
+          ) : (
+            <CollectionFromParamsComponentWrapper
+              collectionName={refCollectionName}
+              ids={document[field]}
+              componentName={component}
+              edit={false}
+            />
+          )}
+        </div>
+      )}
+    </Animation.Fade>
+  )
 }

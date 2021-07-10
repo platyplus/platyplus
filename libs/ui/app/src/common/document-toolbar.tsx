@@ -7,6 +7,7 @@ import {
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useLocation, useHistory } from 'react-router-dom'
 import {
+  Animation,
   ButtonGroup,
   ButtonToolbar,
   Icon,
@@ -42,7 +43,7 @@ const IconButtonWithHelper: React.FC<
 }
 
 export const DocumentToolbar: React.FC<{
-  document: ContentsDocument
+  document?: ContentsDocument
   edit?: boolean
 }> = ({ document, edit }) => {
   const query = useQuery()
@@ -70,50 +71,56 @@ export const DocumentToolbar: React.FC<{
   }
 
   return (
-    <ButtonToolbar
-      style={{
-        float: 'right'
-      }}
-    >
-      {editing ? (
-        <ButtonGroup>
-          <IconButtonWithHelper
-            icon="save"
-            helper="Save"
-            onClick={save}
-            disabled={!changed}
-          />
-          <IconButtonWithHelper
-            icon="undo"
-            helper="Reset"
-            onClick={reset}
-            disabled={!changed}
-          />
-          <IconButtonWithHelper
-            icon="back-arrow"
-            helper="Cancel"
-            onClick={cancel}
-          />
-        </ButtonGroup>
-      ) : (
-        <ButtonGroup>
-          {document.canEdit() && (
-            <IconButtonWithHelper
-              icon="edit"
-              helper="Edit"
-              onClick={editDocument}
-            />
-          )}
-          {document.canDelete() && (
-            <IconButtonWithHelper
-              icon="trash"
-              helper="Delete"
-              iconProps={ICON_RED}
-              onClick={removeDocument}
-            />
-          )}
-        </ButtonGroup>
+    <Animation.Fade in={!!document}>
+      {(props, ref) => (
+        <div {...props}>
+          <ButtonToolbar
+            style={{
+              float: 'right'
+            }}
+          >
+            {editing ? (
+              <ButtonGroup>
+                <IconButtonWithHelper
+                  icon="save"
+                  helper="Save"
+                  onClick={save}
+                  disabled={!changed}
+                />
+                <IconButtonWithHelper
+                  icon="undo"
+                  helper="Reset"
+                  onClick={reset}
+                  disabled={!changed}
+                />
+                <IconButtonWithHelper
+                  icon="back-arrow"
+                  helper="Cancel"
+                  onClick={cancel}
+                />
+              </ButtonGroup>
+            ) : (
+              <ButtonGroup>
+                {document?.canEdit() && (
+                  <IconButtonWithHelper
+                    icon="edit"
+                    helper="Edit"
+                    onClick={editDocument}
+                  />
+                )}
+                {document?.canDelete() && (
+                  <IconButtonWithHelper
+                    icon="trash"
+                    helper="Delete"
+                    iconProps={ICON_RED}
+                    onClick={removeDocument}
+                  />
+                )}
+              </ButtonGroup>
+            )}
+          </ButtonToolbar>
+        </div>
       )}
-    </ButtonToolbar>
+    </Animation.Fade>
   )
 }

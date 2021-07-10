@@ -63,7 +63,7 @@ export const useGetForm = <T extends Record<string, unknown>>(
   const form = useFormValues(document)
   const properties = useDocumentProperties(document)
   return useFormStore<T>((state) => {
-    if (!document) return {}
+    if (!properties) return {}
     return [...properties.keys()].reduce<any>((aggregator, key) => {
       aggregator[key] =
         (form[key] !== undefined ? form[key] : document[key]) ?? null
@@ -95,7 +95,7 @@ export const useFormChanged = (document?: ContentsDocument) => {
   const formValues = useFormValues(document)
   const properties = useDocumentProperties(document)
   return (
-    document &&
+    properties &&
     [...properties.keys()].some(
       (key) =>
         formValues[key] !== undefined &&

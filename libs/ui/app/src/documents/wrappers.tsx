@@ -1,4 +1,4 @@
-import { Loading } from '@platyplus/navigation'
+import { Animation } from 'rsuite'
 import {
   useDocumentComponentName,
   useDocument
@@ -20,14 +20,17 @@ export const DocumentComponentWrapper: DocumentComponent<{
 export const DocumentFromParamsComponentWrapper: DocumentFromParamsComponent =
   ({ collectionName, componentName, id, edit = false }) => {
     const { isFetching, document } = useDocument(collectionName, id)
-
-    if (isFetching) return <Loading />
-    else
-      return (
-        <DocumentComponentWrapper
-          document={document}
-          edit={edit}
-          componentName={componentName}
-        />
-      )
+    return (
+      <Animation.Fade in={!isFetching}>
+        {(props, ref) => (
+          <div {...props}>
+            <DocumentComponentWrapper
+              document={document}
+              edit={edit}
+              componentName={componentName}
+            />
+          </div>
+        )}
+      </Animation.Fade>
+    )
   }

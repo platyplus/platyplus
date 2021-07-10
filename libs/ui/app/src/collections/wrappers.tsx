@@ -1,11 +1,10 @@
-import { Loading } from '@platyplus/navigation'
+import { Animation } from 'rsuite'
 import {
   useCollectionComponentName,
   useContentsCollection,
   useDocuments
 } from '@platyplus/react-rxdb-hasura'
 import { useComponentsContext } from '../components'
-
 import { CollectionComponent, CollectionFromParamsComponent } from './types'
 
 export const CollectionComponentWrapper: CollectionComponent<{
@@ -24,14 +23,18 @@ export const CollectionFromParamsComponentWrapper: CollectionFromParamsComponent
   ({ collectionName, componentName, ids, edit = false }) => {
     const collection = useContentsCollection(collectionName)
     const { isFetching, result } = useDocuments(collectionName, ids)
-    if (isFetching) return <Loading />
-    else
-      return (
-        <CollectionComponentWrapper
-          collection={collection}
-          data={result}
-          edit={edit}
-          componentName={componentName}
-        />
-      )
+    return (
+      <Animation.Fade in={!isFetching}>
+        {(props, ref) => (
+          <div {...props}>
+            <CollectionComponentWrapper
+              collection={collection}
+              data={result}
+              edit={edit}
+              componentName={componentName}
+            />
+          </div>
+        )}
+      </Animation.Fade>
+    )
   }

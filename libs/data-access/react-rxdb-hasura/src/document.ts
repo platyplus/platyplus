@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { useRxData } from 'rxdb-hooks'
 
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { useDocumentMetadata } from './metadata'
 
 export const useDocumentLabel = (
   document?: ContentsDocument
@@ -96,4 +97,9 @@ export const useDocuments = (name: string, ids: string[] = []) => {
   )
 
   return data
+}
+
+export const useDocumentTitle = (document: ContentsDocument) => {
+  const metadata = useDocumentMetadata(document)
+  return metadata.config?.title
 }

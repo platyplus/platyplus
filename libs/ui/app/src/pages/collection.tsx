@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router'
 import { useRxQuery } from 'rxdb-hooks'
+import { Animation } from 'rsuite'
 
 import { Contents } from '@platyplus/rxdb-hasura'
 import { useContentsCollection } from '@platyplus/react-rxdb-hasura'
 import { usePageTitle } from '@platyplus/layout'
-import { Loading, useQuery } from '@platyplus/navigation'
+import { useQuery } from '@platyplus/navigation'
 import { CollectionComponentWrapper } from '../collections'
 
 export const CollectionPage: React.FC = () => {
@@ -17,15 +18,19 @@ export const CollectionPage: React.FC = () => {
   const rxQuery = useMemo(() => collection?.find(), [collection])
   const { isFetching, result } = useRxQuery<Contents>(rxQuery)
   usePageTitle(collection?.title())
-  if (isFetching) return <Loading />
-  else
-    return (
-      <CollectionComponentWrapper
-        collection={collection}
-        data={result}
-        edit={edit}
-      />
-    )
+  return (
+    <Animation.Fade in={!isFetching}>
+      {(props, ref) => (
+        <div {...props}>
+          <CollectionComponentWrapper
+            collection={collection}
+            data={result}
+            edit={edit}
+          />
+        </div>
+      )}
+    </Animation.Fade>
+  )
 }
 
 export default CollectionPage
