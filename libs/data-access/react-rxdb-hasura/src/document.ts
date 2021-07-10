@@ -38,9 +38,6 @@ export const useNewDocumentFactory = (
   newDoc: ContentsDocument
 } => {
   const [newDoc, setNewDoc] = useState<ContentsDocument>()
-  // onMounted(() => {
-  //   newDoc.value = newDocumentFactory(collection)
-  // })
   return {
     next: (): ContentsDocument => {
       setNewDoc(newDocumentFactory(collection))
@@ -49,37 +46,7 @@ export const useNewDocumentFactory = (
     newDoc
   }
 }
-/*
-// TODO Returns the document with the given id, or a new temporary document otherwise
-type UseDocumentResult = {
-  document: ContentsDocument
-  isFetching: boolean
-}
-export const useDocument = (name: string, id: string) => {
-  const collection = useContentsCollection(name)
-  const [state, setState] = useState<UseDocumentResult>({
-    document: null,
-    isFetching: true
-  })
 
-  const query = useMemo(() => collection?.findOne(id), [collection, id])
-  useEffect(() => {
-    if (collection && name && id) {
-      // TODO problem: if nothing found, we can't know if nothing is loaded yet (ongoing replication) or if the id is incorrect
-      // TODO -> check replication state?
-      const subscription = query.$.subscribe((value) =>
-        setState({ document: value, isFetching: !value })
-      )
-      return () => subscription.unsubscribe()
-    } else {
-      // if (!document) {
-      // setDocument(newDocumentFactory(collection))
-      // }
-    }
-  }, [collection, name, id, query])
-  return state
-}
-*/
 export const useDocument = (name: string, id: string) => {
   // ? useMemo ?
   const data = useRxData<ContentsDocument>(name, (collection) =>
@@ -95,7 +62,6 @@ export const useDocuments = (name: string, ids: string[] = []) => {
     // TODO findByIds
     collection.find().where('id').in(ids)
   )
-
   return data
 }
 

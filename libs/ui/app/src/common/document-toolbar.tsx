@@ -1,5 +1,6 @@
 import { useQuery } from '@platyplus/navigation'
 import {
+  useDocumentPermissions,
   useFormChanged,
   useFormSave,
   useResetForm
@@ -69,7 +70,7 @@ export const DocumentToolbar: React.FC<{
     await document.remove()
     history.goBack()
   }
-
+  const { canDelete, canEdit } = useDocumentPermissions(document)
   return (
     <Animation.Fade in={!!document}>
       {(props, ref) => (
@@ -101,14 +102,14 @@ export const DocumentToolbar: React.FC<{
               </ButtonGroup>
             ) : (
               <ButtonGroup>
-                {document?.canEdit() && (
+                {canEdit && (
                   <IconButtonWithHelper
                     icon="edit"
                     helper="Edit"
                     onClick={editDocument}
                   />
                 )}
-                {document?.canDelete() && (
+                {canDelete && (
                   <IconButtonWithHelper
                     icon="trash"
                     helper="Delete"
