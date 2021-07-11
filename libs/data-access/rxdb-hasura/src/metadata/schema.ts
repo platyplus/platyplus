@@ -55,17 +55,21 @@ export const metadataSchema: RxJsonSchema = {
       }
     },
     propertiesConfig: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          order: { type: ['number'] },
-          property_name: { type: ['string', 'null'] },
-          title: { type: ['string', 'null'] },
-          description: { type: ['string', 'null'] },
-          icon: { type: ['string', 'null'] }
+      type: ['object', 'null'],
+      patternProperties: {
+        '': {
+          type: 'object',
+          properties: {
+            title: { type: ['string', 'null'] },
+            component: { type: ['string', 'null'] },
+            description: { type: ['string', 'null'] },
+            icon: { type: ['string', 'null'] },
+            json_schema: { type: ['object', 'null'] }
+          },
+          additionalProperties: true
         }
-      }
+      },
+      additionalProperties: true
     },
 
     computedProperties: {

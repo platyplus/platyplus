@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types */
-import { print } from 'graphql'
 import { GraphQLClient } from 'graphql-request'
+import * as Dom from 'graphql-request/dist/types.dom'
 import gql from 'graphql-tag'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -495,6 +495,8 @@ export type Auth_Accounts = {
   email: Maybe<Scalars['citext']>
   id: Scalars['uuid']
   is_anonymous: Scalars['Boolean']
+  last_confirmation_email_sent_at: Scalars['timestamptz']
+  locale: Scalars['String']
   mfa_enabled: Scalars['Boolean']
   new_email: Maybe<Scalars['citext']>
   otp_secret: Maybe<Scalars['String']>
@@ -625,6 +627,8 @@ export type Auth_Accounts_Bool_Exp = {
   email: Maybe<Citext_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   is_anonymous: Maybe<Boolean_Comparison_Exp>
+  last_confirmation_email_sent_at: Maybe<Timestamptz_Comparison_Exp>
+  locale: Maybe<String_Comparison_Exp>
   mfa_enabled: Maybe<Boolean_Comparison_Exp>
   new_email: Maybe<Citext_Comparison_Exp>
   otp_secret: Maybe<String_Comparison_Exp>
@@ -676,6 +680,8 @@ export type Auth_Accounts_Insert_Input = {
   email: Maybe<Scalars['citext']>
   id: Maybe<Scalars['uuid']>
   is_anonymous: Maybe<Scalars['Boolean']>
+  last_confirmation_email_sent_at: Maybe<Scalars['timestamptz']>
+  locale: Maybe<Scalars['String']>
   mfa_enabled: Maybe<Scalars['Boolean']>
   new_email: Maybe<Scalars['citext']>
   otp_secret: Maybe<Scalars['String']>
@@ -696,6 +702,8 @@ export type Auth_Accounts_Max_Fields = {
   default_role: Maybe<Scalars['String']>
   email: Maybe<Scalars['citext']>
   id: Maybe<Scalars['uuid']>
+  last_confirmation_email_sent_at: Maybe<Scalars['timestamptz']>
+  locale: Maybe<Scalars['String']>
   new_email: Maybe<Scalars['citext']>
   otp_secret: Maybe<Scalars['String']>
   password_hash: Maybe<Scalars['String']>
@@ -711,6 +719,8 @@ export type Auth_Accounts_Max_Order_By = {
   default_role: Maybe<Order_By>
   email: Maybe<Order_By>
   id: Maybe<Order_By>
+  last_confirmation_email_sent_at: Maybe<Order_By>
+  locale: Maybe<Order_By>
   new_email: Maybe<Order_By>
   otp_secret: Maybe<Order_By>
   password_hash: Maybe<Order_By>
@@ -727,6 +737,8 @@ export type Auth_Accounts_Min_Fields = {
   default_role: Maybe<Scalars['String']>
   email: Maybe<Scalars['citext']>
   id: Maybe<Scalars['uuid']>
+  last_confirmation_email_sent_at: Maybe<Scalars['timestamptz']>
+  locale: Maybe<Scalars['String']>
   new_email: Maybe<Scalars['citext']>
   otp_secret: Maybe<Scalars['String']>
   password_hash: Maybe<Scalars['String']>
@@ -742,6 +754,8 @@ export type Auth_Accounts_Min_Order_By = {
   default_role: Maybe<Order_By>
   email: Maybe<Order_By>
   id: Maybe<Order_By>
+  last_confirmation_email_sent_at: Maybe<Order_By>
+  locale: Maybe<Order_By>
   new_email: Maybe<Order_By>
   otp_secret: Maybe<Order_By>
   password_hash: Maybe<Order_By>
@@ -784,6 +798,8 @@ export type Auth_Accounts_Order_By = {
   email: Maybe<Order_By>
   id: Maybe<Order_By>
   is_anonymous: Maybe<Order_By>
+  last_confirmation_email_sent_at: Maybe<Order_By>
+  locale: Maybe<Order_By>
   mfa_enabled: Maybe<Order_By>
   new_email: Maybe<Order_By>
   otp_secret: Maybe<Order_By>
@@ -824,6 +840,10 @@ export enum Auth_Accounts_Select_Column {
   /** column name */
   IsAnonymous = 'is_anonymous',
   /** column name */
+  LastConfirmationEmailSentAt = 'last_confirmation_email_sent_at',
+  /** column name */
+  Locale = 'locale',
+  /** column name */
   MfaEnabled = 'mfa_enabled',
   /** column name */
   NewEmail = 'new_email',
@@ -850,6 +870,8 @@ export type Auth_Accounts_Set_Input = {
   email: Maybe<Scalars['citext']>
   id: Maybe<Scalars['uuid']>
   is_anonymous: Maybe<Scalars['Boolean']>
+  last_confirmation_email_sent_at: Maybe<Scalars['timestamptz']>
+  locale: Maybe<Scalars['String']>
   mfa_enabled: Maybe<Scalars['Boolean']>
   new_email: Maybe<Scalars['citext']>
   otp_secret: Maybe<Scalars['String']>
@@ -876,6 +898,10 @@ export enum Auth_Accounts_Update_Column {
   Id = 'id',
   /** column name */
   IsAnonymous = 'is_anonymous',
+  /** column name */
+  LastConfirmationEmailSentAt = 'last_confirmation_email_sent_at',
+  /** column name */
+  Locale = 'locale',
   /** column name */
   MfaEnabled = 'mfa_enabled',
   /** column name */
@@ -4936,9 +4962,9 @@ export enum Metadata_Primary_Key_Select_Column {
 /** columns and relationships of "metadata.property_config" */
 export type Metadata_Property_Config = {
   __typename?: 'metadata_property_config'
+  component: Maybe<Scalars['String']>
   deleted: Scalars['Boolean']
   description: Maybe<Scalars['String']>
-  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Scalars['uuid']
   json_schema: Maybe<Scalars['jsonb']>
@@ -4949,11 +4975,6 @@ export type Metadata_Property_Config = {
   table_id: Scalars['String']
   title: Maybe<Scalars['String']>
   updated_at: Scalars['timestamptz']
-}
-
-/** columns and relationships of "metadata.property_config" */
-export type Metadata_Property_ConfigComponent_OptionsArgs = {
-  path: Maybe<Scalars['String']>
 }
 
 /** columns and relationships of "metadata.property_config" */
@@ -5032,9 +5053,9 @@ export type Metadata_Property_Config_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
   _not: Maybe<Metadata_Property_Config_Bool_Exp>
   _or: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
+  component: Maybe<String_Comparison_Exp>
   deleted: Maybe<Boolean_Comparison_Exp>
   description: Maybe<String_Comparison_Exp>
-  component: Maybe<String_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   json_schema: Maybe<Jsonb_Comparison_Exp>
@@ -5074,9 +5095,9 @@ export type Metadata_Property_Config_Inc_Input = {
 
 /** input type for inserting data into table "metadata.property_config" */
 export type Metadata_Property_Config_Insert_Input = {
+  component: Maybe<Scalars['String']>
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
-  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   json_schema: Maybe<Scalars['jsonb']>
@@ -5091,8 +5112,8 @@ export type Metadata_Property_Config_Insert_Input = {
 /** aggregate max on columns */
 export type Metadata_Property_Config_Max_Fields = {
   __typename?: 'metadata_property_config_max_fields'
-  description: Maybe<Scalars['String']>
   component: Maybe<Scalars['String']>
+  description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   order: Maybe<Scalars['Int']>
@@ -5105,6 +5126,7 @@ export type Metadata_Property_Config_Max_Fields = {
 
 /** order by max() on columns of table "metadata.property_config" */
 export type Metadata_Property_Config_Max_Order_By = {
+  component: Maybe<Order_By>
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
@@ -5119,8 +5141,8 @@ export type Metadata_Property_Config_Max_Order_By = {
 /** aggregate min on columns */
 export type Metadata_Property_Config_Min_Fields = {
   __typename?: 'metadata_property_config_min_fields'
-  description: Maybe<Scalars['String']>
   component: Maybe<Scalars['String']>
+  description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   order: Maybe<Scalars['Int']>
@@ -5133,8 +5155,8 @@ export type Metadata_Property_Config_Min_Fields = {
 
 /** order by min() on columns of table "metadata.property_config" */
 export type Metadata_Property_Config_Min_Order_By = {
-  description: Maybe<Order_By>
   component: Maybe<Order_By>
+  description: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   order: Maybe<Order_By>
@@ -5169,9 +5191,9 @@ export type Metadata_Property_Config_On_Conflict = {
 
 /** ordering options when selecting data from "metadata.property_config" */
 export type Metadata_Property_Config_Order_By = {
+  component: Maybe<Order_By>
   deleted: Maybe<Order_By>
   description: Maybe<Order_By>
-  component: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   json_schema: Maybe<Order_By>
@@ -5196,11 +5218,11 @@ export type Metadata_Property_Config_Prepend_Input = {
 /** select columns of table "metadata.property_config" */
 export enum Metadata_Property_Config_Select_Column {
   /** column name */
+  Component = 'component',
+  /** column name */
   Deleted = 'deleted',
   /** column name */
   Description = 'description',
-  /** column name */
-  Component = 'component',
   /** column name */
   Icon = 'icon',
   /** column name */
@@ -5223,9 +5245,9 @@ export enum Metadata_Property_Config_Select_Column {
 
 /** input type for updating data in table "metadata.property_config" */
 export type Metadata_Property_Config_Set_Input = {
+  component: Maybe<Scalars['String']>
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
-  component: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   json_schema: Maybe<Scalars['jsonb']>
@@ -5284,11 +5306,11 @@ export type Metadata_Property_Config_Sum_Order_By = {
 /** update columns of table "metadata.property_config" */
 export enum Metadata_Property_Config_Update_Column {
   /** column name */
+  Component = 'component',
+  /** column name */
   Deleted = 'deleted',
   /** column name */
   Description = 'description',
-  /** column name */
-  Component = 'component',
   /** column name */
   Icon = 'icon',
   /** column name */
@@ -5301,6 +5323,7 @@ export enum Metadata_Property_Config_Update_Column {
   PropertyId = 'property_id',
   /** column name */
   PropertyName = 'property_name',
+  /** column name */
   TableId = 'table_id',
   /** column name */
   Title = 'title',
@@ -5349,6 +5372,10 @@ export type Metadata_Relationship = {
   is_system_defined: Maybe<Scalars['Boolean']>
   /** An array relationship */
   mapping: Array<Metadata_Relationship_Mapping>
+  /** An array relationship */
+  mapping_: Array<Metadata_Relationship_Mapping>
+  /** An aggregated array relationship */
+  mapping__aggregate: Metadata_Relationship_Mapping_Aggregate
   /** An aggregated array relationship */
   mapping_aggregate: Metadata_Relationship_Mapping_Aggregate
   rel_def: Maybe<Scalars['jsonb']>
@@ -5363,6 +5390,24 @@ export type Metadata_Relationship = {
 
 /** columns and relationships of "metadata.relationship" */
 export type Metadata_RelationshipMappingArgs = {
+  distinct_on: Maybe<Array<Metadata_Relationship_Mapping_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Relationship_Mapping_Order_By>>
+  where: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.relationship" */
+export type Metadata_RelationshipMapping_Args = {
+  distinct_on: Maybe<Array<Metadata_Relationship_Mapping_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Relationship_Mapping_Order_By>>
+  where: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.relationship" */
+export type Metadata_RelationshipMapping__AggregateArgs = {
   distinct_on: Maybe<Array<Metadata_Relationship_Mapping_Select_Column>>
   limit: Maybe<Scalars['Int']>
   offset: Maybe<Scalars['Int']>
@@ -5431,6 +5476,7 @@ export type Metadata_Relationship_Bool_Exp = {
   id: Maybe<String_Comparison_Exp>
   is_system_defined: Maybe<Boolean_Comparison_Exp>
   mapping: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
+  mapping_: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
   rel_def: Maybe<Jsonb_Comparison_Exp>
   rel_name: Maybe<String_Comparison_Exp>
   rel_type: Maybe<String_Comparison_Exp>
@@ -5478,6 +5524,7 @@ export type Metadata_Relationship_Mapping = {
   column_name: Maybe<Scalars['String']>
   id: Maybe<Scalars['String']>
   rel_name: Maybe<Scalars['String']>
+  relationship_id: Maybe<Scalars['String']>
   /** An object relationship */
   remoteColumn: Maybe<Metadata_Column_Info>
   /** An object relationship */
@@ -5532,6 +5579,7 @@ export type Metadata_Relationship_Mapping_Bool_Exp = {
   column_name: Maybe<String_Comparison_Exp>
   id: Maybe<String_Comparison_Exp>
   rel_name: Maybe<String_Comparison_Exp>
+  relationship_id: Maybe<String_Comparison_Exp>
   remoteColumn: Maybe<Metadata_Column_Info_Bool_Exp>
   remoteTable: Maybe<Metadata_Table_Bool_Exp>
   remote_column_id: Maybe<String_Comparison_Exp>
@@ -5552,6 +5600,7 @@ export type Metadata_Relationship_Mapping_Max_Fields = {
   column_name: Maybe<Scalars['String']>
   id: Maybe<Scalars['String']>
   rel_name: Maybe<Scalars['String']>
+  relationship_id: Maybe<Scalars['String']>
   remote_column_id: Maybe<Scalars['String']>
   remote_column_name: Maybe<Scalars['String']>
   remote_schema_name: Maybe<Scalars['String']>
@@ -5566,6 +5615,7 @@ export type Metadata_Relationship_Mapping_Max_Order_By = {
   column_name: Maybe<Order_By>
   id: Maybe<Order_By>
   rel_name: Maybe<Order_By>
+  relationship_id: Maybe<Order_By>
   remote_column_id: Maybe<Order_By>
   remote_column_name: Maybe<Order_By>
   remote_schema_name: Maybe<Order_By>
@@ -5581,6 +5631,7 @@ export type Metadata_Relationship_Mapping_Min_Fields = {
   column_name: Maybe<Scalars['String']>
   id: Maybe<Scalars['String']>
   rel_name: Maybe<Scalars['String']>
+  relationship_id: Maybe<Scalars['String']>
   remote_column_id: Maybe<Scalars['String']>
   remote_column_name: Maybe<Scalars['String']>
   remote_schema_name: Maybe<Scalars['String']>
@@ -5595,6 +5646,7 @@ export type Metadata_Relationship_Mapping_Min_Order_By = {
   column_name: Maybe<Order_By>
   id: Maybe<Order_By>
   rel_name: Maybe<Order_By>
+  relationship_id: Maybe<Order_By>
   remote_column_id: Maybe<Order_By>
   remote_column_name: Maybe<Order_By>
   remote_schema_name: Maybe<Order_By>
@@ -5610,6 +5662,7 @@ export type Metadata_Relationship_Mapping_Order_By = {
   column_name: Maybe<Order_By>
   id: Maybe<Order_By>
   rel_name: Maybe<Order_By>
+  relationship_id: Maybe<Order_By>
   remoteColumn: Maybe<Metadata_Column_Info_Order_By>
   remoteTable: Maybe<Metadata_Table_Order_By>
   remote_column_id: Maybe<Order_By>
@@ -5633,6 +5686,8 @@ export enum Metadata_Relationship_Mapping_Select_Column {
   Id = 'id',
   /** column name */
   RelName = 'rel_name',
+  /** column name */
+  RelationshipId = 'relationship_id',
   /** column name */
   RemoteColumnId = 'remote_column_id',
   /** column name */
@@ -5708,6 +5763,7 @@ export type Metadata_Relationship_Order_By = {
   comment: Maybe<Order_By>
   id: Maybe<Order_By>
   is_system_defined: Maybe<Order_By>
+  mapping__aggregate: Maybe<Metadata_Relationship_Mapping_Aggregate_Order_By>
   mapping_aggregate: Maybe<Metadata_Relationship_Mapping_Aggregate_Order_By>
   rel_def: Maybe<Order_By>
   rel_name: Maybe<Order_By>
@@ -6033,6 +6089,7 @@ export type Metadata_Table = {
   propertiesConfig: Array<Metadata_Property_Config>
   /** An aggregated array relationship */
   propertiesConfig_aggregate: Metadata_Property_Config_Aggregate
+  properties_config: Maybe<Scalars['jsonb']>
   /** An array relationship */
   refForeignKeys: Array<Metadata_Foreign_Key_Constraint>
   /** An aggregated array relationship */
@@ -6270,6 +6327,11 @@ export type Metadata_TablePropertiesConfig_AggregateArgs = {
 }
 
 /** columns and relationships of "metadata.table" */
+export type Metadata_TableProperties_ConfigArgs = {
+  path: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "metadata.table" */
 export type Metadata_TableRefForeignKeysArgs = {
   distinct_on: Maybe<Array<Metadata_Foreign_Key_Constraint_Select_Column>>
   limit: Maybe<Scalars['Int']>
@@ -6336,6 +6398,7 @@ export type Metadata_Table_Aggregate_Order_By = {
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Metadata_Table_Append_Input = {
   configuration: Maybe<Scalars['jsonb']>
+  properties_config: Maybe<Scalars['jsonb']>
 }
 
 /** input type for inserting array relation for remote table "metadata.table" */
@@ -6368,6 +6431,7 @@ export type Metadata_Table_Bool_Exp = {
   primaryKey: Maybe<Metadata_Primary_Key_Bool_Exp>
   primaryKeys: Maybe<Metadata_Primary_Key_Bool_Exp>
   propertiesConfig: Maybe<Metadata_Property_Config_Bool_Exp>
+  properties_config: Maybe<Jsonb_Comparison_Exp>
   refForeignKeys: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
   relationships: Maybe<Metadata_Relationship_Bool_Exp>
   table_name: Maybe<Name_Comparison_Exp>
@@ -6382,7 +6446,7 @@ export type Metadata_Table_Config = {
   component: Maybe<Scalars['String']>
   deleted: Scalars['Boolean']
   description: Maybe<Scalars['String']>
-  document_label: Scalars['String']
+  document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Scalars['uuid']
@@ -6622,16 +6686,19 @@ export enum Metadata_Table_Config_Update_Column {
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Metadata_Table_Delete_At_Path_Input = {
   configuration: Maybe<Array<Maybe<Scalars['String']>>>
+  properties_config: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Metadata_Table_Delete_Elem_Input = {
   configuration: Maybe<Scalars['Int']>
+  properties_config: Maybe<Scalars['Int']>
 }
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Metadata_Table_Delete_Key_Input = {
   configuration: Maybe<Scalars['String']>
+  properties_config: Maybe<Scalars['String']>
 }
 
 /** columns and relationships of "metadata.table_info" */
@@ -6646,6 +6713,7 @@ export type Metadata_Table_Info = {
   /** An object relationship */
   table: Maybe<Metadata_Table>
   table_catalog: Maybe<Scalars['name']>
+  table_id: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
   table_type: Maybe<Scalars['String']>
@@ -6695,6 +6763,7 @@ export type Metadata_Table_Info_Bool_Exp = {
   self_referencing_column_name: Maybe<Name_Comparison_Exp>
   table: Maybe<Metadata_Table_Bool_Exp>
   table_catalog: Maybe<Name_Comparison_Exp>
+  table_id: Maybe<String_Comparison_Exp>
   table_name: Maybe<Name_Comparison_Exp>
   table_schema: Maybe<Name_Comparison_Exp>
   table_type: Maybe<String_Comparison_Exp>
@@ -6711,6 +6780,7 @@ export type Metadata_Table_Info_Max_Fields = {
   is_insertable_into: Maybe<Scalars['String']>
   is_typed: Maybe<Scalars['String']>
   reference_generation: Maybe<Scalars['String']>
+  table_id: Maybe<Scalars['String']>
   table_type: Maybe<Scalars['String']>
 }
 
@@ -6721,6 +6791,7 @@ export type Metadata_Table_Info_Max_Order_By = {
   is_insertable_into: Maybe<Order_By>
   is_typed: Maybe<Order_By>
   reference_generation: Maybe<Order_By>
+  table_id: Maybe<Order_By>
   table_type: Maybe<Order_By>
 }
 
@@ -6732,6 +6803,7 @@ export type Metadata_Table_Info_Min_Fields = {
   is_insertable_into: Maybe<Scalars['String']>
   is_typed: Maybe<Scalars['String']>
   reference_generation: Maybe<Scalars['String']>
+  table_id: Maybe<Scalars['String']>
   table_type: Maybe<Scalars['String']>
 }
 
@@ -6742,6 +6814,7 @@ export type Metadata_Table_Info_Min_Order_By = {
   is_insertable_into: Maybe<Order_By>
   is_typed: Maybe<Order_By>
   reference_generation: Maybe<Order_By>
+  table_id: Maybe<Order_By>
   table_type: Maybe<Order_By>
 }
 
@@ -6755,6 +6828,7 @@ export type Metadata_Table_Info_Order_By = {
   self_referencing_column_name: Maybe<Order_By>
   table: Maybe<Metadata_Table_Order_By>
   table_catalog: Maybe<Order_By>
+  table_id: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
   table_type: Maybe<Order_By>
@@ -6780,6 +6854,8 @@ export enum Metadata_Table_Info_Select_Column {
   /** column name */
   TableCatalog = 'table_catalog',
   /** column name */
+  TableId = 'table_id',
+  /** column name */
   TableName = 'table_name',
   /** column name */
   TableSchema = 'table_schema',
@@ -6804,6 +6880,7 @@ export type Metadata_Table_Insert_Input = {
   is_enum: Maybe<Scalars['Boolean']>
   is_system_defined: Maybe<Scalars['Boolean']>
   propertiesConfig: Maybe<Metadata_Property_Config_Arr_Rel_Insert_Input>
+  properties_config: Maybe<Scalars['jsonb']>
   relationships: Maybe<Metadata_Relationship_Arr_Rel_Insert_Input>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
@@ -6872,6 +6949,7 @@ export type Metadata_Table_Order_By = {
   primaryKey: Maybe<Metadata_Primary_Key_Order_By>
   primaryKeys_aggregate: Maybe<Metadata_Primary_Key_Aggregate_Order_By>
   propertiesConfig_aggregate: Maybe<Metadata_Property_Config_Aggregate_Order_By>
+  properties_config: Maybe<Order_By>
   refForeignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
   relationships_aggregate: Maybe<Metadata_Relationship_Aggregate_Order_By>
   table_name: Maybe<Order_By>
@@ -6883,6 +6961,7 @@ export type Metadata_Table_Order_By = {
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Metadata_Table_Prepend_Input = {
   configuration: Maybe<Scalars['jsonb']>
+  properties_config: Maybe<Scalars['jsonb']>
 }
 
 /** select columns of table "metadata.table" */
@@ -6898,6 +6977,8 @@ export enum Metadata_Table_Select_Column {
   /** column name */
   IsSystemDefined = 'is_system_defined',
   /** column name */
+  PropertiesConfig = 'properties_config',
+  /** column name */
   TableName = 'table_name',
   /** column name */
   TableSchema = 'table_schema',
@@ -6912,6 +6993,7 @@ export type Metadata_Table_Set_Input = {
   id: Maybe<Scalars['String']>
   is_enum: Maybe<Scalars['Boolean']>
   is_system_defined: Maybe<Scalars['Boolean']>
+  properties_config: Maybe<Scalars['jsonb']>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -7008,6 +7090,7 @@ export type Metadata_View_Info = {
   /** An object relationship */
   table: Maybe<Metadata_Table>
   table_catalog: Maybe<Scalars['name']>
+  table_id: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
   view_definition: Maybe<Scalars['String']>
@@ -7055,6 +7138,7 @@ export type Metadata_View_Info_Bool_Exp = {
   is_updatable: Maybe<String_Comparison_Exp>
   table: Maybe<Metadata_Table_Bool_Exp>
   table_catalog: Maybe<Name_Comparison_Exp>
+  table_id: Maybe<String_Comparison_Exp>
   table_name: Maybe<Name_Comparison_Exp>
   table_schema: Maybe<Name_Comparison_Exp>
   view_definition: Maybe<String_Comparison_Exp>
@@ -7070,6 +7154,7 @@ export type Metadata_View_Info_Max_Fields = {
   is_trigger_insertable_into: Maybe<Scalars['String']>
   is_trigger_updatable: Maybe<Scalars['String']>
   is_updatable: Maybe<Scalars['String']>
+  table_id: Maybe<Scalars['String']>
   view_definition: Maybe<Scalars['String']>
 }
 
@@ -7082,6 +7167,7 @@ export type Metadata_View_Info_Max_Order_By = {
   is_trigger_insertable_into: Maybe<Order_By>
   is_trigger_updatable: Maybe<Order_By>
   is_updatable: Maybe<Order_By>
+  table_id: Maybe<Order_By>
   view_definition: Maybe<Order_By>
 }
 
@@ -7095,6 +7181,7 @@ export type Metadata_View_Info_Min_Fields = {
   is_trigger_insertable_into: Maybe<Scalars['String']>
   is_trigger_updatable: Maybe<Scalars['String']>
   is_updatable: Maybe<Scalars['String']>
+  table_id: Maybe<Scalars['String']>
   view_definition: Maybe<Scalars['String']>
 }
 
@@ -7107,6 +7194,7 @@ export type Metadata_View_Info_Min_Order_By = {
   is_trigger_insertable_into: Maybe<Order_By>
   is_trigger_updatable: Maybe<Order_By>
   is_updatable: Maybe<Order_By>
+  table_id: Maybe<Order_By>
   view_definition: Maybe<Order_By>
 }
 
@@ -7121,6 +7209,7 @@ export type Metadata_View_Info_Order_By = {
   is_updatable: Maybe<Order_By>
   table: Maybe<Metadata_Table_Order_By>
   table_catalog: Maybe<Order_By>
+  table_id: Maybe<Order_By>
   table_name: Maybe<Order_By>
   table_schema: Maybe<Order_By>
   view_definition: Maybe<Order_By>
@@ -7144,6 +7233,8 @@ export enum Metadata_View_Info_Select_Column {
   IsUpdatable = 'is_updatable',
   /** column name */
   TableCatalog = 'table_catalog',
+  /** column name */
+  TableId = 'table_id',
   /** column name */
   TableName = 'table_name',
   /** column name */
@@ -10935,7 +11026,7 @@ export type Visite_Variance_Order_By = {
 
 export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
   Metadata_Table,
-  'table_name' | 'table_schema'
+  'id' | 'table_name' | 'table_schema'
 >
 
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
@@ -10984,7 +11075,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   propertiesConfig: Array<
     { __typename?: 'metadata_property_config' } & Pick<
       Metadata_Property_Config,
-      'order' | 'property_name' | 'title' | 'description' | 'icon' | 'component'
+      | 'property_name'
+      | 'title'
+      | 'description'
+      | 'icon'
+      | 'component'
+      | 'json_schema'
     >
   >
   computedProperties: Array<
@@ -11084,6 +11180,7 @@ export type MetadataQuery = { __typename?: 'query_root' } & {
 
 export const CoreTableFragmentDoc = gql`
   fragment coreTable on metadata_table {
+    id
     table_name
     table_schema
   }
@@ -11121,13 +11218,13 @@ export const TableFragmentDoc = gql`
       document_label
       component
     }
-    propertiesConfig(order_by: { order: asc }) {
-      order
+    propertiesConfig {
       property_name
       title
       description
       icon
       component
+      json_schema
     }
     computedProperties {
       name
@@ -11151,7 +11248,19 @@ export const TableFragmentDoc = gql`
         count
       }
     }
-    relationships {
+    relationships(
+      where: {
+        mapping: {
+          remoteTable: {
+            _and: [
+              { columns: { column_name: { _eq: "id" } } }
+              { columns: { column_name: { _eq: "updated_at" } } }
+              { columns: { column_name: { _eq: "deleted" } } }
+            ]
+          }
+        }
+      }
+    ) {
       rel_name
       rel_type
       mapping {
@@ -11203,9 +11312,13 @@ export const MetadataDocument = gql`
   ${TableFragmentDoc}
 `
 
-export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string
+) => Promise<T>
 
-const defaultWrapper: SdkFunctionWrapper = (sdkFunction) => sdkFunction()
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action()
+
 export function getSdk(
   client: GraphQLClient,
   withWrapper: SdkFunctionWrapper = defaultWrapper
@@ -11213,14 +11326,15 @@ export function getSdk(
   return {
     metadata(
       variables?: MetadataQueryVariables,
-      requestHeaders?: Headers
+      requestHeaders?: Dom.RequestInit['headers']
     ): Promise<MetadataQuery> {
-      return withWrapper(() =>
-        client.request<MetadataQuery>(
-          print(MetadataDocument),
-          variables,
-          requestHeaders
-        )
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<MetadataQuery>(MetadataDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'metadata'
       )
     }
   }

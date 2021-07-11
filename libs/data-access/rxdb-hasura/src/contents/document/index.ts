@@ -27,9 +27,7 @@ export const documentMethods: ContentsDocumentMethods = {
   component(this: ContentsDocument, propertyName?: string) {
     if (propertyName) {
       const collection = this.collection as ContentsCollection
-      const config = collection.metadata.propertiesConfig.find(
-        (config) => config.property_name === propertyName
-      )
+      const config = collection.metadata.propertiesConfig?.[propertyName]
       return config?.component || 'default'
     } else return systemDocumentComponent(this) || 'default'
   },

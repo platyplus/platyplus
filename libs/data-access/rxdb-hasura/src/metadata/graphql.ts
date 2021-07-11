@@ -39,13 +39,13 @@ export const query = gql`
       document_label
       component
     }
-    propertiesConfig(order_by: { order: asc }) {
-      order
+    propertiesConfig {
       property_name
       title
       description
       icon
       component
+      json_schema
     }
     computedProperties {
       name

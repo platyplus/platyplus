@@ -3,9 +3,7 @@ import { metadataName } from '../schema'
 import { systemCollectionComponent } from '../system'
 const config = (collection: ContentsCollection, property?: string) =>
   property
-    ? collection.metadata.propertiesConfig.find(
-        ({ property_name }) => property_name === property
-      )
+    ? collection.metadata.propertiesConfig?.[property]
     : collection.metadata.config
 
 export const collectionConfigMethods: Pick<

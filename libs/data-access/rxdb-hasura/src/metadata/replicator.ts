@@ -9,6 +9,7 @@ import { contentsCollectionCreator, metadataName } from '../contents'
 import { Metadata, MetadataCollection } from '../types'
 import { createHeaders, httpUrlToWebSockeUrl } from '../utils'
 import { stringQuery, subscription } from './graphql'
+import { modifier } from './modifier'
 export type MetadataReplicatorOptions = {
   url: string
   batchSize?: number
@@ -53,8 +54,9 @@ export const createMetadataReplicator = async (
           },
           modifier: async (doc) => {
             const oldDoc = await metadataCollection.findOne(doc.id).exec()
-            if (oldDoc && deepEqual(doc, oldDoc.toJSON())) return null
-            return doc
+            const newDoc = modifier(doc)
+            if (oldDoc && deepEqual(newDoc, oldDoc.toJSON())) return null
+            else return newDoc
           }
         },
         live: true,

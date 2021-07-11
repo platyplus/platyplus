@@ -6,8 +6,23 @@ import { TableFragment } from './generated'
 export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
-export type Metadata = TableFragment & { id: string } // TODO generate again as 'id' seems to be missing
+
+export type Metadata = Pick<
+  TableFragment,
+  Exclude<keyof TableFragment, 'propertiesConfig'>
+> & {
+  propertiesConfig?: Record<string, PropertyConfig>
+}
+
 export type MetadataDocument = RxDocument<Metadata>
+
+export type PropertyConfig = {
+  title?: string
+  component?: string
+  description?: string
+  icon?: string
+  json_schema?: Record<string, unknown>
+}
 
 export type JsonSchemaFormat =
   | 'date-time'

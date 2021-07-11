@@ -16,35 +16,24 @@ export const useConfigStore = create<{
   forms: {},
   // TODO getPropertyConfig and setPropertyConfig
   getPropertyTitle: (metadata, property) => {
-    const formTitle =
-      metadata &&
-      objectPath
-        .get(get().forms, `${metadata.id}.propertiesConfig`)
-        ?.find(({ property_name }) => property_name === property)?.title
-    const metadataTitle = metadata?.propertiesConfig?.find(
-      ({ property_name }) => property_name === property
-    )?.title
-    return formTitle || metadataTitle || property
+    if (metadata) {
+      const formTitle = objectPath.get(
+        get().forms,
+        `${metadata.id}.propertiesConfig.${property}.title`
+      )
+      const metadataTitle = objectPath.get(
+        metadata,
+        `propertiesConfig.${property}.title`
+      )
+      return formTitle || metadataTitle || property
+    } else return property
   },
   setPropertyTitle: (metadata, property, title) =>
     set((state) => {
-      const index = objectPath
-        .get(get().forms, `${metadata.id}.propertiesConfig`, [])
-        .findIndex(({ property_name }) => property_name === property)
-      if (index < 0) {
-        return immutable.push(state, `forms.${metadata.id}.propertiesConfig`, {
-          component: null,
-          description: null,
-          icon: null,
-          property_name: property,
-          title
-        })
-      } else {
-        return immutable.set(
-          state,
-          `forms.${metadata.id}.propertiesConfig.${index}.title`,
-          title
-        )
-      }
+      return immutable.set(
+        state,
+        `forms.${metadata.id}.propertiesConfig.${property}.title`,
+        title
+      )
     })
 }))

@@ -8,23 +8,5 @@
     "type": "git",
     "url": "https://github.com/platyplus/platydev.git",
     "directory": "packages/rxdb-hasura"
-  },
-  "license": "MIT",
-  "scripts": {
-    "dev": "nodemon",
-    "dev:docker": "nodemon --exitcrash",
-    "prod": "node dist/index.js",
-    "prepublish": "yarn run build",
-    "build": "yarn run clean && tsc -p tsconfig.build.json",
-    "postbuild": "yarn run copy-files",
-    "copy-files": "cpy '**/*.graphql' ../dist/ --cwd=src --parents",
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rimraf dist",
-    "codegen": "graphql-codegen --config codegen.yml"
-  },
-  "devDependencies": {
-    "pouchdb-adapter-idb": "^7.2.2",
-    "pouchdb-adapter-indexeddb": "^7.2.2",
-    "pouchdb-adapter-memory": "^7.2.2"
   }
 }

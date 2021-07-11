@@ -21,9 +21,7 @@ export const useCollectionPropertyConfig = (
   property: string
 ) => {
   const metadata = useCollectionMetadata(collection)
-  return metadata?.propertiesConfig.find(
-    ({ property_name }) => property_name === property
-  )
+  return metadata?.propertiesConfig?.[property]
 }
 export const useDocumentPropertyConfig = (
   document: ContentsDocument,
