@@ -20,17 +20,19 @@ export const DocumentComponentWrapper: DocumentComponent<{
 export const DocumentFromParamsComponentWrapper: DocumentFromParamsComponent =
   ({ collectionName, componentName, id, edit = false }) => {
     const { isFetching, document } = useDocument(collectionName, id)
-    return (
-      <Animation.Fade in={!isFetching}>
-        {(props, ref) => (
-          <div {...props}>
-            <DocumentComponentWrapper
-              document={document}
-              edit={edit}
-              componentName={componentName}
-            />
-          </div>
-        )}
-      </Animation.Fade>
-    )
+    if (id)
+      return (
+        <Animation.Fade in={!isFetching}>
+          {(props, ref) => (
+            <div {...props}>
+              <DocumentComponentWrapper
+                document={document}
+                edit={edit}
+                componentName={componentName}
+              />
+            </div>
+          )}
+        </Animation.Fade>
+      )
+    else return null
   }
