@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 export const useTitleState = createGlobalState<string>('')
 
-export const usePageTitle = (title: string) => {
+export const useWindowTitle = (title: string) => {
   useTitle(title)
   const [titleState, setTitleState] = useTitleState()
   useEffect(() => {

@@ -1,9 +1,9 @@
 import { Login } from '@platyplus/auth'
-import { usePageTitle } from '@platyplus/layout'
+import { useWindowTitle } from '@platyplus/layout'
 import { PageFunction } from './types'
 
 export const LoginPage: PageFunction = ({ title }) => {
-  usePageTitle(title)
+  useWindowTitle(title)
   return <Login />
 }
 

@@ -1,12 +1,12 @@
 import { Animation } from 'rsuite'
 import { useContentsCollections } from '@platyplus/react-rxdb-hasura'
 import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
-import { usePageTitle } from '@platyplus/layout'
+import { useWindowTitle } from '@platyplus/layout'
 
 import { useRoleMenu } from '../menu'
 
 export const HomePage: React.FC<{ title?: string }> = ({ title }) => {
-  usePageTitle(title || 'Home page')
+  useWindowTitle(title || 'Home page')
   const collections = useContentsCollections()
   const menu = useRoleMenu()
   const profile = useProfile()

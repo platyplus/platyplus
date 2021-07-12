@@ -1,8 +1,4 @@
-import {
-  ContentsCollection,
-  ContentsDocument,
-  Metadata
-} from '@platyplus/rxdb-hasura'
+import { ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
 import { useState, useEffect } from 'react'
 import { RxCollection } from 'rxdb'
 
@@ -23,19 +19,12 @@ export const useCollectionMetadata = (
   return result
 }
 
-export const useDocumentMetadata = (
-  document?: ContentsDocument
-): Readonly<Metadata | undefined> =>
-  useCollectionMetadata(document?.collection as ContentsCollection)
-
-/*
-  
-  export const useDocumentMetadataConfig = (
-    document: ContentsDocument,
-    property?: string
-  ) =>
-    useCollectionMetadataConfig(
-      document.collection as ContentsCollection,
-      property
-    )
-  */
+export const useCollectionComponentName = (collection: ContentsCollection) => {
+  const metadata = useCollectionMetadata(collection)
+  const [componentName, setComponentName] = useState(collection?.component())
+  useEffect(() => {
+    collection && setComponentName(collection.component())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [metadata])
+  return componentName
+}

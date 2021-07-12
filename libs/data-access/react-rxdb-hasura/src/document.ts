@@ -1,24 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { useRxData } from 'rxdb-hooks'
 
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useDocumentMetadata } from './metadata'
-
-export const useDocumentLabel = (
-  document?: ContentsDocument
-): Readonly<string | null> => {
-  const [result, setResult] = useState(null)
-  useEffect(() => {
-    if (document) {
-      const subscription = document
-        .get$('label')
-        .subscribe((value: string) => setResult(value))
-      return () => subscription.unsubscribe()
-    }
-  }, [document])
-  return result
-}
 
 // TODO move to rxdb-hasura
 export const newDocumentFactory = (
@@ -63,9 +47,4 @@ export const useDocuments = (name: string, ids: string[] = []) => {
     collection.find().where('id').in(ids)
   )
   return data
-}
-
-export const useDocumentTitle = (document: ContentsDocument) => {
-  const metadata = useDocumentMetadata(document)
-  return metadata.config?.title
 }

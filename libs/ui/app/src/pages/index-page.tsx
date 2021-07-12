@@ -1,9 +1,9 @@
-import { usePageTitle } from '@platyplus/layout'
+import { useWindowTitle } from '@platyplus/layout'
 import { useAuth } from '@nhost/react-auth'
 import { Link, Redirect } from 'react-router-dom'
 
 export const IndexPage: React.FC<{ title?: string }> = ({ title }) => {
-  usePageTitle(title || 'Index page')
+  useWindowTitle(title || 'Index page')
   const { signedIn } = useAuth()
   if (signedIn) {
     return <Redirect to="/home" />

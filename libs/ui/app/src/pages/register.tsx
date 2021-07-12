@@ -1,9 +1,9 @@
 import { Register } from '@platyplus/auth'
-import { usePageTitle } from '@platyplus/layout'
+import { useWindowTitle } from '@platyplus/layout'
 import { PageFunction } from './types'
 
 export const RegisterPage: PageFunction = ({ title }) => {
-  usePageTitle(title)
+  useWindowTitle(title)
   return <Register />
 }
 export default RegisterPage

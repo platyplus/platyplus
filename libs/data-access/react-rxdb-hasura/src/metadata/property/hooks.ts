@@ -1,7 +1,7 @@
 import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
 import { RxCollection } from 'rxdb'
-import { useCollectionMetadata } from '../hooks'
+import { useCollectionMetadata } from '../collection'
 
 export const useCollectionProperties = (collection: ContentsCollection) => {
   const metadata = useCollectionMetadata(collection)

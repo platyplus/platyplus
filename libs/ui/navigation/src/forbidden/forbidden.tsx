@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 
 export const Forbidden: FunctionComponent = (props) => {
-  // usePageTitle('Unauthorised')
+  // useWindowTitle('Unauthorised')
   return (
     <div>todo 403</div>
     // <Result
