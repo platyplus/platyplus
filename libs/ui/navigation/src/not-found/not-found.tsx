@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react'
 
 export const NotFound: FunctionComponent = (props) => {
-  // useWindowTitle('Unauthorised')
   return (
     <div>todo 404</div>
     // <Result

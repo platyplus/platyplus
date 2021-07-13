@@ -1,23 +1,29 @@
+import { useCallback } from 'react'
 import { ContentsCollection, metadataName } from '@platyplus/rxdb-hasura'
 import { InlineEditableValue } from '../../helpers'
+import { useConfigStore } from '../store'
 import { useCollectionMetadata } from './hooks'
 
 // * Collection title e.g. 'Visit'. config.title="Visits" whereas config.document_title="Visite"
-const useCollectionTitle = (
+export const useCollectionTitle = (
   collection: ContentsCollection
 ): [string, (val: string) => void] => {
   const metadata = useCollectionMetadata(collection)
-  const setTitle = (newTitle: string) => {
-    // TODO
-    console.log('TODO', newTitle)
-  }
-  const title = metadata
-    ? metadata.config?.title || metadataName(metadata)
-    : collection?.name
+  const title = useConfigStore(
+    useCallback(
+      (state) =>
+        metadata &&
+        (state.getConfig<string>(metadata, 'title') || metadataName(metadata)),
+      [metadata]
+    )
+  )
+  const setTitle = useConfigStore(
+    (state) => (newTitle: string) =>
+      state.setConfig(metadata, newTitle, 'title')
+  )
   return [title, setTitle]
 }
 
-// TODO make it editable
 export const CollectionTitle: React.FC<{
   collection: ContentsCollection
 }> = ({ collection }) => {

@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { RxCollection } from 'rxdb'
 import { InlineEditableValue } from '../../helpers'
 import { useCollectionMetadata } from '../collection'
@@ -15,10 +16,17 @@ const usePropertyTitle = (
   property: string
 ): [string, (val: string) => void] => {
   const metadata = useCollectionMetadata(collection)
-  const title = useConfigStore().getPropertyTitle(metadata, property)
-  const setTitle = useConfigStore((state) => (newTitle: string) => {
-    state.setPropertyTitle(metadata, property, newTitle)
-  })
+  const title = useConfigStore(
+    useCallback(
+      (state) =>
+        state.getProperty<string>(metadata, property, 'title') || property,
+      [metadata, property]
+    )
+  )
+  const setTitle = useConfigStore(
+    (state) => (newTitle: string) =>
+      state.setProperty(metadata, property, newTitle, 'title')
+  )
   return [title, setTitle]
 }
 

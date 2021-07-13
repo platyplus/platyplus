@@ -1,11 +1,7 @@
 import { Animation } from 'rsuite'
 import { useParams } from 'react-router'
 
-import {
-  DocumentPanel,
-  HeaderTitleWrapper,
-  useWindowTitle
-} from '@platyplus/layout'
+import { DocumentPanel, HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
 import {
   DocumentTitle,
@@ -23,9 +19,11 @@ export const DocumentPage: React.FC = () => {
   const { document, isFetching } = useDocument(name, id)
   const label = useDocumentLabel(document)
   const [title] = useDocumentTitle(document)
-  useWindowTitle(title)
   return (
-    <HeaderTitleWrapper title={() => <DocumentTitle document={document} />}>
+    <HeaderTitleWrapper
+      title={title}
+      component={() => <DocumentTitle document={document} />}
+    >
       <Animation.Fade in={!isFetching}>
         {(props, ref) => (
           <div {...props}>

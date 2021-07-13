@@ -1,9 +1,11 @@
 import { NotFound } from '@platyplus/navigation'
-import { useWindowTitle } from '@platyplus/layout'
+import { HeaderTitleWrapper } from '@platyplus/layout'
 
-export const PageNotFound: React.FC = () => {
-  useWindowTitle('Page not found')
-  return <NotFound />
-}
+export const PageNotFound: React.FC = () => (
+  <HeaderTitleWrapper title={'Page not found'}>
+    {' '}
+    <NotFound />
+  </HeaderTitleWrapper>
+)
 
 export default PageNotFound

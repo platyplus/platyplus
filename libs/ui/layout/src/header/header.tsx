@@ -1,10 +1,9 @@
 import { Header as GenericHeader, Icon, IconButton, Portal } from 'rsuite'
-import React, { FunctionComponent, ReactNode, useState } from 'react'
+import React, { FunctionComponent, ReactNode } from 'react'
 
 import StatusMenu from '../status-menu/status-menu'
-import { useTitleState } from '../title'
 import styled from 'styled-components'
-import { createGlobalState } from 'react-use'
+import { createGlobalState, useTitle } from 'react-use'
 
 const Container = styled.div`
   display: flex;
@@ -53,13 +52,15 @@ export const Header: FunctionComponent<{
 }
 
 export const HeaderTitleWrapper: React.FC<{
-  title: React.ComponentType
-}> = ({ title: Title, children }) => {
+  title?: string
+  component?: React.ComponentType
+}> = ({ title, component: Component, children }) => {
+  useTitle(title)
   const [container] = useTitleContainer()
   return (
     <>
       <Portal container={() => container}>
-        <Title />
+        {Component ? <Component /> : title}
       </Portal>
       {children}
     </>

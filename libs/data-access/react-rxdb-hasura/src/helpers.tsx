@@ -38,9 +38,9 @@ export const InlineEditableValue: React.FC<{
   useClickAway(ref, cancel)
 
   // * Adjust Input width automatically
-  // TODO width does not scale with value length
-  const [width, setWidth] = useState(`${6 + value?.length}em`)
-  useEffect(() => setWidth(`${6 + inputValue?.length}em`), [inputValue])
+  // TODO width does not scale correctly with value length
+  const [width, setWidth] = useState(`${14 + value?.length}ch`)
+  useEffect(() => setWidth(`${14 + inputValue?.length}ch`), [inputValue])
 
   return (
     <Animation.Fade in={!!value}>

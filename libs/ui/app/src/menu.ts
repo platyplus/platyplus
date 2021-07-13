@@ -33,6 +33,7 @@ export const useFilteredMenu = (
 export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
   const collections = useContentsCollections()
   const [menu, setMenu] = useState<MenuItem[]>([])
+
   useEffect(() => {
     const roles = Array.isArray(role) ? role : [role]
     setMenu(
@@ -53,7 +54,7 @@ export const useRoleMenu = (role: string | string[] = 'user'): MenuItem[] => {
           )
           .map((collection) => {
             return {
-              title: collection.title(),
+              title: collection.title(), // TODO make reactive
               icon: (collection.icon() as Icon) || 'table',
               href: `/collection/${collection.name}`
               // children: []

@@ -6,9 +6,10 @@ import { Animation } from 'rsuite'
 import { Contents } from '@platyplus/rxdb-hasura'
 import {
   CollectionTitle,
+  useCollectionTitle,
   useContentsCollection
 } from '@platyplus/react-rxdb-hasura'
-import { HeaderTitleWrapper, useWindowTitle } from '@platyplus/layout'
+import { HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
 import { CollectionComponentWrapper } from '../collections'
 
@@ -20,10 +21,11 @@ export const CollectionPage: React.FC = () => {
   const collection = useContentsCollection(name)
   const rxQuery = useMemo(() => collection?.find(), [collection])
   const { isFetching, result } = useRxQuery<Contents>(rxQuery)
-  useWindowTitle(collection?.title())
+  const [title] = useCollectionTitle(collection)
   return (
     <HeaderTitleWrapper
-      title={() => <CollectionTitle collection={collection} />}
+      title={title}
+      component={() => <CollectionTitle collection={collection} />}
     >
       <Animation.Fade in={!isFetching}>
         {(props, ref) => (

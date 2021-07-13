@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { useRxData } from 'rxdb-hooks'
 
@@ -32,19 +32,23 @@ export const useNewDocumentFactory = (
 }
 
 export const useDocument = (name: string, id: string) => {
-  // ? useMemo ?
-  const data = useRxData<ContentsDocument>(name, (collection) =>
-    collection.findOne(id)
+  const queryConstructor = useCallback(
+    (collection) => collection.findOne(id),
+    [id]
   )
-  const document = data.result[0]
-  return { ...data, isFetching: document ? data.isFetching : true, document }
+
+  const data = useRxData<ContentsDocument>(name, queryConstructor)
+  const document = useMemo(() => data.result[0], [data])
+  return { isFetching: document ? data.isFetching : true, document }
 }
 
 export const useDocuments = (name: string, ids: string[] = []) => {
-  // ? useMemo ?
-  const data = useRxData<ContentsDocument>(name, (collection) =>
-    // TODO findByIds
-    collection.find().where('id').in(ids)
+  const queryConstructor = useCallback(
+    (collection) =>
+      // TODO findByIds
+      collection.find().where('id').in(ids),
+    [ids]
   )
+  const data = useRxData<ContentsDocument>(name, queryConstructor)
   return data
 }
