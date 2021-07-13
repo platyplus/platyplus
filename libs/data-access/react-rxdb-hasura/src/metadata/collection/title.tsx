@@ -13,13 +13,12 @@ export const useCollectionTitle = (
     useCallback(
       (state) =>
         metadata &&
-        (state.getConfig<string>(metadata, 'title') || metadataName(metadata)),
+        (state.getTable<string>(metadata, 'title') || metadataName(metadata)),
       [metadata]
     )
   )
   const setTitle = useConfigStore(
-    (state) => (newTitle: string) =>
-      state.setConfig(metadata, newTitle, 'title')
+    (state) => (newTitle: string) => state.setTable(metadata, newTitle, 'title')
   )
   return [title, setTitle]
 }

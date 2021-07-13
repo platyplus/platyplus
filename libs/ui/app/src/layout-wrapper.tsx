@@ -1,3 +1,6 @@
+import deepMerge from 'deepmerge'
+
+import { ConfigDrawer } from '@platyplus/react-rxdb-hasura'
 import { Layout, Logo, MenuItem } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 
@@ -5,7 +8,6 @@ import { useRoleMenu } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
-import deepMerge from 'deepmerge'
 import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
 import { defaultFieldComponents } from './fields'
@@ -71,6 +73,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
         logo={<Logo title={title} />}
         sideMenu={authenticated ? privateSideMenu : publicSideMenu}
       >
+        <ConfigDrawer />
         <Routes {...{ home, register, login, profile, notFound, title }} />
       </Layout>
     </ComponentsContext.Provider>

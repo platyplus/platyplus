@@ -12,7 +12,7 @@ export const useDocumentTitle = (
   const title = useConfigStore(
     useCallback(
       (state) =>
-        state.getConfig(metadata)?.document_title ||
+        state.getTable(metadata)?.document_title ||
         (metadata && metadataName(metadata)),
       [metadata]
     )
@@ -20,7 +20,7 @@ export const useDocumentTitle = (
 
   const setTitle = useConfigStore(
     (state) => (newTitle: string) =>
-      state.setConfig(metadata, newTitle, 'document_title')
+      state.setTable(metadata, newTitle, 'document_title')
   )
   return [title, setTitle]
 }
