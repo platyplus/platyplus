@@ -3,7 +3,12 @@ import * as immutable from 'object-path-immutable'
 import objectPath from 'object-path'
 
 import { Metadata, PropertyConfig } from '@platyplus/rxdb-hasura'
-import { upsertPropertyConfig } from './console'
+import { isEmpty } from '@platyplus/data'
+import {
+  createSqlMigrations,
+  propertyConfigToSql,
+  tableConfigToSql
+} from './migrations'
 
 export const useConfigStore = create<{
   forms: Record<string, Record<string, Metadata>>
@@ -74,22 +79,27 @@ export const useConfigStore = create<{
   // TODO far from perfect. Ideally, it should test each value against existing metadata
   hasChanges: () =>
     Object.values(get().forms).some((schema) =>
-      Object.values(schema).some((value) => !!value)
+      Object.values(schema).some((metadata) => !isEmpty(metadata))
     ),
 
   save: () => async () => {
+    const operations: string[] = []
     for (const [schema, schemaValue] of Object.entries(get().forms)) {
-      for (const [table, metadata] of Object.entries(schemaValue)) {
-        if (metadata?.propertiesConfig) {
-          for (const [property, config] of Object.entries(
-            metadata.propertiesConfig
-          )) {
-            // TODO upsert all property configs and table config into one single migration
-            await upsertPropertyConfig(`${schema}.${table}`, property, config)
+      for (const [table, { config, propertiesConfig }] of Object.entries(
+        schemaValue
+      )) {
+        const tableId = `${schema}.${table}`
+        if (!isEmpty(config)) {
+          operations.push(tableConfigToSql(tableId, config))
+        }
+        if (!isEmpty(propertiesConfig)) {
+          for (const [property, config] of Object.entries(propertiesConfig)) {
+            operations.push(propertyConfigToSql(tableId, property, config))
           }
         }
       }
     }
+    await createSqlMigrations(operations)
     // ? patch rx metadata documents?
     // ? or wait for metadata rx documents to be synced with server?
     set({ forms: {} })

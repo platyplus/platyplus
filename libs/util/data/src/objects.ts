@@ -5,3 +5,6 @@ export const pick = <T, K extends keyof T>(
   if (!Array.isArray(keys)) keys = keys.split(',') as K[]
   return keys.reduce((acum, key: K) => ((acum[key] = obj[key]), acum), {} as T)
 }
+
+export const isEmpty = (obj: unknown) =>
+  !obj || (typeof obj === 'object' && Object.keys(obj).length === 0)
