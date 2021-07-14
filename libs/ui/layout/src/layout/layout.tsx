@@ -1,5 +1,5 @@
 import { Container, Content } from 'rsuite'
-import { FunctionComponent, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { useToggle } from 'react-use'
 import styled, { ThemeProvider } from 'styled-components'
 
@@ -7,7 +7,6 @@ import { ProfileStatusMenu } from '@platyplus/profile'
 
 import Header from '../header/header'
 import SideMenu from '../side-menu/side-menu'
-import { MenuItem } from '../types'
 import { Logo } from '../logo/logo'
 
 const theme = {
@@ -20,35 +19,32 @@ const theme = {
 const StyledContent = styled(Content)`
   padding: 10px;
 `
-export const Layout: FunctionComponent<{
+export const Layout: React.FC<{
   logo?: ReactNode
-  sideMenu?: MenuItem[]
+  menu?: ReactNode
   statusMenu?: ReactNode
 }> = ({
   logo = <Logo />,
-  sideMenu,
+  menu,
   statusMenu = <ProfileStatusMenu />,
   children
 }) => {
   const [collapsed, toggle] = useToggle(false)
-  const hasSideMenu = sideMenu && !!sideMenu.length
+  const hasSideMenu = !!menu
   return (
     <ThemeProvider theme={theme}>
       <Container className="app">
-        {hasSideMenu && (
-          <SideMenu
-            logo={logo}
-            menu={sideMenu}
-            toggle={toggle}
-            collapsed={collapsed}
-          />
+        {!!menu && (
+          <SideMenu logo={logo} toggle={toggle} collapsed={collapsed}>
+            {menu}
+          </SideMenu>
         )}
         <Container>
           <Header
             statusMenu={statusMenu}
             collapsed={collapsed}
             toggle={toggle}
-            sideMenu={hasSideMenu}
+            sideMenu={!!menu}
           />
           <StyledContent>{children}</StyledContent>
         </Container>

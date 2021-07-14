@@ -3,16 +3,13 @@ import {
   useConfigStore,
   useContentsCollections
 } from '@platyplus/react-rxdb-hasura'
-import { Avatar, DisplayName, useProfile } from '@platyplus/profile'
+import { DisplayName, useProfile } from '@platyplus/profile'
 import { HeaderTitleWrapper } from '@platyplus/layout'
-
-import { useRoleMenu } from '../menu'
 
 export const HomePage: React.FC<{ title?: string }> = ({
   title = 'Home Page'
 }) => {
   const collections = useContentsCollections()
-  const menu = useRoleMenu()
   const profile = useProfile()
   const changes = useConfigStore((state) => state.hasChanges())
   return (
@@ -28,13 +25,6 @@ export const HomePage: React.FC<{ title?: string }> = ({
               {Object.keys(collections).map((key) => (
                 <div key={key}>{key}</div>
               ))}
-              <h3>Menu</h3>
-              <div>
-                {menu.map((item, index) => (
-                  <div key={index}>{JSON.stringify(item)}</div>
-                ))}
-              </div>
-              <Avatar circle />
             </div>
           </div>
         )}
