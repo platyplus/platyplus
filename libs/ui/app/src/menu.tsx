@@ -1,4 +1,5 @@
 import {
+  useCollectionIcon,
   useCollectionTitle,
   useContentsCollections
 } from '@platyplus/react-rxdb-hasura'
@@ -33,8 +34,7 @@ const CollectionMenu: React.FC<{ collection: ContentsCollection }> = ({
   collection
 }) => {
   const [title] = useCollectionTitle(collection)
-  // TODO useIcon
-  const icon = (collection.icon() as IconType) || 'table'
+  const [icon] = useCollectionIcon(collection)
   const location = useLocation()
   const history = useHistory()
   const href = `/collection/${collection.name}`
