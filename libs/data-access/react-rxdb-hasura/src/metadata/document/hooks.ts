@@ -36,7 +36,6 @@ export const useDocumentComponentName = (
   const [componentName, setComponentName] = useState(document?.component(field))
   useEffect(() => {
     document && setComponentName(document.component(field))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metadata])
+  }, [document, metadata, field])
   return componentName
 }

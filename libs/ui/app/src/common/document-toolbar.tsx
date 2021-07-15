@@ -1,11 +1,3 @@
-import { useQuery } from '@platyplus/navigation'
-import {
-  useDocumentPermissions,
-  useFormChanged,
-  useFormSave,
-  useResetForm
-} from '@platyplus/react-rxdb-hasura'
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useLocation, useHistory } from 'react-router-dom'
 import {
   Animation,
@@ -19,6 +11,15 @@ import {
 } from 'rsuite'
 import { SVGIcon } from 'rsuite/lib/@types/common'
 import { IconNames, IconProps } from 'rsuite/lib/Icon'
+
+import { useQuery } from '@platyplus/navigation'
+import {
+  useDocumentPermissions,
+  useFormChanged,
+  useFormSave,
+  useResetForm
+} from '@platyplus/react-rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
 // TODO move to theme
 const ICON_RED = { style: { color: '#f44336' } }

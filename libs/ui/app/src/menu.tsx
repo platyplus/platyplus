@@ -1,16 +1,17 @@
+import React, { useEffect, useState } from 'react'
+import { Icon, IconProps, Nav } from 'rsuite'
+import { useHistory, useLocation } from 'react-router-dom'
+
 import {
   useCollectionIcon,
   useCollectionTitle,
   useContentsCollections
 } from '@platyplus/react-rxdb-hasura'
-import { IconType } from '@platyplus/layout'
-import React, { useEffect, useState } from 'react'
-import { Icon, Nav } from 'rsuite'
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
-import { useHistory, useLocation } from 'react-router-dom'
+import { PropType } from '@platyplus/ts-types'
 
 export const MenuItem: React.FC<{
-  icon?: IconType
+  icon?: PropType<IconProps, 'icon'>
   href: string
   title: string
 }> = ({ icon, href, title }) => {

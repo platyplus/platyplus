@@ -5,7 +5,7 @@ import { RxCollection } from 'rxdb'
 export const useCollectionMetadata = (
   collection?: RxCollection
 ): Readonly<Metadata | null> => {
-  const [result, setResult] = useState<Metadata>(null)
+  const [result, setResult] = useState<Metadata>()
   useEffect(() => {
     if (collection?.metadata) {
       const subscription = collection.metadata.$.subscribe(
@@ -24,7 +24,6 @@ export const useCollectionComponentName = (collection: ContentsCollection) => {
   const [componentName, setComponentName] = useState(collection?.component())
   useEffect(() => {
     collection && setComponentName(collection.component())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metadata])
+  }, [collection, metadata])
   return componentName
 }

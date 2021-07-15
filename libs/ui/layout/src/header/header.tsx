@@ -53,15 +53,13 @@ export const Header: FunctionComponent<{
 
 export const HeaderTitleWrapper: React.FC<{
   title?: string
-  component?: React.ComponentType
+  component?: React.ReactNode
 }> = ({ title, component: Component, children }) => {
   useTitle(title)
   const [container] = useTitleContainer()
   return (
     <>
-      <Portal container={() => container}>
-        {Component ? <Component /> : title}
-      </Portal>
+      <Portal container={() => container}>{Component || title}</Portal>
       {children}
     </>
   )

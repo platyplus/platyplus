@@ -1,13 +1,20 @@
+import { PropType } from '@platyplus/ts-types'
 import { FunctionComponent } from 'react'
-import { ItemProps } from '../types'
 import {
   ButtonToolbar,
   Icon,
   IconButton,
   IconButtonProps,
+  IconProps,
   Tooltip,
   Whisper
 } from 'rsuite'
+
+type ItemProps = {
+  icon: PropType<IconProps, 'icon'>
+  title: string
+  href?: string
+}
 
 export const StatusMenuItem: FunctionComponent<
   ItemProps & Omit<IconButtonProps, 'icon'>

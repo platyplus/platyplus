@@ -1,8 +1,11 @@
 import { useCallback } from 'react'
+import { IconProps } from 'rsuite'
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
-import { IconType } from '@platyplus/layout'
+import { PropType } from '@platyplus/ts-types'
 import { useConfigStore } from '../store'
 import { useCollectionMetadata } from './hooks'
+
+type IconType = PropType<IconProps, 'icon'>
 
 export const useCollectionIcon = (
   collection: ContentsCollection

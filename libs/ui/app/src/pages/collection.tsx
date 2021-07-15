@@ -25,7 +25,7 @@ export const CollectionPage: React.FC = () => {
   return (
     <HeaderTitleWrapper
       title={title}
-      component={() => <CollectionTitle collection={collection} />}
+      component={<CollectionTitle collection={collection} />}
     >
       <Animation.Fade in={!isFetching}>
         {(props, ref) => (

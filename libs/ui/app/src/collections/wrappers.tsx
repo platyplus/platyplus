@@ -1,4 +1,3 @@
-import { Animation } from 'rsuite'
 import {
   useCollectionComponentName,
   useContentsCollection,
@@ -22,19 +21,13 @@ export const CollectionComponentWrapper: CollectionComponent<{
 export const CollectionFromParamsComponentWrapper: CollectionFromParamsComponent =
   ({ collectionName, componentName, ids, edit = false }) => {
     const collection = useContentsCollection(collectionName)
-    const { isFetching, result } = useDocuments(collectionName, ids)
+    const { result } = useDocuments(collectionName, ids)
     return (
-      <Animation.Fade in={!isFetching}>
-        {(props, ref) => (
-          <div {...props}>
-            <CollectionComponentWrapper
-              collection={collection}
-              data={result}
-              edit={edit}
-              componentName={componentName}
-            />
-          </div>
-        )}
-      </Animation.Fade>
+      <CollectionComponentWrapper
+        collection={collection}
+        data={result}
+        edit={edit}
+        componentName={componentName}
+      />
     )
   }
