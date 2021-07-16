@@ -16,12 +16,7 @@ export const useDocumentLabelTemplate = (
 ): [string, (val: string) => void] => {
   const metadata = useDocumentMetadata(document)
   const template = useConfigStore(
-    useCallback(
-      (state) =>
-        state.getTable(metadata)?.document_label ||
-        (metadata && metadataName(metadata)),
-      [metadata]
-    )
+    useCallback((state) => state.getTable(metadata)?.document_label, [metadata])
   )
   const setTemplate = useConfigStore(
     (state) => (newTitle: string) =>

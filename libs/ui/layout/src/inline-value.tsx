@@ -61,7 +61,7 @@ export const InlineValue: React.FC<{
               </InputGroup>
             </div>
           ) : (
-            <span onClick={toggle}>{label || value}</span>
+            <span onClick={toggle}>{label ?? value}</span>
           )}
         </span>
       )}

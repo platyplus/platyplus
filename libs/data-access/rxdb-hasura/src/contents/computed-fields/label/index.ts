@@ -4,9 +4,7 @@ import { Contents, ContentsDocument } from '../../../types'
 
 export const computeTemplate = (doc: Contents, template = '{{id}}') => {
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
-  return (
-    compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || doc.id
-  )
+  return compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || ''
 }
 
 export const documentLabel = (

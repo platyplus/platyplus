@@ -63,11 +63,14 @@ export const useGetForm = (document: ContentsDocument) => {
   // ? subscribe to document changes as well?
   return useFormStore<Contents>((state) => {
     if (!properties) return {} as Contents
-    return [...properties.keys()].reduce((aggregator, key) => {
-      aggregator[key] =
-        (form[key] !== undefined ? form[key] : document[key]) ?? null
-      return aggregator
-    }, {} as Contents)
+    return [...properties.keys(), document.primaryPath].reduce(
+      (aggregator, key) => {
+        aggregator[key] =
+          (form[key] !== undefined ? form[key] : document[key]) ?? null
+        return aggregator
+      },
+      {} as Contents
+    )
   })
 }
 
