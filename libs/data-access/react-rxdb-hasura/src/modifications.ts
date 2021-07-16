@@ -57,18 +57,17 @@ const useFormValues = (document?: ContentsDocument) =>
  * @param document
  * @returns
  */
-export const useGetForm = <T extends Record<string, unknown>>(
-  document: ContentsDocument
-) => {
+export const useGetForm = (document: ContentsDocument) => {
   const form = useFormValues(document)
   const properties = useDocumentProperties(document)
-  return useFormStore<T>((state) => {
-    if (!properties) return {}
-    return [...properties.keys()].reduce<any>((aggregator, key) => {
+  // ? subscribe to document changes as well?
+  return useFormStore<Contents>((state) => {
+    if (!properties) return {} as Contents
+    return [...properties.keys()].reduce((aggregator, key) => {
       aggregator[key] =
         (form[key] !== undefined ? form[key] : document[key]) ?? null
       return aggregator
-    }, {})
+    }, {} as Contents)
   })
 }
 
@@ -96,13 +95,17 @@ export const useFormChanged = (document?: ContentsDocument) => {
   const properties = useDocumentProperties(document)
   return (
     properties &&
-    [...properties.keys()].some(
-      (key) =>
-        formValues[key] !== undefined &&
-        (typeof document[key] === 'object'
-          ? !deepEqual(document[key], formValues[key])
-          : document[key] !== formValues[key])
-    )
+    [...properties.keys()].some((key) => {
+      if (formValues[key] === undefined) {
+        return false
+      } else {
+        if (!document[key] && !formValues[key]) return false
+        else
+          return typeof document[key] === 'object'
+            ? !deepEqual(document[key], formValues[key])
+            : document[key] !== formValues[key]
+      }
+    })
   )
 }
 
@@ -112,10 +115,6 @@ export const useFormSave = (document?: ContentsDocument) => {
   const reset = useResetForm(document)
   return async () => {
     if (changed) {
-      if (document._isTemporary) {
-        // TODO
-        console.log('TODO NEW DOC')
-      }
       await document.atomicPatch(formValues)
       reset()
     }

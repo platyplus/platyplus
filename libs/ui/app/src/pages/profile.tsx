@@ -3,8 +3,7 @@ import { DisplayName, useProfile } from '@platyplus/profile'
 import { DocumentPanel, HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
 import { PageFunction } from './types'
-import { DocumentComponentWrapper } from '../documents'
-import { DocumentToolbar } from '../common'
+import { DocumentComponentWrapper, DocumentToolbar } from '../documents'
 
 export const ProfilePage: PageFunction = ({ title }) => {
   const profile = useProfile()

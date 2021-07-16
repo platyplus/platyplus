@@ -3,8 +3,6 @@ import { ReactNode } from 'react'
 import { useToggle } from 'react-use'
 import styled, { ThemeProvider } from 'styled-components'
 
-import { ProfileStatusMenu } from '@platyplus/profile'
-
 import Header from '../header/header'
 import SideMenu from '../side-menu/side-menu'
 import { Logo } from '../logo/logo'
@@ -23,12 +21,7 @@ export const Layout: React.FC<{
   logo?: ReactNode
   menu?: ReactNode
   statusMenu?: ReactNode
-}> = ({
-  logo = <Logo />,
-  menu,
-  statusMenu = <ProfileStatusMenu />,
-  children
-}) => {
+}> = ({ logo = <Logo />, menu, statusMenu, children }) => {
   const [collapsed, toggle] = useToggle(false)
   const hasSideMenu = !!menu
   return (

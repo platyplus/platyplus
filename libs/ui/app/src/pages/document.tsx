@@ -4,20 +4,18 @@ import { useParams } from 'react-router'
 import { DocumentPanel, HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
 import {
+  DocumentLabel,
   DocumentTitle,
   useDocument,
-  useDocumentLabel,
   useDocumentTitle
 } from '@platyplus/react-rxdb-hasura'
 
-import { DocumentToolbar } from '../common'
-import { DocumentComponentWrapper } from '../documents'
+import { DocumentToolbar, DocumentComponentWrapper } from '../documents'
 
 export const DocumentPage: React.FC = () => {
   const { name, id } = useParams<{ name: string; id: string }>()
-  const editing = useQuery().has('edit')
+  const editing = useQuery().has('edit') || id === 'new'
   const { document, isFetching } = useDocument(name, id)
-  const label = useDocumentLabel(document)
   const [title] = useDocumentTitle(document)
   return (
     <HeaderTitleWrapper
@@ -28,7 +26,7 @@ export const DocumentPage: React.FC = () => {
         {(props, ref) => (
           <div {...props}>
             <DocumentPanel
-              title={label}
+              title={<DocumentLabel document={document} />}
               toolbar={<DocumentToolbar document={document} edit={editing} />}
             >
               <DocumentComponentWrapper document={document} edit={editing} />

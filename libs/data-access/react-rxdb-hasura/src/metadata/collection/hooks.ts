@@ -1,9 +1,8 @@
 import { ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
 import { useState, useEffect } from 'react'
-import { RxCollection } from 'rxdb'
 
 export const useCollectionMetadata = (
-  collection?: RxCollection
+  collection?: ContentsCollection
 ): Readonly<Metadata | null> => {
   const [result, setResult] = useState<Metadata>()
   useEffect(() => {

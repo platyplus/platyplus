@@ -1,1 +1,1 @@
-export * from './document-toolbar'
+export * from './icon-button'

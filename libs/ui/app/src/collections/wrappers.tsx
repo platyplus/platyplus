@@ -3,6 +3,7 @@ import {
   useContentsCollection,
   useDocuments
 } from '@platyplus/react-rxdb-hasura'
+
 import { useComponentsContext } from '../components'
 import { CollectionComponent, CollectionFromParamsComponent } from './types'
 

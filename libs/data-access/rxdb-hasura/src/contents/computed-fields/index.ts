@@ -4,3 +4,4 @@ export {
   addComputedFieldsFromCollection,
   addComputedFieldsFromDoc
 } from './utils'
+export * from './label'

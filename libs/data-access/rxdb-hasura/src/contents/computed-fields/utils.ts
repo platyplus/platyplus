@@ -11,7 +11,7 @@ import {
   JsonSchemaPropertyType
 } from '../../types'
 import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
-import { label } from './label'
+import { documentLabel } from './label'
 
 type ComputedProperty = {
   name: string
@@ -150,7 +150,7 @@ export const addComputedFieldsFromCollection = async (
       collection
     )
   }
-  data.label = label(data, collection) || ''
+  data.label = documentLabel(data, collection) || ''
 }
 
 export const addComputedFieldsFromDoc: RxCollectionHookCallback<
@@ -169,7 +169,7 @@ const removeDeleted = (data: Contents): Contents | null => {
       return Object.entries(data).reduce<Contents>(
         (aggr, [key, value]) => (
           (aggr[key] = Array.isArray(value)
-            ? value.map(v => removeDeleted(v)).filter(v => v)
+            ? value.map((v) => removeDeleted(v)).filter((v) => v)
             : removeDeleted(value)),
           aggr
         ),

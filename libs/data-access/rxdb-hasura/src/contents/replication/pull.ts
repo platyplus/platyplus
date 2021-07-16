@@ -8,7 +8,7 @@ import {
   objectSchemaToGraphqlFields,
   rxdbJsonataPaths
 } from '../../utils'
-import { label } from '../computed-fields/label'
+import { documentLabel } from '../computed-fields/label'
 import { addComputedFieldsFromLoadedData } from '../computed-fields/utils'
 import {
   filteredRelationships,
@@ -43,9 +43,10 @@ export const pullQueryBuilder = (
     },
     []
   )
-  const columns = (collection.role === 'admin'
-    ? table.columns
-    : table.columns.filter((column) => column.canSelect.length)
+  const columns = (
+    collection.role === 'admin'
+      ? table.columns
+      : table.columns.filter((column) => column.canSelect.length)
   )
     // * Filter out columns referencing other tables
     .filter(
@@ -186,7 +187,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
   )
   return async (data) => {
     debug('pullModifier: in', collection.name, { ...data })
-    data.label = label(data, collection) || ''
+    data.label = documentLabel(data, collection) || ''
     data = addComputedFieldsFromLoadedData(data, collection)
     // * Flatten relationship data so it fits in the `population` system
     for (const { name, key, multiple } of cleansedRelationships) {

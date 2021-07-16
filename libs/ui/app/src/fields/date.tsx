@@ -11,7 +11,6 @@ const DatePickerAccepter: React.ElementType<
   DatePickerProps & FormControlAccepterProps
 > = ({ value, defaultValue, onChange, ...props }) => (
   <DatePicker
-    value={parse(value, DATE_FORMAT, new Date())}
     defaultValue={parse(defaultValue, DATE_FORMAT, new Date())}
     onChange={(dateValue, event) =>
       onChange(format(dateValue, DATE_FORMAT), event)

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { RxCollection } from 'rxdb'
-import { InlineEditableValue } from '../../helpers'
+import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { InlineValue } from '@platyplus/layout'
 import { useCollectionMetadata } from '../collection'
 import { useConfigStore } from '../store'
 
@@ -12,7 +12,7 @@ import { useConfigStore } from '../store'
  * @return [title, setTitle]
  */
 const usePropertyTitle = (
-  collection: RxCollection,
+  collection: ContentsCollection,
   property: string
 ): [string, (val: string) => void] => {
   const metadata = useCollectionMetadata(collection)
@@ -31,9 +31,9 @@ const usePropertyTitle = (
 }
 
 export const PropertyTitle: React.FC<{
-  collection: RxCollection
+  collection: ContentsCollection
   property: string
 }> = ({ collection, property }) => {
-  const state = usePropertyTitle(collection, property)
-  return <InlineEditableValue state={state} />
+  const [value, onChange] = usePropertyTitle(collection, property)
+  return <InlineValue value={value} onChange={onChange} />
 }

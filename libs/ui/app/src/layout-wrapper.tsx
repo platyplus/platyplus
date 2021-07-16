@@ -11,6 +11,7 @@ import { ComponentsContext } from './components'
 import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
 import { defaultFieldComponents } from './fields'
+import { ProfileStatusMenu } from '@platyplus/profile'
 
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
@@ -72,6 +73,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
       <Layout
         logo={<Logo title={title} />}
         menu={authenticated ? <PrivateMenu /> : <PublicMenu />}
+        statusMenu={<ProfileStatusMenu />}
       >
         <ConfigDrawer />
         <Routes {...{ home, register, login, profile, notFound, title }} />

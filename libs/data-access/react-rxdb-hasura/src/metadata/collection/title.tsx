@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { ContentsCollection, metadataName } from '@platyplus/rxdb-hasura'
-import { InlineEditableValue } from '../../helpers'
+import { InlineValue } from '@platyplus/layout'
 import { useConfigStore } from '../store'
 import { useCollectionMetadata } from './hooks'
 
@@ -26,6 +26,6 @@ export const useCollectionTitle = (
 export const CollectionTitle: React.FC<{
   collection: ContentsCollection
 }> = ({ collection }) => {
-  const state = useCollectionTitle(collection)
-  return <InlineEditableValue state={state} />
+  const [value, onChange] = useCollectionTitle(collection)
+  return <InlineValue value={value} onChange={onChange} />
 }

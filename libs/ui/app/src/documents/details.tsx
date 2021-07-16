@@ -8,6 +8,7 @@ import {
   useSetForm
 } from '@platyplus/react-rxdb-hasura'
 import { FieldComponentWrapper } from '../fields'
+import { ContentsCollection } from '@platyplus/rxdb-hasura'
 
 export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   const setForm = useSetForm(document)
@@ -16,17 +17,16 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   if (properties)
     return (
       <Form
-        formValue={formValues}
-        onChange={(formValue) => {
-          setForm(formValue)
-        }}
+        // formValue={formValues}
+        onChange={setForm}
         fluid
+        formDefaultValue={formValues}
       >
         {[...properties.keys()].map((property) => (
           <FormGroup key={property}>
             <ControlLabel>
               <PropertyTitle
-                collection={document.collection}
+                collection={document.collection as ContentsCollection}
                 property={property}
               />
             </ControlLabel>

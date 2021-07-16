@@ -8,7 +8,7 @@ export const DocumentTag: DocumentComponent<TagProps> = ({
   edit,
   ...props
 }) => {
-  const label = useDocumentLabel(document)
+  const [label] = useDocumentLabel(document)
   if (document) return <Tag {...props}>{label}</Tag>
   else return null
 }

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { ContentsDocument, metadataName } from '@platyplus/rxdb-hasura'
-import { InlineEditableValue } from '../../helpers'
+import { InlineValue } from '@platyplus/layout'
 import { useConfigStore } from '../store'
 import { useDocumentMetadata } from './hooks'
 
@@ -28,6 +28,6 @@ export const useDocumentTitle = (
 export const DocumentTitle: React.FC<{
   document: ContentsDocument
 }> = ({ document }) => {
-  const state = useDocumentTitle(document)
-  return <InlineEditableValue state={state} />
+  const [value, onChange] = useDocumentTitle(document)
+  return <InlineValue value={value} onChange={onChange} />
 }

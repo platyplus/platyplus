@@ -1,16 +1,12 @@
-// TODO move to another package
-
-import { useToggle } from 'react-use'
 import { Icon, Input, InputGroup, Animation } from 'rsuite'
-import { useClickAway } from 'react-use'
+import { useClickAway, useToggle } from 'react-use'
 import { useRef, useState, useEffect } from 'react'
 
-// TODO rename this component
-export const InlineEditableValue: React.FC<{
-  state: [string, (value: string) => void]
-}> = ({ state }) => {
-  const [value, setValue] = state
-
+export const InlineValue: React.FC<{
+  value: string
+  label?: string
+  onChange: (value: string) => void
+}> = ({ value, label, onChange }) => {
   // * Toggle title editing
   const [editing, toggle] = useToggle(false)
 
@@ -29,7 +25,7 @@ export const InlineEditableValue: React.FC<{
   // * Set title into the config store
   const validate = () => {
     toggle(false)
-    setValue(inputValue)
+    onChange(inputValue)
   }
 
   // * If editing and clicking away, stop editing
@@ -65,7 +61,7 @@ export const InlineEditableValue: React.FC<{
               </InputGroup>
             </div>
           ) : (
-            <span onClick={toggle}>{value}</span>
+            <span onClick={toggle}>{label || value}</span>
           )}
         </span>
       )}

@@ -12,6 +12,7 @@ import {
 import { HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
 import { CollectionComponentWrapper } from '../collections'
+import { CollectionToolbar } from '../collections/toolbar'
 
 export const CollectionPage: React.FC = () => {
   const { name } = useParams<{ name: string }>()
@@ -30,6 +31,7 @@ export const CollectionPage: React.FC = () => {
       <Animation.Fade in={!isFetching}>
         {(props, ref) => (
           <div {...props}>
+            <CollectionToolbar collection={collection} />
             <CollectionComponentWrapper
               collection={collection}
               data={result}

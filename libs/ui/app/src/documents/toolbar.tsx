@@ -1,16 +1,5 @@
 import { useLocation, useHistory } from 'react-router-dom'
-import {
-  Animation,
-  ButtonGroup,
-  ButtonToolbar,
-  Icon,
-  IconButton,
-  IconButtonProps,
-  Popover,
-  Whisper
-} from 'rsuite'
-import { SVGIcon } from 'rsuite/lib/@types/common'
-import { IconNames, IconProps } from 'rsuite/lib/Icon'
+import { Animation, ButtonGroup, ButtonToolbar } from 'rsuite'
 
 import { useQuery } from '@platyplus/navigation'
 import {
@@ -20,29 +9,10 @@ import {
   useResetForm
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { IconButtonWithHelper } from '../common'
 
 // TODO move to theme
 const ICON_RED = { style: { color: '#f44336' } }
-// TODO move to @platyplus/rsuite
-
-const IconButtonWithHelper: React.FC<
-  Omit<IconButtonProps, 'icon'> & {
-    icon: IconNames | SVGIcon
-    helper: string
-    iconProps?: Omit<IconProps, 'icon'>
-  }
-> = ({ icon, helper, iconProps, ...props }) => {
-  return (
-    <Whisper
-      placement="bottom"
-      trigger="hover"
-      speaker={<Popover>{helper}</Popover>}
-      delay={300}
-    >
-      <IconButton icon={<Icon icon={icon} {...iconProps} />} {...props} />
-    </Whisper>
-  )
-}
 
 export const DocumentToolbar: React.FC<{
   document?: ContentsDocument
@@ -64,7 +34,8 @@ export const DocumentToolbar: React.FC<{
   const cancel = () => {
     // TODO confirm changes
     reset()
-    history.replace(location.pathname)
+    if (document._isTemporary) history.goBack()
+    else history.replace(location.pathname)
   }
   const removeDocument = async () => {
     // TODO prompt
