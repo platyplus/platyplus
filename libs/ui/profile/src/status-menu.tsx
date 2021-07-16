@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Whisper, Popover, Dropdown, Icon, IconButton } from 'rsuite'
+import { Whisper, Popover, Dropdown, Icon } from 'rsuite'
 import { useAuth } from '@nhost/react-auth'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
 import { useHbp } from '@platyplus/hbp'
@@ -43,7 +43,11 @@ export const ProfileStatusMenu: FunctionComponent = () => {
       >
         <Avatar
           circle
-          style={{ height: '35px', width: '35px', cursor: 'pointer' }}
+          style={{
+            height: '35px',
+            width: '35px',
+            cursor: 'pointer'
+          }}
         />
       </Whisper>
     )

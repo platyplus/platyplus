@@ -11,7 +11,7 @@ export const HomePage: React.FC<{ title?: string }> = ({
 }) => {
   const collections = useContentsCollections()
   const profile = useProfile()
-  const changes = useConfigStore((state) => state.hasChanges())
+  const hasChanges = useConfigStore((state) => !!state.countChanges())
   return (
     <HeaderTitleWrapper title={title}>
       <Animation.Fade in={!!profile}>
@@ -21,7 +21,7 @@ export const HomePage: React.FC<{ title?: string }> = ({
               <h2>
                 Welcome, <DisplayName profile={profile} />
               </h2>
-              {changes ? 'CHANGES' : 'NO CHANGES'}
+              {hasChanges ? 'CHANGES' : 'NO CHANGES'}
               {Object.keys(collections).map((key) => (
                 <div key={key}>{key}</div>
               ))}

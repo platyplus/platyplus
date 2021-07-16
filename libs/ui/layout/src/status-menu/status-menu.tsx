@@ -34,7 +34,9 @@ export const StatusMenuItem: FunctionComponent<
 )
 
 export const StatusMenu: FunctionComponent = (props) => (
-  <ButtonToolbar>{props.children}</ButtonToolbar>
+  <ButtonToolbar style={{ paddingRight: '7px' }}>
+    {props.children}
+  </ButtonToolbar>
 )
 
 export default StatusMenu

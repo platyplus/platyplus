@@ -34,7 +34,7 @@ export const useConfigStore = create<{
     value: T,
     path?: string
   ) => void
-  hasChanges: () => boolean
+  countChanges: () => number
   save: () => () => Promise<void>
 }>((set, get) => ({
   forms: {},
@@ -77,10 +77,14 @@ export const useConfigStore = create<{
     set(immutable.set(get(), path, value))
   },
   // TODO far from perfect. Ideally, it should test each value against existing metadata
-  hasChanges: () =>
-    Object.values(get().forms).some((schema) =>
-      Object.values(schema).some((metadata) => !isEmpty(metadata))
-    ),
+  countChanges: () =>
+    Object.values(get().forms).reduce((total, schema) => {
+      total += Object.values(schema).reduce((acc, metadata) => {
+        if (!isEmpty(metadata)) acc++
+        return acc
+      }, 0)
+      return total
+    }, 0),
 
   save: () => async () => {
     const operations: string[] = []

@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge'
 
-import { ConfigDrawer } from '@platyplus/react-rxdb-hasura'
+import { ConfigRecap } from '@platyplus/react-rxdb-hasura'
 import { Layout, Logo } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 
@@ -73,9 +73,13 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
       <Layout
         logo={<Logo title={title} />}
         menu={authenticated ? <PrivateMenu /> : <PublicMenu />}
-        statusMenu={<ProfileStatusMenu />}
+        statusMenu={
+          <>
+            <ConfigRecap />
+            <ProfileStatusMenu />
+          </>
+        }
       >
-        <ConfigDrawer />
         <Routes {...{ home, register, login, profile, notFound, title }} />
       </Layout>
     </ComponentsContext.Provider>
