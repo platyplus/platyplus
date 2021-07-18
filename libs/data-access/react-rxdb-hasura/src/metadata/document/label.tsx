@@ -1,11 +1,7 @@
 import { useCallback, useMemo } from 'react'
 
 import { InlineValue } from '@platyplus/layout'
-import {
-  computeTemplate,
-  ContentsDocument,
-  metadataName
-} from '@platyplus/rxdb-hasura'
+import { computeTemplate, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { useGetForm } from '../../modifications'
 import { useDocumentMetadata } from './hooks'

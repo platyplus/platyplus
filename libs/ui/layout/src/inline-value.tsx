@@ -1,6 +1,6 @@
-import { Icon, Input, InputGroup, Animation } from 'rsuite'
+import { Icon, Input, InputGroup, Animation, IconButton } from 'rsuite'
 import { useClickAway, useToggle } from 'react-use'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 
 export const InlineValue: React.FC<{
   value: string
@@ -9,7 +9,7 @@ export const InlineValue: React.FC<{
 }> = ({ value, label, onChange }) => {
   // * Toggle title editing
   const [editing, toggle] = useToggle(false)
-
+  const readValue = useMemo(() => label ?? value, [value, label])
   // * Input value state
   const [inputValue, setInputValue] = useState('')
   useEffect(() => {
@@ -61,7 +61,15 @@ export const InlineValue: React.FC<{
               </InputGroup>
             </div>
           ) : (
-            <span onClick={toggle}>{label ?? value}</span>
+            <span onClick={toggle}>
+              {readValue ? (
+                readValue
+              ) : (
+                <IconButton size="xs" icon={<Icon icon="edit" />}>
+                  Edit template
+                </IconButton>
+              )}
+            </span>
           )}
         </span>
       )}
