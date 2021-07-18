@@ -59,7 +59,7 @@ const useFormValues = (document?: ContentsDocument) =>
  */
 export const useGetForm = (document: ContentsDocument) => {
   const form = useFormValues(document)
-  const properties = useDocumentProperties(document)
+  const [properties] = useDocumentProperties(document)
   // ? subscribe to document changes as well?
   return useFormStore<Contents>((state) => {
     if (!properties) return {} as Contents
@@ -95,7 +95,7 @@ export const useResetForm = (document: ContentsDocument) =>
  */
 export const useFormChanged = (document?: ContentsDocument) => {
   const formValues = useFormValues(document)
-  const properties = useDocumentProperties(document)
+  const [properties] = useDocumentProperties(document)
   return (
     properties &&
     [...properties.keys()].some((key) => {

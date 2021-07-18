@@ -9,10 +9,13 @@ import { useConfigStore } from '../store'
 
 export const useDocumentLabelTemplate = (
   document: ContentsDocument
-): [string, (val: string) => void] => {
+): [string | undefined, (val: string) => void] => {
   const metadata = useDocumentMetadata(document)
-  const template = useConfigStore(
-    useCallback((state) => state.getTable(metadata)?.document_label, [metadata])
+  const template = useConfigStore<string>(
+    useCallback(
+      (state) => state.getTable(metadata, 'document_label'),
+      [metadata]
+    )
   )
   const setTemplate = useConfigStore(
     (state) => (newTitle: string) =>

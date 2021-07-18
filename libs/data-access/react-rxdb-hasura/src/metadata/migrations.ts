@@ -1,55 +1,60 @@
 import { Metadata, PropertyConfig } from '@platyplus/rxdb-hasura'
 import axios from 'axios'
-import sqlstring from 'sqlstring'
+import { escape } from 'sqlstring'
 
 const CONSOLE_API = 'http://localhost:9693/apis'
 const client = axios.create({ baseURL: CONSOLE_API })
 
-export const tableConfigToSql = (
-  tableId: string,
-  config: Metadata['config']
+const escapeValues = (values: Record<string, unknown>) =>
+  Object.entries(values).reduce((acc, [key, value]) => {
+    if (typeof value === 'object') {
+      acc[key] = `'${JSON.stringify(value).replace(/[']/g, "''")}'::jsonb`
+    } else acc[key] = escape(value)
+    return acc
+  }, {})
+
+const upsertQuery = (
+  table: string,
+  updateValues: Record<string, unknown>,
+  insertValues: Record<string, unknown>,
+  constraint: string
 ) => {
-  const params = { table_id: tableId, ...config }
-  const sqlInsert = sqlstring.format(
-    `INSERT INTO metadata.table_config (${Object.keys(params).join(
-      ', '
-    )}) VALUES(${Array(Object.keys(params).length).fill('?').join(', ')})`,
-    Object.values(params)
+  const insert = escapeValues({ ...insertValues, ...updateValues })
+  const sqlInsert = `INSERT INTO ${table} (${Object.keys(insert)
+    .map((v) => `"${v}"`)
+    .join(', ')}) VALUES(${Object.values(insert).join(', ')})`
+  const update = escapeValues(updateValues)
+
+  const sqlUpdate = `ON CONFLICT ON CONSTRAINT ${constraint} DO UPDATE SET ${Object.entries(
+    update
   )
-  const sqlUpdate = sqlstring
-    .format(
-      `ON CONFLICT ON CONSTRAINT table_config_table_id_key DO UPDATE SET ?`,
-      config
-    )
-    .replace(/[`]/g, '') // TODO unsafe
+    .map(([key, value]) => `"${key}" = ${value}`)
+    .join(', ')}`
   return `${sqlInsert} ${sqlUpdate};`
 }
 
-export const propertyConfigToSql = (
-  tableId: string,
-  property: string,
-  config?: PropertyConfig
-) => {
-  const params = {
-    property_id: `${tableId}.${property}`,
-    table_id: tableId,
-    property_name: property,
-    ...config
-  }
-  const sqlInsert = sqlstring.format(
-    `INSERT INTO metadata.property_config (${Object.keys(params).join(
-      ', '
-    )}) VALUES(${Array(Object.keys(params).length).fill('?').join(', ')})`,
-    Object.values(params)
+export const tableConfigToSql = (
+  table_id: string,
+  config: Metadata['config']
+) =>
+  upsertQuery(
+    `metadata.table_config`,
+    config,
+    { table_id },
+    'table_config_table_id_key'
   )
-  const sqlUpdate = sqlstring
-    .format(
-      `ON CONFLICT ON CONSTRAINT property_config_property_id_key DO UPDATE SET ?`,
-      { table_id: tableId, ...config }
-    )
-    .replace(/[`]/g, '') // TODO unsafe
-  return `${sqlInsert} ${sqlUpdate};`
-}
+
+export const propertyConfigToSql = (
+  table_id: string,
+  property_name: string,
+  config?: PropertyConfig
+) =>
+  upsertQuery(
+    `metadata.property_config`,
+    config,
+    { property_id: `${table_id}.${property_name}`, table_id, property_name },
+    'property_config_property_id_key'
+  )
 
 export const createSqlMigrations = async (
   sqlOperations: string[]

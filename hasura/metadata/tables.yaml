@@ -1000,6 +1000,7 @@
       - document_title
       - icon
       - id
+      - order
       - table_id
       - title
       filter: {}
@@ -1012,6 +1013,7 @@
       - document_title
       - icon
       - id
+      - order
       - table_id
       - title
       filter: {}

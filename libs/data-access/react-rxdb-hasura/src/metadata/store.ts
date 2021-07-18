@@ -104,6 +104,7 @@ export const useConfigStore = create<{
       }
     }
     await createSqlMigrations(operations)
+    // TODO
     // ? patch rx metadata documents?
     // ? or wait for metadata rx documents to be synced with server?
     set({ forms: {} })

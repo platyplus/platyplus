@@ -14,7 +14,7 @@ const { Column, HeaderCell, Cell } = Table
 
 export const TableCollection: CollectionComponent = ({ collection, data }) => {
   const history = useHistory()
-  const properties = useCollectionProperties(collection)
+  const [properties] = useCollectionProperties(collection)
   if (!collection) return null
   return (
     <Table

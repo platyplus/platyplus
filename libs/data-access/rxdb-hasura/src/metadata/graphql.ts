@@ -38,6 +38,7 @@ export const query = gql`
       document_title
       document_label
       component
+      order
     }
     propertiesConfig {
       property_name

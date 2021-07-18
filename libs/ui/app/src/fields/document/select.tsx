@@ -18,7 +18,7 @@ export const DocumentSelectField: FieldComponent = ({
   editable
 }) => {
   // TODO async - see https://rsuitejs.com/components/select-picker/#Async
-  const properties = useDocumentProperties(document)
+  const [properties] = useDocumentProperties(document)
   const refCollectionName = properties.get(field).ref
   const refCollection = document.collection.database[refCollectionName]
   const rxQuery = useMemo(
