@@ -20,8 +20,8 @@ const DocumentField: React.FC<{
   propertyName: string
   edit: boolean
   property: TopLevelProperty | PrimaryProperty
-}> = ({ document, propertyName, property, edit }) => {
-  const configEnabled = useConfigEnabled()
+  draggable: boolean
+}> = ({ document, propertyName, property, edit, draggable }) => {
   const element = (hovered: boolean) => (
     <FormGroup style={hovered ? { border: '1px solid gray' } : {}}>
       {hovered && (
@@ -51,13 +51,14 @@ const DocumentField: React.FC<{
   )
 
   const [hoverable] = useHover(element)
-  return configEnabled ? hoverable : element(false)
+  return draggable ? hoverable : element(false)
 }
 
-export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
+const OrderableDocumentDetails: DocumentComponent = ({ document, edit }) => {
   const setForm = useSetForm(document)
   const [properties, setProperties] = useDocumentProperties(document)
   const formValues = useGetForm(document)
+
   const reorder = (list: Map<string, unknown>, startIndex, endIndex) => {
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
@@ -78,7 +79,7 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
     setProperties(items)
   }
 
-  const grid = 4
+  const grid = 3
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
     padding: grid * 2,
@@ -115,6 +116,7 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
                           property={properties.get(property)}
                           propertyName={property}
                           edit={edit}
+                          draggable={true}
                         />
                       </div>
                     )}
@@ -128,4 +130,33 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
       </DragDropContext>
     )
   else return null
+}
+
+const FixedDocumentDetails: DocumentComponent = ({ document, edit }) => {
+  const setForm = useSetForm(document)
+  const [properties] = useDocumentProperties(document)
+  const formValues = useGetForm(document)
+
+  if (properties)
+    return (
+      <Form onChange={setForm} fluid formDefaultValue={formValues}>
+        {[...properties.keys()].map((property) => (
+          <DocumentField
+            key={property}
+            document={document}
+            property={properties.get(property)}
+            propertyName={property}
+            edit={edit}
+            draggable={false}
+          />
+        ))}
+      </Form>
+    )
+  else return null
+}
+
+export const DocumentDetails: DocumentComponent = (props) => {
+  const configEnabled = useConfigEnabled()
+  if (configEnabled) return <OrderableDocumentDetails {...props} />
+  else return <FixedDocumentDetails {...props} />
 }
