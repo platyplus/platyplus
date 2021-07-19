@@ -1,28 +1,13 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { InlineValue } from '@platyplus/layout'
 import { computeTemplate, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { useGetForm } from '../../modifications'
-import { useDocumentMetadata } from './hooks'
-import { useConfigStore } from '../store'
+import { useCollectionTableConfig } from '../hooks'
 
-export const useDocumentLabelTemplate = (
-  document: ContentsDocument
-): [string | undefined, (val: string) => void] => {
-  const metadata = useDocumentMetadata(document)
-  const template = useConfigStore<string>(
-    useCallback(
-      (state) => state.getTable(metadata, 'document_label'),
-      [metadata]
-    )
-  )
-  const setTemplate = useConfigStore(
-    (state) => (newTitle: string) =>
-      state.setTable(metadata, newTitle, 'document_label')
-  )
-  return [template, setTemplate]
-}
+export const useDocumentLabelTemplate = (document: ContentsDocument) =>
+  useCollectionTableConfig<string>(document?.collection, 'document_label')
 
 export const useDocumentLabel = (
   document: ContentsDocument

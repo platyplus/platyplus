@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge'
 
-import { ConfigRecap } from '@platyplus/react-rxdb-hasura'
+import { ConfigRecap, useConfigEnabled } from '@platyplus/react-rxdb-hasura'
 import { Layout, Logo } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 
@@ -21,6 +21,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
   const { auth } = useHbp()
   const authenticated = useAuthenticated(auth)
   const { components = {}, ...routesConfig } = config
+  const configEnabled = useConfigEnabled()
   const {
     home = { enabled: true, title: 'Home' },
     login = { enabled: true, title: 'Login' },
@@ -55,6 +56,9 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
     <>
       {home.enabled && <MenuItem icon="home" title={home.title} href="/" />}
       <ContentsMenu roles={['user']} />
+      {configEnabled && (
+        <MenuItem icon="cog" title="Configuration" href="/config" />
+      )}
     </>
   )
 

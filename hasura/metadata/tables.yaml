@@ -635,7 +635,6 @@
       - icon
       - id
       - json_schema
-      - order
       - property_id
       - property_name
       - table_id
@@ -649,7 +648,6 @@
       - icon
       - id
       - json_schema
-      - order
       - property_id
       - property_name
       - table_id

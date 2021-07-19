@@ -3,7 +3,7 @@ import { Animation, ButtonGroup } from 'rsuite'
 
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { useCollectionPermissions } from '@platyplus/react-rxdb-hasura'
-import { IconButtonWithHelper } from '../common'
+import { IconButtonWithHelper } from '@platyplus/layout'
 
 export const CollectionToolbar: React.FC<{
   collection?: ContentsCollection

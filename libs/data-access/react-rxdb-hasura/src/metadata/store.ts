@@ -1,21 +1,30 @@
 import create from 'zustand'
 import * as immutable from 'object-path-immutable'
 import objectPath from 'object-path'
-
-import { Metadata, PropertyConfig } from '@platyplus/rxdb-hasura'
+import deepMerge from 'deepmerge'
+import {
+  Metadata,
+  MetadataDocument,
+  PropertyConfig
+} from '@platyplus/rxdb-hasura'
 import { isEmpty } from '@platyplus/data'
 import {
   createSqlMigrations,
   propertyConfigToSql,
   tableConfigToSql
 } from './migrations'
+import { isRxDocument, RxDocument } from 'rxdb'
+
+// TODO move elsewhere
+const contents = <T>(doc: T | RxDocument<T>): T =>
+  isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : doc
 
 export const useConfigStore = create<{
   forms: Record<string, Record<string, Metadata>>
   getMetadata: (metadata: Metadata | undefined) => Metadata | undefined
 
   getTable: <T = Metadata['config']>(
-    metadata: Metadata | undefined,
+    metadata: Metadata | MetadataDocument | undefined,
     path?: string
   ) => T | undefined
   setTable: <T = Metadata['config']>(
@@ -41,17 +50,17 @@ export const useConfigStore = create<{
   getMetadata: (metadata) =>
     metadata && objectPath.get(get().forms, metadata.id, metadata),
 
-  getTable: (metadata, subPath) => {
+  getTable: <T = Metadata['config']>(
+    metadata?: Metadata | MetadataDocument,
+    subPath?: string
+  ) => {
+    if (!metadata) return undefined
     let path = `config`
     if (subPath) path += `.${subPath}`
-    return (
-      metadata &&
-      objectPath.get(
-        get(),
-        `forms.${metadata.id}.${path}`,
-        objectPath.get(metadata, path)
-      )
-    )
+    const formConfig: T = objectPath.get(get(), `forms.${metadata.id}.${path}`)
+    const metadataConfig: T = objectPath.get(contents(metadata), path)
+    if (subPath) return formConfig || metadataConfig
+    return deepMerge<T>(metadataConfig || {}, formConfig || {})
   },
   setTable: (metadata, value, subPath) => {
     let path = `forms.${metadata.id}.config`
@@ -59,17 +68,18 @@ export const useConfigStore = create<{
     set(immutable.set(get(), path, value))
   },
 
-  getProperty: (metadata, property, subPath) => {
+  getProperty: <T = PropertyConfig>(
+    metadata: Metadata | MetadataDocument | undefined,
+    property: string,
+    subPath?: string
+  ) => {
+    if (!metadata) return undefined
     let path = `propertiesConfig.${property}`
     if (subPath) path += `.${subPath}`
-    return (
-      metadata &&
-      objectPath.get(
-        get(),
-        `forms.${metadata.id}.${path}`,
-        objectPath.get(metadata, path)
-      )
-    )
+    const formConfig: T = objectPath.get(get(), `forms.${metadata.id}.${path}`)
+    const metadataConfig: T = objectPath.get(contents(metadata), path)
+    if (subPath) return formConfig || metadataConfig
+    return deepMerge<T>(metadataConfig || {}, formConfig || {})
   },
   setProperty: (metadata, property, value, subPath) => {
     let path = `forms.${metadata.id}.propertiesConfig.${property}`

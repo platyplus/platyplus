@@ -1,8 +1,31 @@
-import { ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useRxData } from 'rxdb-hooks'
+import { Contents, ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
+import { RxCollection } from 'rxdb'
+
+export const useMetadataCollection = (role: string) => {
+  const queryConstructor = useCallback((collection) => collection.find(), [])
+  const data = useRxData<Metadata>(`${role}_metadata`, queryConstructor)
+  return data
+}
+
+export const useMetadataDocument = (role: string, id: string) => {
+  const queryConstructor = useCallback(
+    (collection) => collection.findOne(id),
+    [id]
+  )
+
+  const { isFetching, result } = useRxData<Metadata>(
+    `${role}_metadata`,
+    queryConstructor
+  )
+
+  const document = useMemo(() => result[0], [result])
+  return { isFetching, document }
+}
 
 export const useCollectionMetadata = (
-  collection?: ContentsCollection
+  collection?: ContentsCollection | RxCollection<Contents>
 ): Readonly<Metadata | null> => {
   const [result, setResult] = useState<Metadata>()
   useEffect(() => {
@@ -16,13 +39,4 @@ export const useCollectionMetadata = (
     }
   }, [collection])
   return result
-}
-
-export const useCollectionComponentName = (collection: ContentsCollection) => {
-  const metadata = useCollectionMetadata(collection)
-  const [componentName, setComponentName] = useState(collection?.component())
-  useEffect(() => {
-    collection && setComponentName(collection.component())
-  }, [collection, metadata])
-  return componentName
 }

@@ -9,8 +9,7 @@ import {
   useResetForm
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { ICON_RED } from '@platyplus/layout'
-import { IconButtonWithHelper } from '../common'
+import { IconButtonWithHelper, ICON_RED } from '@platyplus/layout'
 
 export const DocumentToolbar: React.FC<{
   document?: ContentsDocument

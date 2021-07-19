@@ -1,4 +1,4 @@
-import { useDocumentComponentName } from '@platyplus/react-rxdb-hasura'
+import { usePropertyComponentName } from '@platyplus/react-rxdb-hasura'
 import { useComponentsContext } from '../components'
 
 import { FieldComponent } from './types'
@@ -10,7 +10,7 @@ export const FieldComponentWrapper: FieldComponent = ({
   editable
 }) => {
   const fieldComponents = useComponentsContext().fields
-  const componentName = useDocumentComponentName(document, field)
+  const [componentName] = usePropertyComponentName(document, field)
   const propertyType = document.propertyType(field)
 
   const Component =
@@ -24,5 +24,5 @@ export const FieldComponentWrapper: FieldComponent = ({
         editable={editable}
       />
     )
-  else return <div>TODO: {componentName}</div>
+  else return <div>Unknown component {componentName}</div>
 }

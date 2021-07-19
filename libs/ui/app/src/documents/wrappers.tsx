@@ -9,7 +9,7 @@ import { DocumentComponent, DocumentFromParamsComponent } from './types'
 export const DocumentComponentWrapper: DocumentComponent<{
   componentName?: string
 }> = ({ document, edit = false, componentName }) => {
-  const documentComponentName = useDocumentComponentName(document)
+  const [documentComponentName] = useDocumentComponentName(document)
   const name = componentName || documentComponentName
   const documentComponents = useComponentsContext().documents
   const Component = name && documentComponents[name]

@@ -2,18 +2,33 @@
 
 ## New tooling
 
-- [ ] Vue -> React
+- [x] Vue -> React
+- [ ] table config: panel
+- [ ] collection config: panel
+- [ ] property config: panel
+- [ ] refactor the way to load table/collection/property components
 - [ ] Hasura chart: wait for postrges to be ready
+- [ ] HBP Chart: to 2.7
+- [ ] HBP Tilt: to 2.7: do not publish (wait for hasura-auth)
+- [ ] Platyplus Hasura docker image (include migrations + schema, and GitHub action)
+- [ ] Platyplus Nginx docker image (nx build, GitHub action)
+- [ ] Platyplus Chart
+- [ ] Platyplus Docker-compose
 - [ ] HBP chart: wait for hasura to be ready
-- [ ] update documentation
+- [ ] documentation: docusaurus
+- [ ] documentation: add guide.md
+- [ ] documentation: adjust existing contents
+- [ ] documentation
+- [ ] documentation:
 - [ ] Nx & npm semver
 - [ ] Nx and Helm charts?
+- [ ] remove useless code in rxdb-hasura (e.g. document.component())
 
 ## Wrap up the rxdb stuff
 
 - [ ] Command to set the frontend out of the box
 - [ ] Command to load metadata and migrations
-- [ ] command to dump `metadata.table_config`, `metadata.property_config` etc
+- [x] command to dump `metadata.table_config`, `metadata.property_config` etc
 
 ## Step 1b: HBP Helm Charts
 

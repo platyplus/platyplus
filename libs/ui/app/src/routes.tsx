@@ -10,9 +10,12 @@ import {
   CollectionPage,
   DocumentPage,
   PageNotFound,
-  ProfilePage
+  ProfilePage,
+  ConfigListPage,
+  ConfigTablePage
 } from './pages'
 import { RoutesConfig } from './types'
+import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
 
 // * dynamic import depending on the routes config
 export const Routes: React.FC<RoutesConfig> = ({
@@ -23,6 +26,7 @@ export const Routes: React.FC<RoutesConfig> = ({
   profile,
   notFound
 }) => {
+  const configEnabled = useConfigEnabled()
   return (
     <Switch>
       <PrivateRoute
@@ -35,6 +39,16 @@ export const Routes: React.FC<RoutesConfig> = ({
         exact
         children={<DocumentPage />}
       />
+      {configEnabled && (
+        <PrivateRoute path={`/config`} exact children={<ConfigListPage />} />
+      )}
+      {configEnabled && (
+        <PrivateRoute
+          path={`/config/:id`}
+          exact
+          children={<ConfigTablePage />}
+        />
+      )}
       {login.enabled && (
         <PublicRoute path="/login">
           <LoginPage title={login.title} />

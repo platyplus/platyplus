@@ -1,12 +1,23 @@
-import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
+import {
+  PrimaryProperty,
+  RxCollection,
+  TopLevelProperty
+} from 'rxdb/dist/types/types'
 import { useCallback } from 'react'
 
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import {
+  Contents,
+  ContentsCollection,
+  ContentsDocument,
+  Metadata,
+  MetadataDocument
+} from '@platyplus/rxdb-hasura'
 
 import { useCollectionMetadata } from '../collection'
 import { useConfigStore } from '../store'
 
 type PropertiesType = Map<string, PrimaryProperty | TopLevelProperty>
+
 export const useCollectionProperties = (
   collection: ContentsCollection
 ): [PropertiesType | null, (val: PropertiesType) => void] => {
@@ -40,18 +51,36 @@ export const useCollectionProperties = (
 export const useDocumentProperties = (document?: ContentsDocument) =>
   useCollectionProperties(document?.collection as ContentsCollection)
 
-export const useCollectionPropertyConfig = (
-  collection: ContentsCollection,
-  property: string
+type FallbackFunction<T> = (metadata?: Metadata) => T
+export const usePropertyConfig = <T = Metadata['propertiesConfig']>(
+  metadata: Metadata | MetadataDocument | undefined,
+  property: string,
+  path?: string,
+  fallback?: T | FallbackFunction<T>
+): [T, (val: T) => void] => {
+  const state = useConfigStore(
+    useCallback(
+      (state) =>
+        metadata &&
+        (state.getProperty<T>(metadata, property, path) ||
+          (typeof fallback === 'function'
+            ? (fallback as FallbackFunction<T>)(metadata)
+            : fallback)),
+      [metadata, fallback, path, property]
+    )
+  )
+  const setState = useConfigStore(
+    (state) => (value: T) => state.setProperty(metadata, property, value, path)
+  )
+  return [state, setState]
+}
+
+export const useCollectionPropertyConfig = <T = Metadata['propertiesConfig']>(
+  collection: RxCollection<Contents>,
+  property: string,
+  path?: string,
+  fallback?: T | FallbackFunction<T>
 ) => {
   const metadata = useCollectionMetadata(collection)
-  return metadata?.propertiesConfig?.[property]
+  return usePropertyConfig(metadata, property, path, fallback)
 }
-export const useDocumentPropertyConfig = (
-  document: ContentsDocument,
-  property: string
-) =>
-  useCollectionPropertyConfig(
-    document.collection as ContentsCollection,
-    property
-  )

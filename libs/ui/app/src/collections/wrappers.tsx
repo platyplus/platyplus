@@ -10,7 +10,7 @@ import { CollectionComponent, CollectionFromParamsComponent } from './types'
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
 }> = ({ collection, data, edit = false, componentName }) => {
-  const collectionComponentName = useCollectionComponentName(collection)
+  const [collectionComponentName] = useCollectionComponentName(collection)
   const name = componentName || collectionComponentName
   const collectionComponents = useComponentsContext().collections
   const Component = name && collectionComponents[name]
