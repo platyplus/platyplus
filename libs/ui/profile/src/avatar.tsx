@@ -1,26 +1,22 @@
-import { FunctionComponent } from 'react'
-import { useProfile } from './hook'
 import { Avatar as AvatarComponent, AvatarProps } from 'rsuite'
+import { FunctionComponent } from 'react'
+import { initials } from '@platyplus/data'
+
+import { useProfile } from './hook'
 
 export const Avatar: FunctionComponent<Omit<AvatarProps, 'src' | 'alt'>> = (
   props
 ) => {
   const profile = useProfile()
   if (profile) {
-    // * TODO create a helper
-    const initials = profile.display_name
-      .split(' ')
-      .map((word: string) => word[0])
-      .join('')
-      .toUpperCase()
+    const ini = initials(profile.display_name)
+
     if (profile.avatar_url)
-      return (
-        <AvatarComponent {...props} alt={initials} src={profile.avatar_url} />
-      )
+      return <AvatarComponent {...props} alt={ini} src={profile.avatar_url} />
     else {
       return (
-        <AvatarComponent {...props} alt={initials}>
-          {initials}
+        <AvatarComponent {...props} alt={ini}>
+          {ini}
         </AvatarComponent>
       )
     }

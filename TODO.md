@@ -1,11 +1,11 @@
 # Roadmap
 
-## New tooling
-
-- [x] Vue -> React
-- [ ] table config: panel
-- [ ] collection config: panel
-- [ ] property config: panel
+- [ ] many to many
+- [ ] basic data validation according to field type
+- [ ] required fields
+- [ ] review indexes in RxDB
+- [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
+- [ ] check if label regenerates when changing its template
 - [ ] refactor the way to load table/collection/property components
 - [ ] Hasura chart: wait for postrges to be ready
 - [ ] HBP Chart: to 2.7
@@ -18,57 +18,23 @@
 - [ ] documentation: docusaurus
 - [ ] documentation: add guide.md
 - [ ] documentation: adjust existing contents
-- [ ] documentation
-- [ ] documentation:
 - [ ] Nx & npm semver
-- [ ] Nx and Helm charts?
 - [ ] remove useless code in rxdb-hasura (e.g. document.component())
-
-## Wrap up the rxdb stuff
-
-- [ ] Command to set the frontend out of the box
-- [ ] Command to load metadata and migrations
-- [x] command to dump `metadata.table_config`, `metadata.property_config` etc
 
 ## Step 1b: HBP Helm Charts
 
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
 - [ ] Publish chart in awesome Hasura
-
-## Step 2: DevTools MVP
-
 - [ ] Document: Getting started
 - [ ] Document: Hasura+HBP recipe
 - [ ] packages: update README.md
-- [ ] GH Action bug when no project. See https://github.com/platyplus/platydev/runs/1495110783?check_suite_focus=true
-- [ ] bug with service names that contains '-'
-- [ ] bug: helm /charts version: when one chart changed, all are versionned
-  - Plus, console logs 'chore(release): publish' without the name of the chart...
-- [ ] ?? imageConfig: { tag: 'latest', pullPolicy: 'IfNotPresent' }
-- [ ] ?? problem with minio in HBP chart - start ok, restart problem
-
-## Clean up some mess
-
-- deactivate/remove/archive
-  - Nuxt HBP plugin
-  - Nuxt service
-  - other packages in `migrate` dir
-- Tilt HBP extension
-- clean legacy Helm Charts (artifacthub annotation bug)
+- [ ] clean legacy Helm Charts (artifacthub annotation bug)
 
 ## Next
 
+- [ ] Nx and Helm charts?
 - [ ] Custom Express/Koa service
-- [ ] `yarn typecheck` not implemented
-- [ ] CLI UX
-  - [ ] add a custom message to every inquirer question
-  - [ ] start asking sub-commands with inquirer, starting from `platy` with no arguments at all
-- [ ] --interactive option to start inquirerjs or not
 - [ ] in every package.json: add keywords
-- [ ] add TS codegen to Hasura service????
-- [ ] create/develop/build a service outside of a project?
-- [ ] yargs: auto-complete project names
-- [ ] In production dockerfiles: `yarn cache clean`? See how it's done in the official HBP repo
 - [ ] review TODOs in the code
 - [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
   - [x] platydev cluster
@@ -77,9 +43,6 @@
 - [ ] Add testing to package/service/project/monorepo templates
 - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Improve Helm Chart production/development values
-- [ ] GitHub actions: always use yarn and docker cache
-- [ ] "Writing dockerfile" -> change log message: `project/service` instead of `service`, and `Syncing` instead of `Writing`
-- [ ] validate `./types` types
 
 ## Later
 
@@ -87,7 +50,6 @@
 - [ ] platy version:
   - [ ] generate `CHANGELOG.md`
   - [ ] check if helm version mechanism is correct e.g. `perf` commits are not triggering a version bump while they should
-- [ ] optimise generated dockerfiles - use common layers? -> see latest skaffold release
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres
 - [ ] hbp init container: wait for hasura (and for minio?)

@@ -29,5 +29,5 @@ export const defaultFieldComponents: FieldComponentsConfig = {
   ipv4: { default: () => <div>TODO ipv4</div> },
   ipv6: { default: () => <div>TODO ipv6</div> },
   uri: { default: () => <div>TODO uri</div> },
-  null: { default: () => <div>TODO null</div> }
+  null: { default: () => null }
 }

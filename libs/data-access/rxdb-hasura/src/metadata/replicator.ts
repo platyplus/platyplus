@@ -4,10 +4,12 @@ import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 import deepEqual from 'deep-equal'
 
+import { httpUrlToWebSockeUrl } from '@platyplus/data'
+
 import { debug, error, errorDir, info, warn } from '../console'
 import { contentsCollectionCreator, metadataName } from '../contents'
 import { Metadata, MetadataCollection } from '../types'
-import { createHeaders, httpUrlToWebSockeUrl } from '../utils'
+import { createHeaders } from '../utils'
 import { stringQuery, subscription } from './graphql'
 import { modifier } from './modifier'
 export type MetadataReplicatorOptions = {

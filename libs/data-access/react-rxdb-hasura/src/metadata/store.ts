@@ -3,6 +3,7 @@ import * as immutable from 'object-path-immutable'
 import objectPath from 'object-path'
 import deepMerge from 'deepmerge'
 import {
+  documentContents,
   Metadata,
   MetadataDocument,
   PropertyConfig
@@ -13,11 +14,6 @@ import {
   propertyConfigToSql,
   tableConfigToSql
 } from './migrations'
-import { isRxDocument, RxDocument } from 'rxdb'
-
-// TODO move elsewhere
-const contents = <T>(doc: T | RxDocument<T>): T =>
-  isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : doc
 
 export const useConfigStore = create<{
   forms: Record<string, Record<string, Metadata>>
@@ -58,7 +54,7 @@ export const useConfigStore = create<{
     let path = `config`
     if (subPath) path += `.${subPath}`
     const formConfig: T = objectPath.get(get(), `forms.${metadata.id}.${path}`)
-    const metadataConfig: T = objectPath.get(contents(metadata), path)
+    const metadataConfig: T = objectPath.get(documentContents(metadata), path)
     if (subPath) return formConfig || metadataConfig
     return deepMerge<T>(metadataConfig || {}, formConfig || {})
   },
@@ -77,7 +73,7 @@ export const useConfigStore = create<{
     let path = `propertiesConfig.${property}`
     if (subPath) path += `.${subPath}`
     const formConfig: T = objectPath.get(get(), `forms.${metadata.id}.${path}`)
-    const metadataConfig: T = objectPath.get(contents(metadata), path)
+    const metadataConfig: T = objectPath.get(documentContents(metadata), path)
     if (subPath) return formConfig || metadataConfig
     return deepMerge<T>(metadataConfig || {}, formConfig || {})
   },

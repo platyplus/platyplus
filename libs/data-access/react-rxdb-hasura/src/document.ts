@@ -34,9 +34,7 @@ export const useDocument = (name: string, id: string) => {
 
 export const useDocuments = (name: string, ids: string[] = []) => {
   const queryConstructor = useCallback(
-    (collection) =>
-      // TODO findByIds
-      collection.find().where('id').in(ids),
+    (collection) => collection.find().where('id').in(ids),
     [ids]
   )
   const data = useRxData<ContentsDocument>(name, queryConstructor)

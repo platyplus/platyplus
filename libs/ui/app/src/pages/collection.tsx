@@ -20,7 +20,7 @@ export const CollectionPage: React.FC = () => {
   const edit = query.has('edit')
 
   const collection = useContentsCollection(name)
-  const rxQuery = useMemo(() => collection?.find(), [collection])
+  const rxQuery = useMemo(() => collection?.find().sort('label'), [collection])
   const { isFetching, result } = useRxQuery<Contents>(rxQuery)
   const [title] = useCollectionTitle(collection)
   return (

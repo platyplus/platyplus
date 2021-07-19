@@ -2,7 +2,6 @@
 type Without<T> = { [P in keyof T]?: undefined }
 export type XOR<T, U> = (Without<T> & U) | (Without<U> & T)
 
-// TODO test it, use it
 export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
   T,
   Exclude<keyof T, Keys>
@@ -11,7 +10,6 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
     [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
   }[Keys]
 
-// TODO test it, use it
 export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
   T,
   Exclude<keyof T, Keys>

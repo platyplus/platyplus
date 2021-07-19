@@ -5,16 +5,10 @@ import decode from 'jwt-decode'
 import { jsonataPaths } from '@platyplus/jsonata-schema'
 
 import { ContentsCollection } from './types'
+import { isRxDocument, RxDocument } from 'rxdb'
 
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never
-
-// TODO consider moving to a dedicated package
-export const httpUrlToWebSockeUrl = (url: string): string =>
-  url.replace(/(http)(s)?:\/\//, 'ws$2://')
-
-export const webSocketUrlToHttpUrl = (url: string): string =>
-  url.replace(/(ws)(s)?:\/\//, 'http$2://')
 
 export type FieldMapItem = FieldMap | true
 export interface FieldMap {
@@ -104,3 +98,6 @@ export const queryToSubscription = (query: DocumentNode): DocumentNode => {
   })
   return result
 }
+
+export const documentContents = <T>(doc: T | RxDocument<T>): T =>
+  isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : doc
