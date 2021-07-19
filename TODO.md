@@ -13,6 +13,7 @@
   - [ ] check if label regenerates when changing its template
   - [ ] field components:
     - [ ] email
+  - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
 - [ ] Docker images
   - [ ] GitHub action
   - [ ] Platyplus Hasura (include migrations + schema)
@@ -60,6 +61,7 @@
     - [ ] collection / many2one: polygon, multiple dots
   - [ ] icon
   - [ ] avatar
+  - [ ] rich text / markdown
   - [ ] complete every field component
     - [ ] ipv4 ipv6
     - [ ] hostname
@@ -71,10 +73,13 @@
 - [ ] Publish chart in awesome Hasura
 - [ ] packages: update README.md
 - [ ] clean legacy Helm Charts (artifacthub annotation bug)
+- [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
 
 ## Next
 
 - [ ] pagination
+- [ ] internationalisation
+- [ ] conflict resolution
 - [ ] Isomorphic validation
 - [ ] Nx and Helm charts?
 - [ ] Custom Express/Koa service
