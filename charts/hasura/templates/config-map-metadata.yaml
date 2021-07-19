@@ -4,7 +4,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ $fullname }}-metadata
-  namespace: default
+  namespace: {​{​ .Release.Namespace }​}​
 binaryData:
 {{- range $path, $bytes := .Files.Glob (printf "metadata/**") }}
   {{- $finalPath := (index (regexSplit "metadata/" ($path) -1) 1)}}

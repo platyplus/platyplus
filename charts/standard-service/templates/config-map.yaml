@@ -5,7 +5,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ $fullname }}
-  namespace: default
+  namespace: {​{​ .Release.Namespace }​}​
 data:
   {{- $list := dict "vars" (list) -}}
   {{- range $key, $value := .Values.configFile.values }}

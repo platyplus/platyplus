@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ $fullname }}
-  namespace: default
+  namespace: {​{​ .Release.Namespace }​}​
 data:
 {{- if .Values.auth.enabled }}
   jwt.expires.in: "{{ .Values.auth.jwt.expires.in | int }}"
