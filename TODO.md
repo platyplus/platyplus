@@ -14,16 +14,18 @@
   - [ ] field components:
     - [ ] email
 - [ ] Docker images
-  - [ ] CI
+  - [ ] GitHub action
   - [ ] Platyplus Hasura (include migrations + schema)
   - [ ] Platyplus Nginx (nx build, GitHub action)
 - [ ] Helm Charts
+  - [ ] GitHub action
   - [ ] Platyplus
   - [ ] HBP 2.7
 - [ ] Tilt
   - [ ] HBP 2.7: (do not publish - wait until hasura-auth is out)
 - [ ] Documentation
   - [ ] docusaurus
+  - [ ] GitHub Action
   - [ ] adjust existing contents
   - [ ] add guide.md
   - [ ] Getting started
