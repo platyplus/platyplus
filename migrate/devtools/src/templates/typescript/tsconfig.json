@@ -1,5 +1,0 @@
-{
-  "extends": "{{pathToRoot}}/tsconfig.json",
-  "include": ["src/**/*"],
-  "compilerOptions": {}
-}

@@ -38,6 +38,7 @@
   - [ ] filtered collections
 - [ ] online demo(s)?
 - [ ] components
+  - [ ] cards
   - [ ] calendar
   - [ ] time period (from-to)
   - [ ] charts
