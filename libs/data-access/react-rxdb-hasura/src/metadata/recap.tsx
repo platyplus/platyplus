@@ -1,4 +1,5 @@
 import { useToggle } from 'react-use'
+// TODO move recap elsewhere as it depends on rsuite
 import { Badge, Button, IconButton, Icon, Modal } from 'rsuite'
 import { useConfigEnabled } from './enabled'
 import { useConfigStore } from './store'

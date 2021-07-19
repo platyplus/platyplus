@@ -10,7 +10,8 @@ import {
   ContentsCollection,
   ContentsDocument,
   Metadata,
-  MetadataDocument
+  MetadataDocument,
+  PropertyConfig
 } from '@platyplus/rxdb-hasura'
 
 import { useCollectionMetadata } from '../collection'
@@ -52,7 +53,7 @@ export const useDocumentProperties = (document?: ContentsDocument) =>
   useCollectionProperties(document?.collection as ContentsCollection)
 
 type FallbackFunction<T> = (metadata?: Metadata) => T
-export const usePropertyConfig = <T = Metadata['propertiesConfig']>(
+export const usePropertyConfig = <T = PropertyConfig>(
   metadata: Metadata | MetadataDocument | undefined,
   property: string,
   path?: string,
@@ -75,7 +76,7 @@ export const usePropertyConfig = <T = Metadata['propertiesConfig']>(
   return [state, setState]
 }
 
-export const useCollectionPropertyConfig = <T = Metadata['propertiesConfig']>(
+export const useCollectionPropertyConfig = <T = PropertyConfig>(
   collection: RxCollection<Contents>,
   property: string,
   path?: string,

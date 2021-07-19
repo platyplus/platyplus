@@ -1,4 +1,4 @@
-import { IconProps } from 'rsuite'
+import type { IconProps } from 'rsuite'
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { PropType } from '@platyplus/ts-types'
 import { useCollectionTableConfig } from '../hooks'

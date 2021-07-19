@@ -11,6 +11,7 @@ import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { FieldComponentWrapper } from '../fields'
 import { DocumentComponent } from './types'
+import { PropertyIcon } from './icon'
 
 const DocumentField: React.FC<{
   document: ContentsDocument
@@ -20,6 +21,11 @@ const DocumentField: React.FC<{
 }> = ({ document, propertyName, property, edit }) => (
   <FormGroup>
     <ControlLabel>
+      <PropertyIcon
+        collection={document.collection}
+        property={propertyName}
+        style={{ paddingRight: '10px' }}
+      />
       <PropertyTitle
         collection={document.collection as ContentsCollection}
         property={propertyName}

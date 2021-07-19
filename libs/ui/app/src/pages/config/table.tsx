@@ -23,7 +23,7 @@ import { metadataName } from '@platyplus/rxdb-hasura'
 import { upperCaseFirst } from '@platyplus/data'
 
 import { useComponentsContext } from '../../components'
-import { PropertyConfig } from '../../fields'
+import { PropertyConfig } from './property'
 
 export const ConfigTablePage: React.FC<{ role?: string }> = ({
   role = 'user'
@@ -65,7 +65,7 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
 
   const tabs = {
     collection: (
-      <Form formDefaultValue={config} onChange={setConfig}>
+      <Form key="formCollection" formDefaultValue={config} onChange={setConfig}>
         <FormGroup>
           <ControlLabel>Collection title</ControlLabel>
           <FormControl name="title" />
@@ -96,7 +96,7 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
       </Form>
     ),
     document: (
-      <Form formDefaultValue={config} onChange={setConfig}>
+      <Form key="formDocument" formDefaultValue={config} onChange={setConfig}>
         <FormGroup>
           <ControlLabel>Document title</ControlLabel>
           <FormControl name="document_title" />
@@ -126,15 +126,12 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
       <List sortable onSort={sortProperties} pressDelay={300}>
         {[...properties.keys()].map((name, index) => (
           <List.Item key={name} index={index}>
-            <Panel
-              header={name}
-              collapsible
-              bordered
+            <PropertyConfig
+              metadata={document}
+              name={name}
               expanded={expandedProperties[name]}
               onSelect={() => toggleProperty(name)}
-            >
-              <PropertyConfig metadata={document} name={name} />
-            </Panel>
+            />
           </List.Item>
         ))}
       </List>
