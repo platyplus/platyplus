@@ -2,33 +2,44 @@
 
 ## MVP
 
-- [ ] refactor the way to load table/collection/property components
-- [ ] many to many
-  - [ ] composite RxDB primary keys -> RxDB 10
-- [ ] required fields
-- [ ] basic data validation according to field type
-- [ ] order menu (-> create something like an `app_config` table)
-- [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
-- [ ] check if label regenerates when changing its template
-- [ ] Hasura chart: wait for postrges to be ready
-- [ ] HBP Chart: to 2.7
-- [ ] HBP Tilt: to 2.7: do not publish (wait for hasura-auth)
-- [ ] Platyplus Hasura docker image (include migrations + schema, and GitHub action)
-- [ ] Platyplus Nginx docker image (nx build, GitHub action)
-- [ ] Platyplus Chart
-- [ ] Platyplus Docker-compose
-- [ ] HBP chart: wait for hasura to be ready
-- [ ] documentation: docusaurus
-- [ ] documentation: add guide.md
-- [ ] Document: Getting started
-- [ ] documentation: adjust existing contents
-- [ ] Nx & npm semver
-- [ ] field components:
-  - [ ] email
+- [ ] Application
+  - [ ] refactor the way to load table/collection/property components
+  - [ ] many to many
+    - [ ] composite RxDB primary keys -> RxDB 10
+  - [ ] required fields
+  - [ ] basic data validation according to field type
+  - [ ] order menu (-> create something like an `app_config` table)
+  - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
+  - [ ] check if label regenerates when changing its template
+  - [ ] field components:
+    - [ ] email
+- [ ] Docker images
+  - [ ] CI
+  - [ ] Platyplus Hasura (include migrations + schema)
+  - [ ] Platyplus Nginx (nx build, GitHub action)
+- [ ] Helm Charts
+  - [ ] Platyplus
+  - [ ] HBP 2.7
+- [ ] Tilt
+  - [ ] HBP 2.7: (do not publish - wait until hasura-auth is out)
+- [ ] Documentation
+  - [ ] docusaurus
+  - [ ] adjust existing contents
+  - [ ] add guide.md
+  - [ ] Getting started
+    - [ ] Dev
+      - [ ] Docker-compose
+      - [ ] Tilt
+    - [ ] Deploy
+      - [ ] Docker-compose
+      - [ ] Kubernetes
 - [ ] make everything work with Pulumi
 
 ## Then
 
+- [ ] Nx & npm semver
+- [ ] Hasura chart: wait for postrges service to be ready
+- [ ] HBP chart: wait for hasura service to be ready
 - [ ] validation rules stored on the backend
 - [ ] permissions
 - [ ] review indexes in RxDB
@@ -99,3 +110,6 @@
   - Then, move helm directory to the project directory?
   - Then, review HBP template and functionning with storage rules embedded in `values.yaml`
   - See: https://github.com/helm/helm/issues/3276
+- [ ] Hasura Auth
+  - [ ] Helm Chart
+  - [ ] Tilt module
