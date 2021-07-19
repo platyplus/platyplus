@@ -1,12 +1,15 @@
 # Roadmap
 
+## MVP
+
+- [ ] refactor the way to load table/collection/property components
 - [ ] many to many
-- [ ] basic data validation according to field type
+  - [ ] composite RxDB primary keys -> RxDB 10
 - [ ] required fields
-- [ ] review indexes in RxDB
+- [ ] basic data validation according to field type
+- [ ] order menu (-> create something like an `app_config` table)
 - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
 - [ ] check if label regenerates when changing its template
-- [ ] refactor the way to load table/collection/property components
 - [ ] Hasura chart: wait for postrges to be ready
 - [ ] HBP Chart: to 2.7
 - [ ] HBP Tilt: to 2.7: do not publish (wait for hasura-auth)
@@ -17,21 +20,47 @@
 - [ ] HBP chart: wait for hasura to be ready
 - [ ] documentation: docusaurus
 - [ ] documentation: add guide.md
+- [ ] Document: Getting started
 - [ ] documentation: adjust existing contents
 - [ ] Nx & npm semver
+- [ ] field components:
+  - [ ] email
+
+## Then
+
+- [ ] validation rules stored on the backend
+- [ ] permissions
+- [ ] review indexes in RxDB
+- [ ] searchable collections
+- [ ] custom menus
+  - [ ] for everyone / per role / per user
+  - [ ] filtered collections
+- [ ] online demo(s)?
+- [ ] components
+  - [ ] calendar
+  - [ ] time period (from-to)
+  - [ ] charts
+  - [ ] maps & PostGIS
+    - [ ] point field: location/single dot
+    - [ ] collection / many2one: polygon, multiple dots
+  - [ ] icon
+  - [ ] avatar
+  - [ ] complete every field component
+    - [ ] ipv4 ipv6
+    - [ ] hostname
+    - [ ] object
+    - [ ] array
+    - [ ] uri
 - [ ] remove useless code in rxdb-hasura (e.g. document.component())
-
-## Step 1b: HBP Helm Charts
-
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
 - [ ] Publish chart in awesome Hasura
-- [ ] Document: Getting started
-- [ ] Document: Hasura+HBP recipe
 - [ ] packages: update README.md
 - [ ] clean legacy Helm Charts (artifacthub annotation bug)
 
 ## Next
 
+- [ ] pagination
+- [ ] Isomorphic validation
 - [ ] Nx and Helm charts?
 - [ ] Custom Express/Koa service
 - [ ] in every package.json: add keywords
@@ -47,9 +76,6 @@
 ## Later
 
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
-- [ ] platy version:
-  - [ ] generate `CHANGELOG.md`
-  - [ ] check if helm version mechanism is correct e.g. `perf` commits are not triggering a version bump while they should
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres
 - [ ] hbp init container: wait for hasura (and for minio?)
