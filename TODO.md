@@ -25,6 +25,7 @@
 - [ ] Nx & npm semver
 - [ ] field components:
   - [ ] email
+- [ ] make everything work with Pulumi
 
 ## Then
 
