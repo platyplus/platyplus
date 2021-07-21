@@ -24,5 +24,6 @@ export const createComputedFieldsProperties = (table: Metadata) =>
  */
 export const computedFields = (collection: ContentsCollection): string[] => [
   'label',
+  'updated_at',
   ...collection.metadata.computedProperties.map((prop) => prop.name)
 ]

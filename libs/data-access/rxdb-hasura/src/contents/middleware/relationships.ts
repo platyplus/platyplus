@@ -9,33 +9,7 @@ import {
 // ! locks documents when being saved to avoid infitite loop when changing a relationship or its mirror
 const documentLocks: Record<string, boolean> = {}
 
-// * The following code is commented: rxdb does not populate deleted documents :)
-// collection.postRemove(async (data, doc) => {
-//   // TODO cascade delete
-//   for (const rel of collection.metadata.relationships.filter(
-//     rel => rel.rel_type === 'object'
-//   )) {
-//     // * Fetch the referenced document
-//     const refDoc: ContentsDocument | null = await doc.populate(
-//       rel.rel_name
-//     )
-//     if (refDoc && !documentLocks[refDoc.primary]) {
-//       const mirrorRelation = Object.entries(
-//         refDoc.collection.schema.jsonSchema.properties
-//       ).find(([, value]) => {
-//         return value.ref === collection.name
-//       })?.[0]
-//       if (mirrorRelation) {
-//         // * Mirror array relationship exists and need to be updated
-//         await refDoc.atomicPatch({
-//           [mirrorRelation]: refDoc
-//             .get(mirrorRelation)
-//             .filter((cursor: string) => cursor !== doc.primary)
-//         })
-//       }
-//     }
-//   }
-// }, false)
+// TODO revoir completement le système
 const postInsertRelationship =
   (
     collection: ContentsCollection

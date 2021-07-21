@@ -3,21 +3,19 @@
 ## MVP
 
 - [ ] Application
-  - [ ] refactor the way to load table/collection/property components
   - [x] many to many
     - [x] RxDB 10
     - [x] composite RxDB primary keys
     - [x] read many2many
     - [x] save many2many
-  - [ ] test many to one
+  - [ ] sync reverse relationships locally (one2many/many2one and many2many)
   - [ ] required fields
   - [ ] basic data validation according to field type
   - [ ] order menu (-> create something like an `app_config` table)
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] check if label regenerates when changing its template
-  - [ ] field components:
-    - [ ] email
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
+    - [ ] better handling of disconnections / replication errors
 - [ ] Docker images
   - [ ] GitHub action
   - [ ] Platyplus Hasura (include migrations + schema)
@@ -45,59 +43,66 @@
 
 ## Then
 
+- Application
+  - [ ] refactor the way to load table/collection/property components
+  - [ ] validation rules stored on the backend
+  - [ ] permissions
+  - [ ] varchar(x) -> validate string length < x
+  - [ ] review indexes in RxDB
+  - [ ] searchable collections
+  - [ ] custom menus
+    - [ ] for everyone / per role / per user
+    - [ ] filtered collections
+  - [ ] components
+    - [ ] email
+    - [ ] cards
+    - [ ] calendar
+    - [ ] QR code / codebar scanner
+    - [ ] time period (from-to)
+    - [ ] charts
+    - [ ] maps & PostGIS
+      - [ ] point field: location/single dot
+      - [ ] collection / many2one: polygon, multiple dots
+    - [ ] icon
+    - [ ] avatar
+    - [ ] rich text / markdown
+    - [ ] complete every field component
+      - [ ] ipv4 ipv6
+      - [ ] hostname
+      - [ ] object
+      - [ ] array
+      - [ ] uri
+  - [ ] remove useless code in rxdb-hasura (e.g. document.component())
+  - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
+  - [ ] Better integration with HBP e.g. registration, password change, 2fa...
+- Charts
+  - [ ] Hasura: wait for postrges service to be ready
+  - [ ] HBP: wait for hasura service to be ready
+  - [ ] clean legacy Helm Charts (artifacthub annotation bug)
+  - [ ] Publish chart in awesome Hasura
 - [ ] Nx & npm semver
-- [ ] Hasura chart: wait for postrges service to be ready
-- [ ] HBP chart: wait for hasura service to be ready
-- [ ] validation rules stored on the backend
-- [ ] permissions
-- [ ] review indexes in RxDB
-- [ ] searchable collections
-- [ ] custom menus
-  - [ ] for everyone / per role / per user
-  - [ ] filtered collections
 - [ ] online demo(s)?
-- [ ] components
-  - [ ] cards
-  - [ ] calendar
-  - [ ] QR code / codebar scanner
-  - [ ] time period (from-to)
-  - [ ] charts
-  - [ ] maps & PostGIS
-    - [ ] point field: location/single dot
-    - [ ] collection / many2one: polygon, multiple dots
-  - [ ] icon
-  - [ ] avatar
-  - [ ] rich text / markdown
-  - [ ] complete every field component
-    - [ ] ipv4 ipv6
-    - [ ] hostname
-    - [ ] object
-    - [ ] array
-    - [ ] uri
-- [ ] remove useless code in rxdb-hasura (e.g. document.component())
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
-- [ ] Publish chart in awesome Hasura
 - [ ] packages: update README.md
-- [ ] clean legacy Helm Charts (artifacthub annotation bug)
-- [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
 
 ## Next
 
-- [ ] pagination
-- [ ] internationalisation
-- [ ] conflict resolution
-- [ ] Isomorphic validation
-- [ ] Nx and Helm charts?
+- Application
+  - [ ] pagination
+  - [ ] internationalisation
+  - [ ] conflict resolution
+  - [ ] Isomorphic validation
+- Charts
+  - [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
+    - [x] platydev cluster
+    - [x] terraform: review + publish module
+    - [ ] argocd that deploys applications (chartmuseum)
+  - [ ] Nx and Helm charts?
+  - [ ] Improve Helm Chart production/development values
+  - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Custom Express/Koa service
 - [ ] in every package.json: add keywords
 - [ ] review TODOs in the code
-- [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
-  - [x] platydev cluster
-  - [x] terraform: review + publish module
-  - [ ] argocd that deploys applications (chartmuseum)
-- [ ] Add testing to package/service/project/monorepo templates
-- [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
-- [ ] Improve Helm Chart production/development values
 
 ## Later
 
