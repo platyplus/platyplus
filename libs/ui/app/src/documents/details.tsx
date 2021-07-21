@@ -42,7 +42,6 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   const setForm = useSetForm(document)
   const [properties] = useDocumentProperties(document)
   const formValues = useGetForm(document)
-
   if (properties)
     return (
       <Form onChange={setForm} fluid formDefaultValue={formValues}>

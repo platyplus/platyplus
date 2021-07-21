@@ -1,9 +1,12 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
+import { RemoteTableFragment } from '../../generated'
 
 import { Metadata } from '../../types'
 import { getIds } from './id'
 import { metadataName } from './name'
 import { propertyJsonType } from './property'
+
+// TODO composite relationships - then remove this
 export const filteredRelationships = (
   table: Metadata
 ): Metadata['relationships'] =>
@@ -18,9 +21,13 @@ export const createRelationshipProperties = (
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
     const relName = relationship.rel_name
-    const mappingItem = relationship.mapping[0]
-    const column = mappingItem.column
-    const refTable = mappingItem.remoteTable
+    // TODO relationships with composite keys
+    const column = relationship.mapping[0].column
+    const refTable = isManyToManyTable(relationship.remoteTable)
+      ? relationship.remoteTable.relationships.find(
+          (rel) => rel.remoteTable.id !== table.id
+        ).remoteTable
+      : relationship.remoteTable
     const ref = `${role}_${metadataName(refTable)}`
 
     const type = propertyJsonType(column)
@@ -61,23 +68,19 @@ export const createRelationshipProperties = (
 
 // * A table is a ManyToMany transition table when:
 // * its only two columns (except updated_at and deleted) compose the primary key, AND
-// * they both refer to an object relation
-// TODO check each relatio
-export const isManyToManyTable = (table: Metadata): boolean => {
+// * they only have two relationships, AND
+// * both relationships are of object type
+export const isManyToManyTable = (
+  table: Metadata | RemoteTableFragment
+): boolean => {
   const pkColumns = getIds(table)
-
   return (
     table.columns.filter(
       (column) =>
         !['updated_at', 'deleted'].includes(column.column_name) &&
         pkColumns.includes(column.column_name)
     ).length === 2 &&
-    pkColumns.every((pk) =>
-      table.relationships.some(
-        (rel) =>
-          rel.mapping.some((mapping) => mapping.column.column_name === pk) &&
-          rel.rel_type === 'object'
-      )
-    )
+    table.relationships.length === 2 &&
+    table.relationships.every((rel) => rel.rel_type === 'object')
   )
 }

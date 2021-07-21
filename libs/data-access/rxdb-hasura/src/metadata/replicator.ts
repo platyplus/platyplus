@@ -6,7 +6,7 @@ import deepEqual from 'deep-equal'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
-import { debug, error, errorDir, info, warn } from '../console'
+import { debug, error, errorDir, warn } from '../console'
 import {
   contentsCollectionCreator,
   isManyToManyTable,
@@ -100,7 +100,7 @@ export const createMetadataReplicator = async (
   }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
-    info(`setupGraphQLSubscription ${metadataCollection.name}`)
+    debug(`setupGraphQLSubscription ${metadataCollection.name}`)
     const wsUrl = httpUrlToWebSockeUrl(url)
     const headers = createHeaders(role, db.jwt$.getValue())
     const wsClient = new SubscriptionClient(wsUrl, {
@@ -120,7 +120,7 @@ export const createMetadataReplicator = async (
 
     ret.subscribe({
       next: (data) => {
-        info(`subscription on ${metadataCollection.name} emitted`, data)
+        debug(`subscription on ${metadataCollection.name} emitted`, data)
         state?.run()
       },
       error: (error) => {

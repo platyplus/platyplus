@@ -1,8 +1,8 @@
-import { ColumnFragment } from '../../generated'
+import { ColumnFragment, RemoteTableFragment } from '../../generated'
 import { Metadata } from '../../types'
 import { ArrayElement } from '../../utils'
 
-export const getIds = (table: Metadata): string[] =>
+export const getIds = (table: Metadata | RemoteTableFragment): string[] =>
   table.primaryKey?.columns.map(({ column_name }) => column_name) || ['id']
 
 export const isIdColumn = (

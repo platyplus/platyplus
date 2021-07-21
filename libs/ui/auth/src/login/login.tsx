@@ -33,7 +33,7 @@ export const Login: FunctionComponent<{ redirect?: string }> = ({
       try {
         await auth.login(formValue)
       } catch (error) {
-        console.log(error)
+        console.warn(error)
         return alert('login failed')
       }
       router.push(redirect)

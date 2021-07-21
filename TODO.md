@@ -7,6 +7,9 @@
   - [ ] many to many
     - [x] RxDB 10
     - [x] composite RxDB primary keys
+    - [x] read many2many
+    - [x] save many2many
+  - [ ] test many to one
   - [ ] required fields
   - [ ] basic data validation according to field type
   - [ ] order menu (-> create something like an `app_config` table)

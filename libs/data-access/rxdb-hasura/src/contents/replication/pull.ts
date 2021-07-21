@@ -5,7 +5,7 @@ import {
   VariableType,
   EnumType
 } from 'json-to-graphql-query'
-import { debug, info } from '../../console'
+import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { FieldMap, rxdbJsonataPaths } from '../../utils'
 import { documentLabel } from '../computed-fields/label'
@@ -70,19 +70,22 @@ export const pullQueryBuilder = (
     .map(
       (relationship) =>
         ({
-          [relationship.rel_name]: relationship.mapping.reduce(
-            (acc, mapping) => {
-              mapping.remoteTable.primaryKey.columns.forEach(
-                ({ column_name }) => {
-                  if (column_name !== mapping.remote_column_name)
-                    acc[column_name] = true
+          [relationship.rel_name]:
+            relationship.remoteTable.primaryKey.columns.reduce(
+              (acc, column) => {
+                acc[column.column_name] = true
+                return acc
+              },
+              {
+                __args: {
+                  where: {
+                    deleted: {
+                      _eq: false
+                    }
+                  }
                 }
-              )
-              return acc
-            },
-            {}
-          ),
-
+              }
+            ),
           [`${relationship.rel_name}_aggregate`]: {
             aggregate: { max: { updated_at: true } }
           }

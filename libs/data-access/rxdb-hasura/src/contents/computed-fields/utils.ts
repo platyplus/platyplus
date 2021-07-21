@@ -2,6 +2,7 @@
 import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
+import { warn } from '../../console'
 
 import {
   Contents,
@@ -67,8 +68,8 @@ const evaluate = (data: any, property: ComputedProperty): any => {
     }
     return result
   } catch (error) {
-    console.warn('Error in computing', { data, property })
-    console.warn(error)
+    warn('Error in computing', { data, property })
+    warn(error)
   }
 }
 

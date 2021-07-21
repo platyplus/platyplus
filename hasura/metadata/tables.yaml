@@ -657,6 +657,14 @@
     schema: metadata
     name: relationship
   object_relationships:
+  - name: remoteTable
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: table
+        column_mapping:
+          remote_table_id: id
   - name: table
     using:
       manual_configuration:
@@ -684,6 +692,7 @@
       - rel_def
       - rel_name
       - rel_type
+      - remote_table_id
       - table_id
       - table_name
       - table_schema
@@ -697,6 +706,7 @@
       - rel_def
       - rel_name
       - rel_type
+      - remote_table_id
       - table_id
       - table_name
       - table_schema
@@ -713,6 +723,14 @@
           name: column_info
         column_mapping:
           column_id: id
+  - name: relationship
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: relationship
+        column_mapping:
+          relationship_id: id
   - name: remoteColumn
     using:
       manual_configuration:

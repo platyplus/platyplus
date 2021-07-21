@@ -29,6 +29,7 @@
   - each pk is fk to the two colums
   - only two columns
   - permissions: select both columns, and aggregation queries
+  - defines both relations in the join column
 
 ### Create indexes
 

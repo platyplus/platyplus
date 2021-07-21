@@ -1,7 +1,8 @@
 import gql from 'graphql-tag'
 import { print } from 'graphql/language/printer'
 import { queryToSubscription } from '../utils'
-// TODO move remoteTable from relationship.mapping to relationship
+
+// TODO use table.primaryKey instead of table.columns.primaryKey
 export const query = gql`
   fragment coreTable on metadata_table {
     id
@@ -12,6 +13,19 @@ export const query = gql`
       columns {
         column_name
       }
+    }
+  }
+
+  fragment remoteTable on metadata_table {
+    ...coreTable
+    relationships {
+      rel_type
+      remoteTable {
+        ...coreTable
+      }
+    }
+    columns {
+      column_name
     }
   }
 
@@ -87,12 +101,12 @@ export const query = gql`
     ) {
       rel_name
       rel_type
+      remoteTable {
+        ...remoteTable
+      }
       mapping {
         column {
           ...column
-        }
-        remoteTable {
-          ...coreTable
         }
         remote_column_name
       }

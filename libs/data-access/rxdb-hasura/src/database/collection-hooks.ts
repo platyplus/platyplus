@@ -1,6 +1,6 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { info } from '../console'
+import { debug } from '../console'
 import { createContentReplicator, createHooks } from '../contents'
 import { createMetadataReplicator } from '../metadata'
 import { ContentsCollection, MetadataCollection } from '../types'
@@ -55,7 +55,7 @@ export const createRxCollection = async (
       // * set property again everytime metadata changes
       collection.properties = collectionProperties(collection)
     })
-    info(`create RxCollection ${collection.name}`)
+    debug(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({
       ...contentsCollections(collection.database),

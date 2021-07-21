@@ -77,5 +77,5 @@ export const createSqlMigrations = async (
     skip_execution: false
   }
   await client.post('/migrate', request)
-  console.log('OK')
+  console.info('OK')
 }

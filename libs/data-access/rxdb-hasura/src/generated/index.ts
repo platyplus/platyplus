@@ -6021,6 +6021,9 @@ export type Metadata_Relationship = {
   rel_name: Maybe<Scalars['String']>
   rel_type: Maybe<Scalars['String']>
   /** An object relationship */
+  remoteTable: Maybe<Metadata_Table>
+  remote_table_id: Maybe<Scalars['String']>
+  /** An object relationship */
   table: Maybe<Metadata_Table>
   table_id: Maybe<Scalars['String']>
   table_name: Maybe<Scalars['name']>
@@ -6083,11 +6086,6 @@ export type Metadata_Relationship_Append_Input = {
   rel_def: Maybe<Scalars['jsonb']>
 }
 
-/** input type for inserting array relation for remote table "metadata.relationship" */
-export type Metadata_Relationship_Arr_Rel_Insert_Input = {
-  data: Array<Metadata_Relationship_Insert_Input>
-}
-
 /** Boolean expression to filter rows from the table "metadata.relationship". All fields are combined with a logical 'AND'. */
 export type Metadata_Relationship_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Relationship_Bool_Exp>>>
@@ -6100,6 +6098,8 @@ export type Metadata_Relationship_Bool_Exp = {
   rel_def: Maybe<Jsonb_Comparison_Exp>
   rel_name: Maybe<String_Comparison_Exp>
   rel_type: Maybe<String_Comparison_Exp>
+  remoteTable: Maybe<Metadata_Table_Bool_Exp>
+  remote_table_id: Maybe<String_Comparison_Exp>
   table: Maybe<Metadata_Table_Bool_Exp>
   table_id: Maybe<String_Comparison_Exp>
   table_name: Maybe<Name_Comparison_Exp>
@@ -6119,20 +6119,6 @@ export type Metadata_Relationship_Delete_Elem_Input = {
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Metadata_Relationship_Delete_Key_Input = {
   rel_def: Maybe<Scalars['String']>
-}
-
-/** input type for inserting data into table "metadata.relationship" */
-export type Metadata_Relationship_Insert_Input = {
-  comment: Maybe<Scalars['String']>
-  id: Maybe<Scalars['String']>
-  is_system_defined: Maybe<Scalars['Boolean']>
-  rel_def: Maybe<Scalars['jsonb']>
-  rel_name: Maybe<Scalars['String']>
-  rel_type: Maybe<Scalars['String']>
-  table: Maybe<Metadata_Table_Obj_Rel_Insert_Input>
-  table_id: Maybe<Scalars['String']>
-  table_name: Maybe<Scalars['name']>
-  table_schema: Maybe<Scalars['name']>
 }
 
 /** columns and relationships of "metadata.relationship_mapping" */
@@ -6333,6 +6319,7 @@ export type Metadata_Relationship_Max_Fields = {
   id: Maybe<Scalars['String']>
   rel_name: Maybe<Scalars['String']>
   rel_type: Maybe<Scalars['String']>
+  remote_table_id: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
 }
 
@@ -6342,6 +6329,7 @@ export type Metadata_Relationship_Max_Order_By = {
   id: Maybe<Order_By>
   rel_name: Maybe<Order_By>
   rel_type: Maybe<Order_By>
+  remote_table_id: Maybe<Order_By>
   table_id: Maybe<Order_By>
 }
 
@@ -6352,6 +6340,7 @@ export type Metadata_Relationship_Min_Fields = {
   id: Maybe<Scalars['String']>
   rel_name: Maybe<Scalars['String']>
   rel_type: Maybe<Scalars['String']>
+  remote_table_id: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
 }
 
@@ -6361,21 +6350,8 @@ export type Metadata_Relationship_Min_Order_By = {
   id: Maybe<Order_By>
   rel_name: Maybe<Order_By>
   rel_type: Maybe<Order_By>
+  remote_table_id: Maybe<Order_By>
   table_id: Maybe<Order_By>
-}
-
-/** response of any mutation on the table "metadata.relationship" */
-export type Metadata_Relationship_Mutation_Response = {
-  __typename?: 'metadata_relationship_mutation_response'
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars['Int']
-  /** data of the affected rows by the mutation */
-  returning: Array<Metadata_Relationship>
-}
-
-/** input type for inserting object relation for remote table "metadata.relationship" */
-export type Metadata_Relationship_Obj_Rel_Insert_Input = {
-  data: Metadata_Relationship_Insert_Input
 }
 
 /** ordering options when selecting data from "metadata.relationship" */
@@ -6387,6 +6363,8 @@ export type Metadata_Relationship_Order_By = {
   rel_def: Maybe<Order_By>
   rel_name: Maybe<Order_By>
   rel_type: Maybe<Order_By>
+  remoteTable: Maybe<Metadata_Table_Order_By>
+  remote_table_id: Maybe<Order_By>
   table: Maybe<Metadata_Table_Order_By>
   table_id: Maybe<Order_By>
   table_name: Maybe<Order_By>
@@ -6413,24 +6391,13 @@ export enum Metadata_Relationship_Select_Column {
   /** column name */
   RelType = 'rel_type',
   /** column name */
+  RemoteTableId = 'remote_table_id',
+  /** column name */
   TableId = 'table_id',
   /** column name */
   TableName = 'table_name',
   /** column name */
   TableSchema = 'table_schema'
-}
-
-/** input type for updating data in table "metadata.relationship" */
-export type Metadata_Relationship_Set_Input = {
-  comment: Maybe<Scalars['String']>
-  id: Maybe<Scalars['String']>
-  is_system_defined: Maybe<Scalars['Boolean']>
-  rel_def: Maybe<Scalars['jsonb']>
-  rel_name: Maybe<Scalars['String']>
-  rel_type: Maybe<Scalars['String']>
-  table_id: Maybe<Scalars['String']>
-  table_name: Maybe<Scalars['name']>
-  table_schema: Maybe<Scalars['name']>
 }
 
 /** columns and relationships of "metadata.role" */
@@ -7554,7 +7521,6 @@ export type Metadata_Table_Insert_Input = {
   is_system_defined: Maybe<Scalars['Boolean']>
   propertiesConfig: Maybe<Metadata_Property_Config_Arr_Rel_Insert_Input>
   properties_config: Maybe<Scalars['jsonb']>
-  relationships: Maybe<Metadata_Relationship_Arr_Rel_Insert_Input>
   table_name: Maybe<Scalars['name']>
   table_schema: Maybe<Scalars['name']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -7981,8 +7947,6 @@ export type Mutation_Root = {
   delete_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
   /** delete single row from the table: "metadata.property_config" */
   delete_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
-  /** delete data from the table: "metadata.relationship" */
-  delete_metadata_relationship: Maybe<Metadata_Relationship_Mutation_Response>
   /** delete data from the table: "metadata.table" */
   delete_metadata_table: Maybe<Metadata_Table_Mutation_Response>
   /** delete data from the table: "metadata.table_config" */
@@ -8073,10 +8037,6 @@ export type Mutation_Root = {
   insert_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
   /** insert a single row into the table: "metadata.property_config" */
   insert_metadata_property_config_one: Maybe<Metadata_Property_Config>
-  /** insert data into the table: "metadata.relationship" */
-  insert_metadata_relationship: Maybe<Metadata_Relationship_Mutation_Response>
-  /** insert a single row into the table: "metadata.relationship" */
-  insert_metadata_relationship_one: Maybe<Metadata_Relationship>
   /** insert data into the table: "metadata.table" */
   insert_metadata_table: Maybe<Metadata_Table_Mutation_Response>
   /** insert data into the table: "metadata.table_config" */
@@ -8163,8 +8123,6 @@ export type Mutation_Root = {
   update_metadata_property_config: Maybe<Metadata_Property_Config_Mutation_Response>
   /** update single row of the table: "metadata.property_config" */
   update_metadata_property_config_by_pk: Maybe<Metadata_Property_Config>
-  /** update data of the table: "metadata.relationship" */
-  update_metadata_relationship: Maybe<Metadata_Relationship_Mutation_Response>
   /** update data of the table: "metadata.table" */
   update_metadata_table: Maybe<Metadata_Table_Mutation_Response>
   /** update data of the table: "metadata.table_config" */
@@ -8343,11 +8301,6 @@ export type Mutation_RootDelete_Metadata_Property_ConfigArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Metadata_Property_Config_By_PkArgs = {
   id: Scalars['uuid']
-}
-
-/** mutation root */
-export type Mutation_RootDelete_Metadata_RelationshipArgs = {
-  where: Metadata_Relationship_Bool_Exp
 }
 
 /** mutation root */
@@ -8602,16 +8555,6 @@ export type Mutation_RootInsert_Metadata_Property_ConfigArgs = {
 export type Mutation_RootInsert_Metadata_Property_Config_OneArgs = {
   object: Metadata_Property_Config_Insert_Input
   on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
-}
-
-/** mutation root */
-export type Mutation_RootInsert_Metadata_RelationshipArgs = {
-  objects: Array<Metadata_Relationship_Insert_Input>
-}
-
-/** mutation root */
-export type Mutation_RootInsert_Metadata_Relationship_OneArgs = {
-  object: Metadata_Relationship_Insert_Input
 }
 
 /** mutation root */
@@ -8905,17 +8848,6 @@ export type Mutation_RootUpdate_Metadata_Property_Config_By_PkArgs = {
   _prepend: Maybe<Metadata_Property_Config_Prepend_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   pk_columns: Metadata_Property_Config_Pk_Columns_Input
-}
-
-/** mutation root */
-export type Mutation_RootUpdate_Metadata_RelationshipArgs = {
-  _append: Maybe<Metadata_Relationship_Append_Input>
-  _delete_at_path: Maybe<Metadata_Relationship_Delete_At_Path_Input>
-  _delete_elem: Maybe<Metadata_Relationship_Delete_Elem_Input>
-  _delete_key: Maybe<Metadata_Relationship_Delete_Key_Input>
-  _prepend: Maybe<Metadata_Relationship_Prepend_Input>
-  _set: Maybe<Metadata_Relationship_Set_Input>
-  where: Metadata_Relationship_Bool_Exp
 }
 
 /** mutation root */
@@ -12476,6 +12408,20 @@ export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
     >
   }
 
+export type RemoteTableFragment = { __typename?: 'metadata_table' } & {
+  relationships: Array<
+    { __typename?: 'metadata_relationship' } & {
+      remoteTable: Maybe<{ __typename?: 'metadata_table' } & CoreTableFragment>
+    }
+  >
+  columns: Array<
+    { __typename?: 'metadata_column_info' } & Pick<
+      Metadata_Column_Info,
+      'column_name'
+    >
+  >
+} & CoreTableFragment
+
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
   Metadata_Column_Info,
   'column_name' | 'udt_name' | 'is_nullable'
@@ -12556,6 +12502,9 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       Metadata_Relationship,
       'rel_name' | 'rel_type'
     > & {
+        remoteTable: Maybe<
+          { __typename?: 'metadata_table' } & RemoteTableFragment
+        >
         mapping: Array<
           { __typename?: 'metadata_relationship_mapping' } & Pick<
             Metadata_Relationship_Mapping,
@@ -12563,9 +12512,6 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
           > & {
               column: Maybe<
                 { __typename?: 'metadata_column_info' } & ColumnFragment
-              >
-              remoteTable: Maybe<
-                { __typename?: 'metadata_table' } & CoreTableFragment
               >
             }
         >
@@ -12625,6 +12571,20 @@ export const CoreTableFragmentDoc = gql`
       }
     }
   }
+`
+export const RemoteTableFragmentDoc = gql`
+  fragment remoteTable on metadata_table {
+    ...coreTable
+    relationships {
+      remoteTable {
+        ...coreTable
+      }
+    }
+    columns {
+      column_name
+    }
+  }
+  ${CoreTableFragmentDoc}
 `
 export const ColumnFragmentDoc = gql`
   fragment column on metadata_column_info {
@@ -12698,12 +12658,12 @@ export const TableFragmentDoc = gql`
     ) {
       rel_name
       rel_type
+      remoteTable {
+        ...remoteTable
+      }
       mapping {
         column {
           ...column
-        }
-        remoteTable {
-          ...coreTable
         }
         remote_column_name
       }
@@ -12728,6 +12688,7 @@ export const TableFragmentDoc = gql`
     }
   }
   ${CoreTableFragmentDoc}
+  ${RemoteTableFragmentDoc}
   ${ColumnFragmentDoc}
 `
 export const MetadataDocument = gql`
