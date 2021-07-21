@@ -4,7 +4,7 @@
 
 - [ ] Application
   - [ ] refactor the way to load table/collection/property components
-  - [ ] many to many
+  - [x] many to many
     - [x] RxDB 10
     - [x] composite RxDB primary keys
     - [x] read many2many

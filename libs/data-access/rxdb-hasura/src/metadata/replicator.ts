@@ -1,4 +1,4 @@
-import { RxChangeEvent } from 'rxdb'
+import { clone, RxChangeEvent } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
@@ -55,15 +55,7 @@ export const createMetadataReplicator = async (
           return {
             query:
               doc && // * Do not load metadata (again) when metadata collection already exists
-              (!db[`${role}_${metadataName(doc)}`] ||
-                // * Do not load metadata when the role can't select every primary key
-                doc.columns.some(
-                  (column) =>
-                    !!column.primaryKey &&
-                    !column.canSelect.every(
-                      (permission) => permission.role_name !== role
-                    )
-                ))
+              !db[`${role}_${metadataName(doc)}`]
                 ? noopQuery
                 : stringQuery,
             variables: {}
@@ -74,9 +66,12 @@ export const createMetadataReplicator = async (
           // * Do not load many2many join tables
           if (isManyToManyTable(newDoc)) return null
           const oldDoc = await metadataCollection.findOne(doc.id).exec()
+          if (!oldDoc) return newDoc
+          const oldDocValues = clone(oldDoc.toJSON())
+          delete oldDocValues['_deleted']
           // * Don't load metadata again if nothing changed list last time it has been put in the Rx database
-          if (oldDoc && deepEqual(newDoc, oldDoc.toJSON())) return null
-          else return newDoc
+          if (deepEqual(newDoc, oldDocValues)) return null
+          return newDoc
         }
       },
       live: true,
