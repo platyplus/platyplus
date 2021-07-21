@@ -4,6 +4,7 @@ import deepEqual from 'deep-equal'
 
 import { castValue, Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useDocumentProperties } from './metadata'
+import { useMemo } from 'react'
 
 const useFormStore = create<{
   forms: Record<string, Record<string, Contents>>
@@ -60,8 +61,7 @@ const useFormValues = (document?: ContentsDocument) =>
 export const useGetForm = (document: ContentsDocument) => {
   const form = useFormValues(document)
   const [properties] = useDocumentProperties(document)
-  // ? subscribe to document changes as well?
-  return useFormStore<Contents>((state) => {
+  return useMemo(() => {
     if (!properties) return {} as Contents
     return [...properties.keys(), document.primaryPath].reduce(
       (aggregator, key) => {
@@ -71,7 +71,7 @@ export const useGetForm = (document: ContentsDocument) => {
       },
       {} as Contents
     )
-  })
+  }, [document, form, properties])
 }
 
 export const useSetForm = (document: ContentsDocument) =>
