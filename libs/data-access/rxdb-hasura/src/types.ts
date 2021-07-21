@@ -1,8 +1,9 @@
-import { PrimaryProperty, RxCollection, RxDatabase, RxDocument } from 'rxdb'
+import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { BehaviorSubject } from 'rxjs'
 
 import { TableFragment } from './generated'
+
 export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
@@ -64,9 +65,9 @@ export type Contents = Record<string, any> & {
   label: string
 }
 
-export type ContentsDocument =
-  | RxDocument<Contents, ContentsDocumentMethods>
-  | RxDocument<Contents>
+export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods> & {
+  collection: ContentsCollection
+}
 
 export type ContentsDocumentMethods = {
   canEdit: (propertyName?: string) => boolean
@@ -95,7 +96,7 @@ export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string
   metadata: MetadataDocument
   replicator: Replicator
-  properties: Map<string, TopLevelProperty | PrimaryProperty>
+  properties: Map<string, TopLevelProperty>
 }
 
 export type ContentsCollection = RxCollection<
@@ -103,7 +104,11 @@ export type ContentsCollection = RxCollection<
   ContentsDocumentMethods,
   ContentsCollectionPrototype
 >
-export type MetadataCollection = RxCollection<Metadata>
+export type MetadataCollection = RxCollection<
+  Metadata,
+  Record<string, unknown>,
+  { replicator: Replicator }
+>
 
 export type Modifier = (
   doc: Contents
@@ -120,10 +125,10 @@ type MetadataCollections<T extends Roles> = Record<
   `${Roles | T}_metadata`,
   RxCollection<Metadata>
 >
-type ContentsColections = Record<string, ContentsCollection>
+export type ContentsCollections = Record<string, ContentsCollection>
 
 export type DatabaseCollections<T extends Roles = Roles> =
-  MetadataCollections<T> & ContentsColections
+  MetadataCollections<T> & ContentsCollections
 
 export type Database<T extends Roles = Roles> = RxDatabase<
   DatabaseCollections<T>

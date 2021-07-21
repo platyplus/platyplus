@@ -1,5 +1,5 @@
 import { ControlLabel, Form, FormGroup, HelpBlock } from 'rsuite'
-import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
+import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import {
   PropertyTitle,
@@ -7,7 +7,7 @@ import {
   useGetForm,
   useSetForm
 } from '@platyplus/react-rxdb-hasura'
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { FieldComponentWrapper } from '../fields'
 import { DocumentComponent } from './types'
@@ -17,7 +17,7 @@ const DocumentField: React.FC<{
   document: ContentsDocument
   propertyName: string
   edit: boolean
-  property: TopLevelProperty | PrimaryProperty
+  property: TopLevelProperty
 }> = ({ document, propertyName, property, edit }) => (
   <FormGroup>
     <ControlLabel>
@@ -26,10 +26,7 @@ const DocumentField: React.FC<{
         property={propertyName}
         style={{ paddingRight: '10px' }}
       />
-      <PropertyTitle
-        collection={document.collection as ContentsCollection}
-        property={propertyName}
-      />
+      <PropertyTitle collection={document.collection} property={propertyName} />
     </ControlLabel>
     <FieldComponentWrapper
       document={document}

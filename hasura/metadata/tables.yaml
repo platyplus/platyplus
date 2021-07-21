@@ -674,14 +674,6 @@
           name: relationship_mapping
         column_mapping:
           id: relationship_id
-  - name: mapping_
-    using:
-      manual_configuration:
-        remote_table:
-          schema: metadata
-          name: relationship_mapping
-        column_mapping:
-          id: column_id
   select_permissions:
   - role: me
     permission:
@@ -978,9 +970,6 @@
         _and:
         - canSelect:
             column_name:
-              _eq: id
-        - canSelect:
-            column_name:
               _eq: updated_at
         - canSelect:
             column_name:
@@ -1231,6 +1220,14 @@
   - name: patient
     using:
       foreign_key_constraint_on: patient_id
+  array_relationships:
+  - name: lab_tests
+    using:
+      foreign_key_constraint_on:
+        column: visite_id
+        table:
+          schema: public
+          name: visite_lab_test
   insert_permissions:
   - role: user
     permission:
@@ -1264,5 +1261,41 @@
       - patient_id
       - test
       - visit_date
+      filter: {}
+      check: null
+- table:
+    schema: public
+    name: visite_lab_test
+  object_relationships:
+  - name: lab_test
+    using:
+      foreign_key_constraint_on: lab_test_id
+  - name: visite
+    using:
+      foreign_key_constraint_on: visite_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - deleted
+      - lab_test_id
+      - visite_id
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - deleted
+      - updated_at
+      - lab_test_id
+      - visite_id
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - deleted
       filter: {}
       check: null

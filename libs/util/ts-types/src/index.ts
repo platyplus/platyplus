@@ -1,3 +1,5 @@
+// TODO https://github.com/sindresorhus/type-fest
+
 // * See https://github.com/microsoft/TypeScript/issues/14094#issuecomment-373629568
 type Without<T> = { [P in keyof T]?: undefined }
 export type XOR<T, U> = (Without<T> & U) | (Without<U> & T)

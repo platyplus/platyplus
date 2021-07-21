@@ -1,22 +1,34 @@
 import { RxJsonSchema } from 'rxdb'
 
-import { Metadata } from '../../types'
+import { Contents, Metadata } from '../../types'
 import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from './columns'
+import { isIdColumn } from './id'
 import { indexes } from './indexes'
 import { metadataName } from './name'
 import { createRelationshipProperties } from './relationships'
 import { requiredProperties } from './required'
 
-export const toJsonSchema = (table: Metadata, role: string): RxJsonSchema => {
+export const toJsonSchema = (
+  table: Metadata,
+  role: string
+): RxJsonSchema<Contents> => {
   // TODO get the query/mutations/subscription names for building graphql queries
-  const result: RxJsonSchema = {
+  const result: RxJsonSchema<Contents> = {
     // keyCompression: true,
     type: 'object',
     title: table.config?.title || metadataName(table),
     description: '', // TODO table comment not in metadata yet
     version: 0,
+    primaryKey: {
+      key: 'id',
+      fields: table.columns
+        .filter((column) => isIdColumn(column))
+        .map((column) => column.column_name),
+      separator: '|'
+    },
     properties: {
+      id: { type: 'string' },
       ...createColumnProperties(table),
       ...createRelationshipProperties(table, role),
       ...createComputedFieldsProperties(table)

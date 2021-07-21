@@ -4,10 +4,10 @@ import { createComputedFieldsHooks } from '../computed-fields'
 import { createRelationshipHooks } from './relationships'
 // const forbiddenInsert = table.columns
 //   .filter(column => !column.canInsert.length)
-//   .map(column => column.column_name as string)
+//   .map(column => column.column_name )
 // const forbibbenUpdate = table.columns
 //   .filter(column => !column.canUpdate.length && !column.primaryKey)
-//   .map(column => column.column_name as string)
+//   .map(column => column.column_name )
 // TODO 1. Set defaut values from permissions "column preset"
 // TODO 2. Set to SQL default,
 // TODO 3. Cet to NULL (delete) if column is nullable.

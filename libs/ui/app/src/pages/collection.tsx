@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { useRxQuery } from 'rxdb-hooks'
 import { Animation } from 'rsuite'
 
-import { Contents } from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 import {
   CollectionTitle,
   useCollectionTitle,
@@ -34,7 +34,7 @@ export const CollectionPage: React.FC = () => {
             <CollectionToolbar collection={collection} />
             <CollectionComponentWrapper
               collection={collection}
-              data={result}
+              data={result as ContentsDocument[]} // TODO PR useRxQuery type in 'rxdb-hooks'to include Orm methods e.g. useRxQuery<T,U>
               edit={edit}
             />
           </div>

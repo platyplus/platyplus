@@ -1,4 +1,4 @@
-import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
+import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { ColumnFragment } from '../../generated'
 import { JsonSchemaFormat, Metadata } from '../../types'
@@ -25,10 +25,8 @@ const propertyFormat = (udtType: string): JsonSchemaFormat | undefined => {
   return postgresJsonSchemaFormatMapping[udtType]
 }
 
-export const createColumnProperties = (
-  table: Metadata
-): Record<string, TopLevelProperty | PrimaryProperty> => {
-  const result: Record<string, TopLevelProperty | PrimaryProperty> = {}
+export const createColumnProperties = (table: Metadata) => {
+  const result: Record<string, TopLevelProperty> = {}
   const skipRelationships = table.relationships
     .filter(
       (relationship) =>
@@ -38,15 +36,15 @@ export const createColumnProperties = (
   table.columns
     .filter(
       (column) =>
-        // *filter properties that are already mapped by an object relationship
-        !skipRelationships.includes(column.column_name as string) ||
+        // * filter properties that are already mapped by an object relationship
+        !skipRelationships.includes(column.column_name) ||
         // * filter relationships using the primary key as foreign key
         isIdColumn(column)
     )
     // * Do not add the deleted column to the properties
     .filter((column) => column.column_name !== 'deleted')
     .forEach((column) => {
-      const sqlType = column.udt_name as string
+      const sqlType = column.udt_name
       const type = propertyJsonType(column)
       // * Load custom JSON Schema, if it exists
       const customSchema = column.config?.json_schema
@@ -60,11 +58,9 @@ export const createColumnProperties = (
           property.format = format
         }
       }
-      // * Set primary key column
-      if (isIdColumn(column)) {
-        ;(property as PrimaryProperty).primary = true
-      }
-      result[column.column_name as string] = property
+      result[column.column_name] = property
     })
-  return result
+  return result as Record<string, TopLevelProperty> & {
+    updated_at: TopLevelProperty
+  }
 }

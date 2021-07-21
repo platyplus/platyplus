@@ -23,3 +23,13 @@ export const deletePath = (object: any, path: string[]): any => {
     return deletePath(object, path)
   else return result
 }
+
+export const mutateObjectValues = <T>(
+  obj: Record<string, unknown>,
+  mutator: ([string, unknown]) => T
+): Record<string, T> => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    acc[key] = mutator([key, value])
+    return acc
+  }, {})
+}

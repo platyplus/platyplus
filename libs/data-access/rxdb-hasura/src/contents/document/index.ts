@@ -1,15 +1,11 @@
-import {
-  ContentsCollection,
-  ContentsDocument,
-  ContentsDocumentMethods
-} from '../../types'
+import { ContentsDocument, ContentsDocumentMethods } from '../../types'
 import { systemDocumentComponent } from '../system'
 import { propertyType } from './property-type'
 export * from './property-type'
 
 export const documentMethods: ContentsDocumentMethods = {
   canEdit(this: ContentsDocument, propertyName?: string) {
-    const collection = this.collection as ContentsCollection // TODO write an issue or a PR in rxdb repo
+    const collection = this.collection // TODO write an issue or a PR in rxdb repo
     return this._isTemporary
       ? collection.canInsert(propertyName)
       : collection.canUpdate(propertyName)
@@ -26,7 +22,7 @@ export const documentMethods: ContentsDocumentMethods = {
 
   component(this: ContentsDocument, propertyName?: string) {
     if (propertyName) {
-      const collection = this.collection as ContentsCollection
+      const collection = this.collection
       const config = collection.metadata.propertiesConfig?.[propertyName]
       return config?.component || 'default'
     } else return systemDocumentComponent(this) || 'default'

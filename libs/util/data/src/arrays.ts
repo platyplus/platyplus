@@ -6,15 +6,16 @@ export const difference = <T extends Record<string, unknown>>(
   equals: (a: T, b: T) => boolean = deepEqual
 ): T[] =>
   initial.filter(
-    initialElement =>
-      !minus.some(minusElement => equals(initialElement, minusElement))
+    (initialElement) =>
+      !minus.some((minusElement) => equals(initialElement, minusElement))
   )
 
 export const intersection = <T extends Record<string, unknown>>(
   a: T[] | Readonly<T[]>,
   b: T[] | Readonly<T[]>,
   equals: (a: T, b: T) => boolean = deepEqual
-): T[] => a.filter(elementA => b.some(elementB => equals(elementA, elementB)))
+): T[] =>
+  a.filter((elementA) => b.some((elementB) => equals(elementA, elementB)))
 
 /**
  * @param initial
@@ -48,7 +49,7 @@ export const compareBy = <T extends Record<string, unknown>>(
   const [field, ...nextFields] = fields
   if (field) {
     if (typeof a[field] === 'string' && typeof b[field] === 'string') {
-      let fa = a[field] as string
+      let fa: string = a[field] as string
       let fb = b[field] as string
       if (caseSensitive) {
         fa = fa.toLowerCase()
@@ -64,7 +65,31 @@ export const compareBy = <T extends Record<string, unknown>>(
   } else return 0
 }
 
-export const compareByFields = <T extends Record<string, unknown>>(
-  fields: (keyof T)[],
-  options?: CompareOptions
-) => (a: T, b: T): number => compareBy(a, b, fields, options)
+export const compareByFields =
+  <T extends Record<string, unknown>>(
+    fields: (keyof T)[],
+    options?: CompareOptions
+  ) =>
+  (a: T, b: T): number =>
+    compareBy(a, b, fields, options)
+
+export const reduceStringArrayValues = <T>(
+  arr: string[],
+  mutator: (v: string) => T
+): Record<string, T> => {
+  return arr.reduce<Record<string, T>>((acc, key) => {
+    acc[key] = mutator(key)
+    return acc
+  }, {})
+}
+
+export const reduceArrayValues = <T, U>(
+  arr: T[],
+  mutator: (v: T) => [string, U]
+): Record<string, U> => {
+  return arr.reduce((acc, cursor) => {
+    const [key, value] = mutator(cursor)
+    acc[key] = value
+    return acc
+  }, {})
+}

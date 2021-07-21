@@ -1,3 +1,5 @@
+import { isRxDocument, RxDocument } from 'rxdb'
+import { DeepReadonly } from 'rxdb/dist/types/types'
 import clone from 'clone-deep'
 import { DocumentNode } from 'graphql'
 import decode from 'jwt-decode'
@@ -5,7 +7,6 @@ import decode from 'jwt-decode'
 import { jsonataPaths } from '@platyplus/jsonata-schema'
 
 import { ContentsCollection } from './types'
-import { isRxDocument, RxDocument } from 'rxdb'
 
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never
@@ -45,22 +46,6 @@ export const rxdbJsonataPaths = (
   collection: ContentsCollection
 ): FieldMap => generateRxdbJsonataPaths(jsonataPaths(expression), collection)
 
-export const objectSchemaToGraphqlFields = (
-  schema: FieldMapItem,
-  path = ''
-): string => {
-  if (typeof schema === 'object') {
-    return `${path} { ${Object.entries(schema)
-      .map(([key, value]) => {
-        // TODO check ref collection through "collection[key]"
-        return objectSchemaToGraphqlFields(value, key)
-      })
-      .join(', ')} }`
-  } else {
-    return path
-  }
-}
-
 type Claims = Record<string, unknown> & {
   ['https://hasura.io/jwt/claims']: HasuraClaims
 }
@@ -99,5 +84,5 @@ export const queryToSubscription = (query: DocumentNode): DocumentNode => {
   return result
 }
 
-export const documentContents = <T>(doc: T | RxDocument<T>): T =>
-  isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : doc
+export const documentContents = <T>(doc: T | RxDocument<T>): DeepReadonly<T> =>
+  isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : (doc as DeepReadonly<T>)

@@ -7,11 +7,16 @@ import deepEqual from 'deep-equal'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { debug, error, errorDir, info, warn } from '../console'
-import { contentsCollectionCreator, metadataName } from '../contents'
+import {
+  contentsCollectionCreator,
+  isManyToManyTable,
+  metadataName
+} from '../contents'
 import { Metadata, MetadataCollection } from '../types'
 import { createHeaders } from '../utils'
 import { stringQuery, subscription } from './graphql'
 import { modifier } from './modifier'
+
 export type MetadataReplicatorOptions = {
   url: string
   batchSize?: number
@@ -28,58 +33,71 @@ export const createMetadataReplicator = async (
   const db = metadataCollection.database
   const url = db.options.url
 
-  let state: RxGraphQLReplicationState | undefined
+  let state: RxGraphQLReplicationState<Metadata> | undefined
   let wsSubscription: SubscriptionClient | undefined
   let metaSubscription: Subscription | undefined
   let jwtSubscription: Subscription | undefined
   let errorSubscription: Subscription | undefined
 
-  const setupGraphQLReplication =
-    async (): Promise<RxGraphQLReplicationState> => {
-      const replicationState = metadataCollection.syncGraphQL({
-        url,
-        headers: createHeaders(role, db.jwt$.getValue()),
-        pull: {
-          // ! TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
-          // ! fetch it again entirely on every change, then deep compare old and new result...
-          // ! Ideally the metadata query would need to get an 'updated_at' field
-          // ! ( but it needs to be determined on the postgresql side... )
-          // TODO (plus there's a lot of code duplicates with the contents replicator)
-          queryBuilder: (doc) => {
-            return {
-              query:
-                doc && !db[`${role}_${metadataName(doc)}`]
-                  ? noopQuery
-                  : stringQuery,
-              variables: {}
-            }
-          },
-          modifier: async (doc) => {
-            const oldDoc = await metadataCollection.findOne(doc.id).exec()
-            const newDoc = modifier(doc)
-            if (oldDoc && deepEqual(newDoc, oldDoc.toJSON())) return null
-            else return newDoc
+  const setupGraphQLReplication = async (): Promise<
+    RxGraphQLReplicationState<Metadata>
+  > => {
+    const replicationState = metadataCollection.syncGraphQL({
+      url,
+      headers: createHeaders(role, db.jwt$.getValue()),
+      pull: {
+        // ! TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
+        // ! fetch it again entirely on every change, then deep compare old and new result...
+        // ! Ideally the metadata query would need to get an 'updated_at' field
+        // ! ( but it needs to be determined on the postgresql side... )
+        // TODO (plus there's a lot of code duplicates with the contents replicator)
+        queryBuilder: (doc: Metadata) => {
+          return {
+            query:
+              doc && // * Do not load metadata (again) when metadata collection already exists
+              (!db[`${role}_${metadataName(doc)}`] ||
+                // * Do not load metadata when the role can't select every primary key
+                doc.columns.some(
+                  (column) =>
+                    !!column.primaryKey &&
+                    !column.canSelect.every(
+                      (permission) => permission.role_name !== role
+                    )
+                ))
+                ? noopQuery
+                : stringQuery,
+            variables: {}
           }
         },
-        live: true,
-        liveInterval: 1000 * 60 * 10, // 10 minutes
-        deletedFlag: 'deleted',
-        waitForLeadership: true // defaults to true
-      })
-      replicationState.error$.subscribe((err) => {
-        error(`replication error on ${metadataCollection.name}`)
-        errorDir(err)
-      })
+        modifier: async (doc) => {
+          const newDoc = modifier(doc)
+          // * Do not load many2many join tables
+          if (isManyToManyTable(newDoc)) return null
+          const oldDoc = await metadataCollection.findOne(doc.id).exec()
+          // * Don't load metadata again if nothing changed list last time it has been put in the Rx database
+          if (oldDoc && deepEqual(newDoc, oldDoc.toJSON())) return null
+          else return newDoc
+        }
+      },
+      live: true,
+      liveInterval: 1000 * 60 * 10, // 10 minutes
+      deletedFlag: 'deleted',
+      waitForLeadership: true // defaults to true
+    })
+    replicationState.error$.subscribe((err) => {
+      error(`replication error on ${metadataCollection.name}`)
+      errorDir(err)
+    })
 
-      jwtSubscription = db.jwt$.subscribe((token?: string) => {
-        debug(`Replicator (${metadataCollection.name}): set token`)
-        replicationState.setHeaders(createHeaders(role, token))
-        wsSubscription?.close()
-        wsSubscription = setupGraphQLSubscription()
-      })
+    jwtSubscription = db.jwt$.subscribe((token?: string) => {
+      debug(`Replicator (${metadataCollection.name}): set token`)
+      replicationState.setHeaders(createHeaders(role, token))
+      wsSubscription?.close()
+      wsSubscription = setupGraphQLSubscription()
+    })
 
-      return replicationState
-    }
+    return replicationState
+  }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     info(`setupGraphQLSubscription ${metadataCollection.name}`)
@@ -122,10 +140,12 @@ export const createMetadataReplicator = async (
           const metadataDoc = await db.collections[event.collectionName]
             .findOne(event.documentId)
             .exec()
-          const collectionName = `${role}_${metadataName(event.documentData)}`
-          await db.addCollections({
-            [collectionName]: contentsCollectionCreator(metadataDoc, role)
-          })
+          if (metadataDoc) {
+            const collectionName = `${role}_${metadataName(event.documentData)}`
+            await db.addCollections({
+              [collectionName]: contentsCollectionCreator(metadataDoc, role)
+            })
+          }
         }
       }
     )

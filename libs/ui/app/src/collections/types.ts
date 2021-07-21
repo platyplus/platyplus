@@ -1,6 +1,5 @@
-import { Contents, ContentsCollection } from '@platyplus/rxdb-hasura'
 import React from 'react'
-import { RxDocument } from 'rxdb'
+import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 type CommonCollectionComponentProps = {
   edit: boolean
@@ -11,7 +10,7 @@ export type CollectionComponent<T = {}> = React.FC<
   T &
     CommonCollectionComponentProps & {
       collection: ContentsCollection
-      data: RxDocument<Contents>[]
+      data: ContentsDocument[]
     }
 >
 

@@ -1,4 +1,4 @@
-import { RxCollectionCreatorBase } from 'rxdb/dist/types/types'
+import { RxCollectionCreator } from 'rxdb/dist/types/types'
 
 import { Metadata } from '../../types'
 import { collectionMethods } from '../collection'
@@ -8,7 +8,7 @@ import { toJsonSchema } from '../schema'
 export const contentsCollectionCreator = (
   metadata: Metadata,
   role: string
-): RxCollectionCreatorBase => {
+): RxCollectionCreator => {
   return {
     schema: toJsonSchema(metadata, role),
     statics: collectionMethods,

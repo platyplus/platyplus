@@ -1,11 +1,18 @@
 import gql from 'graphql-tag'
 import { print } from 'graphql/language/printer'
 import { queryToSubscription } from '../utils'
+// TODO move remoteTable from relationship.mapping to relationship
 export const query = gql`
   fragment coreTable on metadata_table {
     id
     table_name
     table_schema
+    primaryKey {
+      constraint_name
+      columns {
+        column_name
+      }
+    }
   }
 
   fragment column on metadata_column_info {
@@ -19,12 +26,7 @@ export const query = gql`
     view {
       id
     }
-    primaryKey {
-      constraint_name
-      columns {
-        column_name
-      }
-    }
+
     indexes {
       index_name
       columns {
@@ -75,7 +77,7 @@ export const query = gql`
         mapping: {
           remoteTable: {
             _and: [
-              { columns: { column_name: { _eq: "id" } } }
+              # { columns: { column_name: { _eq: "id" } } }
               { columns: { column_name: { _eq: "updated_at" } } }
               { columns: { column_name: { _eq: "deleted" } } }
             ]
@@ -120,7 +122,6 @@ export const query = gql`
       where: {
         _and: [
           { columns: { column_name: { _eq: "updated_at" } } }
-          { columns: { column_name: { _eq: "id" } } }
           { columns: { column_name: { _eq: "deleted" } } }
         ]
       }

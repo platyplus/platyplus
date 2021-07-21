@@ -31,7 +31,7 @@ const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
 export const propertyJsonType = (
   columnInfo: ColumnFragment
 ): JsonSchemaPropertyType | JsonSchemaPropertyType[] => {
-  const udtType = columnInfo.udt_name as string
+  const udtType = columnInfo.udt_name
   // TODO change is_nullable to boolean value in SQL view definition
   const isNullable = columnInfo.is_nullable === 'YES'
   if (!postgresJsonSchemaTypeMapping[udtType])

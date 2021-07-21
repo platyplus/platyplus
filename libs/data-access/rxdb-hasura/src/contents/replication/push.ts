@@ -1,10 +1,11 @@
 import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
-import stringifyObject from 'stringify-object'
+import { jsonToGraphQLQuery } from 'json-to-graphql-query'
 
 import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { computedFields } from '../computed-fields'
-import { filteredRelationships, metadataName } from '../schema'
+import { filteredRelationships, getIds, metadataName } from '../schema'
+import { reduceStringArrayValues } from '@platyplus/data'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -14,17 +15,40 @@ export const pushQueryBuilder = (
 ): RxGraphQLReplicationQueryBuilder => {
   const table = collection.metadata
   const title = metadataName(table)
+  const idKeys = getIds(table)
+
   return ({ _isNew, ...doc }: Contents) => {
     debug('push query builder in', doc)
+    // * Process 'system' RxDB fields
+    doc.deleted = doc._deleted
+    Object.keys(doc)
+      .filter((key) => key.startsWith('_'))
+      .forEach((key) => delete doc[key])
+
     const { id, ...updateDoc } = doc
-    const query = _isNew
-      ? `mutation { insert_${title}_one(object:${stringifyObject(doc, {
-          singleQuotes: false
-        })}) { id } }`
-      : `mutation { update_${title}(where: { id: { _eq: "${id}" } }, _set: ${stringifyObject(
-          updateDoc,
-          { singleQuotes: false }
-        )}) { returning { id } } }`
+
+    const query = jsonToGraphQLQuery({
+      mutation: _isNew
+        ? {
+            [`insert_${title}_one`]: {
+              __args: { object: doc },
+              ...reduceStringArrayValues(idKeys, () => true)
+            }
+          }
+        : {
+            [`update_${title}`]: {
+              __args: {
+                where: {
+                  id: {
+                    _eq: id
+                  }
+                },
+                _set: updateDoc
+              },
+              returning: reduceStringArrayValues(idKeys, () => true)
+            }
+          }
+    })
     debug('push query builder:', { query })
     return {
       query,
@@ -39,10 +63,10 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
   if (table.view) return () => null
   const objectRelationships = filteredRelationships(table)
     .filter(({ rel_type }) => rel_type === 'object')
-    .map(rel => {
+    .map((rel) => {
       return {
-        name: rel.rel_name as string,
-        column: rel.mapping[0].column?.column_name as string
+        name: rel.rel_name,
+        column: rel.mapping[0].column?.column_name
       }
     })
 
@@ -50,28 +74,26 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     ...computedFields(collection),
     ...table.relationships
       .filter(({ rel_type }) => rel_type === 'array')
-      .reduce<string[]>(
-        (aggr, { rel_name }) => (
-          aggr.push(rel_name as string, `${rel_name}_aggregate`), aggr
-        ),
-        []
-      )
+      .reduce<string[]>((aggr, { rel_name }) => {
+        aggr.push(rel_name, `${rel_name}_aggregate`)
+        return aggr
+      }, [])
   ]
 
   const forbiddenInsertColumns =
     collection.role === 'admin'
       ? []
       : table.columns
-          .filter(column => !column.canInsert.length)
-          .map(column => column.column_name as string)
+          .filter((column) => !column.canInsert.length)
+          .map((column) => column.column_name)
   const forbiddenUpdateColumns =
     collection.role === 'admin'
       ? []
       : table.columns
-          .filter(column => !column.canUpdate.length)
-          .map(column => column.column_name as string)
+          .filter((column) => !column.canUpdate.length)
+          .map((column) => column.column_name)
 
-  return async data => {
+  return async (data) => {
     debug('pushModifier: in:', data)
     const _isNew = isNewDocument(data)
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates

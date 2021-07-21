@@ -127,7 +127,7 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
         {[...properties.keys()].map((name, index) => (
           <List.Item key={name} index={index}>
             <PropertyConfig
-              metadata={document}
+              collection={collection}
               name={name}
               expanded={expandedProperties[name]}
               onSelect={() => toggleProperty(name)}

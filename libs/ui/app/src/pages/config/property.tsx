@@ -10,21 +10,33 @@ import {
 import { usePropertyConfig } from '@platyplus/react-rxdb-hasura'
 
 import { IconPicker } from '@platyplus/layout'
-import { Metadata } from '@platyplus/rxdb-hasura'
+import {
+  collectionPropertyType,
+  ContentsCollection
+} from '@platyplus/rxdb-hasura'
 import { upperCaseFirst } from '@platyplus/data'
 
 import { useComponentsContext } from '../../components'
 import { useMemo } from 'react'
 
 export const PropertyConfig: React.FC<{
-  metadata: Metadata
+  collection: ContentsCollection
   name: string
   expanded: boolean
   onSelect: () => void
-}> = ({ metadata, name, expanded, onSelect }) => {
+}> = ({ collection, name, expanded, onSelect }) => {
+  const metadata = collection.metadata
   const [config, setConfig] = usePropertyConfig(metadata, name, null)
   const componentContext = useComponentsContext()
-  const fieldComponents = Object.keys(componentContext.fields)
+  const type = useMemo(
+    () => collectionPropertyType(collection, name),
+    [collection, name]
+  )
+
+  const fieldComponents = useMemo(
+    () => Object.keys(componentContext.fields[type]),
+    [componentContext.fields, type]
+  )
   const title = useMemo(
     () => (config?.title ? `${config.title} (${name})` : name),
     [config, name]

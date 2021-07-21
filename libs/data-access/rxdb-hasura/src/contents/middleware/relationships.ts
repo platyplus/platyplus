@@ -3,7 +3,6 @@ import { RxCollectionHookCallback } from 'rxdb'
 import {
   Contents,
   ContentsCollection,
-  ContentsDocument,
   ContentsDocumentMethods
 } from '../../types'
 
@@ -18,7 +17,7 @@ const documentLocks: Record<string, boolean> = {}
 //   )) {
 //     // * Fetch the referenced document
 //     const refDoc: ContentsDocument | null = await doc.populate(
-//       rel.rel_name as string
+//       rel.rel_name
 //     )
 //     if (refDoc && !documentLocks[refDoc.primary]) {
 //       const mirrorRelation = Object.entries(
@@ -44,11 +43,11 @@ const postInsertRelationship =
   async (data, doc) => {
     // TODO use 'populate' to simplify
     for (const rel of collection.metadata.relationships) {
-      const relName = rel.rel_name as string
+      const relName = rel.rel_name
       if (!data[relName]) return // * Relation stayed null
       const property = collection.schema.jsonSchema.properties[relName]
-      const refCollection =
-        collection.database.collections[property.ref as string]
+      const refCollection: ContentsCollection =
+        collection.database.collections[property.ref]
       const mirrorRelation = Object.entries(
         refCollection.schema.jsonSchema.properties
       ).find(([, value]) => {
@@ -57,12 +56,10 @@ const postInsertRelationship =
       if (!mirrorRelation) return
       if (rel.rel_type === 'array') {
         // * When a One-to-Many (array) relationship changes, update the potential mirror Many-to-One (object) relationship in the referenced collection
-        const additions = (data[relName] || []) as string[]
+        const additions: string[] = data[relName] || []
         // * Changes foreign key in the new referenced documents
         for (const addition of additions) {
-          const refDoc: ContentsDocument | null = await refCollection
-            .findOne(addition)
-            .exec()
+          const refDoc = await refCollection.findOne(addition).exec()
           if (refDoc && !documentLocks[refDoc.primary])
             await refDoc.atomicPatch({
               [mirrorRelation]: doc.primary
@@ -70,11 +67,9 @@ const postInsertRelationship =
         }
       } else if (rel.rel_type === 'object') {
         // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
-        const newValue = data[relName] as string
+        const newValue: string = data[relName]
         // * Add document from the One-to-Many relationship in the new Many-To-One reference
-        const refDoc: ContentsDocument | null = await refCollection
-          .findOne(newValue)
-          .exec()
+        const refDoc = await refCollection.findOne(newValue).exec()
         if (refDoc && !documentLocks[refDoc.primary])
           await refDoc.atomicPatch({
             [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]
@@ -91,11 +86,11 @@ const preSaveRelationship =
     // TODO use 'populate' to simplify
     documentLocks[doc.primary] = true
     for (const rel of collection.metadata.relationships) {
-      const relName = rel.rel_name as string
+      const relName = rel.rel_name
       if (!doc[relName] && !data[relName]) return // * Relation stayed null
       const property = collection.properties.get(relName)
-      const refCollection =
-        collection.database.collections[property.ref as string]
+      const refCollection: ContentsCollection =
+        collection.database.collections[property.ref]
       const mirrorRelation = Object.entries(
         refCollection.schema.jsonSchema.properties
       ).find(([, value]) => {
@@ -104,14 +99,12 @@ const preSaveRelationship =
       if (!mirrorRelation) return
       if (rel.rel_type === 'array') {
         // * When a One-to-Many (array) relationship changes, update the potential mirror Many-to-One (object) relationship in the referenced collection
-        const oldValue = (doc[relName] || []) as string[]
-        const newValue = (data[relName] || []) as string[]
+        const oldValue: string[] = doc[relName] || []
+        const newValue: string[] = data[relName] || []
         // * Changes foreign key in the new referenced documents
         const additions = newValue.filter((value) => !oldValue.includes(value))
         for (const addition of additions) {
-          const refDoc: ContentsDocument | null = await refCollection
-            .findOne(addition)
-            .exec()
+          const refDoc = await refCollection.findOne(addition).exec()
           if (refDoc && !documentLocks[refDoc.primary])
             await refDoc.atomicPatch({
               [mirrorRelation]: doc.primary
@@ -121,9 +114,7 @@ const preSaveRelationship =
         // TODO if cascade, remove the document
         const deletions = oldValue.filter((value) => !newValue.includes(value))
         for (const deletion of deletions) {
-          const refDoc: ContentsDocument | null = await refCollection
-            .findOne(deletion)
-            .exec()
+          const refDoc = await refCollection.findOne(deletion).exec()
           if (refDoc && !documentLocks[refDoc.primary])
             await refDoc.atomicPatch({
               [mirrorRelation]: null
@@ -131,26 +122,22 @@ const preSaveRelationship =
         }
       } else if (rel.rel_type === 'object') {
         // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
-        const oldValue = doc[relName] as string | undefined
-        const newValue = data[relName] as string | undefined
+        const oldValue = doc[relName]
+        const newValue = data[relName]
         if (newValue !== oldValue) {
           if (oldValue) {
             // * Remove document from the One-to-Many relationship in the old Many-To-One reference
-            const refDoc: ContentsDocument | null = await refCollection
-              .findOne(oldValue)
-              .exec()
+            const refDoc = await refCollection.findOne(oldValue).exec()
             if (refDoc && !documentLocks[refDoc.primary])
               await refDoc.atomicPatch({
-                [mirrorRelation]: (
-                  refDoc.get(mirrorRelation) as string[]
-                ).filter((key) => key !== doc.primary)
+                [mirrorRelation]: refDoc
+                  .get(mirrorRelation)
+                  .filter((key: string) => key !== doc.primary)
               })
           }
           if (newValue) {
             // * Add document from the One-to-Many relationship in the new Many-To-One reference
-            const refDoc: ContentsDocument | null = await refCollection
-              .findOne(newValue)
-              .exec()
+            const refDoc = await refCollection.findOne(newValue).exec()
             if (refDoc && !documentLocks[refDoc.primary])
               await refDoc.atomicPatch({
                 [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]

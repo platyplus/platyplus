@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRxData } from 'rxdb-hooks'
-import { Contents, ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
-import { RxCollection } from 'rxdb'
+
+import { ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
 
 export const useMetadataCollection = (role: string) => {
   const queryConstructor = useCallback((collection) => collection.find(), [])
@@ -25,7 +25,7 @@ export const useMetadataDocument = (role: string, id: string) => {
 }
 
 export const useCollectionMetadata = (
-  collection?: ContentsCollection | RxCollection<Contents>
+  collection?: ContentsCollection
 ): Readonly<Metadata | null> => {
   const [result, setResult] = useState<Metadata>()
   useEffect(() => {

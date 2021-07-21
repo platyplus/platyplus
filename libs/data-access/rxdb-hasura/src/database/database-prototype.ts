@@ -1,8 +1,11 @@
-import { Database } from '../types'
+import { Database, DatabasePrototype } from '../types'
 import { authStatus, contents, jwt } from './observables'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const RxDatabase = (proto: any) => {
+type Prototype = {
+  -readonly [K in keyof DatabasePrototype]: DatabasePrototype[K]
+}
+
+export const RxDatabase = (proto: Prototype) => {
   Object.defineProperty(proto, 'contents$', {
     get: function (this: Database) {
       return contents

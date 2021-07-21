@@ -18,22 +18,21 @@ export const collectionPermissionMethods: Pick<
         if (relationship?.rel_type === 'object') {
           // * object relationship: check permission to insert every foreign key column
           return relationship.mapping
-            .map(m => m.column?.column_name)
-            .every(column => column && this.canInsert(column))
+            .map((m) => m.column?.column_name)
+            .every((column) => column && this.canInsert(column))
         } else {
           // * array relationship: check permission to update the foreign key columns
-          const refCollectionName = this.schema.jsonSchema.properties[
-            relationship?.rel_name as string
-          ].ref as string
+          const refCollectionName =
+            this.schema.jsonSchema.properties[relationship?.rel_name].ref
           const refCollection = this.database[refCollectionName]
-          return !!relationship?.mapping.every(m =>
-            refCollection?.canUpdate(m.remote_column_name as string)
+          return !!relationship?.mapping.every((m) =>
+            refCollection?.canUpdate(m.remote_column_name)
           )
         }
       } else {
         // * Column
         const column = this.metadata.columns.find(
-          col => col.column_name === fieldName
+          (col) => col.column_name === fieldName
         )
         return !!column?.canInsert.length
       }
@@ -56,22 +55,22 @@ export const collectionPermissionMethods: Pick<
         if (relationship?.rel_type === 'object') {
           // * object relationship: check permission to update every foreign key column
           return relationship.mapping
-            .map(m => m.column?.column_name)
-            .every(column => column && this.canUpdate(column))
+            .map((m) => m.column?.column_name)
+            .every((column) => column && this.canUpdate(column))
         } else {
           // * array relationship: check permission to update the foreign key columns
-          const refCollection = this.database.collections[
-            this.schema.jsonSchema.properties[relationship?.rel_name as string]
-              .ref as string
-          ]
-          return !!relationship?.mapping.every(m =>
-            refCollection.canUpdate(m.remote_column_name as string)
+          const refCollection =
+            this.database.collections[
+              this.schema.jsonSchema.properties[relationship?.rel_name].ref
+            ]
+          return !!relationship?.mapping.every((m) =>
+            refCollection.canUpdate(m.remote_column_name)
           )
         }
       } else {
         // * Column
         const column = this.metadata.columns.find(
-          col => col.column_name === fieldName
+          (col) => col.column_name === fieldName
         )
         return !!column?.canUpdate.length
       }

@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 import { useRxData } from 'rxdb-hooks'
 
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
+
 import { useContentsCollection } from './collection'
 
 export const useDocument = (name: string, id: string) => {
@@ -18,7 +19,7 @@ export const useDocument = (name: string, id: string) => {
   const document = useMemo(() => {
     if (id === 'new') {
       if (collection) {
-        const newDoc = collection.newDocument()
+        const newDoc = collection.newDocument() as ContentsDocument
         newDoc[collection.schema.primaryPath] = newId
         return newDoc
       }

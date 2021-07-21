@@ -1,25 +1,22 @@
-import { PrimaryProperty, TopLevelProperty } from 'rxdb/dist/types/types'
+import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { info } from '../console'
 import { createContentReplicator, createHooks } from '../contents'
 import { createMetadataReplicator } from '../metadata'
 import { ContentsCollection, MetadataCollection } from '../types'
-import { hasuraCollections } from './helpers'
+import { contentsCollections } from './helpers'
 import { contents } from './observables'
 import { skip } from 'rxjs/operators'
 
-// const compare = (a: number | undefined, b: number | undefined) => {
-//   return a || b ? (!a ? 1 : !b ? -1 : a - b) : 0
-// }
-
 const collectionProperties = (
   collection: ContentsCollection
-): Map<string, TopLevelProperty | PrimaryProperty> => {
+): Map<string, TopLevelProperty> => {
   const schema = collection.schema
+
   const excludedProperties = [
-    // * 'system' properties
-    '_rev',
-    '_attachments',
+    // * RxDB 'system' properties
+    ...schema.topLevelFields.filter((value) => value.startsWith('_')),
+    // * RxDB Hasura 'system' properties
     'updated_at',
     'created_at',
     'label',
@@ -61,7 +58,7 @@ export const createRxCollection = async (
     info(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({
-      ...hasuraCollections(collection.database),
+      ...contentsCollections(collection.database),
       [collection.name]: collection
     })
     await createContentReplicator(collection, collection.options.role)

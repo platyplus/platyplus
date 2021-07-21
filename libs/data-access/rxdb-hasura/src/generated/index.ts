@@ -25,6 +25,7 @@ export type Scalars = {
   name: string
   numeric: any
   smallint: number
+  timestamp: any
   timestamptz: Date
   uuid: string
 }
@@ -920,6 +921,638 @@ export enum Auth_Accounts_Update_Column {
   UserId = 'user_id'
 }
 
+/** columns and relationships of "auth.email_templates" */
+export type Auth_Email_Templates = {
+  __typename?: 'auth_email_templates'
+  html: Scalars['String']
+  id: Scalars['String']
+  locale: Scalars['String']
+  no_html: Scalars['String']
+  title: Scalars['String']
+}
+
+/** aggregated selection of "auth.email_templates" */
+export type Auth_Email_Templates_Aggregate = {
+  __typename?: 'auth_email_templates_aggregate'
+  aggregate: Maybe<Auth_Email_Templates_Aggregate_Fields>
+  nodes: Array<Auth_Email_Templates>
+}
+
+/** aggregate fields of "auth.email_templates" */
+export type Auth_Email_Templates_Aggregate_Fields = {
+  __typename?: 'auth_email_templates_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Auth_Email_Templates_Max_Fields>
+  min: Maybe<Auth_Email_Templates_Min_Fields>
+}
+
+/** aggregate fields of "auth.email_templates" */
+export type Auth_Email_Templates_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Auth_Email_Templates_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "auth.email_templates" */
+export type Auth_Email_Templates_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Auth_Email_Templates_Max_Order_By>
+  min: Maybe<Auth_Email_Templates_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "auth.email_templates" */
+export type Auth_Email_Templates_Arr_Rel_Insert_Input = {
+  data: Array<Auth_Email_Templates_Insert_Input>
+  on_conflict: Maybe<Auth_Email_Templates_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "auth.email_templates". All fields are combined with a logical 'AND'. */
+export type Auth_Email_Templates_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Auth_Email_Templates_Bool_Exp>>>
+  _not: Maybe<Auth_Email_Templates_Bool_Exp>
+  _or: Maybe<Array<Maybe<Auth_Email_Templates_Bool_Exp>>>
+  html: Maybe<String_Comparison_Exp>
+  id: Maybe<String_Comparison_Exp>
+  locale: Maybe<String_Comparison_Exp>
+  no_html: Maybe<String_Comparison_Exp>
+  title: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "auth.email_templates" */
+export enum Auth_Email_Templates_Constraint {
+  /** unique or primary key constraint */
+  EmailTemplatesPkey = 'email_templates_pkey'
+}
+
+/** input type for inserting data into table "auth.email_templates" */
+export type Auth_Email_Templates_Insert_Input = {
+  html: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
+  locale: Maybe<Scalars['String']>
+  no_html: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Auth_Email_Templates_Max_Fields = {
+  __typename?: 'auth_email_templates_max_fields'
+  html: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
+  locale: Maybe<Scalars['String']>
+  no_html: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "auth.email_templates" */
+export type Auth_Email_Templates_Max_Order_By = {
+  html: Maybe<Order_By>
+  id: Maybe<Order_By>
+  locale: Maybe<Order_By>
+  no_html: Maybe<Order_By>
+  title: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Auth_Email_Templates_Min_Fields = {
+  __typename?: 'auth_email_templates_min_fields'
+  html: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
+  locale: Maybe<Scalars['String']>
+  no_html: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "auth.email_templates" */
+export type Auth_Email_Templates_Min_Order_By = {
+  html: Maybe<Order_By>
+  id: Maybe<Order_By>
+  locale: Maybe<Order_By>
+  no_html: Maybe<Order_By>
+  title: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "auth.email_templates" */
+export type Auth_Email_Templates_Mutation_Response = {
+  __typename?: 'auth_email_templates_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Auth_Email_Templates>
+}
+
+/** input type for inserting object relation for remote table "auth.email_templates" */
+export type Auth_Email_Templates_Obj_Rel_Insert_Input = {
+  data: Auth_Email_Templates_Insert_Input
+  on_conflict: Maybe<Auth_Email_Templates_On_Conflict>
+}
+
+/** on conflict condition type for table "auth.email_templates" */
+export type Auth_Email_Templates_On_Conflict = {
+  constraint: Auth_Email_Templates_Constraint
+  update_columns: Array<Auth_Email_Templates_Update_Column>
+  where: Maybe<Auth_Email_Templates_Bool_Exp>
+}
+
+/** ordering options when selecting data from "auth.email_templates" */
+export type Auth_Email_Templates_Order_By = {
+  html: Maybe<Order_By>
+  id: Maybe<Order_By>
+  locale: Maybe<Order_By>
+  no_html: Maybe<Order_By>
+  title: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "auth.email_templates" */
+export type Auth_Email_Templates_Pk_Columns_Input = {
+  id: Scalars['String']
+  locale: Scalars['String']
+}
+
+/** select columns of table "auth.email_templates" */
+export enum Auth_Email_Templates_Select_Column {
+  /** column name */
+  Html = 'html',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Locale = 'locale',
+  /** column name */
+  NoHtml = 'no_html',
+  /** column name */
+  Title = 'title'
+}
+
+/** input type for updating data in table "auth.email_templates" */
+export type Auth_Email_Templates_Set_Input = {
+  html: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
+  locale: Maybe<Scalars['String']>
+  no_html: Maybe<Scalars['String']>
+  title: Maybe<Scalars['String']>
+}
+
+/** update columns of table "auth.email_templates" */
+export enum Auth_Email_Templates_Update_Column {
+  /** column name */
+  Html = 'html',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Locale = 'locale',
+  /** column name */
+  NoHtml = 'no_html',
+  /** column name */
+  Title = 'title'
+}
+
+/** columns and relationships of "auth.migrations" */
+export type Auth_Migrations = {
+  __typename?: 'auth_migrations'
+  executed_at: Maybe<Scalars['timestamp']>
+  hash: Scalars['String']
+  id: Scalars['Int']
+  name: Scalars['String']
+}
+
+/** aggregated selection of "auth.migrations" */
+export type Auth_Migrations_Aggregate = {
+  __typename?: 'auth_migrations_aggregate'
+  aggregate: Maybe<Auth_Migrations_Aggregate_Fields>
+  nodes: Array<Auth_Migrations>
+}
+
+/** aggregate fields of "auth.migrations" */
+export type Auth_Migrations_Aggregate_Fields = {
+  __typename?: 'auth_migrations_aggregate_fields'
+  avg: Maybe<Auth_Migrations_Avg_Fields>
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Auth_Migrations_Max_Fields>
+  min: Maybe<Auth_Migrations_Min_Fields>
+  stddev: Maybe<Auth_Migrations_Stddev_Fields>
+  stddev_pop: Maybe<Auth_Migrations_Stddev_Pop_Fields>
+  stddev_samp: Maybe<Auth_Migrations_Stddev_Samp_Fields>
+  sum: Maybe<Auth_Migrations_Sum_Fields>
+  var_pop: Maybe<Auth_Migrations_Var_Pop_Fields>
+  var_samp: Maybe<Auth_Migrations_Var_Samp_Fields>
+  variance: Maybe<Auth_Migrations_Variance_Fields>
+}
+
+/** aggregate fields of "auth.migrations" */
+export type Auth_Migrations_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Auth_Migrations_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "auth.migrations" */
+export type Auth_Migrations_Aggregate_Order_By = {
+  avg: Maybe<Auth_Migrations_Avg_Order_By>
+  count: Maybe<Order_By>
+  max: Maybe<Auth_Migrations_Max_Order_By>
+  min: Maybe<Auth_Migrations_Min_Order_By>
+  stddev: Maybe<Auth_Migrations_Stddev_Order_By>
+  stddev_pop: Maybe<Auth_Migrations_Stddev_Pop_Order_By>
+  stddev_samp: Maybe<Auth_Migrations_Stddev_Samp_Order_By>
+  sum: Maybe<Auth_Migrations_Sum_Order_By>
+  var_pop: Maybe<Auth_Migrations_Var_Pop_Order_By>
+  var_samp: Maybe<Auth_Migrations_Var_Samp_Order_By>
+  variance: Maybe<Auth_Migrations_Variance_Order_By>
+}
+
+/** input type for inserting array relation for remote table "auth.migrations" */
+export type Auth_Migrations_Arr_Rel_Insert_Input = {
+  data: Array<Auth_Migrations_Insert_Input>
+  on_conflict: Maybe<Auth_Migrations_On_Conflict>
+}
+
+/** aggregate avg on columns */
+export type Auth_Migrations_Avg_Fields = {
+  __typename?: 'auth_migrations_avg_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by avg() on columns of table "auth.migrations" */
+export type Auth_Migrations_Avg_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** Boolean expression to filter rows from the table "auth.migrations". All fields are combined with a logical 'AND'. */
+export type Auth_Migrations_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Auth_Migrations_Bool_Exp>>>
+  _not: Maybe<Auth_Migrations_Bool_Exp>
+  _or: Maybe<Array<Maybe<Auth_Migrations_Bool_Exp>>>
+  executed_at: Maybe<Timestamp_Comparison_Exp>
+  hash: Maybe<String_Comparison_Exp>
+  id: Maybe<Int_Comparison_Exp>
+  name: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "auth.migrations" */
+export enum Auth_Migrations_Constraint {
+  /** unique or primary key constraint */
+  MigrationsNameKey = 'migrations_name_key',
+  /** unique or primary key constraint */
+  MigrationsPkey = 'migrations_pkey'
+}
+
+/** input type for incrementing integer column in table "auth.migrations" */
+export type Auth_Migrations_Inc_Input = {
+  id: Maybe<Scalars['Int']>
+}
+
+/** input type for inserting data into table "auth.migrations" */
+export type Auth_Migrations_Insert_Input = {
+  executed_at: Maybe<Scalars['timestamp']>
+  hash: Maybe<Scalars['String']>
+  id: Maybe<Scalars['Int']>
+  name: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Auth_Migrations_Max_Fields = {
+  __typename?: 'auth_migrations_max_fields'
+  executed_at: Maybe<Scalars['timestamp']>
+  hash: Maybe<Scalars['String']>
+  id: Maybe<Scalars['Int']>
+  name: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "auth.migrations" */
+export type Auth_Migrations_Max_Order_By = {
+  executed_at: Maybe<Order_By>
+  hash: Maybe<Order_By>
+  id: Maybe<Order_By>
+  name: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Auth_Migrations_Min_Fields = {
+  __typename?: 'auth_migrations_min_fields'
+  executed_at: Maybe<Scalars['timestamp']>
+  hash: Maybe<Scalars['String']>
+  id: Maybe<Scalars['Int']>
+  name: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "auth.migrations" */
+export type Auth_Migrations_Min_Order_By = {
+  executed_at: Maybe<Order_By>
+  hash: Maybe<Order_By>
+  id: Maybe<Order_By>
+  name: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "auth.migrations" */
+export type Auth_Migrations_Mutation_Response = {
+  __typename?: 'auth_migrations_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Auth_Migrations>
+}
+
+/** input type for inserting object relation for remote table "auth.migrations" */
+export type Auth_Migrations_Obj_Rel_Insert_Input = {
+  data: Auth_Migrations_Insert_Input
+  on_conflict: Maybe<Auth_Migrations_On_Conflict>
+}
+
+/** on conflict condition type for table "auth.migrations" */
+export type Auth_Migrations_On_Conflict = {
+  constraint: Auth_Migrations_Constraint
+  update_columns: Array<Auth_Migrations_Update_Column>
+  where: Maybe<Auth_Migrations_Bool_Exp>
+}
+
+/** ordering options when selecting data from "auth.migrations" */
+export type Auth_Migrations_Order_By = {
+  executed_at: Maybe<Order_By>
+  hash: Maybe<Order_By>
+  id: Maybe<Order_By>
+  name: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "auth.migrations" */
+export type Auth_Migrations_Pk_Columns_Input = {
+  id: Scalars['Int']
+}
+
+/** select columns of table "auth.migrations" */
+export enum Auth_Migrations_Select_Column {
+  /** column name */
+  ExecutedAt = 'executed_at',
+  /** column name */
+  Hash = 'hash',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "auth.migrations" */
+export type Auth_Migrations_Set_Input = {
+  executed_at: Maybe<Scalars['timestamp']>
+  hash: Maybe<Scalars['String']>
+  id: Maybe<Scalars['Int']>
+  name: Maybe<Scalars['String']>
+}
+
+/** aggregate stddev on columns */
+export type Auth_Migrations_Stddev_Fields = {
+  __typename?: 'auth_migrations_stddev_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by stddev() on columns of table "auth.migrations" */
+export type Auth_Migrations_Stddev_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** aggregate stddev_pop on columns */
+export type Auth_Migrations_Stddev_Pop_Fields = {
+  __typename?: 'auth_migrations_stddev_pop_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_pop() on columns of table "auth.migrations" */
+export type Auth_Migrations_Stddev_Pop_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** aggregate stddev_samp on columns */
+export type Auth_Migrations_Stddev_Samp_Fields = {
+  __typename?: 'auth_migrations_stddev_samp_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_samp() on columns of table "auth.migrations" */
+export type Auth_Migrations_Stddev_Samp_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** aggregate sum on columns */
+export type Auth_Migrations_Sum_Fields = {
+  __typename?: 'auth_migrations_sum_fields'
+  id: Maybe<Scalars['Int']>
+}
+
+/** order by sum() on columns of table "auth.migrations" */
+export type Auth_Migrations_Sum_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** update columns of table "auth.migrations" */
+export enum Auth_Migrations_Update_Column {
+  /** column name */
+  ExecutedAt = 'executed_at',
+  /** column name */
+  Hash = 'hash',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** aggregate var_pop on columns */
+export type Auth_Migrations_Var_Pop_Fields = {
+  __typename?: 'auth_migrations_var_pop_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by var_pop() on columns of table "auth.migrations" */
+export type Auth_Migrations_Var_Pop_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** aggregate var_samp on columns */
+export type Auth_Migrations_Var_Samp_Fields = {
+  __typename?: 'auth_migrations_var_samp_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by var_samp() on columns of table "auth.migrations" */
+export type Auth_Migrations_Var_Samp_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** aggregate variance on columns */
+export type Auth_Migrations_Variance_Fields = {
+  __typename?: 'auth_migrations_variance_fields'
+  id: Maybe<Scalars['Float']>
+}
+
+/** order by variance() on columns of table "auth.migrations" */
+export type Auth_Migrations_Variance_Order_By = {
+  id: Maybe<Order_By>
+}
+
+/** columns and relationships of "auth.provider_requests" */
+export type Auth_Provider_Requests = {
+  __typename?: 'auth_provider_requests'
+  id: Scalars['uuid']
+  jwt_token: Maybe<Scalars['String']>
+  redirect_url_failure: Scalars['String']
+  redirect_url_success: Scalars['String']
+}
+
+/** aggregated selection of "auth.provider_requests" */
+export type Auth_Provider_Requests_Aggregate = {
+  __typename?: 'auth_provider_requests_aggregate'
+  aggregate: Maybe<Auth_Provider_Requests_Aggregate_Fields>
+  nodes: Array<Auth_Provider_Requests>
+}
+
+/** aggregate fields of "auth.provider_requests" */
+export type Auth_Provider_Requests_Aggregate_Fields = {
+  __typename?: 'auth_provider_requests_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Auth_Provider_Requests_Max_Fields>
+  min: Maybe<Auth_Provider_Requests_Min_Fields>
+}
+
+/** aggregate fields of "auth.provider_requests" */
+export type Auth_Provider_Requests_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Auth_Provider_Requests_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "auth.provider_requests" */
+export type Auth_Provider_Requests_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Auth_Provider_Requests_Max_Order_By>
+  min: Maybe<Auth_Provider_Requests_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "auth.provider_requests" */
+export type Auth_Provider_Requests_Arr_Rel_Insert_Input = {
+  data: Array<Auth_Provider_Requests_Insert_Input>
+  on_conflict: Maybe<Auth_Provider_Requests_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "auth.provider_requests". All fields are combined with a logical 'AND'. */
+export type Auth_Provider_Requests_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Auth_Provider_Requests_Bool_Exp>>>
+  _not: Maybe<Auth_Provider_Requests_Bool_Exp>
+  _or: Maybe<Array<Maybe<Auth_Provider_Requests_Bool_Exp>>>
+  id: Maybe<Uuid_Comparison_Exp>
+  jwt_token: Maybe<String_Comparison_Exp>
+  redirect_url_failure: Maybe<String_Comparison_Exp>
+  redirect_url_success: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "auth.provider_requests" */
+export enum Auth_Provider_Requests_Constraint {
+  /** unique or primary key constraint */
+  ProviderRequestsPkey = 'provider_requests_pkey'
+}
+
+/** input type for inserting data into table "auth.provider_requests" */
+export type Auth_Provider_Requests_Insert_Input = {
+  id: Maybe<Scalars['uuid']>
+  jwt_token: Maybe<Scalars['String']>
+  redirect_url_failure: Maybe<Scalars['String']>
+  redirect_url_success: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Auth_Provider_Requests_Max_Fields = {
+  __typename?: 'auth_provider_requests_max_fields'
+  id: Maybe<Scalars['uuid']>
+  jwt_token: Maybe<Scalars['String']>
+  redirect_url_failure: Maybe<Scalars['String']>
+  redirect_url_success: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "auth.provider_requests" */
+export type Auth_Provider_Requests_Max_Order_By = {
+  id: Maybe<Order_By>
+  jwt_token: Maybe<Order_By>
+  redirect_url_failure: Maybe<Order_By>
+  redirect_url_success: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Auth_Provider_Requests_Min_Fields = {
+  __typename?: 'auth_provider_requests_min_fields'
+  id: Maybe<Scalars['uuid']>
+  jwt_token: Maybe<Scalars['String']>
+  redirect_url_failure: Maybe<Scalars['String']>
+  redirect_url_success: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "auth.provider_requests" */
+export type Auth_Provider_Requests_Min_Order_By = {
+  id: Maybe<Order_By>
+  jwt_token: Maybe<Order_By>
+  redirect_url_failure: Maybe<Order_By>
+  redirect_url_success: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "auth.provider_requests" */
+export type Auth_Provider_Requests_Mutation_Response = {
+  __typename?: 'auth_provider_requests_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Auth_Provider_Requests>
+}
+
+/** input type for inserting object relation for remote table "auth.provider_requests" */
+export type Auth_Provider_Requests_Obj_Rel_Insert_Input = {
+  data: Auth_Provider_Requests_Insert_Input
+  on_conflict: Maybe<Auth_Provider_Requests_On_Conflict>
+}
+
+/** on conflict condition type for table "auth.provider_requests" */
+export type Auth_Provider_Requests_On_Conflict = {
+  constraint: Auth_Provider_Requests_Constraint
+  update_columns: Array<Auth_Provider_Requests_Update_Column>
+  where: Maybe<Auth_Provider_Requests_Bool_Exp>
+}
+
+/** ordering options when selecting data from "auth.provider_requests" */
+export type Auth_Provider_Requests_Order_By = {
+  id: Maybe<Order_By>
+  jwt_token: Maybe<Order_By>
+  redirect_url_failure: Maybe<Order_By>
+  redirect_url_success: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "auth.provider_requests" */
+export type Auth_Provider_Requests_Pk_Columns_Input = {
+  id: Scalars['uuid']
+}
+
+/** select columns of table "auth.provider_requests" */
+export enum Auth_Provider_Requests_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  JwtToken = 'jwt_token',
+  /** column name */
+  RedirectUrlFailure = 'redirect_url_failure',
+  /** column name */
+  RedirectUrlSuccess = 'redirect_url_success'
+}
+
+/** input type for updating data in table "auth.provider_requests" */
+export type Auth_Provider_Requests_Set_Input = {
+  id: Maybe<Scalars['uuid']>
+  jwt_token: Maybe<Scalars['String']>
+  redirect_url_failure: Maybe<Scalars['String']>
+  redirect_url_success: Maybe<Scalars['String']>
+}
+
+/** update columns of table "auth.provider_requests" */
+export enum Auth_Provider_Requests_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  JwtToken = 'jwt_token',
+  /** column name */
+  RedirectUrlFailure = 'redirect_url_failure',
+  /** column name */
+  RedirectUrlSuccess = 'redirect_url_success'
+}
+
 /** columns and relationships of "auth.providers" */
 export type Auth_Providers = {
   __typename?: 'auth_providers'
@@ -1427,6 +2060,136 @@ export type Auth_Roles_Set_Input = {
 export enum Auth_Roles_Update_Column {
   /** column name */
   Role = 'role'
+}
+
+/** columns and relationships of "auth.whitelist" */
+export type Auth_Whitelist = {
+  __typename?: 'auth_whitelist'
+  email: Scalars['String']
+}
+
+/** aggregated selection of "auth.whitelist" */
+export type Auth_Whitelist_Aggregate = {
+  __typename?: 'auth_whitelist_aggregate'
+  aggregate: Maybe<Auth_Whitelist_Aggregate_Fields>
+  nodes: Array<Auth_Whitelist>
+}
+
+/** aggregate fields of "auth.whitelist" */
+export type Auth_Whitelist_Aggregate_Fields = {
+  __typename?: 'auth_whitelist_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Auth_Whitelist_Max_Fields>
+  min: Maybe<Auth_Whitelist_Min_Fields>
+}
+
+/** aggregate fields of "auth.whitelist" */
+export type Auth_Whitelist_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Auth_Whitelist_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "auth.whitelist" */
+export type Auth_Whitelist_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Auth_Whitelist_Max_Order_By>
+  min: Maybe<Auth_Whitelist_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "auth.whitelist" */
+export type Auth_Whitelist_Arr_Rel_Insert_Input = {
+  data: Array<Auth_Whitelist_Insert_Input>
+  on_conflict: Maybe<Auth_Whitelist_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "auth.whitelist". All fields are combined with a logical 'AND'. */
+export type Auth_Whitelist_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Auth_Whitelist_Bool_Exp>>>
+  _not: Maybe<Auth_Whitelist_Bool_Exp>
+  _or: Maybe<Array<Maybe<Auth_Whitelist_Bool_Exp>>>
+  email: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "auth.whitelist" */
+export enum Auth_Whitelist_Constraint {
+  /** unique or primary key constraint */
+  WhitelistPkey = 'whitelist_pkey'
+}
+
+/** input type for inserting data into table "auth.whitelist" */
+export type Auth_Whitelist_Insert_Input = {
+  email: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Auth_Whitelist_Max_Fields = {
+  __typename?: 'auth_whitelist_max_fields'
+  email: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "auth.whitelist" */
+export type Auth_Whitelist_Max_Order_By = {
+  email: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Auth_Whitelist_Min_Fields = {
+  __typename?: 'auth_whitelist_min_fields'
+  email: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "auth.whitelist" */
+export type Auth_Whitelist_Min_Order_By = {
+  email: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "auth.whitelist" */
+export type Auth_Whitelist_Mutation_Response = {
+  __typename?: 'auth_whitelist_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Auth_Whitelist>
+}
+
+/** input type for inserting object relation for remote table "auth.whitelist" */
+export type Auth_Whitelist_Obj_Rel_Insert_Input = {
+  data: Auth_Whitelist_Insert_Input
+  on_conflict: Maybe<Auth_Whitelist_On_Conflict>
+}
+
+/** on conflict condition type for table "auth.whitelist" */
+export type Auth_Whitelist_On_Conflict = {
+  constraint: Auth_Whitelist_Constraint
+  update_columns: Array<Auth_Whitelist_Update_Column>
+  where: Maybe<Auth_Whitelist_Bool_Exp>
+}
+
+/** ordering options when selecting data from "auth.whitelist" */
+export type Auth_Whitelist_Order_By = {
+  email: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "auth.whitelist" */
+export type Auth_Whitelist_Pk_Columns_Input = {
+  email: Scalars['String']
+}
+
+/** select columns of table "auth.whitelist" */
+export enum Auth_Whitelist_Select_Column {
+  /** column name */
+  Email = 'email'
+}
+
+/** input type for updating data in table "auth.whitelist" */
+export type Auth_Whitelist_Set_Input = {
+  email: Maybe<Scalars['String']>
+}
+
+/** update columns of table "auth.whitelist" */
+export enum Auth_Whitelist_Update_Column {
+  /** column name */
+  Email = 'email'
 }
 
 /** expression to compare columns of type bigint. All fields are combined with logical 'AND'. */
@@ -4968,7 +5731,6 @@ export type Metadata_Property_Config = {
   icon: Maybe<Scalars['String']>
   id: Scalars['uuid']
   json_schema: Maybe<Scalars['jsonb']>
-  order: Scalars['Int']
   /** table_schema.table_name.property_name */
   property_id: Scalars['String']
   property_name: Scalars['String']
@@ -4992,17 +5754,9 @@ export type Metadata_Property_Config_Aggregate = {
 /** aggregate fields of "metadata.property_config" */
 export type Metadata_Property_Config_Aggregate_Fields = {
   __typename?: 'metadata_property_config_aggregate_fields'
-  avg: Maybe<Metadata_Property_Config_Avg_Fields>
   count: Maybe<Scalars['Int']>
   max: Maybe<Metadata_Property_Config_Max_Fields>
   min: Maybe<Metadata_Property_Config_Min_Fields>
-  stddev: Maybe<Metadata_Property_Config_Stddev_Fields>
-  stddev_pop: Maybe<Metadata_Property_Config_Stddev_Pop_Fields>
-  stddev_samp: Maybe<Metadata_Property_Config_Stddev_Samp_Fields>
-  sum: Maybe<Metadata_Property_Config_Sum_Fields>
-  var_pop: Maybe<Metadata_Property_Config_Var_Pop_Fields>
-  var_samp: Maybe<Metadata_Property_Config_Var_Samp_Fields>
-  variance: Maybe<Metadata_Property_Config_Variance_Fields>
 }
 
 /** aggregate fields of "metadata.property_config" */
@@ -5013,17 +5767,9 @@ export type Metadata_Property_Config_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "metadata.property_config" */
 export type Metadata_Property_Config_Aggregate_Order_By = {
-  avg: Maybe<Metadata_Property_Config_Avg_Order_By>
   count: Maybe<Order_By>
   max: Maybe<Metadata_Property_Config_Max_Order_By>
   min: Maybe<Metadata_Property_Config_Min_Order_By>
-  stddev: Maybe<Metadata_Property_Config_Stddev_Order_By>
-  stddev_pop: Maybe<Metadata_Property_Config_Stddev_Pop_Order_By>
-  stddev_samp: Maybe<Metadata_Property_Config_Stddev_Samp_Order_By>
-  sum: Maybe<Metadata_Property_Config_Sum_Order_By>
-  var_pop: Maybe<Metadata_Property_Config_Var_Pop_Order_By>
-  var_samp: Maybe<Metadata_Property_Config_Var_Samp_Order_By>
-  variance: Maybe<Metadata_Property_Config_Variance_Order_By>
 }
 
 /** append existing jsonb value of filtered columns with new jsonb value */
@@ -5037,17 +5783,6 @@ export type Metadata_Property_Config_Arr_Rel_Insert_Input = {
   on_conflict: Maybe<Metadata_Property_Config_On_Conflict>
 }
 
-/** aggregate avg on columns */
-export type Metadata_Property_Config_Avg_Fields = {
-  __typename?: 'metadata_property_config_avg_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by avg() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Avg_Order_By = {
-  order: Maybe<Order_By>
-}
-
 /** Boolean expression to filter rows from the table "metadata.property_config". All fields are combined with a logical 'AND'. */
 export type Metadata_Property_Config_Bool_Exp = {
   _and: Maybe<Array<Maybe<Metadata_Property_Config_Bool_Exp>>>
@@ -5059,7 +5794,6 @@ export type Metadata_Property_Config_Bool_Exp = {
   icon: Maybe<String_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
   json_schema: Maybe<Jsonb_Comparison_Exp>
-  order: Maybe<Int_Comparison_Exp>
   property_id: Maybe<String_Comparison_Exp>
   property_name: Maybe<String_Comparison_Exp>
   table_id: Maybe<String_Comparison_Exp>
@@ -5070,7 +5804,9 @@ export type Metadata_Property_Config_Bool_Exp = {
 /** unique or primary key constraints on table "metadata.property_config" */
 export enum Metadata_Property_Config_Constraint {
   /** unique or primary key constraint */
-  PropertyConfigPkey = 'property_config_pkey'
+  PropertyConfigPkey = 'property_config_pkey',
+  /** unique or primary key constraint */
+  PropertyConfigPropertyIdKey = 'property_config_property_id_key'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -5088,11 +5824,6 @@ export type Metadata_Property_Config_Delete_Key_Input = {
   json_schema: Maybe<Scalars['String']>
 }
 
-/** input type for incrementing integer column in table "metadata.property_config" */
-export type Metadata_Property_Config_Inc_Input = {
-  order: Maybe<Scalars['Int']>
-}
-
 /** input type for inserting data into table "metadata.property_config" */
 export type Metadata_Property_Config_Insert_Input = {
   component: Maybe<Scalars['String']>
@@ -5101,7 +5832,6 @@ export type Metadata_Property_Config_Insert_Input = {
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   json_schema: Maybe<Scalars['jsonb']>
-  order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
@@ -5116,7 +5846,6 @@ export type Metadata_Property_Config_Max_Fields = {
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
-  order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
@@ -5130,7 +5859,6 @@ export type Metadata_Property_Config_Max_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
-  order: Maybe<Order_By>
   property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_id: Maybe<Order_By>
@@ -5145,7 +5873,6 @@ export type Metadata_Property_Config_Min_Fields = {
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
-  order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
@@ -5159,7 +5886,6 @@ export type Metadata_Property_Config_Min_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
-  order: Maybe<Order_By>
   property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_id: Maybe<Order_By>
@@ -5197,7 +5923,6 @@ export type Metadata_Property_Config_Order_By = {
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   json_schema: Maybe<Order_By>
-  order: Maybe<Order_By>
   property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_id: Maybe<Order_By>
@@ -5230,8 +5955,6 @@ export enum Metadata_Property_Config_Select_Column {
   /** column name */
   JsonSchema = 'json_schema',
   /** column name */
-  Order = 'order',
-  /** column name */
   PropertyId = 'property_id',
   /** column name */
   PropertyName = 'property_name',
@@ -5251,56 +5974,11 @@ export type Metadata_Property_Config_Set_Input = {
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
   json_schema: Maybe<Scalars['jsonb']>
-  order: Maybe<Scalars['Int']>
   property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
-}
-
-/** aggregate stddev on columns */
-export type Metadata_Property_Config_Stddev_Fields = {
-  __typename?: 'metadata_property_config_stddev_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by stddev() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Stddev_Order_By = {
-  order: Maybe<Order_By>
-}
-
-/** aggregate stddev_pop on columns */
-export type Metadata_Property_Config_Stddev_Pop_Fields = {
-  __typename?: 'metadata_property_config_stddev_pop_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by stddev_pop() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Stddev_Pop_Order_By = {
-  order: Maybe<Order_By>
-}
-
-/** aggregate stddev_samp on columns */
-export type Metadata_Property_Config_Stddev_Samp_Fields = {
-  __typename?: 'metadata_property_config_stddev_samp_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by stddev_samp() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Stddev_Samp_Order_By = {
-  order: Maybe<Order_By>
-}
-
-/** aggregate sum on columns */
-export type Metadata_Property_Config_Sum_Fields = {
-  __typename?: 'metadata_property_config_sum_fields'
-  order: Maybe<Scalars['Int']>
-}
-
-/** order by sum() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Sum_Order_By = {
-  order: Maybe<Order_By>
 }
 
 /** update columns of table "metadata.property_config" */
@@ -5318,8 +5996,6 @@ export enum Metadata_Property_Config_Update_Column {
   /** column name */
   JsonSchema = 'json_schema',
   /** column name */
-  Order = 'order',
-  /** column name */
   PropertyId = 'property_id',
   /** column name */
   PropertyName = 'property_name',
@@ -5331,39 +6007,6 @@ export enum Metadata_Property_Config_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
-/** aggregate var_pop on columns */
-export type Metadata_Property_Config_Var_Pop_Fields = {
-  __typename?: 'metadata_property_config_var_pop_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by var_pop() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Var_Pop_Order_By = {
-  order: Maybe<Order_By>
-}
-
-/** aggregate var_samp on columns */
-export type Metadata_Property_Config_Var_Samp_Fields = {
-  __typename?: 'metadata_property_config_var_samp_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by var_samp() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Var_Samp_Order_By = {
-  order: Maybe<Order_By>
-}
-
-/** aggregate variance on columns */
-export type Metadata_Property_Config_Variance_Fields = {
-  __typename?: 'metadata_property_config_variance_fields'
-  order: Maybe<Scalars['Float']>
-}
-
-/** order by variance() on columns of table "metadata.property_config" */
-export type Metadata_Property_Config_Variance_Order_By = {
-  order: Maybe<Order_By>
-}
-
 /** columns and relationships of "metadata.relationship" */
 export type Metadata_Relationship = {
   __typename?: 'metadata_relationship'
@@ -5372,10 +6015,6 @@ export type Metadata_Relationship = {
   is_system_defined: Maybe<Scalars['Boolean']>
   /** An array relationship */
   mapping: Array<Metadata_Relationship_Mapping>
-  /** An array relationship */
-  mapping_: Array<Metadata_Relationship_Mapping>
-  /** An aggregated array relationship */
-  mapping__aggregate: Metadata_Relationship_Mapping_Aggregate
   /** An aggregated array relationship */
   mapping_aggregate: Metadata_Relationship_Mapping_Aggregate
   rel_def: Maybe<Scalars['jsonb']>
@@ -5390,24 +6029,6 @@ export type Metadata_Relationship = {
 
 /** columns and relationships of "metadata.relationship" */
 export type Metadata_RelationshipMappingArgs = {
-  distinct_on: Maybe<Array<Metadata_Relationship_Mapping_Select_Column>>
-  limit: Maybe<Scalars['Int']>
-  offset: Maybe<Scalars['Int']>
-  order_by: Maybe<Array<Metadata_Relationship_Mapping_Order_By>>
-  where: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
-}
-
-/** columns and relationships of "metadata.relationship" */
-export type Metadata_RelationshipMapping_Args = {
-  distinct_on: Maybe<Array<Metadata_Relationship_Mapping_Select_Column>>
-  limit: Maybe<Scalars['Int']>
-  offset: Maybe<Scalars['Int']>
-  order_by: Maybe<Array<Metadata_Relationship_Mapping_Order_By>>
-  where: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
-}
-
-/** columns and relationships of "metadata.relationship" */
-export type Metadata_RelationshipMapping__AggregateArgs = {
   distinct_on: Maybe<Array<Metadata_Relationship_Mapping_Select_Column>>
   limit: Maybe<Scalars['Int']>
   offset: Maybe<Scalars['Int']>
@@ -5476,7 +6097,6 @@ export type Metadata_Relationship_Bool_Exp = {
   id: Maybe<String_Comparison_Exp>
   is_system_defined: Maybe<Boolean_Comparison_Exp>
   mapping: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
-  mapping_: Maybe<Metadata_Relationship_Mapping_Bool_Exp>
   rel_def: Maybe<Jsonb_Comparison_Exp>
   rel_name: Maybe<String_Comparison_Exp>
   rel_type: Maybe<String_Comparison_Exp>
@@ -5763,7 +6383,6 @@ export type Metadata_Relationship_Order_By = {
   comment: Maybe<Order_By>
   id: Maybe<Order_By>
   is_system_defined: Maybe<Order_By>
-  mapping__aggregate: Maybe<Metadata_Relationship_Mapping_Aggregate_Order_By>
   mapping_aggregate: Maybe<Metadata_Relationship_Mapping_Aggregate_Order_By>
   rel_def: Maybe<Order_By>
   rel_name: Maybe<Order_By>
@@ -6446,13 +7065,20 @@ export type Metadata_Table_Config = {
   component: Maybe<Scalars['String']>
   deleted: Scalars['Boolean']
   description: Maybe<Scalars['String']>
+  document_component: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Scalars['uuid']
+  order: Scalars['jsonb']
   table_id: Scalars['String']
   title: Maybe<Scalars['String']>
   updated_at: Scalars['timestamptz']
+}
+
+/** columns and relationships of "metadata.table_config" */
+export type Metadata_Table_ConfigOrderArgs = {
+  path: Maybe<Scalars['String']>
 }
 
 /** aggregated selection of "metadata.table_config" */
@@ -6483,6 +7109,11 @@ export type Metadata_Table_Config_Aggregate_Order_By = {
   min: Maybe<Metadata_Table_Config_Min_Order_By>
 }
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Metadata_Table_Config_Append_Input = {
+  order: Maybe<Scalars['jsonb']>
+}
+
 /** input type for inserting array relation for remote table "metadata.table_config" */
 export type Metadata_Table_Config_Arr_Rel_Insert_Input = {
   data: Array<Metadata_Table_Config_Insert_Input>
@@ -6497,10 +7128,12 @@ export type Metadata_Table_Config_Bool_Exp = {
   component: Maybe<String_Comparison_Exp>
   deleted: Maybe<Boolean_Comparison_Exp>
   description: Maybe<String_Comparison_Exp>
+  document_component: Maybe<String_Comparison_Exp>
   document_label: Maybe<String_Comparison_Exp>
   document_title: Maybe<String_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
+  order: Maybe<Jsonb_Comparison_Exp>
   table_id: Maybe<String_Comparison_Exp>
   title: Maybe<String_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
@@ -6509,7 +7142,24 @@ export type Metadata_Table_Config_Bool_Exp = {
 /** unique or primary key constraints on table "metadata.table_config" */
 export enum Metadata_Table_Config_Constraint {
   /** unique or primary key constraint */
-  TableConfigPkey = 'table_config_pkey'
+  TableConfigPkey = 'table_config_pkey',
+  /** unique or primary key constraint */
+  TableConfigTableIdKey = 'table_config_table_id_key'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Metadata_Table_Config_Delete_At_Path_Input = {
+  order: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Metadata_Table_Config_Delete_Elem_Input = {
+  order: Maybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Metadata_Table_Config_Delete_Key_Input = {
+  order: Maybe<Scalars['String']>
 }
 
 /** input type for inserting data into table "metadata.table_config" */
@@ -6517,10 +7167,12 @@ export type Metadata_Table_Config_Insert_Input = {
   component: Maybe<Scalars['String']>
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
+  document_component: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
+  order: Maybe<Scalars['jsonb']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -6531,6 +7183,7 @@ export type Metadata_Table_Config_Max_Fields = {
   __typename?: 'metadata_table_config_max_fields'
   component: Maybe<Scalars['String']>
   description: Maybe<Scalars['String']>
+  document_component: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
@@ -6544,6 +7197,7 @@ export type Metadata_Table_Config_Max_Fields = {
 export type Metadata_Table_Config_Max_Order_By = {
   component: Maybe<Order_By>
   description: Maybe<Order_By>
+  document_component: Maybe<Order_By>
   document_label: Maybe<Order_By>
   document_title: Maybe<Order_By>
   icon: Maybe<Order_By>
@@ -6558,6 +7212,7 @@ export type Metadata_Table_Config_Min_Fields = {
   __typename?: 'metadata_table_config_min_fields'
   component: Maybe<Scalars['String']>
   description: Maybe<Scalars['String']>
+  document_component: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
@@ -6571,6 +7226,7 @@ export type Metadata_Table_Config_Min_Fields = {
 export type Metadata_Table_Config_Min_Order_By = {
   component: Maybe<Order_By>
   description: Maybe<Order_By>
+  document_component: Maybe<Order_By>
   document_label: Maybe<Order_By>
   document_title: Maybe<Order_By>
   icon: Maybe<Order_By>
@@ -6607,10 +7263,12 @@ export type Metadata_Table_Config_Order_By = {
   component: Maybe<Order_By>
   deleted: Maybe<Order_By>
   description: Maybe<Order_By>
+  document_component: Maybe<Order_By>
   document_label: Maybe<Order_By>
   document_title: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
+  order: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
@@ -6619,6 +7277,11 @@ export type Metadata_Table_Config_Order_By = {
 /** primary key columns input for table: "metadata.table_config" */
 export type Metadata_Table_Config_Pk_Columns_Input = {
   id: Scalars['uuid']
+}
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Metadata_Table_Config_Prepend_Input = {
+  order: Maybe<Scalars['jsonb']>
 }
 
 /** select columns of table "metadata.table_config" */
@@ -6630,6 +7293,8 @@ export enum Metadata_Table_Config_Select_Column {
   /** column name */
   Description = 'description',
   /** column name */
+  DocumentComponent = 'document_component',
+  /** column name */
   DocumentLabel = 'document_label',
   /** column name */
   DocumentTitle = 'document_title',
@@ -6637,6 +7302,8 @@ export enum Metadata_Table_Config_Select_Column {
   Icon = 'icon',
   /** column name */
   Id = 'id',
+  /** column name */
+  Order = 'order',
   /** column name */
   TableId = 'table_id',
   /** column name */
@@ -6650,10 +7317,12 @@ export type Metadata_Table_Config_Set_Input = {
   component: Maybe<Scalars['String']>
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
+  document_component: Maybe<Scalars['String']>
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
   id: Maybe<Scalars['uuid']>
+  order: Maybe<Scalars['jsonb']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
@@ -6668,6 +7337,8 @@ export enum Metadata_Table_Config_Update_Column {
   /** column name */
   Description = 'description',
   /** column name */
+  DocumentComponent = 'document_component',
+  /** column name */
   DocumentLabel = 'document_label',
   /** column name */
   DocumentTitle = 'document_title',
@@ -6675,6 +7346,8 @@ export enum Metadata_Table_Config_Update_Column {
   Icon = 'icon',
   /** column name */
   Id = 'id',
+  /** column name */
+  Order = 'order',
   /** column name */
   TableId = 'table_id',
   /** column name */
@@ -7258,6 +7931,18 @@ export type Mutation_Root = {
   delete_auth_accounts: Maybe<Auth_Accounts_Mutation_Response>
   /** delete single row from the table: "auth.accounts" */
   delete_auth_accounts_by_pk: Maybe<Auth_Accounts>
+  /** delete data from the table: "auth.email_templates" */
+  delete_auth_email_templates: Maybe<Auth_Email_Templates_Mutation_Response>
+  /** delete single row from the table: "auth.email_templates" */
+  delete_auth_email_templates_by_pk: Maybe<Auth_Email_Templates>
+  /** delete data from the table: "auth.migrations" */
+  delete_auth_migrations: Maybe<Auth_Migrations_Mutation_Response>
+  /** delete single row from the table: "auth.migrations" */
+  delete_auth_migrations_by_pk: Maybe<Auth_Migrations>
+  /** delete data from the table: "auth.provider_requests" */
+  delete_auth_provider_requests: Maybe<Auth_Provider_Requests_Mutation_Response>
+  /** delete single row from the table: "auth.provider_requests" */
+  delete_auth_provider_requests_by_pk: Maybe<Auth_Provider_Requests>
   /** delete data from the table: "auth.providers" */
   delete_auth_providers: Maybe<Auth_Providers_Mutation_Response>
   /** delete single row from the table: "auth.providers" */
@@ -7270,6 +7955,10 @@ export type Mutation_Root = {
   delete_auth_roles: Maybe<Auth_Roles_Mutation_Response>
   /** delete single row from the table: "auth.roles" */
   delete_auth_roles_by_pk: Maybe<Auth_Roles>
+  /** delete data from the table: "auth.whitelist" */
+  delete_auth_whitelist: Maybe<Auth_Whitelist_Mutation_Response>
+  /** delete single row from the table: "auth.whitelist" */
+  delete_auth_whitelist_by_pk: Maybe<Auth_Whitelist>
   /** delete data from the table: "drug" */
   delete_drug: Maybe<Drug_Mutation_Response>
   /** delete single row from the table: "drug" */
@@ -7312,6 +8001,10 @@ export type Mutation_Root = {
   delete_visite: Maybe<Visite_Mutation_Response>
   /** delete single row from the table: "visite" */
   delete_visite_by_pk: Maybe<Visite>
+  /** delete data from the table: "visite_lab_test" */
+  delete_visite_lab_test: Maybe<Visite_Lab_Test_Mutation_Response>
+  /** delete single row from the table: "visite_lab_test" */
+  delete_visite_lab_test_by_pk: Maybe<Visite_Lab_Test>
   /** insert data into the table: "auth.account_providers" */
   insert_auth_account_providers: Maybe<Auth_Account_Providers_Mutation_Response>
   /** insert a single row into the table: "auth.account_providers" */
@@ -7324,6 +8017,18 @@ export type Mutation_Root = {
   insert_auth_accounts: Maybe<Auth_Accounts_Mutation_Response>
   /** insert a single row into the table: "auth.accounts" */
   insert_auth_accounts_one: Maybe<Auth_Accounts>
+  /** insert data into the table: "auth.email_templates" */
+  insert_auth_email_templates: Maybe<Auth_Email_Templates_Mutation_Response>
+  /** insert a single row into the table: "auth.email_templates" */
+  insert_auth_email_templates_one: Maybe<Auth_Email_Templates>
+  /** insert data into the table: "auth.migrations" */
+  insert_auth_migrations: Maybe<Auth_Migrations_Mutation_Response>
+  /** insert a single row into the table: "auth.migrations" */
+  insert_auth_migrations_one: Maybe<Auth_Migrations>
+  /** insert data into the table: "auth.provider_requests" */
+  insert_auth_provider_requests: Maybe<Auth_Provider_Requests_Mutation_Response>
+  /** insert a single row into the table: "auth.provider_requests" */
+  insert_auth_provider_requests_one: Maybe<Auth_Provider_Requests>
   /** insert data into the table: "auth.providers" */
   insert_auth_providers: Maybe<Auth_Providers_Mutation_Response>
   /** insert a single row into the table: "auth.providers" */
@@ -7336,6 +8041,10 @@ export type Mutation_Root = {
   insert_auth_roles: Maybe<Auth_Roles_Mutation_Response>
   /** insert a single row into the table: "auth.roles" */
   insert_auth_roles_one: Maybe<Auth_Roles>
+  /** insert data into the table: "auth.whitelist" */
+  insert_auth_whitelist: Maybe<Auth_Whitelist_Mutation_Response>
+  /** insert a single row into the table: "auth.whitelist" */
+  insert_auth_whitelist_one: Maybe<Auth_Whitelist>
   /** insert data into the table: "drug" */
   insert_drug: Maybe<Drug_Mutation_Response>
   /** insert a single row into the table: "drug" */
@@ -7386,6 +8095,10 @@ export type Mutation_Root = {
   insert_users_one: Maybe<Users>
   /** insert data into the table: "visite" */
   insert_visite: Maybe<Visite_Mutation_Response>
+  /** insert data into the table: "visite_lab_test" */
+  insert_visite_lab_test: Maybe<Visite_Lab_Test_Mutation_Response>
+  /** insert a single row into the table: "visite_lab_test" */
+  insert_visite_lab_test_one: Maybe<Visite_Lab_Test>
   /** insert a single row into the table: "visite" */
   insert_visite_one: Maybe<Visite>
   /** update data of the table: "auth.account_providers" */
@@ -7400,6 +8113,18 @@ export type Mutation_Root = {
   update_auth_accounts: Maybe<Auth_Accounts_Mutation_Response>
   /** update single row of the table: "auth.accounts" */
   update_auth_accounts_by_pk: Maybe<Auth_Accounts>
+  /** update data of the table: "auth.email_templates" */
+  update_auth_email_templates: Maybe<Auth_Email_Templates_Mutation_Response>
+  /** update single row of the table: "auth.email_templates" */
+  update_auth_email_templates_by_pk: Maybe<Auth_Email_Templates>
+  /** update data of the table: "auth.migrations" */
+  update_auth_migrations: Maybe<Auth_Migrations_Mutation_Response>
+  /** update single row of the table: "auth.migrations" */
+  update_auth_migrations_by_pk: Maybe<Auth_Migrations>
+  /** update data of the table: "auth.provider_requests" */
+  update_auth_provider_requests: Maybe<Auth_Provider_Requests_Mutation_Response>
+  /** update single row of the table: "auth.provider_requests" */
+  update_auth_provider_requests_by_pk: Maybe<Auth_Provider_Requests>
   /** update data of the table: "auth.providers" */
   update_auth_providers: Maybe<Auth_Providers_Mutation_Response>
   /** update single row of the table: "auth.providers" */
@@ -7412,6 +8137,10 @@ export type Mutation_Root = {
   update_auth_roles: Maybe<Auth_Roles_Mutation_Response>
   /** update single row of the table: "auth.roles" */
   update_auth_roles_by_pk: Maybe<Auth_Roles>
+  /** update data of the table: "auth.whitelist" */
+  update_auth_whitelist: Maybe<Auth_Whitelist_Mutation_Response>
+  /** update single row of the table: "auth.whitelist" */
+  update_auth_whitelist_by_pk: Maybe<Auth_Whitelist>
   /** update data of the table: "drug" */
   update_drug: Maybe<Drug_Mutation_Response>
   /** update single row of the table: "drug" */
@@ -7454,6 +8183,10 @@ export type Mutation_Root = {
   update_visite: Maybe<Visite_Mutation_Response>
   /** update single row of the table: "visite" */
   update_visite_by_pk: Maybe<Visite>
+  /** update data of the table: "visite_lab_test" */
+  update_visite_lab_test: Maybe<Visite_Lab_Test_Mutation_Response>
+  /** update single row of the table: "visite_lab_test" */
+  update_visite_lab_test_by_pk: Maybe<Visite_Lab_Test>
 }
 
 /** mutation root */
@@ -7487,6 +8220,37 @@ export type Mutation_RootDelete_Auth_Accounts_By_PkArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootDelete_Auth_Email_TemplatesArgs = {
+  where: Auth_Email_Templates_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_Email_Templates_By_PkArgs = {
+  id: Scalars['String']
+  locale: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_MigrationsArgs = {
+  where: Auth_Migrations_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_Migrations_By_PkArgs = {
+  id: Scalars['Int']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_Provider_RequestsArgs = {
+  where: Auth_Provider_Requests_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_Provider_Requests_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** mutation root */
 export type Mutation_RootDelete_Auth_ProvidersArgs = {
   where: Auth_Providers_Bool_Exp
 }
@@ -7514,6 +8278,16 @@ export type Mutation_RootDelete_Auth_RolesArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Auth_Roles_By_PkArgs = {
   role: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_WhitelistArgs = {
+  where: Auth_Whitelist_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Auth_Whitelist_By_PkArgs = {
+  email: Scalars['String']
 }
 
 /** mutation root */
@@ -7622,6 +8396,17 @@ export type Mutation_RootDelete_Visite_By_PkArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootDelete_Visite_Lab_TestArgs = {
+  where: Visite_Lab_Test_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Visite_Lab_Test_By_PkArgs = {
+  lab_test_id: Scalars['uuid']
+  visite_id: Scalars['uuid']
+}
+
+/** mutation root */
 export type Mutation_RootInsert_Auth_Account_ProvidersArgs = {
   objects: Array<Auth_Account_Providers_Insert_Input>
   on_conflict: Maybe<Auth_Account_Providers_On_Conflict>
@@ -7658,6 +8443,42 @@ export type Mutation_RootInsert_Auth_Accounts_OneArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootInsert_Auth_Email_TemplatesArgs = {
+  objects: Array<Auth_Email_Templates_Insert_Input>
+  on_conflict: Maybe<Auth_Email_Templates_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_Email_Templates_OneArgs = {
+  object: Auth_Email_Templates_Insert_Input
+  on_conflict: Maybe<Auth_Email_Templates_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_MigrationsArgs = {
+  objects: Array<Auth_Migrations_Insert_Input>
+  on_conflict: Maybe<Auth_Migrations_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_Migrations_OneArgs = {
+  object: Auth_Migrations_Insert_Input
+  on_conflict: Maybe<Auth_Migrations_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_Provider_RequestsArgs = {
+  objects: Array<Auth_Provider_Requests_Insert_Input>
+  on_conflict: Maybe<Auth_Provider_Requests_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_Provider_Requests_OneArgs = {
+  object: Auth_Provider_Requests_Insert_Input
+  on_conflict: Maybe<Auth_Provider_Requests_On_Conflict>
+}
+
+/** mutation root */
 export type Mutation_RootInsert_Auth_ProvidersArgs = {
   objects: Array<Auth_Providers_Insert_Input>
   on_conflict: Maybe<Auth_Providers_On_Conflict>
@@ -7691,6 +8512,18 @@ export type Mutation_RootInsert_Auth_RolesArgs = {
 export type Mutation_RootInsert_Auth_Roles_OneArgs = {
   object: Auth_Roles_Insert_Input
   on_conflict: Maybe<Auth_Roles_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_WhitelistArgs = {
+  objects: Array<Auth_Whitelist_Insert_Input>
+  on_conflict: Maybe<Auth_Whitelist_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Auth_Whitelist_OneArgs = {
+  object: Auth_Whitelist_Insert_Input
+  on_conflict: Maybe<Auth_Whitelist_On_Conflict>
 }
 
 /** mutation root */
@@ -7834,6 +8667,18 @@ export type Mutation_RootInsert_VisiteArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootInsert_Visite_Lab_TestArgs = {
+  objects: Array<Visite_Lab_Test_Insert_Input>
+  on_conflict: Maybe<Visite_Lab_Test_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Visite_Lab_Test_OneArgs = {
+  object: Visite_Lab_Test_Insert_Input
+  on_conflict: Maybe<Visite_Lab_Test_On_Conflict>
+}
+
+/** mutation root */
 export type Mutation_RootInsert_Visite_OneArgs = {
   object: Visite_Insert_Input
   on_conflict: Maybe<Visite_On_Conflict>
@@ -7886,6 +8731,44 @@ export type Mutation_RootUpdate_Auth_Accounts_By_PkArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootUpdate_Auth_Email_TemplatesArgs = {
+  _set: Maybe<Auth_Email_Templates_Set_Input>
+  where: Auth_Email_Templates_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_Email_Templates_By_PkArgs = {
+  _set: Maybe<Auth_Email_Templates_Set_Input>
+  pk_columns: Auth_Email_Templates_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_MigrationsArgs = {
+  _inc: Maybe<Auth_Migrations_Inc_Input>
+  _set: Maybe<Auth_Migrations_Set_Input>
+  where: Auth_Migrations_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_Migrations_By_PkArgs = {
+  _inc: Maybe<Auth_Migrations_Inc_Input>
+  _set: Maybe<Auth_Migrations_Set_Input>
+  pk_columns: Auth_Migrations_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_Provider_RequestsArgs = {
+  _set: Maybe<Auth_Provider_Requests_Set_Input>
+  where: Auth_Provider_Requests_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_Provider_Requests_By_PkArgs = {
+  _set: Maybe<Auth_Provider_Requests_Set_Input>
+  pk_columns: Auth_Provider_Requests_Pk_Columns_Input
+}
+
+/** mutation root */
 export type Mutation_RootUpdate_Auth_ProvidersArgs = {
   _set: Maybe<Auth_Providers_Set_Input>
   where: Auth_Providers_Bool_Exp
@@ -7919,6 +8802,18 @@ export type Mutation_RootUpdate_Auth_RolesArgs = {
 export type Mutation_RootUpdate_Auth_Roles_By_PkArgs = {
   _set: Maybe<Auth_Roles_Set_Input>
   pk_columns: Auth_Roles_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_WhitelistArgs = {
+  _set: Maybe<Auth_Whitelist_Set_Input>
+  where: Auth_Whitelist_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Auth_Whitelist_By_PkArgs = {
+  _set: Maybe<Auth_Whitelist_Set_Input>
+  pk_columns: Auth_Whitelist_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -7996,7 +8891,6 @@ export type Mutation_RootUpdate_Metadata_Property_ConfigArgs = {
   _delete_at_path: Maybe<Metadata_Property_Config_Delete_At_Path_Input>
   _delete_elem: Maybe<Metadata_Property_Config_Delete_Elem_Input>
   _delete_key: Maybe<Metadata_Property_Config_Delete_Key_Input>
-  _inc: Maybe<Metadata_Property_Config_Inc_Input>
   _prepend: Maybe<Metadata_Property_Config_Prepend_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   where: Metadata_Property_Config_Bool_Exp
@@ -8008,7 +8902,6 @@ export type Mutation_RootUpdate_Metadata_Property_Config_By_PkArgs = {
   _delete_at_path: Maybe<Metadata_Property_Config_Delete_At_Path_Input>
   _delete_elem: Maybe<Metadata_Property_Config_Delete_Elem_Input>
   _delete_key: Maybe<Metadata_Property_Config_Delete_Key_Input>
-  _inc: Maybe<Metadata_Property_Config_Inc_Input>
   _prepend: Maybe<Metadata_Property_Config_Prepend_Input>
   _set: Maybe<Metadata_Property_Config_Set_Input>
   pk_columns: Metadata_Property_Config_Pk_Columns_Input
@@ -8038,12 +8931,22 @@ export type Mutation_RootUpdate_Metadata_TableArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Metadata_Table_ConfigArgs = {
+  _append: Maybe<Metadata_Table_Config_Append_Input>
+  _delete_at_path: Maybe<Metadata_Table_Config_Delete_At_Path_Input>
+  _delete_elem: Maybe<Metadata_Table_Config_Delete_Elem_Input>
+  _delete_key: Maybe<Metadata_Table_Config_Delete_Key_Input>
+  _prepend: Maybe<Metadata_Table_Config_Prepend_Input>
   _set: Maybe<Metadata_Table_Config_Set_Input>
   where: Metadata_Table_Config_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootUpdate_Metadata_Table_Config_By_PkArgs = {
+  _append: Maybe<Metadata_Table_Config_Append_Input>
+  _delete_at_path: Maybe<Metadata_Table_Config_Delete_At_Path_Input>
+  _delete_elem: Maybe<Metadata_Table_Config_Delete_Elem_Input>
+  _delete_key: Maybe<Metadata_Table_Config_Delete_Key_Input>
+  _prepend: Maybe<Metadata_Table_Config_Prepend_Input>
   _set: Maybe<Metadata_Table_Config_Set_Input>
   pk_columns: Metadata_Table_Config_Pk_Columns_Input
 }
@@ -8096,6 +8999,18 @@ export type Mutation_RootUpdate_Visite_By_PkArgs = {
   _inc: Maybe<Visite_Inc_Input>
   _set: Maybe<Visite_Set_Input>
   pk_columns: Visite_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Visite_Lab_TestArgs = {
+  _set: Maybe<Visite_Lab_Test_Set_Input>
+  where: Visite_Lab_Test_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Visite_Lab_Test_By_PkArgs = {
+  _set: Maybe<Visite_Lab_Test_Set_Input>
+  pk_columns: Visite_Lab_Test_Pk_Columns_Input
 }
 
 /** expression to compare columns of type name. All fields are combined with logical 'AND'. */
@@ -8650,6 +9565,24 @@ export type Query_Root = {
   auth_accounts_aggregate: Auth_Accounts_Aggregate
   /** fetch data from the table: "auth.accounts" using primary key columns */
   auth_accounts_by_pk: Maybe<Auth_Accounts>
+  /** fetch data from the table: "auth.email_templates" */
+  auth_email_templates: Array<Auth_Email_Templates>
+  /** fetch aggregated fields from the table: "auth.email_templates" */
+  auth_email_templates_aggregate: Auth_Email_Templates_Aggregate
+  /** fetch data from the table: "auth.email_templates" using primary key columns */
+  auth_email_templates_by_pk: Maybe<Auth_Email_Templates>
+  /** fetch data from the table: "auth.migrations" */
+  auth_migrations: Array<Auth_Migrations>
+  /** fetch aggregated fields from the table: "auth.migrations" */
+  auth_migrations_aggregate: Auth_Migrations_Aggregate
+  /** fetch data from the table: "auth.migrations" using primary key columns */
+  auth_migrations_by_pk: Maybe<Auth_Migrations>
+  /** fetch data from the table: "auth.provider_requests" */
+  auth_provider_requests: Array<Auth_Provider_Requests>
+  /** fetch aggregated fields from the table: "auth.provider_requests" */
+  auth_provider_requests_aggregate: Auth_Provider_Requests_Aggregate
+  /** fetch data from the table: "auth.provider_requests" using primary key columns */
+  auth_provider_requests_by_pk: Maybe<Auth_Provider_Requests>
   /** fetch data from the table: "auth.providers" */
   auth_providers: Array<Auth_Providers>
   /** fetch aggregated fields from the table: "auth.providers" */
@@ -8668,6 +9601,12 @@ export type Query_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk: Maybe<Auth_Roles>
+  /** fetch data from the table: "auth.whitelist" */
+  auth_whitelist: Array<Auth_Whitelist>
+  /** fetch aggregated fields from the table: "auth.whitelist" */
+  auth_whitelist_aggregate: Auth_Whitelist_Aggregate
+  /** fetch data from the table: "auth.whitelist" using primary key columns */
+  auth_whitelist_by_pk: Maybe<Auth_Whitelist>
   /** fetch data from the table: "drug" */
   drug: Array<Drug>
   /** fetch aggregated fields from the table: "drug" */
@@ -8808,6 +9747,12 @@ export type Query_Root = {
   visite_aggregate: Visite_Aggregate
   /** fetch data from the table: "visite" using primary key columns */
   visite_by_pk: Maybe<Visite>
+  /** fetch data from the table: "visite_lab_test" */
+  visite_lab_test: Array<Visite_Lab_Test>
+  /** fetch aggregated fields from the table: "visite_lab_test" */
+  visite_lab_test_aggregate: Visite_Lab_Test_Aggregate
+  /** fetch data from the table: "visite_lab_test" using primary key columns */
+  visite_lab_test_by_pk: Maybe<Visite_Lab_Test>
 }
 
 /** query root */
@@ -8880,6 +9825,76 @@ export type Query_RootAuth_Accounts_By_PkArgs = {
 }
 
 /** query root */
+export type Query_RootAuth_Email_TemplatesArgs = {
+  distinct_on: Maybe<Array<Auth_Email_Templates_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Email_Templates_Order_By>>
+  where: Maybe<Auth_Email_Templates_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Email_Templates_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Email_Templates_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Email_Templates_Order_By>>
+  where: Maybe<Auth_Email_Templates_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Email_Templates_By_PkArgs = {
+  id: Scalars['String']
+  locale: Scalars['String']
+}
+
+/** query root */
+export type Query_RootAuth_MigrationsArgs = {
+  distinct_on: Maybe<Array<Auth_Migrations_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Migrations_Order_By>>
+  where: Maybe<Auth_Migrations_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Migrations_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Migrations_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Migrations_Order_By>>
+  where: Maybe<Auth_Migrations_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Migrations_By_PkArgs = {
+  id: Scalars['Int']
+}
+
+/** query root */
+export type Query_RootAuth_Provider_RequestsArgs = {
+  distinct_on: Maybe<Array<Auth_Provider_Requests_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Provider_Requests_Order_By>>
+  where: Maybe<Auth_Provider_Requests_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Provider_Requests_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Provider_Requests_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Provider_Requests_Order_By>>
+  where: Maybe<Auth_Provider_Requests_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Provider_Requests_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** query root */
 export type Query_RootAuth_ProvidersArgs = {
   distinct_on: Maybe<Array<Auth_Providers_Select_Column>>
   limit: Maybe<Scalars['Int']>
@@ -8946,6 +9961,29 @@ export type Query_RootAuth_Roles_AggregateArgs = {
 /** query root */
 export type Query_RootAuth_Roles_By_PkArgs = {
   role: Scalars['String']
+}
+
+/** query root */
+export type Query_RootAuth_WhitelistArgs = {
+  distinct_on: Maybe<Array<Auth_Whitelist_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Whitelist_Order_By>>
+  where: Maybe<Auth_Whitelist_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Whitelist_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Whitelist_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Whitelist_Order_By>>
+  where: Maybe<Auth_Whitelist_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootAuth_Whitelist_By_PkArgs = {
+  email: Scalars['String']
 }
 
 /** query root */
@@ -9546,6 +10584,30 @@ export type Query_RootVisite_By_PkArgs = {
   id: Scalars['uuid']
 }
 
+/** query root */
+export type Query_RootVisite_Lab_TestArgs = {
+  distinct_on: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Visite_Lab_Test_Order_By>>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootVisite_Lab_Test_AggregateArgs = {
+  distinct_on: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Visite_Lab_Test_Order_By>>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootVisite_Lab_Test_By_PkArgs = {
+  lab_test_id: Scalars['uuid']
+  visite_id: Scalars['uuid']
+}
+
 /** expression to compare columns of type smallint. All fields are combined with logical 'AND'. */
 export type Smallint_Comparison_Exp = {
   _eq: Maybe<Scalars['smallint']>
@@ -9580,6 +10642,24 @@ export type Subscription_Root = {
   auth_accounts_aggregate: Auth_Accounts_Aggregate
   /** fetch data from the table: "auth.accounts" using primary key columns */
   auth_accounts_by_pk: Maybe<Auth_Accounts>
+  /** fetch data from the table: "auth.email_templates" */
+  auth_email_templates: Array<Auth_Email_Templates>
+  /** fetch aggregated fields from the table: "auth.email_templates" */
+  auth_email_templates_aggregate: Auth_Email_Templates_Aggregate
+  /** fetch data from the table: "auth.email_templates" using primary key columns */
+  auth_email_templates_by_pk: Maybe<Auth_Email_Templates>
+  /** fetch data from the table: "auth.migrations" */
+  auth_migrations: Array<Auth_Migrations>
+  /** fetch aggregated fields from the table: "auth.migrations" */
+  auth_migrations_aggregate: Auth_Migrations_Aggregate
+  /** fetch data from the table: "auth.migrations" using primary key columns */
+  auth_migrations_by_pk: Maybe<Auth_Migrations>
+  /** fetch data from the table: "auth.provider_requests" */
+  auth_provider_requests: Array<Auth_Provider_Requests>
+  /** fetch aggregated fields from the table: "auth.provider_requests" */
+  auth_provider_requests_aggregate: Auth_Provider_Requests_Aggregate
+  /** fetch data from the table: "auth.provider_requests" using primary key columns */
+  auth_provider_requests_by_pk: Maybe<Auth_Provider_Requests>
   /** fetch data from the table: "auth.providers" */
   auth_providers: Array<Auth_Providers>
   /** fetch aggregated fields from the table: "auth.providers" */
@@ -9598,6 +10678,12 @@ export type Subscription_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk: Maybe<Auth_Roles>
+  /** fetch data from the table: "auth.whitelist" */
+  auth_whitelist: Array<Auth_Whitelist>
+  /** fetch aggregated fields from the table: "auth.whitelist" */
+  auth_whitelist_aggregate: Auth_Whitelist_Aggregate
+  /** fetch data from the table: "auth.whitelist" using primary key columns */
+  auth_whitelist_by_pk: Maybe<Auth_Whitelist>
   /** fetch data from the table: "drug" */
   drug: Array<Drug>
   /** fetch aggregated fields from the table: "drug" */
@@ -9738,6 +10824,12 @@ export type Subscription_Root = {
   visite_aggregate: Visite_Aggregate
   /** fetch data from the table: "visite" using primary key columns */
   visite_by_pk: Maybe<Visite>
+  /** fetch data from the table: "visite_lab_test" */
+  visite_lab_test: Array<Visite_Lab_Test>
+  /** fetch aggregated fields from the table: "visite_lab_test" */
+  visite_lab_test_aggregate: Visite_Lab_Test_Aggregate
+  /** fetch data from the table: "visite_lab_test" using primary key columns */
+  visite_lab_test_by_pk: Maybe<Visite_Lab_Test>
 }
 
 /** subscription root */
@@ -9810,6 +10902,76 @@ export type Subscription_RootAuth_Accounts_By_PkArgs = {
 }
 
 /** subscription root */
+export type Subscription_RootAuth_Email_TemplatesArgs = {
+  distinct_on: Maybe<Array<Auth_Email_Templates_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Email_Templates_Order_By>>
+  where: Maybe<Auth_Email_Templates_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Email_Templates_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Email_Templates_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Email_Templates_Order_By>>
+  where: Maybe<Auth_Email_Templates_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Email_Templates_By_PkArgs = {
+  id: Scalars['String']
+  locale: Scalars['String']
+}
+
+/** subscription root */
+export type Subscription_RootAuth_MigrationsArgs = {
+  distinct_on: Maybe<Array<Auth_Migrations_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Migrations_Order_By>>
+  where: Maybe<Auth_Migrations_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Migrations_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Migrations_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Migrations_Order_By>>
+  where: Maybe<Auth_Migrations_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Migrations_By_PkArgs = {
+  id: Scalars['Int']
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Provider_RequestsArgs = {
+  distinct_on: Maybe<Array<Auth_Provider_Requests_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Provider_Requests_Order_By>>
+  where: Maybe<Auth_Provider_Requests_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Provider_Requests_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Provider_Requests_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Provider_Requests_Order_By>>
+  where: Maybe<Auth_Provider_Requests_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Provider_Requests_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** subscription root */
 export type Subscription_RootAuth_ProvidersArgs = {
   distinct_on: Maybe<Array<Auth_Providers_Select_Column>>
   limit: Maybe<Scalars['Int']>
@@ -9876,6 +11038,29 @@ export type Subscription_RootAuth_Roles_AggregateArgs = {
 /** subscription root */
 export type Subscription_RootAuth_Roles_By_PkArgs = {
   role: Scalars['String']
+}
+
+/** subscription root */
+export type Subscription_RootAuth_WhitelistArgs = {
+  distinct_on: Maybe<Array<Auth_Whitelist_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Whitelist_Order_By>>
+  where: Maybe<Auth_Whitelist_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Whitelist_AggregateArgs = {
+  distinct_on: Maybe<Array<Auth_Whitelist_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Auth_Whitelist_Order_By>>
+  where: Maybe<Auth_Whitelist_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootAuth_Whitelist_By_PkArgs = {
+  email: Scalars['String']
 }
 
 /** subscription root */
@@ -10479,6 +11664,43 @@ export type Subscription_RootVisite_By_PkArgs = {
   id: Scalars['uuid']
 }
 
+/** subscription root */
+export type Subscription_RootVisite_Lab_TestArgs = {
+  distinct_on: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Visite_Lab_Test_Order_By>>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootVisite_Lab_Test_AggregateArgs = {
+  distinct_on: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Visite_Lab_Test_Order_By>>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootVisite_Lab_Test_By_PkArgs = {
+  lab_test_id: Scalars['uuid']
+  visite_id: Scalars['uuid']
+}
+
+/** expression to compare columns of type timestamp. All fields are combined with logical 'AND'. */
+export type Timestamp_Comparison_Exp = {
+  _eq: Maybe<Scalars['timestamp']>
+  _gt: Maybe<Scalars['timestamp']>
+  _gte: Maybe<Scalars['timestamp']>
+  _in: Maybe<Array<Scalars['timestamp']>>
+  _is_null: Maybe<Scalars['Boolean']>
+  _lt: Maybe<Scalars['timestamp']>
+  _lte: Maybe<Scalars['timestamp']>
+  _neq: Maybe<Scalars['timestamp']>
+  _nin: Maybe<Array<Scalars['timestamp']>>
+}
+
 /** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq: Maybe<Scalars['timestamptz']>
@@ -10711,6 +11933,10 @@ export type Visite = {
   __typename?: 'visite'
   deleted: Scalars['Boolean']
   id: Scalars['uuid']
+  /** An array relationship */
+  lab_tests: Array<Visite_Lab_Test>
+  /** An aggregated array relationship */
+  lab_tests_aggregate: Visite_Lab_Test_Aggregate
   muac: Scalars['Int']
   /** An object relationship */
   patient: Maybe<Patient>
@@ -10718,6 +11944,34 @@ export type Visite = {
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
   visit_date: Scalars['timestamptz']
+}
+
+/**
+ * Une visite
+ *
+ *
+ * columns and relationships of "visite"
+ */
+export type VisiteLab_TestsArgs = {
+  distinct_on: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Visite_Lab_Test_Order_By>>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
+}
+
+/**
+ * Une visite
+ *
+ *
+ * columns and relationships of "visite"
+ */
+export type VisiteLab_Tests_AggregateArgs = {
+  distinct_on: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Visite_Lab_Test_Order_By>>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
 }
 
 /** aggregated selection of "visite" */
@@ -10788,6 +12042,7 @@ export type Visite_Bool_Exp = {
   _or: Maybe<Array<Maybe<Visite_Bool_Exp>>>
   deleted: Maybe<Boolean_Comparison_Exp>
   id: Maybe<Uuid_Comparison_Exp>
+  lab_tests: Maybe<Visite_Lab_Test_Bool_Exp>
   muac: Maybe<Int_Comparison_Exp>
   patient: Maybe<Patient_Bool_Exp>
   patient_id: Maybe<Uuid_Comparison_Exp>
@@ -10811,12 +12066,189 @@ export type Visite_Inc_Input = {
 export type Visite_Insert_Input = {
   deleted: Maybe<Scalars['Boolean']>
   id: Maybe<Scalars['uuid']>
+  lab_tests: Maybe<Visite_Lab_Test_Arr_Rel_Insert_Input>
   muac: Maybe<Scalars['Int']>
   patient: Maybe<Patient_Obj_Rel_Insert_Input>
   patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
   visit_date: Maybe<Scalars['timestamptz']>
+}
+
+/** columns and relationships of "visite_lab_test" */
+export type Visite_Lab_Test = {
+  __typename?: 'visite_lab_test'
+  deleted: Scalars['Boolean']
+  /** An object relationship */
+  lab_test: Lab_Test
+  lab_test_id: Scalars['uuid']
+  updated_at: Scalars['timestamptz']
+  /** An object relationship */
+  visite: Visite
+  visite_id: Scalars['uuid']
+}
+
+/** aggregated selection of "visite_lab_test" */
+export type Visite_Lab_Test_Aggregate = {
+  __typename?: 'visite_lab_test_aggregate'
+  aggregate: Maybe<Visite_Lab_Test_Aggregate_Fields>
+  nodes: Array<Visite_Lab_Test>
+}
+
+/** aggregate fields of "visite_lab_test" */
+export type Visite_Lab_Test_Aggregate_Fields = {
+  __typename?: 'visite_lab_test_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Visite_Lab_Test_Max_Fields>
+  min: Maybe<Visite_Lab_Test_Min_Fields>
+}
+
+/** aggregate fields of "visite_lab_test" */
+export type Visite_Lab_Test_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Visite_Lab_Test_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "visite_lab_test" */
+export type Visite_Lab_Test_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Visite_Lab_Test_Max_Order_By>
+  min: Maybe<Visite_Lab_Test_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "visite_lab_test" */
+export type Visite_Lab_Test_Arr_Rel_Insert_Input = {
+  data: Array<Visite_Lab_Test_Insert_Input>
+  on_conflict: Maybe<Visite_Lab_Test_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "visite_lab_test". All fields are combined with a logical 'AND'. */
+export type Visite_Lab_Test_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Visite_Lab_Test_Bool_Exp>>>
+  _not: Maybe<Visite_Lab_Test_Bool_Exp>
+  _or: Maybe<Array<Maybe<Visite_Lab_Test_Bool_Exp>>>
+  deleted: Maybe<Boolean_Comparison_Exp>
+  lab_test: Maybe<Lab_Test_Bool_Exp>
+  lab_test_id: Maybe<Uuid_Comparison_Exp>
+  updated_at: Maybe<Timestamptz_Comparison_Exp>
+  visite: Maybe<Visite_Bool_Exp>
+  visite_id: Maybe<Uuid_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "visite_lab_test" */
+export enum Visite_Lab_Test_Constraint {
+  /** unique or primary key constraint */
+  VisiteLabTestPkey = 'visite_lab_test_pkey'
+}
+
+/** input type for inserting data into table "visite_lab_test" */
+export type Visite_Lab_Test_Insert_Input = {
+  deleted: Maybe<Scalars['Boolean']>
+  lab_test: Maybe<Lab_Test_Obj_Rel_Insert_Input>
+  lab_test_id: Maybe<Scalars['uuid']>
+  updated_at: Maybe<Scalars['timestamptz']>
+  visite: Maybe<Visite_Obj_Rel_Insert_Input>
+  visite_id: Maybe<Scalars['uuid']>
+}
+
+/** aggregate max on columns */
+export type Visite_Lab_Test_Max_Fields = {
+  __typename?: 'visite_lab_test_max_fields'
+  lab_test_id: Maybe<Scalars['uuid']>
+  updated_at: Maybe<Scalars['timestamptz']>
+  visite_id: Maybe<Scalars['uuid']>
+}
+
+/** order by max() on columns of table "visite_lab_test" */
+export type Visite_Lab_Test_Max_Order_By = {
+  lab_test_id: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+  visite_id: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Visite_Lab_Test_Min_Fields = {
+  __typename?: 'visite_lab_test_min_fields'
+  lab_test_id: Maybe<Scalars['uuid']>
+  updated_at: Maybe<Scalars['timestamptz']>
+  visite_id: Maybe<Scalars['uuid']>
+}
+
+/** order by min() on columns of table "visite_lab_test" */
+export type Visite_Lab_Test_Min_Order_By = {
+  lab_test_id: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+  visite_id: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "visite_lab_test" */
+export type Visite_Lab_Test_Mutation_Response = {
+  __typename?: 'visite_lab_test_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Visite_Lab_Test>
+}
+
+/** input type for inserting object relation for remote table "visite_lab_test" */
+export type Visite_Lab_Test_Obj_Rel_Insert_Input = {
+  data: Visite_Lab_Test_Insert_Input
+  on_conflict: Maybe<Visite_Lab_Test_On_Conflict>
+}
+
+/** on conflict condition type for table "visite_lab_test" */
+export type Visite_Lab_Test_On_Conflict = {
+  constraint: Visite_Lab_Test_Constraint
+  update_columns: Array<Visite_Lab_Test_Update_Column>
+  where: Maybe<Visite_Lab_Test_Bool_Exp>
+}
+
+/** ordering options when selecting data from "visite_lab_test" */
+export type Visite_Lab_Test_Order_By = {
+  deleted: Maybe<Order_By>
+  lab_test: Maybe<Lab_Test_Order_By>
+  lab_test_id: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+  visite: Maybe<Visite_Order_By>
+  visite_id: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "visite_lab_test" */
+export type Visite_Lab_Test_Pk_Columns_Input = {
+  lab_test_id: Scalars['uuid']
+  visite_id: Scalars['uuid']
+}
+
+/** select columns of table "visite_lab_test" */
+export enum Visite_Lab_Test_Select_Column {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  LabTestId = 'lab_test_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VisiteId = 'visite_id'
+}
+
+/** input type for updating data in table "visite_lab_test" */
+export type Visite_Lab_Test_Set_Input = {
+  deleted: Maybe<Scalars['Boolean']>
+  lab_test_id: Maybe<Scalars['uuid']>
+  updated_at: Maybe<Scalars['timestamptz']>
+  visite_id: Maybe<Scalars['uuid']>
+}
+
+/** update columns of table "visite_lab_test" */
+export enum Visite_Lab_Test_Update_Column {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  LabTestId = 'lab_test_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VisiteId = 'visite_id'
 }
 
 /** aggregate max on columns */
@@ -10887,6 +12319,7 @@ export type Visite_On_Conflict = {
 export type Visite_Order_By = {
   deleted: Maybe<Order_By>
   id: Maybe<Order_By>
+  lab_tests_aggregate: Maybe<Visite_Lab_Test_Aggregate_Order_By>
   muac: Maybe<Order_By>
   patient: Maybe<Patient_Order_By>
   patient_id: Maybe<Order_By>
@@ -11027,7 +12460,21 @@ export type Visite_Variance_Order_By = {
 export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
   Metadata_Table,
   'id' | 'table_name' | 'table_schema'
->
+> & {
+    primaryKey: Maybe<
+      { __typename?: 'metadata_primary_key' } & Pick<
+        Metadata_Primary_Key,
+        'constraint_name'
+      > & {
+          columns: Array<
+            { __typename?: 'metadata_index_column' } & Pick<
+              Metadata_Index_Column,
+              'column_name'
+            >
+          >
+        }
+    >
+  }
 
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
   Metadata_Column_Info,
@@ -11037,19 +12484,6 @@ export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
 export type TableFragment = { __typename?: 'metadata_table' } & {
   view: Maybe<
     { __typename?: 'metadata_view_info' } & Pick<Metadata_View_Info, 'id'>
-  >
-  primaryKey: Maybe<
-    { __typename?: 'metadata_primary_key' } & Pick<
-      Metadata_Primary_Key,
-      'constraint_name'
-    > & {
-        columns: Array<
-          { __typename?: 'metadata_index_column' } & Pick<
-            Metadata_Index_Column,
-            'column_name'
-          >
-        >
-      }
   >
   indexes: Array<
     { __typename?: 'metadata_index' } & Pick<Metadata_Index, 'index_name'> & {
@@ -11070,6 +12504,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       | 'document_title'
       | 'document_label'
       | 'component'
+      | 'order'
     >
   >
   propertiesConfig: Array<
@@ -11183,6 +12618,12 @@ export const CoreTableFragmentDoc = gql`
     id
     table_name
     table_schema
+    primaryKey {
+      constraint_name
+      columns {
+        column_name
+      }
+    }
   }
 `
 export const ColumnFragmentDoc = gql`
@@ -11198,12 +12639,6 @@ export const TableFragmentDoc = gql`
     view {
       id
     }
-    primaryKey {
-      constraint_name
-      columns {
-        column_name
-      }
-    }
     indexes {
       index_name
       columns {
@@ -11217,6 +12652,7 @@ export const TableFragmentDoc = gql`
       document_title
       document_label
       component
+      order
     }
     propertiesConfig {
       property_name
@@ -11253,7 +12689,6 @@ export const TableFragmentDoc = gql`
         mapping: {
           remoteTable: {
             _and: [
-              { columns: { column_name: { _eq: "id" } } }
               { columns: { column_name: { _eq: "updated_at" } } }
               { columns: { column_name: { _eq: "deleted" } } }
             ]
@@ -11301,7 +12736,6 @@ export const MetadataDocument = gql`
       where: {
         _and: [
           { columns: { column_name: { _eq: "updated_at" } } }
-          { columns: { column_name: { _eq: "id" } } }
           { columns: { column_name: { _eq: "deleted" } } }
         ]
       }

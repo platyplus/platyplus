@@ -5,7 +5,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { debug, error, errorDir, info, warn } from '../../console'
-import { ContentsCollection } from '../../types'
+import { Contents, ContentsCollection } from '../../types'
 import { createHeaders } from '../../utils'
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
@@ -20,43 +20,44 @@ export const createContentReplicator = async (
   const db = collection.database
   const url = db.options.url
 
-  let state: RxGraphQLReplicationState | undefined
+  let state: RxGraphQLReplicationState<Contents> | undefined
   let wsSubscription: SubscriptionClient | undefined
   let jwtSubscription: Subscription | undefined
 
-  const setupGraphQLReplication =
-    async (): Promise<RxGraphQLReplicationState> => {
-      const replicationState = collection.syncGraphQL({
-        url,
-        headers: createHeaders(role, db.jwt$.getValue()),
-        push: {
-          batchSize: DEFAULT_BATCH_SIZE,
-          queryBuilder: pushQueryBuilder(collection),
-          modifier: pushModifier(collection)
-        },
-        pull: {
-          queryBuilder: pullQueryBuilder(collection, DEFAULT_BATCH_SIZE),
-          modifier: pullModifier(collection)
-        },
-        live: true,
-        liveInterval: 1000 * 60 * 10, // 10 minutes
-        deletedFlag: 'deleted',
-        waitForLeadership: true // defaults to true
-      })
-      replicationState.error$.subscribe((err) => {
-        error(`replication error on ${collection.name}`)
-        errorDir(err)
-      })
+  const setupGraphQLReplication = async (): Promise<
+    RxGraphQLReplicationState<Contents>
+  > => {
+    const replicationState = collection.syncGraphQL({
+      url,
+      headers: createHeaders(role, db.jwt$.getValue()),
+      push: {
+        batchSize: DEFAULT_BATCH_SIZE,
+        queryBuilder: pushQueryBuilder(collection),
+        modifier: pushModifier(collection)
+      },
+      pull: {
+        queryBuilder: pullQueryBuilder(collection, DEFAULT_BATCH_SIZE),
+        modifier: pullModifier(collection)
+      },
+      live: true,
+      liveInterval: 1000 * 60 * 10, // 10 minutes
+      deletedFlag: 'deleted',
+      waitForLeadership: true // defaults to true
+    })
+    replicationState.error$.subscribe((err) => {
+      error(`replication error on ${collection.name}`)
+      errorDir(err)
+    })
 
-      jwtSubscription = db.jwt$.subscribe((token?: string) => {
-        debug(`Replicator (${collection.name}): set token`)
-        replicationState.setHeaders(createHeaders(role, token))
-        wsSubscription?.close()
-        wsSubscription = setupGraphQLSubscription()
-      })
+    jwtSubscription = db.jwt$.subscribe((token?: string) => {
+      debug(`Replicator (${collection.name}): set token`)
+      replicationState.setHeaders(createHeaders(role, token))
+      wsSubscription?.close()
+      wsSubscription = setupGraphQLSubscription()
+    })
 
-      return replicationState
-    }
+    return replicationState
+  }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)

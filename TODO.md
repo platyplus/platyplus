@@ -5,7 +5,8 @@
 - [ ] Application
   - [ ] refactor the way to load table/collection/property components
   - [ ] many to many
-    - [ ] composite RxDB primary keys -> RxDB 10
+    - [x] RxDB 10
+    - [x] composite RxDB primary keys
   - [ ] required fields
   - [ ] basic data validation according to field type
   - [ ] order menu (-> create something like an `app_config` table)
@@ -37,6 +38,7 @@
       - [ ] Docker-compose
       - [ ] Kubernetes
 - [ ] make everything work with Pulumi
+- [ ] squash Hasura migrations
 
 ## Then
 
@@ -54,6 +56,7 @@
 - [ ] components
   - [ ] cards
   - [ ] calendar
+  - [ ] QR code / codebar scanner
   - [ ] time period (from-to)
   - [ ] charts
   - [ ] maps & PostGIS

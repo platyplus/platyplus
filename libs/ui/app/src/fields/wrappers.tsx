@@ -11,7 +11,7 @@ export const FieldComponentWrapper: FieldComponent = ({
 }) => {
   const fieldComponents = useComponentsContext().fields
   const [componentName] = usePropertyComponentName(document, field)
-  const propertyType = document.propertyType(field)
+  const propertyType = document.propertyType(field) // TODO reactive
 
   const Component =
     componentName && fieldComponents[propertyType][componentName]

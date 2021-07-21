@@ -1,22 +1,16 @@
 import {
+  ContentsCollection,
   ContentsDocument,
   JsonSchemaFormat,
   JsonSchemaPropertyType,
   PropertyType
 } from '../../types'
 
-/**
- * returns the property type as a string, even when the type is ['typename', 'null']
- * If string, returns the format
- * If string and ref, returns 'object'
- * does not allow composite types e.g. ['string', 'object']
- */
-export const propertyType = (
-  document: ContentsDocument,
+export const collectionPropertyType = (
+  collection: ContentsCollection,
   propertyName: string
 ): PropertyType => {
-  const property =
-    document.collection.schema.jsonSchema.properties[propertyName]
+  const property = collection.schema.jsonSchema.properties[propertyName]
   if (!property.type)
     throw Error(`No type in prop: ${JSON.stringify(property)}`)
   let type: JsonSchemaPropertyType
@@ -36,3 +30,14 @@ export const propertyType = (
   }
   return (property.format as JsonSchemaFormat) || type
 }
+
+/**
+ * returns the property type as a string, even when the type is ['typename', 'null']
+ * If string, returns the format
+ * If string and ref, returns 'object'
+ * does not allow composite types e.g. ['string', 'object']
+ */
+export const propertyType = (
+  document: ContentsDocument,
+  propertyName: string
+): PropertyType => collectionPropertyType(document.collection, propertyName)

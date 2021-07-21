@@ -130,11 +130,7 @@ export const compute = async (
   const col = isRxDocument(doc) ? doc.collection : collection
   const data =
     col && property.transformation
-      ? await expandRxDBData(
-          doc,
-          col as ContentsCollection,
-          property.transformation
-        )
+      ? await expandRxDBData(doc, col, property.transformation)
       : doc
   return evaluate(data, property as ComputedProperty)
 }
@@ -166,15 +162,12 @@ const removeDeleted = (data: Contents): Contents | null => {
     if (data.deleted) {
       return null
     } else {
-      return Object.entries(data).reduce<Contents>(
-        (aggr, [key, value]) => (
-          (aggr[key] = Array.isArray(value)
-            ? value.map((v) => removeDeleted(v)).filter((v) => v)
-            : removeDeleted(value)),
-          aggr
-        ),
-        {} as Contents
-      )
+      return Object.entries(data).reduce<Contents>((aggr, [key, value]) => {
+        aggr[key] = Array.isArray(value)
+          ? value.map((v) => removeDeleted(v)).filter((v) => v)
+          : removeDeleted(value)
+        return aggr
+      }, {} as Contents)
     }
   } else return data
 }

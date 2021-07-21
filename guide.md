@@ -25,6 +25,10 @@
 - unidirectional / bidirectional
 
 - Many to Many
+  - composite primary key
+  - each pk is fk to the two colums
+  - only two columns
+  - permissions: select both columns, and aggregation queries
 
 ### Create indexes
 

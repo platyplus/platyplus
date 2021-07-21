@@ -7,15 +7,15 @@ export const systemCollectionComponent = ({
   metadata
 }: ContentsCollection): string | undefined => {
   if (metadata.table_schema === 'metadata') {
-    return 'metadata-' + paramCase(metadata.table_name as string)
+    return 'metadata-' + paramCase(metadata.table_name)
   }
 }
 
 export const systemDocumentComponent = (
   document: ContentsDocument
 ): string | undefined => {
-  const { metadata } = document.collection as ContentsCollection
+  const { metadata } = document.collection
   if (metadata.table_schema === 'metadata') {
-    return 'metadata-' + paramCase(metadata.table_name as string)
+    return 'metadata-' + paramCase(metadata.table_name)
   }
 }

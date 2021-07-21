@@ -1,14 +1,17 @@
 import { useCallback } from 'react'
-import { RxCollection } from 'rxdb'
 
-import { Contents, Metadata, MetadataDocument } from '@platyplus/rxdb-hasura'
+import {
+  ContentsCollection,
+  Metadata,
+  MetadataDocument
+} from '@platyplus/rxdb-hasura'
 
 import { useConfigStore } from './store'
 import { useCollectionMetadata } from './collection/hooks'
 
 type FallbackFunction<T> = (metadata?: Metadata) => T
 export const useCollectionTableConfig = <T = Metadata['config']>(
-  collection: RxCollection<Contents>,
+  collection: ContentsCollection,
   path?: string,
   fallback?: T | FallbackFunction<T>
 ): [T, (val: T) => void] => {

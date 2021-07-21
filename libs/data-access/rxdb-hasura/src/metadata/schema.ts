@@ -1,4 +1,5 @@
 import { JsonSchema, RxJsonSchema } from 'rxdb'
+import { Metadata } from '../types'
 
 const permissionAggregate: JsonSchema = {
   type: 'object',
@@ -11,15 +12,15 @@ const permissionAggregate: JsonSchema = {
     }
   }
 }
-export const metadataSchema: RxJsonSchema = {
+export const metadataSchema: RxJsonSchema<Metadata> = {
   title: 'metadata schema',
   version: 0,
   description: 'Ha',
   type: 'object',
+  primaryKey: 'id',
   properties: {
     id: {
-      type: 'string',
-      primary: true
+      type: 'string'
     },
     table_name: {
       type: 'string'

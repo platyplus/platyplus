@@ -1,12 +1,7 @@
-import {
-  PrimaryProperty,
-  RxCollection,
-  TopLevelProperty
-} from 'rxdb/dist/types/types'
+import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { useCallback } from 'react'
 
 import {
-  Contents,
   ContentsCollection,
   ContentsDocument,
   Metadata,
@@ -17,7 +12,7 @@ import {
 import { useCollectionMetadata } from '../collection'
 import { useConfigStore } from '../store'
 
-type PropertiesType = Map<string, PrimaryProperty | TopLevelProperty>
+type PropertiesType = Map<string, TopLevelProperty>
 
 export const useCollectionProperties = (
   collection: ContentsCollection
@@ -28,7 +23,7 @@ export const useCollectionProperties = (
     useCallback(
       (state) => {
         if (collection?.properties) {
-          const result = new Map<string, PrimaryProperty | TopLevelProperty>()
+          const result = new Map<string, TopLevelProperty>()
           const tempProperties = new Map(collection.properties)
           const order = state.getTable<string[]>(metadata, 'order') || []
           for (const property of order) {
@@ -50,7 +45,7 @@ export const useCollectionProperties = (
 }
 
 export const useDocumentProperties = (document?: ContentsDocument) =>
-  useCollectionProperties(document?.collection as ContentsCollection)
+  useCollectionProperties(document?.collection)
 
 type FallbackFunction<T> = (metadata?: Metadata) => T
 export const usePropertyConfig = <T = PropertyConfig>(
@@ -77,7 +72,7 @@ export const usePropertyConfig = <T = PropertyConfig>(
 }
 
 export const useCollectionPropertyConfig = <T = PropertyConfig>(
-  collection: RxCollection<Contents>,
+  collection: ContentsCollection,
   property: string,
   path?: string,
   fallback?: T | FallbackFunction<T>
