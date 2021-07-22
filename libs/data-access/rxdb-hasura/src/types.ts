@@ -61,6 +61,7 @@ export type PropertyValue =
 
 export type Contents = Record<string, any> & {
   id: string
+  is_local_change?: boolean // ! used for local RxDB changes without trigerring a GraphQl replicatin (e.g. relationship sync)
   updated_at?: string
   label: string
 }

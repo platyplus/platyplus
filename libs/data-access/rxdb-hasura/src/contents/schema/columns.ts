@@ -17,7 +17,7 @@ export const graphQLColumnType = (
   column?: ColumnFragment
 ): 'uuid' | 'String' => {
   // TODO incomplete
-  if (column?.udt_name === 'uuid') return 'uuid'
+  if (column?.udtName === 'uuid') return 'uuid'
   else return 'String'
 }
 
@@ -32,19 +32,19 @@ export const createColumnProperties = (table: Metadata) => {
       (relationship) =>
         relationship.rel_type === 'object' && relationship.mapping.length === 1
     )
-    .map((relationship) => relationship.mapping[0].column?.column_name)
+    .map((relationship) => relationship.mapping[0].column?.name)
   table.columns
     .filter(
       (column) =>
         // * filter properties that are already mapped by an object relationship
-        !skipRelationships.includes(column.column_name) ||
+        !skipRelationships.includes(column.name) ||
         // * filter relationships using the primary key as foreign key
         isIdColumn(column)
     )
     // * Do not add the deleted column to the properties
-    .filter((column) => column.column_name !== 'deleted')
+    .filter((column) => column.name !== 'deleted')
     .forEach((column) => {
-      const sqlType = column.udt_name
+      const sqlType = column.udtName
       const type = propertyJsonType(column)
       // * Load custom JSON Schema, if it exists
       const customSchema = column.config?.json_schema
@@ -58,7 +58,7 @@ export const createColumnProperties = (table: Metadata) => {
           property.format = format
         }
       }
-      result[column.column_name] = property
+      result[column.name] = property
     })
   return result as Record<string, TopLevelProperty> & {
     updated_at: TopLevelProperty

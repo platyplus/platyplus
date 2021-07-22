@@ -4,7 +4,7 @@ import deepEqual from 'deep-equal'
 
 import { castValue, Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useDocumentProperties } from './metadata'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 const useFormStore = create<{
   forms: Record<string, Record<string, Contents>>
@@ -13,13 +13,16 @@ const useFormStore = create<{
     values: Record<string, string | boolean>
   ) => void
   resetForm: (document: ContentsDocument) => void
-}>((set) => ({
+}>((set, get) => ({
   forms: {},
   setForm: (document, values) =>
     set((state) => {
+      const currentForm =
+        get().forms[document.collection.name]?.[document.primary]
       const newValues = Object.entries(values).reduce(
         (aggregator, [key, value]) => {
-          aggregator[key] = castValue(document, key, value)
+          aggregator[key] =
+            castValue(document, key, value) ?? currentForm?.[key]
           return aggregator
         },
         {}
@@ -47,9 +50,13 @@ const useFormStore = create<{
  */
 const useFormValues = (document?: ContentsDocument) =>
   useFormStore(
-    (state) =>
-      (document && state.forms[document.collection.name]?.[document.primary]) ||
-      {}
+    useCallback(
+      (state) =>
+        (document &&
+          state.forms[document.collection.name]?.[document.primary]) ||
+        {},
+      [document]
+    )
   )
 
 /**
@@ -76,8 +83,11 @@ export const useGetForm = (document: ContentsDocument) => {
 
 export const useSetForm = (document: ContentsDocument) =>
   useFormStore(
-    (state) => (values: Record<string, string | boolean>) =>
-      state.setForm(document, values)
+    useCallback(
+      (state) => (values: Record<string, string | boolean>) =>
+        state.setForm(document, values),
+      [document]
+    )
   )
 
 /**
@@ -86,7 +96,9 @@ export const useSetForm = (document: ContentsDocument) =>
  * @returns
  */
 export const useResetForm = (document: ContentsDocument) =>
-  useFormStore((state) => () => state.resetForm(document))
+  useFormStore(
+    useCallback((state) => () => state.resetForm(document), [document])
+  )
 
 /**
  * Tracks changes in the form linked to the given document
@@ -96,19 +108,21 @@ export const useResetForm = (document: ContentsDocument) =>
 export const useFormChanged = (document?: ContentsDocument) => {
   const formValues = useFormValues(document)
   const [properties] = useDocumentProperties(document)
-  return (
-    properties &&
-    [...properties.keys()].some((key) => {
-      if (formValues[key] === undefined) {
-        return false
-      } else {
-        if (!document[key] && !formValues[key]) return false
-        else
-          return typeof document[key] === 'object'
-            ? !deepEqual(document[key], formValues[key])
-            : document[key] !== formValues[key]
-      }
-    })
+  return useMemo(
+    () =>
+      properties &&
+      [...properties.keys()].some((key) => {
+        if (formValues[key] === undefined) {
+          return false
+        } else {
+          if (!document[key] && !formValues[key]) return false
+          else
+            return typeof document[key] === 'object'
+              ? !deepEqual(document[key], formValues[key])
+              : document[key] !== formValues[key]
+        }
+      }),
+    [document, formValues, properties]
   )
 }
 
@@ -118,7 +132,7 @@ export const useFormSave = (document?: ContentsDocument) => {
   const reset = useResetForm(document)
   return async () => {
     if (changed) {
-      await document.atomicPatch(formValues)
+      await document.atomicPatch({ is_local_change: false, ...formValues })
       reset()
     }
   }

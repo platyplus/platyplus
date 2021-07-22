@@ -3,9 +3,9 @@ import { Metadata } from '../../types'
 import { ArrayElement } from '../../utils'
 
 export const getIds = (table: Metadata | RemoteTableFragment): string[] =>
-  table.primaryKey?.columns.map(({ column_name }) => column_name) || ['id']
+  table.primaryKey?.columns.map(({ columnName }) => columnName) || ['id']
 
 export const isIdColumn = (
   column: ArrayElement<Metadata['columns']> | ColumnFragment
 ): boolean =>
-  !!('primaryKey' in column && column.primaryKey) || column.column_name === 'id'
+  !!('primaryKey' in column && column.primaryKey) || column.name === 'id'

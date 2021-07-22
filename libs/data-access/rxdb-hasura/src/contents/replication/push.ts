@@ -44,67 +44,6 @@ export const pushQueryBuilder = (
     const { id, ...updateDoc } = doc
     const query = jsonToGraphQLQuery({
       mutation: {
-        ...arrayRelationships.reduce((acc, rel) => {
-          // TODO relations with composite ids
-          const isManyToMany = isManyToManyTable(rel.remoteTable)
-          const mapping = rel.mapping[0]
-          const joinTable = metadataName(rel.remoteTable)
-          const reverseId = rel.remoteTable.primaryKey.columns.find(
-            (col) => col.column_name !== mapping.remote_column_name
-          ).column_name
-          if (isManyToMany) {
-            acc[`update_${joinTable}`] = {
-              __args: {
-                where: {
-                  [mapping.remote_column_name]: {
-                    _eq: doc.id
-                  }
-                },
-                _set: { deleted: true }
-              },
-              affected_rows: true
-            }
-          }
-
-          if (arrayValues[rel.rel_name]?.length) {
-            if (isManyToMany) {
-              acc[`insert_${joinTable}`] = {
-                __args: {
-                  objects: arrayValues[rel.rel_name].map((id: string) => ({
-                    [reverseId]: id,
-                    [mapping.remote_column_name]: doc.id,
-                    deleted: false
-                  })),
-                  on_conflict: {
-                    constraint: new EnumType(
-                      rel.remoteTable.primaryKey.constraint_name
-                    ),
-                    update_columns: [new EnumType('deleted')],
-                    where: { deleted: { _eq: true } }
-                  }
-                },
-                affected_rows: true
-              }
-            } else {
-              acc[`insert_${joinTable}`] = {
-                __args: {
-                  objects: arrayValues[rel.rel_name].map((id: string) => ({
-                    [reverseId]: id,
-                    [mapping.remote_column_name]: doc.id
-                  })),
-                  on_conflict: {
-                    constraint: new EnumType(
-                      rel.remoteTable.primaryKey.constraint_name
-                    ),
-                    update_columns: [new EnumType(mapping.remote_column_name)]
-                  }
-                },
-                affected_rows: true
-              }
-            }
-          }
-          return acc
-        }, {}),
         ...(_isNew
           ? {
               [`insert_${title}_one`]: {
@@ -124,7 +63,68 @@ export const pushQueryBuilder = (
                 },
                 returning: reduceStringArrayValues(idKeys, () => true)
               }
-            })
+            }),
+        ...arrayRelationships.reduce((acc, rel) => {
+          // TODO relations with composite ids
+          const isManyToMany = isManyToManyTable(rel.remoteTable)
+          const mapping = rel.mapping[0]
+          const joinTable = metadataName(rel.remoteTable)
+          const reverseId = rel.remoteTable.primaryKey.columns.find(
+            (col) => col.columnName !== mapping.remoteColumnName
+          ).columnName
+          if (isManyToMany) {
+            acc[`update_${joinTable}`] = {
+              __args: {
+                where: {
+                  [mapping.remoteColumnName]: {
+                    _eq: doc.id
+                  }
+                },
+                _set: { deleted: true }
+              },
+              affected_rows: true
+            }
+          }
+
+          if (arrayValues[rel.rel_name]?.length) {
+            if (isManyToMany) {
+              acc[`insert_${joinTable}`] = {
+                __args: {
+                  objects: arrayValues[rel.rel_name].map((id: string) => ({
+                    [reverseId]: id,
+                    [mapping.remoteColumnName]: doc.id,
+                    deleted: false
+                  })),
+                  on_conflict: {
+                    constraint: new EnumType(
+                      rel.remoteTable.primaryKey.constraint_name
+                    ),
+                    update_columns: [new EnumType('deleted')],
+                    where: { deleted: { _eq: true } }
+                  }
+                },
+                affected_rows: true
+              }
+            } else {
+              acc[`insert_${joinTable}`] = {
+                __args: {
+                  objects: arrayValues[rel.rel_name].map((id: string) => ({
+                    [reverseId]: id,
+                    [mapping.remoteColumnName]: doc.id
+                  })),
+                  on_conflict: {
+                    constraint: new EnumType(
+                      rel.remoteTable.primaryKey.constraint_name
+                    ),
+                    update_columns: [new EnumType(mapping.remoteColumnName)]
+                  }
+                },
+                affected_rows: true
+              }
+            }
+          }
+          return acc
+        }, {})
       }
     })
     debug('push query builder:', { query })
@@ -136,6 +136,7 @@ export const pushQueryBuilder = (
 }
 
 export const pushModifier = (collection: ContentsCollection): Modifier => {
+  // TODO replicate only what has changed e.g. _changes sent to the query builder
   const table = collection.metadata
   // * Don't push changes on views
   if (table.view) return () => null
@@ -147,13 +148,17 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
   return async (data) => {
     debug('pushModifier: in:', data)
+    // * Do not push data if it is flaged as a local change
+    if (data.is_local_change) return null
+    else delete data.is_local_change
+
     const _isNew = isNewDocument(data)
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
 
     // * Object relationships:move back property name to the right foreign key column
     for (const { rel_name, mapping } of objectRelationships) {
       if (data[rel_name] !== undefined) {
-        data[mapping[0].column?.column_name] = data[rel_name]
+        data[mapping[0].column?.name] = data[rel_name]
         delete data[rel_name]
       }
     }
@@ -166,12 +171,12 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
           .filter(
             (column) => !column[_isNew ? 'canInsert' : 'canUpdate'].length
           )
-          .map((column) => column.column_name)
+          .map((column) => column.name)
       )
     }
     for (const field of excluded) delete data[field]
 
-    debug('pushModifier: out', { ...data })
+    debug('pushModifier: out', { _isNew, ...data, id })
     return { _isNew, ...data, id }
   }
 }

@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal'
 
-export const difference = <T extends Record<string, unknown>>(
+export const difference = <T>(
   initial: T[] | Readonly<T[]>,
   minus: T[] | Readonly<T[]>,
   equals: (a: T, b: T) => boolean = deepEqual
@@ -10,7 +10,7 @@ export const difference = <T extends Record<string, unknown>>(
       !minus.some((minusElement) => equals(initialElement, minusElement))
   )
 
-export const intersection = <T extends Record<string, unknown>>(
+export const intersection = <T>(
   a: T[] | Readonly<T[]>,
   b: T[] | Readonly<T[]>,
   equals: (a: T, b: T) => boolean = deepEqual
@@ -22,7 +22,7 @@ export const intersection = <T extends Record<string, unknown>>(
  * @param update
  * @param hasSameId
  */
-export const arrayChanges = <T extends Record<string, unknown>>(
+export const arrayChanges = <T>(
   initial: T[] | Readonly<T[]>,
   update: T[] | Readonly<T[]>,
   hasSameId: (a: T, b: T) => boolean

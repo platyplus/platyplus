@@ -24,11 +24,12 @@ export const toJsonSchema = (
       key: 'id',
       fields: table.columns
         .filter((column) => isIdColumn(column))
-        .map((column) => column.column_name),
+        .map((column) => column.name),
       separator: '|'
     },
     properties: {
       id: { type: 'string' },
+      is_local_change: { type: ['boolean', 'null'] },
       ...createColumnProperties(table),
       ...createRelationshipProperties(table, role),
       ...createComputedFieldsProperties(table)

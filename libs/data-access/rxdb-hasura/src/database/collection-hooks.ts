@@ -20,6 +20,7 @@ const collectionProperties = (
     'updated_at',
     'created_at',
     'label',
+    'is_local_change',
     // * array aggregates from the property list
     ...collection.metadata.relationships
       .filter(({ rel_type }) => rel_type === 'array')

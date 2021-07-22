@@ -35,8 +35,8 @@ export const pullQueryBuilder = (
     (aggr, curr) => {
       aggr.push(
         ...curr.mapping.reduce<string[]>((mAggr, mCurr) => {
-          if (!idKeys.includes(mCurr.column?.column_name))
-            mAggr.push(mCurr.column?.column_name)
+          if (!idKeys.includes(mCurr.column?.name))
+            mAggr.push(mCurr.column?.name)
           return mAggr
         }, [])
       )
@@ -50,7 +50,7 @@ export const pullQueryBuilder = (
       : table.columns.filter((column) => column.canSelect.length)
   )
     // * Filter out columns referencing other tables
-    .filter((column) => !foreignKeyColumns.includes(column.column_name))
+    .filter((column) => !foreignKeyColumns.includes(column.name))
 
   const objectRelationshipFields = filteredRelationships(table)
     .filter((rel) => rel.rel_type === 'object')
@@ -59,7 +59,7 @@ export const pullQueryBuilder = (
         ({
           [relationship.rel_name]: reduceArrayValues(
             relationship.mapping,
-            ({ remote_column_name }) => [remote_column_name, true]
+            ({ remoteColumnName }) => [remoteColumnName, true]
           )
         } as FieldMap)
     )
@@ -73,7 +73,7 @@ export const pullQueryBuilder = (
           [relationship.rel_name]:
             relationship.remoteTable.primaryKey.columns.reduce(
               (acc, column) => {
-                acc[column.column_name] = true
+                acc[column.columnName] = true
                 return acc
               },
               {
@@ -94,7 +94,7 @@ export const pullQueryBuilder = (
 
   const fieldsObject = deepmerge.all<FieldMap>([
     // * Column fields
-    reduceArrayValues(columns, ({ column_name }) => [column_name, true]),
+    reduceArrayValues(columns, ({ name }) => [name, true]),
     // * Add fields required for array relationships
     ...arrayRelationshipFields,
     // * Add fields required for object relationships
@@ -105,9 +105,7 @@ export const pullQueryBuilder = (
       .map((prop) => rxdbJsonataPaths(prop.transformation, collection))
   ])
 
-  const idColumns = table.columns.filter(({ column_name }) =>
-    idKeys.includes(column_name)
-  )
+  const idColumns = table.columns.filter(({ name }) => idKeys.includes(name))
 
   const query = jsonToGraphQLQuery({
     query: {
@@ -115,7 +113,7 @@ export const pullQueryBuilder = (
       __variables: {
         updatedAt: 'timestamptz',
         ...reduceArrayValues(idColumns, (column) => [
-          column.column_name,
+          column.name,
           graphQLColumnType(column)
         ]),
         ...reduceArrayValues(arrayRelationships, (rel) => [
@@ -147,8 +145,8 @@ export const pullQueryBuilder = (
                       }
                     },
                     ...rel.mapping.map((mapping) => ({
-                      [mapping.column.column_name]: {
-                        _eq: new VariableType(mapping.column.column_name)
+                      [mapping.column.name]: {
+                        _eq: new VariableType(mapping.column.name)
                       }
                     }))
                   ]

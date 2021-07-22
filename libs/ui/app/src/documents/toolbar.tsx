@@ -24,7 +24,9 @@ export const DocumentToolbar: React.FC<{
   const saveForm = useFormSave(document)
   const save = async () => {
     await saveForm()
-    history.replace(location.pathname)
+    history.replace(
+      `/collection/${document.collection.name}/${document.primary}`
+    )
   }
 
   const editDocument = () => history.replace(`${location.pathname}?edit`)

@@ -113,6 +113,13 @@
 - table:
     schema: metadata
     name: column_info
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_default: default
+      udt_name: udtName
+      is_nullable: isNullable
+      column_name: name
   object_relationships:
   - name: config
     using:
@@ -325,6 +332,10 @@
 - table:
     schema: metadata
     name: index
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      index_name: name
   array_relationships:
   - name: columns
     using:
@@ -352,6 +363,10 @@
 - table:
     schema: metadata
     name: index_column
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_name: columnName
   select_permissions:
   - role: me
     permission:
@@ -714,6 +729,21 @@
 - table:
     schema: metadata
     name: relationship_mapping
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_id: columnId
+      table_id: tableId
+      remote_column_id: remoteColumnId
+      remote_column_name: remoteColumnName
+      rel_name: relationName
+      remote_table_id: remoteTableId
+      remote_schema_name: remoteSchemaName
+      remote_table_name: remoteTableName
+      table_schema: schemaName
+      relationship_id: relationId
+      table_name: tableName
+      column_name: columnName
   object_relationships:
   - name: column
     using:

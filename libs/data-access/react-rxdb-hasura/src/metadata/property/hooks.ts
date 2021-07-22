@@ -37,8 +37,11 @@ export const useCollectionProperties = (
     )
   )
   const setProperties = useConfigStore(
-    (state) => (newProperties: PropertiesType) =>
-      state.setTable(metadata, [...newProperties.keys()], 'order')
+    useCallback(
+      (state) => (newProperties: PropertiesType) =>
+        state.setTable(metadata, [...newProperties.keys()], 'order'),
+      [metadata]
+    )
   )
 
   return [properties, setProperties]

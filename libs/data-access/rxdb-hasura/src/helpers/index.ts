@@ -1,7 +1,7 @@
 import { propertyType } from '../contents'
 import { ContentsDocument, PropertyType, PropertyValue } from '../types'
 
-const isTextType = (type: PropertyType): boolean =>
+export const isTextType = (type: PropertyType): boolean =>
   [
     'string',
     'date',

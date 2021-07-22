@@ -9,6 +9,7 @@ import { DocumentComponent, DocumentFromParamsComponent } from './types'
 export const DocumentComponentWrapper: DocumentComponent<{
   componentName?: string
 }> = ({ document, edit = false, componentName }) => {
+  // TODO why this component is being rerendered so many times?
   const [documentComponentName] = useDocumentComponentName(document)
   const name = componentName || documentComponentName
   const documentComponents = useComponentsContext().documents

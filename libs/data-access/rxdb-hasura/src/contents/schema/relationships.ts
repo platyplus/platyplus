@@ -77,8 +77,8 @@ export const isManyToManyTable = (
   return (
     table.columns.filter(
       (column) =>
-        !['updated_at', 'deleted'].includes(column.column_name) &&
-        pkColumns.includes(column.column_name)
+        !['updated_at', 'deleted'].includes(column.name) &&
+        pkColumns.includes(column.name)
     ).length === 2 &&
     table.relationships.length === 2 &&
     table.relationships.every((rel) => rel.rel_type === 'object')

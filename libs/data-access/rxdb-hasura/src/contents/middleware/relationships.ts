@@ -1,4 +1,6 @@
+import { arrayChanges } from '@platyplus/data'
 import { RxCollectionHookCallback } from 'rxdb'
+import { debug, warn } from '../../console'
 
 import {
   Contents,
@@ -6,126 +8,123 @@ import {
   ContentsDocumentMethods
 } from '../../types'
 
-// ! locks documents when being saved to avoid infitite loop when changing a relationship or its mirror
-const documentLocks: Record<string, boolean> = {}
-
-// TODO revoir completement le système
-const postInsertRelationship =
-  (
-    collection: ContentsCollection
-  ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
-  async (data, doc) => {
-    // TODO use 'populate' to simplify
-    for (const rel of collection.metadata.relationships) {
-      const relName = rel.rel_name
-      if (!data[relName]) return // * Relation stayed null
-      const property = collection.schema.jsonSchema.properties[relName]
-      const refCollection: ContentsCollection =
-        collection.database.collections[property.ref]
-      const mirrorRelation = Object.entries(
-        refCollection.schema.jsonSchema.properties
-      ).find(([, value]) => {
-        return value.ref === collection.name
-      })?.[0]
-      if (!mirrorRelation) return
-      if (rel.rel_type === 'array') {
-        // * When a One-to-Many (array) relationship changes, update the potential mirror Many-to-One (object) relationship in the referenced collection
-        const additions: string[] = data[relName] || []
-        // * Changes foreign key in the new referenced documents
-        for (const addition of additions) {
-          const refDoc = await refCollection.findOne(addition).exec()
-          if (refDoc && !documentLocks[refDoc.primary])
-            await refDoc.atomicPatch({
-              [mirrorRelation]: doc.primary
-            })
-        }
-      } else if (rel.rel_type === 'object') {
-        // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
-        const newValue: string = data[relName]
-        // * Add document from the One-to-Many relationship in the new Many-To-One reference
-        const refDoc = await refCollection.findOne(newValue).exec()
-        if (refDoc && !documentLocks[refDoc.primary])
-          await refDoc.atomicPatch({
-            [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]
-          })
-      }
-    }
-  }
-
 const preSaveRelationship =
   (
     collection: ContentsCollection
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
-    // TODO use 'populate' to simplify
-    documentLocks[doc.primary] = true
-    for (const rel of collection.metadata.relationships) {
-      const relName = rel.rel_name
-      if (!doc[relName] && !data[relName]) return // * Relation stayed null
+    // * Stop recursive spreading of changes done locally
+    if (data.is_local_change) return
+    for (const { rel_name: relName, rel_type: relType } of collection.metadata
+      .relationships) {
       const property = collection.properties.get(relName)
-      const refCollection: ContentsCollection =
+      const remoteCollection: ContentsCollection =
         collection.database.collections[property.ref]
-      const mirrorRelation = Object.entries(
-        refCollection.schema.jsonSchema.properties
-      ).find(([, value]) => {
-        return value.ref === collection.name
-      })?.[0]
-      if (!mirrorRelation) return
-      if (rel.rel_type === 'array') {
-        // * When a One-to-Many (array) relationship changes, update the potential mirror Many-to-One (object) relationship in the referenced collection
-        const oldValue: string[] = doc[relName] || []
-        const newValue: string[] = data[relName] || []
-        // * Changes foreign key in the new referenced documents
-        const additions = newValue.filter((value) => !oldValue.includes(value))
-        for (const addition of additions) {
-          const refDoc = await refCollection.findOne(addition).exec()
-          if (refDoc && !documentLocks[refDoc.primary])
-            await refDoc.atomicPatch({
-              [mirrorRelation]: doc.primary
-            })
-        }
-        // * Set foreign key to null in the unreferenced documents
-        // TODO if cascade, remove the document
-        const deletions = oldValue.filter((value) => !newValue.includes(value))
-        for (const deletion of deletions) {
-          const refDoc = await refCollection.findOne(deletion).exec()
-          if (refDoc && !documentLocks[refDoc.primary])
-            await refDoc.atomicPatch({
-              [mirrorRelation]: null
-            })
-        }
-      } else if (rel.rel_type === 'object') {
-        // * When a Many-to-One (object) relationship changes, update the potential mirror One-To-Many (array) relationship in the referenced collection
-        const oldValue = doc[relName]
-        const newValue = data[relName]
-        if (newValue !== oldValue) {
-          if (oldValue) {
-            // * Remove document from the One-to-Many relationship in the old Many-To-One reference
-            const refDoc = await refCollection.findOne(oldValue).exec()
-            if (refDoc && !documentLocks[refDoc.primary])
-              await refDoc.atomicPatch({
-                [mirrorRelation]: refDoc
-                  .get(mirrorRelation)
-                  .filter((key: string) => key !== doc.primary)
+      const mirrorRelationships =
+        remoteCollection.metadata.relationships.filter(
+          (rel) => rel.remoteTable.id === collection.metadata.id
+        )
+
+      if (mirrorRelationships.length > 1) {
+        // TODO sort this out - is it really a problem? Test without it
+        warn(
+          `Relation ${collection.name}.${relName} points to ${remoteCollection.name}, but ${remoteCollection.name} have more than one relation that points back to ${collection.name}. Can't determine which to process`
+        )
+      }
+
+      // * Get the previous values of the document
+      const oldDocument = await collection.findOne(data.id).exec()
+      const oldRelId = oldDocument && oldDocument[relName]
+      const newRelId = data[relName]
+
+      for (const {
+        rel_name: mirrorRelName,
+        rel_type: mirrorRelType
+      } of mirrorRelationships) {
+        debug(
+          `${collection.name}.${relName} <-> ${remoteCollection.name}.${mirrorRelName}`
+        )
+        if (relType === 'array') {
+          // * From one/many to many
+          const { add, remove } = arrayChanges<string>(
+            oldRelId || [],
+            newRelId || [],
+            (a, b) => a === b
+          )
+
+          const addDocs = await remoteCollection.findByIds(add)
+          for (const remoteDoc of addDocs.values()) {
+            if (mirrorRelType === 'array') {
+              // * From many to many
+              remoteDoc.atomicPatch({
+                is_local_change: true,
+                [mirrorRelName]: [...remoteDoc[relName], doc.id]
               })
+            } else {
+              // * From one to many
+              remoteDoc.atomicPatch({
+                is_local_change: false,
+                [mirrorRelName]: remoteDoc[relName]
+              })
+            }
           }
-          if (newValue) {
-            // * Add document from the One-to-Many relationship in the new Many-To-One reference
-            const refDoc = await refCollection.findOne(newValue).exec()
-            if (refDoc && !documentLocks[refDoc.primary])
-              await refDoc.atomicPatch({
-                [mirrorRelation]: [...refDoc.get(mirrorRelation), doc.primary]
+          const removeDocs = await remoteCollection.findByIds(remove)
+          for (const remoteDoc of removeDocs.values()) {
+            if (mirrorRelType === 'array') {
+              remoteDoc.atomicPatch({
+                is_local_change: true,
+                [mirrorRelName]: remoteDoc[relName].filter(
+                  (key: string) => key !== doc.id
+                )
               })
+            } else {
+              remoteDoc.atomicPatch({
+                is_local_change: false,
+                [mirrorRelName]: null
+              })
+            }
+          }
+        } else {
+          if (mirrorRelType === 'array') {
+            // * From one to many
+            if (oldRelId !== newRelId) {
+              if (oldRelId) {
+                const oldRemoteDocument = await remoteCollection
+                  .findOne(oldRelId)
+                  .exec()
+                const updatedMirrorValues = oldRemoteDocument[
+                  mirrorRelName
+                ].filter((key: string) => key !== data.id)
+                await oldRemoteDocument.atomicPatch({
+                  is_local_change: true,
+                  [mirrorRelName]: updatedMirrorValues
+                })
+              }
+              if (newRelId) {
+                const newRemoteDocument = await remoteCollection
+                  .findOne(newRelId)
+                  .exec()
+                const updatedMirrorValues = [
+                  ...newRemoteDocument[mirrorRelName],
+                  data.id
+                ]
+                await newRemoteDocument.atomicPatch({
+                  is_local_change: true,
+                  [mirrorRelName]: updatedMirrorValues
+                })
+              }
+            }
+          } else {
+            // TODO From one to one
+            warn('One to One relationship is not set yet')
           }
         }
       }
     }
-    delete documentLocks[doc.primary]
   }
 
 export const createRelationshipHooks = (
   collection: ContentsCollection
 ): void => {
-  collection.postInsert(postInsertRelationship(collection), false)
   collection.preSave(preSaveRelationship(collection), false)
 }

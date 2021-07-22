@@ -11,7 +11,7 @@ export const query = gql`
     primaryKey {
       constraint_name
       columns {
-        column_name
+        columnName
       }
     }
   }
@@ -25,14 +25,14 @@ export const query = gql`
       }
     }
     columns {
-      column_name
+      name
     }
   }
 
   fragment column on metadata_column_info {
-    column_name
-    udt_name
-    is_nullable
+    name
+    udtName
+    isNullable
   }
 
   fragment table on metadata_table {
@@ -42,9 +42,9 @@ export const query = gql`
     }
 
     indexes {
-      index_name
+      name
       columns {
-        column_name
+        columnName
       }
     }
     config {
@@ -91,9 +91,9 @@ export const query = gql`
         mapping: {
           remoteTable: {
             _and: [
-              # { columns: { column_name: { _eq: "id" } } }
-              { columns: { column_name: { _eq: "updated_at" } } }
-              { columns: { column_name: { _eq: "deleted" } } }
+              # { columns: { name: { _eq: "id" } } }
+              { columns: { name: { _eq: "updated_at" } } }
+              { columns: { name: { _eq: "deleted" } } }
             ]
           }
         }
@@ -108,7 +108,7 @@ export const query = gql`
         column {
           ...column
         }
-        remote_column_name
+        remoteColumnName
       }
     }
     columns {
@@ -116,6 +116,7 @@ export const query = gql`
       primaryKey {
         constraint_name
       }
+      default
       canSelect {
         role_name
       }
@@ -135,8 +136,8 @@ export const query = gql`
     metadata_table(
       where: {
         _and: [
-          { columns: { column_name: { _eq: "updated_at" } } }
-          { columns: { column_name: { _eq: "deleted" } } }
+          { columns: { name: { _eq: "updated_at" } } }
+          { columns: { name: { _eq: "deleted" } } }
         ]
       }
     ) {

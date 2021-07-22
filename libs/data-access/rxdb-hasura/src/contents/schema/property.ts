@@ -31,9 +31,9 @@ const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
 export const propertyJsonType = (
   columnInfo: ColumnFragment
 ): JsonSchemaPropertyType | JsonSchemaPropertyType[] => {
-  const udtType = columnInfo.udt_name
-  // TODO change is_nullable to boolean value in SQL view definition
-  const isNullable = columnInfo.is_nullable === 'YES'
+  const udtType = columnInfo.udtName
+  // TODO change isNullable to boolean value in SQL view definition
+  const isNullable = columnInfo.isNullable === 'YES'
   if (!postgresJsonSchemaTypeMapping[udtType])
     throw Error(`PostgresSQL type "${udtType}" is not mapped to JSON Schema`)
   const result = (postgresJsonSchemaTypeMapping[udtType] ||

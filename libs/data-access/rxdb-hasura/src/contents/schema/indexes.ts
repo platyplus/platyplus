@@ -7,8 +7,8 @@ export const indexes = (table: Metadata): (string | string[])[] => {
   // * Map PostgreSQL indexes
   const postgresIndexes = table.indexes
     .filter(({ columns }) =>
-      columns.every(({ column_name }) => {
-        const column = table.columns.find((c) => c.column_name === column_name)
+      columns.every(({ columnName }) => {
+        const column = table.columns.find((c) => c.name === columnName)
         const type = column && propertyJsonType(column)
         return (
           // TODO raise warning when postgresql index cannot be converted into an RxDB index
@@ -17,6 +17,6 @@ export const indexes = (table: Metadata): (string | string[])[] => {
         )
       })
     )
-    .map(({ columns }) => columns.map(({ column_name }) => column_name))
+    .map(({ columns }) => columns.map(({ columnName }) => columnName))
   return [...postgresIndexes, 'label']
 }

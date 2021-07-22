@@ -8,14 +8,28 @@
     - [x] composite RxDB primary keys
     - [x] read many2many
     - [x] save many2many
-  - [ ] sync reverse relationships locally (one2many/many2one and many2many)
-  - [ ] required fields
-  - [ ] basic data validation according to field type
+  - [x] sync reverse relationships locally
+    - [x] one2many
+    - [x] many2one
+    - [x] many2many
+    - [ ] one2one
+    - [ ] check if it works on both insert and update
+  - [x] forms: see bug when inserting a visit
+  - [ ] default value & date input
+    - [ ] -> date / date-time input: use ISO?
+  - [ ] basic data validation
+    - [ ] implement 'canSave' - and use it in the toolbar
+    - [ ] according to field type
+    - [ ] required columns
+    - [ ] required relationships?
   - [ ] order menu (-> create something like an `app_config` table)
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
+- [ ] Hasura 2
+  - avoid regressions
+  - list missing metadata elements e.g. muliple db, inherited roles...
 - [ ] Docker images
   - [ ] GitHub action
   - [ ] Platyplus Hasura (include migrations + schema)
@@ -44,12 +58,20 @@
 ## Then
 
 - Application
+  - [ ] list Hasura features to be mapped to RxDB e.g.
+    - [ ] remote schemas
+    - [ ] inherited roles
+    - [ ] remote relationships
+    - [ ] column presets
+  - [ ] nullable values vs default values vs form values
   - [ ] refactor the way to load table/collection/property components
   - [ ] validation rules stored on the backend
   - [ ] permissions
   - [ ] varchar(x) -> validate string length < x
-  - [ ] review indexes in RxDB
+  - [ ] created_at / created_by
+  - [ ] computed values
   - [ ] searchable collections
+  - [ ] review indexes in RxDB
   - [ ] custom menus
     - [ ] for everyone / per role / per user
     - [ ] filtered collections
@@ -67,11 +89,12 @@
     - [ ] avatar
     - [ ] rich text / markdown
     - [ ] complete every field component
-      - [ ] ipv4 ipv6
+      - [ ] ipv4 / ipv6
       - [ ] hostname
       - [ ] object
       - [ ] array
       - [ ] uri
+  - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
   - [ ] remove useless code in rxdb-hasura (e.g. document.component())
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
   - [ ] Better integration with HBP e.g. registration, password change, 2fa...
@@ -88,10 +111,13 @@
 ## Next
 
 - Application
+  - [ ] map metadata views and tables with camelCase
+  - [ ] push only columns that have changed
   - [ ] pagination
   - [ ] internationalisation
   - [ ] conflict resolution
   - [ ] Isomorphic validation
+  - [ ] map custom GraphQL names vs PostgreSQL names
 - Charts
   - [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
     - [x] platydev cluster
