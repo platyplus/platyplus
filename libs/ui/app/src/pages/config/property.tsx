@@ -66,15 +66,11 @@ export const PropertyConfig: React.FC<{
           <ControlLabel>Component</ControlLabel>
           <FormControl
             name="component"
-            accepter={(props) => (
-              <InputPicker
-                data={fieldComponents.map((value) => ({
-                  value,
-                  label: upperCaseFirst(value)
-                }))}
-                {...props}
-              />
-            )}
+            data={fieldComponents.map((value) => ({
+              value,
+              label: upperCaseFirst(value)
+            }))}
+            accepter={InputPicker}
           />
         </FormGroup>{' '}
       </Form>

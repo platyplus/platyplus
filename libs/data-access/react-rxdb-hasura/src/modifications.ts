@@ -17,12 +17,10 @@ const useFormStore = create<{
   forms: {},
   setForm: (document, values) =>
     set((state) => {
-      const currentForm =
-        get().forms[document.collection.name]?.[document.primary]
       const newValues = Object.entries(values).reduce(
         (aggregator, [key, value]) => {
-          aggregator[key] =
-            castValue(document, key, value) ?? currentForm?.[key]
+          const cast = castValue(document, key, value)
+          if (cast != null) aggregator[key] = cast
           return aggregator
         },
         {}

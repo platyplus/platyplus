@@ -82,15 +82,11 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
           <ControlLabel>Component</ControlLabel>
           <FormControl
             name="component"
-            accepter={(props) => (
-              <InputPicker
-                data={collectionComponents.map((value) => ({
-                  value,
-                  label: upperCaseFirst(value)
-                }))}
-                {...props}
-              />
-            )}
+            data={collectionComponents.map((value) => ({
+              value,
+              label: upperCaseFirst(value)
+            }))}
+            accepter={InputPicker}
           />
         </FormGroup>
       </Form>
@@ -109,15 +105,11 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
           <ControlLabel>Component</ControlLabel>
           <FormControl
             name="document_component"
-            accepter={(props) => (
-              <InputPicker
-                data={documentComponents.map((value) => ({
-                  value,
-                  label: upperCaseFirst(value)
-                }))}
-                {...props}
-              />
-            )}
+            data={documentComponents.map((value) => ({
+              value,
+              label: upperCaseFirst(value)
+            }))}
+            accepter={InputPicker}
           />
         </FormGroup>
       </Form>

@@ -20,7 +20,7 @@ export const castValue = <T extends PropertyValue>(
   const type = propertyType(document, propertyName)
   if (typeof value === 'boolean' || isTextType(type)) return value as T
   else {
-    if (value) return JSON.parse(value)
+    if (value != null) return JSON.parse(value)
     else return null
   }
 }

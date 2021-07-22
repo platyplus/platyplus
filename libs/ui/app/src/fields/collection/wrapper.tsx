@@ -50,9 +50,9 @@ export const CollectionField: FieldComponent<{
             <FormControl
               name={field}
               readOnly={!edit}
-              accepter={(props) => (
-                <Accepter data={options} cleanable={edit} {...props} />
-              )}
+              data={options}
+              cleanable={edit}
+              accepter={Accepter}
             />
           ) : (
             <CollectionFromParamsComponentWrapper

@@ -19,7 +19,7 @@ const DocumentField: React.FC<{
   edit: boolean
   property: TopLevelProperty
 }> = ({ document, propertyName, property, edit }) => (
-  <FormGroup>
+  <FormGroup key={'dewdo' + propertyName}>
     <ControlLabel>
       <PropertyIcon
         collection={document.collection}
@@ -29,6 +29,7 @@ const DocumentField: React.FC<{
       <PropertyTitle collection={document.collection} property={propertyName} />
     </ControlLabel>
     <FieldComponentWrapper
+      key={'oifure' + propertyName}
       document={document}
       field={propertyName}
       edit={edit}
@@ -44,10 +45,10 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   const formValues = useGetForm(document)
   if (properties)
     return (
-      <Form onChange={setForm} fluid formDefaultValue={formValues}>
+      <Form onChange={setForm} fluid formValue={formValues}>
         {[...properties.keys()].map((property) => (
           <DocumentField
-            key={property}
+            key={'dew' + property}
             document={document}
             property={properties.get(property)}
             propertyName={property}

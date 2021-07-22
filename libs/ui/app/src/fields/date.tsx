@@ -30,9 +30,8 @@ export const DateField: FieldComponent = ({
       <FormControl
         name={field}
         readOnly={!edit}
-        accepter={(props) => (
-          <DatePickerAccepter {...props} cleanable={false} />
-        )}
+        cleanable={false}
+        accepter={DatePickerAccepter}
       />
     )
   else return document[field]

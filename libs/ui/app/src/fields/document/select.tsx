@@ -41,9 +41,9 @@ export const DocumentSelectField: FieldComponent = ({
             <FormControl
               name={field}
               readOnly={!edit}
-              accepter={(props) => (
-                <SelectPicker data={options} cleanable={edit} {...props} />
-              )}
+              data={options}
+              cleanable={edit}
+              accepter={SelectPicker}
             />
           ) : (
             <DocumentFromParamsComponentWrapper

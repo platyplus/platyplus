@@ -1,5 +1,19 @@
 import { FieldComponent } from './types'
-import { FormControl, InputNumber } from 'rsuite'
+import { FormControl, InputNumber, InputNumberProps } from 'rsuite'
+
+const NullableInputNumber: React.FC<InputNumberProps & { nullable: boolean }> =
+  ({ nullable, value, onChange, ...props }) => {
+    const internalValue = value == null ? '' : +value
+    return (
+      <InputNumber
+        {...props}
+        value={internalValue}
+        onChange={(value, event) => {
+          onChange(value === '' ? null : +value, event)
+        }}
+      />
+    )
+  }
 
 export const NumberField: FieldComponent = ({
   document,
@@ -8,6 +22,14 @@ export const NumberField: FieldComponent = ({
   editable
 }) => {
   if (editable || edit)
-    return <FormControl name={field} readOnly={!edit} accepter={InputNumber} />
+    return (
+      <FormControl
+        name={field}
+        readOnly={!edit}
+        // TODO configure nullable
+        nullable={true}
+        accepter={NullableInputNumber}
+      />
+    )
   else return document[field]
 }
