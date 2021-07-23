@@ -4,7 +4,9 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 import {
   PropertyTitle,
   useDocumentProperties,
-  useForm
+  useFormModel,
+  useFormGet,
+  useFormSet
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
@@ -39,7 +41,10 @@ const DocumentField: React.FC<{
 
 export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   const [properties] = useDocumentProperties(document)
-  const { form, setForm, model } = useForm(document)
+  const form = useFormGet(document)
+  const setForm = useFormSet(document)
+  const model = useFormModel(document)
+  console.log(form)
   // ? Why useGetForm rerenders the entire DocumentDetails component?
   if (properties)
     return (

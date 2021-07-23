@@ -1,19 +1,20 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Schema } from 'schema-typed'
-import deepEqual from 'deep-equal'
-import { useAsync } from 'react-use'
 
 import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useDocumentProperties } from '../metadata'
 import { useFormStore } from './store'
 import { useFormModel } from './model'
+import { useFormSave, useFormReset } from './actions'
+import { useFormHasChanged } from './changes'
+import { useFormIsValid, useFormCanSave } from './validation'
 
 /**
  * Get the form values of a given document
  * @param document
  * @returns
  */
-export const useFormValues = (document?: ContentsDocument): Contents =>
+export const useFormRawValues = (document?: ContentsDocument): Contents =>
   useFormStore(
     useCallback(
       (state) =>
@@ -24,28 +25,10 @@ export const useFormValues = (document?: ContentsDocument): Contents =>
     )
   )
 
-/**
- * Get the values of every property of the form,
- * and fall back to the value of the document if not yet present in the form
- * @param document
- * @returns
- */
-export const useForm = (
-  document: ContentsDocument
-): {
-  form: Contents
-  setForm: (val: Contents) => void
-  model: Schema
-  isValid: boolean
-  hasChanged: boolean
-  canSave: boolean
-  reset: () => void
-  save: () => Promise<void>
-} => {
-  const formValues = useFormValues(document)
+export const useFormGet = (document: ContentsDocument) => {
   const [properties] = useDocumentProperties(document)
-
-  const form = useMemo(() => {
+  const formValues = useFormRawValues(document)
+  return useMemo(() => {
     if (!properties) return {} as Contents
     return [...properties.keys(), document.primaryPath].reduce(
       (aggregator, key) => {
@@ -55,49 +38,10 @@ export const useForm = (
       {} as Contents
     )
   }, [document, formValues, properties])
-
-  const setForm = useFormStore(
-    (state) => (values: Record<string, string | boolean>) =>
-      state.setForm(document, values),
-    // TODO remove?? -> see zustand documentation, but I don't get why this hook should trigger a re-render
-    () => true
-  )
-
-  const hasChanged = useMemo(
-    () =>
-      properties &&
-      [...properties.keys()].some((key) => {
-        if (formValues[key] === undefined) {
-          return false
-        } else {
-          if (!document[key] && !formValues[key]) return false
-          else
-            return typeof document[key] === 'object'
-              ? !deepEqual(document[key], formValues[key])
-              : document[key] !== formValues[key]
-        }
-      }),
-    [document, formValues, properties]
-  )
-  const model = useFormModel(document)
-
-  const [isValid, setValid] = useState(false)
-  useAsync(async () => {
-    const check = await model.checkAsync(form)
-    setValid(Object.values(check).every((value) => !value.hasError))
-  }, [model, form])
-
-  const save = async () => {
-    if (canSave) {
-      await document.atomicPatch({ is_local_change: false, ...formValues })
-      reset()
-    }
-  }
-  const canSave = useMemo(() => hasChanged && isValid, [hasChanged, isValid])
-
-  const reset = useFormStore(
-    useCallback((state) => () => state.resetForm(document), [document])
-  )
-
-  return { form, setForm, model, isValid, hasChanged, canSave, save, reset }
 }
+
+export const useFormSet = (document: ContentsDocument) =>
+  useFormStore(
+    (state) => (values: Record<string, string | boolean>) =>
+      state.setForm(document, values)
+  )

@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { InlineValue } from '@platyplus/layout'
 import { computeTemplate, ContentsDocument } from '@platyplus/rxdb-hasura'
 
-import { useForm } from '../../form'
+import { useFormGet } from '../../form'
 import { useCollectionTableConfig } from '../hooks'
 
 export const useDocumentLabelTemplate = (document: ContentsDocument) =>
@@ -13,7 +13,7 @@ export const useDocumentLabel = (
   document: ContentsDocument
 ): [string, string, (val: string) => void] => {
   const [template, setTemplate] = useDocumentLabelTemplate(document)
-  const { form } = useForm(document)
+  const form = useFormGet(document)
 
   const label = useMemo(
     () => form && template && computeTemplate(form, template),

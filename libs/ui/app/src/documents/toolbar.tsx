@@ -4,8 +4,10 @@ import { Animation, ButtonGroup, ButtonToolbar } from 'rsuite'
 import { useQuery } from '@platyplus/navigation'
 import {
   useDocumentPermissions,
-  useFormModel,
-  useForm
+  useFormHasChanged,
+  useFormCanSave,
+  useFormReset,
+  useFormSave
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { IconButtonWithHelper, ICON_RED } from '@platyplus/layout'
@@ -18,7 +20,10 @@ export const DocumentToolbar: React.FC<{
   const editing = edit ?? query.has('edit')
   const location = useLocation()
   const history = useHistory()
-  const { canSave, hasChanged, reset, save } = useForm(document)
+  const canSave = useFormCanSave(document)
+  const hasChanged = useFormHasChanged(document)
+  const reset = useFormReset(document)
+  const save = useFormSave(document)
 
   const handleSave = async () => {
     await save()
