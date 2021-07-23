@@ -18,7 +18,8 @@
   - [ ] default values
     - [ ] form is valid when a required property has a default
     - [ ] load default values when creating a document
-  - [ ] complete/fix date & date-time inputs
+  - [x] complete/fix date & date-time inputs
+  - [ ] differenciate number and integer inputs
   - [ ] basic data validation
     - [x] implement 'canSave' - and use it in the toolbar
     - [x] according to field type

@@ -1,23 +1,9 @@
-import { DatePicker, DatePickerProps, FormControl } from 'rsuite'
-import { FormControlAccepterProps } from 'rsuite/lib/FormControl'
-import { parse, format } from 'date-fns'
+import { RXDB_HASURA_DATE_FNS_FORMAT } from '@platyplus/rxdb-hasura'
+import { FormControl } from 'rsuite'
 
+import { UI_DATE_FORMAT } from '../config'
+import { DatePickerAccepter } from './date-picker-accepter'
 import { FieldComponent } from './types'
-
-// TODO
-const DATE_FORMAT = 'yyyy-MM-dd'
-
-const DatePickerAccepter: React.ElementType<
-  DatePickerProps & FormControlAccepterProps
-> = ({ value, defaultValue, onChange, ...props }) => (
-  <DatePicker
-    defaultValue={parse(defaultValue, DATE_FORMAT, new Date())}
-    onChange={(dateValue, event) =>
-      onChange(format(dateValue, DATE_FORMAT), event)
-    }
-    {...props}
-  />
-)
 
 export const DateField: FieldComponent = ({
   document,
@@ -30,7 +16,9 @@ export const DateField: FieldComponent = ({
       <FormControl
         name={field}
         readOnly={!edit}
-        cleanable={false}
+        cleanable={edit}
+        format={UI_DATE_FORMAT}
+        transformFormat={RXDB_HASURA_DATE_FNS_FORMAT}
         accepter={DatePickerAccepter}
       />
     )

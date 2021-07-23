@@ -8,9 +8,10 @@ import {
   ContentsDocumentMethods
 } from '../../types'
 
-const preSaveRelationship =
+const reverseRelations =
   (
-    collection: ContentsCollection
+    collection: ContentsCollection,
+    insert = false
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
     // * Stop recursive spreading of changes done locally
@@ -33,8 +34,8 @@ const preSaveRelationship =
       }
 
       // * Get the previous values of the document
-      const oldDocument = await collection.findOne(data.id).exec()
-      const oldRelId = oldDocument && oldDocument[relName]
+      const oldRelId =
+        !insert && (await collection.findOne(data.id).exec()?.[relName])
       const newRelId = data[relName]
 
       for (const {
@@ -68,7 +69,9 @@ const preSaveRelationship =
               })
             }
           }
-          const removeDocs = await remoteCollection.findByIds(remove)
+          const removeDocs = remove.length
+            ? await remoteCollection.findByIds(remove)
+            : []
           for (const remoteDoc of removeDocs.values()) {
             if (mirrorRelType === 'array') {
               remoteDoc.atomicPatch({
@@ -126,5 +129,6 @@ const preSaveRelationship =
 export const createRelationshipHooks = (
   collection: ContentsCollection
 ): void => {
-  collection.preSave(preSaveRelationship(collection), false)
+  collection.preSave(reverseRelations(collection), false)
+  collection.postInsert(reverseRelations(collection, true), false)
 }

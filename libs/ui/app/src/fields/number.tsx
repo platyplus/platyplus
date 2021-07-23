@@ -1,5 +1,6 @@
 import { FieldComponent } from './types'
 import { FormControl, InputNumber, InputNumberProps } from 'rsuite'
+// TODO difference between integer and number
 
 const NullableInputNumber: React.FC<InputNumberProps & { nullable: boolean }> =
   ({ nullable, value, onChange, ...props }) => {

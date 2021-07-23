@@ -44,8 +44,7 @@ export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
   const form = useFormGet(document)
   const setForm = useFormSet(document)
   const model = useFormModel(document)
-  console.log(form)
-  // ? Why useGetForm rerenders the entire DocumentDetails component?
+  // ? Why does useFormGet rerender the entire DocumentDetails component?
   if (properties)
     return (
       <Form onChange={setForm} model={model} formValue={form} fluid>
