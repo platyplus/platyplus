@@ -1,3 +1,4 @@
+// TODO replace by immer and object-path
 import * as immutable from 'object-path-immutable'
 
 export const pick = <T, K extends keyof T>(

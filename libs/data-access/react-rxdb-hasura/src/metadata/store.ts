@@ -1,5 +1,6 @@
 import create from 'zustand'
-import * as immutable from 'object-path-immutable'
+import produce from 'immer'
+import path from 'object-path'
 import objectPath from 'object-path'
 import deepMerge from 'deepmerge'
 import {
@@ -51,37 +52,50 @@ export const useConfigStore = create<{
     subPath?: string
   ) => {
     if (!metadata) return undefined
-    let path = `config`
-    if (subPath) path += `.${subPath}`
-    const formConfig: T = objectPath.get(get(), `forms.${metadata.id}.${path}`)
-    const metadataConfig: T = objectPath.get(documentContents(metadata), path)
+    const p = ['config', ...(subPath ? [subPath] : [])]
+    const formConfig: T = objectPath.get(get(), ['forms', metadata.id, ...p])
+    const metadataConfig: T = objectPath.get(documentContents(metadata), p)
     if (subPath) return formConfig || metadataConfig
     return deepMerge<T>(metadataConfig || {}, formConfig || {})
   },
-  setTable: (metadata, value, subPath) => {
-    let path = `forms.${metadata.id}.config`
-    if (subPath) path += `.${subPath}`
-    set(immutable.set(get(), path, value))
-  },
-
+  setTable: (metadata, value, subPath) =>
+    set(
+      produce((state) => {
+        path.set(
+          state,
+          ['forms', metadata.id, 'config', ...(subPath ? [subPath] : [])],
+          value
+        )
+      })
+    ),
   getProperty: <T = PropertyConfig>(
     metadata: Metadata | MetadataDocument | undefined,
     property: string,
     subPath?: string
   ) => {
     if (!metadata) return undefined
-    let path = `propertiesConfig.${property}`
-    if (subPath) path += `.${subPath}`
-    const formConfig: T = objectPath.get(get(), `forms.${metadata.id}.${path}`)
-    const metadataConfig: T = objectPath.get(documentContents(metadata), path)
+    const p = ['propertiesConfig', property, ...(subPath ? [subPath] : [])]
+    const formConfig: T = objectPath.get(get(), ['forms', metadata.id, ...p])
+    const metadataConfig: T = objectPath.get(documentContents(metadata), p)
     if (subPath) return formConfig || metadataConfig
     return deepMerge<T>(metadataConfig || {}, formConfig || {})
   },
-  setProperty: (metadata, property, value, subPath) => {
-    let path = `forms.${metadata.id}.propertiesConfig.${property}`
-    if (subPath) path += `.${subPath}`
-    set(immutable.set(get(), path, value))
-  },
+  setProperty: (metadata, property, value, subPath) =>
+    set(
+      produce((state) => {
+        path.set(
+          state,
+          [
+            'forms',
+            metadata.id,
+            'propertiesConfig',
+            property,
+            ...(subPath ? [subPath] : [])
+          ],
+          value
+        )
+      })
+    ),
   // TODO far from perfect. Ideally, it should test each value against existing metadata
   countChanges: () =>
     Object.values(get().forms).reduce((total, schema) => {

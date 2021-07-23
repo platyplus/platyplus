@@ -26,7 +26,7 @@ export const collectionPermissionMethods: Pick<
             this.schema.jsonSchema.properties[relationship?.rel_name].ref
           const refCollection = this.database[refCollectionName]
           return !!relationship?.mapping.every((m) =>
-            refCollection?.canUpdate(m.remote_name)
+            refCollection?.canUpdate(m.remoteColumnName)
           )
         }
       } else {
@@ -64,7 +64,7 @@ export const collectionPermissionMethods: Pick<
               this.schema.jsonSchema.properties[relationship?.rel_name].ref
             ]
           return !!relationship?.mapping.every((m) =>
-            refCollection.canUpdate(m.remote_name)
+            refCollection.canUpdate(m.remoteColumnName)
           )
         }
       } else {

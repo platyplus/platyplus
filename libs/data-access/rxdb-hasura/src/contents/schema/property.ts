@@ -1,11 +1,17 @@
 import {
   ColumnFragment,
+  ContentsCollection,
+  ContentsDocument,
+  JsonSchemaFormat,
   JsonSchemaPropertyType,
-  PropertyType
+  PropertyType,
+  PropertyValue
 } from '../../types'
 import { isIdColumn } from './id'
+import { isNullableColumn } from './required'
 
-const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
+const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaPropertyType> = {
+  // TODO complete e.g. GIS
   uuid: 'string',
   bool: 'boolean',
   timestamp: 'string',
@@ -18,25 +24,95 @@ const postgresJsonSchemaTypeMapping: Record<string, PropertyType> = {
   varchar: 'string',
   jsonb: 'object',
   numeric: 'number',
-  // int: 'integer',
+  int: 'integer',
   int4: 'integer',
   int8: 'integer',
   float4: 'number',
-  name: 'string'
-  // bigint: 'integer',
-  // real: 'number',
-  // decimal: 'number'
+  name: 'string',
+  bigint: 'integer',
+  real: 'number',
+  decimal: 'number'
+}
+
+export const mainPropertyJsonType = (
+  columnInfo: ColumnFragment
+): JsonSchemaPropertyType => {
+  const udtType = columnInfo.udtName
+  const result = postgresJsonSchemaTypeMapping[udtType]
+  if (!result)
+    throw Error(`PostgresSQL type "${udtType}" is not mapped to JSON Schema`)
+  return result
 }
 
 export const propertyJsonType = (
   columnInfo: ColumnFragment
-): JsonSchemaPropertyType | JsonSchemaPropertyType[] => {
-  const udtType = columnInfo.udtName
-  // TODO change isNullable to boolean value in SQL view definition
-  const isNullable = columnInfo.isNullable === 'YES'
-  if (!postgresJsonSchemaTypeMapping[udtType])
-    throw Error(`PostgresSQL type "${udtType}" is not mapped to JSON Schema`)
-  const result = (postgresJsonSchemaTypeMapping[udtType] ||
-    udtType) as JsonSchemaPropertyType
-  return isNullable && !isIdColumn(columnInfo) ? [result, 'null'] : result
+): PropertyType | PropertyType[] => {
+  const result = mainPropertyJsonType(columnInfo)
+  return isNullableColumn(columnInfo) && !isIdColumn(columnInfo)
+    ? [result, 'null']
+    : result
+}
+
+export const collectionPropertyType = (
+  collection: ContentsCollection,
+  propertyName: string,
+  includeFormat = true
+): PropertyType => {
+  const property = collection.schema.jsonSchema.properties[propertyName]
+  if (!property.type)
+    throw Error(`No type in prop: ${JSON.stringify(property)}`)
+  let type: JsonSchemaPropertyType
+  if (Array.isArray(property.type)) {
+    const res = property.type.filter((v) => v !== 'null')
+    if (res.length === 1) type = res[0] as JsonSchemaPropertyType
+    else
+      throw Error(
+        `Composite types are not allowed: ${JSON.stringify(property)}`
+      )
+  } else {
+    type = property.type as JsonSchemaPropertyType
+  }
+  if (property.ref) {
+    if (type === 'array') return 'collection'
+    else return 'document'
+  }
+  if (includeFormat) return (property.format as JsonSchemaFormat) || type
+  else return type
+}
+
+/**
+ * returns the property type as a string, even when the type is ['typename', 'null']
+ * If string, returns the format
+ * If string and ref, returns 'object'
+ * does not allow composite types e.g. ['string', 'object']
+ */
+export const propertyType = (
+  document: ContentsDocument,
+  propertyName: string,
+  includeFormat = true
+): PropertyType =>
+  collectionPropertyType(document.collection, propertyName, includeFormat)
+
+export const isTextType = (type: PropertyType): boolean =>
+  [
+    'string',
+    'date',
+    'date-time',
+    'time',
+    'email',
+    'document',
+    'collection'
+  ].includes(type)
+
+export const castValue = <T extends PropertyValue>(
+  document: ContentsDocument,
+  propertyName: string,
+  value: string | boolean
+): T => {
+  const type = propertyType(document, propertyName)
+  if (typeof value === 'boolean' || isTextType(type)) return value as T
+  else {
+    if (value != null) return JSON.parse(value)
+    else return null
+  }
 }

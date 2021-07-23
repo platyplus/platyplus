@@ -40,10 +40,11 @@ export type JsonSchemaPropertyType =
   | 'object'
   | 'array'
   | 'string'
+  | 'integer'
   | 'boolean'
   | 'null'
 
-export type CustomTypes = 'collection' | 'document' | 'integer'
+export type CustomTypes = 'collection' | 'document'
 
 // * Field types: either core JSON formats e.g. `string` (-> without format), `object` or their format e.g. `date-time`
 export type PropertyType =
@@ -59,6 +60,7 @@ export type PropertyValue =
   | Array<Contents>
   | Contents
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Contents = Record<string, any> & {
   id: string
   is_local_change?: boolean // ! used for local RxDB changes without trigerring a GraphQl replicatin (e.g. relationship sync)
@@ -75,7 +77,6 @@ export type ContentsDocumentMethods = {
   canSave: () => boolean
   canDelete: () => boolean
   component: (propertyName?: string) => string
-  propertyType: (propertyName: string) => string
   // TODO propertyComponentOptions
   // ? editableProperties(): Property[]
   // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)

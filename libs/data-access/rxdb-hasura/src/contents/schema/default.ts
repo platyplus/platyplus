@@ -1,6 +1,5 @@
-import { isTextType } from '../../helpers'
 import { ContentsDocument } from '../../types'
-import { propertyType } from '../document/property-type'
+import { isTextType, propertyType } from './property'
 
 export const createDefaultValue = (
   document: ContentsDocument,

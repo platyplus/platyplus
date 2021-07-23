@@ -126,9 +126,6 @@ export const query = gql`
       canUpdate {
         role_name
       }
-      config {
-        json_schema
-      }
     }
   }
 

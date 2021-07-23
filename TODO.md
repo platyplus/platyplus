@@ -15,14 +15,19 @@
     - [ ] one2one
     - [ ] check if it works on both insert and update
   - [x] forms: see bug when inserting a visit
-  - [ ] default value & date input
-    - [ ] -> date / date-time input: use ISO?
+  - [ ] default values
+    - [ ] form is valid when a required property has a default
+    - [ ] load default values when creating a document
+  - [ ] complete/fix date & date-time inputs
   - [ ] basic data validation
-    - [ ] implement 'canSave' - and use it in the toolbar
-    - [ ] according to field type
-    - [ ] required columns
-    - [ ] required relationships?
-  - [ ] order menu (-> create something like an `app_config` table)
+    - [x] implement 'canSave' - and use it in the toolbar
+    - [x] according to field type
+    - [x] required columns
+    - [ ] required relationships
+  - [ ] Move the config badge to the side-menu, and the action inside the config page
+  - [ ] order menu
+    - [ ] create something like an `app_config` table
+    - [ ] order on the main `config` page
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)

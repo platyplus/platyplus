@@ -1,8 +1,7 @@
 import { ContentsDocument, ContentsDocumentMethods } from '../../types'
 import { systemDocumentComponent } from '../system'
-import { propertyType } from './property-type'
-export * from './property-type'
 
+// TODO remove from the prototype and move to ../schema/permissions.ts
 export const documentMethods: ContentsDocumentMethods = {
   canEdit(this: ContentsDocument, propertyName?: string) {
     const collection = this.collection // TODO write an issue or a PR in rxdb repo
@@ -26,8 +25,5 @@ export const documentMethods: ContentsDocumentMethods = {
       const config = collection.metadata.propertiesConfig?.[propertyName]
       return config?.component || 'default'
     } else return systemDocumentComponent(this) || 'default'
-  },
-  propertyType(this: ContentsDocument, propertyName: string) {
-    return propertyType(this, propertyName)
   }
 }

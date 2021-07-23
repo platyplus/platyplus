@@ -15,7 +15,6 @@ import { hasuraClaims } from './utils'
 export { RxHasuraPlugin } from './plugin'
 export * from './contents'
 export * from './types'
-export * from './helpers'
 export * from './utils'
 
 export const createRxHasura = async (

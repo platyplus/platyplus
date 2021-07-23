@@ -18,6 +18,7 @@ export const TableCollection: CollectionComponent = ({ collection, data }) => {
   if (!collection) return null
   return (
     <Table
+      hover
       height={400}
       autoHeight
       data={data}

@@ -44,6 +44,7 @@
     "graphql-request": "^3.4.0",
     "graphql-tag": "^2.11.0",
     "handlebars": "^4.7.7",
+    "immer": "^9.0.5",
     "json-to-graphql-query": "^2.1.0",
     "jsonata": "^1.8.4",
     "jwt-decode": "^3.1.2",

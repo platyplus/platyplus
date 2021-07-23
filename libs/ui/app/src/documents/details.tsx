@@ -4,8 +4,7 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 import {
   PropertyTitle,
   useDocumentProperties,
-  useGetForm,
-  useSetForm
+  useForm
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
@@ -19,7 +18,7 @@ const DocumentField: React.FC<{
   edit: boolean
   property: TopLevelProperty
 }> = ({ document, propertyName, property, edit }) => (
-  <FormGroup key={'dewdo' + propertyName}>
+  <FormGroup>
     <ControlLabel>
       <PropertyIcon
         collection={document.collection}
@@ -29,7 +28,6 @@ const DocumentField: React.FC<{
       <PropertyTitle collection={document.collection} property={propertyName} />
     </ControlLabel>
     <FieldComponentWrapper
-      key={'oifure' + propertyName}
       document={document}
       field={propertyName}
       edit={edit}
@@ -40,15 +38,15 @@ const DocumentField: React.FC<{
 )
 
 export const DocumentDetails: DocumentComponent = ({ document, edit }) => {
-  const setForm = useSetForm(document)
   const [properties] = useDocumentProperties(document)
-  const formValues = useGetForm(document)
+  const { form, setForm, model } = useForm(document)
+  // ? Why useGetForm rerenders the entire DocumentDetails component?
   if (properties)
     return (
-      <Form onChange={setForm} fluid formValue={formValues}>
+      <Form onChange={setForm} model={model} formValue={form} fluid>
         {[...properties.keys()].map((property) => (
           <DocumentField
-            key={'dew' + property}
+            key={property}
             document={document}
             property={properties.get(property)}
             propertyName={property}
