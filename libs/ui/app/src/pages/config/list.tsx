@@ -1,55 +1,69 @@
+import { useToggle } from 'react-use'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { Animation, List } from 'rsuite'
+import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
 
-import { useMetadataCollection } from '@platyplus/react-rxdb-hasura'
-import { HeaderTitleWrapper } from '@platyplus/layout'
-import { MetadataDocument, metadataName } from '@platyplus/rxdb-hasura'
-
-const ConfigListItem: React.FC<{ metadata: MetadataDocument }> = ({
-  metadata
-}) => {
-  const name = metadataName(metadata)
-  const title = metadata.config?.title
-    ? `${metadata.config?.title} (${name})`
-    : name
-  return <span>{title}</span>
-}
+import {
+  useConfigStore,
+  useMetadataCollection
+} from '@platyplus/react-rxdb-hasura'
+import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
+import { ConfigListItem } from './list-item'
 
 export const ConfigListPage: React.FC<{ role?: string }> = ({
   role = 'user'
 }) => {
   const { isFetching, result } = useMetadataCollection(role)
   const title = 'Configuration'
-  const history = useHistory()
+  const countChanges = useConfigStore((state) => state.countChanges() || false)
+  const [show, toggle] = useToggle(false)
+  const changes = useConfigStore((state) => state.forms)
+  const saveConfig = useConfigStore((state) => state.save())
+  const save = async () => {
+    await saveConfig()
+    toggle(false)
+  }
+
   return (
-    <HeaderTitleWrapper
-      title={title}
-      //   component={<div>Config</div>}
-    >
-      <Animation.Fade in={!isFetching}>
-        {(props, ref) => (
-          <div {...props}>
-            {/* <CollectionToolbar collection={collection} /> */}
-            <List hover bordered>
-              {result.map((item, index) => (
-                <List.Item
-                  key={index}
-                  index={index}
-                  style={{
-                    cursor: 'pointer'
-                  }}
-                  onClick={() => {
-                    history.push(`/config/${item.id}`)
-                  }}
-                >
-                  <ConfigListItem metadata={item} />
-                </List.Item>
-              ))}
-            </List>
-          </div>
-        )}
-      </Animation.Fade>
-    </HeaderTitleWrapper>
+    <>
+      <Modal show={show} onHide={toggle}>
+        <Modal.Header>
+          <Modal.Title>Configuration changes</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{JSON.stringify(changes)}</Modal.Body>
+        <Modal.Footer>
+          <Button onClick={save} appearance="primary">
+            Apply
+          </Button>
+          <Button onClick={toggle} appearance="subtle">
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <HeaderTitleWrapper title={title}>
+        <Animation.Fade in={!isFetching}>
+          {(props) => (
+            <div {...props}>
+              <ButtonGroup style={{ paddingBottom: '10px' }}>
+                {countChanges && (
+                  <IconButtonWithHelper
+                    icon="save"
+                    helper="Apply changes"
+                    onClick={toggle}
+                    size="sm"
+                  >
+                    Apply changes
+                  </IconButtonWithHelper>
+                )}
+              </ButtonGroup>
+              <List hover bordered>
+                {result.map((item, index) => (
+                  <ConfigListItem key={index} index={index} metadata={item} />
+                ))}
+              </List>
+            </div>
+          )}
+        </Animation.Fade>
+      </HeaderTitleWrapper>
+    </>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Icon, IconProps, Nav } from 'rsuite'
+import { Icon, Nav } from 'rsuite'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import {
@@ -8,28 +8,6 @@ import {
   useContentsCollections
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
-import { PropType } from '@platyplus/ts-types'
-
-export const MenuItem: React.FC<{
-  icon?: PropType<IconProps, 'icon'>
-  href: string
-  title: string
-}> = ({ icon, href, title }) => {
-  const history = useHistory()
-  const location = useLocation()
-  return (
-    <Nav.Item
-      onSelect={() => {
-        history.push(href)
-      }}
-      key={href}
-      active={location.pathname === href}
-      icon={icon && <Icon icon={icon} />}
-    >
-      {title}
-    </Nav.Item>
-  )
-}
 
 const CollectionMenu: React.FC<{ collection: ContentsCollection }> = ({
   collection

@@ -1,17 +1,18 @@
 import deepMerge from 'deepmerge'
 
-import { ConfigRecap, useConfigEnabled } from '@platyplus/react-rxdb-hasura'
-import { Layout, Logo } from '@platyplus/layout'
+import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
+import { Layout, Logo, MenuItem } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
+import { ProfileStatusMenu } from '@platyplus/profile'
 
-import { ContentsMenu, MenuItem } from './menu'
+import { ContentsMenu } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
 import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
 import { defaultFieldComponents } from './fields'
-import { ProfileStatusMenu } from '@platyplus/profile'
+import { ConfigStatusMenuItem } from './pages'
 
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
@@ -57,7 +58,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
       {home.enabled && <MenuItem icon="home" title={home.title} href="/" />}
       <ContentsMenu roles={['user']} />
       {configEnabled && (
-        <MenuItem icon="cog" title="Configuration" href="/config" />
+        <MenuItem icon="wrench" title="Configuration" href="/config" />
       )}
     </>
   )
@@ -79,7 +80,7 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
         menu={authenticated ? <PrivateMenu /> : <PublicMenu />}
         statusMenu={
           <>
-            <ConfigRecap />
+            <ConfigStatusMenuItem />
             <ProfileStatusMenu />
           </>
         }

@@ -27,7 +27,7 @@
     - [x] according to field type
     - [x] required columns
     - [ ] required relationships
-  - [ ] Move the config badge to the side-menu, and the action inside the config page
+  - [x] Move the config action inside the config page
   - [ ] order menu
     - [ ] create something like an `app_config` table
     - [ ] order on the main `config` page

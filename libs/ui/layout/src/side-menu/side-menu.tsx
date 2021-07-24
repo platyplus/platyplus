@@ -1,5 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { Sidenav, Nav, Navbar, Icon, Sidebar } from 'rsuite'
+import { Sidenav, Nav, Navbar, Icon, Sidebar, IconProps } from 'rsuite'
+import { useHistory, useLocation } from 'react-router-dom'
+
+import { PropType } from '@platyplus/ts-types'
 
 const NavToggle = ({ collapsed, onChange }) => {
   return (
@@ -41,3 +44,24 @@ export const SideMenu: FunctionComponent<{
 }
 
 export default SideMenu
+
+export const MenuItem: React.FC<{
+  icon?: PropType<IconProps, 'icon'>
+  href: string
+  title: string
+}> = ({ icon, href, title }) => {
+  const history = useHistory()
+  const location = useLocation()
+  return (
+    <Nav.Item
+      onSelect={() => {
+        history.push(href)
+      }}
+      key={href}
+      active={location.pathname === href}
+      icon={icon && <Icon icon={icon} />}
+    >
+      {title}
+    </Nav.Item>
+  )
+}
