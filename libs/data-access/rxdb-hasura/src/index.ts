@@ -16,7 +16,6 @@ export { RxHasuraPlugin } from './plugin'
 export * from './contents'
 export * from './types'
 export * from './utils'
-export * from './config'
 
 export const createRxHasura = async (
   name: string,

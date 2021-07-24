@@ -1,4 +1,3 @@
-import { RXDB_HASURA_DATE_FNS_FORMAT } from '@platyplus/rxdb-hasura'
 import { FormControl } from 'rsuite'
 
 import { UI_DATE_FORMAT } from '../config'
@@ -18,7 +17,8 @@ export const DateField: FieldComponent = ({
         readOnly={!edit}
         cleanable={edit}
         format={UI_DATE_FORMAT}
-        transformFormat={RXDB_HASURA_DATE_FNS_FORMAT}
+        date={true}
+        time={false}
         accepter={DatePickerAccepter}
       />
     )

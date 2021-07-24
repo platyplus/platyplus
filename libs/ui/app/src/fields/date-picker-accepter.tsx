@@ -1,20 +1,35 @@
 import { DatePicker, DatePickerProps } from 'rsuite'
 import { FormControlAccepterProps } from 'rsuite/lib/FormControl'
-import { parse, format } from 'date-fns'
+import { parseISO, formatISO } from 'date-fns'
+import { useCallback } from 'react'
 
 export const DatePickerAccepter: React.ElementType<
-  DatePickerProps & FormControlAccepterProps & { transformFormat: string }
-> = ({ value, defaultValue, onChange, transformFormat, ...props }) => {
-  const internalValue =
-    value == null ? null : parse(value, transformFormat, new Date())
+  DatePickerProps &
+    FormControlAccepterProps & { date?: boolean; time?: boolean }
+> = ({
+  value,
+  defaultValue,
+  onChange,
+  date = true,
+  time = false,
+  ...props
+}) => {
+  const formatter = useCallback(
+    (v) => {
+      if (v == null) return null
+      return formatISO(v, {
+        representation: !time ? 'date' : !date ? 'time' : 'complete'
+      })
+    },
+    [date, time]
+  )
+  const internalValue = value == null ? null : parseISO(value)
 
   return (
     <DatePicker
       oneTap
       value={internalValue}
-      onChange={(dateValue, event) =>
-        onChange(dateValue ? format(dateValue, transformFormat) : null, event)
-      }
+      onChange={(dateValue, event) => onChange(formatter(dateValue), event)}
       {...props}
     />
   )

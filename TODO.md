@@ -16,7 +16,6 @@
     - [ ] check if it works on both insert and update
   - [x] forms: see bug when inserting a visit
   - [ ] delete is not working anymore
-  - [ ]
   - [ ] default values
     - [ ] form is valid when a required property has a default
     - [ ] load default values when creating a document
@@ -86,7 +85,9 @@
     - [ ] filtered collections
   - [ ] components
     - [ ] email
+    - [ ] time
     - [ ] cards
+    - [ ] nested relations
     - [ ] calendar
     - [ ] QR code / codebar scanner
     - [ ] time period (from-to)
