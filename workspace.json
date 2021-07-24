@@ -603,6 +603,7 @@
               "apps/platyplus/src/favicon.ico",
               "apps/platyplus/src/assets"
             ],
+            "statsJson": true,
             "styles": [],
             "scripts": [],
             "webpackConfig": "apps/platyplus/webpack.config.js"
@@ -618,7 +619,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,

@@ -35,6 +35,7 @@
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
+  - [ ] rsuite next?
 - [ ] Hasura 2
   - avoid regressions
   - list missing metadata elements e.g. muliple db, inherited roles...
@@ -66,6 +67,10 @@
 ## Then
 
 - Application
+  - [ ] dark/light mode
+    - [ ] from device's defaults
+    - [ ] store in localstorage
+    - [ ] store in the backend?
   - [ ] list Hasura features to be mapped to RxDB e.g.
     - [ ] remote schemas
     - [ ] inherited roles

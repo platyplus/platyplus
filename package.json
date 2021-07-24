@@ -24,7 +24,8 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "bundle-report": "webpack-bundle-analyzer dist/apps/platyplus/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -132,6 +133,7 @@
     "react-scripts": "^4.0.3",
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
-    "typescript": "~4.3.2"
+    "typescript": "~4.3.2",
+    "webpack-bundle-analyzer": "^4.4.2"
   }
 }
