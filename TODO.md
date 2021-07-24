@@ -15,7 +15,7 @@
     - [ ] one2one
     - [ ] check if it works on both insert and update
   - [x] forms: see bug when inserting a visit
-  - [ ] delete is not working anymore
+  - [x] delete is not working anymore
   - [ ] default values
     - [ ] form is valid when a required property has a default
     - [ ] load default values when creating a document
@@ -72,6 +72,7 @@
     - [ ] remote relationships
     - [ ] column presets
   - [ ] nullable values vs default values vs form values
+  - [ ] on delete: follow cascading rules to linked documents
   - [ ] refactor the way to load table/collection/property components
   - [ ] validation rules stored on the backend
   - [ ] permissions

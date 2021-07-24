@@ -1,9 +1,9 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { RemoteTableFragment } from '../../generated'
-
 import { Metadata } from '../../types'
+import { metadataName } from '../../utils'
+
 import { getIds } from './id'
-import { metadataName } from './name'
 import { propertyJsonType } from './property'
 
 // TODO composite relationships - then remove this

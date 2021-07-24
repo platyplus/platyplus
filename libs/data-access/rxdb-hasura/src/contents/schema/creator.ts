@@ -1,11 +1,11 @@
 import { RxJsonSchema } from 'rxdb'
 
 import { Contents, Metadata } from '../../types'
+import { metadataName } from '../../utils'
 import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from './columns'
 import { isIdColumn } from './id'
 import { indexes } from './indexes'
-import { metadataName } from './name'
 import { createRelationshipProperties } from './relationships'
 import { requiredProperties } from './required'
 

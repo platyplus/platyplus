@@ -16,6 +16,14 @@ export interface FieldMap {
   [key: string]: FieldMapItem
 }
 
+export const metadataName = (data: {
+  table_schema: string
+  table_name: string
+}): string =>
+  data.table_schema === 'public'
+    ? `${data.table_name}`
+    : `${data.table_schema}_${data.table_name}`
+
 // * Generate query fields according to the loaded schema
 // * It is meant to:
 // * - avoid sending the details of GraphQL JSON fields

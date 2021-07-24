@@ -5,18 +5,17 @@ import {
   VariableType,
   EnumType
 } from 'json-to-graphql-query'
+
+import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
+
 import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { FieldMap, rxdbJsonataPaths } from '../../utils'
-import { documentLabel } from '../computed-fields/label'
-import { addComputedFieldsFromLoadedData } from '../computed-fields/utils'
+import { FieldMap, metadataName, rxdbJsonataPaths } from '../../utils'
 import {
-  filteredRelationships,
-  graphQLColumnType,
-  metadataName
-} from '../schema'
-import { getIds } from '../schema/id'
-import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
+  addComputedFieldsFromLoadedData,
+  documentLabel
+} from '../computed-fields'
+import { filteredRelationships, graphQLColumnType, getIds } from '../schema'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,

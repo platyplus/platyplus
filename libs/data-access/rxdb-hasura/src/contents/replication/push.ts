@@ -3,14 +3,10 @@ import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
 
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { computedFields } from '../computed-fields'
-import {
-  filteredRelationships,
-  getIds,
-  isManyToManyTable,
-  metadataName
-} from '../schema'
+import { filteredRelationships, getIds, isManyToManyTable } from '../schema'
 import { reduceStringArrayValues } from '@platyplus/data'
 import { debug } from '../../console'
+import { metadataName } from '../../utils'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -175,6 +171,9 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
       )
     }
     for (const field of excluded) delete data[field]
+
+    // TODO weird workaround as RxDB does not seem to take deletedFlag into consideration
+    if (data['_deleted']) data.deleted = true
 
     debug('pushModifier: out', { _isNew, ...data, id })
     return { _isNew, ...data, id }

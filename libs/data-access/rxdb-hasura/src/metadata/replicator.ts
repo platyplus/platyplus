@@ -1,21 +1,17 @@
-import { clone, RxChangeEvent } from 'rxdb'
+import { RxChangeEvent } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
-import deepEqual from 'deep-equal'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { debug, error, errorDir, warn } from '../console'
-import {
-  contentsCollectionCreator,
-  isManyToManyTable,
-  metadataName
-} from '../contents'
+import { contentsCollectionCreator } from '../contents'
 import { Metadata, MetadataCollection } from '../types'
-import { createHeaders } from '../utils'
-import { stringQuery, subscription } from './graphql'
+import { createHeaders, metadataName } from '../utils'
+import { subscription } from './graphql'
 import { modifier } from './modifier'
+import { queryBuilder } from './pull'
 
 export type MetadataReplicatorOptions = {
   url: string
@@ -23,9 +19,7 @@ export type MetadataReplicatorOptions = {
   token?: string
 }
 
-const noopQuery =
-  '{metadata_table(where:{_and:[{table_schema: {_eq: "noop"}},{table_schema: {_neq: "noop"}}]}) {table_name}}'
-
+// TODO lots of duplicate code with the contents replicator
 export const createMetadataReplicator = async (
   metadataCollection: MetadataCollection,
   role: string
@@ -46,33 +40,8 @@ export const createMetadataReplicator = async (
       url,
       headers: createHeaders(role, db.jwt$.getValue()),
       pull: {
-        // ! TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
-        // ! fetch it again entirely on every change, then deep compare old and new result...
-        // ! Ideally the metadata query would need to get an 'updated_at' field
-        // ! ( but it needs to be determined on the postgresql side... )
-        // TODO (plus there's a lot of code duplicates with the contents replicator)
-        queryBuilder: (doc: Metadata) => {
-          return {
-            query:
-              doc && // * Do not load metadata (again) when metadata collection already exists
-              !db[`${role}_${metadataName(doc)}`]
-                ? noopQuery
-                : stringQuery,
-            variables: {}
-          }
-        },
-        modifier: async (doc) => {
-          const newDoc = modifier(doc)
-          // * Do not load many2many join tables
-          if (isManyToManyTable(newDoc)) return null
-          const oldDoc = await metadataCollection.findOne(doc.id).exec()
-          if (!oldDoc) return newDoc
-          const oldDocValues = clone(oldDoc.toJSON())
-          delete oldDocValues['_deleted']
-          // * Don't load metadata again if nothing changed list last time it has been put in the Rx database
-          if (deepEqual(newDoc, oldDocValues)) return null
-          return newDoc
-        }
+        queryBuilder: queryBuilder(db, role),
+        modifier: modifier(metadataCollection)
       },
       live: true,
       liveInterval: 1000 * 60 * 10, // 10 minutes

@@ -1,5 +1,5 @@
 import { ContentsCollection, ContentsCollectionMethods } from '../../types'
-import { metadataName } from '../schema'
+import { metadataName } from '../../utils'
 import { systemCollectionComponent } from '../system'
 const config = (collection: ContentsCollection, property?: string) =>
   property
