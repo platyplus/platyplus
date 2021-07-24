@@ -10,7 +10,7 @@ export const ProfilePage: PageFunction = ({ title }) => {
   const editing = useQuery().has('edit')
   // TODO profile actions e.g. change/reset password
   return (
-    <HeaderTitleWrapper title={title}>
+    <HeaderTitleWrapper title={title} previous>
       <Animation.Fade in={!!profile}>
         {(props, ref) => (
           <div {...props}>

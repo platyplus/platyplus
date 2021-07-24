@@ -131,7 +131,7 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
   }
 
   return (
-    <HeaderTitleWrapper title={title}>
+    <HeaderTitleWrapper title={title} previous>
       <Animation.Fade in={!isFetching}>
         {(props) =>
           document ? (

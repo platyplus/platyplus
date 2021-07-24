@@ -4,6 +4,7 @@ import React, { FunctionComponent, ReactNode } from 'react'
 import StatusMenu from '../status-menu/status-menu'
 import styled from 'styled-components'
 import { createGlobalState, useTitle } from 'react-use'
+import { useHistory } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +44,10 @@ export const Header: FunctionComponent<{
               icon={<Icon icon="align-justify" />}
             />
           )}
-          <span ref={(ref) => setContainer(ref)}></span>
+          <span
+            ref={(ref) => setContainer(ref)}
+            style={{ width: '100%' }}
+          ></span>
         </div>
         <StatusMenu>{statusMenu}</StatusMenu>
       </Container>
@@ -54,12 +58,29 @@ export const Header: FunctionComponent<{
 export const HeaderTitleWrapper: React.FC<{
   title?: string
   component?: React.ReactNode
-}> = ({ title, component: Component, children }) => {
+  previous?: boolean | string
+}> = ({ title, component: Component, children, previous }) => {
   useTitle(title)
   const [container] = useTitleContainer()
+  const history = useHistory()
+  const PreviousButton = previous ? (
+    <IconButton
+      appearance="subtle"
+      onClick={() =>
+        typeof previous === 'boolean'
+          ? history.goBack()
+          : history.replace(previous)
+      }
+      size="lg"
+      icon={<Icon icon="page-previous" />}
+    />
+  ) : null
   return (
     <>
-      <Portal container={() => container}>{Component || title}</Portal>
+      <Portal container={() => container}>
+        {PreviousButton}
+        <span style={{ marginLeft: '10px' }}>{Component || title}</span>
+      </Portal>
       {children}
     </>
   )

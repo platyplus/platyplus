@@ -21,6 +21,7 @@ export const DocumentPage: React.FC = () => {
     <HeaderTitleWrapper
       title={title}
       component={<DocumentTitle document={document} />}
+      previous
     >
       <Animation.Fade in={!isFetching}>
         {(props, ref) => (
