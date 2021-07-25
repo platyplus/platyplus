@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 
 import {
   ContentsCollection,
-  ContentsDocument,
+  Contents,
   Metadata,
   MetadataDocument,
   PropertyConfig
@@ -47,7 +47,7 @@ export const useCollectionProperties = (
   return [properties, setProperties]
 }
 
-export const useDocumentProperties = (document?: ContentsDocument) =>
+export const useDocumentProperties = (document?: Contents) =>
   useCollectionProperties(document?.collection)
 
 type FallbackFunction<T> = (metadata?: Metadata) => T

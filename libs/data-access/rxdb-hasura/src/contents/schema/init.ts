@@ -6,8 +6,8 @@ import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from './columns'
 import { isIdColumn } from './id'
 import { indexes } from './indexes'
-import { createRelationshipProperties } from './relationships'
-import { requiredProperties } from './required'
+import { createRelationshipProperties } from '../relationships'
+import { requiredProperties } from '../required'
 
 export const toJsonSchema = (
   table: Metadata,
@@ -29,6 +29,7 @@ export const toJsonSchema = (
     },
     properties: {
       id: { type: 'string' },
+      updated_at: { type: 'string' },
       is_local_change: { type: ['boolean', 'null'] },
       ...createColumnProperties(table),
       ...createRelationshipProperties(table, role),

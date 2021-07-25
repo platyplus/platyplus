@@ -33,6 +33,7 @@ export const query = gql`
     name
     udtName
     isNullable
+    default
   }
 
   fragment table on metadata_table {
@@ -116,7 +117,6 @@ export const query = gql`
       primaryKey {
         constraint_name
       }
-      default
       canSelect {
         role_name
       }

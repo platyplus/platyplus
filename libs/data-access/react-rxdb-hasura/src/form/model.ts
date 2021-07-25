@@ -54,10 +54,8 @@ export const useFormModel = (document: ContentsDocument) => {
         metadata && properties
           ? [...properties.entries()].reduce((acc, [name, property]) => {
               const type = propertyType(document, name, false)
-
-              const required = isRequiredProperty(document, name)
               const modelType = modelTypeConstructor[type]()
-              if (required) {
+              if (isRequiredProperty(metadata, name)) {
                 if (type === 'collection' || type === 'array') {
                   modelType.isRequiredOrEmpty()
                 } else {

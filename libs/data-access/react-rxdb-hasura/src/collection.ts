@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import {
-  ContentsCollection,
-  ContentsCollections,
-  isManyToManyTable
-} from '@platyplus/rxdb-hasura'
+import { ContentsCollection, ContentsCollections } from '@platyplus/rxdb-hasura'
 
 import { useDB } from './database'
 

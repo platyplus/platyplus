@@ -4,11 +4,13 @@ import {
   ContentsDocument,
   JsonSchemaFormat,
   JsonSchemaPropertyType,
+  Metadata,
   PropertyType,
   PropertyValue
 } from '../../types'
-import { isIdColumn } from './id'
-import { isNullableColumn } from './required'
+import { columnProperties, isIdColumn } from '../schema'
+
+import { isNullableColumn } from '../required'
 
 const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaPropertyType> = {
   // TODO complete e.g. GIS
@@ -115,4 +117,11 @@ export const castValue = <T extends PropertyValue>(
     if (value != null) return JSON.parse(value)
     else return null
   }
+}
+
+export const propertyNames = (table: Metadata) => {
+  return [
+    ...columnProperties(table).map((col) => col.name),
+    ...table.relationships.map((rel) => rel.rel_name)
+  ]
 }

@@ -8995,7 +8995,7 @@ export enum Order_By {
 export type Patient = {
   __typename?: 'patient'
   a_bigint: Maybe<Scalars['bigint']>
-  a_boolean: Maybe<Scalars['Boolean']>
+  a_boolean: Scalars['Boolean']
   a_citext: Maybe<Scalars['citext']>
   a_date: Maybe<Scalars['date']>
   a_jsonb: Maybe<Scalars['jsonb']>
@@ -11875,8 +11875,8 @@ export type Visite = {
   lab_tests_aggregate: Visite_Lab_Test_Aggregate
   muac: Scalars['Int']
   /** An object relationship */
-  patient: Maybe<Patient>
-  patient_id: Maybe<Scalars['uuid']>
+  patient: Patient
+  patient_id: Scalars['uuid']
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
   visit_date: Scalars['timestamptz']
@@ -12430,7 +12430,7 @@ export type RemoteTableFragment = { __typename?: 'metadata_table' } & {
 
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
   Metadata_Column_Info,
-  'name' | 'udtName' | 'isNullable'
+  'name' | 'udtName' | 'isNullable' | 'default'
 >
 
 export type TableFragment = { __typename?: 'metadata_table' } & {
@@ -12524,41 +12524,32 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       }
   >
   columns: Array<
-    { __typename?: 'metadata_column_info' } & Pick<
-      Metadata_Column_Info,
-      'default'
-    > & {
-        primaryKey: Maybe<
-          { __typename?: 'metadata_primary_key_column' } & Pick<
-            Metadata_Primary_Key_Column,
-            'constraint_name'
-          >
+    { __typename?: 'metadata_column_info' } & {
+      primaryKey: Maybe<
+        { __typename?: 'metadata_primary_key_column' } & Pick<
+          Metadata_Primary_Key_Column,
+          'constraint_name'
         >
-        canSelect: Array<
-          { __typename?: 'metadata_permission_select_columns' } & Pick<
-            Metadata_Permission_Select_Columns,
-            'role_name'
-          >
+      >
+      canSelect: Array<
+        { __typename?: 'metadata_permission_select_columns' } & Pick<
+          Metadata_Permission_Select_Columns,
+          'role_name'
         >
-        canInsert: Array<
-          { __typename?: 'metadata_permission_select_columns' } & Pick<
-            Metadata_Permission_Select_Columns,
-            'role_name'
-          >
+      >
+      canInsert: Array<
+        { __typename?: 'metadata_permission_select_columns' } & Pick<
+          Metadata_Permission_Select_Columns,
+          'role_name'
         >
-        canUpdate: Array<
-          { __typename?: 'metadata_permission_update_columns' } & Pick<
-            Metadata_Permission_Update_Columns,
-            'role_name'
-          >
+      >
+      canUpdate: Array<
+        { __typename?: 'metadata_permission_update_columns' } & Pick<
+          Metadata_Permission_Update_Columns,
+          'role_name'
         >
-        config: Maybe<
-          { __typename?: 'metadata_property_config' } & Pick<
-            Metadata_Property_Config,
-            'json_schema'
-          >
-        >
-      } & ColumnFragment
+      >
+    } & ColumnFragment
   >
 } & CoreTableFragment
 
@@ -12601,6 +12592,7 @@ export const ColumnFragmentDoc = gql`
     name
     udtName
     isNullable
+    default
   }
 `
 export const TableFragmentDoc = gql`
@@ -12683,7 +12675,6 @@ export const TableFragmentDoc = gql`
       primaryKey {
         constraint_name
       }
-      default
       canSelect {
         role_name
       }
@@ -12692,9 +12683,6 @@ export const TableFragmentDoc = gql`
       }
       canUpdate {
         role_name
-      }
-      config {
-        json_schema
       }
     }
   }

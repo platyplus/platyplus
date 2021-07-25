@@ -15,10 +15,10 @@
     - [ ] check if it works on both insert and update
   - [x] forms: see bug when inserting a visit
   - [x] delete is not working anymore
-  - [ ] default values
-    - [ ] form is valid when a required property has a default
+  - [x] default values
+    - [x] form is valid when a required property has a default
       - -> review isRequired(property) - a property can be non-nullable but not required when a default value exists
-    - [ ] load default values when creating a document
+    - [x] load default values when creating a document
   - [x] form action bar: allow 'save' action when not valid, but trigger form validation
   - [x] complete/fix date & date-time inputs
   - [x] differenciate number and integer inputs

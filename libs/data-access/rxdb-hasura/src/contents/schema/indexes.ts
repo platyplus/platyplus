@@ -1,5 +1,5 @@
 import { Metadata } from '../../types'
-import { propertyJsonType } from './property'
+import { propertyJsonType } from '../properties'
 
 // * PostgreSQL indexes + label
 export const indexes = (table: Metadata): (string | string[])[] => {

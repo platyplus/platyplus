@@ -1,9 +1,9 @@
 import { clone } from 'rxdb'
 import deepEqual from 'deep-equal'
 
-import { isManyToManyTable } from '../contents'
 import { TableFragment } from '../generated'
 import { Metadata, MetadataCollection } from '../types'
+import { isManyToManyTable } from '../contents'
 
 export const modifier =
   (metadataCollection: MetadataCollection) =>

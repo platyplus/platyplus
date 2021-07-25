@@ -15,7 +15,8 @@ import {
   addComputedFieldsFromLoadedData,
   documentLabel
 } from '../computed-fields'
-import { filteredRelationships, graphQLColumnType, getIds } from '../schema'
+import { graphQLColumnType, getIds } from '../schema'
+import { filteredRelationships } from '../relationships'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,

@@ -1,12 +1,15 @@
 import { clone, RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
 
-import { Contents, ContentsCollection, Modifier } from '../../types'
-import { computedFields } from '../computed-fields'
-import { filteredRelationships, getIds, isManyToManyTable } from '../schema'
 import { reduceStringArrayValues } from '@platyplus/data'
+
+import { Contents, ContentsCollection, Modifier } from '../../types'
 import { debug } from '../../console'
 import { metadataName } from '../../utils'
+
+import { computedFields } from '../computed-fields'
+import { getIds } from '../schema'
+import { filteredRelationships, isManyToManyTable } from '../relationships'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at

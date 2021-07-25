@@ -3,7 +3,7 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { ColumnFragment } from '../../generated'
 import { JsonSchemaFormat, Metadata } from '../../types'
 import { isIdColumn } from './id'
-import { propertyJsonType } from './property'
+import { propertyJsonType } from '../properties'
 
 const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
   // * Postgres timestamp without timezone does not fit with a default json schema format
@@ -34,6 +34,8 @@ export const columnProperties = (table: Metadata) => {
     .map((relationship) => relationship.mapping[0].column?.name)
   return (
     table.columns
+      // * Do not add the system columns to the properties
+      .filter((column) => !['deleted', 'updated_at'].includes(column.name))
       .filter(
         (column) =>
           // * filter properties that are already mapped by an object relationship
@@ -41,8 +43,6 @@ export const columnProperties = (table: Metadata) => {
           // * filter relationships using the primary key as foreign key
           isIdColumn(column)
       )
-      // * Do not add the deleted column to the properties
-      .filter((column) => !['deleted'].includes(column.name))
   )
 }
 
@@ -51,9 +51,7 @@ export const createColumnProperties = (table: Metadata) => {
   columnProperties(table).forEach((column) => {
     const sqlType = column.udtName
     const type = propertyJsonType(column)
-    // * Load custom JSON Schema, if it exists
-    const customSchema = column.config?.json_schema
-    const property: TopLevelProperty = customSchema || {
+    const property: TopLevelProperty = {
       type
     }
 
