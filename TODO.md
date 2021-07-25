@@ -12,21 +12,20 @@
     - [x] one2many
     - [x] many2one
     - [x] many2many
-    - [ ] one2one
     - [ ] check if it works on both insert and update
   - [x] forms: see bug when inserting a visit
   - [x] delete is not working anymore
   - [ ] default values
     - [ ] form is valid when a required property has a default
     - [ ] load default values when creating a document
-  - [ ] form action bar: allow 'save' action when not valid, but trigger form validation
+  - [x] form action bar: allow 'save' action when not valid, but trigger form validation
   - [x] complete/fix date & date-time inputs
   - [x] differenciate number and integer inputs
-  - [ ] basic data validation
+  - [x] basic data validation (by type)
     - [x] implement 'canSave' - and use it in the toolbar
     - [x] according to field type
     - [x] required columns
-    - [ ] required relationships
+    - [x] required relationships
   - [x] Move the config action inside the config page
   - [ ] order menu
     - [ ] create something like an `app_config` table
@@ -91,6 +90,8 @@
     - [ ] for everyone / per role / per user
     - [ ] filtered collections
   - [ ] components
+    - [ ] one2one
+      - [ ] update sync of reverse relationship
     - [ ] email
     - [ ] time
     - [ ] cards
@@ -113,7 +114,7 @@
       - [ ] uri
     - [ ] singletons
   - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
-  - [ ] remove useless code in rxdb-hasura (e.g. document.component())
+  - [x] remove useless code in rxdb-hasura (e.g. document.component())
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
   - [ ] Better integration with HBP e.g. registration, password change, 2fa...
 - Charts

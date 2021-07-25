@@ -25,41 +25,46 @@ const propertyFormat = (udtType: string): JsonSchemaFormat | undefined => {
   return postgresJsonSchemaFormatMapping[udtType]
 }
 
-export const createColumnProperties = (table: Metadata) => {
-  const result: Record<string, TopLevelProperty> = {}
+export const columnProperties = (table: Metadata) => {
   const skipRelationships = table.relationships
     .filter(
       (relationship) =>
         relationship.rel_type === 'object' && relationship.mapping.length === 1
     )
     .map((relationship) => relationship.mapping[0].column?.name)
-  table.columns
-    .filter(
-      (column) =>
-        // * filter properties that are already mapped by an object relationship
-        !skipRelationships.includes(column.name) ||
-        // * filter relationships using the primary key as foreign key
-        isIdColumn(column)
-    )
-    // * Do not add the deleted column to the properties
-    .filter((column) => column.name !== 'deleted')
-    .forEach((column) => {
-      const sqlType = column.udtName
-      const type = propertyJsonType(column)
-      // * Load custom JSON Schema, if it exists
-      const customSchema = column.config?.json_schema
-      const property: TopLevelProperty = customSchema || {
-        type
-      }
+  return (
+    table.columns
+      .filter(
+        (column) =>
+          // * filter properties that are already mapped by an object relationship
+          !skipRelationships.includes(column.name) ||
+          // * filter relationships using the primary key as foreign key
+          isIdColumn(column)
+      )
+      // * Do not add the deleted column to the properties
+      .filter((column) => !['deleted'].includes(column.name))
+  )
+}
 
-      if (type === 'string' || type.includes('string')) {
-        const format = propertyFormat(sqlType)
-        if (format) {
-          property.format = format
-        }
+export const createColumnProperties = (table: Metadata) => {
+  const result: Record<string, TopLevelProperty> = {}
+  columnProperties(table).forEach((column) => {
+    const sqlType = column.udtName
+    const type = propertyJsonType(column)
+    // * Load custom JSON Schema, if it exists
+    const customSchema = column.config?.json_schema
+    const property: TopLevelProperty = customSchema || {
+      type
+    }
+
+    if (type === 'string' || type.includes('string')) {
+      const format = propertyFormat(sqlType)
+      if (format) {
+        property.format = format
       }
-      result[column.name] = property
-    })
+    }
+    result[column.name] = property
+  })
   return result as Record<string, TopLevelProperty> & {
     updated_at: TopLevelProperty
   }

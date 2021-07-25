@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { BehaviorSubject } from 'rxjs'
@@ -72,27 +73,8 @@ export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods> & {
   collection: ContentsCollection
 }
 
-export type ContentsDocumentMethods = {
-  canEdit: (propertyName?: string) => boolean
-  canSave: () => boolean
-  canDelete: () => boolean
-  component: (propertyName?: string) => string
-  // TODO propertyComponentOptions
-  // ? editableProperties(): Property[]
-  // ? validate(propertyName?: string) => errors or true? (or the computed values? -> TBC)
-}
-
-export type ContentsCollectionMethods = {
-  title: (property?: string) => string
-  description: (property?: string) => string
-  documentTitle: () => string // TODO move to prototype
-  icon: (property?: string) => string
-  component: () => string // TODO move to prototype
-  canInsert: (propertyName?: string) => boolean
-  canUpdate: (propertyName?: string) => boolean
-  // ? insertableProperties(): Property[]
-  // ? updatableProperties(): Property[]
-}
+export type ContentsDocumentMethods = {}
+export type ContentsCollectionMethods = {}
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string

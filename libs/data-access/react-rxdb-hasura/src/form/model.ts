@@ -1,16 +1,12 @@
-import {
-  useDocumentMetadata,
-  useDocumentProperties
-} from '@platyplus/react-rxdb-hasura'
 // TODO dependency to rsuite in @platyplus/react-rxdb-schema
 import { Schema } from 'rsuite'
-
 import {
   ContentsDocument,
   isRequiredProperty,
   propertyType
 } from '@platyplus/rxdb-hasura'
 import { useMemo } from 'react'
+import { useDocumentMetadata, useDocumentProperties } from '../metadata'
 
 const { Model, Types } = Schema
 

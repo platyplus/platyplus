@@ -13,14 +13,14 @@ export const CollectionToolbar: React.FC<{
   const create = () => {
     history.push(`/collection/${collection.name}/new`)
   }
-  const { canCreate } = useCollectionPermissions(collection)
+  const can = useCollectionPermissions(collection)
 
   return (
     <Animation.Fade in={!!collection}>
       {(props, ref) => (
         <div {...props}>
           <ButtonGroup style={{ paddingBottom: '10px' }}>
-            {canCreate && (
+            {can.create && (
               <IconButtonWithHelper
                 icon="plus"
                 helper="Create"

@@ -16,7 +16,7 @@ import { IconButtonWithHelper, ICON_RED } from '@platyplus/layout'
 export const DocumentToolbar: React.FC<{
   document?: ContentsDocument
   edit?: boolean
-  formRef: MutableRefObject<FormInstance>
+  formRef?: MutableRefObject<FormInstance>
 }> = ({ document, edit, formRef }) => {
   const query = useQuery()
   const editing = edit ?? query.has('edit')
@@ -49,7 +49,7 @@ export const DocumentToolbar: React.FC<{
     await document.remove()
     history.goBack()
   }
-  const { canDelete, canEdit } = useDocumentPermissions(document)
+  const can = useDocumentPermissions(document)
   return (
     <Animation.Fade in={!!document}>
       {(props, ref) => (
@@ -81,14 +81,14 @@ export const DocumentToolbar: React.FC<{
               </ButtonGroup>
             ) : (
               <ButtonGroup>
-                {canEdit && (
+                {can.edit && (
                   <IconButtonWithHelper
                     icon="edit"
                     helper="Edit"
                     onClick={editDocument}
                   />
                 )}
-                {canDelete && (
+                {can.remove && (
                   <IconButtonWithHelper
                     icon="trash"
                     helper="Delete"

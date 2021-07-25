@@ -1,7 +1,7 @@
 import { PropertyType } from '@platyplus/rxdb-hasura'
 import { CollectionComponent } from './collections/types'
 import { DocumentComponent } from './documents/types'
-import { FieldComponent } from './fields/types'
+import { FieldComponent } from './fields'
 
 export type RoutesConfig = Partial<
   Record<
