@@ -1,5 +1,5 @@
-import { FormControl, Input, InputProps } from 'rsuite'
-import { FieldComponent } from './types'
+import { Input, InputProps } from 'rsuite'
+import { FieldControl, FieldComponent } from './utils'
 
 const NullableInputString: React.ComponentType<
   InputProps & { nullable: boolean }
@@ -23,7 +23,7 @@ export const StringField: FieldComponent = ({
 }) => {
   if (editable || edit)
     return (
-      <FormControl
+      <FieldControl
         // TODO configure nullable
         nullable={true}
         name={field}

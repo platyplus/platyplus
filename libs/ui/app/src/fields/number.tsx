@@ -1,7 +1,4 @@
-import { FormControl } from 'rsuite'
-
-import { FieldComponent } from './types'
-import { NullableNumericInput } from './numeric-accepter'
+import { FieldComponent, NullableNumericInput, FieldControl } from './utils'
 
 export const NumberField: FieldComponent = ({
   document,
@@ -11,7 +8,7 @@ export const NumberField: FieldComponent = ({
 }) => {
   if (editable || edit)
     return (
-      <FormControl
+      <FieldControl
         name={field}
         readOnly={!edit}
         // TODO configure nullable

@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Animation } from 'rsuite'
 import { useParams } from 'react-router'
 
@@ -17,6 +18,7 @@ export const DocumentPage: React.FC = () => {
   const editing = useQuery().has('edit') || id === 'new'
   const { document, isFetching } = useDocument(name, id)
   const [title] = useDocumentTitle(document)
+  const formRef = useRef()
   return (
     <HeaderTitleWrapper
       title={title}
@@ -24,16 +26,28 @@ export const DocumentPage: React.FC = () => {
       previous
     >
       <Animation.Fade in={!isFetching}>
-        {(props, ref) => (
-          <div {...props}>
-            <DocumentPanel
-              title={<DocumentLabel document={document} />}
-              toolbar={<DocumentToolbar document={document} edit={editing} />}
-            >
-              <DocumentComponentWrapper document={document} edit={editing} />
-            </DocumentPanel>
-          </div>
-        )}
+        {(props) => {
+          return (
+            <div {...props}>
+              <DocumentPanel
+                title={<DocumentLabel document={document} />}
+                toolbar={
+                  <DocumentToolbar
+                    document={document}
+                    edit={editing}
+                    formRef={formRef}
+                  />
+                }
+              >
+                <DocumentComponentWrapper
+                  document={document}
+                  edit={editing}
+                  formRef={formRef}
+                />
+              </DocumentPanel>
+            </div>
+          )
+        }}
       </Animation.Fade>
     </HeaderTitleWrapper>
   )

@@ -35,7 +35,7 @@
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
-  - [ ] rsuite next?
+    - [ ] PWA
 - [ ] Hasura 2
   - avoid regressions
   - list missing metadata elements e.g. muliple db, inherited roles...
@@ -68,6 +68,7 @@
 
 - Application
   - [ ] dark/light mode
+    - [ ] rsuite next -> when CSS variables are available
     - [ ] from device's defaults
     - [ ] store in localstorage
     - [ ] store in the backend?
@@ -110,6 +111,7 @@
       - [ ] object
       - [ ] array
       - [ ] uri
+    - [ ] singletons
   - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
   - [ ] remove useless code in rxdb-hasura (e.g. document.component())
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)

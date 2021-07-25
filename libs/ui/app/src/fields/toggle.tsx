@@ -1,7 +1,7 @@
-import { FormControl, Toggle } from 'rsuite'
+import { Toggle } from 'rsuite'
 import { FormControlAccepterProps } from 'rsuite/lib/FormControl'
 
-import { FieldComponent } from './types'
+import { FieldComponent, FieldControl } from './utils'
 
 const ToggleAccepter: React.ElementType<FormControlAccepterProps> = ({
   value,
@@ -19,7 +19,7 @@ export const ToggleField: FieldComponent = ({
 }) => {
   if (editable || edit) {
     return (
-      <FormControl name={field} readOnly={!edit} accepter={ToggleAccepter} />
+      <FieldControl name={field} readOnly={!edit} accepter={ToggleAccepter} />
     )
   } else return <Toggle checked={document[field]} disabled />
 }

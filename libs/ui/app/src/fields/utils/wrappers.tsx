@@ -1,6 +1,6 @@
 import { usePropertyComponentName } from '@platyplus/react-rxdb-hasura'
 import { propertyType } from '@platyplus/rxdb-hasura'
-import { useComponentsContext } from '../components'
+import { useComponentsContext } from '../../components'
 
 import { FieldComponent } from './types'
 

@@ -1,13 +1,8 @@
 import { useCallback, useMemo } from 'react'
-import { Schema } from 'schema-typed'
 
 import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useDocumentProperties } from '../metadata'
 import { useFormStore } from './store'
-import { useFormModel } from './model'
-import { useFormSave, useFormReset } from './actions'
-import { useFormHasChanged } from './changes'
-import { useFormIsValid, useFormCanSave } from './validation'
 
 /**
  * Get the form values of a given document

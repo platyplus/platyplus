@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import React, { MutableRefObject } from 'react'
+import { FormInstance } from 'rsuite/lib/Form'
+
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import React from 'react'
+
 type CommonDocumentComponentProps<T = {}> = T & {
   edit: boolean
+  formRef?: MutableRefObject<FormInstance>
 }
 
 export type DocumentComponent<T = {}> = React.FC<

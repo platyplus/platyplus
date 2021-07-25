@@ -1,5 +1,5 @@
 import { CheckPicker } from 'rsuite'
-import { FieldComponent } from '../types'
+import { FieldComponent } from '../utils'
 
 import { CollectionField } from './wrapper'
 

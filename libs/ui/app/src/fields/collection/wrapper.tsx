@@ -1,10 +1,5 @@
 import React, { useMemo } from 'react'
-import {
-  FormControl,
-  TagPickerProps,
-  CheckPickerProps,
-  Animation
-} from 'rsuite'
+import { TagPickerProps, CheckPickerProps, Animation } from 'rsuite'
 import { useRxQuery } from 'rxdb-hooks'
 
 import {
@@ -14,12 +9,16 @@ import {
 import { Contents } from '@platyplus/rxdb-hasura'
 
 import { CollectionFromParamsComponentWrapper } from '../../collections'
-import { FieldComponent } from '../types'
+import { FieldComponent, FieldControl } from '../utils'
 
-export const CollectionField: FieldComponent<{
-  accepter: React.ComponentType<CheckPickerProps | TagPickerProps>
-  component: string
-}> = ({
+export const CollectionField: FieldComponent<
+  | {
+      accepter: React.ComponentType<CheckPickerProps | TagPickerProps>
+      component: string
+    }
+  | CheckPickerProps
+  | TagPickerProps
+> = ({
   document,
   field,
   edit,
@@ -47,7 +46,8 @@ export const CollectionField: FieldComponent<{
       {(props, ref) => (
         <div {...props}>
           {edit ? (
-            <FormControl
+            <FieldControl
+              style={{ minWidth: 300 }}
               name={field}
               readOnly={!edit}
               data={options}

@@ -1,5 +1,5 @@
 import { TagPicker } from 'rsuite'
-import { FieldComponent } from '../types'
+import { FieldComponent } from '../utils'
 import { CollectionField } from './wrapper'
 
 export const CollectionTagField: FieldComponent = ({ ...props }) => (

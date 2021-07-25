@@ -1,8 +1,5 @@
-import { FormControl } from 'rsuite'
-
 import { UI_DATE_FORMAT } from '../config'
-import { DatePickerAccepter } from './date-picker-accepter'
-import { FieldComponent } from './types'
+import { DatePickerAccepter, FieldControl, FieldComponent } from './utils'
 
 export const DateField: FieldComponent = ({
   document,
@@ -12,7 +9,7 @@ export const DateField: FieldComponent = ({
 }) => {
   if (editable || edit)
     return (
-      <FormControl
+      <FieldControl
         name={field}
         readOnly={!edit}
         cleanable={edit}

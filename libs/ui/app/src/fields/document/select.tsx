@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { FormControl, SelectPicker, Animation } from 'rsuite'
+import { SelectPicker, Animation } from 'rsuite'
 import { useRxQuery } from 'rxdb-hooks'
 
 import {
@@ -9,7 +9,7 @@ import {
 import { Contents } from '@platyplus/rxdb-hasura'
 
 import { DocumentFromParamsComponentWrapper } from '../../documents'
-import { FieldComponent } from '../types'
+import { FieldComponent, FieldControl } from '../utils'
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
   document,
@@ -38,7 +38,8 @@ export const DocumentSelectField: FieldComponent = ({
       {(props, ref) => (
         <div {...props}>
           {edit ? (
-            <FormControl
+            <FieldControl
+              style={{ minWidth: 300 }}
               name={field}
               readOnly={!edit}
               data={options}
