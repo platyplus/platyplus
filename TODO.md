@@ -17,6 +17,7 @@
   - [x] delete is not working anymore
   - [ ] default values
     - [ ] form is valid when a required property has a default
+      - -> review isRequired(property) - a property can be non-nullable but not required when a default value exists
     - [ ] load default values when creating a document
   - [x] form action bar: allow 'save' action when not valid, but trigger form validation
   - [x] complete/fix date & date-time inputs
@@ -86,6 +87,7 @@
   - [ ] computed values
   - [ ] searchable collections
   - [ ] review indexes in RxDB
+  - [ ] add Hasura permissions to create/update/remove permissions
   - [ ] custom menus
     - [ ] for everyone / per role / per user
     - [ ] filtered collections

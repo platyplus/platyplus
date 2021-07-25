@@ -30,7 +30,6 @@ export const InlineValue: React.FC<{
 
   // * If editing and clicking away, stop editing
   const ref = useRef(null)
-  // TODO does not work anymore
   useClickAway(ref, cancel)
 
   // * Adjust Input width automatically
@@ -40,10 +39,16 @@ export const InlineValue: React.FC<{
 
   return (
     <Animation.Fade in={!!value}>
-      {(props, ref) => (
+      {(props) => (
         <span {...props}>
           {editing ? (
-            <div ref={ref} style={{ width }}>
+            <div
+              ref={ref}
+              style={{
+                width,
+                display: 'inline-block'
+              }}
+            >
               <InputGroup size="xs">
                 <Input
                   size="xs"
