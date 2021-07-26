@@ -79,7 +79,7 @@ export const createHeaders = (
     const defaultRole = hasura['x-hasura-default-role']
     if (substituteWhenAdmin && allowedRoles.includes('admin'))
       headers['x-hasura-role'] = 'admin'
-    if (role !== defaultRole && allowedRoles.includes(role))
+    else if (role !== defaultRole && allowedRoles.includes(role))
       headers['x-hasura-role'] = role
   }
   return headers

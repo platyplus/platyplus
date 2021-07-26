@@ -3,8 +3,9 @@ import React from 'react'
 import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
 
 import {
-  useConfigStore,
-  useOrderedContentsCollections
+  useCountConfigChanges,
+  useOrderedContentsCollections,
+  useSaveConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { ConfigListItem } from './list-item'
@@ -12,12 +13,11 @@ import { ConfigListItem } from './list-item'
 export const ConfigListPage: React.FC = () => {
   const [collections, setCollections] = useOrderedContentsCollections(true)
   const title = 'Configuration'
-  const countChanges = useConfigStore((state) => state.countChanges() || false)
+  const countChanges = useCountConfigChanges()
   const [show, toggle] = useToggle(false)
-  const changes = useConfigStore((state) => state.forms)
-  const saveConfig = useConfigStore((state) => state.save())
+  const saveConfig = useSaveConfig()
   const save = async () => {
-    await saveConfig()
+    saveConfig()
     toggle(false)
   }
 
@@ -40,7 +40,7 @@ export const ConfigListPage: React.FC = () => {
         <Modal.Header>
           <Modal.Title>Configuration changes</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{JSON.stringify(changes)}</Modal.Body>
+        <Modal.Body>Config changes occurred: describe them here</Modal.Body>
         <Modal.Footer>
           <Button onClick={save} appearance="primary">
             Apply

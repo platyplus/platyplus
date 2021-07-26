@@ -10,7 +10,7 @@ import { metadataName } from '../../utils'
 import { computedFields } from '../computed-fields'
 import { getIds } from '../ids'
 import { filteredRelationships, isManyToManyTable } from '../relationships'
-import { isConfigTable, isConsoleEnabled, upsertWithMigration } from '../config'
+import { isConsoleEnabled, isConfigTable, upsertWithMigration } from '../config'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -148,19 +148,24 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
   return async (data) => {
     debug('pushModifier: in:', data)
+    // * Do not push data if it is flaged as a local change
+    if (data.is_local_change) return null
+    else delete data.is_local_change
+
+    // TODO weird workaround as RxDB does not seem to take deletedFlag into consideration
+    if (data['_deleted']) data.deleted = true
+
     if (isConsoleEnabled() && isConfigTable(table)) {
       try {
         await upsertWithMigration(table, data)
         return null
       } catch {
+        // TODO updated_at is not present, so it mixes up insert and update
         info(
           'Could not save the migration through Hasura Console. Falling back to regular GraphQL replication'
         )
       }
     }
-    // * Do not push data if it is flaged as a local change
-    if (data.is_local_change) return null
-    else delete data.is_local_change
 
     const _isNew = isNewDocument(data)
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
@@ -185,9 +190,6 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
       )
     }
     for (const field of excluded) delete data[field]
-
-    // TODO weird workaround as RxDB does not seem to take deletedFlag into consideration
-    if (data['_deleted']) data.deleted = true
 
     debug('pushModifier: out', { _isNew, ...data, id })
     return { _isNew, ...data, id }

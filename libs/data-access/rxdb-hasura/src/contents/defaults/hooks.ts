@@ -54,14 +54,16 @@ const saveDefaultValues =
   async (data, doc: Contents) =>
     await defaultValues(collection, data)
 
-const insertDefaultValues: RxCollectionHookNoInstanceCallback<
-  Contents,
-  ContentsCollectionMethods
-> = (data, collection: ContentsCollection) => defaultValues(collection, data)
+const insertDefaultValues =
+  (
+    collection: ContentsCollection
+  ): RxCollectionHookNoInstanceCallback<Contents, ContentsCollectionMethods> =>
+  (data) =>
+    defaultValues(collection, data)
 
 export const createDefaultValuesHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preSave(saveDefaultValues(collection), false)
-  collection.preInsert(insertDefaultValues, false)
+  collection.preInsert(insertDefaultValues(collection), false)
 }

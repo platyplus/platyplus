@@ -13,7 +13,7 @@ import { createIdHooks } from '../ids'
 // TODO in the replicator: in the upsert stuff, use only permitted columns in the insert and the update (on conflict) part
 
 export const createHooks = (collection: ContentsCollection): void => {
-  debug('Installing hooks')
+  debug(`Installing hooks on ${collection.name}`)
   createRelationshipHooks(collection)
   createComputedFieldsHooks(collection)
   createDefaultValuesHooks(collection)

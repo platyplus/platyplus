@@ -81,7 +81,7 @@ export const useOrderedContentsCollections = (
 }
 
 export const useContentsCollection = (name: string) => {
-  const collections = useContentsCollections()
+  const collections = useContentsCollections(true)
   const collection = useMemo(() => collections.get(name), [collections, name])
   return collection
 }

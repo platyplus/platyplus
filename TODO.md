@@ -31,9 +31,10 @@
   - [ ] order menu
     - [x] create something like an `app_config` table
     - [x] order on the main `config` page
-    - [ ] save changes
+    - [x] save changes
     - [ ] pull `table_config` and `property_config` out of metadata documents
     - [ ] save `config` stuff through the replicator/modifier
+  - [ ] useConfigEnabled: onfig is enabled if user has an admin role
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
