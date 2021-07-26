@@ -23,11 +23,7 @@ const DocumentField: React.FC<{
 }> = ({ document, propertyName, property, edit }) => (
   <FormGroup>
     <ControlLabel>
-      <PropertyIcon
-        collection={document.collection}
-        property={propertyName}
-        style={{ paddingRight: '10px' }}
-      />
+      <PropertyIcon collection={document.collection} property={propertyName} />
       <PropertyTitle collection={document.collection} property={propertyName} />
     </ControlLabel>
     <FieldComponentWrapper

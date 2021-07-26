@@ -10,5 +10,7 @@ export const PropertyIcon: React.FC<
   }
 > = ({ collection, property, ...props }) => {
   const [icon] = usePropertyIcon(collection, property)
-  return icon ? <Icon {...props} icon={icon} /> : null
+  return icon ? (
+    <Icon {...props} icon={icon} style={{ paddingRight: '10px' }} />
+  ) : null
 }

@@ -18,6 +18,7 @@ import { upperCaseFirst } from '@platyplus/data'
 
 import { useComponentsContext } from '../../components'
 import { useMemo } from 'react'
+import { PropertyIcon } from '../../documents'
 
 export const PropertyConfig: React.FC<{
   collection: ContentsCollection
@@ -43,7 +44,12 @@ export const PropertyConfig: React.FC<{
   )
   return (
     <Panel
-      header={title}
+      header={
+        <span>
+          <PropertyIcon collection={collection} property={name} />
+          {title}
+        </span>
+      }
       collapsible
       bordered
       expanded={expanded}
