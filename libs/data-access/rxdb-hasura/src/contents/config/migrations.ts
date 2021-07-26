@@ -1,7 +1,6 @@
-// TODO remove once it is included in rxdb-hasura
-import { Metadata, PropertyConfig } from '@platyplus/rxdb-hasura'
 import axios from 'axios'
 import { escape } from 'sqlstring'
+import { Contents, Metadata, PropertyConfig } from '../../types'
 
 const CONSOLE_API = 'http://localhost:9693/apis'
 const client = axios.create({ baseURL: CONSOLE_API })
@@ -44,6 +43,16 @@ export const tableConfigToSql = (
     { table_id },
     'table_config_table_id_key'
   )
+
+export const appConfigToSql = (config: Contents) => {
+  const { id, ...updateValues } = config
+  return upsertQuery(
+    `metadata.app_config`,
+    config,
+    updateValues,
+    'app_config_pkey'
+  )
+}
 
 export const propertyConfigToSql = (
   table_id: string,

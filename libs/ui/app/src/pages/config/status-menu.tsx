@@ -1,6 +1,10 @@
 import { Badge, IconButton, Icon } from 'rsuite'
 import { useHistory } from 'react-router-dom'
-import { useConfigEnabled, useConfigStore } from '@platyplus/react-rxdb-hasura'
+import {
+  useConfigEnabled,
+  useConfigStore,
+  useFormStore
+} from '@platyplus/react-rxdb-hasura'
 
 export const ConfigStatusMenuItem: React.FC = () => {
   const enabled = useConfigEnabled()

@@ -4,12 +4,13 @@ import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
 import { reduceStringArrayValues } from '@platyplus/data'
 
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { debug } from '../../console'
+import { debug, info } from '../../console'
 import { metadataName } from '../../utils'
 
 import { computedFields } from '../computed-fields'
-import { getIds } from '../schema'
+import { getIds } from '../ids'
 import { filteredRelationships, isManyToManyTable } from '../relationships'
+import { isConfigTable, isConsoleEnabled, upsertWithMigration } from '../config'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -147,6 +148,16 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
   return async (data) => {
     debug('pushModifier: in:', data)
+    if (isConsoleEnabled() && isConfigTable(table)) {
+      try {
+        await upsertWithMigration(table, data)
+        return null
+      } catch {
+        info(
+          'Could not save the migration through Hasura Console. Falling back to regular GraphQL replication'
+        )
+      }
+    }
     // * Do not push data if it is flaged as a local change
     if (data.is_local_change) return null
     else delete data.is_local_change

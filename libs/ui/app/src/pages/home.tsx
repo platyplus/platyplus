@@ -1,5 +1,6 @@
 import { Animation } from 'rsuite'
 import {
+  useAppConfig,
   useConfigStore,
   useContentsCollections
 } from '@platyplus/react-rxdb-hasura'
@@ -10,8 +11,9 @@ export const HomePage: React.FC<{ title?: string }> = ({
   title = 'Home Page'
 }) => {
   const collections = useContentsCollections()
-  const profile = useProfile()
+  const { document: profile } = useProfile()
   const hasChanges = useConfigStore((state) => !!state.countChanges())
+  const config = useAppConfig()
   return (
     <HeaderTitleWrapper title={title}>
       <Animation.Fade in={!!profile}>
@@ -21,8 +23,9 @@ export const HomePage: React.FC<{ title?: string }> = ({
               <h2>
                 Welcome, <DisplayName profile={profile} />
               </h2>
+              {config && JSON.stringify(config)}
               {hasChanges ? 'CHANGES' : 'NO CHANGES'}
-              {Object.keys(collections).map((key) => (
+              {[...collections.keys()].map((key) => (
                 <div key={key}>{key}</div>
               ))}
             </div>

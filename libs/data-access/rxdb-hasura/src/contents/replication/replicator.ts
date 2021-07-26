@@ -51,7 +51,7 @@ export const createContentReplicator = async (
 
     jwtSubscription = db.jwt$.subscribe((token?: string) => {
       debug(`Replicator (${collection.name}): set token`)
-      replicationState.setHeaders(createHeaders(role, token))
+      replicationState.setHeaders(createHeaders(role, token, true))
       wsSubscription?.close()
       wsSubscription = setupGraphQLSubscription()
     })
@@ -61,7 +61,7 @@ export const createContentReplicator = async (
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(role, db.jwt$.getValue())
+    const headers = createHeaders(role, db.jwt$.getValue(), true)
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {

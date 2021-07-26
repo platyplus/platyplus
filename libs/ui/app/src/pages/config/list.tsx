@@ -4,15 +4,13 @@ import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
 
 import {
   useConfigStore,
-  useMetadataCollection
+  useOrderedContentsCollections
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { ConfigListItem } from './list-item'
 
-export const ConfigListPage: React.FC<{ role?: string }> = ({
-  role = 'user'
-}) => {
-  const { isFetching, result } = useMetadataCollection(role)
+export const ConfigListPage: React.FC = () => {
+  const [collections, setCollections] = useOrderedContentsCollections(true)
   const title = 'Configuration'
   const countChanges = useConfigStore((state) => state.countChanges() || false)
   const [show, toggle] = useToggle(false)
@@ -21,6 +19,19 @@ export const ConfigListPage: React.FC<{ role?: string }> = ({
   const save = async () => {
     await saveConfig()
     toggle(false)
+  }
+
+  const sort = ({
+    oldIndex,
+    newIndex
+  }: {
+    oldIndex: number
+    newIndex: number
+  }) => {
+    const result = Array.from(collections)
+    const [removed] = result.splice(oldIndex, 1)
+    result.splice(newIndex, 0, removed)
+    setCollections(new Map(result))
   }
 
   return (
@@ -40,7 +51,7 @@ export const ConfigListPage: React.FC<{ role?: string }> = ({
         </Modal.Footer>
       </Modal>
       <HeaderTitleWrapper title={title}>
-        <Animation.Fade in={!isFetching}>
+        <Animation.Fade in={!!collections}>
           {(props) => (
             <div {...props}>
               <ButtonGroup style={{ paddingBottom: '10px' }}>
@@ -55,11 +66,17 @@ export const ConfigListPage: React.FC<{ role?: string }> = ({
                   </IconButtonWithHelper>
                 )}
               </ButtonGroup>
-              <List hover bordered>
-                {result.map((item, index) => (
-                  <ConfigListItem key={index} index={index} metadata={item} />
-                ))}
-              </List>
+              {collections && (
+                <List hover bordered sortable onSort={sort} pressDelay={300}>
+                  {[...collections.values()].map((collection, index) => (
+                    <ConfigListItem
+                      key={index}
+                      index={index}
+                      metadata={collection.metadata}
+                    />
+                  ))}
+                </List>
+              )}
             </div>
           )}
         </Animation.Fade>

@@ -1,11 +1,14 @@
 import deepMerge from 'deepmerge'
 
-import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
+import {
+  useConfigEnabled,
+  useOrderedContentsCollections
+} from '@platyplus/react-rxdb-hasura'
 import { Layout, Logo, MenuItem } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 import { ProfileStatusMenu } from '@platyplus/profile'
 
-import { ContentsMenu } from './menu'
+import { CollectionMenuItem } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
@@ -53,10 +56,13 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
     </>
   )
 
+  const [collections] = useOrderedContentsCollections()
   const PrivateMenu: React.FC = () => (
     <>
       {home.enabled && <MenuItem icon="home" title={home.title} href="/" />}
-      <ContentsMenu roles={['user']} />
+      {[...collections.values()].map((collection) => (
+        <CollectionMenuItem key={collection.name} collection={collection} />
+      ))}
       {configEnabled && (
         <MenuItem icon="wrench" title="Configuration" href="/config" />
       )}

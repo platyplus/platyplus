@@ -100,6 +100,18 @@
     name: whitelist
 - table:
     schema: metadata
+    name: app_config
+  select_permissions:
+  - role: me
+    permission:
+      columns:
+      - id
+      - updated_at
+      - menu_order
+      - deleted
+      filter: {}
+- table:
+    schema: metadata
     name: check_constraint
   object_relationships:
   - name: table

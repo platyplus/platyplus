@@ -3,6 +3,7 @@ import { ContentsCollection } from '../../types'
 import { createComputedFieldsHooks } from '../computed-fields'
 import { createDefaultValuesHooks } from '../defaults'
 import { createRelationshipHooks } from '../relationships'
+import { createIdHooks } from '../ids'
 
 // TODO 1. Set defaut values from permissions "column preset"
 // TODO 2. Set to SQL default,
@@ -16,4 +17,5 @@ export const createHooks = (collection: ContentsCollection): void => {
   createRelationshipHooks(collection)
   createComputedFieldsHooks(collection)
   createDefaultValuesHooks(collection)
+  createIdHooks(collection)
 }

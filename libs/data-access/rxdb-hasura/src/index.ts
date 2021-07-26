@@ -56,7 +56,8 @@ export const createRxHasura = async (
     if (jwt) {
       const hasura = hasuraClaims(jwt)
       for (const role of hasura['x-hasura-allowed-roles']) {
-        if (!db[`${role}_metadata`]) {
+        // * Create metadata collection if not exists, except for the `admin` role
+        if (role !== 'admin' && !db[`${role}_metadata`]) {
           await db.addCollections({
             [`${role}_metadata`]: {
               options: { isMetadataCollection: true, role },

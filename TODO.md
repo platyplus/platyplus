@@ -29,8 +29,11 @@
     - [x] required relationships
   - [x] Move the config action inside the config page
   - [ ] order menu
-    - [ ] create something like an `app_config` table
-    - [ ] order on the main `config` page
+    - [x] create something like an `app_config` table
+    - [x] order on the main `config` page
+    - [ ] save changes
+    - [ ] pull `table_config` and `property_config` out of metadata documents
+    - [ ] save `config` stuff through the replicator/modifier
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
@@ -67,6 +70,7 @@
 ## Then
 
 - Application
+  - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
   - [ ] dark/light mode
     - [ ] rsuite next -> when CSS variables are available
     - [ ] from device's defaults

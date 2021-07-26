@@ -1,17 +1,32 @@
-import { useEffect, useState } from 'react'
-import { useRxData } from 'rxdb-hooks'
+import { useEffect, useMemo, useState } from 'react'
+import { RxQueryResultDoc, useRxData } from 'rxdb-hooks'
 
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 export const useSingleton = (
   collectionName: string
-): Readonly<ContentsDocument | undefined> => {
-  const [document, setDocument] = useState<ContentsDocument | undefined>()
-  const { result } = useRxData<ContentsDocument>(collectionName, (collection) =>
-    collection.find().limit(1)
+): Omit<RxQueryResultDoc<Contents>, 'result'> & {
+  value?: Contents
+  document: ContentsDocument
+} => {
+  // TODO subscribe to changes
+  const { result, isFetching, ...rest } = useRxData<Contents>(
+    collectionName,
+    (collection) => collection.find().limit(1)
   )
+  const [fetching, setFetching] = useState(true)
+
+  const document = useMemo(() => result[0] as ContentsDocument, [result])
+  const [value, setValue] = useState<Contents>()
   useEffect(() => {
-    setDocument(result[0])
-  }, [result])
-  return document
+    if (document) {
+      setFetching(false)
+      const subscription = document.$.subscribe((newValue) =>
+        setValue(newValue)
+      )
+      return () => subscription.unsubscribe()
+    }
+  }, [document])
+
+  return { value, document, isFetching: fetching, ...rest }
 }

@@ -37,6 +37,6 @@ export const useFormGet = (document: ContentsDocument) => {
 
 export const useFormSet = (document: ContentsDocument) =>
   useFormStore(
-    (state) => (values: Record<string, string | boolean>) =>
+    (state) => (values: Record<string, unknown>) =>
       state.setForm(document, values)
   )

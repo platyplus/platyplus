@@ -2,7 +2,7 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { ColumnFragment } from '../../generated'
 import { JsonSchemaFormat, Metadata } from '../../types'
-import { isIdColumn } from './id'
+import { isIdColumn } from '../ids'
 import { propertyJsonType } from '../properties'
 
 const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {

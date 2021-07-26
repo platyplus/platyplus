@@ -6,7 +6,7 @@ import { PageFunction } from './types'
 import { DocumentComponentWrapper, DocumentToolbar } from '../documents'
 
 export const ProfilePage: PageFunction = ({ title }) => {
-  const profile = useProfile()
+  const { document: profile } = useProfile()
   const editing = useQuery().has('edit')
   // TODO profile actions e.g. change/reset password
   return (

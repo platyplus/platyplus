@@ -5,14 +5,17 @@ import {
   JsonSchemaFormat,
   JsonSchemaPropertyType,
   Metadata,
-  PropertyType,
-  PropertyValue
+  PropertyType
 } from '../../types'
-import { columnProperties, isIdColumn } from '../schema'
+import { columnProperties } from '../schema'
 
 import { isNullableColumn } from '../required'
+import { isIdColumn } from '../ids'
 
-const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaPropertyType> = {
+const postgresJsonSchemaTypeMapping: Record<
+  string,
+  JsonSchemaPropertyType | JsonSchemaPropertyType[]
+> = {
   // TODO complete e.g. GIS
   uuid: 'string',
   bool: 'boolean',
@@ -24,7 +27,7 @@ const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaPropertyType> = {
   text: 'string',
   citext: 'string',
   varchar: 'string',
-  jsonb: 'object',
+  jsonb: ['object', 'array'],
   numeric: 'number',
   int: 'integer',
   int4: 'integer',
@@ -36,9 +39,9 @@ const postgresJsonSchemaTypeMapping: Record<string, JsonSchemaPropertyType> = {
   decimal: 'number'
 }
 
-export const mainPropertyJsonType = (
+const mainPropertyJsonType = (
   columnInfo: ColumnFragment
-): JsonSchemaPropertyType => {
+): JsonSchemaPropertyType | JsonSchemaPropertyType[] => {
   const udtType = columnInfo.udtName
   const result = postgresJsonSchemaTypeMapping[udtType]
   if (!result)
@@ -51,7 +54,7 @@ export const propertyJsonType = (
 ): PropertyType | PropertyType[] => {
   const result = mainPropertyJsonType(columnInfo)
   return isNullableColumn(columnInfo) && !isIdColumn(columnInfo)
-    ? [result, 'null']
+    ? [...(typeof result === 'string' ? [result] : result), 'null']
     : result
 }
 
@@ -105,19 +108,6 @@ export const isTextType = (type: PropertyType): boolean =>
     'document',
     'collection'
   ].includes(type)
-
-export const castValue = <T extends PropertyValue>(
-  document: ContentsDocument,
-  propertyName: string,
-  value: string | boolean
-): T => {
-  const type = propertyType(document, propertyName)
-  if (typeof value === 'boolean' || isTextType(type)) return value as T
-  else {
-    if (value != null) return JSON.parse(value)
-    else return null
-  }
-}
 
 export const propertyNames = (table: Metadata) => {
   return [

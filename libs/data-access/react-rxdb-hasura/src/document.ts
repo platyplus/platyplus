@@ -1,8 +1,7 @@
-import { useCallback, useMemo, useState } from 'react'
-import { v4 as uuid } from 'uuid'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { useContentsCollection } from './collection'
 
@@ -12,24 +11,20 @@ export const useDocument = (name: string, id: string) => {
     (collection) => id !== 'new' && collection.findOne(id),
     [id]
   )
-
-  const data = useRxData<ContentsDocument>(name, queryConstructor)
-  const [newId] = useState(uuid())
-
-  const document = useMemo(() => {
-    if (id === 'new') {
-      if (collection) {
-        const newDoc = collection.newDocument() as ContentsDocument
-        newDoc[collection.schema.primaryPath] = newId
-        return newDoc
-      }
-    } else return data.result[0]
-  }, [data, collection, id, newId])
-
+  const { result, isFetching: isDocumentFetching } = useRxData<Contents>(
+    name,
+    queryConstructor
+  )
+  const [document, setDocument] = useState<ContentsDocument>()
+  useEffect(
+    () =>
+      setDocument((result[0] || collection?.newDocument()) as ContentsDocument),
+    [result, collection]
+  )
   const isFetching = useMemo(() => {
     if (id === 'new') return !document
-    else return document ? data.isFetching : true
-  }, [id, document, data])
+    else return document ? isDocumentFetching : true
+  }, [id, document, isDocumentFetching])
   return { isFetching, document }
 }
 
@@ -38,6 +33,6 @@ export const useDocuments = (name: string, ids: string[] = []) => {
     (collection) => collection.find().where('id').in(ids),
     [ids]
   )
-  const data = useRxData<ContentsDocument>(name, queryConstructor)
+  const data = useRxData<Contents>(name, queryConstructor)
   return data
 }

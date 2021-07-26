@@ -45,7 +45,7 @@ export type JsonSchemaPropertyType =
   | 'boolean'
   | 'null'
 
-export type CustomTypes = 'collection' | 'document'
+export type CustomTypes = 'collection' | 'document' | 'json'
 
 // * Field types: either core JSON formats e.g. `string` (-> without format), `object` or their format e.g. `date-time`
 export type PropertyType =
@@ -109,7 +109,7 @@ type MetadataCollections<T extends Roles> = Record<
   `${Roles | T}_metadata`,
   RxCollection<Metadata>
 >
-export type ContentsCollections = Record<string, ContentsCollection>
+export type ContentsCollections = Map<string, ContentsCollection>
 
 export type DatabaseCollections<T extends Roles = Roles> =
   MetadataCollections<T> & ContentsCollections
