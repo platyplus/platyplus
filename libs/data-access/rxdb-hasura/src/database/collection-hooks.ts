@@ -23,24 +23,16 @@ const collectionProperties = (
     'is_local_change',
     // * array aggregates from the property list
     ...collection.metadata.relationships
-      .filter(({ rel_type }) => rel_type === 'array')
-      .map(({ rel_name }) => `${rel_name}_aggregate`),
+      .filter(({ type }) => type === 'array')
+      .map(({ name }) => `${name}_aggregate`),
     // * primary key and other final fields as they can't be observed
     ...schema.finalFields.map((field) => field)
   ]
 
-  // const configuredProperties = collection.metadata.propertiesConfig.reduce<
-  //   Record<string, number>
-  // >((aggr, config) => ((aggr[config.property_name] = config.order), aggr), {})
   return new Map(
     Object.entries(schema.jsonSchema.properties).filter(
       ([name]) => !excludedProperties.includes(name)
     )
-    // .sort(
-    //   ([keyA], [keyB]) =>
-    //     compare(configuredProperties[keyA], configuredProperties[keyB]) ||
-    //     keyA.localeCompare(keyB)
-    // )
   )
 }
 
@@ -65,9 +57,6 @@ export const createRxCollection = async (
     await createContentReplicator(collection, collection.options.role)
   } else if (collection.options.isMetadataCollection) {
     // * isMetadata option => this is a Metadata collection
-    await createMetadataReplicator(
-      collection as unknown as MetadataCollection,
-      collection.options.role
-    )
+    await createMetadataReplicator(collection as unknown as MetadataCollection)
   }
 }

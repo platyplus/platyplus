@@ -6,10 +6,10 @@ import { queryToSubscription } from '../utils'
 export const query = gql`
   fragment coreTable on metadata_table {
     id
-    table_name
-    table_schema
+    name
+    schema
     primaryKey {
-      constraint_name
+      constraintName
       columns {
         columnName
       }
@@ -19,7 +19,7 @@ export const query = gql`
   fragment remoteTable on metadata_table {
     ...coreTable
     relationships {
-      rel_type
+      type
       remoteTable {
         ...coreTable
       }
@@ -58,36 +58,9 @@ export const query = gql`
       transformation
       template
     }
-    canSelect_aggregate {
-      aggregate {
-        count
-      }
-    }
-    canInsert_aggregate {
-      aggregate {
-        count
-      }
-    }
-    canUpdate_aggregate {
-      aggregate {
-        count
-      }
-    }
-    relationships(
-      where: {
-        mapping: {
-          remoteTable: {
-            _and: [
-              # { columns: { name: { _eq: "id" } } }
-              { columns: { name: { _eq: "updated_at" } } }
-              { columns: { name: { _eq: "deleted" } } }
-            ]
-          }
-        }
-      }
-    ) {
-      rel_name
-      rel_type
+    relationships {
+      name
+      type
       remoteTable {
         ...remoteTable
       }
@@ -101,29 +74,22 @@ export const query = gql`
     columns {
       ...column
       primaryKey {
-        constraint_name
+        constraintName
       }
       canSelect {
-        role_name
+        roleName
       }
       canInsert {
-        role_name
+        roleName
       }
       canUpdate {
-        role_name
+        roleName
       }
     }
   }
 
   query metadata {
-    metadata_table(
-      where: {
-        _and: [
-          { columns: { name: { _eq: "updated_at" } } }
-          { columns: { name: { _eq: "deleted" } } }
-        ]
-      }
-    ) {
+    metadata_table {
       ...table
     }
   }

@@ -16,9 +16,8 @@ const reverseRelations =
   async (data, doc) => {
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
-    for (const { rel_name: relName, rel_type: relType } of collection.metadata
-      .relationships) {
-      const property = collection.properties.get(relName)
+    for (const { name, type } of collection.metadata.relationships) {
+      const property = collection.properties.get(name)
       const remoteCollection: ContentsCollection =
         collection.database.collections[property.ref]
       const mirrorRelationships =
@@ -29,23 +28,23 @@ const reverseRelations =
       if (mirrorRelationships.length > 1) {
         // TODO sort this out - is it really a problem? Test without it
         warn(
-          `Relation ${collection.name}.${relName} points to ${remoteCollection.name}, but ${remoteCollection.name} have more than one relation that points back to ${collection.name}. Can't determine which to process`
+          `Relation ${collection.name}.${name} points to ${remoteCollection.name}, but ${remoteCollection.name} have more than one relation that points back to ${collection.name}. Can't determine which to process`
         )
       }
 
       // * Get the previous values of the document
       const oldRelId =
-        !insert && (await collection.findOne(data.id).exec()?.[relName])
-      const newRelId = data[relName]
+        !insert && (await collection.findOne(data.id).exec()?.[name])
+      const newRelId = data[name]
 
       for (const {
-        rel_name: mirrorRelName,
-        rel_type: mirrorRelType
+        name: mirrorRelName,
+        type: mirrorRelType
       } of mirrorRelationships) {
         debug(
-          `${collection.name}.${relName} <-> ${remoteCollection.name}.${mirrorRelName}`
+          `${collection.name}.${name} <-> ${remoteCollection.name}.${mirrorRelName}`
         )
-        if (relType === 'array') {
+        if (type === 'array') {
           // * From one/many to many
           const { add, remove } = arrayChanges<string>(
             oldRelId || [],
@@ -59,13 +58,13 @@ const reverseRelations =
               // * From many to many
               remoteDoc.atomicPatch({
                 is_local_change: true,
-                [mirrorRelName]: [...remoteDoc[relName], doc.id]
+                [mirrorRelName]: [...remoteDoc[name], doc.id]
               })
             } else {
               // * From one to many
               remoteDoc.atomicPatch({
                 is_local_change: false,
-                [mirrorRelName]: remoteDoc[relName]
+                [mirrorRelName]: remoteDoc[name]
               })
             }
           }
@@ -76,7 +75,7 @@ const reverseRelations =
             if (mirrorRelType === 'array') {
               remoteDoc.atomicPatch({
                 is_local_change: true,
-                [mirrorRelName]: remoteDoc[relName].filter(
+                [mirrorRelName]: remoteDoc[name].filter(
                   (key: string) => key !== doc.id
                 )
               })

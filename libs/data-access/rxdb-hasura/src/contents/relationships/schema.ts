@@ -11,7 +11,7 @@ export const createRelationshipProperties = (
 ): Record<string, TopLevelProperty> => {
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
-    const relName = relationship.rel_name
+    const relName = relationship.name
     // TODO relationships with composite keys
     const column = relationship.mapping[0].column
     const refTable = isManyToManyTable(relationship.remoteTable)
@@ -22,13 +22,13 @@ export const createRelationshipProperties = (
     const ref = `${role}_${metadataName(refTable)}`
 
     const type = propertyJsonType(column)
-    if (relationship.rel_type === 'object') {
+    if (relationship.type === 'object') {
       // * Object relationships
       result[relName] = {
         type: ['string', 'null'], // ? null only if relationship is nullable?
         ref
       }
-    } else if (relationship.rel_type === 'array') {
+    } else if (relationship.type === 'array') {
       // * Array relationships
       result[relName] = {
         type: 'array',

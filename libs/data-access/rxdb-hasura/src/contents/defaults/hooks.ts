@@ -35,15 +35,15 @@ const defaultValues = async (
   table.relationships
     .filter(
       (rel) =>
-        data[rel.rel_name] == null &&
-        rel.rel_type === 'object' &&
+        data[rel.name] == null &&
+        rel.type === 'object' &&
         rel.mapping.some(
           ({ column }) =>
             !isNullableColumn(column) && columnHasDefaultValue(column)
         )
     )
-    .forEach(({ rel_name }) => {
-      data[rel_name] = generateDefaultValue(collection, rel_name, data)
+    .forEach(({ name }) => {
+      data[name] = generateDefaultValue(collection, name, data)
     })
 }
 

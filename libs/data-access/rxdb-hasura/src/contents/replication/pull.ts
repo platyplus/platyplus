@@ -28,7 +28,7 @@ export const pullQueryBuilder = (
   const idKeys = getIds(table)
   // * Get the list of array relationship names
   const arrayRelationships = table.relationships.filter(
-    (rel) => rel.rel_type === 'array'
+    ({ type }) => type === 'array'
   )
 
   // * List columns referencing other tables, except its own primary key
@@ -54,11 +54,11 @@ export const pullQueryBuilder = (
     .filter((column) => !foreignKeyColumns.includes(column.name))
 
   const objectRelationshipFields = filteredRelationships(table)
-    .filter((rel) => rel.rel_type === 'object')
+    .filter(({ type }) => type === 'object')
     .map(
       (relationship) =>
         ({
-          [relationship.rel_name]: reduceArrayValues(
+          [relationship.name]: reduceArrayValues(
             relationship.mapping,
             ({ remoteColumnName }) => [remoteColumnName, true]
           )
@@ -67,11 +67,11 @@ export const pullQueryBuilder = (
   // * - keys as per defined in the relationship mapping
   // * - aggregate (last updated_at) so when it changes it will trigger a new pull
   const arrayRelationshipFields = filteredRelationships(table)
-    .filter((rel) => rel.rel_type === 'array')
+    .filter(({ type }) => type === 'array')
     .map(
       (relationship) =>
         ({
-          [relationship.rel_name]:
+          [relationship.name]:
             relationship.remoteTable.primaryKey.columns.reduce(
               (acc, column) => {
                 acc[column.columnName] = true
@@ -87,7 +87,7 @@ export const pullQueryBuilder = (
                 }
               }
             ),
-          [`${relationship.rel_name}_aggregate`]: {
+          [`${relationship.name}_aggregate`]: {
             aggregate: { max: { updated_at: true } }
           }
         } as FieldMap)
@@ -117,8 +117,8 @@ export const pullQueryBuilder = (
           column.name,
           graphQLColumnType(column)
         ]),
-        ...reduceArrayValues(arrayRelationships, (rel) => [
-          `updated_at_${rel.rel_name}`,
+        ...reduceArrayValues(arrayRelationships, ({ name }) => [
+          `updated_at_${name}`,
           'timestamptz'
         ])
       },
@@ -139,9 +139,9 @@ export const pullQueryBuilder = (
                 (rel) => ({
                   _and: [
                     {
-                      [rel.rel_name]: {
+                      [rel.name]: {
                         updated_at: {
-                          _gt: new VariableType(`updated_at_${rel.rel_name}`)
+                          _gt: new VariableType(`updated_at_${rel.name}`)
                         }
                       }
                     },
@@ -172,9 +172,9 @@ export const pullQueryBuilder = (
       query,
       variables: arrayRelationships.reduce<Partial<Contents>>(
         // * add the existing updated_at array relationship aggregates if they exist
-        (variables, rel) => {
-          variables[`updated_at_${rel.rel_name}`] =
-            doc?.[`${rel.rel_name}_aggregate`]?.aggregate?.max?.updated_at ||
+        (variables, { name }) => {
+          variables[`updated_at_${name}`] =
+            doc?.[`${name}_aggregate`]?.aggregate?.max?.updated_at ||
             new Date(0).toISOString()
           return variables
         },
@@ -195,9 +195,9 @@ export const pullQueryBuilder = (
 
 export const pullModifier = (collection: ContentsCollection): Modifier => {
   const cleansedRelationships = filteredRelationships(collection.metadata).map(
-    ({ rel_type, rel_name }) => ({
-      multiple: rel_type === 'array',
-      name: rel_name
+    ({ type, name }) => ({
+      multiple: type === 'array',
+      name: name
     })
   )
   return async (data) => {

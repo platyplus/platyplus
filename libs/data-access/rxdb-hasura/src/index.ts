@@ -10,7 +10,6 @@ import { contentsCollections } from './database/helpers'
 import { metadataSchema } from './metadata'
 import { RxHasuraPlugin } from './plugin'
 import { Database, DatabaseCollections } from './types'
-import { hasuraClaims } from './utils'
 
 export { RxHasuraPlugin } from './plugin'
 export * from './contents'
@@ -54,20 +53,14 @@ export const createRxHasura = async (
   // * When receiving a JWT, browse the roles and create metadata accordingly
   db.jwt$.subscribe(async (jwt) => {
     if (jwt) {
-      const hasura = hasuraClaims(jwt)
-      for (const role of hasura['x-hasura-allowed-roles']) {
-        // * Create metadata collection if not exists, except for the `admin` role
-        if (role !== 'admin' && !db[`${role}_metadata`]) {
-          await db.addCollections({
-            [`${role}_metadata`]: {
-              options: { isMetadataCollection: true, role },
-              schema: metadataSchema,
-              autoMigrate: true
-            }
-          })
-          db.contents$.next(contentsCollections(db))
+      await db.addCollections({
+        metadata: {
+          options: { isMetadataCollection: true },
+          schema: metadataSchema,
+          autoMigrate: true
         }
-      }
+      })
+      db.contents$.next(contentsCollections(db))
     }
   })
 

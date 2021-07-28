@@ -27,9 +27,9 @@ export const canCreate = (
     if (property?.ref) {
       // * Relationship
       const relationship = collection.metadata.relationships.find(
-        ({ rel_name }) => rel_name === fieldName
+        ({ name }) => name === fieldName
       )
-      if (relationship?.rel_type === 'object') {
+      if (relationship?.type === 'object') {
         // * object relationship: check permission to insert every foreign key column
         return relationship.mapping
           .map((m) => m.column?.name)
@@ -37,7 +37,7 @@ export const canCreate = (
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refCollectionName =
-          collection.schema.jsonSchema.properties[relationship?.rel_name].ref
+          collection.schema.jsonSchema.properties[relationship?.name].ref
         const refCollection = collection.database[refCollectionName]
         return !!relationship?.mapping.every((m) =>
           canUpdate(refCollection, m.remoteColumnName)
@@ -45,13 +45,20 @@ export const canCreate = (
       }
     } else {
       // * Column
-      const column = collection.metadata.columns.find(
-        (col) => col.name === fieldName
+      return collection.metadata.columns.some(
+        (col) =>
+          col.name === fieldName &&
+          col.canInsert.some(
+            (permission) => permission.roleName === collection.role
+          )
       )
-      return !!column?.canInsert.length
     }
   } else {
-    return !!collection.metadata.canInsert_aggregate.aggregate?.count
+    return collection.metadata.columns.some((col) =>
+      col.canInsert.some(
+        (permission) => permission.roleName === collection.role
+      )
+    )
   }
 }
 
@@ -68,9 +75,9 @@ export const canUpdate = (
     if (property?.ref) {
       // * Relationship
       const relationship = collection.metadata.relationships.find(
-        ({ rel_name }) => rel_name === fieldName
+        ({ name }) => name === fieldName
       )
-      if (relationship?.rel_type === 'object') {
+      if (relationship?.type === 'object') {
         // * object relationship: check permission to update every foreign key column
         return relationship.mapping
           .map((m) => m.column?.name)
@@ -79,7 +86,7 @@ export const canUpdate = (
         // * array relationship: check permission to update the foreign key columns
         const refCollection =
           collection.database.collections[
-            collection.schema.jsonSchema.properties[relationship?.rel_name].ref
+            collection.schema.jsonSchema.properties[relationship?.name].ref
           ]
         return !!relationship?.mapping.every((m) =>
           refCollection.canUpdate(m.remoteColumnName)
@@ -87,12 +94,19 @@ export const canUpdate = (
       }
     } else {
       // * Column
-      const column = collection.metadata.columns.find(
-        (col) => col.name === fieldName
+      return collection.metadata.columns.some(
+        (col) =>
+          col.name === fieldName &&
+          col.canUpdate.some(
+            (permission) => permission.roleName === collection.role
+          )
       )
-      return !!column?.canUpdate.length
     }
   } else {
-    return !!collection.metadata.canUpdate_aggregate.aggregate?.count
+    return collection.metadata.columns.some((col) =>
+      col.canUpdate.some(
+        (permission) => permission.roleName === collection.role
+      )
+    )
   }
 }

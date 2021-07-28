@@ -23,7 +23,7 @@ export const pushQueryBuilder = (
   const idKeys = getIds(table)
 
   const arrayRelationships = filteredRelationships(table).filter(
-    (rel) => rel.rel_type === 'array'
+    ({ type }) => type === 'array'
   )
 
   return ({ _isNew, ...initialDoc }: Contents) => {
@@ -35,10 +35,10 @@ export const pushQueryBuilder = (
       .forEach((key) => delete doc[key])
 
     const arrayValues: Record<string, string[]> = {}
-    for (const { rel_name } of arrayRelationships) {
-      arrayValues[rel_name] = doc[rel_name]
-      delete doc[rel_name]
-      delete doc[`${rel_name}_aggregate`]
+    for (const { name } of arrayRelationships) {
+      arrayValues[name] = doc[name]
+      delete doc[name]
+      delete doc[`${name}_aggregate`]
     }
 
     const { id, ...updateDoc } = doc
@@ -86,18 +86,18 @@ export const pushQueryBuilder = (
             }
           }
 
-          if (arrayValues[rel.rel_name]?.length) {
+          if (arrayValues[rel.name]?.length) {
             if (isManyToMany) {
               acc[`insert_${joinTable}`] = {
                 __args: {
-                  objects: arrayValues[rel.rel_name].map((id: string) => ({
+                  objects: arrayValues[rel.name].map((id: string) => ({
                     [reverseId]: id,
                     [mapping.remoteColumnName]: doc.id,
                     deleted: false
                   })),
                   on_conflict: {
                     constraint: new EnumType(
-                      rel.remoteTable.primaryKey.constraint_name
+                      rel.remoteTable.primaryKey.constraintName
                     ),
                     update_columns: [new EnumType('deleted')],
                     where: { deleted: { _eq: true } }
@@ -108,13 +108,13 @@ export const pushQueryBuilder = (
             } else {
               acc[`insert_${joinTable}`] = {
                 __args: {
-                  objects: arrayValues[rel.rel_name].map((id: string) => ({
+                  objects: arrayValues[rel.name].map((id: string) => ({
                     [reverseId]: id,
                     [mapping.remoteColumnName]: doc.id
                   })),
                   on_conflict: {
                     constraint: new EnumType(
-                      rel.remoteTable.primaryKey.constraint_name
+                      rel.remoteTable.primaryKey.constraintName
                     ),
                     update_columns: [new EnumType(mapping.remoteColumnName)]
                   }
@@ -143,7 +143,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
   const relationships = filteredRelationships(table)
   const objectRelationships = relationships.filter(
-    ({ rel_type }) => rel_type === 'object'
+    ({ type }) => type === 'object'
   )
 
   return async (data) => {
@@ -171,10 +171,10 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
 
     // * Object relationships:move back property name to the right foreign key column
-    for (const { rel_name, mapping } of objectRelationships) {
-      if (data[rel_name] !== undefined) {
-        data[mapping[0].column?.name] = data[rel_name]
-        delete data[rel_name]
+    for (const { name, mapping } of objectRelationships) {
+      if (data[name] !== undefined) {
+        data[mapping[0].column?.name] = data[name]
+        delete data[name]
       }
     }
 

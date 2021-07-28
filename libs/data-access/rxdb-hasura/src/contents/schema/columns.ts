@@ -29,7 +29,7 @@ export const columnProperties = (table: Metadata) => {
   const skipRelationships = table.relationships
     .filter(
       (relationship) =>
-        relationship.rel_type === 'object' && relationship.mapping.length === 1
+        relationship.type === 'object' && relationship.mapping.length === 1
     )
     .map((relationship) => relationship.mapping[0].column?.name)
   return (

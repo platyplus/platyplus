@@ -112,7 +112,7 @@ export const isTextType = (type: PropertyType): boolean =>
 
 export const propertyNames = (table: Metadata) => {
   return [
-    ...columnProperties(table).map((col) => col.name),
-    ...table.relationships.map((rel) => rel.rel_name)
+    ...columnProperties(table).map(({ name }) => name),
+    ...table.relationships.map(({ name }) => name)
   ]
 }

@@ -10,6 +10,7 @@ import {
 
 import { useDocumentMetadata } from '../document'
 import { useDocumentProperties } from '../property'
+import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 const { Model, Types } = Schema
 
@@ -43,7 +44,8 @@ const modelTypeConstructor = {
   string: () => Types.StringType(),
   integer: () => Types.NumberType(),
   boolean: () => Types.BooleanType(),
-  null: () => {
+  null: (name: string, property: TopLevelProperty) => {
+    console.error('Null type is not allowed', { name, property })
     throw Error('Null type is not allowed')
   }
 }
@@ -57,7 +59,7 @@ export const useFormModel = (document: ContentsDocument) => {
         metadata && properties
           ? [...properties.entries()].reduce((acc, [name, property]) => {
               const type = propertyType(document, name, false)
-              const modelType = modelTypeConstructor[type]()
+              const modelType = modelTypeConstructor[type](name, property)
               if (isRequiredProperty(metadata, name)) {
                 if (type === 'collection' || type === 'array') {
                   modelType.isRequiredOrEmpty()

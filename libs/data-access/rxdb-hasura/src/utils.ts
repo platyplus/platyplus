@@ -16,13 +16,8 @@ export interface FieldMap {
   [key: string]: FieldMapItem
 }
 
-export const metadataName = (data: {
-  table_schema: string
-  table_name: string
-}): string =>
-  data.table_schema === 'public'
-    ? `${data.table_name}`
-    : `${data.table_schema}_${data.table_name}`
+export const metadataName = (data: { schema: string; name: string }): string =>
+  data.schema === 'public' ? `${data.name}` : `${data.schema}_${data.name}`
 
 // * Generate query fields according to the loaded schema
 // * It is meant to:

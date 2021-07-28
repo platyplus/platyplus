@@ -1,31 +1,19 @@
-import { JsonSchema, RxJsonSchema } from 'rxdb'
+import { RxJsonSchema } from 'rxdb'
 import { Metadata } from '../types'
 
-const permissionAggregate: JsonSchema = {
-  type: 'object',
-  properties: {
-    aggregate: {
-      type: 'object',
-      properties: {
-        count: { type: 'number' }
-      }
-    }
-  }
-}
 export const metadataSchema: RxJsonSchema<Metadata> = {
   title: 'metadata schema',
   version: 0,
-  description: 'Ha',
   type: 'object',
   primaryKey: 'id',
   properties: {
     id: {
       type: 'string'
     },
-    table_name: {
+    name: {
       type: 'string'
     },
-    table_schema: {
+    schema: {
       type: 'string'
     },
     primaryKey: {
@@ -42,13 +30,10 @@ export const metadataSchema: RxJsonSchema<Metadata> = {
       items: {
         type: 'object',
         properties: {
-          document_label: { type: ['string', 'null'] }
+          documentLabel: { type: ['string', 'null'] }
         }
       }
     },
-    canSelect_aggregate: permissionAggregate,
-    canInsert_aggregate: permissionAggregate,
-    canUpdate_aggregate: permissionAggregate,
     relationships: {
       type: 'array',
       items: {

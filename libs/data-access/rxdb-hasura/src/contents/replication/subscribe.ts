@@ -9,8 +9,8 @@ export const subscriptionQuery = (collection: ContentsCollection): string => {
   // TODO limit: 1
   const now = new Date().toUTCString()
   const arrayRels = table.relationships
-    .filter((rel) => rel.rel_type === 'array')
-    .map((rel) => rel.rel_name)
+    .filter(({ type }) => type === 'array')
+    .map(({ name }) => name)
 
   const query = jsonToGraphQLQuery({
     subscription: {

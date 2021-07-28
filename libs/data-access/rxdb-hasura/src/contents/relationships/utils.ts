@@ -8,7 +8,8 @@ export const filteredRelationships = (
   table: Metadata
 ): Metadata['relationships'] =>
   table.relationships.filter(
-    (relationship) => relationship.mapping.length === 1
+    (relationship) =>
+      relationship.remoteTable && relationship.mapping.length === 1
   )
 
 // * A table is a ManyToMany transition table when:
@@ -26,6 +27,6 @@ export const isManyToManyTable = (
         pkColumns.includes(column.name)
     ).length === 2 &&
     table.relationships.length === 2 &&
-    table.relationships.every((rel) => rel.rel_type === 'object')
+    table.relationships.every(({ type }) => type === 'object')
   )
 }

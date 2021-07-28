@@ -113,6 +113,13 @@
 - table:
     schema: metadata
     name: check_constraint
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      table_id: tableId
+      constraint_name: contraintName
+      table_schema: tableSchema
+      table_name: tableName
   object_relationships:
   - name: table
     using:
@@ -233,67 +240,38 @@
       - id
       - table_id
       filter:
-        canSelect:
-          role:
-            role_name:
-              _eq: X-Hasura-role
-  - role: user
-    permission:
-      columns:
-      - table_catalog
-      - table_schema
-      - table_name
-      - column_name
-      - ordinal_position
-      - column_default
-      - is_nullable
-      - data_type
-      - character_maximum_length
-      - character_octet_length
-      - numeric_precision
-      - numeric_precision_radix
-      - numeric_scale
-      - datetime_precision
-      - interval_type
-      - interval_precision
-      - character_set_catalog
-      - character_set_schema
-      - character_set_name
-      - collation_catalog
-      - collation_schema
-      - collation_name
-      - domain_catalog
-      - domain_schema
-      - domain_name
-      - udt_catalog
-      - udt_schema
-      - udt_name
-      - scope_catalog
-      - scope_schema
-      - scope_name
-      - maximum_cardinality
-      - dtd_identifier
-      - is_self_referencing
-      - is_identity
-      - identity_generation
-      - identity_start
-      - identity_increment
-      - identity_maximum
-      - identity_minimum
-      - identity_cycle
-      - is_generated
-      - generation_expression
-      - is_updatable
-      - id
-      - table_id
-      filter:
-        canSelect:
-          role:
-            role_name:
-              _eq: X-Hasura-role
+        _or:
+        - canSelect:
+            role:
+              appRole:
+                account_roles:
+                  account:
+                    user_id:
+                      _eq: X-Hasura-User-Id
+        - canUpdate:
+            role:
+              appRole:
+                account_roles:
+                  account:
+                    user_id:
+                      _eq: X-Hasura-User-Id
+        - canInsert:
+            role:
+              appRole:
+                account_roles:
+                  account:
+                    user_id:
+                      _eq: X-Hasura-User-Id
 - table:
     schema: metadata
     name: computed_field
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      computed_field_name: computedFieldName
+      table_id: tableId
+      table_schema: tableSchema
+      table_name: tableName
   object_relationships:
   - name: table
     using:
@@ -318,23 +296,27 @@
       - id
       - table_id
       filter: {}
-  - role: user
-    permission:
-      columns:
-      - name
-      - table_id
-      - template
-      - transformation
-      - id
-      - type
-      - nullable
-      filter: {}
 - table:
     schema: metadata
     name: custom_type
 - table:
     schema: metadata
     name: foreign_key_constraint
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      table_id: tableId
+      on_delete: onDelete
+      on_update: onUpdate
+      constraint_name: contraintName
+      ref_id: refId
+      ref_columns: refColumns
+      ref_table_table_schema: refTableSchema
+      column_mapping: columnMapping
+      ref_table: refTableName
+      table_schema: tableSchema
+      constraint_oid: contraintOid
+      table_name: tableName
 - table:
     schema: metadata
     name: function
@@ -347,6 +329,9 @@
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      table_id: tableId
+      table_schema: tableSchema
+      table_name: tableName
       index_name: name
   array_relationships:
   - name: columns
@@ -365,20 +350,19 @@
       - table_name
       - index_name
       filter: {}
-  - role: user
-    permission:
-      columns:
-      - index_name
-      - table_name
-      - table_schema
-      filter: {}
 - table:
     schema: metadata
     name: index_column
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      column_id: columnId
+      index_id: indexId
+      table_id: tableId
+      table_schema: tableSchema
+      table_name: tableName
       column_name: columnName
+      index_name: indexName
   select_permissions:
   - role: me
     permission:
@@ -388,17 +372,16 @@
       - index_name
       - column_name
       filter: {}
-  - role: user
-    permission:
-      columns:
-      - column_name
-      - index_name
-      - table_name
-      - table_schema
-      filter: {}
 - table:
     schema: metadata
     name: permission_agg
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      table_id: tableId
+      role_name: roleName
+      table_schema: tableSchema
+      table_name: tableName
   object_relationships:
   - name: role
     using:
@@ -419,6 +402,15 @@
 - table:
     schema: metadata
     name: permission_insert_columns
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_id: columnId
+      table_id: tableId
+      role_name: roleName
+      table_schema: tableSchema
+      table_name: tableName
+      column_name: columnName
   object_relationships:
   - name: column
     using:
@@ -453,23 +445,25 @@
       - role_name
       - column_name
       filter:
-        role_name:
-          _eq: x-hasura-role
-      allow_aggregations: true
-  - role: user
-    permission:
-      columns:
-      - table_schema
-      - table_name
-      - role_name
-      - column_name
-      filter:
-        role_name:
-          _eq: x-hasura-role
+        role:
+          appRole:
+            account_roles:
+              account:
+                user_id:
+                  _eq: X-Hasura-User-Id
       allow_aggregations: true
 - table:
     schema: metadata
     name: permission_select_columns
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_id: columnId
+      table_id: tableId
+      role_name: roleName
+      table_schema: tableSchema
+      table_name: tableName
+      column_name: columnName
   object_relationships:
   - name: column
     using:
@@ -504,23 +498,25 @@
       - role_name
       - column_name
       filter:
-        role_name:
-          _eq: x-hasura-role
-      allow_aggregations: true
-  - role: user
-    permission:
-      columns:
-      - table_schema
-      - table_name
-      - role_name
-      - column_name
-      filter:
-        role_name:
-          _eq: x-hasura-role
+        role:
+          appRole:
+            account_roles:
+              account:
+                user_id:
+                  _eq: X-Hasura-User-Id
       allow_aggregations: true
 - table:
     schema: metadata
     name: permission_update_columns
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_id: columnId
+      table_id: tableId
+      role_name: roleName
+      table_schema: tableSchema
+      table_name: tableName
+      column_name: columnName
   object_relationships:
   - name: column
     using:
@@ -555,23 +551,23 @@
       - role_name
       - column_name
       filter:
-        role_name:
-          _eq: x-hasura-role
-      allow_aggregations: true
-  - role: user
-    permission:
-      columns:
-      - table_schema
-      - table_name
-      - role_name
-      - column_name
-      filter:
-        role_name:
-          _eq: x-hasura-role
+        role:
+          appRole:
+            account_roles:
+              account:
+                user_id:
+                  _eq: X-Hasura-User-Id
       allow_aggregations: true
 - table:
     schema: metadata
     name: primary_key
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      table_id: tableId
+      constraint_name: constraintName
+      table_schema: tableSchema
+      table_name: tableName
   object_relationships:
   - name: table
     using:
@@ -600,22 +596,24 @@
       filter:
         table:
           permissions:
-            role_name:
-              _eq: x-hasura-role
-  - role: user
-    permission:
-      columns:
-      - table_schema
-      - table_name
-      - constraint_name
-      filter:
-        table:
-          permissions:
-            role_name:
-              _eq: x-hasura-role
+            role:
+              appRole:
+                account_roles:
+                  account:
+                    user_id:
+                      _eq: X-Hasura-User-Id
 - table:
     schema: metadata
     name: primary_key_column
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      column_id: columnId
+      table_id: tableId
+      constraint_name: constraintName
+      table_schema: tableSchema
+      table_name: tableName
+      column_name: columnName
   object_relationships:
   - name: column
     using:
@@ -640,14 +638,6 @@
       - constraint_name
       - table_schema
       - table_name
-      - column_name
-      filter: {}
-  - role: user
-    permission:
-      columns:
-      - constraint_name
-      - table_name
-      - table_schema
       - column_name
       filter: {}
 - table:
@@ -672,6 +662,17 @@
 - table:
     schema: metadata
     name: relationship
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      table_id: tableId
+      rel_type: type
+      rel_def: definition
+      rel_name: name
+      is_system_defined: isSystemDefined
+      remote_table_id: remoteTableId
+      table_schema: tableSchema
+      table_name: tableName
   object_relationships:
   - name: remoteTable
     using:
@@ -712,21 +713,8 @@
       - table_id
       - table_name
       - table_schema
-      filter: {}
-  - role: user
-    permission:
-      columns:
-      - comment
-      - id
-      - is_system_defined
-      - rel_def
-      - rel_name
-      - rel_type
-      - remote_table_id
-      - table_id
-      - table_name
-      - table_schema
-      filter: {}
+      filter:
+        remoteTable: {}
 - table:
     schema: metadata
     name: relationship_mapping
@@ -804,26 +792,22 @@
       - table_name
       - table_schema
       filter: {}
-  - role: user
-    permission:
-      columns:
-      - column_id
-      - column_name
-      - id
-      - rel_name
-      - relationship_id
-      - remote_column_id
-      - remote_column_name
-      - remote_schema_name
-      - remote_table_id
-      - remote_table_name
-      - table_id
-      - table_name
-      - table_schema
-      filter: {}
 - table:
     schema: metadata
     name: role
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      role_name: name
+  object_relationships:
+  - name: appRole
+    using:
+      manual_configuration:
+        remote_table:
+          schema: auth
+          name: roles
+        column_mapping:
+          role_name: role
   array_relationships:
   - name: permissions
     using:
@@ -839,6 +823,15 @@
 - table:
     schema: metadata
     name: table
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      is_enum: isEnum
+      is_system_defined: isSystemDefined
+      properties_config: _properties_config__old
+      updated_at: updatedAt
+      table_schema: schema
+      table_name: name
   object_relationships:
   - name: config
     using:
@@ -990,39 +983,29 @@
     permission:
       columns:
       - configuration
+      - deleted
       - id
       - is_enum
       - is_system_defined
+      - properties_config
       - table_name
       - table_schema
-      filter:
-        _and:
-        - columns:
-            column_name:
-              _eq: id
-        - canSelect:
-            column_name:
-              _eq: updated_at
-        - canSelect:
-            column_name:
-              _eq: deleted
-  - role: user
-    permission:
-      columns:
-      - configuration
-      - id
-      - is_enum
-      - is_system_defined
-      - table_name
-      - table_schema
+      - updated_at
       filter:
         _and:
         - canSelect:
-            column_name:
-              _eq: updated_at
+            _and:
+            - column_name:
+                _eq: updated_at
         - canSelect:
-            column_name:
-              _eq: deleted
+            _and:
+            - column_name:
+                _eq: deleted
+        - _not:
+            _and:
+            - view: {}
+            - table_schema:
+                _eq: metadata
 - table:
     schema: metadata
     name: table_config
@@ -1041,13 +1024,6 @@
       - table_id
       - title
       - updated_at
-      filter: {}
-  - role: user
-    permission:
-      columns:
-      - document_label
-      - id
-      - table_id
       filter: {}
 - table:
     schema: metadata
@@ -1090,34 +1066,19 @@
     permission:
       columns:
       - id
+      - table_id
+      - table_name
+      - table_schema
       filter:
-        table:
-          _and:
-          - columns:
-              column_name:
-                _eq: id
-          - canSelect:
-              column_name:
-                _eq: updated_at
-          - canSelect:
-              column_name:
-                _eq: deleted
-  - role: user
-    permission:
-      columns:
-      - id
-      filter:
-        table:
-          _and:
-          - columns:
-              column_name:
-                _eq: id
-          - canSelect:
-              column_name:
-                _eq: updated_at
-          - canSelect:
-              column_name:
-                _eq: deleted
+        _and:
+        - table_schema:
+            _ne: metadata
+        - table_schema:
+            _ne: hdb_catalog
+        - table_schema:
+            _ne: pg_catalog
+        - table_schema:
+            _ne: information_schema
 - table:
     schema: public
     name: drug

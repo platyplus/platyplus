@@ -6,15 +6,18 @@ export const isRequiredColumn = (column: ColumnFragment) =>
   !isNullableColumn(column) && !columnHasDefaultValue(column)
 
 export const isRequiredRelationship = (rel: Metadata['relationships'][0]) =>
-  rel.rel_type === 'object' &&
+  rel.type === 'object' &&
   rel.mapping.some((mapping) => isRequiredColumn(mapping.column))
 
-export const isRequiredProperty = (table: Metadata, name: string): boolean => {
+export const isRequiredProperty = (
+  table: Metadata,
+  propertyName: string
+): boolean => {
   // * Property is required when column is not nullable
-  const column = table.columns.find((col) => col.name === name)
+  const column = table.columns.find(({ name }) => name === propertyName)
   if (column) return isRequiredColumn(column)
 
-  const relation = table.relationships.find((rel) => rel.rel_name === name)
+  const relation = table.relationships.find(({ name }) => name === propertyName)
   if (relation) return isRequiredRelationship(relation)
 
   return undefined

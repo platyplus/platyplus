@@ -9,11 +9,11 @@ export const generateDefaultValue = (
 ) => {
   // TODO use Hasura column presets as well
   const table = collection.metadata
-  const column = table.columns.find((col) => col.name === propertyName)
+  const column = table.columns.find(({ name }) => name === propertyName)
   if (!column) {
     // TODO default values for relations
-    const rel = table.relationships.find((rel) => rel.rel_name === propertyName)
-    if (rel?.rel_type === 'array') return []
+    const rel = table.relationships.find(({ name }) => name === propertyName)
+    if (rel?.type === 'array') return []
     else return null
   }
 

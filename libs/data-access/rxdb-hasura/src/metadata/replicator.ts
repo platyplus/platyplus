@@ -19,10 +19,10 @@ export type MetadataReplicatorOptions = {
   token?: string
 }
 
+const METADATA_ROLE = 'me'
 // TODO lots of duplicate code with the contents replicator
 export const createMetadataReplicator = async (
-  metadataCollection: MetadataCollection,
-  role: string
+  metadataCollection: MetadataCollection
 ): Promise<void> => {
   const db = metadataCollection.database
   const url = db.options.url
@@ -38,9 +38,9 @@ export const createMetadataReplicator = async (
   > => {
     const replicationState = metadataCollection.syncGraphQL({
       url,
-      headers: createHeaders(role, db.jwt$.getValue()),
+      headers: createHeaders(METADATA_ROLE, db.jwt$.getValue()),
       pull: {
-        queryBuilder: queryBuilder(db, role),
+        queryBuilder: queryBuilder(db),
         modifier: modifier(metadataCollection)
       },
       live: true,
@@ -55,7 +55,7 @@ export const createMetadataReplicator = async (
 
     jwtSubscription = db.jwt$.subscribe((token?: string) => {
       debug(`Replicator (${metadataCollection.name}): set token`)
-      replicationState.setHeaders(createHeaders(role, token))
+      replicationState.setHeaders(createHeaders(METADATA_ROLE, token))
       wsSubscription?.close()
       wsSubscription = setupGraphQLSubscription()
     })
@@ -66,7 +66,7 @@ export const createMetadataReplicator = async (
   const setupGraphQLSubscription = (): SubscriptionClient => {
     debug(`setupGraphQLSubscription ${metadataCollection.name}`)
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(role, db.jwt$.getValue())
+    const headers = createHeaders(METADATA_ROLE, db.jwt$.getValue())
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {
@@ -97,18 +97,39 @@ export const createMetadataReplicator = async (
   const start = async (): Promise<void> => {
     state = await setupGraphQLReplication()
     metaSubscription = metadataCollection.$.subscribe(
-      async (event: RxChangeEvent<Metadata>) => {
+      async ({
+        operation,
+        collectionName,
+        documentData,
+        documentId
+      }: RxChangeEvent<Metadata>) => {
         // TODO update collection -> run a migration when needed (only when columns change?)
         // if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
-        if (event.operation === 'INSERT') {
-          const metadataDoc = await db.collections[event.collectionName]
-            .findOne(event.documentId)
-            .exec()
-          if (metadataDoc) {
-            const collectionName = `${role}_${metadataName(event.documentData)}`
-            await db.addCollections({
-              [collectionName]: contentsCollectionCreator(metadataDoc, role)
-            })
+        if (operation === 'INSERT') {
+          if (documentData.id) {
+            const metadataDoc = await db.collections[collectionName]
+              .findOne(documentId)
+              .exec()
+            // TODO determine the roles to which the collection must be created
+            const metaName = metadataName(documentData)
+            const roles: string[] = documentData.columns.reduce(
+              (acc, column) => {
+                for (const permissionType of ['canSelect', 'canInsert']) {
+                  for (const { roleName } of column[permissionType]) {
+                    !acc.includes(roleName) && acc.push(roleName)
+                  }
+                }
+
+                return acc
+              },
+              []
+            )
+            for (const role of roles) {
+              const collectionName = `${role}_${metaName}`
+              await db.addCollections({
+                [collectionName]: contentsCollectionCreator(metadataDoc, role)
+              })
+            }
           }
         }
       }
@@ -119,17 +140,8 @@ export const createMetadataReplicator = async (
     jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {
       debug('Replicator (metadata): set token')
       // TODO change in websocket as well
-      state?.setHeaders(createHeaders(role, token))
+      state?.setHeaders(createHeaders(METADATA_ROLE, token))
     })
-    // await state.awaitInitialReplication()
-    // TODO recreate collections when using indexeddb?
-    // const existingCollections = await metadata.find().exec()
-    // for (const collection of existingCollections) {
-    //   const table = collection.toJSON()
-    //   await metadata.database.addCollections({
-    //     [metadataName(table)]: contentsCollectionCreator(table, role)
-    //   })
-    // }
   }
 
   const stop = async (): Promise<void> => {
