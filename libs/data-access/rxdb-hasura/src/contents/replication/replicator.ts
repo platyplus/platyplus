@@ -29,7 +29,7 @@ export const createContentReplicator = async (
   > => {
     const replicationState = collection.syncGraphQL({
       url,
-      headers: createHeaders(role, db.jwt$.getValue()),
+      headers: createHeaders(role, db.jwt$.getValue(), 'admin'),
       push: {
         batchSize: DEFAULT_BATCH_SIZE,
         queryBuilder: pushQueryBuilder(collection),
@@ -51,7 +51,7 @@ export const createContentReplicator = async (
 
     jwtSubscription = db.jwt$.subscribe((token?: string) => {
       debug(`Replicator (${collection.name}): set token`)
-      replicationState.setHeaders(createHeaders(role, token, true))
+      replicationState.setHeaders(createHeaders(role, token, 'admin'))
       wsSubscription?.close()
       wsSubscription = setupGraphQLSubscription()
     })
@@ -61,7 +61,7 @@ export const createContentReplicator = async (
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(role, db.jwt$.getValue(), true)
+    const headers = createHeaders(role, db.jwt$.getValue(), 'admin')
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {

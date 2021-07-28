@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { escape } from 'sqlstring'
-import { Contents, Metadata, PropertyConfig } from '../../types'
+import { Contents, PropertyConfig } from '../../types'
 
 const CONSOLE_API = 'http://localhost:9693/apis'
 const client = axios.create({ baseURL: CONSOLE_API })
@@ -33,10 +33,7 @@ const upsertQuery = (
   return `${sqlInsert} ${sqlUpdate};`
 }
 
-export const tableConfigToSql = (
-  table_id: string,
-  config: Metadata['config']
-) =>
+export const tableConfigToSql = (table_id: string, config: Contents) =>
   upsertQuery(
     `metadata.table_config`,
     config,

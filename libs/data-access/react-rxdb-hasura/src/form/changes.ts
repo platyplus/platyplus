@@ -3,9 +3,8 @@ import { useMemo } from 'react'
 
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
-import { useDocumentProperties } from '..'
-
 import { useFormRawValues } from './state'
+import { useDocumentProperties } from '../property'
 
 export const useFormHasChanged = (document: ContentsDocument) => {
   const [properties] = useDocumentProperties(document)

@@ -7,6 +7,7 @@ import { ContentsDocument } from '@platyplus/rxdb-hasura'
 type CommonDocumentComponentProps<T = {}> = T & {
   edit: boolean
   formRef?: MutableRefObject<FormInstance>
+  config?: boolean
 }
 
 export type DocumentComponent<T = {}> = React.FC<

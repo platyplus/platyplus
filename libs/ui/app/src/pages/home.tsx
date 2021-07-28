@@ -1,8 +1,8 @@
 import { Animation } from 'rsuite'
 import {
   useAppConfig,
-  useConfigStore,
-  useContentsCollections
+  useContentsCollections,
+  useCountConfigChanges
 } from '@platyplus/react-rxdb-hasura'
 import { DisplayName, useProfile } from '@platyplus/profile'
 import { HeaderTitleWrapper } from '@platyplus/layout'
@@ -12,7 +12,7 @@ export const HomePage: React.FC<{ title?: string }> = ({
 }) => {
   const collections = useContentsCollections()
   const { document: profile } = useProfile()
-  const hasChanges = useConfigStore((state) => !!state.countChanges())
+  const hasChanges = useCountConfigChanges()
   const config = useAppConfig()
   return (
     <HeaderTitleWrapper title={title}>

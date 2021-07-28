@@ -1,4 +1,4 @@
-import { ControlLabel, Form, FormGroup, HelpBlock } from 'rsuite'
+import { ControlLabel, Form, FormGroup } from 'rsuite'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import {
@@ -6,7 +6,8 @@ import {
   useDocumentProperties,
   useFormModel,
   useFormGet,
-  useFormSet
+  useFormSet,
+  useIsRequiredProperty
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
@@ -20,26 +21,43 @@ const DocumentField: React.FC<{
   propertyName: string
   edit: boolean
   property: TopLevelProperty
-}> = ({ document, propertyName, property, edit }) => (
-  <FormGroup>
-    <ControlLabel>
-      <PropertyIcon collection={document.collection} property={propertyName} />
-      <PropertyTitle collection={document.collection} property={propertyName} />
-    </ControlLabel>
-    <FieldComponentWrapper
-      document={document}
-      field={propertyName}
-      edit={edit}
-      editable={true}
-    />
-    {edit && property.required && <HelpBlock>Required</HelpBlock>}
-  </FormGroup>
-)
+  config?: boolean
+}> = ({ document, propertyName, property, edit, config }) => {
+  const required = useIsRequiredProperty(
+    document.collection.metadata,
+    propertyName
+  )
+  return (
+    <FormGroup>
+      <ControlLabel>
+        <PropertyIcon
+          collection={document.collection}
+          property={propertyName}
+        />
+        <PropertyTitle
+          collection={document.collection}
+          property={propertyName}
+          editable={config}
+        />
+        {edit && required && '*'}
+      </ControlLabel>
+      <FieldComponentWrapper
+        document={document}
+        field={propertyName}
+        edit={edit}
+        // TODO editable according to permissions
+        editable={true}
+      />
+      {/* {edit && required && <HelpBlock>* Required</HelpBlock>} */}
+    </FormGroup>
+  )
+}
 
 export const DocumentDetails: DocumentComponent = ({
   document,
   edit,
-  formRef
+  formRef,
+  config
 }) => {
   const [properties] = useDocumentProperties(document)
   const form = useFormGet(document)
@@ -58,6 +76,7 @@ export const DocumentDetails: DocumentComponent = ({
             property={properties.get(property)}
             propertyName={property}
             edit={edit}
+            config={config}
           />
         ))}
       </Form>

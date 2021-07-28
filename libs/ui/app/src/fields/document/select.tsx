@@ -1,11 +1,8 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { SelectPicker, Animation } from 'rsuite'
-import { useRxQuery } from 'rxdb-hooks'
+import { useRxData } from 'rxdb-hooks'
 
-import {
-  useDocument,
-  useDocumentProperties
-} from '@platyplus/react-rxdb-hasura'
+import { useDocumentProperties } from '@platyplus/react-rxdb-hasura'
 import { Contents } from '@platyplus/rxdb-hasura'
 
 import { DocumentFromParamsComponentWrapper } from '../../documents'
@@ -20,21 +17,19 @@ export const DocumentSelectField: FieldComponent = ({
   // TODO async - see https://rsuitejs.com/components/select-picker/#Async
   const [properties] = useDocumentProperties(document)
   const refCollectionName = properties.get(field).ref
-  const refCollection = document.collection.database[refCollectionName]
-  const rxQuery = useMemo(
-    () => refCollection?.find().sort('label'),
-    [refCollection]
+  const queryConstructor = useCallback(
+    (collection) => collection.find().sort('label'),
+    []
   )
-  const { isFetching, result } = useRxQuery<Contents>(rxQuery)
-  const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
-  // TODO const clearable = computed(() => property.value.type?.includes('null'))
-  const { isFetching: isFetchingDoc, document: data } = useDocument(
-    refCollectionName,
-    document[field]
+  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
+
+  const options = useMemo(
+    () => result.map((doc) => ({ label: doc.label, value: doc.id })),
+    [result]
   )
 
   return (
-    <Animation.Fade in={!isFetching && !isFetchingDoc}>
+    <Animation.Fade in={!!document}>
       {(props, ref) => (
         <div {...props}>
           {edit ? (

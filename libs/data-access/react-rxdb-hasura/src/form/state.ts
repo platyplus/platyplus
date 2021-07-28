@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useDocumentProperties } from '../metadata'
-import { useFormStore } from './store'
+
+import { useDocumentProperties } from '../property'
+import { useStore } from '../store'
+import { useWatchDocumentValue } from '../document'
 
 /**
  * Get the form values of a given document
@@ -10,7 +12,7 @@ import { useFormStore } from './store'
  * @returns
  */
 export const useFormRawValues = (document?: ContentsDocument): Contents =>
-  useFormStore(
+  useStore(
     useCallback(
       (state) =>
         (document &&
@@ -23,15 +25,7 @@ export const useFormRawValues = (document?: ContentsDocument): Contents =>
 export const useFormGet = (document: ContentsDocument) => {
   const [properties] = useDocumentProperties(document)
   const formValues = useFormRawValues(document)
-  const [documentValues, setDocumentValues] = useState<Contents>()
-  useEffect(() => {
-    if (document) {
-      const subscription = document.$.subscribe((newValue) =>
-        setDocumentValues(newValue)
-      )
-      return () => subscription.unsubscribe()
-    }
-  }, [document])
+  const documentValues = useWatchDocumentValue(document)
 
   return useMemo(() => {
     if (!properties) return {} as Contents
@@ -47,7 +41,7 @@ export const useFormGet = (document: ContentsDocument) => {
 }
 
 export const useFormSet = (document: ContentsDocument) =>
-  useFormStore(
+  useStore(
     (state) => (values: Record<string, unknown>) =>
       state.setForm(document, values)
   )

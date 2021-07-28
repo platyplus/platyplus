@@ -5,7 +5,7 @@ import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
 import {
   useCountConfigChanges,
   useOrderedContentsCollections,
-  useSaveConfig
+  usePersistConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { ConfigListItem } from './list-item'
@@ -15,7 +15,7 @@ export const ConfigListPage: React.FC = () => {
   const title = 'Configuration'
   const countChanges = useCountConfigChanges()
   const [show, toggle] = useToggle(false)
-  const saveConfig = useSaveConfig()
+  const saveConfig = usePersistConfig()
   const save = async () => {
     saveConfig()
     toggle(false)

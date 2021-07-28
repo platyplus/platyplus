@@ -14,6 +14,7 @@ import {
 
 import {
   useCollectionProperties,
+  useCollectionTitle,
   useContentsCollection,
   useMetadataDocument,
   useTableConfig
@@ -29,9 +30,19 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
   role = 'user'
 }) => {
   const { id } = useParams<{ id: string }>()
-  const { isFetching, document } = useMetadataDocument(role, id)
-  const title = useMemo(() => document && metadataName(document), [document])
-  const collection = useContentsCollection(`${role}_${title}`)
+  const { document } = useMetadataDocument(role, id)
+  const metaName = useMemo(() => document && metadataName(document), [document])
+  const collection = useContentsCollection(`${role}_${metaName}`)
+  const [collectionTitle] = useCollectionTitle(collection)
+  const title = useMemo(
+    () =>
+      metaName &&
+      (collectionTitle !== metaName
+        ? `${collectionTitle} (${metaName})`
+        : metaName),
+    [metaName, collectionTitle]
+  )
+
   const [properties, setProperties] = useCollectionProperties(collection)
   const [config, setConfig] = useTableConfig<Record<string, unknown>>(document)
 
@@ -131,21 +142,19 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
   }
 
   return (
-    <HeaderTitleWrapper title={title} previous>
-      <Animation.Fade in={!isFetching}>
-        {(props) =>
-          document ? (
-            <div {...props}>
-              <Nav appearance="tabs" activeKey={tab} onSelect={setTab}>
-                <Nav.Item eventKey="collection">Collection</Nav.Item>
-                <Nav.Item eventKey="document">Document</Nav.Item>
-                <Nav.Item eventKey="fields">Fields</Nav.Item>
-              </Nav>
-              <Panel>{tabs[tab]}</Panel>
-            </div>
-          ) : null
-        }
-      </Animation.Fade>
-    </HeaderTitleWrapper>
+    <Animation.Fade in={!!collectionTitle}>
+      {(props) => (
+        <div {...props}>
+          <HeaderTitleWrapper title={title} previous>
+            <Nav appearance="tabs" activeKey={tab} onSelect={setTab}>
+              <Nav.Item eventKey="collection">Collection</Nav.Item>
+              <Nav.Item eventKey="document">Document</Nav.Item>
+              <Nav.Item eventKey="fields">Fields</Nav.Item>
+            </Nav>
+            <Panel>{tabs[tab]}</Panel>
+          </HeaderTitleWrapper>
+        </div>
+      )}
+    </Animation.Fade>
   )
 }

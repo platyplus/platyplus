@@ -38,7 +38,13 @@ export const metadataSchema: RxJsonSchema<Metadata> = {
       type: ['object', 'null']
     },
     config: {
-      type: ['object', 'null']
+      type: ['object', 'null'],
+      items: {
+        type: 'object',
+        properties: {
+          document_label: { type: ['string', 'null'] }
+        }
+      }
     },
     canSelect_aggregate: permissionAggregate,
     canInsert_aggregate: permissionAggregate,
@@ -54,23 +60,6 @@ export const metadataSchema: RxJsonSchema<Metadata> = {
       items: {
         type: 'object'
       }
-    },
-    propertiesConfig: {
-      type: ['object', 'null'],
-      patternProperties: {
-        '': {
-          type: 'object',
-          properties: {
-            title: { type: ['string', 'null'] },
-            component: { type: ['string', 'null'] },
-            description: { type: ['string', 'null'] },
-            icon: { type: ['string', 'null'] },
-            json_schema: { type: ['object', 'null'] }
-          },
-          additionalProperties: true
-        }
-      },
-      additionalProperties: true
     },
 
     computedProperties: {

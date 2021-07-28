@@ -1,5 +1,6 @@
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { InlineValue } from '@platyplus/layout'
+
 import { useCollectionPropertyConfig } from './hooks'
 
 /** Use the title of a property, in this order:
@@ -15,7 +16,12 @@ const usePropertyTitle = (collection: ContentsCollection, property: string) =>
 export const PropertyTitle: React.FC<{
   collection: ContentsCollection
   property: string
-}> = ({ collection, property }) => {
-  const [value, onChange] = usePropertyTitle(collection, property)
-  return <InlineValue value={value} onChange={onChange} />
+  editable?: boolean
+}> = ({ collection, property, editable }) => {
+  const [value, setValue] = usePropertyTitle(collection, property)
+  return editable ? (
+    <InlineValue editable={editable} value={value} onChange={setValue} />
+  ) : (
+    <span>{value}</span>
+  )
 }

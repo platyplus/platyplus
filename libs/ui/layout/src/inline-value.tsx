@@ -3,10 +3,11 @@ import { useClickAway, useToggle } from 'react-use'
 import { useRef, useState, useEffect, useMemo } from 'react'
 
 export const InlineValue: React.FC<{
+  editable?: boolean
   value: string
   label?: string
   onChange: (value: string) => void
-}> = ({ value, label, onChange }) => {
+}> = ({ editable = true, value, label, onChange }) => {
   // * Toggle title editing
   const [editing, toggle] = useToggle(false)
   const readValue = useMemo(() => label ?? value, [value, label])
@@ -65,7 +66,7 @@ export const InlineValue: React.FC<{
                 </InputGroup.Button>
               </InputGroup>
             </div>
-          ) : (
+          ) : editable ? (
             <span onClick={toggle}>
               {readValue ? (
                 readValue
@@ -75,6 +76,8 @@ export const InlineValue: React.FC<{
                 </IconButton>
               )}
             </span>
+          ) : (
+            <span>{readValue}</span>
           )}
         </span>
       )}

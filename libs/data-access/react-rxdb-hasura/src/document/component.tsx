@@ -1,5 +1,6 @@
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useCollectionTableConfig } from '../hooks'
+
+import { useCollectionTableConfig } from '../collection'
 
 export const useDocumentComponentName = (document: ContentsDocument) =>
   useCollectionTableConfig(

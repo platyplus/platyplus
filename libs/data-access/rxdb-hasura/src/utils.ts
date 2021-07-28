@@ -69,7 +69,7 @@ export const hasuraClaims = (token: string): HasuraClaims =>
 export const createHeaders = (
   role: string,
   token?: string,
-  substituteWhenAdmin = false
+  substituteRole?: string
 ): Record<string, string> => {
   const headers: Record<string, string> = {}
   if (token) {
@@ -77,8 +77,8 @@ export const createHeaders = (
     const hasura = hasuraClaims(token)
     const allowedRoles = hasura['x-hasura-allowed-roles']
     const defaultRole = hasura['x-hasura-default-role']
-    if (substituteWhenAdmin && allowedRoles.includes('admin'))
-      headers['x-hasura-role'] = 'admin'
+    if (substituteRole && allowedRoles.includes(substituteRole))
+      headers['x-hasura-role'] = substituteRole
     else if (role !== defaultRole && allowedRoles.includes(role))
       headers['x-hasura-role'] = role
   }

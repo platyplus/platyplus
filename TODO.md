@@ -12,7 +12,7 @@
     - [x] one2many
     - [x] many2one
     - [x] many2many
-    - [ ] check if it works on both insert and update
+    - [x] check if it works on both insert and update
   - [x] forms: see bug when inserting a visit
   - [x] delete is not working anymore
   - [x] default values
@@ -28,13 +28,16 @@
     - [x] required columns
     - [x] required relationships
   - [x] Move the config action inside the config page
-  - [ ] order menu
+  - [x] order menu
     - [x] create something like an `app_config` table
     - [x] order on the main `config` page
     - [x] save changes
-    - [ ] pull `table_config` and `property_config` out of metadata documents
-    - [ ] save `config` stuff through the replicator/modifier
-  - [ ] useConfigEnabled: onfig is enabled if user has an admin role
+    - [x] pull `table_config` and `property_config` out of metadata documents
+    - [x] save `config` stuff through the replicator/modifier
+  - [x] useConfigEnabled: config is enabled if user has an admin role
+  - [ ] on delete: follow cascading rules to linked documents
+    - bug on validating form with a required many2one field: is it related?
+  - [ ] debug and improve profile page
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
@@ -50,9 +53,11 @@
 - [ ] Helm Charts
   - [ ] GitHub action
   - [ ] Platyplus
+  - [ ] Hasura 2
   - [ ] HBP 2.7
 - [ ] Tilt
   - [ ] HBP 2.7: (do not publish - wait until hasura-auth is out)
+  - [ ] Hasura 2
 - [ ] Documentation
   - [ ] docusaurus
   - [ ] GitHub Action
@@ -71,7 +76,10 @@
 ## Then
 
 - Application
-  - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
+  - [ ] multi-role
+    - [ ] config module only covers one role - see pages/config/table.tsx
+      - [ ] => fetch only one me_metadata table for all roles???
+    - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
   - [ ] dark/light mode
     - [ ] rsuite next -> when CSS variables are available
     - [ ] from device's defaults
@@ -83,7 +91,6 @@
     - [ ] remote relationships
     - [ ] column presets
   - [ ] nullable values vs default values vs form values
-  - [ ] on delete: follow cascading rules to linked documents
   - [ ] refactor the way to load table/collection/property components
   - [ ] validation rules stored on the backend
   - [ ] permissions
@@ -158,6 +165,7 @@
 
 ## Later
 
+- [ ] RxDB attachments and hbp storage
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres

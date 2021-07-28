@@ -49,21 +49,7 @@ export const query = gql`
       }
     }
     config {
-      title
-      description
-      icon
-      document_title
       document_label
-      component
-      order
-    }
-    propertiesConfig {
-      property_name
-      title
-      description
-      icon
-      component
-      json_schema
     }
     computedProperties {
       name

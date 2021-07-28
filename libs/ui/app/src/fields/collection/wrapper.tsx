@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { TagPickerProps, CheckPickerProps, Animation } from 'rsuite'
-import { useRxQuery } from 'rxdb-hooks'
+import { useRxData } from 'rxdb-hooks'
 
 import {
   useDocumentProperties,
@@ -29,13 +29,16 @@ export const CollectionField: FieldComponent<
   // TODO async - see https://rsuitejs.com/components/check-picker/#Async
   const [properties] = useDocumentProperties(document)
   const refCollectionName = properties.get(field).ref
-  const refCollection = document.collection.database[refCollectionName]
-  const rxQuery = useMemo(
-    () => refCollection?.find().sort('label'),
-    [refCollection]
+  const queryConstructor = useCallback(
+    (collection) => collection.find().sort('label'),
+    []
   )
 
-  const { isFetching, result } = useRxQuery<Contents>(rxQuery)
+  const { isFetching, result } = useRxData<Contents>(
+    refCollectionName,
+    queryConstructor
+  )
+
   const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
   const { isFetching: isFetchingDocs, result: data } = useDocuments(
     refCollectionName,

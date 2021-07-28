@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 import { ContentsCollections } from '@platyplus/rxdb-hasura'
 
-import { useDB } from './database'
-import { useAppConfig } from './config'
+import { useDB } from '../database'
+import { useAppConfig } from '../config'
 
 /**
  *

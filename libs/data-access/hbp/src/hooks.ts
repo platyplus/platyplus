@@ -1,5 +1,6 @@
 import Auth from 'nhost-js-sdk/dist/Auth'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useHbp } from './provider'
 
 export const useAuthenticated = (auth: Auth) => {
   const [authenticated, setAuthenticated] = useState(auth.isAuthenticated())
@@ -8,3 +9,26 @@ export const useAuthenticated = (auth: Auth) => {
   })
   return authenticated
 }
+
+export const useUserRoles = () => {
+  const hbp = useHbp()
+  const getRolesClaim = useCallback(
+    () => (hbp.auth.getClaim('x-hasura-allowed-roles') || []) as string[],
+    [hbp]
+  )
+  const [roles, setRoles] = useState(getRolesClaim())
+  useEffect(() => {
+    const unsubscribe = hbp.auth.onTokenChanged(() => {
+      setRoles(getRolesClaim())
+    })
+    return () => unsubscribe()
+  }, [hbp, getRolesClaim])
+  return roles
+}
+
+export const useUserHasRole = (role: string) => {
+  const roles = useUserRoles()
+  return roles.includes(role)
+}
+
+export const useUserIsAdmin = () => useUserHasRole('admin')

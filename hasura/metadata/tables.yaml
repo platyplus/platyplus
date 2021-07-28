@@ -658,6 +658,7 @@
     permission:
       columns:
       - component
+      - deleted
       - description
       - icon
       - id
@@ -666,19 +667,7 @@
       - property_name
       - table_id
       - title
-      filter: {}
-  - role: user
-    permission:
-      columns:
-      - component
-      - description
-      - icon
-      - id
-      - json_schema
-      - property_id
-      - property_name
-      - table_id
-      - title
+      - updated_at
       filter: {}
 - table:
     schema: metadata
@@ -1042,6 +1031,7 @@
     permission:
       columns:
       - component
+      - deleted
       - description
       - document_label
       - document_title
@@ -1050,19 +1040,14 @@
       - order
       - table_id
       - title
+      - updated_at
       filter: {}
   - role: user
     permission:
       columns:
-      - component
-      - description
       - document_label
-      - document_title
-      - icon
       - id
-      - order
       - table_id
-      - title
       filter: {}
 - table:
     schema: metadata

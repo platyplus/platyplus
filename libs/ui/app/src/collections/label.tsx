@@ -2,7 +2,11 @@ import { CollectionComponent } from './types'
 import React from 'react'
 import { DocumentLabel } from '../documents'
 
-export const LabelCollection: CollectionComponent = ({ data, edit }) => {
+export const LabelCollection: CollectionComponent = ({
+  data,
+  edit,
+  config
+}) => {
   return (
     <span>
       {data
@@ -10,7 +14,7 @@ export const LabelCollection: CollectionComponent = ({ data, edit }) => {
         .map((doc, index) => (
           <React.Fragment key={doc.primary}>
             {!!index && ', '}
-            <DocumentLabel document={doc} edit={edit} />
+            <DocumentLabel config={config} document={doc} edit={edit} />
           </React.Fragment>
         ))}
     </span>

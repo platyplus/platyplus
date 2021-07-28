@@ -12,7 +12,11 @@ import {
 
 const { Column, HeaderCell, Cell } = Table
 
-export const TableCollection: CollectionComponent = ({ collection, data }) => {
+export const TableCollection: CollectionComponent = ({
+  collection,
+  data,
+  config
+}) => {
   const history = useHistory()
   const [properties] = useCollectionProperties(collection)
   if (!collection) return null
@@ -29,7 +33,11 @@ export const TableCollection: CollectionComponent = ({ collection, data }) => {
       {[...properties].map(([property, value]) => (
         <Column flexGrow={1} key={property}>
           <HeaderCell>
-            <PropertyTitle collection={collection} property={property} />
+            <PropertyTitle
+              editable={config}
+              collection={collection}
+              property={property}
+            />
           </HeaderCell>
           <Cell>
             {(document: ContentsDocument) => {

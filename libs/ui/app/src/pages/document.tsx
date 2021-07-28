@@ -7,6 +7,7 @@ import { useQuery } from '@platyplus/navigation'
 import {
   DocumentLabel,
   DocumentTitle,
+  useConfigEnabled,
   useDocument,
   useDocumentTitle
 } from '@platyplus/react-rxdb-hasura'
@@ -16,13 +17,14 @@ import { DocumentToolbar, DocumentComponentWrapper } from '../documents'
 export const DocumentPage: React.FC = () => {
   const { name, id } = useParams<{ name: string; id: string }>()
   const editing = useQuery().has('edit') || id === 'new'
+  const enabledConfig = useConfigEnabled()
   const { document, isFetching } = useDocument(name, id)
   const [title] = useDocumentTitle(document)
   const formRef = useRef()
   return (
     <HeaderTitleWrapper
       title={title}
-      component={<DocumentTitle document={document} />}
+      component={<DocumentTitle editable={enabledConfig} document={document} />}
       previous
     >
       <Animation.Fade in={!isFetching}>
@@ -30,7 +32,9 @@ export const DocumentPage: React.FC = () => {
           return (
             <div {...props}>
               <DocumentPanel
-                title={<DocumentLabel document={document} />}
+                title={
+                  <DocumentLabel editable={enabledConfig} document={document} />
+                }
                 toolbar={
                   <DocumentToolbar
                     document={document}
@@ -40,6 +44,7 @@ export const DocumentPage: React.FC = () => {
                 }
               >
                 <DocumentComponentWrapper
+                  config={enabledConfig}
                   document={document}
                   edit={editing}
                   formRef={formRef}

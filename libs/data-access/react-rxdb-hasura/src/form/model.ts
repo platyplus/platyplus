@@ -1,12 +1,15 @@
 // TODO dependency to rsuite in @platyplus/react-rxdb-schema
 import { Schema } from 'rsuite'
+import { useMemo } from 'react'
+
 import {
   ContentsDocument,
   isRequiredProperty,
   propertyType
 } from '@platyplus/rxdb-hasura'
-import { useMemo } from 'react'
-import { useDocumentMetadata, useDocumentProperties } from '../metadata'
+
+import { useDocumentMetadata } from '../document'
+import { useDocumentProperties } from '../property'
 
 const { Model, Types } = Schema
 
@@ -63,7 +66,6 @@ export const useFormModel = (document: ContentsDocument) => {
                 }
               }
               acc[name] = modelType
-
               return acc
             }, {})
           : {}

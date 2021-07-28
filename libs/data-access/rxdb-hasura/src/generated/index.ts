@@ -2594,6 +2594,197 @@ export enum Lab_Test_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
+/** columns and relationships of "metadata.app_config" */
+export type Metadata_App_Config = {
+  __typename?: 'metadata_app_config'
+  deleted: Scalars['Boolean']
+  id: Scalars['uuid']
+  menu_order: Scalars['jsonb']
+  updated_at: Scalars['timestamptz']
+}
+
+/** columns and relationships of "metadata.app_config" */
+export type Metadata_App_ConfigMenu_OrderArgs = {
+  path: Maybe<Scalars['String']>
+}
+
+/** aggregated selection of "metadata.app_config" */
+export type Metadata_App_Config_Aggregate = {
+  __typename?: 'metadata_app_config_aggregate'
+  aggregate: Maybe<Metadata_App_Config_Aggregate_Fields>
+  nodes: Array<Metadata_App_Config>
+}
+
+/** aggregate fields of "metadata.app_config" */
+export type Metadata_App_Config_Aggregate_Fields = {
+  __typename?: 'metadata_app_config_aggregate_fields'
+  count: Maybe<Scalars['Int']>
+  max: Maybe<Metadata_App_Config_Max_Fields>
+  min: Maybe<Metadata_App_Config_Min_Fields>
+}
+
+/** aggregate fields of "metadata.app_config" */
+export type Metadata_App_Config_Aggregate_FieldsCountArgs = {
+  columns: Maybe<Array<Metadata_App_Config_Select_Column>>
+  distinct: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "metadata.app_config" */
+export type Metadata_App_Config_Aggregate_Order_By = {
+  count: Maybe<Order_By>
+  max: Maybe<Metadata_App_Config_Max_Order_By>
+  min: Maybe<Metadata_App_Config_Min_Order_By>
+}
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Metadata_App_Config_Append_Input = {
+  menu_order: Maybe<Scalars['jsonb']>
+}
+
+/** input type for inserting array relation for remote table "metadata.app_config" */
+export type Metadata_App_Config_Arr_Rel_Insert_Input = {
+  data: Array<Metadata_App_Config_Insert_Input>
+  on_conflict: Maybe<Metadata_App_Config_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "metadata.app_config". All fields are combined with a logical 'AND'. */
+export type Metadata_App_Config_Bool_Exp = {
+  _and: Maybe<Array<Maybe<Metadata_App_Config_Bool_Exp>>>
+  _not: Maybe<Metadata_App_Config_Bool_Exp>
+  _or: Maybe<Array<Maybe<Metadata_App_Config_Bool_Exp>>>
+  deleted: Maybe<Boolean_Comparison_Exp>
+  id: Maybe<Uuid_Comparison_Exp>
+  menu_order: Maybe<Jsonb_Comparison_Exp>
+  updated_at: Maybe<Timestamptz_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "metadata.app_config" */
+export enum Metadata_App_Config_Constraint {
+  /** unique or primary key constraint */
+  AppConfigPkey = 'app_config_pkey'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Metadata_App_Config_Delete_At_Path_Input = {
+  menu_order: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Metadata_App_Config_Delete_Elem_Input = {
+  menu_order: Maybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Metadata_App_Config_Delete_Key_Input = {
+  menu_order: Maybe<Scalars['String']>
+}
+
+/** input type for inserting data into table "metadata.app_config" */
+export type Metadata_App_Config_Insert_Input = {
+  deleted: Maybe<Scalars['Boolean']>
+  id: Maybe<Scalars['uuid']>
+  menu_order: Maybe<Scalars['jsonb']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate max on columns */
+export type Metadata_App_Config_Max_Fields = {
+  __typename?: 'metadata_app_config_max_fields'
+  id: Maybe<Scalars['uuid']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** order by max() on columns of table "metadata.app_config" */
+export type Metadata_App_Config_Max_Order_By = {
+  id: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Metadata_App_Config_Min_Fields = {
+  __typename?: 'metadata_app_config_min_fields'
+  id: Maybe<Scalars['uuid']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** order by min() on columns of table "metadata.app_config" */
+export type Metadata_App_Config_Min_Order_By = {
+  id: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "metadata.app_config" */
+export type Metadata_App_Config_Mutation_Response = {
+  __typename?: 'metadata_app_config_mutation_response'
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int']
+  /** data of the affected rows by the mutation */
+  returning: Array<Metadata_App_Config>
+}
+
+/** input type for inserting object relation for remote table "metadata.app_config" */
+export type Metadata_App_Config_Obj_Rel_Insert_Input = {
+  data: Metadata_App_Config_Insert_Input
+  on_conflict: Maybe<Metadata_App_Config_On_Conflict>
+}
+
+/** on conflict condition type for table "metadata.app_config" */
+export type Metadata_App_Config_On_Conflict = {
+  constraint: Metadata_App_Config_Constraint
+  update_columns: Array<Metadata_App_Config_Update_Column>
+  where: Maybe<Metadata_App_Config_Bool_Exp>
+}
+
+/** ordering options when selecting data from "metadata.app_config" */
+export type Metadata_App_Config_Order_By = {
+  deleted: Maybe<Order_By>
+  id: Maybe<Order_By>
+  menu_order: Maybe<Order_By>
+  updated_at: Maybe<Order_By>
+}
+
+/** primary key columns input for table: "metadata.app_config" */
+export type Metadata_App_Config_Pk_Columns_Input = {
+  id: Scalars['uuid']
+}
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Metadata_App_Config_Prepend_Input = {
+  menu_order: Maybe<Scalars['jsonb']>
+}
+
+/** select columns of table "metadata.app_config" */
+export enum Metadata_App_Config_Select_Column {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MenuOrder = 'menu_order',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "metadata.app_config" */
+export type Metadata_App_Config_Set_Input = {
+  deleted: Maybe<Scalars['Boolean']>
+  id: Maybe<Scalars['uuid']>
+  menu_order: Maybe<Scalars['jsonb']>
+  updated_at: Maybe<Scalars['timestamptz']>
+}
+
+/** update columns of table "metadata.app_config" */
+export enum Metadata_App_Config_Update_Column {
+  /** column name */
+  Deleted = 'deleted',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MenuOrder = 'menu_order',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
 /** columns and relationships of "metadata.check_constraint" */
 export type Metadata_Check_Constraint = {
   __typename?: 'metadata_check_constraint'
@@ -7937,6 +8128,10 @@ export type Mutation_Root = {
   delete_lab_test: Maybe<Lab_Test_Mutation_Response>
   /** delete single row from the table: "lab_test" */
   delete_lab_test_by_pk: Maybe<Lab_Test>
+  /** delete data from the table: "metadata.app_config" */
+  delete_metadata_app_config: Maybe<Metadata_App_Config_Mutation_Response>
+  /** delete single row from the table: "metadata.app_config" */
+  delete_metadata_app_config_by_pk: Maybe<Metadata_App_Config>
   /** delete data from the table: "metadata.computed_field" */
   delete_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
   /** delete data from the table: "metadata.computed_property" */
@@ -8021,6 +8216,10 @@ export type Mutation_Root = {
   insert_lab_test: Maybe<Lab_Test_Mutation_Response>
   /** insert a single row into the table: "lab_test" */
   insert_lab_test_one: Maybe<Lab_Test>
+  /** insert data into the table: "metadata.app_config" */
+  insert_metadata_app_config: Maybe<Metadata_App_Config_Mutation_Response>
+  /** insert a single row into the table: "metadata.app_config" */
+  insert_metadata_app_config_one: Maybe<Metadata_App_Config>
   /** insert data into the table: "metadata.computed_field" */
   insert_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
   /** insert a single row into the table: "metadata.computed_field" */
@@ -8113,6 +8312,10 @@ export type Mutation_Root = {
   update_lab_test: Maybe<Lab_Test_Mutation_Response>
   /** update single row of the table: "lab_test" */
   update_lab_test_by_pk: Maybe<Lab_Test>
+  /** update data of the table: "metadata.app_config" */
+  update_metadata_app_config: Maybe<Metadata_App_Config_Mutation_Response>
+  /** update single row of the table: "metadata.app_config" */
+  update_metadata_app_config_by_pk: Maybe<Metadata_App_Config>
   /** update data of the table: "metadata.computed_field" */
   update_metadata_computed_field: Maybe<Metadata_Computed_Field_Mutation_Response>
   /** update data of the table: "metadata.computed_property" */
@@ -8269,6 +8472,16 @@ export type Mutation_RootDelete_Lab_TestArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Lab_Test_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_App_ConfigArgs = {
+  where: Metadata_App_Config_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Metadata_App_Config_By_PkArgs = {
   id: Scalars['uuid']
 }
 
@@ -8505,6 +8718,18 @@ export type Mutation_RootInsert_Lab_TestArgs = {
 export type Mutation_RootInsert_Lab_Test_OneArgs = {
   object: Lab_Test_Insert_Input
   on_conflict: Maybe<Lab_Test_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_App_ConfigArgs = {
+  objects: Array<Metadata_App_Config_Insert_Input>
+  on_conflict: Maybe<Metadata_App_Config_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Metadata_App_Config_OneArgs = {
+  object: Metadata_App_Config_Insert_Input
+  on_conflict: Maybe<Metadata_App_Config_On_Conflict>
 }
 
 /** mutation root */
@@ -8785,6 +9010,28 @@ export type Mutation_RootUpdate_Lab_TestArgs = {
 export type Mutation_RootUpdate_Lab_Test_By_PkArgs = {
   _set: Maybe<Lab_Test_Set_Input>
   pk_columns: Lab_Test_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_App_ConfigArgs = {
+  _append: Maybe<Metadata_App_Config_Append_Input>
+  _delete_at_path: Maybe<Metadata_App_Config_Delete_At_Path_Input>
+  _delete_elem: Maybe<Metadata_App_Config_Delete_Elem_Input>
+  _delete_key: Maybe<Metadata_App_Config_Delete_Key_Input>
+  _prepend: Maybe<Metadata_App_Config_Prepend_Input>
+  _set: Maybe<Metadata_App_Config_Set_Input>
+  where: Metadata_App_Config_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Metadata_App_Config_By_PkArgs = {
+  _append: Maybe<Metadata_App_Config_Append_Input>
+  _delete_at_path: Maybe<Metadata_App_Config_Delete_At_Path_Input>
+  _delete_elem: Maybe<Metadata_App_Config_Delete_Elem_Input>
+  _delete_key: Maybe<Metadata_App_Config_Delete_Key_Input>
+  _prepend: Maybe<Metadata_App_Config_Prepend_Input>
+  _set: Maybe<Metadata_App_Config_Set_Input>
+  pk_columns: Metadata_App_Config_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -9555,6 +9802,12 @@ export type Query_Root = {
   lab_test_aggregate: Lab_Test_Aggregate
   /** fetch data from the table: "lab_test" using primary key columns */
   lab_test_by_pk: Maybe<Lab_Test>
+  /** fetch data from the table: "metadata.app_config" */
+  metadata_app_config: Array<Metadata_App_Config>
+  /** fetch aggregated fields from the table: "metadata.app_config" */
+  metadata_app_config_aggregate: Metadata_App_Config_Aggregate
+  /** fetch data from the table: "metadata.app_config" using primary key columns */
+  metadata_app_config_by_pk: Maybe<Metadata_App_Config>
   /** fetch data from the table: "metadata.check_constraint" */
   metadata_check_constraint: Array<Metadata_Check_Constraint>
   /** fetch aggregated fields from the table: "metadata.check_constraint" */
@@ -9965,6 +10218,29 @@ export type Query_RootLab_Test_AggregateArgs = {
 
 /** query root */
 export type Query_RootLab_Test_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** query root */
+export type Query_RootMetadata_App_ConfigArgs = {
+  distinct_on: Maybe<Array<Metadata_App_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_App_Config_Order_By>>
+  where: Maybe<Metadata_App_Config_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_App_Config_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_App_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_App_Config_Order_By>>
+  where: Maybe<Metadata_App_Config_Bool_Exp>
+}
+
+/** query root */
+export type Query_RootMetadata_App_Config_By_PkArgs = {
   id: Scalars['uuid']
 }
 
@@ -10632,6 +10908,12 @@ export type Subscription_Root = {
   lab_test_aggregate: Lab_Test_Aggregate
   /** fetch data from the table: "lab_test" using primary key columns */
   lab_test_by_pk: Maybe<Lab_Test>
+  /** fetch data from the table: "metadata.app_config" */
+  metadata_app_config: Array<Metadata_App_Config>
+  /** fetch aggregated fields from the table: "metadata.app_config" */
+  metadata_app_config_aggregate: Metadata_App_Config_Aggregate
+  /** fetch data from the table: "metadata.app_config" using primary key columns */
+  metadata_app_config_by_pk: Maybe<Metadata_App_Config>
   /** fetch data from the table: "metadata.check_constraint" */
   metadata_check_constraint: Array<Metadata_Check_Constraint>
   /** fetch aggregated fields from the table: "metadata.check_constraint" */
@@ -11042,6 +11324,29 @@ export type Subscription_RootLab_Test_AggregateArgs = {
 
 /** subscription root */
 export type Subscription_RootLab_Test_By_PkArgs = {
+  id: Scalars['uuid']
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_App_ConfigArgs = {
+  distinct_on: Maybe<Array<Metadata_App_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_App_Config_Order_By>>
+  where: Maybe<Metadata_App_Config_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_App_Config_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_App_Config_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_App_Config_Order_By>>
+  where: Maybe<Metadata_App_Config_Bool_Exp>
+}
+
+/** subscription root */
+export type Subscription_RootMetadata_App_Config_By_PkArgs = {
   id: Scalars['uuid']
 }
 
@@ -12450,24 +12755,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   config: Maybe<
     { __typename?: 'metadata_table_config' } & Pick<
       Metadata_Table_Config,
-      | 'title'
-      | 'description'
-      | 'icon'
-      | 'document_title'
-      | 'document_label'
-      | 'component'
-      | 'order'
-    >
-  >
-  propertiesConfig: Array<
-    { __typename?: 'metadata_property_config' } & Pick<
-      Metadata_Property_Config,
-      | 'property_name'
-      | 'title'
-      | 'description'
-      | 'icon'
-      | 'component'
-      | 'json_schema'
+      'document_label'
     >
   >
   computedProperties: Array<
@@ -12608,21 +12896,7 @@ export const TableFragmentDoc = gql`
       }
     }
     config {
-      title
-      description
-      icon
-      document_title
       document_label
-      component
-      order
-    }
-    propertiesConfig {
-      property_name
-      title
-      description
-      icon
-      component
-      json_schema
     }
     computedProperties {
       name

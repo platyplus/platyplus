@@ -64,6 +64,7 @@ export const collectionPropertyType = (
   includeFormat = true
 ): PropertyType => {
   const property = collection.schema.jsonSchema.properties[propertyName]
+  if (!property) return null
   if (!property.type)
     throw Error(`No type in prop: ${JSON.stringify(property)}`)
   let type: JsonSchemaPropertyType

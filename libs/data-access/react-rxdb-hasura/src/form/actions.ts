@@ -1,7 +1,7 @@
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { useCallback } from 'react'
 
-import { useFormStore } from './store'
+import { useStore } from '../store'
 import { useFormCanSave } from './validation'
 import { useFormRawValues } from './state'
 
@@ -18,4 +18,4 @@ export const useFormSave = (document: ContentsDocument) => {
 }
 
 export const useFormReset = (document: ContentsDocument) =>
-  useFormStore((state) => () => state.resetForm(document))
+  useStore((state) => () => state.resetForm(document))

@@ -3,6 +3,7 @@ import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 type CommonCollectionComponentProps = {
   edit: boolean
+  config?: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

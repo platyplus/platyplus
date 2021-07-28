@@ -1,6 +1,8 @@
-import { ContentsDocument, canEdit, canDelete } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
-import { useDocumentMetadata } from './hooks'
+
+import { ContentsDocument, canEdit, canDelete } from '@platyplus/rxdb-hasura'
+
+import { useDocumentMetadata } from './metadata'
 
 export const useDocumentPermissions = (document?: ContentsDocument) => {
   const [edit, setEdit] = useState(false)

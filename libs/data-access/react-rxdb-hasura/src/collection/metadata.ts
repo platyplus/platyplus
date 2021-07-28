@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
 import { ContentsCollection, Metadata } from '@platyplus/rxdb-hasura'
@@ -9,25 +9,10 @@ export const useMetadataCollection = (role: string) => {
   return data
 }
 
-export const useMetadataDocument = (role: string, id: string) => {
-  const queryConstructor = useCallback(
-    (collection) => collection.findOne(id),
-    [id]
-  )
-
-  const { isFetching, result } = useRxData<Metadata>(
-    `${role}_metadata`,
-    queryConstructor
-  )
-
-  const document = useMemo(() => result[0], [result])
-  return { isFetching, document }
-}
-
 export const useCollectionMetadata = (
   collection?: ContentsCollection
 ): Readonly<Metadata | null> => {
-  const [result, setResult] = useState<Metadata>()
+  const [result, setResult] = useState<Metadata>(collection?.metadata)
   useEffect(() => {
     if (collection?.metadata) {
       const subscription = collection.metadata.$.subscribe(

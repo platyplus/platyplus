@@ -9,12 +9,7 @@ export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
 
-export type Metadata = Pick<
-  TableFragment,
-  Exclude<keyof TableFragment, 'propertiesConfig'>
-> & {
-  propertiesConfig?: Record<string, PropertyConfig>
-}
+export type Metadata = TableFragment
 
 export type MetadataDocument = RxDocument<Metadata>
 

@@ -17,7 +17,7 @@ export const toJsonSchema = (
   const result: RxJsonSchema<Contents> = {
     // keyCompression: true,
     type: 'object',
-    title: table.config?.title || metadataName(table),
+    title: metadataName(table),
     description: '', // TODO table comment not in metadata yet
     version: 0,
     primaryKey: {
