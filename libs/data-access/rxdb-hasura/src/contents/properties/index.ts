@@ -7,7 +7,7 @@ import {
   Metadata,
   PropertyType
 } from '../../types'
-import { columnProperties } from '../schema'
+import { columnProperties } from '../columns'
 
 import { isNullableColumn } from '../required'
 import { isIdColumn } from '../ids'

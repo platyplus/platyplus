@@ -3,8 +3,7 @@ import { Metadata } from '../types'
 import { metadataName } from '../utils'
 import { stringQuery } from './graphql'
 
-const noopQuery =
-  '{metadata_table(where:{_and:[{schema: {_eq: "noop"}},{schema: {_neq: "noop"}}]}) {name}}'
+const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 
 // ! TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
 // ! fetch it again entirely on every change, then deep compare old and new result...

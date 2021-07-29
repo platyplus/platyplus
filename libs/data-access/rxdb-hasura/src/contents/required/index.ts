@@ -27,5 +27,9 @@ export const isRequiredProperty = (
 export const isNullableColumn = (columnInfo: ColumnFragment) =>
   columnInfo.isNullable !== 'NO'
 
+export const isNullableRelationship = (rel: Metadata['relationships'][0]) =>
+  rel.type === 'object' &&
+  rel.mapping.every((mapping) => isNullableColumn(mapping.column))
+
 export const requiredProperties = (table: Metadata): string[] =>
   propertyNames(table).filter((name) => isRequiredProperty(table, name))

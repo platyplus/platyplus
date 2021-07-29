@@ -51,14 +51,15 @@ export const useStore = create<{
         })
       ),
     getConfig: (collection, id, path) => {
+      const state = get()
       const config =
         (id
-          ? get().config[collection][id]
-          : Object.values(get().config[collection])[0]) || {}
+          ? state.config[collection][id]
+          : Object.values(state.config[collection])[0]) || {}
       const formConfig =
         (id
-          ? get().forms[collection][id]
-          : Object.values(get().forms[collection])[0]) || {}
+          ? state.forms[collection][id]
+          : Object.values(state.forms[collection])[0]) || {}
       if (path) return path in formConfig ? formConfig[path] : config[path]
       else return { ...config, ...formConfig }
     },

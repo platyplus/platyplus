@@ -317,6 +317,28 @@
       table_schema: tableSchema
       constraint_oid: contraintOid
       table_name: tableName
+  select_permissions:
+  - role: me
+    permission:
+      columns:
+      - table_schema
+      - table_name
+      - constraint_name
+      - constraint_oid
+      - ref_table_table_schema
+      - ref_table
+      - column_mapping
+      - on_update
+      - on_delete
+      - columns
+      - ref_columns
+      - id
+      - ref_id
+      - table_id
+      filter:
+        _and:
+        - table_schema:
+            _ne: hdb_catalog
 - table:
     schema: metadata
     name: function

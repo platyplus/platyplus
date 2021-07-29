@@ -2,7 +2,10 @@ import { debug } from '../../console'
 import { ContentsCollection } from '../../types'
 import { createComputedFieldsHooks } from '../computed-fields'
 import { createDefaultValuesHooks } from '../defaults'
-import { createRelationshipHooks } from '../relationships'
+import {
+  createReverseRelationshipHooks,
+  createForeignKeyConstraintsHooks
+} from '../relationships'
 import { createIdHooks } from '../ids'
 
 // TODO 1. Set defaut values from permissions "column preset"
@@ -14,8 +17,9 @@ import { createIdHooks } from '../ids'
 
 export const createHooks = (collection: ContentsCollection): void => {
   debug(`Installing hooks on ${collection.name}`)
-  createRelationshipHooks(collection)
+  createReverseRelationshipHooks(collection)
   createComputedFieldsHooks(collection)
   createDefaultValuesHooks(collection)
   createIdHooks(collection)
+  createForeignKeyConstraintsHooks(collection)
 }

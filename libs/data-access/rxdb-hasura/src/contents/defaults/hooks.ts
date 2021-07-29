@@ -10,7 +10,7 @@ import {
   ContentsDocumentMethods
 } from '../../types'
 import { isNullableColumn } from '../required'
-import { columnProperties } from '../schema'
+import { columnProperties } from '../columns'
 import { generateDefaultValue } from './generator'
 import { columnHasDefaultValue } from './utils'
 

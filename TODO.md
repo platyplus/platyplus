@@ -35,8 +35,16 @@
     - [x] pull `table_config` and `property_config` out of metadata documents
     - [x] save `config` stuff through the replicator/modifier
   - [x] useConfigEnabled: config is enabled if user has an admin role
-  - [ ] default values are not working anymore - see default boolean value in `patient` table
-  - [ ] on delete: follow cascading rules to linked documents
+  - [x] default values are not working anymore - see default boolean value in `patient` table
+  - [ ] foreign key constraints
+    - [ ] onDelete constraint
+      - [x] cascade
+      - [ ] set null - only when columns are nullable - throw error otherwise
+      - [ ] restrict - idem
+      - [ ] no action - idem
+      - [ ] set default - only when default exists or columns are nullable
+    - [ ] canSave - only when fk constraints allow it
+    - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
   - [ ] debug and improve profile page
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)

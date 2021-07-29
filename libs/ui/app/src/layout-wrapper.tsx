@@ -1,14 +1,9 @@
-import deepMerge from 'deepmerge'
-
-import {
-  useConfigEnabled,
-  useOrderedContentsCollections
-} from '@platyplus/react-rxdb-hasura'
-import { Layout, Logo, MenuItem } from '@platyplus/layout'
+import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
+import { Layout, Logo } from '@platyplus/layout'
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 import { ProfileStatusMenu } from '@platyplus/profile'
 
-import { CollectionMenuItem } from './menu'
+import { PrivateMenu, PublicMenu } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
@@ -16,74 +11,40 @@ import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
 import { defaultFieldComponents } from './fields'
 import { ConfigStatusMenuItem } from './pages'
+import React from 'react'
+import deepmerge from 'deepmerge'
 
+const defaultComponents = {
+  collections: defaultCollectionComponents,
+  fields: defaultFieldComponents,
+  documents: defaultDocumentComponents
+}
 export const LayoutWrapper: React.FC<AppConfig> = ({
   title,
-  children,
-  ...config
+  components = {},
+  home = { enabled: true, title: 'Home' },
+  login = { enabled: true, title: 'Login' },
+  register = { enabled: true, title: 'Register' },
+  profile = { enabled: true, title: 'Profile' },
+  notFound = { enabled: true, title: '404' }
 }) => {
-  const { auth } = useHbp()
-  const authenticated = useAuthenticated(auth)
-  const { components = {}, ...routesConfig } = config
-  const configEnabled = useConfigEnabled()
-  const {
-    home = { enabled: true, title: 'Home' },
-    login = { enabled: true, title: 'Login' },
-    register = { enabled: true, title: 'Register' },
-    profile = { enabled: true, title: 'Profile' },
-    notFound = { enabled: true, title: '404' }
-  } = routesConfig
-
-  // * 'System' side menu e.g. login, register, home page...
-  const privateSideMenu = []
-  if (home.enabled) {
-    privateSideMenu.unshift({
-      icon: 'home',
-      title: home.title,
-      href: '/'
-    })
-  }
-
-  const PublicMenu: React.FC = () => (
-    <>
-      {home.enabled && <MenuItem icon="home" title={home.title} href="/" />}
-      {login.enabled && (
-        <MenuItem icon="sign-in" title={login.title} href="/login" />
-      )}
-      {register.enabled && (
-        <MenuItem icon="user-plus" title={register.title} href="/register" />
-      )}
-    </>
-  )
-
-  const [collections] = useOrderedContentsCollections()
-  const PrivateMenu: React.FC = () => (
-    <>
-      {home.enabled && <MenuItem icon="home" title={home.title} href="/" />}
-      {[...collections.values()].map((collection) => (
-        <CollectionMenuItem key={collection.name} collection={collection} />
-      ))}
-      {configEnabled && (
-        <MenuItem icon="wrench" title="Configuration" href="/config" />
-      )}
-    </>
-  )
-
+  const hbp = useHbp()
+  const authenticated = useAuthenticated(hbp.auth)
+  const config = useConfigEnabled()
   // * Load components - defaults can be overriden and/or extended
-  const overridenComponents = deepMerge(
-    {
-      collections: defaultCollectionComponents,
-      fields: defaultFieldComponents,
-      documents: defaultDocumentComponents
-    },
-    components
-  )
+  const overridenComponents = deepmerge(defaultComponents, components)
 
   return (
     <ComponentsContext.Provider value={overridenComponents}>
       <Layout
         logo={<Logo title={title} />}
-        menu={authenticated ? <PrivateMenu /> : <PublicMenu />}
+        menu={
+          authenticated ? (
+            <PrivateMenu config={config} home={home} />
+          ) : (
+            <PublicMenu home={home} register={register} login={login} />
+          )
+        }
         statusMenu={
           <>
             <ConfigStatusMenuItem />

@@ -125,7 +125,7 @@ const reverseRelations =
     }
   }
 
-export const createRelationshipHooks = (
+export const createReverseRelationshipHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preSave(reverseRelations(collection), false)

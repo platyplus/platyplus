@@ -41,7 +41,10 @@ export const query = gql`
     view {
       id
     }
-
+    foreignKeys {
+      columns
+      onDelete
+    }
     indexes {
       name
       columns {

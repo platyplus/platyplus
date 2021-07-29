@@ -15,7 +15,7 @@ import {
   addComputedFieldsFromLoadedData,
   documentLabel
 } from '../computed-fields'
-import { graphQLColumnType } from '../schema'
+import { graphQLColumnType } from '../columns'
 import { filteredRelationships } from '../relationships'
 import { getIds } from '../ids'
 

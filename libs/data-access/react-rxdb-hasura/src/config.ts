@@ -39,12 +39,15 @@ export const useAppConfig = (): [
     APP_CONFIG_COLLECTION,
     configDocument?.id
   )
+
+  const [newDocument, setNewDocument] = useState<ContentsDocument>()
+  useEffect(() => {
+    if (collection) setNewDocument(collection.newDocument() as ContentsDocument)
+  }, [collection])
+
   useEffect(
-    () =>
-      setConfigDocument(
-        document || (collection?.newDocument() as ContentsDocument)
-      ),
-    [isFetching, document, collection]
+    () => setConfigDocument(document || newDocument),
+    [isFetching, document, newDocument]
   )
   return [config, setConfig]
 }
@@ -103,7 +106,11 @@ export const useConfig = <T>(
   )
 
   const setState = useStore(
-    (state) => (value: T) => state.setConfigForm(table, value, id, path)
+    useCallback(
+      (state) => (value: T) => state.setConfigForm(table, value, id, path),
+      [table, id, path]
+    )
   )
+
   return [state, setState]
 }

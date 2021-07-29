@@ -19,6 +19,23 @@ export const metadataSchema: RxJsonSchema<Metadata> = {
     primaryKey: {
       type: ['object', 'null']
     },
+    foreignKeys: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          columns: {
+            type: 'array',
+            items: {
+              type: 'string'
+            }
+          },
+          onDelete: {
+            type: 'string'
+          }
+        }
+      }
+    },
     indexes: {
       type: 'array'
     },

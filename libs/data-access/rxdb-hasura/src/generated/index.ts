@@ -12746,6 +12746,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   view: Maybe<
     { __typename?: 'metadata_view_info' } & Pick<Metadata_View_Info, 'id'>
   >
+  foreignKeys: Array<
+    { __typename?: 'metadata_foreign_key_constraint' } & Pick<
+      Metadata_Foreign_Key_Constraint,
+      'columns' | 'onDelete'
+    >
+  >
   indexes: Array<
     { __typename?: 'metadata_index' } & Pick<Metadata_Index, 'name'> & {
         columns: Array<
@@ -12866,6 +12872,10 @@ export const TableFragmentDoc = gql`
     view {
       id
     }
+    foreignKeys {
+      columns
+      onDelete
+    }
     indexes {
       name
       columns {
@@ -12882,18 +12892,7 @@ export const TableFragmentDoc = gql`
       transformation
       template
     }
-    relationships(
-      where: {
-        mapping: {
-          remoteTable: {
-            _and: [
-              { columns: { name: { _eq: "updated_at" } } }
-              { columns: { name: { _eq: "deleted" } } }
-            ]
-          }
-        }
-      }
-    ) {
+    relationships {
       name
       type
       remoteTable {
