@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   Animation,
@@ -14,10 +14,10 @@ import {
 
 import {
   useCollectionProperties,
-  useCollectionTitle,
   useContentsCollection,
-  useMetadataDocument,
-  useTableConfig
+  useMetadataStore,
+  useMetadataConfig,
+  useMetadataTitleById
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
 import { metadataName } from '@platyplus/rxdb-hasura'
@@ -27,13 +27,14 @@ import { useComponentsContext } from '../../components'
 import { PropertyConfig } from './property'
 
 export const ConfigTablePage: React.FC<{ role?: string }> = ({
+  // TODO not linked to a given role
   role = 'user'
 }) => {
   const { id } = useParams<{ id: string }>()
-  const { document } = useMetadataDocument(role, id)
-  const metaName = useMemo(() => document && metadataName(document), [document])
+  const table = useMetadataStore(useCallback((state) => state.tables[id], [id]))
+  const metaName = useMemo(() => table && metadataName(table), [table])
   const collection = useContentsCollection(`${role}_${metaName}`)
-  const [collectionTitle] = useCollectionTitle(collection)
+  const [collectionTitle] = useMetadataTitleById(id, metaName)
   const title = useMemo(
     () =>
       metaName &&
@@ -43,8 +44,9 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
     [metaName, collectionTitle]
   )
 
+  // TODO useMetadataProperties(table: Metadata, role?:string)
   const [properties, setProperties] = useCollectionProperties(collection)
-  const [config, setConfig] = useTableConfig<Record<string, unknown>>(document)
+  const [config, setConfig] = useMetadataConfig<Record<string, unknown>>(id)
 
   const componentContext = useComponentsContext()
   const collectionComponents = Object.keys(componentContext.collections)

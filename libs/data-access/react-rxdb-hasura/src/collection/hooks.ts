@@ -15,7 +15,7 @@ export const useContentsCollections = (me = false): ContentsCollections => {
   const [collections, setCollections] = useState<ContentsCollections>(new Map())
 
   const filter = useCallback(
-    ([key, value]) => value.metadata && (me || !key.startsWith('me_')),
+    ([key, value]) => value._tableId && (me || !key.startsWith('me_')),
     [me]
   )
 

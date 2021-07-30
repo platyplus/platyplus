@@ -2,11 +2,11 @@ import { PropertyType } from '@platyplus/rxdb-hasura'
 import { CollectionComponent } from './collections/types'
 import { DocumentComponent } from './documents/types'
 import { FieldComponent } from './fields'
-
+export type RouteConfig = { enabled?: boolean; title?: string }
 export type RoutesConfig = Partial<
   Record<
     'home' | 'login' | 'register' | 'profile' | 'notFound',
-    { enabled?: boolean; title?: string }
+    RouteConfig
   > & { title: string }
 >
 

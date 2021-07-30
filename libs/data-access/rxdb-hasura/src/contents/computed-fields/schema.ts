@@ -1,4 +1,5 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
+import { getCollectionMetadata } from '../../metadata'
 
 import { ContentsCollection, Metadata } from '../../types'
 
@@ -25,5 +26,7 @@ export const createComputedFieldsProperties = (table: Metadata) =>
 export const computedFields = (collection: ContentsCollection): string[] => [
   'label',
   'updated_at',
-  ...collection.metadata.computedProperties.map((prop) => prop.name)
+  ...getCollectionMetadata(collection).computedProperties.map(
+    (prop) => prop.name
+  )
 ]

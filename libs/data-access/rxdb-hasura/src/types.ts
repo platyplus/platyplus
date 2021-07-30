@@ -73,7 +73,7 @@ export type ContentsCollectionMethods = {}
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string
-  metadata: MetadataDocument
+  _tableId: string
   replicator: Replicator
   properties: Map<string, TopLevelProperty>
 }

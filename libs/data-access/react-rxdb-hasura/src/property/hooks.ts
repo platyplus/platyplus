@@ -6,20 +6,22 @@ import {
   Contents,
   Metadata,
   MetadataDocument,
-  PropertyConfig,
-  PROPERTY_CONFIG_COLLECTION
+  PropertyConfig
 } from '@platyplus/rxdb-hasura'
 
-import { useCollectionMetadata } from '../collection'
-import { useConfig, useTableConfig } from '../config'
+import { useCollectionMetadata, useCollectionTableConfig } from '../collection'
+import { useMetadataStore } from '../metadata'
+import { useStore } from '../store'
 
 type PropertiesType = Map<string, TopLevelProperty>
 
 export const useCollectionProperties = (
   collection: ContentsCollection
 ): [PropertiesType | null, (val: PropertiesType) => void] => {
-  const metadata = useCollectionMetadata(collection)
-  const [order, setOrder] = useTableConfig<string[]>(metadata, 'order')
+  const [order, setOrder] = useCollectionTableConfig<string[]>(
+    collection,
+    'order'
+  )
 
   const properties = useMemo(() => {
     if (collection?.properties) {
@@ -55,7 +57,29 @@ export const usePropertyConfig = <T = PropertyConfig>(
     () => metadata && `${metadata.id}.${property}`,
     [metadata, property]
   )
-  return useConfig(PROPERTY_CONFIG_COLLECTION, id, path, fallback)
+  // TODO
+  const initialValues = useMetadataStore(
+    useCallback((state) => (id && state.config.properties[id]) || {}, [id])
+  )
+  const modifiedValues = useStore(
+    useCallback((state) => (id && state.forms.property_config[id]) || {}, [id])
+  )
+  const state = useMemo(() => {
+    if (path) {
+      return (
+        (path in modifiedValues ? modifiedValues[path] : initialValues[path]) ||
+        fallback
+      )
+    } else return { ...initialValues, ...modifiedValues }
+  }, [modifiedValues, initialValues, path, fallback])
+  const setState = useStore(
+    useCallback(
+      (state) => (value: T) =>
+        state.setConfigForm('property_config', value, id, path),
+      [path, id]
+    )
+  )
+  return [state, setState]
 }
 
 export const useCollectionPropertyConfig = <T = PropertyConfig>(

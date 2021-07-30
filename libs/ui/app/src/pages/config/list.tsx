@@ -72,7 +72,7 @@ export const ConfigListPage: React.FC = () => {
                     <ConfigListItem
                       key={index}
                       index={index}
-                      metadata={collection.metadata}
+                      collection={collection}
                     />
                   ))}
                 </List>

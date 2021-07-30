@@ -13,12 +13,13 @@ import { isNullableColumn } from '../required'
 import { columnProperties } from '../columns'
 import { generateDefaultValue } from './generator'
 import { columnHasDefaultValue } from './utils'
+import { getCollectionMetadata } from '../../metadata'
 
 const defaultValues = async (
   collection: ContentsCollection,
   data: Contents
 ) => {
-  const table = collection.metadata
+  const table = getCollectionMetadata(collection)
 
   // * Generate column default values
   columnProperties(table)

@@ -4,15 +4,31 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import {
   useCollectionIcon,
-  useCollectionTitle,
-  useOrderedContentsCollections
+  useMetadataTitle,
+  useOrderedContentsCollections,
+  useCollectionMetadata
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { MenuItem } from '@platyplus/layout'
+import { RouteConfig } from './types'
+
+export const Menu: React.FC<{
+  config: boolean
+  authenticated: boolean
+  home: RouteConfig
+  register: RouteConfig
+  login: RouteConfig
+}> = ({ config, authenticated, home, register, login }) =>
+  authenticated ? (
+    <PrivateMenu config={config} home={home} />
+  ) : (
+    <PublicMenu home={home} register={register} login={login} />
+  )
 
 export const CollectionMenuItem: React.FC<{ collection: ContentsCollection }> =
   ({ collection }) => {
-    const [title] = useCollectionTitle(collection)
+    const metadata = useCollectionMetadata(collection)
+    const [title] = useMetadataTitle(metadata)
     const [icon] = useCollectionIcon(collection)
     const location = useLocation()
     const history = useHistory()

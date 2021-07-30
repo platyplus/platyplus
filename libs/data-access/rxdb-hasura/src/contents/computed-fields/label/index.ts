@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars'
+import { getCollectionMetadata } from '../../../metadata'
 
 import { Contents, ContentsDocument } from '../../../types'
 
@@ -16,9 +17,9 @@ export const documentLabel = (
   doc: Contents,
   collection: ContentsDocument['collection']
 ): string | null => {
+  const metadata = getCollectionMetadata(collection)
   const template =
-    collection.metadata.config?.document_label ||
-    `{{${collection.schema.primaryPath}}}`
+    metadata.config?.document_label || `{{${collection.schema.primaryPath}}}`
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
   return (
     compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || doc.id

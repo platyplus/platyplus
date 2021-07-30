@@ -1,9 +1,8 @@
 import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
 import { Layout, Logo } from '@platyplus/layout'
-import { useAuthenticated, useHbp } from '@platyplus/hbp'
+import { useAuthenticated } from '@platyplus/hbp'
 import { ProfileStatusMenu } from '@platyplus/profile'
-
-import { PrivateMenu, PublicMenu } from './menu'
+import { Menu } from './menu'
 import { AppConfig } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
@@ -20,30 +19,30 @@ const defaultComponents = {
   documents: defaultDocumentComponents
 }
 export const LayoutWrapper: React.FC<AppConfig> = ({
-  title,
   components = {},
   home = { enabled: true, title: 'Home' },
   login = { enabled: true, title: 'Login' },
-  register = { enabled: true, title: 'Register' },
+  notFound = { enabled: true, title: '404' },
   profile = { enabled: true, title: 'Profile' },
-  notFound = { enabled: true, title: '404' }
+  register = { enabled: true, title: 'Register' },
+  title
 }) => {
-  const hbp = useHbp()
-  const authenticated = useAuthenticated(hbp.auth)
+  const authenticated = useAuthenticated()
   const config = useConfigEnabled()
   // * Load components - defaults can be overriden and/or extended
-  const overridenComponents = deepmerge(defaultComponents, components)
-
+  const overridenComponents = deepmerge(components, defaultComponents)
   return (
     <ComponentsContext.Provider value={overridenComponents}>
       <Layout
         logo={<Logo title={title} />}
         menu={
-          authenticated ? (
-            <PrivateMenu config={config} home={home} />
-          ) : (
-            <PublicMenu home={home} register={register} login={login} />
-          )
+          <Menu
+            config={config}
+            authenticated={authenticated}
+            home={home}
+            register={register}
+            login={login}
+          />
         }
         statusMenu={
           <>
@@ -52,7 +51,13 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
           </>
         }
       >
-        <Routes {...{ home, register, login, profile, notFound, title }} />
+        <Routes
+          home={home}
+          register={register}
+          login={login}
+          profile={profile}
+          notFound={notFound}
+        />
       </Layout>
     </ComponentsContext.Provider>
   )

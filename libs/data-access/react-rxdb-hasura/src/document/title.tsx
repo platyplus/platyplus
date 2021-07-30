@@ -3,14 +3,12 @@ import { useMemo } from 'react'
 import { ContentsDocument, metadataName } from '@platyplus/rxdb-hasura'
 import { InlineValue } from '@platyplus/layout'
 
-import { useCollectionTableConfig } from '../collection'
+import { useCollectionMetadata, useCollectionTableConfig } from '../collection'
 
 // * Document title e.g. 'Visite'. config.document_title="Visite" whereas config.title="Visits"
-export const useDocumentTitle = (document: ContentsDocument) => {
-  const name = useMemo(
-    () => document && metadataName(document.collection.metadata),
-    [document]
-  )
+export const useDocumentTitle = (document?: ContentsDocument) => {
+  const metadata = useCollectionMetadata(document?.collection)
+  const name = useMemo(() => metadata && metadataName(metadata), [metadata])
   return useCollectionTableConfig<string>(
     document?.collection,
     'document_title',

@@ -1,16 +1,21 @@
 import { useHistory } from 'react-router-dom'
 import { List } from 'rsuite'
 
-import { MetadataDocument, metadataName } from '@platyplus/rxdb-hasura'
-import { useTableConfig } from '@platyplus/react-rxdb-hasura'
+import { ContentsCollection, metadataName } from '@platyplus/rxdb-hasura'
+import {
+  useCollectionMetadata,
+  useMetadataTitle
+} from '@platyplus/react-rxdb-hasura'
+import { useMemo } from 'react'
 
 export const ConfigListItem: React.FC<{
-  metadata: MetadataDocument
+  collection: ContentsCollection
   index: number
-}> = ({ metadata, index }) => {
-  const name = metadataName(metadata)
+}> = ({ collection, index }) => {
+  const metadata = useCollectionMetadata(collection)
+  const name = useMemo(() => metadata && metadataName(metadata), [metadata])
   const history = useHistory()
-  const [configTitle] = useTableConfig(metadata, 'title')
+  const [configTitle] = useMetadataTitle(metadata)
   const title = configTitle ? `${configTitle} (${name})` : name
   return (
     <List.Item

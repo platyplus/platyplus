@@ -2,17 +2,16 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { debug } from '../console'
 import { createContentReplicator, createHooks } from '../contents'
-import { createMetadataReplicator } from '../metadata'
+import { createMetadataReplicator, getCollectionMetadata } from '../metadata'
 import { ContentsCollection, MetadataCollection } from '../types'
 import { contentsCollections } from './helpers'
 import { contents } from './observables'
-import { skip } from 'rxjs/operators'
 
 const collectionProperties = (
   collection: ContentsCollection
 ): Map<string, TopLevelProperty> => {
   const schema = collection.schema
-
+  const metadata = getCollectionMetadata(collection)
   const excludedProperties = [
     // * RxDB 'system' properties
     ...schema.topLevelFields.filter((value) => value.startsWith('_')),
@@ -22,7 +21,7 @@ const collectionProperties = (
     'label',
     'is_local_change',
     // * array aggregates from the property list
-    ...collection.metadata.relationships
+    ...metadata.relationships
       .filter(({ type }) => type === 'array')
       .map(({ name }) => `${name}_aggregate`),
     // * primary key and other final fields as they can't be observed
@@ -42,12 +41,8 @@ export const createRxCollection = async (
   if (collection.options.metadata) {
     // * Metadata option => this is a Contents collection
     collection.role = collection.options.role
-    collection.metadata = collection.options.metadata
+    collection._tableId = collection.options.metadata.id
     collection.properties = collectionProperties(collection)
-    collection.metadata.$.pipe(skip(1)).subscribe((newMeta) => {
-      // * set property again everytime metadata changes
-      collection.properties = collectionProperties(collection)
-    })
     debug(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({

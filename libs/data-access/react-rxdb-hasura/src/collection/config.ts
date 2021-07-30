@@ -1,6 +1,6 @@
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { useCollectionMetadata } from './metadata'
-import { useTableConfig } from '../config'
+import { useMetadataConfig } from '../config'
 
 export const useCollectionTableConfig = <T>(
   collection: ContentsCollection,
@@ -8,5 +8,5 @@ export const useCollectionTableConfig = <T>(
   fallback?: T
 ): [T, (val: T) => void] => {
   const metadata = useCollectionMetadata(collection)
-  return useTableConfig(metadata, path, fallback)
+  return useMetadataConfig(metadata?.id, path, fallback)
 }

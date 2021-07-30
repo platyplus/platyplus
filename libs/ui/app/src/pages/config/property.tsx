@@ -7,7 +7,10 @@ import {
   Panel
 } from 'rsuite'
 
-import { usePropertyConfig } from '@platyplus/react-rxdb-hasura'
+import {
+  useCollectionMetadata,
+  usePropertyConfig
+} from '@platyplus/react-rxdb-hasura'
 
 import { IconPicker } from '@platyplus/layout'
 import {
@@ -26,7 +29,7 @@ export const PropertyConfig: React.FC<{
   expanded: boolean
   onSelect: () => void
 }> = ({ collection, name, expanded, onSelect }) => {
-  const metadata = collection.metadata
+  const metadata = useCollectionMetadata(collection)
   const [config, setConfig] = usePropertyConfig(metadata, name, null)
   const componentContext = useComponentsContext()
   const type = useMemo(

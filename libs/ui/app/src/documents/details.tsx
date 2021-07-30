@@ -22,11 +22,8 @@ const DocumentField: React.FC<{
   edit: boolean
   property: TopLevelProperty
   config?: boolean
-}> = ({ document, propertyName, property, edit, config }) => {
-  const required = useIsRequiredProperty(
-    document.collection.metadata,
-    propertyName
-  )
+}> = ({ document, propertyName, edit, config }) => {
+  const required = useIsRequiredProperty(document.collection, propertyName)
   return (
     <FormGroup>
       <ControlLabel>

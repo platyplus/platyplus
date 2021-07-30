@@ -1,23 +1,34 @@
+import { InlineValue } from '@platyplus/layout'
+import {
+  ContentsCollection,
+  Metadata,
+  metadataName
+} from '@platyplus/rxdb-hasura'
 import { useMemo } from 'react'
 
-import { ContentsCollection, metadataName } from '@platyplus/rxdb-hasura'
-import { InlineValue } from '@platyplus/layout'
-
-import { useCollectionTableConfig } from './config'
+import { useMetadataConfig } from '../config'
+import { useCollectionMetadata } from './metadata'
 
 // * Collection title e.g. 'Visit'. config.title="Visits" whereas config.document_title="Visite"
 export const useCollectionTitle = (collection: ContentsCollection) => {
-  const name = useMemo(
-    () => collection && metadataName(collection?.metadata),
-    [collection]
-  )
-  return useCollectionTableConfig(collection, 'title', name)
+  const metadata = useCollectionMetadata(collection)
+  return useMetadataTitle(metadata)
+}
+
+export const useMetadataTitle = (metadata?: Metadata) => {
+  const id = useMemo(() => metadata?.id, [metadata])
+  const fallback = useMemo(() => metadata && metadataName(metadata), [metadata])
+  return useMetadataTitleById(id, fallback)
+}
+
+export const useMetadataTitleById = (tableId?: string, fallback?: string) => {
+  return useMetadataConfig<string>(tableId, 'title', fallback)
 }
 
 export const CollectionTitle: React.FC<{
-  collection: ContentsCollection
+  metadata?: Metadata
   editable?: boolean
-}> = ({ collection, editable }) => {
-  const [value, onChange] = useCollectionTitle(collection)
+}> = ({ metadata, editable }) => {
+  const [value, onChange] = useMetadataTitle(metadata)
   return <InlineValue editable={editable} value={value} onChange={onChange} />
 }

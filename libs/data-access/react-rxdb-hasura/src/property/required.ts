@@ -1,6 +1,12 @@
 import { useMemo } from 'react'
 
-import { isRequiredProperty, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsCollection, isRequiredProperty } from '@platyplus/rxdb-hasura'
+import { useCollectionMetadata } from '../collection'
 
-export const useIsRequiredProperty = (table: Metadata, name: string) =>
-  useMemo(() => table && isRequiredProperty(table, name), [table, name])
+export const useIsRequiredProperty = (
+  collection: ContentsCollection,
+  name: string
+) => {
+  const table = useCollectionMetadata(collection)
+  return useMemo(() => table && isRequiredProperty(table, name), [table, name])
+}

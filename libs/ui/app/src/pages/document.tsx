@@ -27,7 +27,7 @@ export const DocumentPage: React.FC = () => {
       component={<DocumentTitle editable={enabledConfig} document={document} />}
       previous
     >
-      <Animation.Fade in={!isFetching}>
+      <Animation.Fade in={!isFetching && !!document && !!title}>
         {(props) => {
           return (
             <div {...props}>

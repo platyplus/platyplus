@@ -1,24 +1,17 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 import { useLocation } from 'react-use'
 
 import { useUserIsAdmin } from '@platyplus/hbp'
-
 import {
-  APP_CONFIG_COLLECTION,
-  ConfigCollectionName,
   CONFIG_COLLECTIONS,
   Contents,
-  ContentsCollection,
-  ContentsDocument,
-  Metadata,
-  MetadataDocument,
-  TABLE_CONFIG_COLLECTION
+  ContentsCollection
 } from '@platyplus/rxdb-hasura'
 
-import { useContentsCollection } from './collection'
-import { useSingleton } from './document'
 import { useStore } from './store'
 import { useDB } from './database'
+import { useMetadataStore } from './metadata'
 
 export const useConfigEnabled = () => {
   // TODO ping localhost:9693
@@ -31,33 +24,70 @@ export const useAppConfig = (): [
   Contents,
   (val: Partial<Contents>) => void
 ] => {
-  const { isFetching, document } = useSingleton(APP_CONFIG_COLLECTION)
-
-  const collection = useContentsCollection(APP_CONFIG_COLLECTION)
-  const [configDocument, setConfigDocument] = useState<ContentsDocument>()
-  const [config, setConfig] = useConfig<Contents>(
-    APP_CONFIG_COLLECTION,
-    configDocument?.id
+  const [newId] = useState(uuid())
+  const id = useMetadataStore(
+    useCallback((state) => state.config.app?.id || newId, [newId])
   )
 
-  const [newDocument, setNewDocument] = useState<ContentsDocument>()
-  useEffect(() => {
-    if (collection) setNewDocument(collection.newDocument() as ContentsDocument)
-  }, [collection])
+  const initialValues = useMetadataStore((state) => state.config.app || {})
 
-  useEffect(
-    () => setConfigDocument(document || newDocument),
-    [isFetching, document, newDocument]
+  const modifiedValues = useStore(
+    useCallback((state) => state.forms.app_config[id] || {}, [id])
   )
+
+  const config = useMemo(() => {
+    return { ...initialValues, ...modifiedValues }
+  }, [modifiedValues, initialValues]) as Contents
+
+  const setConfig = useStore(
+    useCallback(
+      (state) => (value) => {
+        return state.setConfigForm('app_config', value, id)
+      },
+      [id]
+    )
+  )
+
   return [config, setConfig]
 }
 
-export const useTableConfig = <T>(
-  metadata?: MetadataDocument | Metadata,
+export const useMetadataConfig = <T>(
+  metadataId?: string,
   path?: string,
   fallback?: T
-): [T, (val: T) => void] =>
-  useConfig(TABLE_CONFIG_COLLECTION, metadata?.id, path, fallback)
+): [T, (val: T) => void] => {
+  const initialValues = useMetadataStore(
+    useCallback(
+      (state) => (metadataId && state.config.tables[metadataId]) || {},
+      [metadataId]
+    )
+  )
+
+  const modifiedValues = useStore(
+    useCallback(
+      (state) => (metadataId && state.forms.table_config[metadataId]) || {},
+      [metadataId]
+    )
+  )
+
+  const state = useMemo(() => {
+    if (path) {
+      return (
+        (path in modifiedValues ? modifiedValues[path] : initialValues[path]) ??
+        fallback
+      )
+    } else return { ...initialValues, ...modifiedValues }
+  }, [modifiedValues, initialValues, path, fallback])
+
+  const setState = useStore(
+    useCallback(
+      (state) => (value: T) =>
+        state.setConfigForm('table_config', value, metadataId, path),
+      [metadataId, path]
+    )
+  )
+  return [state, setState]
+}
 
 export const useCountConfigChanges = () =>
   useStore(
@@ -90,27 +120,4 @@ export const usePersistConfig = () => {
     }
     clearConfig()
   }, [forms, db, clearConfig])
-}
-
-export const useConfig = <T>(
-  table: ConfigCollectionName,
-  id?: string,
-  path?: string,
-  fallback?: T
-): [T, (val: T) => void] => {
-  const state = useStore(
-    useCallback(
-      (state) => state.getConfig<T>(table, id, path) ?? fallback,
-      [table, id, path, fallback]
-    )
-  )
-
-  const setState = useStore(
-    useCallback(
-      (state) => (value: T) => state.setConfigForm(table, value, id, path),
-      [table, id, path]
-    )
-  )
-
-  return [state, setState]
 }

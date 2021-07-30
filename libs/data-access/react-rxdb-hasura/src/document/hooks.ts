@@ -13,10 +13,10 @@ export const useDocument = <T = ContentsDocument>(name: string, id: string) => {
     queryConstructor
   )
   const [document, setDocument] = useState<T>()
-  useEffect(
-    () => setDocument((result || collection?.newDocument()) as T),
-    [result, collection]
-  )
+  useEffect(() => {
+    if (id === 'new') setDocument(collection?.newDocument() as T)
+    else if (result) setDocument(result as T)
+  }, [id, result, collection])
   const isFetching = useMemo(() => {
     if (id === 'new') return !document
     else return document ? isDocumentFetching : true

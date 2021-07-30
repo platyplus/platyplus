@@ -1,3 +1,4 @@
+import { getDocumentMetadata } from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
 import { metadataName } from '../../../utils'
 import { findForeignKeyConstraint } from './utils'
@@ -14,7 +15,7 @@ export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preRemove(async (data: Contents, document: ContentsDocument) => {
-    const metadata = document.collection.metadata
+    const metadata = getDocumentMetadata(document)
     for (const relationship of metadata.relationships) {
       const fk = findForeignKeyConstraint(metadata, relationship)
       console.log(fk)

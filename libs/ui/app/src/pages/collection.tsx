@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useParams } from 'react-router'
 import { useRxCollection, useRxData } from 'rxdb-hooks'
 import { Animation } from 'rsuite'
@@ -10,8 +10,9 @@ import {
 } from '@platyplus/rxdb-hasura'
 import {
   CollectionTitle,
-  useCollectionTitle,
-  useConfigEnabled
+  useMetadataTitle,
+  useConfigEnabled,
+  useCollectionMetadata
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
@@ -23,24 +24,24 @@ export const CollectionPage: React.FC = () => {
   const query = useQuery()
   const edit = useMemo(() => query.has('edit'), [query])
   const enabledConfig = useConfigEnabled()
-  const queryConstructor = useCallback(
-    (collection) => collection?.find().sort('label'),
-    []
-  )
+  const queryConstructor = (collection) => collection?.find().sort('label')
 
   const { isFetching, result } = useRxData<Contents>(name, queryConstructor)
   // TODO review useContentsCollections - it triggers too many rerenders
+  // TODO understand why rxdb-hooks trigger so many re-renders
   const collection = useRxCollection(name) as ContentsCollection
-  const [title] = useCollectionTitle(collection)
+
+  const metadata = useCollectionMetadata(collection)
+  const [title] = useMetadataTitle(metadata)
 
   return (
     <HeaderTitleWrapper
       title={title}
       component={
-        <CollectionTitle editable={enabledConfig} collection={collection} />
+        <CollectionTitle editable={enabledConfig} metadata={metadata} />
       }
     >
-      <Animation.Fade in={!isFetching}>
+      <Animation.Fade in={!!collection && !isFetching}>
         {(props, ref) => (
           <div {...props}>
             <CollectionToolbar collection={collection} />

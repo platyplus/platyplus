@@ -3,6 +3,7 @@ import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
 import { warn } from '../../console'
+import { getCollectionMetadata } from '../../metadata'
 
 import {
   Contents,
@@ -140,7 +141,7 @@ export const addComputedFieldsFromCollection = async (
   data: Contents,
   collection: ContentsCollection
 ): Promise<void> => {
-  for (const property of collection.metadata.computedProperties) {
+  for (const property of getCollectionMetadata(collection).computedProperties) {
     data[property.name] = compute(
       data,
       property as ComputedProperty,
@@ -180,9 +181,10 @@ export const addComputedFieldsFromLoadedData = (
   data: Contents,
   collection: ContentsCollection
 ): Contents => {
-  if (collection.metadata.computedProperties.length) {
+  const metadata = getCollectionMetadata(collection)
+  if (metadata.computedProperties.length) {
     const filteredData = removeDeleted(data) || data
-    for (const property of collection.metadata.computedProperties) {
+    for (const property of metadata.computedProperties) {
       filteredData[property.name] = evaluate(
         filteredData,
         property as ComputedProperty

@@ -18,12 +18,13 @@ import {
 import { graphQLColumnType } from '../columns'
 import { filteredRelationships } from '../relationships'
 import { getIds } from '../ids'
+import { getCollectionMetadata } from '../../metadata'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
   batchSize: number
 ): RxGraphQLReplicationQueryBuilder => {
-  const table = collection.metadata
+  const table = getCollectionMetadata(collection)
   const title = metadataName(table)
   const idKeys = getIds(table)
   // * Get the list of array relationship names
@@ -194,7 +195,8 @@ export const pullQueryBuilder = (
 }
 
 export const pullModifier = (collection: ContentsCollection): Modifier => {
-  const cleansedRelationships = filteredRelationships(collection.metadata).map(
+  const metadata = getCollectionMetadata(collection)
+  const cleansedRelationships = filteredRelationships(metadata).map(
     ({ type, name }) => ({
       multiple: type === 'array',
       name: name

@@ -10,7 +10,12 @@ import { metadataName } from '../../utils'
 import { computedFields } from '../computed-fields'
 import { getIds } from '../ids'
 import { filteredRelationships, isManyToManyTable } from '../relationships'
-import { isConsoleEnabled, isConfigTable, upsertWithMigration } from '../config'
+import {
+  isConsoleEnabled,
+  isConfigCollection,
+  upsertWithMigration
+} from '../config'
+import { getCollectionMetadata } from '../../metadata'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -18,7 +23,7 @@ const isNewDocument = (doc: Contents): boolean => !doc.updated_at
 export const pushQueryBuilder = (
   collection: ContentsCollection
 ): RxGraphQLReplicationQueryBuilder => {
-  const table = collection.metadata
+  const table = getCollectionMetadata(collection)
   const title = metadataName(table)
   const idKeys = getIds(table)
 
@@ -137,7 +142,7 @@ export const pushQueryBuilder = (
 
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   // TODO replicate only what has changed e.g. _changes sent to the query builder
-  const table = collection.metadata
+  const table = getCollectionMetadata(collection)
   // * Don't push changes on views
   if (table.view) return () => null
 
@@ -155,7 +160,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     // TODO weird workaround as RxDB does not seem to take deletedFlag into consideration
     if (data['_deleted']) data.deleted = true
 
-    if (isConsoleEnabled() && isConfigTable(table)) {
+    if (isConsoleEnabled() && isConfigCollection(collection)) {
       try {
         await upsertWithMigration(table, data)
         return null

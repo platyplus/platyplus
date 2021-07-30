@@ -1,10 +1,11 @@
-import Auth from 'nhost-js-sdk/dist/Auth'
 import { useCallback, useEffect, useState } from 'react'
 import { useHbp } from './provider'
 
-export const useAuthenticated = (auth: Auth) => {
-  const [authenticated, setAuthenticated] = useState(auth.isAuthenticated())
-  auth.onAuthStateChanged((isAuth) => {
+export const useAuthenticated = () => {
+  const hbp = useHbp()
+  const [authenticated, setAuthenticated] = useState(hbp.auth.isAuthenticated())
+
+  hbp.auth.onAuthStateChanged((isAuth) => {
     setAuthenticated(isAuth)
   })
   return authenticated

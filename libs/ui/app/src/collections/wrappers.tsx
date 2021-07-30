@@ -32,11 +32,13 @@ export const CollectionFromParamsComponentWrapper: CollectionFromParamsComponent
   ({ collectionName, ids, ...rest }) => {
     const collection = useContentsCollection(collectionName)
     const { result } = useDocuments(collectionName, ids)
-    return (
-      <CollectionComponentWrapper
-        collection={collection}
-        data={result as ContentsDocument[]}
-        {...rest}
-      />
-    )
+    if (collection)
+      return (
+        <CollectionComponentWrapper
+          collection={collection}
+          data={result as ContentsDocument[]}
+          {...rest}
+        />
+      )
+    else return null
   }

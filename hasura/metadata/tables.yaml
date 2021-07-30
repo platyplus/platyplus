@@ -1023,11 +1023,8 @@
             _and:
             - column_name:
                 _eq: deleted
-        - _not:
-            _and:
-            - view: {}
-            - table_schema:
-                _eq: metadata
+        - table_schema:
+            _ne: metadata
 - table:
     schema: metadata
     name: table_config

@@ -1,3 +1,4 @@
+import { getCollectionMetadata } from '../../metadata'
 import { ContentsCollection, ContentsDocument } from '../../types'
 
 export const canEdit = (document: ContentsDocument, propertyName?: string) =>
@@ -18,15 +19,16 @@ export const canCreate = (
   collection: ContentsCollection,
   fieldName?: string
 ) => {
+  const metadata = getCollectionMetadata(collection)
   // * PostgreSQL views cannot be edited (as of now)
-  if (collection.metadata.view) return false
+  if (metadata.view) return false
   if (collection.role === 'admin') return true
   // ? Check the hasura permission rule ?
   if (fieldName) {
     const property = collection.schema.jsonSchema.properties[fieldName]
     if (property?.ref) {
       // * Relationship
-      const relationship = collection.metadata.relationships.find(
+      const relationship = metadata.relationships.find(
         ({ name }) => name === fieldName
       )
       if (relationship?.type === 'object') {
@@ -45,7 +47,7 @@ export const canCreate = (
       }
     } else {
       // * Column
-      return collection.metadata.columns.some(
+      return metadata.columns.some(
         (col) =>
           col.name === fieldName &&
           col.canInsert.some(
@@ -54,7 +56,7 @@ export const canCreate = (
       )
     }
   } else {
-    return collection.metadata.columns.some((col) =>
+    return metadata.columns.some((col) =>
       col.canInsert.some(
         (permission) => permission.roleName === collection.role
       )
@@ -66,15 +68,16 @@ export const canUpdate = (
   collection: ContentsCollection,
   fieldName?: string
 ): boolean => {
+  const metadata = getCollectionMetadata(collection)
   // * PostgreSQL views cannot be edited (as of now)
-  if (collection.metadata.view) return false
+  if (metadata.view) return false
   if (collection.role === 'admin') return true
   // ? Check the hasura permission rule ?
   if (fieldName) {
     const property = collection.schema.jsonSchema.properties[fieldName]
     if (property?.ref) {
       // * Relationship
-      const relationship = collection.metadata.relationships.find(
+      const relationship = metadata.relationships.find(
         ({ name }) => name === fieldName
       )
       if (relationship?.type === 'object') {
@@ -94,7 +97,7 @@ export const canUpdate = (
       }
     } else {
       // * Column
-      return collection.metadata.columns.some(
+      return metadata.columns.some(
         (col) =>
           col.name === fieldName &&
           col.canUpdate.some(
@@ -103,7 +106,7 @@ export const canUpdate = (
       )
     }
   } else {
-    return collection.metadata.columns.some((col) =>
+    return metadata.columns.some((col) =>
       col.canUpdate.some(
         (permission) => permission.roleName === collection.role
       )

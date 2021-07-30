@@ -1,6 +1,7 @@
 import { Contents, ContentsCollection } from '../../types'
 import { collectionPropertyType, isTextType } from '../properties'
 import { v4 as uuid } from 'uuid'
+import { getCollectionMetadata } from '../../metadata'
 
 export const generateDefaultValue = (
   collection: ContentsCollection,
@@ -8,7 +9,7 @@ export const generateDefaultValue = (
   data: Contents
 ) => {
   // TODO use Hasura column presets as well
-  const table = collection.metadata
+  const table = getCollectionMetadata(collection)
   const column = table.columns.find(({ name }) => name === propertyName)
   if (!column) {
     // TODO default values for relations

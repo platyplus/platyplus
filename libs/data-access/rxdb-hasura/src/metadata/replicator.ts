@@ -12,6 +12,8 @@ import { createHeaders, metadataName } from '../utils'
 import { subscription } from './graphql'
 import { modifier } from './modifier'
 import { queryBuilder } from './pull'
+import { setMetadataTable } from './store'
+import { METADATA_ROLE } from './constants'
 
 export type MetadataReplicatorOptions = {
   url: string
@@ -19,7 +21,6 @@ export type MetadataReplicatorOptions = {
   token?: string
 }
 
-const METADATA_ROLE = 'me'
 // TODO lots of duplicate code with the contents replicator
 export const createMetadataReplicator = async (
   metadataCollection: MetadataCollection
@@ -97,19 +98,12 @@ export const createMetadataReplicator = async (
   const start = async (): Promise<void> => {
     state = await setupGraphQLReplication()
     metaSubscription = metadataCollection.$.subscribe(
-      async ({
-        operation,
-        collectionName,
-        documentData,
-        documentId
-      }: RxChangeEvent<Metadata>) => {
+      async ({ operation, documentData }: RxChangeEvent<Metadata>) => {
         // TODO update collection -> run a migration when needed (only when columns change?)
         // if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
         if (operation === 'INSERT') {
           if (documentData.id) {
-            const metadataDoc = await db.collections[collectionName]
-              .findOne(documentId)
-              .exec()
+            setMetadataTable(documentData)
             // TODO determine the roles to which the collection must be created
             const metaName = metadataName(documentData)
             const roles: string[] = documentData.columns.reduce(
@@ -127,7 +121,10 @@ export const createMetadataReplicator = async (
             for (const role of roles) {
               const collectionName = `${role}_${metaName}`
               await db.addCollections({
-                [collectionName]: contentsCollectionCreator(metadataDoc, role)
+                [collectionName]: contentsCollectionCreator(
+                  documentData as Metadata,
+                  role
+                )
               })
             }
           }

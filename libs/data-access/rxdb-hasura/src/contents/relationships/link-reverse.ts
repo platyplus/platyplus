@@ -1,6 +1,7 @@
 import { arrayChanges } from '@platyplus/data'
 import { RxCollectionHookCallback } from 'rxdb'
 import { debug, warn } from '../../console'
+import { getCollectionMetadata } from '../../metadata'
 
 import {
   Contents,
@@ -16,14 +17,15 @@ const reverseRelations =
   async (data, doc) => {
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
-    for (const { name, type } of collection.metadata.relationships) {
+    const metadata = getCollectionMetadata(collection)
+    for (const { name, type } of metadata.relationships) {
       const property = collection.properties.get(name)
       const remoteCollection: ContentsCollection =
         collection.database.collections[property.ref]
-      const mirrorRelationships =
-        remoteCollection.metadata.relationships.filter(
-          (rel) => rel.remoteTable.id === collection.metadata.id
-        )
+      const remoteMetadata = getCollectionMetadata(remoteCollection)
+      const mirrorRelationships = remoteMetadata.relationships.filter(
+        (rel) => rel.remoteTable.id === metadata.id
+      )
 
       if (mirrorRelationships.length > 1) {
         // TODO sort this out - is it really a problem? Test without it

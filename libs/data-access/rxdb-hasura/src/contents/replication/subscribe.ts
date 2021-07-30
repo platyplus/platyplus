@@ -1,10 +1,11 @@
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
+import { getCollectionMetadata } from '../../metadata'
 import { ContentsCollection } from '../../types'
 import { metadataName } from '../../utils'
 
 // TODO optimize the subscription to its minimum
 export const subscriptionQuery = (collection: ContentsCollection): string => {
-  const table = collection.metadata
+  const table = getCollectionMetadata(collection)
   const title = metadataName(table)
   // TODO limit: 1
   const now = new Date().toUTCString()
