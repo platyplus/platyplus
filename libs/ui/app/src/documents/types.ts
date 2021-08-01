@@ -2,9 +2,11 @@
 import React, { MutableRefObject } from 'react'
 import { FormInstance } from 'rsuite/lib/Form'
 
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, Metadata } from '@platyplus/rxdb-hasura'
 
 type CommonDocumentComponentProps<T = {}> = T & {
+  metadata: Metadata
+  role: string
   edit: boolean
   formRef?: MutableRefObject<FormInstance>
   config?: boolean
@@ -12,14 +14,6 @@ type CommonDocumentComponentProps<T = {}> = T & {
 
 export type DocumentComponent<T = {}> = React.FC<
   CommonDocumentComponentProps<T> & {
-    document: ContentsDocument
-  }
->
-
-export type DocumentFromParamsComponent<T = {}> = React.FC<
-  CommonDocumentComponentProps<T> & {
-    componentName?: string
-    collectionName: string
-    id: string
+    document: Contents
   }
 >

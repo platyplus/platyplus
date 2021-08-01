@@ -1,44 +1,28 @@
-import {
-  useCollectionComponentName,
-  useContentsCollection,
-  useDocuments
-} from '@platyplus/react-rxdb-hasura'
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { useMetadataConfig } from '@platyplus/react-rxdb-hasura'
 import { useMemo } from 'react'
 
-import { useComponentsContext } from '../components'
-import { CollectionComponent, CollectionFromParamsComponent } from './types'
+import { useComponentsLibrary } from '../components'
+import { CollectionComponent } from './types'
 
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
-}> = ({ collection, edit = false, componentName, ...rest }) => {
-  const [collectionComponentName] = useCollectionComponentName(collection)
+}> = ({ edit = false, componentName, metadata, role, ...rest }) => {
+  const [collectionComponentName] = useMetadataConfig(
+    metadata?.id,
+    'component',
+    'default'
+  )
   const name = useMemo(
     () => componentName || collectionComponentName,
     [componentName, collectionComponentName]
   )
-  const context = useComponentsContext()
-  const collectionComponents = useMemo(() => context.collections, [context])
+  const library = useComponentsLibrary().collections
+  const collectionComponents = useMemo(() => library, [library])
   const Component = useMemo(
     () => name && collectionComponents[name],
     [name, collectionComponents]
   )
-  if (Component)
-    return <Component collection={collection} edit={edit} {...rest} />
-  else return <div>TODO: {name}</div>
+  if (!metadata || !role) return null
+  if (!Component) return <div>Collection component is missing: {name}</div>
+  return <Component metadata={metadata} role={role} edit={edit} {...rest} />
 }
-
-export const CollectionFromParamsComponentWrapper: CollectionFromParamsComponent =
-  ({ collectionName, ids, ...rest }) => {
-    const collection = useContentsCollection(collectionName)
-    const { result } = useDocuments(collectionName, ids)
-    if (collection)
-      return (
-        <CollectionComponentWrapper
-          collection={collection}
-          data={result as ContentsDocument[]}
-          {...rest}
-        />
-      )
-    else return null
-  }

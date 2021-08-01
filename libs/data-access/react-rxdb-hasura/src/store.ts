@@ -3,11 +3,7 @@ import produce from 'immer'
 import path from 'object-path'
 import { devtools } from 'zustand/middleware'
 
-import {
-  ConfigCollectionName,
-  Contents,
-  ContentsDocument
-} from '@platyplus/rxdb-hasura'
+import { ConfigCollectionName, Contents } from '@platyplus/rxdb-hasura'
 
 type CollectionForm = Record<string, Contents>
 type FormType = Record<string, CollectionForm> &
@@ -28,20 +24,19 @@ export const useStore = create<{
     id?: string,
     path?: string
   ) => void
-  setForm: <T>(document: ContentsDocument, values: T, subPath?: string) => void
-  resetForm: (document: ContentsDocument) => void
+  setForm: <T>(
+    collectionName: string,
+    document: Contents,
+    values: T,
+    subPath?: string
+  ) => void
+  resetForm: (collectionName: string, document: Contents) => void
   clearConfig: () => void
 }>(
   devtools(
     (set, get) => ({
       forms: resetConfig({}),
       config: resetConfig({}),
-      // setConfig: (collection, id, value) =>
-      //   set(
-      //     produce((state) => {
-      //       state.config[collection][id] = value
-      //     })
-      //   ),
       setConfigForm: (collection, value, givenId, path) =>
         set(
           produce((state) => {
@@ -56,21 +51,21 @@ export const useStore = create<{
           })
         ),
 
-      setForm: (document, values, subPath?: string) =>
+      setForm: (collectionName, document, values, subPath?: string) =>
         set(
           produce((state) => {
             const fullPath = [
-              document.collection.name,
-              document.primary,
+              collectionName,
+              document.id, // ? custom id
               ...(subPath ? [subPath] : [])
             ]
             path.set(state.forms, fullPath, values)
           })
         ),
-      resetForm: (document) =>
+      resetForm: (collectionName, document) =>
         set(
           produce((state) => {
-            path.del(state.forms, [document.collection.name, document.primary])
+            path.del(state.forms, [collectionName, document.id])
           })
         ),
       clearConfig: () =>

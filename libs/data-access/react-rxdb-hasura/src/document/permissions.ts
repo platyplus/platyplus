@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
 
-import { ContentsDocument, canEdit, canDelete } from '@platyplus/rxdb-hasura'
+import { Contents, canEdit, canDelete, Metadata } from '@platyplus/rxdb-hasura'
 
-import { useDocumentMetadata } from './metadata'
-
-export const useDocumentPermissions = (document?: ContentsDocument) => {
+export const useDocumentPermissions = (
+  metadata: Metadata,
+  role: string,
+  document?: Contents
+) => {
   const [edit, setEdit] = useState(false)
   const [remove, setRemove] = useState(false)
-  const metadata = useDocumentMetadata(document)
   // TODO implement canSave
   useEffect(() => {
     if (document) {
-      setEdit(canEdit(document))
-      setRemove(canDelete(document))
+      setEdit(canEdit(metadata, role, document))
+      setRemove(canDelete(metadata, role, document))
     }
-  }, [document, metadata])
+  }, [document, metadata, role])
   return { edit, remove }
 }

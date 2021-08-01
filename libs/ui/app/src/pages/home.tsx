@@ -11,7 +11,7 @@ export const HomePage: React.FC<{ title?: string }> = ({
   title = 'Home Page'
 }) => {
   const collections = useContentsCollections()
-  const { document: profile } = useProfile()
+  const { value: profile } = useProfile()
   const hasChanges = useCountConfigChanges()
   const config = useAppConfig()
   return (

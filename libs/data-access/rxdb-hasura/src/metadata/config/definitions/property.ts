@@ -3,6 +3,19 @@ import gql from 'graphql-tag'
 import { CollectionConfig } from '../types'
 import { MetadataStore, metadataStore } from '../../store'
 
+export type PropertyConfig = {
+  id: string
+  property_id: string
+  updated_at: string
+  table_id: string
+  property_name: string
+  component?: string
+  json_schema?: Record<string, unknown>
+  icon?: string
+  description?: string
+  title?: string
+}
+
 export const propertyConfig: CollectionConfig = {
   query: gql`
     query propertyConfig($updated_at: timestamptz!, $batchSize: Int!) {

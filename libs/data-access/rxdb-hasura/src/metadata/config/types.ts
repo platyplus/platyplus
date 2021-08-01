@@ -1,14 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentNode } from 'graphql'
 import { RxJsonSchema } from 'rxdb'
-import { DeepReadonly } from 'rxdb/dist/types/types'
-import { Contents } from '../../types'
+
+export type PropertyConfig = {
+  id: string
+  property_id: string
+  updated_at: string
+  table_id: string
+  property_name: string
+  component?: string
+  json_schema?: Record<string, unknown>
+  icon?: string
+  description?: string
+  title?: string
+}
 
 export type CollectionConfig = {
   query: DocumentNode
   mutation: DocumentNode
   subscription: DocumentNode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: RxJsonSchema<any>
-  onUpsert?: (doc: Contents | DeepReadonly<Contents>) => void
-  onDelete?: (doc: Contents | DeepReadonly<Contents>) => void
+  onUpsert?: (doc: any) => void
+  onDelete?: (doc: any) => void
 }

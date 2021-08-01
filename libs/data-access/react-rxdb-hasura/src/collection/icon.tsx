@@ -1,13 +1,8 @@
 import type { IconProps } from 'rsuite'
 
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { PropType } from '@platyplus/ts-types'
 
 import { useCollectionTableConfig } from './config'
 
-export const useCollectionIcon = (collection: ContentsCollection) =>
-  useCollectionTableConfig<PropType<IconProps, 'icon'>>(
-    collection,
-    'icon',
-    'table'
-  )
+export const useTableIcon = (id: string) =>
+  useCollectionTableConfig<PropType<IconProps, 'icon'>>(id, 'icon', 'table')

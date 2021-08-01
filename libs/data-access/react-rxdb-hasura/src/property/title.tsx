@@ -1,4 +1,4 @@
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { Metadata } from '@platyplus/rxdb-hasura'
 import { InlineValue } from '@platyplus/layout'
 
 import { useCollectionPropertyConfig } from './hooks'
@@ -10,15 +10,15 @@ import { useCollectionPropertyConfig } from './hooks'
  * The `setTitle` method will set a new title value to the config store
  * @return [title, setTitle]
  */
-const usePropertyTitle = (collection: ContentsCollection, property: string) =>
-  useCollectionPropertyConfig(collection, property, 'title', property)
+const usePropertyTitle = (metadata: Metadata, property: string) =>
+  useCollectionPropertyConfig(metadata, property, 'title', property)
 
 export const PropertyTitle: React.FC<{
-  collection: ContentsCollection
-  property: string
+  metadata: Metadata
+  name: string
   editable?: boolean
-}> = ({ collection, property, editable }) => {
-  const [value, setValue] = usePropertyTitle(collection, property)
+}> = ({ metadata, name, editable }) => {
+  const [value, setValue] = usePropertyTitle(metadata, name)
   return editable ? (
     <InlineValue editable={editable} value={value} onChange={setValue} />
   ) : (

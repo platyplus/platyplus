@@ -1,11 +1,11 @@
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents } from '@platyplus/rxdb-hasura'
 import { FunctionComponent } from 'react'
 import { useProfile } from './hook'
 
-export const DisplayName: FunctionComponent<{ profile?: ContentsDocument }> = ({
+export const DisplayName: FunctionComponent<{ profile?: Contents }> = ({
   profile
 }) => {
-  const { document: loadProfile } = useProfile()
+  const { value: loadProfile } = useProfile()
   const profileDoc = profile || loadProfile
   if (profileDoc) return <span>{profileDoc.display_name}</span>
   else return null

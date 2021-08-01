@@ -7,4 +7,4 @@ export const ComponentsContext = React.createContext<ComponentsConfig>({
   documents: {}
 })
 
-export const useComponentsContext = () => useContext(ComponentsContext)
+export const useComponentsLibrary = () => useContext(ComponentsContext)

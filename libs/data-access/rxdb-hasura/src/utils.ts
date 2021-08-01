@@ -6,7 +6,7 @@ import decode from 'jwt-decode'
 
 import { jsonataPaths } from '@platyplus/jsonata-schema'
 
-import { ContentsCollection } from './types'
+import { Contents, ContentsCollection, ContentsDocument } from './types'
 
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never
@@ -18,6 +18,11 @@ export interface FieldMap {
 
 export const metadataName = (data: { schema: string; name: string }): string =>
   data.schema === 'public' ? `${data.name}` : `${data.schema}_${data.name}`
+
+export const collectionName = (
+  metadata: { schema: string; name: string },
+  role: string
+) => `${role}_${metadataName(metadata)}`
 
 // * Generate query fields according to the loaded schema
 // * It is meant to:
@@ -92,3 +97,18 @@ export const queryToSubscription = (query: DocumentNode): DocumentNode => {
 
 export const documentContents = <T>(doc: T | RxDocument<T>): DeepReadonly<T> =>
   isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : (doc as DeepReadonly<T>)
+
+export const populateDocument = async (
+  doc: ContentsDocument
+): Promise<Contents> => {
+  const result = clone(doc)
+  for (const field of doc.collection.schema.topLevelFields) {
+    if (doc.collection.schema.jsonSchema.properties[field].ref) {
+      const population = await doc.populate(field)
+      result[field] = Array.isArray(population)
+        ? population.map((item) => item.toJSON())
+        : population.toJSON()
+    }
+  }
+  return result
+}

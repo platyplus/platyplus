@@ -1,13 +1,17 @@
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, Metadata } from '@platyplus/rxdb-hasura'
 import { useState, useEffect, useMemo } from 'react'
 import { useFormGet } from './state'
 import { useFormHasChanged } from './changes'
 import { useFormModel } from './model'
 
-export const useFormIsValid = (document: ContentsDocument) => {
+export const useFormIsValid = (
+  metadata: Metadata,
+  role: string,
+  document: Contents
+) => {
   const [isValid, setValid] = useState(false)
-  const model = useFormModel(document)
-  const form = useFormGet(document)
+  const model = useFormModel(metadata)
+  const form = useFormGet(metadata, role, document)
   useEffect(() => {
     model.checkAsync(form).then((check) => {
       setValid(Object.values(check).every((value) => !value.hasError))
@@ -16,8 +20,12 @@ export const useFormIsValid = (document: ContentsDocument) => {
   return isValid
 }
 
-export const useFormCanSave = (document: ContentsDocument) => {
-  const hasChanged = useFormHasChanged(document)
-  const isValid = useFormIsValid(document)
+export const useFormCanSave = (
+  metadata: Metadata,
+  role: string,
+  document: Contents
+) => {
+  const hasChanged = useFormHasChanged(metadata, role, document)
+  const isValid = useFormIsValid(metadata, role, document)
   return useMemo(() => hasChanged && isValid, [hasChanged, isValid])
 }

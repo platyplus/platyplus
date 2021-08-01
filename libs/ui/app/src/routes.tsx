@@ -30,12 +30,12 @@ export const Routes: React.FC<RoutesConfig> = ({
   return (
     <Switch>
       <PrivateRoute
-        path={`/collection/:name`}
+        path={`/collection/:role/:name`}
         exact
         children={<CollectionPage />}
       />
       <PrivateRoute
-        path={`/collection/:name/:id`}
+        path={`/collection/:role/:name/:id`}
         exact
         children={<DocumentPage />}
       />

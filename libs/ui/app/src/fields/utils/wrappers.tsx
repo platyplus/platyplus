@@ -1,36 +1,20 @@
-import {
-  usePropertyComponentName,
-  usePropertyType
-} from '@platyplus/react-rxdb-hasura'
 import { useMemo } from 'react'
-import { useComponentsContext } from '../../components'
+import { useComponentsLibrary } from '../../components'
 
 import { FieldComponent } from './types'
 
 export const FieldComponentWrapper: FieldComponent = ({
+  property,
   document,
-  field,
-  edit,
-  editable
+  ...rest
 }) => {
-  const context = useComponentsContext()
-  const [componentName] = usePropertyComponentName(document, field)
-  const type = usePropertyType(document, field)
-
+  const library = useComponentsLibrary().fields
   const Component = useMemo(
-    () => componentName && context.fields[type][componentName],
-    [componentName, context, type]
+    () => library[property.type][property.config?.component || 'default'],
+    [library, property]
   )
+
   if (Component)
-    return (
-      <div>
-        <Component
-          document={document}
-          field={field}
-          edit={edit}
-          editable={editable}
-        />
-      </div>
-    )
-  else return <div>Unknown component {componentName}</div>
+    return <Component property={property} document={document} {...rest} />
+  else return <div>Unknown component {property.type}</div>
 }

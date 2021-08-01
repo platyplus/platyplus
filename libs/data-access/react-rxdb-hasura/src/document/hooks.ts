@@ -1,15 +1,57 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRxData, useRxDocument } from 'rxdb-hooks'
 
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
+import {
+  Contents,
+  ContentsDocument,
+  Metadata,
+  populateDocument
+} from '@platyplus/rxdb-hasura'
 
-import { useContentsCollection } from '../collection'
+import { useCollectionName, useContentsCollection } from '../collection'
 
-export const useDocument = <T = ContentsDocument>(name: string, id: string) => {
-  const collection = useContentsCollection(name)
+export const usePopulatedDocument = (
+  metadata: Metadata,
+  role: string,
+  id: string
+) => {
+  const collectionName = useCollectionName(metadata, role)
+  const doc = useRxDocument<ContentsDocument>(collectionName, id)
+  const [state, setState] = useState<Contents>(null)
+  const [isPopulating, setPopulating] = useState(true)
+
+  useEffect(() => {
+    if (!doc.isFetching && doc.result) {
+      const populate = async () => {
+        setPopulating(true)
+        const populated = await populateDocument(doc.result as ContentsDocument)
+        setState(populated)
+        setPopulating(false)
+        // console.log('Population ok', populated)
+      }
+      const subscription = doc.result.$.subscribe(() => populate())
+      return () => subscription.unsubscribe()
+    }
+  }, [doc.result, doc.isFetching])
+
+  const isFetching = useMemo(
+    () => doc.isFetching || isPopulating,
+    [doc.isFetching, isPopulating]
+  )
+  return { document: state, isFetching }
+}
+
+// TODO review
+export const useDocument = <T = ContentsDocument>(
+  metadata: Metadata,
+  role: string,
+  id: string
+) => {
+  const collectionName = useCollectionName(metadata, role)
+  const collection = useContentsCollection(collectionName)
   const queryConstructor = useMemo(() => id !== 'new' && id, [id])
   const { result, isFetching: isDocumentFetching } = useRxDocument(
-    name,
+    collectionName,
     queryConstructor
   )
   const [document, setDocument] = useState<T>()
@@ -22,26 +64,4 @@ export const useDocument = <T = ContentsDocument>(name: string, id: string) => {
     else return document ? isDocumentFetching : true
   }, [id, document, isDocumentFetching])
   return { isFetching, document }
-}
-
-export const useDocuments = (name: string, ids: string[] = []) => {
-  const queryConstructor = useCallback(
-    (collection) => collection.find().where('id').in(ids),
-    [ids]
-  )
-  const data = useRxData<Contents>(name, queryConstructor)
-  return data
-}
-
-export const useWatchDocumentValue = (document: ContentsDocument) => {
-  const [value, setValue] = useState<Contents>(document?.toJSON())
-  useEffect(() => {
-    if (document) {
-      const subscription = document.$.subscribe((newValue) =>
-        setValue(newValue)
-      )
-      return () => subscription.unsubscribe()
-    }
-  }, [document])
-  return value
 }

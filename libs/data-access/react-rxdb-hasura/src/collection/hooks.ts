@@ -1,9 +1,55 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
-import { ContentsCollections } from '@platyplus/rxdb-hasura'
+import {
+  collectionName,
+  Contents,
+  ContentsCollections,
+  ContentsDocument,
+  Metadata,
+  populateDocument
+} from '@platyplus/rxdb-hasura'
 
 import { useDB } from '../database'
 import { useAppConfig } from '../config'
+import { useRxCollection, useRxQuery } from 'rxdb-hooks'
+import { RxQuery } from 'rxdb'
+
+export const useCollectionName = (metadata: Metadata, role: string) =>
+  useMemo(() => metadata && collectionName(metadata, role), [metadata, role])
+
+export const usePopulatedCollection = (name: string, query?: RxQuery) => {
+  const collection = useRxCollection(name)
+  const q = useMemo(
+    () => query || collection?.find().sort('label'),
+    [query, collection]
+  )
+  const [populating, setPopulating] = useState<boolean>()
+  const {
+    isFetching: isQueryFetching,
+    result: rawResult,
+    ...rest
+  } = useRxQuery<Contents>(q)
+  const [result, setResult] = useState<Contents[]>([])
+  useEffect(() => {
+    const populate = async () => {
+      setPopulating(true)
+      setResult(
+        await Promise.all(
+          rawResult.map(
+            async (doc) => await populateDocument(doc as ContentsDocument)
+          )
+        )
+      )
+      setPopulating(false)
+    }
+    populate()
+  }, [rawResult])
+  const isFetching = useMemo(
+    () => isQueryFetching || populating,
+    [isQueryFetching, populating]
+  )
+  return { isFetching, result, ...rest }
+}
 
 /**
  *

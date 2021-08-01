@@ -7,7 +7,7 @@ import { useProfile } from './hook'
 export const Avatar: FunctionComponent<Omit<AvatarProps, 'src' | 'alt'>> = (
   props
 ) => {
-  const { document: profile } = useProfile()
+  const { value: profile } = useProfile()
   if (profile) {
     const ini = initials(profile.display_name)
 

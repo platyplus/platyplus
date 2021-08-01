@@ -9,12 +9,13 @@ import {
   ContentsDocument,
   Metadata
 } from '../types'
+import { PropertyConfig } from './config/definitions'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
   config: {
     app?: Contents
-    properties: Record<string, Contents>
+    properties: Record<string, PropertyConfig>
     tables: Record<string, Contents>
   }
 }
@@ -48,3 +49,9 @@ export const getCollectionMetadata = (collection: ContentsCollection) =>
 
 export const getDocumentMetadata = (document: ContentsDocument) =>
   getCollectionMetadata(document.collection)
+
+export const getTablePropertiesConfig = (tableId: string): PropertyConfig[] => {
+  return Object.values(metadataStore.getState().config.properties).filter(
+    (value) => value.property_id.startsWith(`${tableId}.`)
+  )
+}

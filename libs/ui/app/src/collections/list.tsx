@@ -3,7 +3,11 @@ import { useHistory } from 'react-router-dom'
 
 import { CollectionComponent } from './types'
 
-export const ListCollection: CollectionComponent = ({ collection, data }) => {
+export const ListCollection: CollectionComponent = ({
+  metadata,
+  role,
+  data
+}) => {
   const history = useHistory()
   return (
     <List hover bordered>
@@ -15,7 +19,7 @@ export const ListCollection: CollectionComponent = ({ collection, data }) => {
             cursor: 'pointer'
           }}
           onClick={() => {
-            history.push(`/collection/${collection.name}/${item.id}`)
+            history.push(`/collection/${role}/${metadata.id}/${item.id}`)
           }}
         >
           {item.label}

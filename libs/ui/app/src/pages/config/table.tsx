@@ -13,27 +13,23 @@ import {
 } from 'rsuite'
 
 import {
-  useCollectionProperties,
-  useContentsCollection,
   useMetadataStore,
   useMetadataConfig,
-  useMetadataTitleById
+  useMetadataTitleById,
+  useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
-import { metadataName } from '@platyplus/rxdb-hasura'
 import { upperCaseFirst } from '@platyplus/data'
 
-import { useComponentsContext } from '../../components'
+import { useComponentsLibrary } from '../../components'
 import { PropertyConfig } from './property'
+import { metadataName } from '@platyplus/rxdb-hasura'
 
-export const ConfigTablePage: React.FC<{ role?: string }> = ({
-  // TODO not linked to a given role
-  role = 'user'
-}) => {
+export const ConfigTablePage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
   const table = useMetadataStore(useCallback((state) => state.tables[id], [id]))
   const metaName = useMemo(() => table && metadataName(table), [table])
-  const collection = useContentsCollection(`${role}_${metaName}`)
+
   const [collectionTitle] = useMetadataTitleById(id, metaName)
   const title = useMemo(
     () =>
@@ -44,13 +40,12 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
     [metaName, collectionTitle]
   )
 
-  // TODO useMetadataProperties(table: Metadata, role?:string)
-  const [properties, setProperties] = useCollectionProperties(collection)
+  const [properties, setProperties] = useMetadataProperties(table)
   const [config, setConfig] = useMetadataConfig<Record<string, unknown>>(id)
 
-  const componentContext = useComponentsContext()
-  const collectionComponents = Object.keys(componentContext.collections)
-  const documentComponents = Object.keys(componentContext.documents).filter(
+  const library = useComponentsLibrary()
+  const collectionComponents = Object.keys(library.collections)
+  const documentComponents = Object.keys(library.documents).filter(
     (name) => !['tag', 'label'].includes(name)
   )
 
@@ -129,11 +124,12 @@ export const ConfigTablePage: React.FC<{ role?: string }> = ({
     ),
     fields: properties ? (
       <List sortable onSort={sortProperties} pressDelay={300}>
-        {[...properties.keys()].map((name, index) => (
+        {[...properties.entries()].map(([name, property], index) => (
           <List.Item key={name} index={index}>
             <PropertyConfig
-              collection={collection}
+              metadata={table}
               name={name}
+              property={property}
               expanded={expandedProperties[name]}
               onSelect={() => toggleProperty(name)}
             />

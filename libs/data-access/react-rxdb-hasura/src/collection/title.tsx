@@ -1,19 +1,8 @@
 import { InlineValue } from '@platyplus/layout'
-import {
-  ContentsCollection,
-  Metadata,
-  metadataName
-} from '@platyplus/rxdb-hasura'
+import { Metadata, metadataName } from '@platyplus/rxdb-hasura'
 import { useMemo } from 'react'
 
 import { useMetadataConfig } from '../config'
-import { useCollectionMetadata } from './metadata'
-
-// * Collection title e.g. 'Visit'. config.title="Visits" whereas config.document_title="Visite"
-export const useCollectionTitle = (collection: ContentsCollection) => {
-  const metadata = useCollectionMetadata(collection)
-  return useMetadataTitle(metadata)
-}
 
 export const useMetadataTitle = (metadata?: Metadata) => {
   const id = useMemo(() => metadata?.id, [metadata])

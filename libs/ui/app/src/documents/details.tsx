@@ -1,82 +1,83 @@
 import { ControlLabel, Form, FormGroup } from 'rsuite'
-import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import {
   PropertyTitle,
-  useDocumentProperties,
   useFormModel,
   useFormGet,
   useFormSet,
-  useIsRequiredProperty
+  useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
-import { FieldComponentWrapper } from '../fields'
+import { FieldComponent, FieldComponentWrapper } from '../fields'
 import { DocumentComponent } from './types'
 import { PropertyIcon } from './icon'
 import { useRef } from 'react'
 
-const DocumentField: React.FC<{
-  document: ContentsDocument
-  propertyName: string
-  edit: boolean
-  property: TopLevelProperty
-  config?: boolean
-}> = ({ document, propertyName, edit, config }) => {
-  const required = useIsRequiredProperty(document.collection, propertyName)
-  return (
-    <FormGroup>
-      <ControlLabel>
-        <PropertyIcon
-          collection={document.collection}
-          property={propertyName}
+const DocumentField: FieldComponent = ({
+  property,
+  name,
+  metadata,
+  role,
+  document,
+  edit,
+  config
+}) => {
+  const required = property.required
+  if (document)
+    return (
+      <FormGroup>
+        <ControlLabel>
+          <PropertyIcon metadata={metadata} name={name} />
+          <PropertyTitle metadata={metadata} name={name} editable={config} />
+          {edit && required && '*'}
+        </ControlLabel>
+        <FieldComponentWrapper
+          metadata={metadata}
+          document={document}
+          role={role}
+          property={property}
+          name={name}
+          edit={edit}
+          // TODO editable according to permissions
+          editable={true}
         />
-        <PropertyTitle
-          collection={document.collection}
-          property={propertyName}
-          editable={config}
-        />
-        {edit && required && '*'}
-      </ControlLabel>
-      <FieldComponentWrapper
-        document={document}
-        field={propertyName}
-        edit={edit}
-        // TODO editable according to permissions
-        editable={true}
-      />
-      {/* {edit && required && <HelpBlock>* Required</HelpBlock>} */}
-    </FormGroup>
-  )
+        {/* {edit && required && <HelpBlock>* Required</HelpBlock>} */}
+      </FormGroup>
+    )
+  else return <div>no document</div>
 }
 
 export const DocumentDetails: DocumentComponent = ({
+  metadata,
+  role,
   document,
   edit,
   formRef,
   config
 }) => {
-  const [properties] = useDocumentProperties(document)
-  const form = useFormGet(document)
-  const setForm = useFormSet(document)
-  const model = useFormModel(document)
+  const [properties] = useMetadataProperties(metadata, { role })
+  const form = useFormGet(metadata, role, document)
+  const setForm = useFormSet(metadata, role, document)
+  const model = useFormModel(metadata)
   const newRef = useRef()
   const ref = formRef || newRef
   // ? Why does useFormGet rerender the entire DocumentDetails component?
   if (properties)
     return (
       <Form onChange={setForm} model={model} formValue={form} fluid ref={ref}>
-        {[...properties.keys()].map((property) => (
+        {[...properties.entries()].map(([name, property]) => (
           <DocumentField
-            key={property}
+            key={name}
+            metadata={metadata}
             document={document}
-            property={properties.get(property)}
-            propertyName={property}
+            role={role}
+            property={property}
+            name={name}
             edit={edit}
             config={config}
           />
         ))}
       </Form>
     )
-  else return null
+  else return <div>no details</div>
 }

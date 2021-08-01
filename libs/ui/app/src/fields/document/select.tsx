@@ -2,21 +2,25 @@ import { useCallback, useMemo } from 'react'
 import { SelectPicker, Animation } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
-import { useDocumentProperties } from '@platyplus/react-rxdb-hasura'
 import { Contents } from '@platyplus/rxdb-hasura'
 
-import { DocumentFromParamsComponentWrapper } from '../../documents'
+import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
+import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
+
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
+  role,
   document,
-  field,
+  name,
   edit,
-  editable
+  editable,
+  property
 }) => {
   // TODO async - see https://rsuitejs.com/components/select-picker/#Async
-  const [properties] = useDocumentProperties(document)
-  const refCollectionName = properties.get(field).ref
+  const refMetadata = useMetadata(property.relationship.ref)
+  const refCollectionName = useCollectionName(refMetadata, role)
+
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
     []
@@ -29,22 +33,23 @@ export const DocumentSelectField: FieldComponent = ({
   )
 
   return (
-    <Animation.Fade in={!!document}>
+    <Animation.Fade in={true}>
       {(props, ref) => (
         <div {...props}>
           {edit ? (
             <FieldControl
               style={{ minWidth: 300 }}
-              name={field}
+              name={name}
               readOnly={!edit}
               data={options}
               cleanable={edit}
               accepter={SelectPicker}
             />
           ) : (
-            <DocumentFromParamsComponentWrapper
-              collectionName={refCollectionName}
-              id={document[field]}
+            <DocumentComponentWrapper
+              metadata={refMetadata}
+              role={role}
+              document={document[name]}
               componentName="label"
               edit={false}
             />

@@ -1,51 +1,23 @@
-import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { useCallback, useMemo } from 'react'
 
 import {
-  ContentsCollection,
-  Contents,
   Metadata,
   MetadataDocument,
-  PropertyConfig
+  PropertyConfig,
+  getTablePropertiesConfig,
+  isRequiredColumn,
+  Property,
+  PropertyType,
+  isRequiredRelationship,
+  metadataStore,
+  columnProperties,
+  isManyToManyTable,
+  metadataProperties
 } from '@platyplus/rxdb-hasura'
 
-import { useCollectionMetadata, useCollectionTableConfig } from '../collection'
+import { useCollectionTableConfig } from '../collection'
 import { useMetadataStore } from '../metadata'
 import { useStore } from '../store'
-
-type PropertiesType = Map<string, TopLevelProperty>
-
-export const useCollectionProperties = (
-  collection: ContentsCollection
-): [PropertiesType | null, (val: PropertiesType) => void] => {
-  const [order, setOrder] = useCollectionTableConfig<string[]>(
-    collection,
-    'order'
-  )
-
-  const properties = useMemo(() => {
-    if (collection?.properties) {
-      const result = new Map<string, TopLevelProperty>()
-      const tempProperties = new Map(collection.properties)
-      if (order)
-        for (const property of order) {
-          result.set(property, tempProperties.get(property))
-          tempProperties.delete(property)
-        }
-      return new Map([...result, ...tempProperties])
-    } else return null
-  }, [collection, order])
-
-  const setProperties = useCallback(
-    (newProperties: PropertiesType) => setOrder([...newProperties.keys()]),
-    [setOrder]
-  )
-
-  return [properties, setProperties]
-}
-
-export const useDocumentProperties = (document?: Contents) =>
-  useCollectionProperties(document?.collection)
 
 export const usePropertyConfig = <T = PropertyConfig>(
   metadata: Metadata | MetadataDocument | undefined,
@@ -83,11 +55,46 @@ export const usePropertyConfig = <T = PropertyConfig>(
 }
 
 export const useCollectionPropertyConfig = <T = PropertyConfig>(
-  collection: ContentsCollection,
+  metadata: Metadata,
   property: string,
   path?: string,
   fallback?: T
 ) => {
-  const metadata = useCollectionMetadata(collection)
   return usePropertyConfig(metadata, property, path, fallback)
+}
+
+export const useMetadataProperties = (
+  metadata: Metadata,
+  options?: { all?: boolean; role?: string; order?: boolean }
+): [Map<string, Property>, (val: Map<string, Property>) => void] => {
+  const state = useMemo(
+    () => metadataProperties(metadata, options),
+    [metadata, options]
+  )
+
+  const [order, setOrder] = useCollectionTableConfig<string[]>(
+    metadata.id,
+    'order'
+  )
+
+  const properties = useMemo(() => {
+    if (state) {
+      const result = new Map<string, Property>()
+      const tempProperties = new Map(state)
+      if (order)
+        for (const property of order) {
+          result.set(property, tempProperties.get(property))
+          tempProperties.delete(property)
+        }
+      return new Map([...result, ...tempProperties])
+    } else return null
+  }, [state, order])
+
+  const setProperties = useCallback(
+    (newProperties: Map<string, Property>) =>
+      setOrder([...newProperties.keys()]),
+    [setOrder]
+  )
+
+  return [properties, setProperties]
 }

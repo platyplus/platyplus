@@ -1,25 +1,26 @@
 import { useHistory } from 'react-router-dom'
 import { Table } from 'rsuite'
 
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { CollectionComponent } from './types'
 import { FieldComponentWrapper } from '../fields'
 import {
   PropertyTitle,
-  useCollectionProperties
+  useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
 
 const { Column, HeaderCell, Cell } = Table
 
 export const TableCollection: CollectionComponent = ({
-  collection,
+  metadata,
+  role,
   data,
   config
 }) => {
   const history = useHistory()
-  const [properties] = useCollectionProperties(collection)
-  if (!collection) return null
+  const [properties] = useMetadataProperties(metadata)
+  if (!metadata || !properties) return <span>no metadata/properties</span>
   return (
     <Table
       hover
@@ -27,28 +28,26 @@ export const TableCollection: CollectionComponent = ({
       autoHeight
       data={data}
       onRowClick={(data: ContentsDocument) => {
-        history.push(`/collection/${collection.name}/${data.id}`)
+        history.push(`/collection/${role}/${metadata.id}/${data.id}`)
       }}
     >
-      {[...properties].map(([property, value]) => (
-        <Column flexGrow={1} key={property}>
+      {[...properties.entries()].map(([name, property]) => (
+        <Column flexGrow={1} key={name}>
           <HeaderCell>
-            <PropertyTitle
-              editable={config}
-              collection={collection}
-              property={property}
-            />
+            <PropertyTitle editable={config} metadata={metadata} name={name} />
           </HeaderCell>
           <Cell>
-            {(document: ContentsDocument) => {
-              if (document.collection.name === collection.name)
-                return (
-                  <FieldComponentWrapper
-                    document={document}
-                    edit={false}
-                    field={property}
-                  />
-                )
+            {(document: Contents) => {
+              return (
+                <FieldComponentWrapper
+                  metadata={metadata}
+                  role={role}
+                  name={name}
+                  property={property}
+                  document={document}
+                  edit={false}
+                />
+              )
             }}
           </Cell>
         </Column>

@@ -8,7 +8,7 @@ import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, errorDir, warn } from '../console'
 import { contentsCollectionCreator } from '../contents'
 import { Metadata, MetadataCollection } from '../types'
-import { createHeaders, metadataName } from '../utils'
+import { collectionName, createHeaders, metadataName } from '../utils'
 import { subscription } from './graphql'
 import { modifier } from './modifier'
 import { queryBuilder } from './pull'
@@ -119,12 +119,10 @@ export const createMetadataReplicator = async (
               []
             )
             for (const role of roles) {
-              const collectionName = `${role}_${metaName}`
+              const metadata = documentData as Metadata
+              const name = collectionName(metadata, role)
               await db.addCollections({
-                [collectionName]: contentsCollectionCreator(
-                  documentData as Metadata,
-                  role
-                )
+                [name]: contentsCollectionCreator(metadata, role)
               })
             }
           }

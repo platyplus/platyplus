@@ -1,10 +1,15 @@
 import { getCollectionMetadata } from '../../metadata'
-import { ContentsCollection, ContentsDocument } from '../../types'
+import { ContentsCollection, Contents, Metadata } from '../../types'
 
-export const canEdit = (document: ContentsDocument, propertyName?: string) =>
+export const canEdit = (
+  metadata: Metadata,
+  role: string,
+  document: Contents,
+  propertyName?: string
+) =>
   document._isTemporary
-    ? canCreate(document.collection, propertyName)
-    : canUpdate(document.collection, propertyName)
+    ? canCreate(metadata, role, propertyName)
+    : canUpdate(metadata, role, propertyName)
 
 export const canSave = () => {
   // ? validate data ?
@@ -13,17 +18,20 @@ export const canSave = () => {
   return true
 }
 
-export const canDelete = (doc: ContentsDocument) => canEdit(doc, 'deleted')
+export const canDelete = (metadata: Metadata, role: string, doc: Contents) =>
+  canEdit(metadata, role, doc, 'deleted')
 
 export const canCreate = (
-  collection: ContentsCollection,
+  metadata: Metadata,
+  role: string,
   fieldName?: string
 ) => {
-  const metadata = getCollectionMetadata(collection)
   // * PostgreSQL views cannot be edited (as of now)
   if (metadata.view) return false
-  if (collection.role === 'admin') return true
+  if (role === 'admin') return true
   // ? Check the hasura permission rule ?
+  // TODO
+  return true
   if (fieldName) {
     const property = collection.schema.jsonSchema.properties[fieldName]
     if (property?.ref) {
@@ -35,7 +43,7 @@ export const canCreate = (
         // * object relationship: check permission to insert every foreign key column
         return relationship.mapping
           .map((m) => m.column?.name)
-          .every((column) => column && canCreate(collection, column))
+          .every((column) => column && canCreate(metadata, role, column))
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refCollectionName =
@@ -50,28 +58,26 @@ export const canCreate = (
       return metadata.columns.some(
         (col) =>
           col.name === fieldName &&
-          col.canInsert.some(
-            (permission) => permission.roleName === collection.role
-          )
+          col.canInsert.some((permission) => permission.roleName === role)
       )
     }
   } else {
     return metadata.columns.some((col) =>
-      col.canInsert.some(
-        (permission) => permission.roleName === collection.role
-      )
+      col.canInsert.some((permission) => permission.roleName === role)
     )
   }
 }
 
 export const canUpdate = (
-  collection: ContentsCollection,
+  metadata: Metadata,
+  role: string,
   fieldName?: string
 ): boolean => {
-  const metadata = getCollectionMetadata(collection)
   // * PostgreSQL views cannot be edited (as of now)
   if (metadata.view) return false
-  if (collection.role === 'admin') return true
+  if (role === 'admin') return true
+  return true
+  // TODO
   // ? Check the hasura permission rule ?
   if (fieldName) {
     const property = collection.schema.jsonSchema.properties[fieldName]
@@ -100,16 +106,12 @@ export const canUpdate = (
       return metadata.columns.some(
         (col) =>
           col.name === fieldName &&
-          col.canUpdate.some(
-            (permission) => permission.roleName === collection.role
-          )
+          col.canUpdate.some((permission) => permission.roleName === role)
       )
     }
   } else {
     return metadata.columns.some((col) =>
-      col.canUpdate.some(
-        (permission) => permission.roleName === collection.role
-      )
+      col.canUpdate.some((permission) => permission.roleName === role)
     )
   }
 }

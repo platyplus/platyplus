@@ -3,6 +3,8 @@ import React from 'react'
 import { DocumentLabel } from '../documents'
 
 export const LabelCollection: CollectionComponent = ({
+  metadata,
+  role,
   data,
   edit,
   config
@@ -14,7 +16,13 @@ export const LabelCollection: CollectionComponent = ({
         .map((doc, index) => (
           <React.Fragment key={doc.primary}>
             {!!index && ', '}
-            <DocumentLabel config={config} document={doc} edit={edit} />
+            <DocumentLabel
+              metadata={metadata}
+              role={role}
+              config={config}
+              document={doc}
+              edit={edit}
+            />
           </React.Fragment>
         ))}
     </span>

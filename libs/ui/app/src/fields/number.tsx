@@ -2,18 +2,18 @@ import { FieldComponent, NullableNumericInput, FieldControl } from './utils'
 
 export const NumberField: FieldComponent = ({
   document,
-  field,
+  name,
   edit,
   editable
 }) => {
   if (editable || edit)
     return (
       <FieldControl
-        name={field}
+        name={name}
         readOnly={!edit}
         // TODO configure nullable
         accepter={NullableNumericInput}
       />
     )
-  else return document[field]
+  else return document[name] || null
 }

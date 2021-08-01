@@ -13,13 +13,13 @@ const ToggleAccepter: React.ElementType<FormControlAccepterProps> = ({
 
 export const ToggleField: FieldComponent = ({
   document,
-  field,
+  name,
   edit,
   editable
 }) => {
   if (editable || edit) {
     return (
-      <FieldControl name={field} readOnly={!edit} accepter={ToggleAccepter} />
+      <FieldControl name={name} readOnly={!edit} accepter={ToggleAccepter} />
     )
-  } else return <Toggle checked={document[field]} disabled />
+  } else return <Toggle checked={document[name]} disabled />
 }

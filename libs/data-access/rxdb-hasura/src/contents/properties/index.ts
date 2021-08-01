@@ -1,16 +1,23 @@
 import {
   ColumnFragment,
+  Contents,
   ContentsCollection,
-  ContentsDocument,
   JsonSchemaFormat,
   JsonSchemaPropertyType,
   Metadata,
+  Property,
   PropertyType
 } from '../../types'
 import { columnProperties } from '../columns'
 
-import { isNullableColumn } from '../required'
+import {
+  isNullableColumn,
+  isRequiredColumn,
+  isRequiredRelationship
+} from '../required'
 import { isIdColumn } from '../ids'
+import { metadataStore } from '../../metadata'
+import { isManyToManyTable } from '../relationships'
 
 const postgresJsonSchemaTypeMapping: Record<
   string,
@@ -93,7 +100,8 @@ export const collectionPropertyType = (
  * does not allow composite types e.g. ['string', 'object']
  */
 export const propertyType = (
-  document: ContentsDocument,
+  metadata: Metadata,
+  document: Contents,
   propertyName: string,
   includeFormat = true
 ): PropertyType =>
@@ -115,4 +123,86 @@ export const propertyNames = (table: Metadata) => {
     ...columnProperties(table).map(({ name }) => name),
     ...table.relationships.map(({ name }) => name)
   ]
+}
+
+const getProperties = (metadata: Metadata) => {
+  // TODO exclude some properties
+  // TODO order properties
+  // TODO computed fields
+  const result = []
+  metadata.columns.forEach((col) => result.push(col.name))
+  metadata.relationships.forEach((rel) => result.push(rel.name))
+  return result
+}
+
+const typesMapping: Record<string, PropertyType> = {
+  // TODO complete e.g. GIS
+  uuid: 'uuid',
+  bool: 'boolean',
+  timestamp: 'string',
+  timestamptz: 'string',
+  date: 'string',
+  timetz: 'string',
+  time: 'string',
+  text: 'string',
+  citext: 'string',
+  varchar: 'string',
+  jsonb: 'json',
+  numeric: 'number',
+  int: 'integer',
+  int4: 'integer',
+  int8: 'integer',
+  float4: 'number',
+  name: 'string',
+  bigint: 'integer',
+  real: 'number',
+  decimal: 'number'
+}
+
+export const metadataProperties = (
+  metadata: Metadata,
+  options?: { all?: boolean; role?: string; order?: boolean }
+) => {
+  if (!metadata) return null
+  // TODO order
+  // const tableConfig = metadataStore.getState().config.tables[metadata.id] || {}
+  const propertiesConfig = metadataStore.getState().config.properties
+  const result: Map<string, Property> = new Map()
+  const columns =
+    options?.all === true ? metadata?.columns : columnProperties(metadata)
+  columns.forEach((col) => {
+    const isPrimary = metadata.primaryKey.columns
+      .map((c) => c.columnName)
+      .includes(col.name)
+    if (options?.all === true || !isPrimary) {
+      const property: Property = {
+        column: col,
+        type: typesMapping[col.udtName],
+        required: isRequiredColumn(col),
+        primary: isPrimary,
+        config: propertiesConfig[`${metadata.id}.${col.name}`]
+      }
+      result.set(col.name, property)
+    }
+  })
+  metadata?.relationships
+    .filter((rel) => rel.remoteTable)
+    .forEach((rel) => {
+      const property: Property = {
+        relationship: {
+          ...rel,
+          ref: isManyToManyTable(rel.remoteTable)
+            ? rel.remoteTable.relationships.find(
+                (rel) => rel.remoteTable.id !== metadata.id
+              ).remoteTable.id
+            : rel.remoteTable.id
+        },
+        type: rel.type === 'object' ? 'document' : 'collection',
+        required: isRequiredRelationship(rel),
+        primary: false,
+        config: propertiesConfig[`${metadata.id}.${rel.name}`]
+      }
+      result.set(rel.name, property)
+    })
+  return result
 }

@@ -8,3 +8,5 @@ export const configCollectionDefinitions: Record<string, CollectionConfig> = {
   table_config: tableConfig,
   property_config: propertyConfig
 }
+
+export type { PropertyConfig } from './property'

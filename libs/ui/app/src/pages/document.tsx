@@ -8,48 +8,70 @@ import {
   DocumentLabel,
   DocumentTitle,
   useConfigEnabled,
-  useDocument,
-  useDocumentTitle
+  useDocumentTitle,
+  useMetadata,
+  usePopulatedDocument
 } from '@platyplus/react-rxdb-hasura'
 
 import { DocumentToolbar, DocumentComponentWrapper } from '../documents'
 
 export const DocumentPage: React.FC = () => {
-  const { name, id } = useParams<{ name: string; id: string }>()
+  const { name, role, id } =
+    useParams<{ name: string; role: string; id: string }>()
   const editing = useQuery().has('edit') || id === 'new'
   const enabledConfig = useConfigEnabled()
-  const { document, isFetching } = useDocument(name, id)
-  const [title] = useDocumentTitle(document)
+
+  const metadata = useMetadata(name)
+  const { document, isFetching } = usePopulatedDocument(metadata, role, id)
+  const [title] = useDocumentTitle(metadata)
   const formRef = useRef()
+  if (!metadata) return null
   return (
     <HeaderTitleWrapper
       title={title}
-      component={<DocumentTitle editable={enabledConfig} document={document} />}
+      component={
+        <DocumentTitle
+          editable={enabledConfig}
+          metadata={metadata}
+          document={document}
+        />
+      }
       previous
     >
-      <Animation.Fade in={!isFetching && !!document && !!title}>
+      <Animation.Fade in={!isFetching && !!document}>
         {(props) => {
           return (
             <div {...props}>
-              <DocumentPanel
-                title={
-                  <DocumentLabel editable={enabledConfig} document={document} />
-                }
-                toolbar={
-                  <DocumentToolbar
+              {document && (
+                <DocumentPanel
+                  title={
+                    <DocumentLabel
+                      metadata={metadata}
+                      role={role}
+                      editable={enabledConfig}
+                      document={document}
+                    />
+                  }
+                  toolbar={
+                    <DocumentToolbar
+                      metadata={metadata}
+                      role={role}
+                      document={document}
+                      edit={editing}
+                      formRef={formRef}
+                    />
+                  }
+                >
+                  <DocumentComponentWrapper
+                    config={enabledConfig}
+                    metadata={metadata}
+                    role={role}
                     document={document}
                     edit={editing}
                     formRef={formRef}
                   />
-                }
-              >
-                <DocumentComponentWrapper
-                  config={enabledConfig}
-                  document={document}
-                  edit={editing}
-                  formRef={formRef}
-                />
-              </DocumentPanel>
+                </DocumentPanel>
+              )}
             </div>
           )
         }}

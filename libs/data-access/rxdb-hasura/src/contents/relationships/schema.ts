@@ -1,6 +1,6 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { Metadata } from '../../types'
-import { metadataName } from '../../utils'
+import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
 import { filteredRelationships, isManyToManyTable } from './utils'
@@ -19,7 +19,7 @@ export const createRelationshipProperties = (
           (rel) => rel.remoteTable.id !== table.id
         ).remoteTable
       : relationship.remoteTable
-    const ref = `${role}_${metadataName(refTable)}`
+    const ref = collectionName(refTable, role)
 
     const type = propertyJsonType(column)
     if (relationship.type === 'object') {

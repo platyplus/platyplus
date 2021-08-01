@@ -1,16 +1,13 @@
 import type { IconProps } from 'rsuite'
 
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { Metadata } from '@platyplus/rxdb-hasura'
 import { PropType } from '@platyplus/ts-types'
 
 import { useCollectionPropertyConfig } from './hooks'
 
-export const usePropertyIcon = (
-  collection: ContentsCollection,
-  property: string
-) =>
+export const usePropertyIcon = (metadata: Metadata, property: string) =>
   useCollectionPropertyConfig<PropType<IconProps, 'icon'>>(
-    collection,
+    metadata,
     property,
     'icon'
   )

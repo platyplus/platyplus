@@ -6,9 +6,11 @@ import { useDocumentLabel } from '@platyplus/react-rxdb-hasura'
 export const DocumentTag: DocumentComponent<TagProps> = ({
   document,
   edit,
+  metadata,
+  role,
   ...props
 }) => {
-  const [label] = useDocumentLabel(document)
-  if (document) return <Tag {...props}>{label}</Tag>
-  else return null
+  const [label] = useDocumentLabel(metadata, role, document)
+  if (!document) return null
+  return <Tag {...props}>{label}</Tag>
 }

@@ -20,6 +20,7 @@ export const query = gql`
     ...coreTable
     relationships {
       type
+      # TODO only remote table id, then find in the metadata store
       remoteTable {
         ...coreTable
       }

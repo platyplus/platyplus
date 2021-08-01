@@ -3,14 +3,14 @@ import { DatePickerAccepter, FieldControl, FieldComponent } from './utils'
 
 export const DateTimeField: FieldComponent = ({
   document,
-  field,
+  name,
   edit,
   editable
 }) => {
   if (editable || edit)
     return (
       <FieldControl
-        name={field}
+        name={name}
         readOnly={!edit}
         cleanable={edit}
         format={UI_DATE_TIME_FORMAT}
@@ -19,5 +19,5 @@ export const DateTimeField: FieldComponent = ({
         accepter={DatePickerAccepter}
       />
     )
-  else return document[field]
+  else return document[name] || null
 }

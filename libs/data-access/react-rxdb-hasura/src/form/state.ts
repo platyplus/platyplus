@@ -1,47 +1,64 @@
 import { useCallback, useMemo } from 'react'
 
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, Metadata } from '@platyplus/rxdb-hasura'
 
-import { useDocumentProperties } from '../property'
+import { useMetadataProperties } from '../property'
 import { useStore } from '../store'
-import { useWatchDocumentValue } from '../document'
+import { useCollectionName } from '../collection'
+// import { useWatchDocumentValue } from '../document'
 
 /**
  * Get the form values of a given document
  * @param document
  * @returns
  */
-export const useFormRawValues = (document?: ContentsDocument): Contents =>
-  useStore(
+export const useFormRawValues = (
+  metadata: Metadata,
+  role: string,
+  document: Contents
+): Contents => {
+  const collectionName = useCollectionName(metadata, role)
+  return useStore(
     useCallback(
       (state) =>
-        (document &&
-          state.forms[document.collection.name]?.[document.primary]) ||
+        (document && state.forms[collectionName]?.[document.id]) ||
         ({} as Contents),
-      [document]
+      [document, collectionName]
     )
   )
+}
 
-export const useFormGet = (document: ContentsDocument) => {
-  const [properties] = useDocumentProperties(document)
-  const formValues = useFormRawValues(document)
-  const documentValues = useWatchDocumentValue(document)
+export const useFormGet = (
+  metadata: Metadata,
+  role: string,
+  document: Contents
+) => {
+  const [properties] = useMetadataProperties(metadata)
+  // const [properties] = useDocumentProperties(document)
+  const formValues = useFormRawValues(metadata, role, document)
+  // const documentValues = useWatchDocumentValue(document)
 
   return useMemo(() => {
     if (!properties) return {} as Contents
-    return [...properties.keys(), document.primaryPath].reduce(
+    return [...properties.keys(), 'id'].reduce(
+      // ? custom id
       (aggregator, key) => {
-        aggregator[key] =
-          key in formValues ? formValues[key] : documentValues?.[key]
+        aggregator[key] = key in formValues ? formValues[key] : document?.[key]
         return aggregator
       },
       {} as Contents
     )
-  }, [document, documentValues, formValues, properties])
+  }, [document, formValues, properties])
 }
 
-export const useFormSet = (document: ContentsDocument) =>
-  useStore(
+export const useFormSet = (
+  metadata: Metadata,
+  role: string,
+  document: Contents
+) => {
+  const collectionName = useCollectionName(metadata, role)
+  return useStore(
     (state) => (values: Record<string, unknown>) =>
-      state.setForm(document, values)
+      state.setForm(collectionName, document, values)
   )
+}

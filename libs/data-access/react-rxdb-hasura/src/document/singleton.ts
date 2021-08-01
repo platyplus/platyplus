@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { RxQueryResultDoc, useRxData } from 'rxdb-hooks'
 
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useWatchDocumentValue } from './hooks'
+import { Contents } from '@platyplus/rxdb-hasura'
+// import { useWatchDocumentValue } from './hooks'
 
 export const useSingleton = (
   collectionName: string
 ): Omit<RxQueryResultDoc<Contents>, 'result'> & {
-  value?: Contents
-  document: ContentsDocument
+  value: Contents
 } => {
   // TODO subscribe to changes
   const { result, isFetching, ...rest } = useRxData<Contents>(
@@ -17,8 +16,8 @@ export const useSingleton = (
   )
   const [fetching, setFetching] = useState(true)
 
-  const document = useMemo(() => result[0] as ContentsDocument, [result])
-  const value = useWatchDocumentValue(document)
+  const document = useMemo(() => result[0] as Contents, [result])
+  // const value = useWatchDocumentValue(document)
 
   useEffect(() => {
     if (document) {
@@ -26,5 +25,5 @@ export const useSingleton = (
     }
   }, [document])
 
-  return { value, document, isFetching: fetching, ...rest }
+  return { value: document, isFetching: fetching, ...rest }
 }

@@ -2,15 +2,10 @@
 import { Schema } from 'rsuite'
 import { useMemo } from 'react'
 
-import {
-  ContentsDocument,
-  isRequiredProperty,
-  propertyType
-} from '@platyplus/rxdb-hasura'
+import { Metadata } from '@platyplus/rxdb-hasura'
 
-import { useDocumentMetadata } from '../document'
-import { useDocumentProperties } from '../property'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
+import { useMetadataProperties } from '../property'
 
 const { Model, Types } = Schema
 
@@ -50,17 +45,16 @@ const modelTypeConstructor = {
   }
 }
 
-export const useFormModel = (document: ContentsDocument) => {
-  const metadata = useDocumentMetadata(document)
-  const [properties] = useDocumentProperties(document)
+export const useFormModel = (metadata: Metadata) => {
+  const [properties] = useMetadataProperties(metadata)
   return useMemo(
     () =>
       Model(
         metadata && properties
           ? [...properties.entries()].reduce((acc, [name, property]) => {
-              const type = propertyType(document, name, false)
+              const type = property.type
               const modelType = modelTypeConstructor[type](name, property)
-              if (isRequiredProperty(metadata, name)) {
+              if (property.required) {
                 if (type === 'collection' || type === 'array') {
                   modelType.isRequiredOrEmpty()
                 } else {
@@ -72,6 +66,6 @@ export const useFormModel = (document: ContentsDocument) => {
             }, {})
           : {}
       ),
-    [document, metadata, properties]
+    [metadata, properties]
   )
 }

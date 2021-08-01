@@ -2,14 +2,11 @@ import React, { useCallback } from 'react'
 import { TagPickerProps, CheckPickerProps, Animation } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
-import {
-  useDocumentProperties,
-  useDocuments
-} from '@platyplus/react-rxdb-hasura'
 import { Contents } from '@platyplus/rxdb-hasura'
 
-import { CollectionFromParamsComponentWrapper } from '../../collections'
+import { CollectionComponentWrapper } from '../../collections'
 import { FieldComponent, FieldControl } from '../utils'
+import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
 
 export const CollectionField: FieldComponent<
   | {
@@ -20,15 +17,16 @@ export const CollectionField: FieldComponent<
   | TagPickerProps
 > = ({
   document,
-  field,
+  name,
+  property,
+  role,
   edit,
   editable,
   accepter: Accepter,
   component = 'label'
 }) => {
-  // TODO async - see https://rsuitejs.com/components/check-picker/#Async
-  const [properties] = useDocumentProperties(document)
-  const refCollectionName = properties.get(field).ref
+  const refMetadata = useMetadata(property.relationship.ref)
+  const refCollectionName = useCollectionName(refMetadata, role)
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
     []
@@ -40,27 +38,24 @@ export const CollectionField: FieldComponent<
   )
 
   const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
-  const { isFetching: isFetchingDocs, result: data } = useDocuments(
-    refCollectionName,
-    document[field]
-  )
   return (
-    <Animation.Fade in={!isFetching && !isFetchingDocs}>
+    <Animation.Fade in={!isFetching}>
       {(props, ref) => (
         <div {...props}>
           {edit ? (
             <FieldControl
               style={{ minWidth: 300 }}
-              name={field}
+              name={name}
               readOnly={!edit}
               data={options}
               cleanable={edit}
               accepter={Accepter}
             />
           ) : (
-            <CollectionFromParamsComponentWrapper
-              collectionName={refCollectionName}
-              ids={document[field]}
+            <CollectionComponentWrapper
+              metadata={refMetadata}
+              role={role}
+              data={document[name]}
               componentName={component}
               edit={false}
             />

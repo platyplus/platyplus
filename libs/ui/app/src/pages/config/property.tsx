@@ -7,39 +7,29 @@ import {
   Panel
 } from 'rsuite'
 
-import {
-  useCollectionMetadata,
-  usePropertyConfig
-} from '@platyplus/react-rxdb-hasura'
+import { usePropertyConfig } from '@platyplus/react-rxdb-hasura'
 
 import { IconPicker } from '@platyplus/layout'
-import {
-  collectionPropertyType,
-  ContentsCollection
-} from '@platyplus/rxdb-hasura'
+import { Metadata, Property } from '@platyplus/rxdb-hasura'
 import { upperCaseFirst } from '@platyplus/data'
 
-import { useComponentsContext } from '../../components'
+import { useComponentsLibrary } from '../../components'
 import { useMemo } from 'react'
 import { PropertyIcon } from '../../documents'
 
 export const PropertyConfig: React.FC<{
-  collection: ContentsCollection
+  metadata: Metadata
   name: string
+  property: Property
   expanded: boolean
   onSelect: () => void
-}> = ({ collection, name, expanded, onSelect }) => {
-  const metadata = useCollectionMetadata(collection)
+}> = ({ metadata, name, property, expanded, onSelect }) => {
   const [config, setConfig] = usePropertyConfig(metadata, name, null)
-  const componentContext = useComponentsContext()
-  const type = useMemo(
-    () => collectionPropertyType(collection, name),
-    [collection, name]
-  )
+  const library = useComponentsLibrary().fields
 
   const fieldComponents = useMemo(
-    () => Object.keys(componentContext.fields[type]),
-    [componentContext.fields, type]
+    () => Object.keys(library[property.type]),
+    [library, property.type]
   )
   const title = useMemo(
     () => (config?.title ? `${config.title} (${name})` : name),
@@ -49,7 +39,7 @@ export const PropertyConfig: React.FC<{
     <Panel
       header={
         <span>
-          <PropertyIcon collection={collection} property={name} />
+          <PropertyIcon metadata={metadata} name={name} />
           {title}
         </span>
       }

@@ -1,16 +1,15 @@
 import { Icon, IconProps } from 'rsuite'
 
 import { usePropertyIcon } from '@platyplus/react-rxdb-hasura'
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
+import { ContentsCollection, Metadata, Property } from '@platyplus/rxdb-hasura'
 
 export const PropertyIcon: React.FC<
   Omit<IconProps, 'icon'> & {
-    collection: ContentsCollection
-    property: string
+    metadata: Metadata
+    name: string
   }
-> = ({ collection, property, ...props }) => {
-  const [icon] = usePropertyIcon(collection, property)
-  return icon ? (
-    <Icon {...props} icon={icon} style={{ paddingRight: '10px' }} />
-  ) : null
+> = ({ metadata, name, ...props }) => {
+  const [icon] = usePropertyIcon(metadata, name)
+  if (!icon) return null
+  return <Icon {...props} icon={icon} style={{ paddingRight: '10px' }} />
 }

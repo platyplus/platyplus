@@ -1,24 +1,21 @@
 import React from 'react'
-import { ContentsCollection, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, Metadata } from '@platyplus/rxdb-hasura'
 
 type CommonCollectionComponentProps = {
   edit: boolean
   config?: boolean
+  metadata: Metadata
+  role: string
+  data: Contents[]
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type CollectionComponent<T = {}> = React.FC<
-  T &
-    CommonCollectionComponentProps & {
-      collection: ContentsCollection
-      data: ContentsDocument[]
-    }
+  T & CommonCollectionComponentProps
 >
 
 export type CollectionFromParamsComponent = React.FC<
   CommonCollectionComponentProps & {
     componentName: string
-    collectionName: string
-    ids: string[]
   }
 >

@@ -10,21 +10,23 @@ import {
   useFormReset,
   useFormSave
 } from '@platyplus/react-rxdb-hasura'
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { Contents, Metadata } from '@platyplus/rxdb-hasura'
 import { IconButtonWithHelper, ICON_RED } from '@platyplus/layout'
 
 export const DocumentToolbar: React.FC<{
-  document?: ContentsDocument
+  metadata: Metadata
+  role: string
+  document?: Contents
   edit?: boolean
   formRef?: MutableRefObject<FormInstance>
-}> = ({ document, edit, formRef }) => {
+}> = ({ metadata, role, document, edit, formRef }) => {
   const query = useQuery()
   const editing = edit ?? query.has('edit')
   const location = useLocation()
   const history = useHistory()
-  const hasChanged = useFormHasChanged(document)
-  const reset = useFormReset(document)
-  const save = useFormSave(document)
+  const hasChanged = useFormHasChanged(metadata, role, document)
+  const reset = useFormReset(metadata, role, document)
+  const save = useFormSave(metadata, role, document)
 
   const handleSave = async () => {
     if (formRef) {
@@ -32,9 +34,7 @@ export const DocumentToolbar: React.FC<{
       if (check.hasError) return
     }
     await save()
-    history.replace(
-      `/collection/${document.collection.name}/${document.primary}`
-    )
+    history.replace(`/collection/${role}/${metadata.id}/${document.id}`)
   }
 
   const editDocument = () => history.replace(`${location.pathname}?edit`)
@@ -49,7 +49,7 @@ export const DocumentToolbar: React.FC<{
     await document.remove()
     history.goBack()
   }
-  const can = useDocumentPermissions(document)
+  const can = useDocumentPermissions(metadata, role, document)
   return (
     <Animation.Fade in={!!document}>
       {(props, ref) => (

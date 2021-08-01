@@ -17,7 +17,7 @@ const NullableInputString: React.ComponentType<
 }
 export const StringField: FieldComponent = ({
   document,
-  field,
+  name,
   edit,
   editable
 }) => {
@@ -26,10 +26,10 @@ export const StringField: FieldComponent = ({
       <FieldControl
         // TODO configure nullable
         nullable={true}
-        name={field}
+        name={name}
         readOnly={!edit}
         accepter={NullableInputString}
       />
     )
-  else return document[field]
+  else return document[name] || null
 }

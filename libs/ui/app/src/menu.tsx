@@ -3,10 +3,11 @@ import { Icon, Nav } from 'rsuite'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import {
-  useCollectionIcon,
+  useTableIcon,
   useMetadataTitle,
   useOrderedContentsCollections,
-  useCollectionMetadata
+  useCollectionMetadata,
+  useMetadata
 } from '@platyplus/react-rxdb-hasura'
 import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { MenuItem } from '@platyplus/layout'
@@ -25,28 +26,29 @@ export const Menu: React.FC<{
     <PublicMenu home={home} register={register} login={login} />
   )
 
-export const CollectionMenuItem: React.FC<{ collection: ContentsCollection }> =
-  ({ collection }) => {
-    const metadata = useCollectionMetadata(collection)
-    const [title] = useMetadataTitle(metadata)
-    const [icon] = useCollectionIcon(collection)
-    const location = useLocation()
-    const history = useHistory()
-    const href = `/collection/${collection.name}`
-    return (
-      <Nav.Item
-        onSelect={() => {
-          history.push(href)
-        }}
-        key={collection.name}
-        eventKey={href}
-        active={location.pathname === href}
-        icon={<Icon icon={icon} />}
-      >
-        {title}
-      </Nav.Item>
-    )
-  }
+export const CollectionMenuItem: React.FC<{ id: string; role: string }> = ({
+  id,
+  role
+}) => {
+  const metadata = useMetadata(id)
+  const [title] = useMetadataTitle(metadata)
+  const [icon] = useTableIcon(id)
+  const location = useLocation()
+  const history = useHistory()
+  const href = `/collection/${role}/${id}`
+  return (
+    <Nav.Item
+      onSelect={() => {
+        history.push(href)
+      }}
+      eventKey={href}
+      active={location.pathname === href}
+      icon={<Icon icon={icon} />}
+    >
+      {title}
+    </Nav.Item>
+  )
+}
 
 const HomeItem: React.FC<{ title?: string; enabled?: boolean }> = ({
   enabled,
@@ -62,7 +64,11 @@ export const PrivateMenu: React.FC<{
     <>
       <HomeItem {...home} />
       {[...collections.values()].map((collection) => (
-        <CollectionMenuItem key={collection.name} collection={collection} />
+        <CollectionMenuItem
+          key={collection.name}
+          id={collection._tableId}
+          role={collection.role}
+        />
       ))}
       {config && (
         <MenuItem icon="wrench" title="Configuration" href="/config" />

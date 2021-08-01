@@ -3,7 +3,8 @@ import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { BehaviorSubject } from 'rxjs'
 
-import { TableFragment } from './generated'
+import { ColumnFragment, TableFragment } from './generated'
+import { PropertyConfig } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
@@ -13,12 +14,13 @@ export type Metadata = TableFragment
 
 export type MetadataDocument = RxDocument<Metadata>
 
-export type PropertyConfig = {
-  title?: string
-  component?: string
-  description?: string
-  icon?: string
-  json_schema?: Record<string, unknown>
+export type Property = {
+  column?: ColumnFragment
+  relationship?: Metadata['relationships'][0] & { ref: string }
+  config?: PropertyConfig
+  type: PropertyType
+  required: boolean
+  primary: boolean
 }
 
 export type JsonSchemaFormat =
@@ -40,7 +42,7 @@ export type JsonSchemaPropertyType =
   | 'boolean'
   | 'null'
 
-export type CustomTypes = 'collection' | 'document' | 'json'
+export type CustomTypes = 'collection' | 'document' | 'json' | 'uuid'
 
 // * Field types: either core JSON formats e.g. `string` (-> without format), `object` or their format e.g. `date-time`
 export type PropertyType =

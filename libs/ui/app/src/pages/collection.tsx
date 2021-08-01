@@ -12,7 +12,10 @@ import {
   CollectionTitle,
   useMetadataTitle,
   useConfigEnabled,
-  useCollectionMetadata
+  usePopulatedCollection,
+  useCollectionMetadata,
+  useMetadata,
+  useCollectionName
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
@@ -20,20 +23,20 @@ import { CollectionComponentWrapper } from '../collections'
 import { CollectionToolbar } from '../collections/toolbar'
 
 export const CollectionPage: React.FC = () => {
-  const { name } = useParams<{ name: string }>()
+  const { name, role } = useParams<{ name: string; role: string }>()
   const query = useQuery()
   const edit = useMemo(() => query.has('edit'), [query])
   const enabledConfig = useConfigEnabled()
-  const queryConstructor = (collection) => collection?.find().sort('label')
 
-  const { isFetching, result } = useRxData<Contents>(name, queryConstructor)
+  const metadata = useMetadata(name)
+  const collectionName = useCollectionName(metadata, role)
+  const { isFetching, result } = usePopulatedCollection(collectionName)
   // TODO review useContentsCollections - it triggers too many rerenders
   // TODO understand why rxdb-hooks trigger so many re-renders
-  const collection = useRxCollection(name) as ContentsCollection
 
-  const metadata = useCollectionMetadata(collection)
   const [title] = useMetadataTitle(metadata)
 
+  if (!metadata) return null
   return (
     <HeaderTitleWrapper
       title={title}
@@ -41,13 +44,14 @@ export const CollectionPage: React.FC = () => {
         <CollectionTitle editable={enabledConfig} metadata={metadata} />
       }
     >
-      <Animation.Fade in={!!collection && !isFetching}>
+      <Animation.Fade in={!isFetching}>
         {(props, ref) => (
           <div {...props}>
-            <CollectionToolbar collection={collection} />
+            <CollectionToolbar metadata={metadata} role={role} />
             <CollectionComponentWrapper
               config={enabledConfig}
-              collection={collection}
+              metadata={metadata}
+              role={role}
               data={result as ContentsDocument[]} // TODO PR useRxQuery type in 'rxdb-hooks'to include Orm methods e.g. useRxQuery<T,U>
               edit={edit}
             />
