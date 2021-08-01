@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { escape } from 'sqlstring'
-import { Contents, PropertyConfig } from '../../types'
+import { PropertyConfig } from '../../metadata'
+import { Contents } from '../../types'
 
 const CONSOLE_API = 'http://localhost:9693/apis'
 const client = axios.create({ baseURL: CONSOLE_API })

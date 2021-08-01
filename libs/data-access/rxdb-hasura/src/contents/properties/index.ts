@@ -65,47 +65,12 @@ export const propertyJsonType = (
     : result
 }
 
-export const collectionPropertyType = (
-  collection: ContentsCollection,
-  propertyName: string,
-  includeFormat = true
-): PropertyType => {
-  const property = collection.schema.jsonSchema.properties[propertyName]
-  if (!property) return null
-  if (!property.type)
-    throw Error(`No type in prop: ${JSON.stringify(property)}`)
-  let type: JsonSchemaPropertyType
-  if (Array.isArray(property.type)) {
-    const res = property.type.filter((v) => v !== 'null')
-    if (res.length === 1) type = res[0] as JsonSchemaPropertyType
-    else
-      throw Error(
-        `Composite types are not allowed: ${JSON.stringify(property)}`
-      )
-  } else {
-    type = property.type as JsonSchemaPropertyType
-  }
-  if (property.ref) {
-    if (type === 'array') return 'collection'
-    else return 'document'
-  }
-  if (includeFormat) return (property.format as JsonSchemaFormat) || type
-  else return type
-}
-
-/**
- * returns the property type as a string, even when the type is ['typename', 'null']
- * If string, returns the format
- * If string and ref, returns 'object'
- * does not allow composite types e.g. ['string', 'object']
- */
+// TODO heavy - store metadataProperties to zustand ?
 export const propertyType = (
   metadata: Metadata,
-  document: Contents,
-  propertyName: string,
-  includeFormat = true
+  propertyName: string
 ): PropertyType =>
-  collectionPropertyType(document.collection, propertyName, includeFormat)
+  metadataProperties(metadata, { all: true }).get(propertyName).type
 
 export const isTextType = (type: PropertyType): boolean =>
   [
@@ -123,16 +88,6 @@ export const propertyNames = (table: Metadata) => {
     ...columnProperties(table).map(({ name }) => name),
     ...table.relationships.map(({ name }) => name)
   ]
-}
-
-const getProperties = (metadata: Metadata) => {
-  // TODO exclude some properties
-  // TODO order properties
-  // TODO computed fields
-  const result = []
-  metadata.columns.forEach((col) => result.push(col.name))
-  metadata.relationships.forEach((rel) => result.push(rel.name))
-  return result
 }
 
 const typesMapping: Record<string, PropertyType> = {
@@ -159,6 +114,7 @@ const typesMapping: Record<string, PropertyType> = {
   decimal: 'number'
 }
 
+// TODO put in the state ?
 export const metadataProperties = (
   metadata: Metadata,
   options?: { all?: boolean; role?: string; order?: boolean }

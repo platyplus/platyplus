@@ -30,7 +30,7 @@ const defaultValues = async (
         columnHasDefaultValue(col)
     )
     .forEach(({ name }) => {
-      data[name] = generateDefaultValue(collection, name, data)
+      data[name] = generateDefaultValue(table, name, data)
     })
 
   table.relationships
@@ -44,7 +44,7 @@ const defaultValues = async (
         )
     )
     .forEach(({ name }) => {
-      data[name] = generateDefaultValue(collection, name, data)
+      data[name] = generateDefaultValue(table, name, data)
     })
 }
 

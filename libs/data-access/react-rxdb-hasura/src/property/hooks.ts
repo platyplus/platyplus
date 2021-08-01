@@ -4,14 +4,7 @@ import {
   Metadata,
   MetadataDocument,
   PropertyConfig,
-  getTablePropertiesConfig,
-  isRequiredColumn,
   Property,
-  PropertyType,
-  isRequiredRelationship,
-  metadataStore,
-  columnProperties,
-  isManyToManyTable,
   metadataProperties
 } from '@platyplus/rxdb-hasura'
 

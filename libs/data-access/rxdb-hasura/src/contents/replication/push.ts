@@ -10,11 +10,7 @@ import { metadataName } from '../../utils'
 import { computedFields } from '../computed-fields'
 import { getIds } from '../ids'
 import { filteredRelationships, isManyToManyTable } from '../relationships'
-import {
-  isConsoleEnabled,
-  isConfigCollection,
-  upsertWithMigration
-} from '../config'
+import { isConsoleEnabled, isConfigTable, upsertWithMigration } from '../config'
 import { getCollectionMetadata } from '../../metadata'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
@@ -160,7 +156,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     // TODO weird workaround as RxDB does not seem to take deletedFlag into consideration
     if (data['_deleted']) data.deleted = true
 
-    if (isConsoleEnabled() && isConfigCollection(collection)) {
+    if (isConsoleEnabled() && isConfigTable(table)) {
       try {
         await upsertWithMigration(table, data)
         return null

@@ -1,15 +1,13 @@
-import { Contents, ContentsCollection } from '../../types'
-import { collectionPropertyType, isTextType } from '../properties'
+import { Contents, Metadata } from '../../types'
+import { propertyType, isTextType } from '../properties'
 import { v4 as uuid } from 'uuid'
-import { getCollectionMetadata } from '../../metadata'
 
 export const generateDefaultValue = (
-  collection: ContentsCollection,
+  table: Metadata,
   propertyName: string,
   data: Contents
 ) => {
   // TODO use Hasura column presets as well
-  const table = getCollectionMetadata(collection)
   const column = table.columns.find(({ name }) => name === propertyName)
   if (!column) {
     // TODO default values for relations
@@ -30,7 +28,7 @@ export const generateDefaultValue = (
       return null
     }
   } else {
-    const type = collectionPropertyType(collection, propertyName)
+    const type = propertyType(table, propertyName)
     if (isTextType(type)) return ''
     else return null
   }

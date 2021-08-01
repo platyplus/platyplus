@@ -77,7 +77,6 @@ export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string
   _tableId: string
   replicator: Replicator
-  properties: Map<string, TopLevelProperty>
 }
 
 export type ContentsCollection = RxCollection<

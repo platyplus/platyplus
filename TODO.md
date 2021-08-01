@@ -46,13 +46,18 @@
     - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
+  - [ ] debug
+    - [x] create
+    - [ ] update -> problem
+    - [x] remove
+    - [ ] real-time
   - rxdb-hasura metadata store
     - [ ] useIsMetadataLoading() / useIsMetadataReady()
     - [x] zustand in rxdb-hasura for metadata & config tables
     - [ ] directly manage/replicate config, not through metadata (own replicator etc)
       - [ ] move the console/graphql way to persist config to the rxdb-hasura/metadata/config folder
     - [x] config pages: avoid providing roles
-      - [ ] replace `collection.properties` by `getMetadataProperties(metadata: Metadata, ordered: boolean)`
+      - [x] replace `collection.properties` by `getMetadataProperties(metadata: Metadata, ordered: boolean)`
     - [ ] impact analysis: break collection.metadata link and use the store instead
   - [ ] debug and improve profile page
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)

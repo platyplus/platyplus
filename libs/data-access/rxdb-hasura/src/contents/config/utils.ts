@@ -1,4 +1,4 @@
-import { Contents, ContentsCollection, Metadata } from '../../types'
+import { Contents, Metadata } from '../../types'
 import { metadataName } from '../../utils'
 import {
   appConfigToSql,
@@ -12,16 +12,16 @@ export type ConfigCollectionName =
   | 'property_config'
   | 'table_config'
 
-export const CONFIG_COLLECTIONS: string[] = [
+export const CONFIG_TABLES: string[] = [
   'app_config',
   'property_config',
   'table_config'
 ]
 
-export const isConfigCollection = (collection: ContentsCollection): boolean => {
+export const isConfigTable = (metadata: Metadata): boolean => {
   // TODO should be useless as config collections should not be considered as contents collections
   // TODO move the special graphql config 'push' to metadata/config in rxdb-hasura
-  return CONFIG_COLLECTIONS.includes(collection.name)
+  return metadata.schema === 'metadata' && CONFIG_TABLES.includes(metadata.name)
 }
 
 export const isConsoleEnabled = (): boolean => {

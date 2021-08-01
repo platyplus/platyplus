@@ -4,7 +4,7 @@ import { useLocation } from 'react-use'
 
 import { useUserIsAdmin } from '@platyplus/hbp'
 import {
-  CONFIG_COLLECTIONS,
+  CONFIG_TABLES,
   Contents,
   ContentsCollection
 } from '@platyplus/rxdb-hasura'
@@ -92,7 +92,7 @@ export const useMetadataConfig = <T>(
 export const useCountConfigChanges = () =>
   useStore(
     (state) =>
-      CONFIG_COLLECTIONS.reduce((acc, name) => {
+      CONFIG_TABLES.reduce((acc, name) => {
         acc += Object.keys(state.forms[name]).length
         return acc
       }, 0) || false
@@ -103,7 +103,7 @@ export const usePersistConfig = () => {
   const clearConfig = useStore((state) => state.clearConfig)
   const db = useDB()
   return useCallback(async () => {
-    for (const collectionName of CONFIG_COLLECTIONS) {
+    for (const collectionName of CONFIG_TABLES) {
       if (forms[collectionName]) {
         const collection: ContentsCollection = db[collectionName]
         for (const [id, value] of Object.entries(forms[collectionName])) {

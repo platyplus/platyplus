@@ -1,13 +1,15 @@
 import { arrayChanges } from '@platyplus/data'
 import { RxCollectionHookCallback } from 'rxdb'
 import { debug, warn } from '../../console'
-import { getCollectionMetadata } from '../../metadata'
+import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
 import {
   Contents,
   ContentsCollection,
   ContentsDocumentMethods
 } from '../../types'
+import { collectionName } from '../../utils'
+import { metadataProperties } from '../properties'
 
 const reverseRelations =
   (
@@ -18,11 +20,17 @@ const reverseRelations =
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
     const metadata = getCollectionMetadata(collection)
-    for (const { name, type } of metadata.relationships) {
-      const property = collection.properties.get(name)
-      const remoteCollection: ContentsCollection =
-        collection.database.collections[property.ref]
-      const remoteMetadata = getCollectionMetadata(remoteCollection)
+    const relationships = [...metadataProperties(metadata).entries()].filter(
+      ([, prop]) => prop.relationship
+    )
+    for (const [name, { type, relationship }] of relationships) {
+      const remoteMetadata = getMetadataTable(relationship.ref)
+      const remoteCollectionName = collectionName(
+        remoteMetadata,
+        collection.role
+      )
+      const remoteCollection =
+        collection.database.collections[remoteCollectionName]
       const mirrorRelationships = remoteMetadata.relationships.filter(
         (rel) => rel.remoteTable.id === metadata.id
       )
