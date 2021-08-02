@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { enableMapSet } from 'immer'
 import { addRxPlugin, createRxDatabase, RxDatabaseCreator } from 'rxdb'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
@@ -9,6 +10,8 @@ import { initMetadataCollections } from './metadata'
 import { RxHasuraPlugin } from './plugin'
 import { Database, DatabaseCollections } from './types'
 export { RxHasuraPlugin } from './plugin'
+
+enableMapSet()
 
 export * from './contents'
 export * from './types'

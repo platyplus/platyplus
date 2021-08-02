@@ -1,11 +1,11 @@
-import { RemoteTableFragment } from '../../generated'
-import { Metadata } from '../../types'
+import { RemoteTableFragment, TableFragment } from '../../generated'
+import { Metadata } from '../../metadata'
 
 import { getIds } from '../ids'
 
 // TODO composite relationships - then remove this
 export const filteredRelationships = (
-  table: Metadata
+  table: TableFragment
 ): Metadata['relationships'] =>
   table.relationships.filter(
     (relationship) =>

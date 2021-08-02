@@ -18,7 +18,6 @@ export const createForeignKeyConstraintsHooks = (
     const metadata = getDocumentMetadata(document)
     for (const relationship of metadata.relationships) {
       const fk = findForeignKeyConstraint(metadata, relationship)
-      console.log(fk)
       if (fk) {
         const values = data[relationship.name]
         const remoteTable = `${collection.role}_${metadataName(

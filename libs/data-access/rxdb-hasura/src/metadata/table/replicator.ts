@@ -5,15 +5,19 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
-import { debug, error, errorDir, warn } from '../console'
-import { contentsCollectionCreator } from '../contents'
-import { Metadata, MetadataCollection } from '../types'
-import { collectionName, createHeaders, metadataName } from '../utils'
+import { debug, error, errorDir, warn } from '../../console'
+import { contentsCollectionCreator } from '../../contents'
+import { collectionName, createHeaders } from '../../utils'
+import { TableFragment } from '../../generated'
+
+import { METADATA_ROLE } from '../constants'
+import { MetadataCollection } from '../types'
+
 import { subscription } from './graphql'
 import { modifier } from './modifier'
 import { queryBuilder } from './pull'
-import { setMetadataTable } from './store'
-import { METADATA_ROLE } from './constants'
+import { setMetadataTable } from './store-operations'
+import { metadataStore, setCollectionIsReady } from '../store'
 
 export type MetadataReplicatorOptions = {
   url: string
@@ -28,14 +32,14 @@ export const createMetadataReplicator = async (
   const db = metadataCollection.database
   const url = db.options.url
 
-  let state: RxGraphQLReplicationState<Metadata> | undefined
+  let state: RxGraphQLReplicationState<TableFragment> | undefined
   let wsSubscription: SubscriptionClient | undefined
   let metaSubscription: Subscription | undefined
   let jwtSubscription: Subscription | undefined
   let errorSubscription: Subscription | undefined
 
   const setupGraphQLReplication = async (): Promise<
-    RxGraphQLReplicationState<Metadata>
+    RxGraphQLReplicationState<TableFragment>
   > => {
     const replicationState = metadataCollection.syncGraphQL({
       url,
@@ -98,14 +102,14 @@ export const createMetadataReplicator = async (
   const start = async (): Promise<void> => {
     state = await setupGraphQLReplication()
     metaSubscription = metadataCollection.$.subscribe(
-      async ({ operation, documentData }: RxChangeEvent<Metadata>) => {
+      async ({ operation, documentData }: RxChangeEvent<TableFragment>) => {
         // TODO update collection -> run a migration when needed (only when columns change?)
         // if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
         if (operation === 'INSERT') {
           if (documentData.id) {
             setMetadataTable(documentData)
             // TODO determine the roles to which the collection must be created
-            const metaName = metadataName(documentData)
+            // const metaName = metadataName(documentData)
             const roles: string[] = documentData.columns.reduce(
               (acc, column) => {
                 for (const permissionType of ['canSelect', 'canInsert']) {
@@ -119,7 +123,7 @@ export const createMetadataReplicator = async (
               []
             )
             for (const role of roles) {
-              const metadata = documentData as Metadata
+              const metadata = documentData as TableFragment
               const name = collectionName(metadata, role)
               await db.addCollections({
                 [name]: contentsCollectionCreator(metadata, role)
@@ -136,6 +140,9 @@ export const createMetadataReplicator = async (
       debug('Replicator (metadata): set token')
       // TODO change in websocket as well
       state?.setHeaders(createHeaders(METADATA_ROLE, token))
+    })
+    state.awaitInitialReplication().then(() => {
+      setCollectionIsReady('metadata')
     })
   }
 

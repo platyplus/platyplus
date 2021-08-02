@@ -1,13 +1,13 @@
 import { clone } from 'rxdb'
 import deepEqual from 'deep-equal'
 
-import { TableFragment } from '../generated'
-import { Metadata, MetadataCollection } from '../types'
-import { isManyToManyTable } from '../contents'
+import { TableFragment } from '../../generated'
+import { isManyToManyTable } from '../../contents'
+import { MetadataCollection } from '../types'
 
 export const modifier =
   (metadataCollection: MetadataCollection) =>
-  async (doc: TableFragment): Promise<Metadata> => {
+  async (doc: TableFragment): Promise<TableFragment> => {
     // * Do not load many2many join tables
     if (isManyToManyTable(doc)) return null
     const oldDoc = await metadataCollection.findOne(doc.id).exec()

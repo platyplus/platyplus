@@ -1,10 +1,10 @@
 import { RxCollectionCreator } from 'rxdb/dist/types/types'
+import { TableFragment } from '../../generated'
 
-import { Metadata } from '../../types'
 import { toJsonSchema } from '../schema'
 
 export const contentsCollectionCreator = (
-  metadata: Metadata,
+  metadata: TableFragment,
   role: string
 ): RxCollectionCreator => {
   return {

@@ -1,14 +1,16 @@
+import { useAsync } from 'react-use'
 import { useHistory } from 'react-router-dom'
 import { Table } from 'rsuite'
 
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
-
-import { CollectionComponent } from './types'
-import { FieldComponentWrapper } from '../fields'
 import {
   PropertyTitle,
   useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
+import { Loading } from '@platyplus/navigation'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
+
+import { CollectionComponent } from './types'
+import { FieldComponentWrapper } from '../fields'
 
 const { Column, HeaderCell, Cell } = Table
 
@@ -20,21 +22,41 @@ export const TableCollection: CollectionComponent = ({
 }) => {
   const history = useHistory()
   const [properties] = useMetadataProperties(metadata)
-  if (!metadata || !properties) return <span>no metadata/properties</span>
+  const populatedData = useAsync(async () => {
+    const relationshipFields = [...metadata.properties.values()]
+      .filter((property) => !!property.relationship)
+      .map((property) => property.name)
+    const res = await Promise.all(
+      data.map(async (doc, k) => {
+        const populatedDoc = { ...doc.toJSON() }
+        for (const field of relationshipFields) {
+          populatedDoc[field] = await doc.populate(field)
+        }
+        return populatedDoc
+      })
+    )
+    return res
+  }, [data, metadata])
+
+  if (populatedData.loading) return <Loading backdrop />
   return (
     <Table
       hover
       height={400}
       autoHeight
-      data={data}
+      data={populatedData.value}
       onRowClick={(data: ContentsDocument) => {
         history.push(`/collection/${role}/${metadata.id}/${data.id}`)
       }}
     >
-      {[...properties.entries()].map(([name, property]) => (
-        <Column flexGrow={1} key={name}>
+      {[...properties.values()].map((property) => (
+        <Column flexGrow={1} key={property.name}>
           <HeaderCell>
-            <PropertyTitle editable={config} metadata={metadata} name={name} />
+            <PropertyTitle
+              editable={config}
+              metadata={metadata}
+              name={property.name}
+            />
           </HeaderCell>
           <Cell>
             {(document: Contents) => {
@@ -42,7 +64,7 @@ export const TableCollection: CollectionComponent = ({
                 <FieldComponentWrapper
                   metadata={metadata}
                   role={role}
-                  name={name}
+                  name={property.name}
                   property={property}
                   document={document}
                   edit={false}

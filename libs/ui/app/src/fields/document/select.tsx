@@ -25,37 +25,32 @@ export const DocumentSelectField: FieldComponent = ({
     (collection) => collection.find().sort('label'),
     []
   )
-  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
+  const { result, isFetching } = useRxData<Contents>(
+    refCollectionName,
+    queryConstructor
+  )
 
   const options = useMemo(
     () => result.map((doc) => ({ label: doc.label, value: doc.id })),
     [result]
   )
 
-  return (
-    <Animation.Fade in={true}>
-      {(props, ref) => (
-        <div {...props}>
-          {edit ? (
-            <FieldControl
-              style={{ minWidth: 300 }}
-              name={name}
-              readOnly={!edit}
-              data={options}
-              cleanable={edit}
-              accepter={SelectPicker}
-            />
-          ) : (
-            <DocumentComponentWrapper
-              metadata={refMetadata}
-              role={role}
-              document={document[name]}
-              componentName="label"
-              edit={false}
-            />
-          )}
-        </div>
-      )}
-    </Animation.Fade>
+  return edit ? (
+    <FieldControl
+      style={{ minWidth: 300 }}
+      name={name}
+      readOnly={!edit}
+      data={isFetching ? [] : options}
+      cleanable={edit}
+      accepter={SelectPicker}
+    />
+  ) : (
+    <DocumentComponentWrapper
+      metadata={refMetadata}
+      role={role}
+      document={document[name]}
+      componentName="label"
+      edit={false}
+    />
   )
 }

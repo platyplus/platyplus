@@ -1,4 +1,5 @@
-import { ColumnFragment, Metadata } from '../../types'
+import { Metadata } from '../../metadata'
+import { ColumnFragment } from '../../types'
 
 export const hasDefaultValue = (table: Metadata, propertyName: string) => {
   return (

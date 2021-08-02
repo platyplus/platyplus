@@ -1,4 +1,4 @@
-import { Metadata } from '../../../types'
+import { Metadata } from '../../../metadata'
 
 export const findForeignKeyConstraint = (
   table: Metadata,

@@ -1,4 +1,6 @@
-import { ColumnFragment, Metadata } from '../../types'
+import { TableFragment } from '../../generated'
+import { Metadata } from '../../metadata'
+import { ColumnFragment } from '../../types'
 import { columnHasDefaultValue } from '../defaults'
 import { propertyNames } from '../properties'
 
@@ -10,7 +12,7 @@ export const isRequiredRelationship = (rel: Metadata['relationships'][0]) =>
   rel.mapping.some((mapping) => isRequiredColumn(mapping.column))
 
 export const isRequiredProperty = (
-  table: Metadata,
+  table: TableFragment,
   propertyName: string
 ): boolean => {
   // * Property is required when column is not nullable
@@ -31,5 +33,5 @@ export const isNullableRelationship = (rel: Metadata['relationships'][0]) =>
   rel.type === 'object' &&
   rel.mapping.every((mapping) => isNullableColumn(mapping.column))
 
-export const requiredProperties = (table: Metadata): string[] =>
+export const requiredProperties = (table: TableFragment): string[] =>
   propertyNames(table).filter((name) => isRequiredProperty(table, name))

@@ -4,8 +4,7 @@ import {
   Metadata,
   MetadataDocument,
   PropertyConfig,
-  Property,
-  metadataProperties
+  Property
 } from '@platyplus/rxdb-hasura'
 
 import { useCollectionTableConfig } from '../collection'
@@ -18,13 +17,14 @@ export const usePropertyConfig = <T = PropertyConfig>(
   path?: string,
   fallback?: T
 ): [T, (val: T) => void] => {
-  const id = useMemo(
-    () => metadata && `${metadata.id}.${property}`,
-    [metadata, property]
-  )
-  // TODO
+  const id = useMemo(() => `${metadata.id}.${property}`, [metadata, property])
+
   const initialValues = useMetadataStore(
-    useCallback((state) => (id && state.config.properties[id]) || {}, [id])
+    useCallback(
+      (state) =>
+        state.tables[metadata.id].properties.get(property)?.config || {},
+      [metadata, property]
+    )
   )
   const modifiedValues = useStore(
     useCallback((state) => (id && state.forms.property_config[id]) || {}, [id])
@@ -60,10 +60,7 @@ export const useMetadataProperties = (
   metadata: Metadata,
   options?: { all?: boolean; role?: string; order?: boolean }
 ): [Map<string, Property>, (val: Map<string, Property>) => void] => {
-  const state = useMemo(
-    () => metadataProperties(metadata, options),
-    [metadata, options]
-  )
+  const state = useMemo(() => metadata.properties, [metadata])
 
   const [order, setOrder] = useCollectionTableConfig<string[]>(
     metadata.id,
@@ -74,14 +71,19 @@ export const useMetadataProperties = (
     if (state) {
       const result = new Map<string, Property>()
       const tempProperties = new Map(state)
-      if (order)
+      if (options?.all !== true) {
+        for (const id of ['id', 'updated_at', 'created_at', 'deleted']) {
+          tempProperties.delete(id)
+        }
+      }
+      if (options?.order !== false && order)
         for (const property of order) {
           result.set(property, tempProperties.get(property))
           tempProperties.delete(property)
         }
       return new Map([...result, ...tempProperties])
     } else return null
-  }, [state, order])
+  }, [state, order, options])
 
   const setProperties = useCallback(
     (newProperties: Map<string, Property>) =>

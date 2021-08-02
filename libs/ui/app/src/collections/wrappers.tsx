@@ -7,11 +7,7 @@ import { CollectionComponent } from './types'
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
 }> = ({ edit = false, componentName, metadata, role, ...rest }) => {
-  const [collectionComponentName] = useMetadataConfig(
-    metadata?.id,
-    'component',
-    'default'
-  )
+  const collectionComponentName = metadata.config?.component || 'default'
   const name = useMemo(
     () => componentName || collectionComponentName,
     [componentName, collectionComponentName]

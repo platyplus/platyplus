@@ -1,45 +1,32 @@
-import { DeepReadonly } from 'rxdb/dist/types/types'
-import create from 'zustand/vanilla'
 import produce from 'immer'
+import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 
-import {
-  Contents,
-  ContentsCollection,
-  ContentsDocument,
-  Metadata
-} from '../types'
-import { PropertyConfig } from './config/definitions'
+import { Contents, ContentsCollection, ContentsDocument } from '../types'
+import { Metadata } from './types'
+import { ConfigCollectionName } from './config'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
-  config: {
-    app?: Contents
-    properties: Record<string, PropertyConfig>
-    tables: Record<string, Contents>
-  }
+  app?: Contents
+  ready: Record<ConfigCollectionName | 'metadata', boolean>
 }
 
 export const metadataStore = create<MetadataStore>(
   devtools(
     (set, get) => ({
       tables: {},
-      config: {
-        app: null,
-        properties: {},
-        tables: {}
+      app: null,
+      ready: {
+        app_config: false,
+        table_config: false,
+        property_config: false,
+        metadata: false
       }
     }),
     'metadata'
   )
 )
-
-export const setMetadataTable = (table: Metadata | DeepReadonly<Metadata>) =>
-  metadataStore.setState(
-    produce((state) => {
-      state.tables[table.id] = table
-    })
-  )
 
 export const getMetadataTable = (id: string) =>
   metadataStore.getState().tables[id]
@@ -50,8 +37,14 @@ export const getCollectionMetadata = (collection: ContentsCollection) =>
 export const getDocumentMetadata = (document: ContentsDocument) =>
   getCollectionMetadata(document.collection)
 
-export const getTablePropertiesConfig = (tableId: string): PropertyConfig[] => {
-  return Object.values(metadataStore.getState().config.properties).filter(
-    (value) => value.property_id.startsWith(`${tableId}.`)
+export const setCollectionIsReady = (
+  collectionName: ConfigCollectionName | 'metadata'
+) => {
+  metadataStore.setState(
+    produce<MetadataStore>((state) => {
+      state.ready[collectionName] = true
+    })
   )
 }
+export const isMetadataReady = () =>
+  Object.values(metadataStore.getState().tables).every((value) => value)

@@ -1,54 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
-import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { BehaviorSubject } from 'rxjs'
 
-import { ColumnFragment, TableFragment } from './generated'
-import { PropertyConfig } from './metadata'
+import { Metadata } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
 
-export type Metadata = TableFragment
-
 export type MetadataDocument = RxDocument<Metadata>
-
-export type Property = {
-  column?: ColumnFragment
-  relationship?: Metadata['relationships'][0] & { ref: string }
-  config?: PropertyConfig
-  type: PropertyType
-  required: boolean
-  primary: boolean
-}
-
-export type JsonSchemaFormat =
-  | 'date-time'
-  | 'time'
-  | 'date'
-  | 'email'
-  | 'hostname'
-  | 'ipv4'
-  | 'ipv6'
-  | 'uri'
-
-export type JsonSchemaPropertyType =
-  | 'number'
-  | 'object'
-  | 'array'
-  | 'string'
-  | 'integer'
-  | 'boolean'
-  | 'null'
-
-export type CustomTypes = 'collection' | 'document' | 'json' | 'uuid'
-
-// * Field types: either core JSON formats e.g. `string` (-> without format), `object` or their format e.g. `date-time`
-export type PropertyType =
-  | JsonSchemaFormat
-  | JsonSchemaPropertyType
-  | CustomTypes
 
 export type PropertyValue =
   | string
@@ -83,11 +43,6 @@ export type ContentsCollection = RxCollection<
   Contents,
   ContentsDocumentMethods,
   ContentsCollectionPrototype
->
-export type MetadataCollection = RxCollection<
-  Metadata,
-  Record<string, unknown>,
-  { replicator: Replicator }
 >
 
 export type Modifier = (

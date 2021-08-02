@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import { escape } from 'sqlstring'
 import { PropertyConfig } from '../../metadata'
@@ -10,14 +11,14 @@ const escapeValues = (values: Record<string, unknown>) =>
   Object.entries(values).reduce((acc, [key, value]) => {
     if (typeof value === 'object') {
       acc[key] = `'${JSON.stringify(value).replace(/[']/g, "''")}'::jsonb`
-    } else acc[key] = escape(value)
+    } else acc[key] = value == null ? null : escape(value)
     return acc
   }, {})
 
 const upsertQuery = (
   table: string,
-  updateValues: Record<string, unknown>,
-  insertValues: Record<string, unknown>,
+  updateValues: Record<string, any>,
+  insertValues: Record<string, any>,
   constraint: string
 ) => {
   const insert = escapeValues({ ...insertValues, ...updateValues })
@@ -34,15 +35,16 @@ const upsertQuery = (
   return `${sqlInsert} ${sqlUpdate};`
 }
 
-export const tableConfigToSql = (table_id: string, config: Contents) =>
-  upsertQuery(
+const tableConfigToSql = (id: string, config: Contents) => {
+  return upsertQuery(
     `metadata.table_config`,
     config,
-    { table_id },
-    'table_config_table_id_key'
+    { id },
+    'table_config_pkey'
   )
+}
 
-export const appConfigToSql = (config: Contents) => {
+const appConfigToSql = (config: Contents) => {
   const { id, ...updateValues } = config
   return upsertQuery(
     `metadata.app_config`,
@@ -52,17 +54,18 @@ export const appConfigToSql = (config: Contents) => {
   )
 }
 
-export const propertyConfigToSql = (
-  table_id: string,
-  property_name: string,
-  config?: PropertyConfig
-) =>
-  upsertQuery(
+const propertyConfigToSql = (config: PropertyConfig) => {
+  const insertValues = { ...config }
+  const { id, ...updateValues } = config
+  insertValues.property_name = id.substring(id.lastIndexOf('.') + 1)
+  insertValues.table_id = id.substring(0, id.lastIndexOf('.'))
+  return upsertQuery(
     `metadata.property_config`,
-    config,
-    { property_id: `${table_id}.${property_name}`, table_id, property_name },
-    'property_config_property_id_key'
+    insertValues,
+    updateValues,
+    'property_config_pkey'
   )
+}
 
 export const createSqlMigrations = async (
   sqlOperations: string[]
@@ -86,4 +89,21 @@ export const createSqlMigrations = async (
   }
   await client.post('/migrate', request)
   console.info('OK')
+}
+
+export const upsertWithMigration = async (
+  collectionName: string,
+  data: any
+) => {
+  // ? how to make it work with batches to avoid multiple migration files ?
+  const sql = {
+    app_config: () => appConfigToSql(data),
+    table_config: () => tableConfigToSql(data.id, data),
+    property_config: () => propertyConfigToSql(data)
+  }[collectionName]
+  if (sql) {
+    await createSqlMigrations([sql()])
+  } else {
+    console.warn('TODO not implemented yet', collectionName)
+  }
 }

@@ -105,9 +105,11 @@ export const populateDocument = async (
   for (const field of doc.collection.schema.topLevelFields) {
     if (doc.collection.schema.jsonSchema.properties[field].ref) {
       const population = await doc.populate(field)
-      result[field] = Array.isArray(population)
-        ? population.map((item) => item.toJSON())
-        : population.toJSON()
+      result[field] =
+        population &&
+        (Array.isArray(population)
+          ? population.map((item) => item.toJSON())
+          : population.toJSON())
     }
   }
   return result

@@ -26,10 +26,10 @@ export const useAppConfig = (): [
 ] => {
   const [newId] = useState(uuid())
   const id = useMetadataStore(
-    useCallback((state) => state.config.app?.id || newId, [newId])
+    useCallback((state) => state.app?.id || newId, [newId])
   )
 
-  const initialValues = useMetadataStore((state) => state.config.app || {})
+  const initialValues = useMetadataStore((state) => state.app || {})
 
   const modifiedValues = useStore(
     useCallback((state) => state.forms.app_config[id] || {}, [id])
@@ -58,7 +58,7 @@ export const useMetadataConfig = <T>(
 ): [T, (val: T) => void] => {
   const initialValues = useMetadataStore(
     useCallback(
-      (state) => (metadataId && state.config.tables[metadataId]) || {},
+      (state) => (metadataId && state.tables[metadataId]?.config) || {},
       [metadataId]
     )
   )

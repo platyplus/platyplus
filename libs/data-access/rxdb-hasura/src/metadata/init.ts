@@ -1,7 +1,7 @@
 import { contentsCollections } from '../database'
 import { Database } from '../types'
 import { initConfigCollections } from './config'
-import { metadataSchema } from './schema'
+import { metadataSchema } from './table'
 
 export const initMetadataCollections = async (db: Database) => {
   await db.addCollections({

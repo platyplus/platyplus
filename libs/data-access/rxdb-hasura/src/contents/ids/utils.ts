@@ -1,5 +1,5 @@
 import { ColumnFragment, RemoteTableFragment } from '../../generated'
-import { Metadata } from '../../types'
+import { Metadata } from '../../metadata'
 import { ArrayElement } from '../../utils'
 
 export const getIds = (table: Metadata | RemoteTableFragment): string[] =>

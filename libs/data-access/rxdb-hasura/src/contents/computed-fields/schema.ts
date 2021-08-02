@@ -1,9 +1,10 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
+import { TableFragment } from '../../generated'
 import { getCollectionMetadata } from '../../metadata'
 
-import { ContentsCollection, Metadata } from '../../types'
+import { ContentsCollection } from '../../types'
 
-export const createComputedFieldsProperties = (table: Metadata) =>
+export const createComputedFieldsProperties = (table: TableFragment) =>
   ({
     label: {
       type: 'string'

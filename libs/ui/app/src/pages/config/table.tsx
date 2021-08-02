@@ -15,7 +15,6 @@ import {
 import {
   useMetadataStore,
   useMetadataConfig,
-  useMetadataTitleById,
   useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
@@ -23,25 +22,16 @@ import { upperCaseFirst } from '@platyplus/data'
 
 import { useComponentsLibrary } from '../../components'
 import { PropertyConfig } from './property'
-import { metadataName } from '@platyplus/rxdb-hasura'
+import { Metadata, metadataName } from '@platyplus/rxdb-hasura'
 
-export const ConfigTablePage: React.FC<{ role?: string }> = () => {
-  const { id } = useParams<{ id: string }>()
-  const table = useMetadataStore(useCallback((state) => state.tables[id], [id]))
-  const metaName = useMemo(() => table && metadataName(table), [table])
-
-  const [collectionTitle] = useMetadataTitleById(id, metaName)
-  const title = useMemo(
-    () =>
-      metaName &&
-      (collectionTitle !== metaName
-        ? `${collectionTitle} (${metaName})`
-        : metaName),
-    [metaName, collectionTitle]
-  )
-
+const MetadataWrapper: React.FC<{ table: Metadata; title: string }> = ({
+  table,
+  title
+}) => {
   const [properties, setProperties] = useMetadataProperties(table)
-  const [config, setConfig] = useMetadataConfig<Record<string, unknown>>(id)
+  const [config, setConfig] = useMetadataConfig<Record<string, unknown>>(
+    table.id
+  )
 
   const library = useComponentsLibrary()
   const collectionComponents = Object.keys(library.collections)
@@ -138,19 +128,38 @@ export const ConfigTablePage: React.FC<{ role?: string }> = () => {
       </List>
     ) : null
   }
+  return (
+    <HeaderTitleWrapper title={title} previous>
+      <Nav appearance="tabs" activeKey={tab} onSelect={setTab}>
+        <Nav.Item eventKey="collection">Collection</Nav.Item>
+        <Nav.Item eventKey="document">Document</Nav.Item>
+        <Nav.Item eventKey="fields">Fields</Nav.Item>
+      </Nav>
+      <Panel>{tabs[tab]}</Panel>
+    </HeaderTitleWrapper>
+  )
+}
+
+export const ConfigTablePage: React.FC<{ role?: string }> = () => {
+  const { id } = useParams<{ id: string }>()
+  const table = useMetadataStore(useCallback((state) => state.tables[id], [id]))
+  const metaName = useMemo(() => table && metadataName(table), [table])
+
+  const [collectionTitle] = table.config?.title
+  const title = useMemo(
+    () =>
+      metaName &&
+      (collectionTitle !== metaName
+        ? `${collectionTitle} (${metaName})`
+        : metaName),
+    [metaName, collectionTitle]
+  )
 
   return (
     <Animation.Fade in={!!collectionTitle}>
       {(props) => (
         <div {...props}>
-          <HeaderTitleWrapper title={title} previous>
-            <Nav appearance="tabs" activeKey={tab} onSelect={setTab}>
-              <Nav.Item eventKey="collection">Collection</Nav.Item>
-              <Nav.Item eventKey="document">Document</Nav.Item>
-              <Nav.Item eventKey="fields">Fields</Nav.Item>
-            </Nav>
-            <Panel>{tabs[tab]}</Panel>
-          </HeaderTitleWrapper>
+          {table && <MetadataWrapper table={table} title={title} />}
         </div>
       )}
     </Animation.Fade>

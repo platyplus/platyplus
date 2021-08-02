@@ -1,7 +1,7 @@
 import { RxJsonSchema } from 'rxdb'
-import { Metadata } from '../types'
+import { TableFragment } from '../../generated'
 
-export const metadataSchema: RxJsonSchema<Metadata> = {
+export const metadataSchema: RxJsonSchema<TableFragment> = {
   title: 'metadata schema',
   version: 0,
   type: 'object',
@@ -41,15 +41,6 @@ export const metadataSchema: RxJsonSchema<Metadata> = {
     },
     view: {
       type: ['object', 'null']
-    },
-    config: {
-      type: ['object', 'null'],
-      items: {
-        type: 'object',
-        properties: {
-          documentLabel: { type: ['string', 'null'] }
-        }
-      }
     },
     relationships: {
       type: 'array',

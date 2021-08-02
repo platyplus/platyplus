@@ -147,7 +147,7 @@
           schema: metadata
           name: property_config
         column_mapping:
-          id: property_id
+          id: id
   - name: primaryKey
     using:
       manual_configuration:
@@ -673,9 +673,8 @@
       - deleted
       - description
       - icon
-      - id
       - json_schema
-      - property_id
+      - id
       - property_name
       - table_id
       - title
@@ -862,7 +861,7 @@
           schema: metadata
           name: table_config
         column_mapping:
-          id: table_id
+          id: id
   - name: info
     using:
       manual_configuration:
@@ -1038,9 +1037,8 @@
       - document_label
       - document_title
       - icon
-      - id
       - order
-      - table_id
+      - id
       - title
       - updated_at
       filter: {}

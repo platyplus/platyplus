@@ -7,11 +7,7 @@ import { useMetadataConfig } from '../config'
 export const useMetadataTitle = (metadata?: Metadata) => {
   const id = useMemo(() => metadata?.id, [metadata])
   const fallback = useMemo(() => metadata && metadataName(metadata), [metadata])
-  return useMetadataTitleById(id, fallback)
-}
-
-export const useMetadataTitleById = (tableId?: string, fallback?: string) => {
-  return useMetadataConfig<string>(tableId, 'title', fallback)
+  return useMetadataConfig<string>(id, 'title', fallback)
 }
 
 export const CollectionTitle: React.FC<{

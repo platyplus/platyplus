@@ -34,7 +34,6 @@ export const useFormGet = (
   document: Contents
 ) => {
   const [properties] = useMetadataProperties(metadata)
-  // const [properties] = useDocumentProperties(document)
   const formValues = useFormRawValues(metadata, role, document)
   // const documentValues = useWatchDocumentValue(document)
 

@@ -9,12 +9,18 @@ export const FieldComponentWrapper: FieldComponent = ({
   ...rest
 }) => {
   const library = useComponentsLibrary().fields
+  const componentType = property.config?.component || 'default'
   const Component = useMemo(
-    () => library[property.type][property.config?.component || 'default'],
-    [library, property]
+    () => library[property.type]?.[componentType],
+    [library, property, componentType]
   )
 
   if (Component)
     return <Component property={property} document={document} {...rest} />
-  else return <div>Unknown component {property.type}</div>
+  else
+    return (
+      <div>
+        Unknown component {property.type}.{componentType}
+      </div>
+    )
 }

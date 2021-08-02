@@ -1,12 +1,27 @@
 import { useHistory } from 'react-router-dom'
 import { List } from 'rsuite'
 
-import { ContentsCollection, metadataName } from '@platyplus/rxdb-hasura'
 import {
-  useCollectionMetadata,
+  ContentsCollection,
+  Metadata,
+  metadataName
+} from '@platyplus/rxdb-hasura'
+import {
+  useMetadataStore,
   useMetadataTitle
 } from '@platyplus/react-rxdb-hasura'
-import { useMemo } from 'react'
+
+import { useCallback, useMemo } from 'react'
+
+const useCollectionMetadata = (
+  collection?: ContentsCollection
+): Readonly<Metadata | null> =>
+  useMetadataStore(
+    useCallback(
+      (store) => collection && store.tables[collection._tableId],
+      [collection]
+    )
+  )
 
 export const ConfigListItem: React.FC<{
   collection: ContentsCollection

@@ -6,10 +6,8 @@ import {
   useTableIcon,
   useMetadataTitle,
   useOrderedContentsCollections,
-  useCollectionMetadata,
   useMetadata
 } from '@platyplus/react-rxdb-hasura'
-import { ContentsCollection } from '@platyplus/rxdb-hasura'
 import { MenuItem } from '@platyplus/layout'
 import { RouteConfig } from './types'
 

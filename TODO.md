@@ -36,6 +36,15 @@
     - [x] save `config` stuff through the replicator/modifier
   - [x] useConfigEnabled: config is enabled if user has an admin role
   - [x] default values are not working anymore - see default boolean value in `patient` table
+  - rxdb-hasura metadata store
+    - [x] useIsMetadataLoading() / useIsMetadataReady()
+    - [x] zustand in rxdb-hasura for metadata & config tables
+    - [x] directly manage/replicate config, not through metadata (own replicator etc)
+      - [x] move the console/graphql way to persist config to the rxdb-hasura/metadata/config folder
+    - [x] config pages: avoid providing roles
+      - [x] replace `collection.properties` by `getMetadataProperties(metadata: Metadata, ordered: boolean)`
+    - [x] impact analysis: break collection.metadata link and use the store instead
+  - [x] populate document/collection fields before render - table view is blinking
   - [ ] foreign key constraints
     - [ ] onDelete constraint
       - [ ] cascade
@@ -48,20 +57,16 @@
     - bug on validating form with a required many2one field: is it related?
   - [ ] debug
     - [x] create
-    - [ ] update -> problem
+    - [ ] update -> problem on relationships (form input require the doc key, whereas document properties have been populated)
     - [x] remove
     - [ ] real-time
-  - rxdb-hasura metadata store
-    - [ ] useIsMetadataLoading() / useIsMetadataReady()
-    - [x] zustand in rxdb-hasura for metadata & config tables
-    - [ ] directly manage/replicate config, not through metadata (own replicator etc)
-      - [ ] move the console/graphql way to persist config to the rxdb-hasura/metadata/config folder
-    - [x] config pages: avoid providing roles
-      - [x] replace `collection.properties` by `getMetadataProperties(metadata: Metadata, ordered: boolean)`
-    - [ ] impact analysis: break collection.metadata link and use the store instead
+  - [ ] useOrderedContentsCollections
+  - [ ] re-activate permissions
+  - [ ] label - not always generated correctly
+    - -> happens when contents documents are created before getting metadata/config
+    - [ ] check if label regenerates when changing its template
   - [ ] debug and improve profile page
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
-  - [ ] check if label regenerates when changing its template
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
     - [ ] PWA

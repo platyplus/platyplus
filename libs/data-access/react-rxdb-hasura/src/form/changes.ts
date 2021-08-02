@@ -4,14 +4,13 @@ import { useMemo } from 'react'
 import { Contents, Metadata } from '@platyplus/rxdb-hasura'
 
 import { useFormRawValues } from './state'
-import { useMetadataProperties } from '../property'
 
 export const useFormHasChanged = (
   metadata: Metadata,
   role: string,
   document: Contents
 ) => {
-  const [properties] = useMetadataProperties(metadata)
+  const properties = metadata.properties
   const formValues = useFormRawValues(metadata, role, document)
 
   return useMemo(

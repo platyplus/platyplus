@@ -1,6 +1,7 @@
-import { Contents, Metadata } from '../../types'
-import { propertyType, isTextType } from '../properties'
+import { Contents } from '../../types'
+import { isTextType } from '../properties'
 import { v4 as uuid } from 'uuid'
+import { Metadata } from '../../metadata'
 
 export const generateDefaultValue = (
   table: Metadata,
@@ -28,7 +29,7 @@ export const generateDefaultValue = (
       return null
     }
   } else {
-    const type = propertyType(table, propertyName)
+    const type = table.properties.get(propertyName).type
     if (isTextType(type)) return ''
     else return null
   }

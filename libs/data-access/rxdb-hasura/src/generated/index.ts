@@ -12702,6 +12702,169 @@ export type Visite_Variance_Order_By = {
   muac: Maybe<Order_By>
 }
 
+export type AppConfigQueryVariables = Exact<{
+  updated_at: Scalars['timestamptz']
+  batchSize: Scalars['Int']
+}>
+
+export type AppConfigQuery = { __typename?: 'query_root' } & {
+  metadata_app_config: Array<
+    { __typename?: 'metadata_app_config' } & Pick<
+      Metadata_App_Config,
+      'id' | 'updated_at' | 'menu_order' | 'deleted'
+    >
+  >
+}
+
+export type InsertMetadataAppConfigMutationVariables = Exact<{
+  objects:
+    | Array<Metadata_App_Config_Insert_Input>
+    | Metadata_App_Config_Insert_Input
+}>
+
+export type InsertMetadataAppConfigMutation = {
+  __typename?: 'mutation_root'
+} & {
+  insert_metadata_app_config: Maybe<
+    { __typename?: 'metadata_app_config_mutation_response' } & {
+      returning: Array<
+        { __typename?: 'metadata_app_config' } & Pick<Metadata_App_Config, 'id'>
+      >
+    }
+  >
+}
+
+export type OnAppConfigSubscriptionVariables = Exact<{
+  now: Scalars['timestamptz']
+}>
+
+export type OnAppConfigSubscription = { __typename?: 'subscription_root' } & {
+  metadata_app_config: Array<
+    { __typename?: 'metadata_app_config' } & Pick<
+      Metadata_App_Config,
+      'updated_at'
+    >
+  >
+}
+
+export type PropertyConfigQueryVariables = Exact<{
+  updated_at: Scalars['timestamptz']
+  batchSize: Scalars['Int']
+}>
+
+export type PropertyConfigQuery = { __typename?: 'query_root' } & {
+  metadata_property_config: Array<
+    { __typename?: 'metadata_property_config' } & Pick<
+      Metadata_Property_Config,
+      | 'id'
+      | 'property_id'
+      | 'updated_at'
+      | 'table_id'
+      | 'deleted'
+      | 'property_name'
+      | 'component'
+      | 'json_schema'
+      | 'icon'
+      | 'description'
+      | 'title'
+    >
+  >
+}
+
+export type InsertMetadataPropertyConfigMutationVariables = Exact<{
+  objects:
+    | Array<Metadata_Property_Config_Insert_Input>
+    | Metadata_Property_Config_Insert_Input
+}>
+
+export type InsertMetadataPropertyConfigMutation = {
+  __typename?: 'mutation_root'
+} & {
+  insert_metadata_property_config: Maybe<
+    { __typename?: 'metadata_property_config_mutation_response' } & {
+      returning: Array<
+        { __typename?: 'metadata_property_config' } & Pick<
+          Metadata_Property_Config,
+          'id'
+        >
+      >
+    }
+  >
+}
+
+export type OnPropertyConfigSubscriptionVariables = Exact<{
+  now: Scalars['timestamptz']
+}>
+
+export type OnPropertyConfigSubscription = {
+  __typename?: 'subscription_root'
+} & {
+  metadata_property_config: Array<
+    { __typename?: 'metadata_property_config' } & Pick<
+      Metadata_Property_Config,
+      'updated_at'
+    >
+  >
+}
+
+export type TableConfigQueryVariables = Exact<{
+  updated_at: Scalars['timestamptz']
+  batchSize: Scalars['Int']
+}>
+
+export type TableConfigQuery = { __typename?: 'query_root' } & {
+  metadata_table_config: Array<
+    { __typename?: 'metadata_table_config' } & Pick<
+      Metadata_Table_Config,
+      | 'id'
+      | 'updated_at'
+      | 'table_id'
+      | 'deleted'
+      | 'component'
+      | 'description'
+      | 'document_label'
+      | 'document_title'
+      | 'icon'
+      | 'order'
+      | 'title'
+    >
+  >
+}
+
+export type InsertMetadataTableConfigMutationVariables = Exact<{
+  objects:
+    | Array<Metadata_Table_Config_Insert_Input>
+    | Metadata_Table_Config_Insert_Input
+}>
+
+export type InsertMetadataTableConfigMutation = {
+  __typename?: 'mutation_root'
+} & {
+  insert_metadata_table_config: Maybe<
+    { __typename?: 'metadata_table_config_mutation_response' } & {
+      returning: Array<
+        { __typename?: 'metadata_table_config' } & Pick<
+          Metadata_Table_Config,
+          'id'
+        >
+      >
+    }
+  >
+}
+
+export type OnTableConfigSubscriptionVariables = Exact<{
+  now: Scalars['timestamptz']
+}>
+
+export type OnTableConfigSubscription = { __typename?: 'subscription_root' } & {
+  metadata_table_config: Array<
+    { __typename?: 'metadata_table_config' } & Pick<
+      Metadata_Table_Config,
+      'updated_at'
+    >
+  >
+}
+
 export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
   Metadata_Table,
   'id' | 'name' | 'schema'
@@ -12761,12 +12924,6 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
           >
         >
       }
-  >
-  config: Maybe<
-    { __typename?: 'metadata_table_config' } & Pick<
-      Metadata_Table_Config,
-      'document_label'
-    >
   >
   computedProperties: Array<
     { __typename?: 'metadata_computed_property' } & Pick<
@@ -12882,9 +13039,6 @@ export const TableFragmentDoc = gql`
         columnName
       }
     }
-    config {
-      document_label
-    }
     computedProperties {
       name
       type
@@ -12925,6 +13079,161 @@ export const TableFragmentDoc = gql`
   ${RemoteTableFragmentDoc}
   ${ColumnFragmentDoc}
 `
+export const AppConfigDocument = gql`
+  query appConfig($updated_at: timestamptz!, $batchSize: Int!) {
+    metadata_app_config(
+      where: { updated_at: { _gt: $updated_at } }
+      limit: $batchSize
+      order_by: [{ updated_at: asc }, { id: asc }]
+    ) {
+      id
+      updated_at
+      menu_order
+      deleted
+    }
+  }
+`
+export const InsertMetadataAppConfigDocument = gql`
+  mutation insertMetadataAppConfig(
+    $objects: [metadata_app_config_insert_input!]!
+  ) {
+    insert_metadata_app_config(
+      objects: $objects
+      on_conflict: {
+        constraint: app_config_pkey
+        update_columns: [deleted, menu_order]
+      }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`
+export const OnAppConfigDocument = gql`
+  subscription onAppConfig($now: timestamptz!) {
+    metadata_app_config(
+      where: { updated_at: { _gt: $now } }
+      order_by: { updated_at: asc }
+    ) {
+      updated_at
+    }
+  }
+`
+export const PropertyConfigDocument = gql`
+  query propertyConfig($updated_at: timestamptz!, $batchSize: Int!) {
+    metadata_property_config(
+      where: { updated_at: { _gt: $updated_at } }
+      limit: $batchSize
+      order_by: [{ updated_at: asc }, { id: asc }]
+    ) {
+      id
+      property_id
+      updated_at
+      table_id
+      deleted
+      property_name
+      component
+      json_schema
+      icon
+      description
+      title
+    }
+  }
+`
+export const InsertMetadataPropertyConfigDocument = gql`
+  mutation insertMetadataPropertyConfig(
+    $objects: [metadata_property_config_insert_input!]!
+  ) {
+    insert_metadata_property_config(
+      objects: $objects
+      on_conflict: {
+        constraint: property_config_property_id_key
+        update_columns: [
+          table_id
+          deleted
+          property_name
+          component
+          json_schema
+          icon
+          description
+          title
+        ]
+      }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`
+export const OnPropertyConfigDocument = gql`
+  subscription onPropertyConfig($now: timestamptz!) {
+    metadata_property_config(
+      where: { updated_at: { _gt: $now } }
+      order_by: { updated_at: asc }
+    ) {
+      updated_at
+    }
+  }
+`
+export const TableConfigDocument = gql`
+  query tableConfig($updated_at: timestamptz!, $batchSize: Int!) {
+    metadata_table_config(
+      where: { updated_at: { _gt: $updated_at } }
+      limit: $batchSize
+      order_by: [{ updated_at: asc }, { id: asc }]
+    ) {
+      id
+      updated_at
+      table_id
+      deleted
+      component
+      description
+      document_label
+      document_title
+      icon
+      order
+      title
+    }
+  }
+`
+export const InsertMetadataTableConfigDocument = gql`
+  mutation insertMetadataTableConfig(
+    $objects: [metadata_table_config_insert_input!]!
+  ) {
+    insert_metadata_table_config(
+      objects: $objects
+      on_conflict: {
+        constraint: table_config_table_id_key
+        update_columns: [
+          deleted
+          component
+          description
+          document_label
+          document_title
+          icon
+          order
+          title
+        ]
+      }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`
+export const OnTableConfigDocument = gql`
+  subscription onTableConfig($now: timestamptz!) {
+    metadata_table_config(
+      where: { updated_at: { _gt: $now } }
+      order_by: { updated_at: asc }
+    ) {
+      updated_at
+    }
+  }
+`
 export const MetadataDocument = gql`
   query metadata {
     metadata_table {
@@ -12946,6 +13255,130 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper
 ) {
   return {
+    appConfig(
+      variables: AppConfigQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<AppConfigQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<AppConfigQuery>(AppConfigDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'appConfig'
+      )
+    },
+    insertMetadataAppConfig(
+      variables: InsertMetadataAppConfigMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<InsertMetadataAppConfigMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<InsertMetadataAppConfigMutation>(
+            InsertMetadataAppConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'insertMetadataAppConfig'
+      )
+    },
+    onAppConfig(
+      variables: OnAppConfigSubscriptionVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<OnAppConfigSubscription> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<OnAppConfigSubscription>(
+            OnAppConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'onAppConfig'
+      )
+    },
+    propertyConfig(
+      variables: PropertyConfigQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PropertyConfigQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PropertyConfigQuery>(
+            PropertyConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'propertyConfig'
+      )
+    },
+    insertMetadataPropertyConfig(
+      variables: InsertMetadataPropertyConfigMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<InsertMetadataPropertyConfigMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<InsertMetadataPropertyConfigMutation>(
+            InsertMetadataPropertyConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'insertMetadataPropertyConfig'
+      )
+    },
+    onPropertyConfig(
+      variables: OnPropertyConfigSubscriptionVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<OnPropertyConfigSubscription> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<OnPropertyConfigSubscription>(
+            OnPropertyConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'onPropertyConfig'
+      )
+    },
+    tableConfig(
+      variables: TableConfigQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<TableConfigQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<TableConfigQuery>(TableConfigDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'tableConfig'
+      )
+    },
+    insertMetadataTableConfig(
+      variables: InsertMetadataTableConfigMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<InsertMetadataTableConfigMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<InsertMetadataTableConfigMutation>(
+            InsertMetadataTableConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'insertMetadataTableConfig'
+      )
+    },
+    onTableConfig(
+      variables: OnTableConfigSubscriptionVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<OnTableConfigSubscription> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<OnTableConfigSubscription>(
+            OnTableConfigDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'onTableConfig'
+      )
+    },
     metadata(
       variables?: MetadataQueryVariables,
       requestHeaders?: Dom.RequestInit['headers']

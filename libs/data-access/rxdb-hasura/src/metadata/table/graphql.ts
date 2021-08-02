@@ -1,8 +1,9 @@
 import gql from 'graphql-tag'
 import { print } from 'graphql/language/printer'
-import { queryToSubscription } from '../utils'
+import { queryToSubscription } from '../../utils'
 
 // TODO use table.primaryKey instead of table.columns.primaryKey
+// TODO shrink, especially the relationship part
 export const query = gql`
   fragment coreTable on metadata_table {
     id
@@ -51,9 +52,6 @@ export const query = gql`
       columns {
         columnName
       }
-    }
-    config {
-      document_label
     }
     computedProperties {
       name

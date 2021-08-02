@@ -1,16 +1,17 @@
 import { RxJsonSchema } from 'rxdb'
 
-import { Contents, Metadata } from '../../types'
+import { Contents } from '../../types'
 import { metadataName } from '../../utils'
+import { TableFragment } from '../../generated'
 import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from '../columns'
-import { isIdColumn } from '../ids'
-import { indexes } from './indexes'
 import { createRelationshipProperties } from '../relationships'
 import { requiredProperties } from '../required'
+import { isIdColumn } from '../ids'
+import { indexes } from './indexes'
 
 export const toJsonSchema = (
-  table: Metadata,
+  table: TableFragment,
   role: string
 ): RxJsonSchema<Contents> => {
   // TODO get the query/mutations/subscription names for building graphql queries

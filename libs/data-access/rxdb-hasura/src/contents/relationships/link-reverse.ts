@@ -9,7 +9,6 @@ import {
   ContentsDocumentMethods
 } from '../../types'
 import { collectionName } from '../../utils'
-import { metadataProperties } from '../properties'
 
 const reverseRelations =
   (
@@ -20,7 +19,7 @@ const reverseRelations =
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
     const metadata = getCollectionMetadata(collection)
-    const relationships = [...metadataProperties(metadata).entries()].filter(
+    const relationships = [...metadata.properties.entries()].filter(
       ([, prop]) => prop.relationship
     )
     for (const [name, { type, relationship }] of relationships) {

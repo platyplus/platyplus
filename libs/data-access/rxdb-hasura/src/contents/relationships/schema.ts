@@ -1,12 +1,12 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
-import { Metadata } from '../../types'
+import { TableFragment } from '../../generated'
 import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
 import { filteredRelationships, isManyToManyTable } from './utils'
 
 export const createRelationshipProperties = (
-  table: Metadata,
+  table: TableFragment,
   role: string
 ): Record<string, TopLevelProperty> => {
   const result: Record<string, TopLevelProperty> = {}

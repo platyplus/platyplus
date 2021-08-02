@@ -38,30 +38,22 @@ export const CollectionField: FieldComponent<
   )
 
   const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
-  return (
-    <Animation.Fade in={!isFetching}>
-      {(props, ref) => (
-        <div {...props}>
-          {edit ? (
-            <FieldControl
-              style={{ minWidth: 300 }}
-              name={name}
-              readOnly={!edit}
-              data={options}
-              cleanable={edit}
-              accepter={Accepter}
-            />
-          ) : (
-            <CollectionComponentWrapper
-              metadata={refMetadata}
-              role={role}
-              data={document[name]}
-              componentName={component}
-              edit={false}
-            />
-          )}
-        </div>
-      )}
-    </Animation.Fade>
+  return edit ? (
+    <FieldControl
+      style={{ minWidth: 300 }}
+      name={name}
+      readOnly={!edit}
+      data={isFetching ? [] : options}
+      cleanable={edit}
+      accepter={Accepter}
+    />
+  ) : (
+    <CollectionComponentWrapper
+      metadata={refMetadata}
+      role={role}
+      data={document[name]}
+      componentName={component}
+      edit={false}
+    />
   )
 }

@@ -1,5 +1,5 @@
-import { getCollectionMetadata } from '../../metadata'
-import { ContentsCollection, Contents, Metadata } from '../../types'
+import { getCollectionMetadata, Metadata } from '../../metadata'
+import { ContentsCollection, Contents } from '../../types'
 
 export const canEdit = (
   metadata: Metadata,
@@ -32,6 +32,7 @@ export const canCreate = (
   // ? Check the hasura permission rule ?
   // TODO
   return true
+  /*
   if (fieldName) {
     const property = collection.schema.jsonSchema.properties[fieldName]
     if (property?.ref) {
@@ -66,6 +67,7 @@ export const canCreate = (
       col.canInsert.some((permission) => permission.roleName === role)
     )
   }
+  */
 }
 
 export const canUpdate = (
@@ -79,6 +81,7 @@ export const canUpdate = (
   return true
   // TODO
   // ? Check the hasura permission rule ?
+  /*
   if (fieldName) {
     const property = collection.schema.jsonSchema.properties[fieldName]
     if (property?.ref) {
@@ -114,4 +117,5 @@ export const canUpdate = (
       col.canUpdate.some((permission) => permission.roleName === role)
     )
   }
+  */
 }

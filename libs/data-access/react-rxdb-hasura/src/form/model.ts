@@ -2,10 +2,9 @@
 import { Schema } from 'rsuite'
 import { useMemo } from 'react'
 
-import { Metadata } from '@platyplus/rxdb-hasura'
+import { Metadata, Property } from '@platyplus/rxdb-hasura'
 
 import { TopLevelProperty } from 'rxdb/dist/types/types'
-import { useMetadataProperties } from '../property'
 
 const { Model, Types } = Schema
 
@@ -33,6 +32,9 @@ export type CustomTypes = 'collection' | 'document' | 'integer'
 const modelTypeConstructor = {
   collection: () => Types.ArrayType(),
   document: () => Types.StringType(),
+  'date-time': () => Types.DateType(),
+  time: () => Types.DateType(),
+  date: () => Types.DateType(),
   number: () => Types.NumberType(),
   object: () => Types.ObjectType(),
   array: () => Types.ArrayType(),
@@ -46,26 +48,28 @@ const modelTypeConstructor = {
 }
 
 export const useFormModel = (metadata: Metadata) => {
-  const [properties] = useMetadataProperties(metadata)
+  const properties = metadata.properties
   return useMemo(
     () =>
       Model(
-        metadata && properties
-          ? [...properties.entries()].reduce((acc, [name, property]) => {
-              const type = property.type
-              const modelType = modelTypeConstructor[type](name, property)
-              if (property.required) {
-                if (type === 'collection' || type === 'array') {
-                  modelType.isRequiredOrEmpty()
-                } else {
-                  modelType.isRequired('This field is required')
-                }
+        [...properties.entries()].reduce((acc, [name, property]) => {
+          const type = property.type
+          const modelType = modelTypeConstructor[type]?.(name, property)
+          if (!modelType) {
+            console.log('Unknown model type for property', property)
+          } else {
+            if (property.required) {
+              if (type === 'collection' || type === 'array') {
+                modelType.isRequiredOrEmpty()
+              } else {
+                modelType.isRequired('This field is required')
               }
-              acc[name] = modelType
-              return acc
-            }, {})
-          : {}
+            }
+            acc[name] = modelType
+          }
+          return acc
+        }, {})
       ),
-    [metadata, properties]
+    [properties]
   )
 }

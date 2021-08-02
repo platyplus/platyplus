@@ -3,14 +3,13 @@ import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
 import { warn } from '../../console'
-import { getCollectionMetadata } from '../../metadata'
+import { getCollectionMetadata, JsonSchemaPropertyType } from '../../metadata'
 
 import {
   Contents,
   ContentsCollection,
   ContentsDocument,
-  ContentsDocumentMethods,
-  JsonSchemaPropertyType
+  ContentsDocumentMethods
 } from '../../types'
 import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
 import { documentLabel } from './label'

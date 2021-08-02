@@ -1,7 +1,7 @@
 import { RxDatabase, RxGraphQLReplicationQueryBuilder } from 'rxdb'
-import { Metadata } from '../types'
-import { metadataName } from '../utils'
+import { metadataName } from '../../utils'
 import { stringQuery } from './graphql'
+import { TableFragment } from '../../generated'
 
 const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 
@@ -11,7 +11,7 @@ const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 // ! ( but it needs to be determined on the postgresql side... )
 export const queryBuilder =
   (db: RxDatabase): RxGraphQLReplicationQueryBuilder =>
-  (doc: Metadata) => ({
+  (doc: TableFragment) => ({
     query:
       doc && // * Do not load metadata (again) when metadata collection already exists
       !db[metadataName(doc)]

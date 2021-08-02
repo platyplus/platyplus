@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { ComponentsConfig } from './types'
 
 export const ComponentsContext = React.createContext<ComponentsConfig>({

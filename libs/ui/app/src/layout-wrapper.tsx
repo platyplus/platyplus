@@ -30,7 +30,8 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
   const authenticated = useAuthenticated()
   const config = useConfigEnabled()
   // * Load components - defaults can be overriden and/or extended
-  const overridenComponents = deepmerge(components, defaultComponents)
+  // TODO merge deep but without re-rendering the context
+  const overridenComponents = defaultComponents //deepmerge(components, defaultComponents)
   return (
     <ComponentsContext.Provider value={overridenComponents}>
       <Layout

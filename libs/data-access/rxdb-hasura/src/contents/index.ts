@@ -1,5 +1,4 @@
 export * from './computed-fields'
-export * from './config'
 export * from './creator'
 export * from './defaults'
 export * from './middleware'

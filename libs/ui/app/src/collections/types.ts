@@ -1,12 +1,12 @@
 import React from 'react'
-import { Contents, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
 
 type CommonCollectionComponentProps = {
   edit: boolean
   config?: boolean
   metadata: Metadata
   role: string
-  data: Contents[]
+  data: ContentsDocument[]
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
