@@ -7,7 +7,7 @@ import {
   useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
 import { Loading } from '@platyplus/navigation'
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { CollectionComponent } from './types'
 import { FieldComponentWrapper } from '../fields'
@@ -22,29 +22,29 @@ export const TableCollection: CollectionComponent = ({
 }) => {
   const history = useHistory()
   const [properties] = useMetadataProperties(metadata)
-  const populatedData = useAsync(async () => {
-    const relationshipFields = [...metadata.properties.values()]
-      .filter((property) => !!property.relationship)
-      .map((property) => property.name)
-    const res = await Promise.all(
-      data.map(async (doc, k) => {
-        const populatedDoc = { ...doc.toJSON() }
-        for (const field of relationshipFields) {
-          populatedDoc[field] = await doc.populate(field)
-        }
-        return populatedDoc
-      })
-    )
-    return res
-  }, [data, metadata])
+  // const populatedData = useAsync(async () => {
+  //   const relationshipFields = [...metadata.properties.values()]
+  //     .filter((property) => !!property.relationship)
+  //     .map((property) => property.name)
+  //   const res = await Promise.all(
+  //     data.map(async (doc, k) => {
+  //       const populatedDoc = { ...doc.toJSON() }
+  //       for (const field of relationshipFields) {
+  //         populatedDoc[field] = await doc.populate(field)
+  //       }
+  //       return populatedDoc
+  //     })
+  //   )
+  //   return res
+  // }, [data, metadata])
 
-  if (populatedData.loading) return <Loading backdrop />
+  // if (populatedData.loading) return <Loading backdrop />
   return (
     <Table
       hover
       height={400}
       autoHeight
-      data={populatedData.value}
+      data={data}
       onRowClick={(data: ContentsDocument) => {
         history.push(`/collection/${role}/${metadata.id}/${data.id}`)
       }}
@@ -59,7 +59,7 @@ export const TableCollection: CollectionComponent = ({
             />
           </HeaderCell>
           <Cell>
-            {(document: Contents) => {
+            {(document: ContentsDocument) => {
               return (
                 <FieldComponentWrapper
                   metadata={metadata}

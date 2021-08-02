@@ -10,13 +10,13 @@ import {
   useFormReset,
   useFormSave
 } from '@platyplus/react-rxdb-hasura'
-import { Contents, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
 import { IconButtonWithHelper, ICON_RED } from '@platyplus/layout'
 
 export const DocumentToolbar: React.FC<{
   metadata: Metadata
   role: string
-  document?: Contents
+  document?: ContentsDocument
   edit?: boolean
   formRef?: MutableRefObject<FormInstance>
 }> = ({ metadata, role, document, edit, formRef }) => {

@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { SelectPicker, Animation } from 'rsuite'
+import { SelectPicker } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
 import { Contents } from '@platyplus/rxdb-hasura'
@@ -7,6 +7,7 @@ import { Contents } from '@platyplus/rxdb-hasura'
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
 import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
+import { useAsync } from 'react-use'
 
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
@@ -30,6 +31,11 @@ export const DocumentSelectField: FieldComponent = ({
     queryConstructor
   )
 
+  const data = useAsync(
+    async () => await document.populate(name),
+    [document, name]
+  )
+
   const options = useMemo(
     () => result.map((doc) => ({ label: doc.label, value: doc.id })),
     [result]
@@ -44,11 +50,11 @@ export const DocumentSelectField: FieldComponent = ({
       cleanable={edit}
       accepter={SelectPicker}
     />
-  ) : (
+  ) : data.loading ? null : (
     <DocumentComponentWrapper
       metadata={refMetadata}
       role={role}
-      document={document[name]}
+      document={data.value}
       componentName="label"
       edit={false}
     />

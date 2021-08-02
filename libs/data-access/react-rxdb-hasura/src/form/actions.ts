@@ -1,4 +1,4 @@
-import { Contents, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
 import { useCallback } from 'react'
 
 import { useStore } from '../store'
@@ -9,7 +9,7 @@ import { useCollectionName, useContentsCollection } from '../collection'
 export const useFormSave = (
   metadata: Metadata,
   role: string,
-  document: Contents
+  document: ContentsDocument
 ) => {
   const canSave = useFormCanSave(metadata, role, document)
   const formValues = useFormRawValues(metadata, role, document)
@@ -18,16 +18,16 @@ export const useFormSave = (
   const collection = useContentsCollection(collectionName)
   return useCallback(async () => {
     if (canSave) {
-      await collection.atomicUpsert({ is_local_change: false, ...formValues })
+      await document.atomicPatch({ is_local_change: false, ...formValues })
       reset()
     }
-  }, [canSave, collection, formValues, reset])
+  }, [canSave, document, formValues, reset])
 }
 
 export const useFormReset = (
   metadata: Metadata,
   role: string,
-  document: Contents
+  document: ContentsDocument
 ) => {
   const collectionName = useCollectionName(metadata, role)
   return useStore((state) => () => state.resetForm(collectionName, document))

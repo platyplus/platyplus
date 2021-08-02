@@ -1,10 +1,10 @@
-import { getCollectionMetadata, Metadata } from '../../metadata'
-import { ContentsCollection, Contents } from '../../types'
+import { getCollectionMetadata, Metadata, metadataStore } from '../../metadata'
+import { ContentsCollection, ContentsDocument } from '../../types'
 
 export const canEdit = (
   metadata: Metadata,
   role: string,
-  document: Contents,
+  document: ContentsDocument,
   propertyName?: string
 ) =>
   document._isTemporary
@@ -18,8 +18,11 @@ export const canSave = () => {
   return true
 }
 
-export const canDelete = (metadata: Metadata, role: string, doc: Contents) =>
-  canEdit(metadata, role, doc, 'deleted')
+export const canDelete = (
+  metadata: Metadata,
+  role: string,
+  doc: ContentsDocument
+) => canEdit(metadata, role, doc, 'deleted')
 
 export const canCreate = (
   metadata: Metadata,
@@ -30,28 +33,21 @@ export const canCreate = (
   if (metadata.view) return false
   if (role === 'admin') return true
   // ? Check the hasura permission rule ?
-  // TODO
-  return true
-  /*
   if (fieldName) {
-    const property = collection.schema.jsonSchema.properties[fieldName]
-    if (property?.ref) {
-      // * Relationship
-      const relationship = metadata.relationships.find(
-        ({ name }) => name === fieldName
-      )
-      if (relationship?.type === 'object') {
+    const property = metadata.properties.get(fieldName)
+    const relationship = property.relationship
+    if (relationship) {
+      if (relationship.type === 'object') {
         // * object relationship: check permission to insert every foreign key column
         return relationship.mapping
           .map((m) => m.column?.name)
           .every((column) => column && canCreate(metadata, role, column))
       } else {
         // * array relationship: check permission to update the foreign key columns
-        const refCollectionName =
-          collection.schema.jsonSchema.properties[relationship?.name].ref
-        const refCollection = collection.database[refCollectionName]
+        const refMetadata =
+          metadataStore.getState().tables[relationship.remoteTable.id]
         return !!relationship?.mapping.every((m) =>
-          canUpdate(refCollection, m.remoteColumnName)
+          canUpdate(refMetadata, m.remoteColumnName)
         )
       }
     } else {
@@ -67,7 +63,6 @@ export const canCreate = (
       col.canInsert.some((permission) => permission.roleName === role)
     )
   }
-  */
 }
 
 export const canUpdate = (
@@ -78,30 +73,23 @@ export const canUpdate = (
   // * PostgreSQL views cannot be edited (as of now)
   if (metadata.view) return false
   if (role === 'admin') return true
-  return true
-  // TODO
   // ? Check the hasura permission rule ?
-  /*
   if (fieldName) {
-    const property = collection.schema.jsonSchema.properties[fieldName]
-    if (property?.ref) {
+    const property = metadata.properties.get(fieldName)
+    const relationship = property.relationship
+    if (relationship) {
       // * Relationship
-      const relationship = metadata.relationships.find(
-        ({ name }) => name === fieldName
-      )
       if (relationship?.type === 'object') {
         // * object relationship: check permission to update every foreign key column
         return relationship.mapping
           .map((m) => m.column?.name)
-          .every((column) => column && canUpdate(collection, column))
+          .every((column) => column && canUpdate(metadata, role, column))
       } else {
         // * array relationship: check permission to update the foreign key columns
-        const refCollection =
-          collection.database.collections[
-            collection.schema.jsonSchema.properties[relationship?.name].ref
-          ]
+        const refMetadata =
+          metadataStore.getState().tables[relationship.remoteTable.id]
         return !!relationship?.mapping.every((m) =>
-          refCollection.canUpdate(m.remoteColumnName)
+          canUpdate(refMetadata, role, m.remoteColumnName)
         )
       }
     } else {
@@ -117,5 +105,4 @@ export const canUpdate = (
       col.canUpdate.some((permission) => permission.roleName === role)
     )
   }
-  */
 }

@@ -145,18 +145,18 @@ export const ConfigTablePage: React.FC<{ role?: string }> = () => {
   const table = useMetadataStore(useCallback((state) => state.tables[id], [id]))
   const metaName = useMemo(() => table && metadataName(table), [table])
 
-  const [collectionTitle] = table.config?.title
-  const title = useMemo(
-    () =>
+  const title = useMemo(() => {
+    const collectionTitle = table.config?.title
+    return (
       metaName &&
       (collectionTitle !== metaName
         ? `${collectionTitle} (${metaName})`
-        : metaName),
-    [metaName, collectionTitle]
-  )
+        : metaName)
+    )
+  }, [metaName, table])
 
   return (
-    <Animation.Fade in={!!collectionTitle}>
+    <Animation.Fade in={!!table}>
       {(props) => (
         <div {...props}>
           {table && <MetadataWrapper table={table} title={title} />}

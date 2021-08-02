@@ -1,4 +1,3 @@
-import { useMetadataConfig } from '@platyplus/react-rxdb-hasura'
 import { useMemo } from 'react'
 
 import { useComponentsLibrary } from '../components'

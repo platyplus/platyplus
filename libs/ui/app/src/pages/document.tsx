@@ -10,7 +10,7 @@ import {
   useConfigEnabled,
   useDocumentTitle,
   useMetadata,
-  usePopulatedDocument
+  useDocument
 } from '@platyplus/react-rxdb-hasura'
 
 import { DocumentToolbar, DocumentComponentWrapper } from '../documents'
@@ -22,7 +22,7 @@ export const DocumentPage: React.FC = () => {
   const enabledConfig = useConfigEnabled()
 
   const metadata = useMetadata(name)
-  const { document, isFetching } = usePopulatedDocument(metadata, role, id)
+  const { document, isFetching } = useDocument(metadata, role, id)
   const [title] = useDocumentTitle(metadata)
   const formRef = useRef()
   if (!metadata) return null

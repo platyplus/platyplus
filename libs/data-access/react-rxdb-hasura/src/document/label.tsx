@@ -1,7 +1,11 @@
 import { useMemo } from 'react'
 
 import { InlineValue } from '@platyplus/layout'
-import { computeTemplate, Contents, Metadata } from '@platyplus/rxdb-hasura'
+import {
+  computeTemplate,
+  ContentsDocument,
+  Metadata
+} from '@platyplus/rxdb-hasura'
 
 import { useFormGet } from '../form'
 import { useCollectionTableConfig } from '../collection'
@@ -12,7 +16,7 @@ export const useDocumentLabelTemplate = (metadata: Metadata) =>
 export const useDocumentLabel = (
   metadata: Metadata,
   role: string,
-  document: Contents
+  document: ContentsDocument
 ): [string, string, (val: string) => void] => {
   const [template, setTemplate] = useDocumentLabelTemplate(metadata)
   const form = useFormGet(metadata, role, document)
@@ -28,7 +32,7 @@ export const useDocumentLabel = (
 export const DocumentLabel: React.FC<{
   metadata: Metadata
   role: string
-  document: Contents
+  document: ContentsDocument
   editable?: boolean
 }> = ({ document, editable, role, metadata }) => {
   const [value, template, onChange] = useDocumentLabel(metadata, role, document)

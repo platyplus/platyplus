@@ -1,14 +1,14 @@
 import deepEqual from 'deep-equal'
 import { useMemo } from 'react'
 
-import { Contents, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
 
 import { useFormRawValues } from './state'
 
 export const useFormHasChanged = (
   metadata: Metadata,
   role: string,
-  document: Contents
+  document: ContentsDocument
 ) => {
   const properties = metadata.properties
   const formValues = useFormRawValues(metadata, role, document)

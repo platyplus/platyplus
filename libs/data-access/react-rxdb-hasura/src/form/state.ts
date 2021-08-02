@@ -1,11 +1,10 @@
 import { useCallback, useMemo } from 'react'
 
-import { Contents, Metadata } from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
 
 import { useMetadataProperties } from '../property'
 import { useStore } from '../store'
 import { useCollectionName } from '../collection'
-// import { useWatchDocumentValue } from '../document'
 
 /**
  * Get the form values of a given document
@@ -15,7 +14,7 @@ import { useCollectionName } from '../collection'
 export const useFormRawValues = (
   metadata: Metadata,
   role: string,
-  document: Contents
+  document: ContentsDocument
 ): Contents => {
   const collectionName = useCollectionName(metadata, role)
   return useStore(
@@ -31,11 +30,10 @@ export const useFormRawValues = (
 export const useFormGet = (
   metadata: Metadata,
   role: string,
-  document: Contents
+  document: ContentsDocument
 ) => {
   const [properties] = useMetadataProperties(metadata)
   const formValues = useFormRawValues(metadata, role, document)
-  // const documentValues = useWatchDocumentValue(document)
 
   return useMemo(() => {
     if (!properties) return {} as Contents

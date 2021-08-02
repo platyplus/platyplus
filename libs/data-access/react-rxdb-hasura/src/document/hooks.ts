@@ -10,33 +10,39 @@ import {
 
 import { useCollectionName, useContentsCollection } from '../collection'
 
-export const usePopulatedDocument = (
+export const useDocument = <B extends boolean = false>(
   metadata: Metadata,
   role: string,
-  id: string
-) => {
+  id: string,
+  populate?: B
+): {
+  document: B extends true ? Contents : ContentsDocument
+  isFetching: boolean
+} => {
+  type ResultType = B extends true ? Contents : ContentsDocument
   const collectionName = useCollectionName(metadata, role)
   const collection = useContentsCollection(collectionName)
   const queryConstructor = useMemo(() => id !== 'new' && id, [id])
-  const { result, isFetching: isDocumentFetching } = useRxDocument<Contents>(
-    collectionName,
-    queryConstructor
-  )
-  const [document, setDocument] = useState<Contents>()
+  const { result, isFetching: isDocumentFetching } =
+    useRxDocument<ContentsDocument>(collectionName, queryConstructor)
+  const [document, setDocument] = useState<ResultType>()
   useEffect(() => {
-    if (id === 'new') setDocument(collection?.newDocument())
+    if (id === 'new') setDocument(collection?.newDocument() as ContentsDocument)
     else if (result) {
-      const populate = async () => {
-        setPopulating(true)
-        const populated = await populateDocument(result as ContentsDocument)
-        setDocument(populated)
+      const update = async () => {
+        if (populate) {
+          setPopulating(true)
+          const populated = await populateDocument(result)
+          setDocument(populated as ResultType)
+        } else {
+          setDocument(result)
+        }
         setPopulating(false)
-        // console.log('Population ok', populated)
       }
-      const subscription = result.$.subscribe(() => populate())
+      const subscription = result.$.subscribe(() => update())
       return () => subscription.unsubscribe()
     }
-  }, [id, result, collection])
+  }, [id, result, collection, populate])
 
   const [isPopulating, setPopulating] = useState(true)
 

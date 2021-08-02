@@ -32,37 +32,34 @@ export const columnProperties = (table: TableFragment) => {
         relationship.type === 'object' && relationship.mapping.length === 1
     )
     .map((relationship) => relationship.mapping[0].column?.name)
-  return (
-    table.columns
-      // * Do not add the system columns to the properties
-      .filter((column) => !['deleted', 'updated_at'].includes(column.name))
-      .filter(
-        (column) =>
-          // * filter properties that are already mapped by an object relationship
-          !skipRelationships.includes(column.name) ||
-          // * filter relationships using the primary key as foreign key
-          isIdColumn(column)
-      )
+  return table.columns.filter(
+    (column) =>
+      // * filter properties that are already mapped by an object relationship
+      !skipRelationships.includes(column.name) ||
+      // * filter relationships using the primary key as foreign key
+      isIdColumn(column)
   )
 }
 
 export const createColumnProperties = (table: TableFragment) => {
   const result: Record<string, TopLevelProperty> = {}
-  columnProperties(table).forEach((column) => {
-    const sqlType = column.udtName
-    const type = propertyJsonType(column)
-    const property: TopLevelProperty = {
-      type
-    }
-
-    if (type === 'string' || type.includes('string')) {
-      const format = propertyFormat(sqlType)
-      if (format) {
-        property.format = format
+  columnProperties(table)
+    .filter((column) => !['deleted', 'updated_at'].includes(column.name))
+    .forEach((column) => {
+      const sqlType = column.udtName
+      const type = propertyJsonType(column)
+      const property: TopLevelProperty = {
+        type
       }
-    }
-    result[column.name] = property
-  })
+
+      if (type === 'string' || type.includes('string')) {
+        const format = propertyFormat(sqlType)
+        if (format) {
+          property.format = format
+        }
+      }
+      result[column.name] = property
+    })
   return result as Record<string, TopLevelProperty> & {
     updated_at: TopLevelProperty
   }

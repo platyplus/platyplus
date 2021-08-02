@@ -1,21 +1,15 @@
-import React, { useCallback } from 'react'
-import { TagPickerProps, CheckPickerProps, Animation } from 'rsuite'
+import { useCallback } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
 import { Contents } from '@platyplus/rxdb-hasura'
 
 import { CollectionComponentWrapper } from '../../collections'
-import { FieldComponent, FieldControl } from '../utils'
+import { FieldControl } from '../utils'
 import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
+import { CollectionFieldComponent } from './types'
+import { useAsync } from 'react-use'
 
-export const CollectionField: FieldComponent<
-  | {
-      accepter: React.ComponentType<CheckPickerProps | TagPickerProps>
-      component: string
-    }
-  | CheckPickerProps
-  | TagPickerProps
-> = ({
+export const CollectionField: CollectionFieldComponent = ({
   document,
   name,
   property,
@@ -31,7 +25,10 @@ export const CollectionField: FieldComponent<
     (collection) => collection.find().sort('label'),
     []
   )
-
+  const data = useAsync(
+    async () => await document.populate(name),
+    [document, name]
+  )
   const { isFetching, result } = useRxData<Contents>(
     refCollectionName,
     queryConstructor
@@ -47,11 +44,11 @@ export const CollectionField: FieldComponent<
       cleanable={edit}
       accepter={Accepter}
     />
-  ) : (
+  ) : data.loading ? null : (
     <CollectionComponentWrapper
       metadata={refMetadata}
       role={role}
-      data={document[name]}
+      data={data.value}
       componentName={component}
       edit={false}
     />

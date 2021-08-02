@@ -57,15 +57,19 @@
     - bug on validating form with a required many2one field: is it related?
   - [ ] debug
     - [x] create
-    - [ ] update -> problem on relationships (form input require the doc key, whereas document properties have been populated)
+    - [ ] update
+      - [x] problem on relationships (form input require the doc key, whereas document properties have been populated)
+      - [ ] problem on 'deleted' and 'updated_at' field - where to remove them
     - [x] remove
-    - [ ] real-time
-  - [ ] useOrderedContentsCollections
-  - [ ] re-activate permissions
+    - [ ] real-time form fields - e.g. when editing profile
+  - [ ] get rid of useOrderedContentsCollections
+  - [x] re-activate permissions
   - [ ] label - not always generated correctly
     - -> happens when contents documents are created before getting metadata/config
+      - [ ] wait for metadata/config to be loaded before fetching documents from the backend
     - [ ] check if label regenerates when changing its template
   - [ ] debug and improve profile page
+    - [ ] `account` links are still here
   - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
