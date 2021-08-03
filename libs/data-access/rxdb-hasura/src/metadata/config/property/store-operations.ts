@@ -23,7 +23,7 @@ export const onUpsert = (doc: PropertyConfig) => {
 export const onDelete = (doc: PropertyConfig) => {
   metadataStore.setState(
     produce<MetadataStore>((state) => {
-      console.log('TODO delete property config')
+      console.warn('Delete property config is not implemented.')
     })
   )
 }

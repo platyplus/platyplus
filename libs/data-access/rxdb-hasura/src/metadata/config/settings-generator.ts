@@ -38,7 +38,6 @@ export const generateCollectionSettings = (
           await upsertWithMigration(collectionName, curateData(doc))
           return null
         } catch {
-          // TODO updated_at is not present, so it mixes up insert and update
           info(
             'Could not save the migration through Hasura Console. Falling back to regular GraphQL replication'
           )

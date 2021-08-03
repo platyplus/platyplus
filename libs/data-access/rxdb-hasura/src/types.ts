@@ -72,8 +72,4 @@ export type Database<T extends Roles = Roles> = RxDatabase<
 export type DatabasePrototype = {
   // readonly contents: Record<string, ContentsCollection>
   readonly contents$: BehaviorSubject<Record<string, ContentsCollection>>
-  readonly setJwt: (value: string | undefined) => void
-  readonly jwt$: BehaviorSubject<string | undefined>
-  readonly setAuthStatus: (value: boolean, jwt?: string) => void
-  readonly authStatus$: BehaviorSubject<boolean>
 }

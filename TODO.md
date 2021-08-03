@@ -45,7 +45,18 @@
       - [x] replace `collection.properties` by `getMetadataProperties(metadata: Metadata, ordered: boolean)`
     - [x] impact analysis: break collection.metadata link and use the store instead
   - [x] populate document/collection fields before render - table view is blinking
-  - [ ] foreign key constraints
+  - [x] debug
+    - [x] create
+    - [x] update
+      - [x] problem on relationships (form input require the doc key, whereas document properties have been populated)
+      - [x] problem on 'deleted' and 'updated_at' field - where to remove them
+    - [x] remove
+    - [x] real-time form fields - e.g. when editing profile
+  - [x] re-activate permissions
+  - [x] wait for metadata/config to be loaded before fetching documents from the backend
+  - [x] debug and improve profile page
+    - [x] `account` links are still here
+  - [ ] **foreign key constraints**
     - [ ] onDelete constraint
       - [ ] cascade
       - [ ] set null - only when columns are nullable - throw error otherwise
@@ -55,25 +66,13 @@
     - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
-  - [ ] debug
-    - [x] create
-    - [ ] update
-      - [x] problem on relationships (form input require the doc key, whereas document properties have been populated)
-      - [ ] problem on 'deleted' and 'updated_at' field - where to remove them
-    - [x] remove
-    - [ ] real-time form fields - e.g. when editing profile
   - [ ] get rid of useOrderedContentsCollections
-  - [x] re-activate permissions
-  - [ ] label - not always generated correctly
-    - -> happens when contents documents are created before getting metadata/config
-      - [ ] wait for metadata/config to be loaded before fetching documents from the backend
-    - [ ] check if label regenerates when changing its template
-  - [ ] debug and improve profile page
-    - [ ] `account` links are still here
-  - [ ] realtime metadata: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
-  - [ ] improve online/offline mode (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
+  - [ ] label - check if label regenerates when changing its template
+  - [ ] **realtime metadata**: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
+  - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
     - [ ] PWA
+    - [ ] rxdb persistence
 - [ ] Hasura 2
   - avoid regressions
   - list missing metadata elements e.g. muliple db, inherited roles...
@@ -101,6 +100,7 @@
     - [ ] Deploy
       - [ ] Docker-compose
       - [ ] Kubernetes
+  - [ ] technical schema on how RxDB starts (auth/jwt, metadata, config, contents...)
 - [ ] make everything work with Pulumi
 - [ ] squash Hasura migrations
 
@@ -111,11 +111,6 @@
     - [ ] config module only covers one role - see pages/config/table.tsx
       - [ ] => fetch only one me_metadata table for all roles???
     - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
-  - [ ] dark/light mode
-    - [ ] rsuite next -> when CSS variables are available
-    - [ ] from device's defaults
-    - [ ] store in localstorage
-    - [ ] store in the backend?
   - [ ] list Hasura features to be mapped to RxDB e.g.
     - [ ] remote schemas
     - [ ] inherited roles
@@ -124,6 +119,8 @@
   - [ ] nullable values vs default values vs form values
   - [ ] refactor the way to load table/collection/property components
   - [ ] validation rules stored on the backend
+    - [ ] Postgres domain e.g. email
+    - [ ] number/string min/max
   - [ ] permissions
   - [ ] varchar(x) -> validate string length < x
   - [ ] created_at / created_by
@@ -182,6 +179,8 @@
   - [ ] conflict resolution
   - [ ] Isomorphic validation
   - [ ] map custom GraphQL names vs PostgreSQL names
+  - [ ] encryption
+  - [ ] unique columns or sets of columns: tricky. in a hook? don't forget to index. See https://github.com/pubkey/rxdb/issues/728
 - Charts
   - [x] Helm Charts repo: keep history (older chart versions) -> chartmuseum
     - [x] platydev cluster
@@ -210,6 +209,11 @@
 
 ## Parked
 
+- [ ] dark/light mode
+  - [ ] rsuite next -> when CSS variables are available
+  - [ ] from device's defaults
+  - [ ] store in localstorage
+  - [ ] store in the backend?
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
   - See: https://github.com/bitnami/charts/issues/2061
 - [ ] Include external files (Helm 3.6)

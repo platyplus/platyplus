@@ -3,11 +3,9 @@ import { getCollectionMetadata } from '../../metadata'
 import { ContentsCollection } from '../../types'
 import { metadataName } from '../../utils'
 
-// TODO optimize the subscription to its minimum
 export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = getCollectionMetadata(collection)
   const title = metadataName(table)
-  // TODO limit: 1
   const now = new Date().toUTCString()
   const arrayRels = table.relationships
     .filter(({ type }) => type === 'array')
@@ -30,11 +28,8 @@ export const subscriptionQuery = (collection: ContentsCollection): string => {
         },
         updated_at: true,
         ...arrayRels.reduce((acc, rel) => {
-          acc[rel] = {
-            updated_at: true
-          }
           acc[`${rel}_aggregate`] = {
-            aggregate: { max: { updated_at: true }, count: true }
+            aggregate: { max: { updated_at: true } }
           }
           return acc
         }, {})

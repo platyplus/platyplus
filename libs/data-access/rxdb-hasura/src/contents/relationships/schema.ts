@@ -12,7 +12,7 @@ export const createRelationshipProperties = (
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
     const relName = relationship.name
-    // TODO relationships with composite keys
+    // TODO composite keys
     const column = relationship.mapping[0].column
     const refTable = isManyToManyTable(relationship.remoteTable)
       ? relationship.remoteTable.relationships.find(

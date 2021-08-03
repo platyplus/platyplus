@@ -10,7 +10,7 @@ import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
 import { defaultFieldComponents } from './fields'
 import { ConfigStatusMenuItem } from './pages'
-import React from 'react'
+import React, { useMemo } from 'react'
 import deepmerge from 'deepmerge'
 
 const defaultComponents = {
@@ -30,8 +30,10 @@ export const LayoutWrapper: React.FC<AppConfig> = ({
   const authenticated = useAuthenticated()
   const config = useConfigEnabled()
   // * Load components - defaults can be overriden and/or extended
-  // TODO merge deep but without re-rendering the context
-  const overridenComponents = defaultComponents //deepmerge(components, defaultComponents)
+  const overridenComponents = useMemo(
+    () => deepmerge(components, defaultComponents),
+    [components]
+  )
   return (
     <ComponentsContext.Provider value={overridenComponents}>
       <Layout

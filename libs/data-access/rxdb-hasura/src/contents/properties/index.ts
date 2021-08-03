@@ -11,7 +11,6 @@ const postgresJsonSchemaTypeMapping: Record<
   string,
   JsonSchemaPropertyType | JsonSchemaPropertyType[]
 > = {
-  // TODO complete e.g. GIS
   uuid: 'string',
   bool: 'boolean',
   timestamp: 'string',

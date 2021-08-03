@@ -13,7 +13,7 @@ import { createHeaders } from '../../utils'
 
 import { generateCollectionSettings } from './settings-generator'
 import { CollectionConfig, ConfigCollectionName } from './types'
-import { setCollectionIsReady } from '../store'
+import { getJwt, metadataStore, setCollectionIsReady } from '../store'
 
 const batchSize = 5
 
@@ -36,7 +36,7 @@ export const createReplicatedCollection = async (
   let state: RxGraphQLReplicationState<Contents> | undefined
   let wsSubscription: SubscriptionClient | undefined
   let metaSubscription: Subscription | undefined
-  let jwtSubscription: Subscription | undefined
+  let jwtSubscription: () => void | undefined
   let errorSubscription: Subscription | undefined
 
   const setupGraphQLReplication = async (): Promise<
@@ -44,7 +44,7 @@ export const createReplicatedCollection = async (
   > => {
     const replicationState = collection.syncGraphQL({
       url,
-      headers: createHeaders(METADATA_ROLE, db.jwt$.getValue(), 'admin'),
+      headers: createHeaders(METADATA_ROLE, getJwt(), 'admin'),
       push: {
         batchSize,
         queryBuilder: settings.pushQueryBuilder,
@@ -62,12 +62,19 @@ export const createReplicatedCollection = async (
       errorDir(err)
     })
 
-    jwtSubscription = db.jwt$.subscribe((token?: string) => {
-      debug(`Replicator (${collection.name}): set token`)
-      replicationState.setHeaders(createHeaders(METADATA_ROLE, token, 'admin'))
-      wsSubscription?.close()
-      wsSubscription = setupGraphQLSubscription()
-    })
+    replicationState.setHeaders(createHeaders(METADATA_ROLE, getJwt(), 'admin'))
+    wsSubscription = setupGraphQLSubscription()
+    jwtSubscription = metadataStore.subscribe(
+      (token?: string) => {
+        debug(`Replicator (${collection.name}): set token`)
+        replicationState.setHeaders(
+          createHeaders(METADATA_ROLE, token, 'admin')
+        )
+        wsSubscription?.close()
+        wsSubscription = setupGraphQLSubscription()
+      },
+      (state) => state.jwt
+    )
 
     return replicationState
   }
@@ -75,7 +82,7 @@ export const createReplicatedCollection = async (
   const setupGraphQLSubscription = (): SubscriptionClient => {
     debug(`setupGraphQLSubscription ${collection.name}`)
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(METADATA_ROLE, db.jwt$.getValue(), 'admin')
+    const headers = createHeaders(METADATA_ROLE, getJwt(), 'admin')
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {
@@ -114,18 +121,22 @@ export const createReplicatedCollection = async (
         if (operation === 'INSERT' || operation === 'UPDATE') {
           if (documentData.id) config.onUpsert?.(documentData)
         } else if (operation === 'DELETE') {
-          // TODO unsage `as`
-          config.onDelete?.(previousDocumentData as Contents)
+          config.onDelete?.(previousDocumentData)
         }
       }
     )
     errorSubscription = state.error$.subscribe((data) => {
       warn(`${collection.name} sync error`, data)
     })
-    jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {
-      // TODO change in websocket as well
-      state?.setHeaders(createHeaders(METADATA_ROLE, token, 'admin'))
-    })
+    state.setHeaders(createHeaders(METADATA_ROLE, getJwt(), 'admin'))
+    jwtSubscription = metadataStore.subscribe(
+      (token?: string) => {
+        // TODO change in websocket as well
+        state?.setHeaders(createHeaders(METADATA_ROLE, token, 'admin'))
+      },
+      (state) => state.jwt
+    )
+
     state.awaitInitialReplication().then(() => {
       setCollectionIsReady(name)
     })
@@ -134,13 +145,17 @@ export const createReplicatedCollection = async (
   const stop = async (): Promise<void> => {
     await state?.cancel()
     metaSubscription?.unsubscribe()
-    jwtSubscription?.unsubscribe()
+    jwtSubscription?.()
     errorSubscription?.unsubscribe()
   }
 
-  db.authStatus$.subscribe(async (status: boolean) => {
-    if (status) {
-      await start()
-    } else await stop()
-  })
+  if (metadataStore.getState().connected) start()
+  metadataStore.subscribe(
+    async (connected: boolean) => {
+      if (connected) {
+        await start()
+      } else await stop()
+    },
+    (state) => state.connected
+  )
 }

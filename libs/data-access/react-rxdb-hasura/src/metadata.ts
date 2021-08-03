@@ -9,6 +9,4 @@ export const useMetadata = (id: string): Metadata =>
   useMetadataStore(useCallback((store) => store.tables[id], [id]))
 
 export const useIsMetadataReady = () =>
-  useMetadataStore((store) =>
-    Object.values(store.ready).every((ready) => ready)
-  )
+  useMetadataStore((store) => store.isReady())

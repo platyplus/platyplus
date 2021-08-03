@@ -5,10 +5,10 @@ import { TableFragment } from '../../generated'
 
 const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 
-// ! TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
-// ! fetch it again entirely on every change, then deep compare old and new result...
-// ! Ideally the metadata query would need to get an 'updated_at' field
-// ! ( but it needs to be determined on the postgresql side... )
+// TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
+// fetch it again entirely on every change, then deep compare old and new result...
+// Ideally the metadata query would need to get an 'updated_at' field
+// ( but it needs to be determined on the postgresql side... )
 export const queryBuilder =
   (db: RxDatabase): RxGraphQLReplicationQueryBuilder =>
   (doc: TableFragment) => ({

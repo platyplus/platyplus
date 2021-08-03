@@ -6,7 +6,11 @@ import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 
 import { debug } from './console'
-import { initMetadataCollections } from './metadata'
+import {
+  initConfigCollections,
+  metadataSchema,
+  metadataStore
+} from './metadata'
 import { RxHasuraPlugin } from './plugin'
 import { Database, DatabaseCollections } from './types'
 export { RxHasuraPlugin } from './plugin'
@@ -53,7 +57,29 @@ export const createRxHasura = async (
   const db = (await createRxDatabase<DatabaseCollections>(settings)) as Database
 
   // * When receiving a JWT, browse the roles and create metadata accordingly
-  db.jwt$.subscribe(async (jwt) => jwt && (await initMetadataCollections(db)))
+  metadataStore.subscribe(
+    async (jwt) => {
+      if (jwt) {
+        await initConfigCollections(db)
+        metadataStore.subscribe(
+          async (ready: boolean) => {
+            if (ready) {
+              await db.addCollections({
+                metadata: {
+                  options: { isMetadataCollection: true },
+                  schema: metadataSchema,
+                  autoMigrate: true
+                }
+              })
+            }
+            // db.contents$.next(contentsCollections(db))
+          },
+          (state) => state.isConfigReady()
+        )
+      }
+    },
+    (state) => state.jwt
+  )
 
   if (process.env.NODE_ENV === 'development') {
     ;(window as unknown)['db'] = db // write to window for debugging

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Contents, ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
 
@@ -14,7 +14,7 @@ import { useCollectionName } from '../collection'
 export const useFormRawValues = (
   metadata: Metadata,
   role: string,
-  document: ContentsDocument
+  document: Contents
 ): Contents => {
   const collectionName = useCollectionName(metadata, role)
   return useStore(
@@ -34,18 +34,26 @@ export const useFormGet = (
 ) => {
   const [properties] = useMetadataProperties(metadata)
   const formValues = useFormRawValues(metadata, role, document)
-
+  const [docValues, setDocValues] = useState(null)
+  useEffect(() => {
+    if (document) {
+      const subscription = document.$.subscribe((values) =>
+        setDocValues(values)
+      )
+      return () => subscription.unsubscribe()
+    }
+  }, [document])
   return useMemo(() => {
     if (!properties) return {} as Contents
     return [...properties.keys(), 'id'].reduce(
       // ? custom id
       (aggregator, key) => {
-        aggregator[key] = key in formValues ? formValues[key] : document?.[key]
+        aggregator[key] = key in formValues ? formValues[key] : docValues?.[key]
         return aggregator
       },
       {} as Contents
     )
-  }, [document, formValues, properties])
+  }, [docValues, formValues, properties])
 }
 
 export const useFormSet = (

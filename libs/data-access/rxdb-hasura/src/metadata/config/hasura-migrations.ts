@@ -104,6 +104,8 @@ export const upsertWithMigration = async (
   if (sql) {
     await createSqlMigrations([sql()])
   } else {
-    console.warn('TODO not implemented yet', collectionName)
+    console.warn(
+      `upsertWithMigration not implemented for collection ${collectionName}`
+    )
   }
 }

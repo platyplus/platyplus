@@ -14,9 +14,9 @@ import { useDB } from './database'
 import { useMetadataStore } from './metadata'
 
 export const useConfigEnabled = () => {
-  // TODO ping localhost:9693
   const admin = useUserIsAdmin()
   const location = useLocation()
+  // TODO ping localhost:9693
   return location.hostname === 'localhost' || admin
 }
 
@@ -111,11 +111,6 @@ export const usePersistConfig = () => {
           if (doc) await doc.atomicPatch(value)
           else collection.atomicUpsert({ id, ...value })
         }
-        // * Doesn't work as collection.[atomic]Upsert won't send 'updated_at' to the replicator,
-        // * therefore it's impossible to determine if the doc needs to be inserted or updated
-        // Object.entries(forms[collectionName]).forEach(([id, value]) => {
-        //   collection.atomicUpsert({ id, ...value })
-        // })
       }
     }
     clearConfig()

@@ -4,12 +4,16 @@ import { devtools } from 'zustand/middleware'
 
 import { Contents, ContentsCollection, ContentsDocument } from '../types'
 import { Metadata } from './types'
-import { ConfigCollectionName } from './config'
+import { ConfigCollectionName, CONFIG_TABLES } from './config'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
   app?: Contents
   ready: Record<ConfigCollectionName | 'metadata', boolean>
+  jwt?: string
+  connected: boolean
+  isReady: () => boolean
+  isConfigReady: () => boolean
 }
 
 export const metadataStore = create<MetadataStore>(
@@ -17,12 +21,16 @@ export const metadataStore = create<MetadataStore>(
     (set, get) => ({
       tables: {},
       app: null,
+      jwt: null,
       ready: {
         app_config: false,
         table_config: false,
         property_config: false,
         metadata: false
-      }
+      },
+      connected: false,
+      isReady: () => Object.values(get().ready).every((value) => value),
+      isConfigReady: () => CONFIG_TABLES.every((value) => get().ready[value])
     }),
     'metadata'
   )
@@ -48,3 +56,13 @@ export const setCollectionIsReady = (
 }
 export const isMetadataReady = () =>
   Object.values(metadataStore.getState().tables).every((value) => value)
+
+export const getJwt = () => metadataStore.getState().jwt
+
+export const setAuthStatus = (status: boolean, jwt?: string) =>
+  metadataStore.setState(
+    produce<MetadataStore>((partial) => {
+      partial.connected = status
+      partial.jwt = jwt
+    })
+  )

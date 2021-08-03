@@ -18,8 +18,9 @@ export const DocumentToolbar: React.FC<{
   role: string
   document?: ContentsDocument
   edit?: boolean
+  href?: string
   formRef?: MutableRefObject<FormInstance>
-}> = ({ metadata, role, document, edit, formRef }) => {
+}> = ({ metadata, role, document, edit, href, formRef }) => {
   const query = useQuery()
   const editing = edit ?? query.has('edit')
   const location = useLocation()
@@ -34,7 +35,7 @@ export const DocumentToolbar: React.FC<{
       if (check.hasError) return
     }
     await save()
-    history.replace(`/collection/${role}/${metadata.id}/${document.id}`)
+    history.replace(href || `/collection/${role}/${metadata.id}/${document.id}`)
   }
 
   const editDocument = () => history.replace(`${location.pathname}?edit`)
@@ -45,7 +46,7 @@ export const DocumentToolbar: React.FC<{
     else history.replace(location.pathname)
   }
   const removeDocument = async () => {
-    // TODO prompt
+    // TODO prompt before removing
     await document.remove()
     history.goBack()
   }

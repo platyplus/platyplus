@@ -9,15 +9,13 @@ type CollectionForm = Record<string, Contents>
 type FormType = Record<string, CollectionForm> &
   Record<ConfigCollectionName, CollectionForm>
 
-const resetConfig: (input) => FormType = produce((state) => {
+const resetConfig = produce((state) => {
   state.app_config = {}
   state.table_config = {}
   state.property_config = {}
 })
 export const useStore = create<{
   forms: FormType
-  config: FormType
-  // setConfig: <T>(collection: string, id: string, document: T) => void
   setConfigForm: <T>(
     collection: ConfigCollectionName,
     values: T,
@@ -36,7 +34,6 @@ export const useStore = create<{
   devtools(
     (set, get) => ({
       forms: resetConfig({}),
-      config: resetConfig({}),
       setConfigForm: (collection, value, givenId, path) =>
         set(
           produce((state) => {

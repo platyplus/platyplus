@@ -35,7 +35,7 @@ const reverseRelations =
       )
 
       if (mirrorRelationships.length > 1) {
-        // TODO sort this out - is it really a problem? Test without it
+        // ? sort this out - is it really a problem? Test without it
         warn(
           `Relation ${collection.name}.${name} points to ${remoteCollection.name}, but ${remoteCollection.name} have more than one relation that points back to ${collection.name}. Can't determine which to process`
         )

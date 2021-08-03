@@ -1,5 +1,4 @@
 export * from './config'
-export * from './init'
 export * from './table'
 export * from './store'
 export * from './types'

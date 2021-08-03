@@ -1,4 +1,4 @@
-// TODO replace by immer and object-path
+// TODO replace by immer and object-path, and remove from package.json
 import * as immutable from 'object-path-immutable'
 
 export const pick = <T, K extends keyof T>(

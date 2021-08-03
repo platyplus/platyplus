@@ -2,7 +2,7 @@
 import { Schema } from 'rsuite'
 import { useMemo } from 'react'
 
-import { Metadata, Property } from '@platyplus/rxdb-hasura'
+import { Metadata } from '@platyplus/rxdb-hasura'
 
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 

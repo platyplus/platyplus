@@ -35,6 +35,7 @@ export const InlineValue: React.FC<{
 
   // * Adjust Input width automatically
   // TODO width does not scale correctly with value length
+  // * See useSize in react-use
   const [width, setWidth] = useState(`${14 + value?.length}ch`)
   useEffect(() => setWidth(`${14 + inputValue?.length}ch`), [inputValue])
 

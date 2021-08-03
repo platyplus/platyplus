@@ -19,8 +19,7 @@ export const onUpsert = (doc: TableConfig) => {
 export const onDelete = (doc: TableConfig) => {
   metadataStore.setState(
     produce<MetadataStore>((state) => {
-      // delete state.config.tables[doc.table_id]
-      console.log('TODO delete table config')
+      console.log('Delete table config is not implemented')
     })
   )
 }

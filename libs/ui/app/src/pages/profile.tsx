@@ -6,13 +6,16 @@ import { PageFunction } from './types'
 import { DocumentComponentWrapper, DocumentToolbar } from '../documents'
 import { useMetadata } from '@platyplus/react-rxdb-hasura'
 import { METADATA_ROLE } from '@platyplus/rxdb-hasura'
+import { useLocation } from 'react-use'
 
 export const ProfilePage: PageFunction = ({ title }) => {
   const { value: profile } = useProfile()
   const editing = useQuery().has('edit')
   const metadata = useMetadata('public.users')
   // TODO profile actions e.g. change/reset password
-  if (!metadata) return null
+  const location = useLocation()
+  const href = location.pathname
+  if (!profile || !metadata) return null
   return (
     <HeaderTitleWrapper title={title} previous>
       <Animation.Fade in={!!profile}>
@@ -26,6 +29,7 @@ export const ProfilePage: PageFunction = ({ title }) => {
                   role={METADATA_ROLE}
                   document={profile}
                   edit={editing}
+                  href={href}
                 />
               }
             >

@@ -58,7 +58,7 @@ export const CollectionPage: React.FC = () => {
   const collectionName = useCollectionName(metadata, role)
   const collection = useRxCollection(collectionName)
   const [title] = useMetadataTitle(metadata)
-  if (!collection) return null
+  if (!collection || !metadata || !title) return null
   return (
     <CollectionData
       {...{ collection, title, metadata, enabledConfig, role, edit }}

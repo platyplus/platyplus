@@ -17,7 +17,7 @@ import { subscription } from './graphql'
 import { modifier } from './modifier'
 import { queryBuilder } from './pull'
 import { setMetadataTable } from './store-operations'
-import { metadataStore, setCollectionIsReady } from '../store'
+import { getJwt, metadataStore, setCollectionIsReady } from '../store'
 
 export type MetadataReplicatorOptions = {
   url: string
@@ -35,7 +35,7 @@ export const createMetadataReplicator = async (
   let state: RxGraphQLReplicationState<TableFragment> | undefined
   let wsSubscription: SubscriptionClient | undefined
   let metaSubscription: Subscription | undefined
-  let jwtSubscription: Subscription | undefined
+  let jwtSubscription: () => void | undefined
   let errorSubscription: Subscription | undefined
 
   const setupGraphQLReplication = async (): Promise<
@@ -43,7 +43,7 @@ export const createMetadataReplicator = async (
   > => {
     const replicationState = metadataCollection.syncGraphQL({
       url,
-      headers: createHeaders(METADATA_ROLE, db.jwt$.getValue()),
+      headers: createHeaders(METADATA_ROLE, getJwt()),
       pull: {
         queryBuilder: queryBuilder(db),
         modifier: modifier(metadataCollection)
@@ -57,13 +57,17 @@ export const createMetadataReplicator = async (
       error(`replication error on ${metadataCollection.name}`)
       errorDir(err)
     })
-
-    jwtSubscription = db.jwt$.subscribe((token?: string) => {
-      debug(`Replicator (${metadataCollection.name}): set token`)
-      replicationState.setHeaders(createHeaders(METADATA_ROLE, token))
-      wsSubscription?.close()
-      wsSubscription = setupGraphQLSubscription()
-    })
+    replicationState.setHeaders(createHeaders(METADATA_ROLE, getJwt()))
+    wsSubscription = setupGraphQLSubscription()
+    jwtSubscription = metadataStore.subscribe(
+      (token?: string) => {
+        debug(`Replicator (${metadataCollection.name}): set token`)
+        replicationState.setHeaders(createHeaders(METADATA_ROLE, token))
+        wsSubscription?.close()
+        wsSubscription = setupGraphQLSubscription()
+      },
+      (state) => state.jwt
+    )
 
     return replicationState
   }
@@ -71,7 +75,7 @@ export const createMetadataReplicator = async (
   const setupGraphQLSubscription = (): SubscriptionClient => {
     debug(`setupGraphQLSubscription ${metadataCollection.name}`)
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(METADATA_ROLE, db.jwt$.getValue())
+    const headers = createHeaders(METADATA_ROLE, getJwt())
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {
@@ -102,14 +106,14 @@ export const createMetadataReplicator = async (
   const start = async (): Promise<void> => {
     state = await setupGraphQLReplication()
     metaSubscription = metadataCollection.$.subscribe(
-      async ({ operation, documentData }: RxChangeEvent<TableFragment>) => {
-        // TODO update collection -> run a migration when needed (only when columns change?)
-        // if (event.operation === 'INSERT' || event.operation === 'UPDATE') {
+      async ({
+        operation,
+        documentData,
+        previousDocumentData
+      }: RxChangeEvent<TableFragment>) => {
         if (operation === 'INSERT') {
           if (documentData.id) {
             setMetadataTable(documentData)
-            // TODO determine the roles to which the collection must be created
-            // const metaName = metadataName(documentData)
             const roles: string[] = documentData.columns.reduce(
               (acc, column) => {
                 for (const permissionType of ['canSelect', 'canInsert']) {
@@ -117,7 +121,6 @@ export const createMetadataReplicator = async (
                     !acc.includes(roleName) && acc.push(roleName)
                   }
                 }
-
                 return acc
               },
               []
@@ -130,17 +133,25 @@ export const createMetadataReplicator = async (
               })
             }
           }
+        } else if (operation === 'UPDATE') {
+          console.log('Updated metadata', previousDocumentData, documentData)
+          // TODO update collection -> run a migration when needed (only when columns change?)
         }
       }
     )
     errorSubscription = state.error$.subscribe((data) => {
       warn('metadata sync error', data)
     })
-    jwtSubscription = db.jwt$.subscribe((token: string | undefined) => {
-      debug('Replicator (metadata): set token')
-      // TODO change in websocket as well
-      state?.setHeaders(createHeaders(METADATA_ROLE, token))
-    })
+    state.setHeaders(createHeaders(METADATA_ROLE, getJwt()))
+    jwtSubscription = metadataStore.subscribe(
+      (token: string | undefined) => {
+        debug('Replicator (metadata): set token')
+        // TODO change in websocket as well
+        state?.setHeaders(createHeaders(METADATA_ROLE, token))
+      },
+      (state) => state.jwt
+    )
+
     state.awaitInitialReplication().then(() => {
       setCollectionIsReady('metadata')
     })
@@ -149,16 +160,21 @@ export const createMetadataReplicator = async (
   const stop = async (): Promise<void> => {
     await state?.cancel()
     metaSubscription?.unsubscribe()
-    jwtSubscription?.unsubscribe()
+    jwtSubscription?.()
     errorSubscription?.unsubscribe()
     // db.ready$.next(false)
   }
 
-  db.authStatus$.subscribe(async (status: boolean) => {
-    debug('[metadata] auth status change', status)
-    if (status) await start()
-    else await stop()
-  })
+  if (metadataStore.getState().connected) start()
+  metadataStore.subscribe(
+    async (connected: boolean) => {
+      debug('[metadata] auth status change', connected)
+      if (connected) {
+        await start()
+      } else await stop()
+    },
+    (state) => state.connected
+  )
 
   metadataCollection.replicator = { start, stop }
 }

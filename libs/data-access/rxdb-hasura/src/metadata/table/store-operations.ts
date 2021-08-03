@@ -12,7 +12,6 @@ import { metadataStore } from '../store'
 import { Metadata, Property, PropertyType } from '../types'
 
 const typesMapping: Record<string, PropertyType> = {
-  // TODO complete e.g. GIS
   uuid: 'string',
   bool: 'boolean',
   timestamp: 'date-time',
@@ -35,9 +34,7 @@ const typesMapping: Record<string, PropertyType> = {
   decimal: 'number'
 }
 
-export const setMetadataTable = (
-  table: TableFragment | DeepReadonly<TableFragment>
-) =>
+export const setMetadataTable = (table: DeepReadonly<TableFragment>) =>
   metadataStore.setState(
     produce((state) => {
       const metadata: Metadata = { ...(state.tables[table.id] || {}), ...table }

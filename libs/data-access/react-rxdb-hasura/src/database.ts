@@ -1,7 +1,7 @@
 import { useRxDB } from 'rxdb-hooks'
 import Auth from 'nhost-js-sdk/dist/Auth'
 
-import { Database, Roles } from '@platyplus/rxdb-hasura'
+import { Database, Roles, setAuthStatus } from '@platyplus/rxdb-hasura'
 import { createRxHasura } from '@platyplus/rxdb-hasura'
 
 const DEFAULT_DB_NAME = 'rxdb'
@@ -11,10 +11,9 @@ export const initializeDB = async (name: string, auth: Auth) => {
     name || DEFAULT_DB_NAME,
     process.env.NX_HASURA_ENDPOINT
   )
-  db.setAuthStatus(auth.isAuthenticated(), auth.getJWTToken())
-
+  setAuthStatus(auth.isAuthenticated(), auth.getJWTToken())
   auth.onAuthStateChanged((status) => {
-    db.setAuthStatus(status, auth.getJWTToken())
+    setAuthStatus(status, auth.getJWTToken())
   })
   return db
 }

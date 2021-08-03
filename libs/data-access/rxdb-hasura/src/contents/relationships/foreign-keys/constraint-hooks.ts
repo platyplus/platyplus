@@ -10,6 +10,7 @@ import { findForeignKeyConstraint } from './utils'
  * n = set null
  * d = set default
  */
+// TODO review these hooks entirely
 // TODO improve the way of accessing foreign keys, ideally metadata.relationships.{onUpdate,onDelete}
 export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection

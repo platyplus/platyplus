@@ -2,8 +2,6 @@
 import { BehaviorSubject } from 'rxjs'
 
 import { ContentsCollection } from '../types'
-export const jwt = new BehaviorSubject<string | undefined>(undefined)
-export const authStatus = new BehaviorSubject<boolean>(false)
 export const contents = new BehaviorSubject<Record<string, ContentsCollection>>(
   {}
 )

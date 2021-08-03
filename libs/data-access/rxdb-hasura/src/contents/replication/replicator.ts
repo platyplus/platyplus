@@ -1,15 +1,15 @@
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
-import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
-import { debug, error, errorDir, info, warn } from '../../console'
+import { error, errorDir, info, warn } from '../../console'
 import { Contents, ContentsCollection } from '../../types'
 import { createHeaders } from '../../utils'
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
 import { subscriptionQuery } from './subscribe'
+import { getJwt, metadataStore } from '../../metadata'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -22,14 +22,14 @@ export const createContentReplicator = async (
 
   let state: RxGraphQLReplicationState<Contents> | undefined
   let wsSubscription: SubscriptionClient | undefined
-  let jwtSubscription: Subscription | undefined
+  let jwtSubscription: () => void | undefined
 
   const setupGraphQLReplication = async (): Promise<
     RxGraphQLReplicationState<Contents>
   > => {
     const replicationState = collection.syncGraphQL({
       url,
-      headers: createHeaders(role, db.jwt$.getValue(), 'admin'),
+      headers: createHeaders(role, getJwt(), 'admin'),
       push: {
         batchSize: DEFAULT_BATCH_SIZE,
         queryBuilder: pushQueryBuilder(collection),
@@ -49,19 +49,23 @@ export const createContentReplicator = async (
       errorDir(err)
     })
 
-    jwtSubscription = db.jwt$.subscribe((token?: string) => {
-      debug(`Replicator (${collection.name}): set token`)
-      replicationState.setHeaders(createHeaders(role, token, 'admin'))
-      wsSubscription?.close()
-      wsSubscription = setupGraphQLSubscription()
-    })
+    replicationState.setHeaders(createHeaders(role, getJwt(), 'admin'))
+    wsSubscription = setupGraphQLSubscription()
+    jwtSubscription = metadataStore.subscribe(
+      (token?: string) => {
+        replicationState.setHeaders(createHeaders(role, token, 'admin'))
+        wsSubscription?.close()
+        wsSubscription = setupGraphQLSubscription()
+      },
+      (state) => state.jwt
+    )
 
     return replicationState
   }
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(role, db.jwt$.getValue(), 'admin')
+    const headers = createHeaders(role, getJwt(), 'admin')
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {
@@ -86,7 +90,7 @@ export const createContentReplicator = async (
     ret.subscribe({
       next: (data) => {
         info(`subscription on ${collection.name} emitted`, data)
-        state?.run()
+        state.run()
       },
       error: (error) => {
         warn(`subscription ${collection.name} error`, error)
@@ -103,15 +107,20 @@ export const createContentReplicator = async (
 
   const stop = async (): Promise<void> => {
     await state?.cancel()
-    jwtSubscription?.unsubscribe()
+    jwtSubscription?.()
     wsSubscription?.close()
   }
 
-  db.authStatus$.subscribe(async (status: boolean) => {
-    debug('[contents] auth status change', status)
-    if (status) await start()
-    else await stop()
-  })
+  if (metadataStore.getState().connected) start()
+  metadataStore.subscribe(
+    async (connected: boolean) => {
+      console.log('connected', connected)
+      if (connected) {
+        await start()
+      } else await stop()
+    },
+    (state) => state.connected
+  )
 
   collection.replicator = { start, stop }
 }

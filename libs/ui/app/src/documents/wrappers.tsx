@@ -5,7 +5,6 @@ import { DocumentComponent } from './types'
 export const DocumentComponentWrapper: DocumentComponent<{
   componentName?: string
 }> = ({ document, metadata, edit = false, componentName, ...rest }) => {
-  // TODO why this component is being rerendered so many times?
   const [documentComponentName] = useDocumentComponentName(metadata.id)
   const name = componentName || documentComponentName
   const library = useComponentsLibrary().documents

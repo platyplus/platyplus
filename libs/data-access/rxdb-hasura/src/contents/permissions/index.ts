@@ -1,10 +1,10 @@
-import { getCollectionMetadata, Metadata, metadataStore } from '../../metadata'
-import { ContentsCollection, ContentsDocument } from '../../types'
+import { Metadata, metadataStore } from '../../metadata'
+import { Contents } from '../../types'
 
 export const canEdit = (
   metadata: Metadata,
   role: string,
-  document: ContentsDocument,
+  document: Contents,
   propertyName?: string
 ) =>
   document._isTemporary
@@ -18,11 +18,8 @@ export const canSave = () => {
   return true
 }
 
-export const canDelete = (
-  metadata: Metadata,
-  role: string,
-  doc: ContentsDocument
-) => canEdit(metadata, role, doc, 'deleted')
+export const canDelete = (metadata: Metadata, role: string, doc: Contents) =>
+  canEdit(metadata, role, doc, 'deleted')
 
 export const canCreate = (
   metadata: Metadata,

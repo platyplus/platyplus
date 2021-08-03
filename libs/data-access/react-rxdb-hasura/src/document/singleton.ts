@@ -8,7 +8,6 @@ export const useSingleton = (
 ): Omit<RxQueryResultDoc<Contents>, 'result'> & {
   value: ContentsDocument
 } => {
-  // TODO subscribe to changes
   const { result, isFetching, ...rest } = useRxData<Contents>(
     collectionName,
     (collection) => collection.find().limit(1)

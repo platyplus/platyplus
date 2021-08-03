@@ -15,7 +15,6 @@ import {
   addComputedFieldsFromLoadedData,
   documentLabel
 } from '../computed-fields'
-import { graphQLColumnType } from '../columns'
 import { filteredRelationships } from '../relationships'
 import { getIds } from '../ids'
 import { getCollectionMetadata } from '../../metadata'
@@ -116,7 +115,7 @@ export const pullQueryBuilder = (
         updatedAt: 'timestamptz',
         ...reduceArrayValues(idColumns, (column) => [
           column.name,
-          graphQLColumnType(column)
+          column.udtName === 'uuid' ? 'uuid' : 'String'
         ]),
         ...reduceArrayValues(arrayRelationships, ({ name }) => [
           `updated_at_${name}`,

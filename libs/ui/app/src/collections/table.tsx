@@ -1,4 +1,3 @@
-import { useAsync } from 'react-use'
 import { useHistory } from 'react-router-dom'
 import { Table } from 'rsuite'
 
@@ -6,7 +5,6 @@ import {
   PropertyTitle,
   useMetadataProperties
 } from '@platyplus/react-rxdb-hasura'
-import { Loading } from '@platyplus/navigation'
 import { ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { CollectionComponent } from './types'
@@ -22,23 +20,7 @@ export const TableCollection: CollectionComponent = ({
 }) => {
   const history = useHistory()
   const [properties] = useMetadataProperties(metadata)
-  // const populatedData = useAsync(async () => {
-  //   const relationshipFields = [...metadata.properties.values()]
-  //     .filter((property) => !!property.relationship)
-  //     .map((property) => property.name)
-  //   const res = await Promise.all(
-  //     data.map(async (doc, k) => {
-  //       const populatedDoc = { ...doc.toJSON() }
-  //       for (const field of relationshipFields) {
-  //         populatedDoc[field] = await doc.populate(field)
-  //       }
-  //       return populatedDoc
-  //     })
-  //   )
-  //   return res
-  // }, [data, metadata])
 
-  // if (populatedData.loading) return <Loading backdrop />
   return (
     <Table
       hover

@@ -14,7 +14,14 @@ import { columnProperties } from '../columns'
 import { generateDefaultValue } from './generator'
 import { columnHasDefaultValue } from './utils'
 import { getCollectionMetadata } from '../../metadata'
+import { filteredRelationships } from '../relationships'
 
+// TODO 1. Set defaut values from permissions "column preset"
+// TODO 2. Set to SQL default,
+// TODO 3. Cet to NULL (delete) if column is nullable.
+// TODO 4. Raise an error otherwise
+// TODO BUT we don't want these values to be sent over to the server => delete forbidden keys in the replicator push event
+// TODO in the replicator: in the upsert stuff, use only permitted columns in the insert and the update (on conflict) part
 const defaultValues = async (
   collection: ContentsCollection,
   data: Contents
@@ -22,7 +29,7 @@ const defaultValues = async (
   const table = getCollectionMetadata(collection)
 
   // * Generate column default values
-  columnProperties(table)
+  columnProperties(table, true)
     .filter(
       (col) =>
         data[col.name] == null &&
@@ -33,7 +40,7 @@ const defaultValues = async (
       data[name] = generateDefaultValue(table, name, data)
     })
 
-  table.relationships
+  filteredRelationships(table)
     .filter(
       (rel) =>
         data[rel.name] == null &&

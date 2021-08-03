@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 
 import {
   collectionName,
-  Contents,
   ContentsCollections,
   Metadata
 } from '@platyplus/rxdb-hasura'
@@ -48,7 +47,7 @@ export const useContentsCollections = (me = false): ContentsCollections => {
 
 /**
  *
- * @param showMissing also include collections that are not part of the order list
+ * @param includeMissing also include collections that are not part of the order list
  * @returns
  */
 export const useOrderedContentsCollections = (
