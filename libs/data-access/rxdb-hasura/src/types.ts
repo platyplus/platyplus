@@ -2,7 +2,7 @@
 import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { BehaviorSubject } from 'rxjs'
 
-import { Metadata } from './metadata'
+import { Metadata, MetadataCollections } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
@@ -56,18 +56,11 @@ export type Replicator = {
 
 export type Roles = 'user' | 'me'
 
-type MetadataCollections<T extends Roles> = Record<
-  `${Roles | T}_metadata`,
-  RxCollection<Metadata>
->
 export type ContentsCollections = Map<string, ContentsCollection>
 
-export type DatabaseCollections<T extends Roles = Roles> =
-  MetadataCollections<T> & ContentsCollections
+export type DatabaseCollections = MetadataCollections & ContentsCollections
 
-export type Database<T extends Roles = Roles> = RxDatabase<
-  DatabaseCollections<T>
->
+export type Database = RxDatabase<DatabaseCollections>
 
 export type DatabasePrototype = {
   // readonly contents: Record<string, ContentsCollection>

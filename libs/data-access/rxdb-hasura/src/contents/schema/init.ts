@@ -9,12 +9,13 @@ import { createRelationshipProperties } from '../relationships'
 import { requiredProperties } from '../required'
 import { isIdColumn } from '../ids'
 import { indexes } from './indexes'
+import { Metadata } from '../../metadata'
 
 export const toJsonSchema = (
-  table: TableFragment,
+  table: Metadata,
   role: string
 ): RxJsonSchema<Contents> => {
-  const result: RxJsonSchema<Contents> = {
+  return {
     // keyCompression: true,
     type: 'object',
     title: metadataName(table),
@@ -28,7 +29,15 @@ export const toJsonSchema = (
       separator: '|'
     },
     properties: {
-      id: { type: 'string' },
+      ...table.columns
+        .filter((column) => isIdColumn(column))
+        .reduce(
+          (acc, column) => {
+            acc[column.name] = { type: 'string' }
+            return acc
+          },
+          { id: { type: 'string' } }
+        ),
       updated_at: { type: 'string' },
       is_local_change: { type: ['boolean', 'null'] },
       ...createColumnProperties(table),
@@ -37,7 +46,5 @@ export const toJsonSchema = (
     },
     required: requiredProperties(table),
     indexes: indexes(table)
-  }
-
-  return result
+  } as RxJsonSchema<Contents>
 }

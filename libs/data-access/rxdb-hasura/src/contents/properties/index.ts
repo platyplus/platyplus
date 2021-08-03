@@ -3,9 +3,10 @@ import { columnProperties } from '../columns'
 
 import { isNullableColumn } from '../required'
 import { isIdColumn } from '../ids'
-import { JsonSchemaPropertyType, PropertyType } from '../../metadata'
+import { JsonSchemaPropertyType, Metadata, PropertyType } from '../../metadata'
 
 import { TableFragment } from '../../generated'
+import { filteredRelationships } from '../relationships'
 
 const postgresJsonSchemaTypeMapping: Record<
   string,
@@ -63,9 +64,9 @@ export const isTextType = (type: PropertyType): boolean =>
     'collection'
   ].includes(type)
 
-export const propertyNames = (table: TableFragment) => {
+export const propertyNames = (table: Metadata) => {
   return [
     ...columnProperties(table).map(({ name }) => name),
-    ...table.relationships.map(({ name }) => name)
+    ...filteredRelationships(table).map(({ name }) => name)
   ]
 }

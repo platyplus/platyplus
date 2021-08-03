@@ -1,10 +1,11 @@
 import { RxCollection } from 'rxdb'
 import { ColumnFragment, TableFragment } from '../generated'
 import { Replicator } from '../types'
+import { AppConfig } from './config/app/types'
 import { PropertyConfig } from './config/property/types'
 import { TableConfig } from './config/table/types'
 
-export type { PropertyConfig, TableConfig }
+export type { PropertyConfig, TableConfig, AppConfig }
 
 export type JsonSchemaFormat =
   | 'date-time'
@@ -33,9 +34,15 @@ export type PropertyType =
   | JsonSchemaPropertyType
   | CustomTypes
 
-export type Metadata = TableFragment & {
+export type Metadata = Omit<TableFragment, 'dependentForeignKeys'> & {
   properties: Map<string, Property>
   config?: TableConfig
+  dependentForeignKeys: {
+    tableId: string
+    columns: string[]
+    onDelete: 'a' | 'r' | 'c' | 'n' | 'd'
+    onUpdate: 'a' | 'r' | 'c' | 'n' | 'd'
+  }[]
 }
 
 export type Property = {
@@ -53,3 +60,10 @@ export type MetadataCollection = RxCollection<
   Record<string, unknown>,
   { replicator: Replicator }
 >
+
+export type MetadataCollections = {
+  metadata: RxCollection<TableFragment>
+  property_config: RxCollection<PropertyConfig>
+  table_config: RxCollection<TableConfig>
+  app_config: RxCollection<AppConfig>
+}

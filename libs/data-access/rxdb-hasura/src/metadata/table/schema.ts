@@ -19,16 +19,22 @@ export const metadataSchema: RxJsonSchema<TableFragment> = {
     primaryKey: {
       type: ['object', 'null']
     },
-    foreignKeys: {
+    dependentForeignKeys: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
+          tableId: {
+            type: 'string'
+          },
           columns: {
             type: 'array',
             items: {
               type: 'string'
             }
+          },
+          onUpdate: {
+            type: 'string'
           },
           onDelete: {
             type: 'string'

@@ -1,4 +1,4 @@
-import { Metadata, metadataStore } from '../../metadata'
+import { getMetadataTable, Metadata, metadataStore } from '../../metadata'
 import { Contents } from '../../types'
 
 export const canEdit = (
@@ -41,8 +41,7 @@ export const canCreate = (
           .every((column) => column && canCreate(metadata, role, column))
       } else {
         // * array relationship: check permission to update the foreign key columns
-        const refMetadata =
-          metadataStore.getState().tables[relationship.remoteTable.id]
+        const refMetadata = getMetadataTable(relationship.remoteTableId)
         return !!relationship?.mapping.every((m) =>
           canUpdate(refMetadata, m.remoteColumnName)
         )
@@ -83,8 +82,7 @@ export const canUpdate = (
           .every((column) => column && canUpdate(metadata, role, column))
       } else {
         // * array relationship: check permission to update the foreign key columns
-        const refMetadata =
-          metadataStore.getState().tables[relationship.remoteTable.id]
+        const refMetadata = getMetadataTable(relationship.remoteTableId)
         return !!relationship?.mapping.every((m) =>
           canUpdate(refMetadata, role, m.remoteColumnName)
         )

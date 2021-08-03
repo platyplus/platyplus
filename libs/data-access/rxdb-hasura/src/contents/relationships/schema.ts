@@ -1,24 +1,28 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
-import { TableFragment } from '../../generated'
+import { getMetadataTable, Metadata } from '../../metadata'
 import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
 import { filteredRelationships, isManyToManyTable } from './utils'
 
 export const createRelationshipProperties = (
-  table: TableFragment,
+  table: Metadata,
   role: string
 ): Record<string, TopLevelProperty> => {
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
+    let refTable = getMetadataTable(relationship.remoteTableId)
+
     const relName = relationship.name
     // TODO composite keys
     const column = relationship.mapping[0].column
-    const refTable = isManyToManyTable(relationship.remoteTable)
-      ? relationship.remoteTable.relationships.find(
-          (rel) => rel.remoteTable.id !== table.id
-        ).remoteTable
-      : relationship.remoteTable
+    if (isManyToManyTable(refTable))
+      refTable = getMetadataTable(
+        refTable.relationships.find(
+          (rel) => relationship.remoteTableId !== table.id
+        ).remoteTableId
+      )
+
     const ref = collectionName(refTable, role)
 
     const type = propertyJsonType(column)

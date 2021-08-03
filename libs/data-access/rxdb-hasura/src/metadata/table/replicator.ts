@@ -18,6 +18,7 @@ import { modifier } from './modifier'
 import { queryBuilder } from './pull'
 import { setMetadataTable } from './store-operations'
 import { getJwt, metadataStore, setCollectionIsReady } from '../store'
+import produce from 'immer'
 
 export type MetadataReplicatorOptions = {
   url: string
@@ -56,6 +57,22 @@ export const createMetadataReplicator = async (
     replicationState.error$.subscribe((err) => {
       error(`replication error on ${metadataCollection.name}`)
       errorDir(err)
+    })
+    replicationState.active$.subscribe((active) => {
+      if (active) {
+        metadataStore.setState(
+          produce((state) => {
+            state.syncing = true
+          })
+        )
+      } else {
+        if (metadataStore.getState().isReady())
+          metadataStore.setState(
+            produce((state) => {
+              state.syncing = false
+            })
+          )
+      }
     })
     replicationState.setHeaders(createHeaders(METADATA_ROLE, getJwt()))
     wsSubscription = setupGraphQLSubscription()
@@ -114,24 +131,6 @@ export const createMetadataReplicator = async (
         if (operation === 'INSERT') {
           if (documentData.id) {
             setMetadataTable(documentData)
-            const roles: string[] = documentData.columns.reduce(
-              (acc, column) => {
-                for (const permissionType of ['canSelect', 'canInsert']) {
-                  for (const { roleName } of column[permissionType]) {
-                    !acc.includes(roleName) && acc.push(roleName)
-                  }
-                }
-                return acc
-              },
-              []
-            )
-            for (const role of roles) {
-              const metadata = documentData as TableFragment
-              const name = collectionName(metadata, role)
-              await db.addCollections({
-                [name]: contentsCollectionCreator(metadata, role)
-              })
-            }
           }
         } else if (operation === 'UPDATE') {
           console.log('Updated metadata', previousDocumentData, documentData)

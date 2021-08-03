@@ -16,8 +16,8 @@ import {
   documentLabel
 } from '../computed-fields'
 import { filteredRelationships } from '../relationships'
-import { getIds } from '../ids'
-import { getCollectionMetadata } from '../../metadata'
+import { composeId, getIds } from '../ids'
+import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
@@ -71,22 +71,23 @@ export const pullQueryBuilder = (
     .map(
       (relationship) =>
         ({
-          [relationship.name]:
-            relationship.remoteTable.primaryKey.columns.reduce(
-              (acc, column) => {
-                acc[column.columnName] = true
-                return acc
-              },
-              {
-                __args: {
-                  where: {
-                    deleted: {
-                      _eq: false
-                    }
+          [relationship.name]: getMetadataTable(
+            relationship.remoteTableId
+          ).primaryKey.columns.reduce(
+            (acc, column) => {
+              acc[column.columnName] = true
+              return acc
+            },
+            {
+              __args: {
+                where: {
+                  deleted: {
+                    _eq: false
                   }
                 }
               }
-            ),
+            }
+          ),
           [`${relationship.name}_aggregate`]: {
             aggregate: { max: { updated_at: true } }
           }
@@ -217,6 +218,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         if (data[name]) data[name] = Object.values(data[name])[0]
       }
     }
+    data.id = composeId(metadata, data)
     debug('pullModifier: out', collection.name, { ...data })
     return data
   }

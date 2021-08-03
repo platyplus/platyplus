@@ -5920,10 +5920,9 @@ export type Metadata_Property_Config = {
   deleted: Scalars['Boolean']
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Scalars['uuid']
-  json_schema: Maybe<Scalars['jsonb']>
   /** table_schema.table_name.property_name */
-  property_id: Scalars['String']
+  id: Scalars['String']
+  json_schema: Maybe<Scalars['jsonb']>
   property_name: Scalars['String']
   table_id: Scalars['String']
   title: Maybe<Scalars['String']>
@@ -5983,9 +5982,8 @@ export type Metadata_Property_Config_Bool_Exp = {
   deleted: Maybe<Boolean_Comparison_Exp>
   description: Maybe<String_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
-  id: Maybe<Uuid_Comparison_Exp>
+  id: Maybe<String_Comparison_Exp>
   json_schema: Maybe<Jsonb_Comparison_Exp>
-  property_id: Maybe<String_Comparison_Exp>
   property_name: Maybe<String_Comparison_Exp>
   table_id: Maybe<String_Comparison_Exp>
   title: Maybe<String_Comparison_Exp>
@@ -5995,9 +5993,7 @@ export type Metadata_Property_Config_Bool_Exp = {
 /** unique or primary key constraints on table "metadata.property_config" */
 export enum Metadata_Property_Config_Constraint {
   /** unique or primary key constraint */
-  PropertyConfigPkey = 'property_config_pkey',
-  /** unique or primary key constraint */
-  PropertyConfigPropertyIdKey = 'property_config_property_id_key'
+  PropertyConfigPkey = 'property_config_pkey'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -6021,9 +6017,8 @@ export type Metadata_Property_Config_Insert_Input = {
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
+  id: Maybe<Scalars['String']>
   json_schema: Maybe<Scalars['jsonb']>
-  property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -6036,8 +6031,7 @@ export type Metadata_Property_Config_Max_Fields = {
   component: Maybe<Scalars['String']>
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
-  property_id: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -6050,7 +6044,6 @@ export type Metadata_Property_Config_Max_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
-  property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
@@ -6063,8 +6056,7 @@ export type Metadata_Property_Config_Min_Fields = {
   component: Maybe<Scalars['String']>
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
-  property_id: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -6077,7 +6069,6 @@ export type Metadata_Property_Config_Min_Order_By = {
   description: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
-  property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
@@ -6114,7 +6105,6 @@ export type Metadata_Property_Config_Order_By = {
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   json_schema: Maybe<Order_By>
-  property_id: Maybe<Order_By>
   property_name: Maybe<Order_By>
   table_id: Maybe<Order_By>
   title: Maybe<Order_By>
@@ -6123,7 +6113,8 @@ export type Metadata_Property_Config_Order_By = {
 
 /** primary key columns input for table: "metadata.property_config" */
 export type Metadata_Property_Config_Pk_Columns_Input = {
-  id: Scalars['uuid']
+  /** table_schema.table_name.property_name */
+  id: Scalars['String']
 }
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
@@ -6146,8 +6137,6 @@ export enum Metadata_Property_Config_Select_Column {
   /** column name */
   JsonSchema = 'json_schema',
   /** column name */
-  PropertyId = 'property_id',
-  /** column name */
   PropertyName = 'property_name',
   /** column name */
   TableId = 'table_id',
@@ -6163,9 +6152,8 @@ export type Metadata_Property_Config_Set_Input = {
   deleted: Maybe<Scalars['Boolean']>
   description: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
+  id: Maybe<Scalars['String']>
   json_schema: Maybe<Scalars['jsonb']>
-  property_id: Maybe<Scalars['String']>
   property_name: Maybe<Scalars['String']>
   table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
@@ -6186,8 +6174,6 @@ export enum Metadata_Property_Config_Update_Column {
   Id = 'id',
   /** column name */
   JsonSchema = 'json_schema',
-  /** column name */
-  PropertyId = 'property_id',
   /** column name */
   PropertyName = 'property_name',
   /** column name */
@@ -6849,6 +6835,10 @@ export type Metadata_Table = {
   configuration: Maybe<Scalars['jsonb']>
   deleted: Maybe<Scalars['Boolean']>
   /** An array relationship */
+  dependentForeignKeys: Array<Metadata_Foreign_Key_Constraint>
+  /** An aggregated array relationship */
+  dependentForeignKeys_aggregate: Metadata_Foreign_Key_Constraint_Aggregate
+  /** An array relationship */
   foreignKeys: Array<Metadata_Foreign_Key_Constraint>
   /** An aggregated array relationship */
   foreignKeys_aggregate: Metadata_Foreign_Key_Constraint_Aggregate
@@ -7024,6 +7014,24 @@ export type Metadata_TableComputedProperties_AggregateArgs = {
 /** columns and relationships of "metadata.table" */
 export type Metadata_TableConfigurationArgs = {
   path: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableDependentForeignKeysArgs = {
+  distinct_on: Maybe<Array<Metadata_Foreign_Key_Constraint_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Foreign_Key_Constraint_Order_By>>
+  where: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
+}
+
+/** columns and relationships of "metadata.table" */
+export type Metadata_TableDependentForeignKeys_AggregateArgs = {
+  distinct_on: Maybe<Array<Metadata_Foreign_Key_Constraint_Select_Column>>
+  limit: Maybe<Scalars['Int']>
+  offset: Maybe<Scalars['Int']>
+  order_by: Maybe<Array<Metadata_Foreign_Key_Constraint_Order_By>>
+  where: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
 }
 
 /** columns and relationships of "metadata.table" */
@@ -7207,6 +7215,7 @@ export type Metadata_Table_Bool_Exp = {
   config: Maybe<Metadata_Table_Config_Bool_Exp>
   configuration: Maybe<Jsonb_Comparison_Exp>
   deleted: Maybe<Boolean_Comparison_Exp>
+  dependentForeignKeys: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
   foreignKeys: Maybe<Metadata_Foreign_Key_Constraint_Bool_Exp>
   id: Maybe<String_Comparison_Exp>
   indexes: Maybe<Metadata_Index_Bool_Exp>
@@ -7235,9 +7244,8 @@ export type Metadata_Table_Config = {
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Scalars['uuid']
+  id: Scalars['String']
   order: Scalars['jsonb']
-  table_id: Scalars['String']
   title: Maybe<Scalars['String']>
   updated_at: Scalars['timestamptz']
 }
@@ -7298,9 +7306,8 @@ export type Metadata_Table_Config_Bool_Exp = {
   document_label: Maybe<String_Comparison_Exp>
   document_title: Maybe<String_Comparison_Exp>
   icon: Maybe<String_Comparison_Exp>
-  id: Maybe<Uuid_Comparison_Exp>
+  id: Maybe<String_Comparison_Exp>
   order: Maybe<Jsonb_Comparison_Exp>
-  table_id: Maybe<String_Comparison_Exp>
   title: Maybe<String_Comparison_Exp>
   updated_at: Maybe<Timestamptz_Comparison_Exp>
 }
@@ -7308,9 +7315,7 @@ export type Metadata_Table_Config_Bool_Exp = {
 /** unique or primary key constraints on table "metadata.table_config" */
 export enum Metadata_Table_Config_Constraint {
   /** unique or primary key constraint */
-  TableConfigPkey = 'table_config_pkey',
-  /** unique or primary key constraint */
-  TableConfigTableIdKey = 'table_config_table_id_key'
+  TableConfigPkey = 'table_config_pkey'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -7337,9 +7342,8 @@ export type Metadata_Table_Config_Insert_Input = {
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
+  id: Maybe<Scalars['String']>
   order: Maybe<Scalars['jsonb']>
-  table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
 }
@@ -7353,8 +7357,7 @@ export type Metadata_Table_Config_Max_Fields = {
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
-  table_id: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
 }
@@ -7368,7 +7371,6 @@ export type Metadata_Table_Config_Max_Order_By = {
   document_title: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
-  table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
 }
@@ -7382,8 +7384,7 @@ export type Metadata_Table_Config_Min_Fields = {
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
-  table_id: Maybe<Scalars['String']>
+  id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
 }
@@ -7397,7 +7398,6 @@ export type Metadata_Table_Config_Min_Order_By = {
   document_title: Maybe<Order_By>
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
-  table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
 }
@@ -7435,14 +7435,13 @@ export type Metadata_Table_Config_Order_By = {
   icon: Maybe<Order_By>
   id: Maybe<Order_By>
   order: Maybe<Order_By>
-  table_id: Maybe<Order_By>
   title: Maybe<Order_By>
   updated_at: Maybe<Order_By>
 }
 
 /** primary key columns input for table: "metadata.table_config" */
 export type Metadata_Table_Config_Pk_Columns_Input = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
@@ -7471,8 +7470,6 @@ export enum Metadata_Table_Config_Select_Column {
   /** column name */
   Order = 'order',
   /** column name */
-  TableId = 'table_id',
-  /** column name */
   Title = 'title',
   /** column name */
   UpdatedAt = 'updated_at'
@@ -7487,9 +7484,8 @@ export type Metadata_Table_Config_Set_Input = {
   document_label: Maybe<Scalars['String']>
   document_title: Maybe<Scalars['String']>
   icon: Maybe<Scalars['String']>
-  id: Maybe<Scalars['uuid']>
+  id: Maybe<Scalars['String']>
   order: Maybe<Scalars['jsonb']>
-  table_id: Maybe<Scalars['String']>
   title: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
 }
@@ -7514,8 +7510,6 @@ export enum Metadata_Table_Config_Update_Column {
   Id = 'id',
   /** column name */
   Order = 'order',
-  /** column name */
-  TableId = 'table_id',
   /** column name */
   Title = 'title',
   /** column name */
@@ -7778,6 +7772,7 @@ export type Metadata_Table_Order_By = {
   config: Maybe<Metadata_Table_Config_Order_By>
   configuration: Maybe<Order_By>
   deleted: Maybe<Order_By>
+  dependentForeignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
   foreignKeys_aggregate: Maybe<Metadata_Foreign_Key_Constraint_Aggregate_Order_By>
   id: Maybe<Order_By>
   indexes_aggregate: Maybe<Metadata_Index_Aggregate_Order_By>
@@ -8521,7 +8516,7 @@ export type Mutation_RootDelete_Metadata_Property_ConfigArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Metadata_Property_Config_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** mutation root */
@@ -8536,7 +8531,7 @@ export type Mutation_RootDelete_Metadata_Table_ConfigArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Metadata_Table_Config_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** mutation root */
@@ -10561,7 +10556,7 @@ export type Query_RootMetadata_Property_Config_AggregateArgs = {
 
 /** query root */
 export type Query_RootMetadata_Property_Config_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** query root */
@@ -10674,7 +10669,7 @@ export type Query_RootMetadata_Table_Config_AggregateArgs = {
 
 /** query root */
 export type Query_RootMetadata_Table_Config_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** query root */
@@ -11670,7 +11665,7 @@ export type Subscription_RootMetadata_Property_Config_AggregateArgs = {
 
 /** subscription root */
 export type Subscription_RootMetadata_Property_Config_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** subscription root */
@@ -11783,7 +11778,7 @@ export type Subscription_RootMetadata_Table_Config_AggregateArgs = {
 
 /** subscription root */
 export type Subscription_RootMetadata_Table_Config_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** subscription root */
@@ -12757,7 +12752,6 @@ export type PropertyConfigQuery = { __typename?: 'query_root' } & {
     { __typename?: 'metadata_property_config' } & Pick<
       Metadata_Property_Config,
       | 'id'
-      | 'property_id'
       | 'updated_at'
       | 'table_id'
       | 'deleted'
@@ -12818,7 +12812,6 @@ export type TableConfigQuery = { __typename?: 'query_root' } & {
       Metadata_Table_Config,
       | 'id'
       | 'updated_at'
-      | 'table_id'
       | 'deleted'
       | 'component'
       | 'description'
@@ -12884,22 +12877,6 @@ export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
     >
   }
 
-export type RemoteTableFragment = { __typename?: 'metadata_table' } & {
-  relationships: Array<
-    { __typename?: 'metadata_relationship' } & Pick<
-      Metadata_Relationship,
-      'type'
-    > & {
-        remoteTable: Maybe<
-          { __typename?: 'metadata_table' } & CoreTableFragment
-        >
-      }
-  >
-  columns: Array<
-    { __typename?: 'metadata_column_info' } & Pick<Metadata_Column_Info, 'name'>
-  >
-} & CoreTableFragment
-
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
   Metadata_Column_Info,
   'name' | 'udtName' | 'isNullable' | 'default'
@@ -12909,10 +12886,10 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   view: Maybe<
     { __typename?: 'metadata_view_info' } & Pick<Metadata_View_Info, 'id'>
   >
-  foreignKeys: Array<
+  dependentForeignKeys: Array<
     { __typename?: 'metadata_foreign_key_constraint' } & Pick<
       Metadata_Foreign_Key_Constraint,
-      'columns' | 'onDelete'
+      'tableId' | 'onDelete' | 'onUpdate' | 'columns'
     >
   >
   indexes: Array<
@@ -12934,11 +12911,8 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   relationships: Array<
     { __typename?: 'metadata_relationship' } & Pick<
       Metadata_Relationship,
-      'name' | 'type'
+      'name' | 'type' | 'remoteTableId'
     > & {
-        remoteTable: Maybe<
-          { __typename?: 'metadata_table' } & RemoteTableFragment
-        >
         mapping: Array<
           { __typename?: 'metadata_relationship_mapping' } & Pick<
             Metadata_Relationship_Mapping,
@@ -13000,21 +12974,6 @@ export const CoreTableFragmentDoc = gql`
     }
   }
 `
-export const RemoteTableFragmentDoc = gql`
-  fragment remoteTable on metadata_table {
-    ...coreTable
-    relationships {
-      type
-      remoteTable {
-        ...coreTable
-      }
-    }
-    columns {
-      name
-    }
-  }
-  ${CoreTableFragmentDoc}
-`
 export const ColumnFragmentDoc = gql`
   fragment column on metadata_column_info {
     name
@@ -13029,9 +12988,11 @@ export const TableFragmentDoc = gql`
     view {
       id
     }
-    foreignKeys {
-      columns
+    dependentForeignKeys {
+      tableId
       onDelete
+      onUpdate
+      columns
     }
     indexes {
       name
@@ -13049,9 +13010,7 @@ export const TableFragmentDoc = gql`
     relationships {
       name
       type
-      remoteTable {
-        ...remoteTable
-      }
+      remoteTableId
       mapping {
         column {
           ...column
@@ -13076,7 +13035,6 @@ export const TableFragmentDoc = gql`
     }
   }
   ${CoreTableFragmentDoc}
-  ${RemoteTableFragmentDoc}
   ${ColumnFragmentDoc}
 `
 export const AppConfigDocument = gql`
@@ -13128,7 +13086,6 @@ export const PropertyConfigDocument = gql`
       order_by: [{ updated_at: asc }, { id: asc }]
     ) {
       id
-      property_id
       updated_at
       table_id
       deleted
@@ -13148,7 +13105,7 @@ export const InsertMetadataPropertyConfigDocument = gql`
     insert_metadata_property_config(
       objects: $objects
       on_conflict: {
-        constraint: property_config_property_id_key
+        constraint: property_config_pkey
         update_columns: [
           table_id
           deleted
@@ -13186,7 +13143,6 @@ export const TableConfigDocument = gql`
     ) {
       id
       updated_at
-      table_id
       deleted
       component
       description
@@ -13205,7 +13161,7 @@ export const InsertMetadataTableConfigDocument = gql`
     insert_metadata_table_config(
       objects: $objects
       on_conflict: {
-        constraint: table_config_table_id_key
+        constraint: table_config_pkey
         update_columns: [
           deleted
           component

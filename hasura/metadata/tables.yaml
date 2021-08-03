@@ -943,6 +943,14 @@
           name: computed_property
         column_mapping:
           id: table_id
+  - name: dependentForeignKeys
+    using:
+      manual_configuration:
+        remote_table:
+          schema: metadata
+          name: foreign_key_constraint
+        column_mapping:
+          id: ref_id
   - name: foreignKeys
     using:
       manual_configuration:

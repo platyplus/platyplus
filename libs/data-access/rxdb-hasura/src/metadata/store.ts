@@ -14,6 +14,7 @@ export type MetadataStore = {
   connected: boolean
   isReady: () => boolean
   isConfigReady: () => boolean
+  syncing: boolean
 }
 
 export const metadataStore = create<MetadataStore>(
@@ -29,6 +30,7 @@ export const metadataStore = create<MetadataStore>(
         metadata: false
       },
       connected: false,
+      syncing: true,
       isReady: () => Object.values(get().ready).every((value) => value),
       isConfigReady: () => CONFIG_TABLES.every((value) => get().ready[value])
     }),

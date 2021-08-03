@@ -62,11 +62,7 @@ export const setMetadataTable = (table: DeepReadonly<TableFragment>) =>
             ...(metadata.properties.get(rel.name) || {}),
             relationship: {
               ...rel,
-              ref: isManyToManyTable(rel.remoteTable)
-                ? rel.remoteTable.relationships.find(
-                    (rel) => rel.remoteTable.id !== metadata.id
-                  ).remoteTable.id
-                : rel.remoteTable.id
+              ref: rel.remoteTableId
             },
             type: rel.type === 'object' ? 'document' : 'collection',
             required: isRequiredRelationship(rel),

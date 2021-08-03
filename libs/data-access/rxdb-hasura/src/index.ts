@@ -8,11 +8,14 @@ import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 import { debug } from './console'
 import {
   initConfigCollections,
+  Metadata,
   metadataSchema,
   metadataStore
 } from './metadata'
 import { RxHasuraPlugin } from './plugin'
 import { Database, DatabaseCollections } from './types'
+import { collectionName } from './utils'
+import { contentsCollectionCreator } from './contents'
 export { RxHasuraPlugin } from './plugin'
 
 enableMapSet()
@@ -58,8 +61,8 @@ export const createRxHasura = async (
 
   // * When receiving a JWT, browse the roles and create metadata accordingly
   metadataStore.subscribe(
-    async (jwt) => {
-      if (jwt) {
+    async (connected) => {
+      if (connected) {
         await initConfigCollections(db)
         metadataStore.subscribe(
           async (ready: boolean) => {
@@ -72,13 +75,38 @@ export const createRxHasura = async (
                 }
               })
             }
-            // db.contents$.next(contentsCollections(db))
           },
           (state) => state.isConfigReady()
         )
       }
     },
-    (state) => state.jwt
+    (state) => state.connected
+  )
+
+  metadataStore.subscribe(
+    async (tables: Record<string, Metadata> | false) => {
+      if (tables) {
+        for (const table of Object.values(tables)) {
+          const roles: string[] = table.columns.reduce((acc, column) => {
+            for (const permissionType of ['canSelect', 'canInsert']) {
+              for (const { roleName } of column[permissionType]) {
+                !acc.includes(roleName) && acc.push(roleName)
+              }
+            }
+            return acc
+          }, [])
+          for (const role of roles) {
+            const name = collectionName(table, role)
+            await db.addCollections({
+              [name]: contentsCollectionCreator(table, role)
+            })
+          }
+        }
+      } else {
+        console.log('syncing...')
+      }
+    },
+    (state) => !state.syncing && state.tables
   )
 
   if (process.env.NODE_ENV === 'development') {

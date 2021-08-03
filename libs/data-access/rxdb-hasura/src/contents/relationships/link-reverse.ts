@@ -31,7 +31,7 @@ const reverseRelations =
       const remoteCollection =
         collection.database.collections[remoteCollectionName]
       const mirrorRelationships = remoteMetadata.relationships.filter(
-        (rel) => rel.remoteTable.id === metadata.id
+        (rel) => rel.remoteTableId === metadata.id
       )
 
       if (mirrorRelationships.length > 1) {

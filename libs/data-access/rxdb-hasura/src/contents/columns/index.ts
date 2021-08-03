@@ -1,7 +1,7 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { TableFragment } from '../../generated'
-import { JsonSchemaFormat } from '../../metadata'
+import { JsonSchemaFormat, Metadata } from '../../metadata'
 import { isIdColumn } from '../ids'
 import { propertyJsonType } from '../properties'
 
@@ -14,7 +14,7 @@ const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
 }
 
 export const columnProperties = (
-  table: TableFragment,
+  table: TableFragment | Metadata,
   excludeSystemColumns = false
 ) => {
   const skipRelationships = table.relationships
@@ -33,7 +33,7 @@ export const columnProperties = (
   )
 }
 
-export const createColumnProperties = (table: TableFragment) => {
+export const createColumnProperties = (table: Metadata) => {
   const result: Record<string, TopLevelProperty> = {}
   columnProperties(table, true).forEach((column) => {
     const sqlType = column.udtName

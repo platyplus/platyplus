@@ -3,7 +3,6 @@ import { print } from 'graphql/language/printer'
 import { queryToSubscription } from '../../utils'
 
 // TODO use table.primaryKey instead of table.columns.primaryKey
-// TODO shrink, especially the relationship part
 export const query = gql`
   fragment coreTable on metadata_table {
     id
@@ -14,20 +13,6 @@ export const query = gql`
       columns {
         columnName
       }
-    }
-  }
-
-  fragment remoteTable on metadata_table {
-    ...coreTable
-    relationships {
-      type
-      # TODO only remote table id, then find in the metadata store
-      remoteTable {
-        ...coreTable
-      }
-    }
-    columns {
-      name
     }
   }
 
@@ -43,9 +28,11 @@ export const query = gql`
     view {
       id
     }
-    foreignKeys {
-      columns
+    dependentForeignKeys {
+      tableId
       onDelete
+      onUpdate
+      columns
     }
     indexes {
       name
@@ -63,8 +50,11 @@ export const query = gql`
     relationships {
       name
       type
+      remoteTableId
       remoteTable {
-        ...remoteTable
+        id
+        schema
+        name
       }
       mapping {
         column {

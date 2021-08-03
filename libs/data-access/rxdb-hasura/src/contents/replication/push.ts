@@ -10,7 +10,7 @@ import { metadataName } from '../../utils'
 import { computedFields } from '../computed-fields'
 import { getIds } from '../ids'
 import { filteredRelationships, isManyToManyTable } from '../relationships'
-import { getCollectionMetadata } from '../../metadata'
+import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -66,10 +66,11 @@ export const pushQueryBuilder = (
             }),
         ...arrayRelationships.reduce((acc, rel) => {
           // TODO relations with composite ids
-          const isManyToMany = isManyToManyTable(rel.remoteTable)
+          const remoteTable = getMetadataTable(rel.remoteTableId)
+          const isManyToMany = isManyToManyTable(remoteTable)
           const mapping = rel.mapping[0]
-          const joinTable = metadataName(rel.remoteTable)
-          const reverseId = rel.remoteTable.primaryKey.columns.find(
+          const joinTable = metadataName(remoteTable)
+          const reverseId = remoteTable.primaryKey.columns.find(
             (col) => col.columnName !== mapping.remoteColumnName
           ).columnName
           if (isManyToMany) {
@@ -97,7 +98,7 @@ export const pushQueryBuilder = (
                   })),
                   on_conflict: {
                     constraint: new EnumType(
-                      rel.remoteTable.primaryKey.constraintName
+                      remoteTable.primaryKey.constraintName
                     ),
                     update_columns: [new EnumType('deleted')],
                     where: { deleted: { _eq: true } }
@@ -114,7 +115,7 @@ export const pushQueryBuilder = (
                   })),
                   on_conflict: {
                     constraint: new EnumType(
-                      rel.remoteTable.primaryKey.constraintName
+                      remoteTable.primaryKey.constraintName
                     ),
                     update_columns: [new EnumType(mapping.remoteColumnName)]
                   }

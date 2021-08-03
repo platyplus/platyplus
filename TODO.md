@@ -56,6 +56,12 @@
   - [x] wait for metadata/config to be loaded before fetching documents from the backend
   - [x] debug and improve profile page
     - [x] `account` links are still here
+  - [ ] **Many to Many**
+    - [ ] pull/push
+    - [ ] create/update: components
+    - [ ] cascade delete
+    - [ ] hide from menu
+  - [ ] **remove db.contents$ and the related hooks / subscriptions**
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint
       - [ ] cascade

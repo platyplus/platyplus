@@ -1,7 +1,11 @@
-import { getDocumentMetadata } from '../../../metadata'
+import { RxDatabase } from 'rxdb'
+import {
+  getDocumentMetadata,
+  getMetadataTable,
+  metadataStore
+} from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
-import { metadataName } from '../../../utils'
-import { findForeignKeyConstraint } from './utils'
+import { collectionName } from '../../../utils'
 /**
  * Events on forein keys:
  * a = no action
@@ -10,32 +14,33 @@ import { findForeignKeyConstraint } from './utils'
  * n = set null
  * d = set default
  */
-// TODO review these hooks entirely
-// TODO improve the way of accessing foreign keys, ideally metadata.relationships.{onUpdate,onDelete}
 export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preRemove(async (data: Contents, document: ContentsDocument) => {
     const metadata = getDocumentMetadata(document)
-    for (const relationship of metadata.relationships) {
-      const fk = findForeignKeyConstraint(metadata, relationship)
-      if (fk) {
-        const values = data[relationship.name]
-        const remoteTable = `${collection.role}_${metadataName(
-          relationship.remoteTable
-        )}`
-        // TODO many2many
-        const remoteIds = relationship.type === 'object' ? [values] : values
+    for (const fk of metadata.dependentForeignKeys) {
+      const remoteMetadata = getMetadataTable(fk.tableId)
+      // TODO remoteMetadata is null when fk aims at a join m2m table
+      if (remoteMetadata) {
+        const remoteCollection: ContentsCollection =
+          collection.database.collections[
+            collectionName(remoteMetadata, collection.role)
+          ]
+        const remoteProperty = remoteMetadata.relationships.find((rel) =>
+          rel.mapping.some((mapping) =>
+            fk.columns.includes(mapping.column.name)
+          )
+        )
         if (fk.onDelete === 'c') {
-          // * Cascade delete
-          await collection.database[remoteTable].bulkRemove(remoteIds)
-        } else if (fk.onDelete === 'n') {
-          // if (!isNullableRelationship(relationship)) throw Error(`Non nullable relationship ${metadata.id}.${relationship.name}`)
-          // else console.log('TODO mirror relationship')
+          console.log(`cascade delete ${fk.tableId}.${remoteProperty.name}`)
+          await remoteCollection
+            .find()
+            .where(remoteProperty.name)
+            .equals(data.id)
+            .remove()
         }
-        // TODO set null, no action, restrict, set default
-        //   const relatedDocuments: ContentsDocument[] =
-        //     await collection.database[remoteTable].findByIds(remoteIds)
+        // TODO restrict, null, default, no action
       }
     }
   }, true)

@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import {
   collectionName,
   ContentsCollections,
+  Database,
   Metadata
 } from '@platyplus/rxdb-hasura'
 
@@ -18,7 +19,7 @@ export const useCollectionName = (metadata: Metadata, role: string) =>
  * @returns
  */
 export const useContentsCollections = (me = false): ContentsCollections => {
-  const db = useDB()
+  const db = useDB() as Database
   const [collections, setCollections] = useState<ContentsCollections>(new Map())
 
   const filter = useCallback(

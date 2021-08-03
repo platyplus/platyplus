@@ -1,8 +1,9 @@
 import { TableFragment } from '../../generated'
+import { Metadata } from '../../metadata'
 import { propertyJsonType } from '../properties'
 
 // * PostgreSQL indexes + label
-export const indexes = (table: TableFragment): (string | string[])[] => {
+export const indexes = (table: Metadata): (string | string[])[] => {
   // TODO map foreign keys e.g. table.config.table_id -> index on table_id
   // * Map PostgreSQL indexes
   const postgresIndexes = table.indexes
