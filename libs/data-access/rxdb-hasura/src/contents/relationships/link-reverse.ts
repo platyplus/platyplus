@@ -30,8 +30,12 @@ const reverseRelations =
       )
       const remoteCollection =
         collection.database.collections[remoteCollectionName]
-      const mirrorRelationships = remoteMetadata.relationships.filter(
-        (rel) => rel.remoteTableId === metadata.id
+      const mirrorRelationships = [
+        ...remoteMetadata.properties.values()
+      ].filter(
+        (property) =>
+          property.relationship &&
+          property.relationship.remoteTableId === metadata.id
       )
 
       if (mirrorRelationships.length > 1) {
@@ -51,9 +55,10 @@ const reverseRelations =
         type: mirrorRelType
       } of mirrorRelationships) {
         debug(
-          `${collection.name}.${name} <-> ${remoteCollection.name}.${mirrorRelName}`
+          `${collection.name}.${name} (${type}) -> ${remoteCollection.name}.${mirrorRelName} (${mirrorRelType})`
         )
-        if (type === 'array') {
+        if (type === 'collection') {
+          console.log('From one/many to many')
           // * From one/many to many
           const { add, remove } = arrayChanges<string>(
             oldRelId || [],
@@ -63,7 +68,7 @@ const reverseRelations =
 
           const addDocs = await remoteCollection.findByIds(add)
           for (const remoteDoc of addDocs.values()) {
-            if (mirrorRelType === 'array') {
+            if (mirrorRelType === 'collection') {
               // * From many to many
               remoteDoc.atomicPatch({
                 is_local_change: true,
@@ -81,7 +86,7 @@ const reverseRelations =
             ? await remoteCollection.findByIds(remove)
             : []
           for (const remoteDoc of removeDocs.values()) {
-            if (mirrorRelType === 'array') {
+            if (mirrorRelType === 'collection') {
               remoteDoc.atomicPatch({
                 is_local_change: true,
                 [mirrorRelName]: remoteDoc[name].filter(
@@ -96,7 +101,7 @@ const reverseRelations =
             }
           }
         } else {
-          if (mirrorRelType === 'array') {
+          if (mirrorRelType === 'collection') {
             // * From one to many
             if (oldRelId !== newRelId) {
               if (oldRelId) {

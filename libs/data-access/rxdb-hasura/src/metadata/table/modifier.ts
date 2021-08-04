@@ -7,7 +7,6 @@ export const modifier =
   (metadataCollection: MetadataCollection) =>
   async (doc: Metadata): Promise<Metadata> => {
     // * Do not load many2many join tables
-    // if (isManyToManyTable(doc)) return null
     const oldDoc = await metadataCollection.findOne(doc.id).exec()
     if (!oldDoc) return doc
     const oldDocValues = clone(oldDoc.toJSON())

@@ -167,7 +167,6 @@ export const pullQueryBuilder = (
       }
     }
   })
-
   return (doc) => {
     const res = {
       query,
@@ -196,29 +195,28 @@ export const pullQueryBuilder = (
 
 export const pullModifier = (collection: ContentsCollection): Modifier => {
   const metadata = getCollectionMetadata(collection)
-  const cleansedRelationships = filteredRelationships(metadata).map(
-    ({ type, name }) => ({
-      multiple: type === 'array',
-      name: name
-    })
-  )
   return async (data) => {
     debug('pullModifier: in', collection.name, { ...data })
-    data.label = documentLabel(data, collection) || ''
     data = addComputedFieldsFromLoadedData(data, collection)
+    data.label = documentLabel(data, collection) || ''
+    data.id = composeId(metadata, data)
     // * Flatten relationship data so it fits in the `population` system
-    for (const { name, multiple } of cleansedRelationships) {
-      if (multiple) {
+    for (const { name, type, remoteTableId } of filteredRelationships(
+      metadata
+    )) {
+      const refMetadata = getMetadataTable(remoteTableId)
+      if (type === 'array') {
         // * Array relationships: set remote id columns as an array
-        // TODO won't work with composite primary keys
-        data[name] = (data[name] as []).map((item) => Object.values(item)[0])
+        data[name] = (data[name] as []).map((item) =>
+          composeId(refMetadata, item)
+        )
       } else {
         // * Object relationships: move foreign key columns to the property name
-        // TODO won't work with composite primary keys
-        if (data[name]) data[name] = Object.values(data[name])[0]
+        if (data[name]) {
+          data[name] = composeId(refMetadata, data[name])
+        }
       }
     }
-    data.id = composeId(metadata, data)
     debug('pullModifier: out', collection.name, { ...data })
     return data
   }

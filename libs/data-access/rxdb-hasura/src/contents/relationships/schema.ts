@@ -1,9 +1,9 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
-import { getMetadataTable, Metadata } from '../../metadata'
+import { Metadata } from '../../metadata'
 import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
-import { filteredRelationships, isManyToManyTable } from './utils'
+import { filteredRelationships, shiftedMetadataTable } from './utils'
 
 export const createRelationshipProperties = (
   table: Metadata,
@@ -11,18 +11,10 @@ export const createRelationshipProperties = (
 ): Record<string, TopLevelProperty> => {
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
-    let refTable = getMetadataTable(relationship.remoteTableId)
-
+    const refTable = shiftedMetadataTable(table, relationship)
     const relName = relationship.name
     // TODO composite keys
     const column = relationship.mapping[0].column
-    if (isManyToManyTable(refTable))
-      refTable = getMetadataTable(
-        refTable.relationships.find(
-          (rel) => relationship.remoteTableId !== table.id
-        ).remoteTableId
-      )
-
     const ref = collectionName(refTable, role)
 
     const type = propertyJsonType(column)

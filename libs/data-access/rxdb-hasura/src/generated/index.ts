@@ -12892,6 +12892,12 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
       'tableId' | 'onDelete' | 'onUpdate' | 'columns'
     >
   >
+  foreignKeys: Array<
+    { __typename?: 'metadata_foreign_key_constraint' } & Pick<
+      Metadata_Foreign_Key_Constraint,
+      'columns'
+    >
+  >
   indexes: Array<
     { __typename?: 'metadata_index' } & Pick<Metadata_Index, 'name'> & {
         columns: Array<
@@ -12992,6 +12998,9 @@ export const TableFragmentDoc = gql`
       tableId
       onDelete
       onUpdate
+      columns
+    }
+    foreignKeys {
       columns
     }
     indexes {

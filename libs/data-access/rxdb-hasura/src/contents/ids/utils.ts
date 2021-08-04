@@ -19,3 +19,11 @@ export const composeId = (
   getIds(table)
     .map((key) => data[key])
     .join(separator)
+
+export const decomposeId = (table: Metadata, id: string, separator = '|') => {
+  const splitId = id.split(separator)
+  return getIds(table).reduce((acc, col, index) => {
+    acc[col] = splitId[index]
+    return acc
+  }, {})
+}

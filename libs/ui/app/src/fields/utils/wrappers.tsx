@@ -5,7 +5,6 @@ import { FieldComponent } from './types'
 
 export const FieldComponentWrapper: FieldComponent = ({
   property,
-  document,
   ...rest
 }) => {
   const library = useComponentsLibrary().fields
@@ -15,8 +14,7 @@ export const FieldComponentWrapper: FieldComponent = ({
     [library, property, componentType]
   )
 
-  if (Component)
-    return <Component property={property} document={document} {...rest} />
+  if (Component) return <Component property={property} {...rest} />
   else
     return (
       <div>

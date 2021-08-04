@@ -1,11 +1,9 @@
 import { ColumnFragment } from '../../types'
 import { columnProperties } from '../columns'
+import { JsonSchemaPropertyType, Metadata, PropertyType } from '../../metadata'
 
 import { isNullableColumn } from '../required'
 import { isIdColumn } from '../ids'
-import { JsonSchemaPropertyType, Metadata, PropertyType } from '../../metadata'
-
-import { TableFragment } from '../../generated'
 import { filteredRelationships } from '../relationships'
 
 const postgresJsonSchemaTypeMapping: Record<

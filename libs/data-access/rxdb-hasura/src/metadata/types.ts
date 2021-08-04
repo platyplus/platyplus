@@ -34,7 +34,10 @@ export type PropertyType =
   | JsonSchemaPropertyType
   | CustomTypes
 
-export type Metadata = Omit<TableFragment, 'dependentForeignKeys'> & {
+export type Metadata = Omit<
+  TableFragment,
+  'foreignKeys' | 'dependentForeignKeys'
+> & {
   properties: Map<string, Property>
   config?: TableConfig
   dependentForeignKeys: {
@@ -42,6 +45,9 @@ export type Metadata = Omit<TableFragment, 'dependentForeignKeys'> & {
     columns: string[]
     onDelete: 'a' | 'r' | 'c' | 'n' | 'd'
     onUpdate: 'a' | 'r' | 'c' | 'n' | 'd'
+  }[]
+  foreignKeys: {
+    columns: string[]
   }[]
 }
 

@@ -1,4 +1,3 @@
-import { TableFragment } from '../../generated'
 import { Metadata } from '../../metadata'
 import { propertyJsonType } from '../properties'
 

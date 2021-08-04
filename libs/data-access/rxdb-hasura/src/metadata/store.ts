@@ -38,7 +38,7 @@ export const metadataStore = create<MetadataStore>(
   )
 )
 
-export const getMetadataTable = (id: string) =>
+export const getMetadataTable = (id?: string) =>
   metadataStore.getState().tables[id]
 
 export const getCollectionMetadata = (collection: ContentsCollection) =>

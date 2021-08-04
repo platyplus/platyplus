@@ -57,8 +57,8 @@
   - [x] debug and improve profile page
     - [x] `account` links are still here
   - [ ] **Many to Many**
-    - [ ] pull/push
-    - [ ] create/update: components
+    - [x] pull/push
+    - [x] create/update: components
     - [ ] cascade delete
     - [ ] hide from menu
   - [ ] **remove db.contents$ and the related hooks / subscriptions**

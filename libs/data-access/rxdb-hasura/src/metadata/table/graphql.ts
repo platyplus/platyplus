@@ -34,6 +34,9 @@ export const query = gql`
       onUpdate
       columns
     }
+    foreignKeys {
+      columns
+    }
     indexes {
       name
       columns {
@@ -51,11 +54,6 @@ export const query = gql`
       name
       type
       remoteTableId
-      remoteTable {
-        id
-        schema
-        name
-      }
       mapping {
         column {
           ...column

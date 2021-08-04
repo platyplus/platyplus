@@ -8,8 +8,8 @@ import { debug } from '../../console'
 import { metadataName } from '../../utils'
 
 import { computedFields } from '../computed-fields'
-import { getIds } from '../ids'
-import { filteredRelationships, isManyToManyTable } from '../relationships'
+import { decomposeId, getIds } from '../ids'
+import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
 import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
@@ -42,7 +42,7 @@ export const pushQueryBuilder = (
     }
 
     const { id, ...updateDoc } = doc
-    const query = jsonToGraphQLQuery({
+    const jsonQuery = {
       mutation: {
         ...(_isNew
           ? {
@@ -65,37 +65,59 @@ export const pushQueryBuilder = (
               }
             }),
         ...arrayRelationships.reduce((acc, rel) => {
-          // TODO relations with composite ids
           const remoteTable = getMetadataTable(rel.remoteTableId)
-          const isManyToMany = isManyToManyTable(remoteTable)
-          const mapping = rel.mapping[0]
-          const joinTable = metadataName(remoteTable)
-          const reverseId = remoteTable.primaryKey.columns.find(
-            (col) => col.columnName !== mapping.remoteColumnName
-          ).columnName
+          const isManyToMany = isManyToManyJoinTable(remoteTable)
+          const remoteTableName = metadataName(remoteTable)
           if (isManyToMany) {
-            acc[`update_${joinTable}`] = {
+            acc[`update_${remoteTableName}`] = {
               __args: {
                 where: {
-                  [mapping.remoteColumnName]: {
-                    _eq: doc.id
-                  }
+                  _and: rel.mapping.map((mapping) => ({
+                    [mapping.remoteColumnName]: {
+                      _eq: doc[mapping.column.name]
+                    }
+                  }))
                 },
                 _set: { deleted: true }
               },
               affected_rows: true
             }
+          } else {
+            console.log('TODO?')
+
+            // acc[`update_${remoteTableName}`] = {
+            //   __args: {
+            //     where: {
+            //       _and: rel.mapping.map((mapping) => ({
+            //         [mapping.remoteColumnName]: {
+            //           _eq: doc[mapping.column.name]
+            //         }
+            //       }))
+            //     },
+            //     // TODO soft delete relationship, of set fk to null????
+            //     _set: rel.mapping.reduce(
+            //       (acc, mapping) => {
+            //         // acc[mapping.remoteColumnName] = null
+
+            //         return acc
+            //       },
+            //       { deleted: true }
+            //     )
+            //   },
+            //   affected_rows: true
+            // }
           }
 
           if (arrayValues[rel.name]?.length) {
             if (isManyToMany) {
-              acc[`insert_${joinTable}`] = {
+              acc[`insert_${remoteTableName}`] = {
                 __args: {
-                  objects: arrayValues[rel.name].map((id: string) => ({
-                    [reverseId]: id,
-                    [mapping.remoteColumnName]: doc.id,
-                    deleted: false
-                  })),
+                  objects: arrayValues[rel.name].map((value) => {
+                    return {
+                      ...decomposeId(remoteTable, value),
+                      deleted: false
+                    }
+                  }),
                   on_conflict: {
                     constraint: new EnumType(
                       remoteTable.primaryKey.constraintName
@@ -107,17 +129,24 @@ export const pushQueryBuilder = (
                 affected_rows: true
               }
             } else {
-              acc[`insert_${joinTable}`] = {
+              acc[`insert_${remoteTableName}`] = {
                 __args: {
-                  objects: arrayValues[rel.name].map((id: string) => ({
-                    [reverseId]: id,
-                    [mapping.remoteColumnName]: doc.id
-                  })),
+                  objects: arrayValues[rel.name].map((value) => {
+                    const ids = decomposeId(table, doc.id)
+                    const remotePk = decomposeId(remoteTable, value)
+                    return rel.mapping.reduce((acc, mapping) => {
+                      acc[mapping.remoteColumnName] = ids[mapping.column.name]
+                      return acc
+                    }, remotePk)
+                  }),
                   on_conflict: {
                     constraint: new EnumType(
                       remoteTable.primaryKey.constraintName
                     ),
-                    update_columns: [new EnumType(mapping.remoteColumnName)]
+                    update_columns: rel.mapping.map(
+                      (mapping) => new EnumType(mapping.remoteColumnName)
+                    ),
+                    where: { deleted: { _eq: true } }
                   }
                 },
                 affected_rows: true
@@ -127,7 +156,8 @@ export const pushQueryBuilder = (
           return acc
         }, {})
       }
-    })
+    }
+    const query = jsonToGraphQLQuery(jsonQuery)
     debug('push query builder:', { query })
     return {
       query,

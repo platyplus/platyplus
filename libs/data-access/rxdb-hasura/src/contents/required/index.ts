@@ -1,5 +1,4 @@
-import { TableFragment } from '../../generated'
-import { Metadata } from '../../metadata'
+import { getMetadataTable, Metadata } from '../../metadata'
 import { ColumnFragment } from '../../types'
 import { columnHasDefaultValue } from '../defaults'
 import { propertyNames } from '../properties'
@@ -11,6 +10,34 @@ export const isRequiredRelationship = (rel: Metadata['relationships'][0]) =>
   rel.type === 'object' &&
   rel.mapping.some((mapping) => isRequiredColumn(mapping.column))
 
+/**
+ * Checks if items can be removed from an array relationship
+ * @param metadata
+ * @param propertyName
+ * @returns
+ */
+export const canRemoveCollectionItem = (
+  metadata: Metadata,
+  propertyName: string
+) => {
+  const prop = metadata.properties.get(propertyName)
+  if (prop && prop.type === 'collection') {
+    const remoteMetadata = getMetadataTable(prop.relationship.remoteTableId)
+    const remoteColumns = prop.relationship.mapping.map(
+      (mapping) => mapping.remoteColumnName
+    )
+    return remoteMetadata.columns
+      .filter((col) => remoteColumns.includes(col.name))
+      .every((col) => !isRequiredColumn(col))
+  } else {
+    console.warn(
+      'canRemoveItem: property not found or incorrect type (non "collection")',
+      metadata,
+      propertyName
+    )
+    return false
+  }
+}
 export const isRequiredProperty = (
   table: Metadata,
   propertyName: string

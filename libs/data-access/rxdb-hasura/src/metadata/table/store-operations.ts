@@ -2,7 +2,6 @@ import produce from 'immer'
 import { DeepReadonly } from 'rxdb/dist/types/types'
 import {
   columnProperties,
-  isManyToManyTable,
   isRequiredColumn,
   isRequiredRelationship
 } from '../../contents'
@@ -55,7 +54,7 @@ export const setMetadataTable = (table: DeepReadonly<TableFragment>) =>
         metadata.properties.set(col.name, property)
       })
       metadata?.relationships
-        .filter((rel) => rel.remoteTable)
+        .filter((rel) => rel.remoteTableId)
         .forEach((rel) => {
           const property: Property = {
             name: rel.name,

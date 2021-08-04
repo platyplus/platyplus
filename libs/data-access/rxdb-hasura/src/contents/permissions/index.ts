@@ -1,4 +1,4 @@
-import { getMetadataTable, Metadata, metadataStore } from '../../metadata'
+import { getMetadataTable, Metadata } from '../../metadata'
 import { Contents } from '../../types'
 
 export const canEdit = (

@@ -12,5 +12,16 @@ export const DocumentTag: DocumentComponent<TagProps> = ({
 }) => {
   const [label] = useDocumentLabel(metadata, role, document)
   if (!document) return null
-  return <Tag {...props}>{label}</Tag>
+
+  return (
+    <Tag {...props}>
+      {label}
+      {/* <Link
+        to={`/collection/${role}/${metadata.id}/${document.id}`}
+        style={{ textDecoration: 'none' }}
+      >
+        {label}
+      </Link> */}
+    </Tag>
+  )
 }

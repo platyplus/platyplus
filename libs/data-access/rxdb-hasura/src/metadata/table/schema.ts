@@ -19,6 +19,20 @@ export const metadataSchema: RxJsonSchema<TableFragment> = {
     primaryKey: {
       type: ['object', 'null']
     },
+    foreignKeys: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          columns: {
+            type: 'array',
+            items: {
+              type: 'string'
+            }
+          }
+        }
+      }
+    },
     dependentForeignKeys: {
       type: 'array',
       items: {
@@ -60,7 +74,6 @@ export const metadataSchema: RxJsonSchema<TableFragment> = {
         type: 'object'
       }
     },
-
     computedProperties: {
       type: 'array',
       items: {
