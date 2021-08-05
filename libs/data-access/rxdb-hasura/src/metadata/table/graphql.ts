@@ -35,6 +35,7 @@ export const query = gql`
       columns
     }
     foreignKeys {
+      refId
       columns
     }
     indexes {

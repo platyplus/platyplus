@@ -1,14 +1,18 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
-import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
+import {
+  Contents,
+  ContentsDocument,
+  shiftedMetadataTable
+} from '@platyplus/rxdb-hasura'
+import { useCollectionName } from '@platyplus/react-rxdb-hasura'
 
-import { CollectionComponentWrapper } from '../../../collections'
-import { FieldControl } from '../../utils'
-import { CollectionFieldComponent } from '../types'
+import { CollectionComponentWrapper } from '../../collections'
+import { FieldControl } from '../utils'
+import { CollectionFieldComponent } from './types'
 
-export const DirectCollectionField: CollectionFieldComponent = ({
+export const CollectionField: CollectionFieldComponent = ({
   document,
   name,
   property,
@@ -19,7 +23,7 @@ export const DirectCollectionField: CollectionFieldComponent = ({
   accepter: Accepter,
   component = 'label'
 }) => {
-  const refMetadata = useMetadata(property.relationship.remoteTableId)
+  const refMetadata = shiftedMetadataTable(metadata, property.relationship)
   const refCollectionName = useCollectionName(refMetadata, role)
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
@@ -51,6 +55,7 @@ export const DirectCollectionField: CollectionFieldComponent = ({
     queryConstructor
   )
   const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
+
   return edit ? (
     <FieldControl
       metadata={metadata}

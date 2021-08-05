@@ -15,7 +15,7 @@ import {
   addComputedFieldsFromLoadedData,
   documentLabel
 } from '../computed-fields'
-import { filteredRelationships } from '../relationships'
+import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
 import { composeId, getIds } from '../ids'
 import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
@@ -108,8 +108,7 @@ export const pullQueryBuilder = (
   ])
 
   const idColumns = table.columns.filter(({ name }) => idKeys.includes(name))
-
-  const query = jsonToGraphQLQuery({
+  const jsonQuery = {
     query: {
       __name: `query${title}`,
       __variables: {
@@ -146,11 +145,13 @@ export const pullQueryBuilder = (
                         }
                       }
                     },
-                    ...rel.mapping.map((mapping) => ({
-                      [mapping.column.name]: {
-                        _eq: new VariableType(mapping.column.name)
-                      }
-                    }))
+                    ...rel.mapping
+                      .filter((mapping) => mapping.column)
+                      .map((mapping) => ({
+                        [mapping.column.name]: {
+                          _eq: new VariableType(mapping.column.name)
+                        }
+                      }))
                   ]
                 })
                 // ? add conditions on object relationships?
@@ -166,7 +167,8 @@ export const pullQueryBuilder = (
         ...fieldsObject
       }
     }
-  })
+  }
+  const query = jsonToGraphQLQuery(jsonQuery)
   return (doc) => {
     const res = {
       query,
@@ -206,10 +208,22 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     )) {
       const refMetadata = getMetadataTable(remoteTableId)
       if (type === 'array') {
-        // * Array relationships: set remote id columns as an array
-        data[name] = (data[name] as []).map((item) =>
-          composeId(refMetadata, item)
-        )
+        if (isManyToManyJoinTable(refMetadata)) {
+          // * Many to Many relationships
+          const fks = refMetadata.foreignKeys.find(
+            // TODO
+            // ! equals or different???
+            (fk) => fk.refId !== metadata.id
+          ).columns
+          data[name] = (data[name] as []).map((item) =>
+            fks.map((key) => item[key]).join('|')
+          )
+        } else {
+          // * One to Many relationships: set remote id columns as an array
+          data[name] = (data[name] as []).map((item) =>
+            composeId(refMetadata, item)
+          )
+        }
       } else {
         // * Object relationships: move foreign key columns to the property name
         if (data[name]) {

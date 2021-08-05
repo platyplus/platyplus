@@ -1,8 +1,12 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SelectPicker } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
-import { Contents } from '@platyplus/rxdb-hasura'
+import {
+  Contents,
+  ContentsCollection,
+  ContentsDocument
+} from '@platyplus/rxdb-hasura'
 
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
@@ -12,6 +16,7 @@ import { useAsync } from 'react-use'
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
   role,
+  metadata,
   document,
   name,
   edit,
@@ -19,8 +24,27 @@ export const DocumentSelectField: FieldComponent = ({
   property
 }) => {
   // TODO async - see https://rsuitejs.com/components/select-picker/#Async
-  const refMetadata = useMetadata(property.relationship.ref)
+  const refMetadata = useMetadata(property.relationship.remoteTableId)
   const refCollectionName = useCollectionName(refMetadata, role)
+
+  const [data, setData] = useState<ContentsDocument>(null)
+  useEffect(() => {
+    // TODO pipe rxjs subscriptions
+    const subscription = document.get$(name).subscribe((id) => {
+      document.collection.database[refCollectionName]
+        .findOne(id)
+        .$.subscribe((refDocument: ContentsDocument) => setData(refDocument))
+    })
+    return () => subscription.unsubscribe()
+  }, [
+    document,
+    name,
+    refCollectionName,
+    property,
+    refMetadata,
+    metadata.id,
+    role
+  ])
 
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
@@ -29,11 +53,6 @@ export const DocumentSelectField: FieldComponent = ({
   const { result, isFetching } = useRxData<Contents>(
     refCollectionName,
     queryConstructor
-  )
-
-  const data = useAsync(
-    async () => await document.populate(name),
-    [document, name]
   )
 
   const options = useMemo(
@@ -50,13 +69,13 @@ export const DocumentSelectField: FieldComponent = ({
       cleanable={edit}
       accepter={SelectPicker}
     />
-  ) : data.loading ? null : (
+  ) : data ? (
     <DocumentComponentWrapper
       metadata={refMetadata}
       role={role}
-      document={data.value}
+      document={data}
       componentName="label"
       edit={false}
     />
-  )
+  ) : null
 }

@@ -57,13 +57,16 @@
   - [x] debug and improve profile page
     - [x] `account` links are still here
   - [ ] **Many to Many**
-    - [x] pull/push
-    - [x] create/update: components
-    - [ ] cascade delete
+    - [x] rollback old system: no join table in push/pull
+      - [x] pull
+      - [x] push
+      - [x] components
     - [ ] hide from menu
+  - [ ] link-reverse relationship hooks
   - [ ] **remove db.contents$ and the related hooks / subscriptions**
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint
+      - [x] m2m specific case
       - [ ] cascade
       - [ ] set null - only when columns are nullable - throw error otherwise
       - [ ] restrict - idem

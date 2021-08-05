@@ -59,10 +59,7 @@ export const setMetadataTable = (table: DeepReadonly<TableFragment>) =>
           const property: Property = {
             name: rel.name,
             ...(metadata.properties.get(rel.name) || {}),
-            relationship: {
-              ...rel,
-              ref: rel.remoteTableId
-            },
+            relationship: rel,
             type: rel.type === 'object' ? 'document' : 'collection',
             required: isRequiredRelationship(rel),
             primary: false

@@ -2,6 +2,7 @@ import { getMetadataTable, Metadata } from '../../metadata'
 import { ColumnFragment } from '../../types'
 import { columnHasDefaultValue } from '../defaults'
 import { propertyNames } from '../properties'
+import { isManyToManyJoinTable } from '../relationships'
 
 export const isRequiredColumn = (column: ColumnFragment) =>
   !isNullableColumn(column) && !columnHasDefaultValue(column)
@@ -23,12 +24,17 @@ export const canRemoveCollectionItem = (
   const prop = metadata.properties.get(propertyName)
   if (prop && prop.type === 'collection') {
     const remoteMetadata = getMetadataTable(prop.relationship.remoteTableId)
-    const remoteColumns = prop.relationship.mapping.map(
-      (mapping) => mapping.remoteColumnName
-    )
-    return remoteMetadata.columns
-      .filter((col) => remoteColumns.includes(col.name))
-      .every((col) => !isRequiredColumn(col))
+    if (isManyToManyJoinTable(remoteMetadata)) {
+      // TODO check permissions to remove items in a many to many collection
+      return true
+    } else {
+      const remoteColumns = prop.relationship.mapping.map(
+        (mapping) => mapping.remoteColumnName
+      )
+      return remoteMetadata.columns
+        .filter((col) => remoteColumns.includes(col.name))
+        .every((col) => !isRequiredColumn(col))
+    }
   } else {
     console.warn(
       'canRemoveItem: property not found or incorrect type (non "collection")',

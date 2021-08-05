@@ -6,6 +6,7 @@ import {
 } from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
 import { collectionName } from '../../../utils'
+import { isManyToManyJoinTable } from '../utils'
 /**
  * Events on forein keys:
  * a = no action
@@ -21,6 +22,7 @@ export const createForeignKeyConstraintsHooks = (
     const metadata = getDocumentMetadata(document)
     for (const fk of metadata.dependentForeignKeys) {
       const remoteMetadata = getMetadataTable(fk.tableId)
+      if (isManyToManyJoinTable(remoteMetadata)) return // * No possible changes on join many to many tables
       // TODO remoteMetadata is null when fk aims at a join m2m table
       if (remoteMetadata) {
         const remoteCollection: ContentsCollection =

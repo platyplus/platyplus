@@ -16,6 +16,8 @@ const reverseRelations =
     insert = false
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
+    console.log('TODO debug reverseRelations')
+    return
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
     const metadata = getCollectionMetadata(collection)
@@ -23,7 +25,7 @@ const reverseRelations =
       ([, prop]) => prop.relationship
     )
     for (const [name, { type, relationship }] of relationships) {
-      const remoteMetadata = getMetadataTable(relationship.ref)
+      const remoteMetadata = getMetadataTable(relationship.remoteTableId)
       const remoteCollectionName = collectionName(
         remoteMetadata,
         collection.role
@@ -58,7 +60,7 @@ const reverseRelations =
           `${collection.name}.${name} (${type}) -> ${remoteCollection.name}.${mirrorRelName} (${mirrorRelType})`
         )
         if (type === 'collection') {
-          console.log('From one/many to many')
+          console.log('From one/many to many', name)
           // * From one/many to many
           const { add, remove } = arrayChanges<string>(
             oldRelId || [],

@@ -1,7 +1,7 @@
 import { Tag, TagPicker, TagPickerProps } from 'rsuite'
 import { CollectionFieldComponent, CollectionFieldProps } from './types'
 import { Option, useCollectionFieldAccepter } from './utils'
-import { CollectionField } from './wrappers'
+import { CollectionField } from './wrapper'
 
 const TagPickerAccepter: React.FC<CollectionFieldProps & TagPickerProps> = (
   props

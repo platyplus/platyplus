@@ -11,6 +11,7 @@ import { computedFields } from '../computed-fields'
 import { decomposeId, getIds } from '../ids'
 import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
 import { getCollectionMetadata, getMetadataTable } from '../../metadata'
+import { isRequiredRelationship } from '../required'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -69,43 +70,46 @@ export const pushQueryBuilder = (
           const isManyToMany = isManyToManyJoinTable(remoteTable)
           const remoteTableName = metadataName(remoteTable)
           if (isManyToMany) {
+            // * Many to Many: flag join table items as null
+            // TODO improve performance: instead of flagging them all as deleted then upserting the new ones, update only the deleted ones
             acc[`update_${remoteTableName}`] = {
               __args: {
                 where: {
-                  _and: rel.mapping.map((mapping) => ({
-                    [mapping.remoteColumnName]: {
-                      _eq: doc[mapping.column.name]
-                    }
-                  }))
+                  _and: [
+                    ...rel.mapping.map((mapping) => ({
+                      [mapping.remoteColumnName]: {
+                        _eq: doc[mapping.column.name]
+                      }
+                    })),
+                    { deleted: { _eq: false } }
+                  ]
                 },
                 _set: { deleted: true }
               },
               affected_rows: true
             }
           } else {
-            console.log('TODO?')
-
-            // acc[`update_${remoteTableName}`] = {
-            //   __args: {
-            //     where: {
-            //       _and: rel.mapping.map((mapping) => ({
-            //         [mapping.remoteColumnName]: {
-            //           _eq: doc[mapping.column.name]
-            //         }
-            //       }))
-            //     },
-            //     // TODO soft delete relationship, of set fk to null????
-            //     _set: rel.mapping.reduce(
-            //       (acc, mapping) => {
-            //         // acc[mapping.remoteColumnName] = null
-
-            //         return acc
-            //       },
-            //       { deleted: true }
-            //     )
-            //   },
-            //   affected_rows: true
-            // }
+            // * One to many: set remote FK to null, only when allowed
+            if (!isRequiredRelationship(rel)) {
+              // * only if relationship is not required
+              // TODO what about DEFAULT value instead of NULL?
+              acc[`update_${remoteTableName}`] = {
+                __args: {
+                  where: {
+                    _and: rel.mapping.map((mapping) => ({
+                      [mapping.remoteColumnName]: {
+                        _eq: doc[mapping.column.name]
+                      }
+                    }))
+                  },
+                  _set: rel.mapping.reduce((acc, mapping) => {
+                    acc[mapping.remoteColumnName] = null
+                    return acc
+                  }, {})
+                },
+                affected_rows: true
+              }
+            }
           }
 
           if (arrayValues[rel.name]?.length) {
@@ -113,10 +117,16 @@ export const pushQueryBuilder = (
               acc[`insert_${remoteTableName}`] = {
                 __args: {
                   objects: arrayValues[rel.name].map((value) => {
-                    return {
-                      ...decomposeId(remoteTable, value),
-                      deleted: false
-                    }
+                    return remoteTable.foreignKeys.reduce(
+                      (acc, fk) => {
+                        fk.columns.forEach((col) => {
+                          // TODO composite keys
+                          acc[col] = fk.refId === table.id ? doc.id : value
+                        })
+                        return acc
+                      },
+                      { deleted: false }
+                    )
                   }),
                   on_conflict: {
                     constraint: new EnumType(
@@ -145,8 +155,7 @@ export const pushQueryBuilder = (
                     ),
                     update_columns: rel.mapping.map(
                       (mapping) => new EnumType(mapping.remoteColumnName)
-                    ),
-                    where: { deleted: { _eq: true } }
+                    )
                   }
                 },
                 affected_rows: true
@@ -158,7 +167,7 @@ export const pushQueryBuilder = (
       }
     }
     const query = jsonToGraphQLQuery(jsonQuery)
-    debug('push query builder:', { query })
+    debug('push query builder:', jsonQuery)
     return {
       query,
       variables: {}

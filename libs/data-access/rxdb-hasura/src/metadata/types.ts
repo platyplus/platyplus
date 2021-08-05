@@ -48,13 +48,14 @@ export type Metadata = Omit<
   }[]
   foreignKeys: {
     columns: string[]
+    refId: string
   }[]
 }
 
 export type Property = {
   name: string
   column?: ColumnFragment
-  relationship?: Metadata['relationships'][0] & { ref: string }
+  relationship?: Metadata['relationships'][0]
   config?: PropertyConfig
   type: PropertyType
   required: boolean

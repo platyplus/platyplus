@@ -25,16 +25,17 @@ export const useCollectionFieldAccepter = ({
   )
 
   const onChangeProxy = useCallback(
-    (newValue: string[], event) =>
-      canRemoveItem
-        ? newValue
-        : onChange(
-            [
+    (newValue: string[], event) => {
+      onChange(
+        canRemoveItem
+          ? newValue
+          : [
               ...initialIds,
               ...(newValue?.filter((val) => !initialIds.includes(val)) || [])
             ],
-            event
-          ),
+        event
+      )
+    },
     [canRemoveItem, initialIds, onChange]
   )
   return {

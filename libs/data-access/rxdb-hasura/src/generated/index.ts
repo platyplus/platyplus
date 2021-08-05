@@ -12179,8 +12179,8 @@ export type Visite = {
   lab_tests_aggregate: Visite_Lab_Test_Aggregate
   muac: Scalars['Int']
   /** An object relationship */
-  patient: Patient
-  patient_id: Scalars['uuid']
+  patient: Maybe<Patient>
+  patient_id: Maybe<Scalars['uuid']>
   test: Maybe<Scalars['String']>
   updated_at: Maybe<Scalars['timestamptz']>
   visit_date: Scalars['timestamptz']
@@ -12895,7 +12895,7 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
   foreignKeys: Array<
     { __typename?: 'metadata_foreign_key_constraint' } & Pick<
       Metadata_Foreign_Key_Constraint,
-      'columns'
+      'refId' | 'columns'
     >
   >
   indexes: Array<
@@ -13001,6 +13001,7 @@ export const TableFragmentDoc = gql`
       columns
     }
     foreignKeys {
+      refId
       columns
     }
     indexes {
