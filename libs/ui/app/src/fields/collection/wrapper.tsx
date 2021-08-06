@@ -63,6 +63,7 @@ export const CollectionField: CollectionFieldComponent = ({
   return edit ? (
     <FieldControl
       metadata={metadata}
+      role={role}
       style={{ minWidth: 300 }}
       name={name}
       readOnly={!edit}

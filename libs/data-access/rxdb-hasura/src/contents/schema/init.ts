@@ -2,7 +2,6 @@ import { RxJsonSchema } from 'rxdb'
 
 import { Contents } from '../../types'
 import { metadataName } from '../../utils'
-import { TableFragment } from '../../generated'
 import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from '../columns'
 import { createRelationshipProperties } from '../relationships'

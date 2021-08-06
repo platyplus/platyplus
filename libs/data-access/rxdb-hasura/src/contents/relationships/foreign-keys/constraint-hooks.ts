@@ -1,9 +1,4 @@
-import { RxDatabase } from 'rxdb'
-import {
-  getDocumentMetadata,
-  getMetadataTable,
-  metadataStore
-} from '../../../metadata'
+import { getDocumentMetadata, getMetadataTable } from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
 import { collectionName } from '../../../utils'
 import { isManyToManyJoinTable } from '../utils'

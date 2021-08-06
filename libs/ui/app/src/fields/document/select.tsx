@@ -2,16 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SelectPicker } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
-import {
-  Contents,
-  ContentsCollection,
-  ContentsDocument
-} from '@platyplus/rxdb-hasura'
+import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
 import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
-import { useAsync } from 'react-use'
 import { switchMap } from 'rxjs'
 
 // TODO DRY from ../collection/wrapper

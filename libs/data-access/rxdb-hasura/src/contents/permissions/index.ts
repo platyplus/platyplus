@@ -1,13 +1,14 @@
 import { getMetadataTable, Metadata } from '../../metadata'
 import { Contents } from '../../types'
+export * from './properties'
 
 export const canEdit = (
   metadata: Metadata,
   role: string,
-  document: Contents,
+  document?: Contents,
   propertyName?: string
 ) =>
-  document._isTemporary
+  !document || document._isTemporary
     ? canCreate(metadata, role, propertyName)
     : canUpdate(metadata, role, propertyName)
 
@@ -18,8 +19,8 @@ export const canSave = () => {
   return true
 }
 
-export const canDelete = (metadata: Metadata, role: string, doc: Contents) =>
-  canEdit(metadata, role, doc, 'deleted')
+export const canRemove = (metadata: Metadata, role: string, doc?: Contents) =>
+  canUpdate(metadata, role, 'deleted')
 
 export const canCreate = (
   metadata: Metadata,

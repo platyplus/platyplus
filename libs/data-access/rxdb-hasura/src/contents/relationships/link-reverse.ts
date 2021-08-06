@@ -104,7 +104,6 @@ const reverseRelations =
                 const updatedMirrorValues = oldRemoteDocument[
                   mirrorRelName
                 ].filter((key: string) => key !== data.id)
-                console.log(updatedMirrorValues)
                 await oldRemoteDocument.atomicPatch({
                   is_local_change: true,
                   [mirrorRelName]: updatedMirrorValues

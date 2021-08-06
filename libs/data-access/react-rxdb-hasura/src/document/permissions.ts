@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   ContentsDocument,
   canEdit,
-  canDelete,
+  canRemove,
   Metadata
 } from '@platyplus/rxdb-hasura'
 
@@ -18,7 +18,7 @@ export const useDocumentPermissions = (
   useEffect(() => {
     if (document) {
       setEdit(canEdit(metadata, role, document))
-      setRemove(canDelete(metadata, role, document))
+      setRemove(canRemove(metadata, role, document))
     }
   }, [document, metadata, role])
   return { edit, remove }
