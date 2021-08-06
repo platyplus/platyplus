@@ -5,7 +5,7 @@ schema:
         x-hasura-admin-secret: hasura-dev-secret
 documents: 'libs/data-access/rxdb-hasura/src/**/*.ts'
 generates:
-  libs/data-access/rxdb-hasura/src/generated/index.ts:
+  libs/data-access/rxdb-hasura/src/generated.ts:
     plugins:
       - add:
           content: /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types */

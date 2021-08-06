@@ -1,5 +1,5 @@
+import { CommonColumnFragment } from '../../generated'
 import { Metadata } from '../../metadata'
-import { ColumnFragment } from '../../types'
 
 export const hasDefaultValue = (table: Metadata, propertyName: string) => {
   return (
@@ -12,7 +12,7 @@ export const hasDefaultValue = (table: Metadata, propertyName: string) => {
   )
 }
 
-export const columnHasDefaultValue = (column?: ColumnFragment) =>
+export const columnHasDefaultValue = (column?: CommonColumnFragment) =>
   !!column?.default
 
 export const relationshipHasDefaultValues = (

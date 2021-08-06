@@ -6,10 +6,11 @@ import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { error, errorDir, info, warn } from '../../console'
 import { Contents, ContentsCollection } from '../../types'
 import { createHeaders } from '../../utils'
+import { ADMIN_ROLE, getJwt, metadataStore } from '../../metadata'
+
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
 import { subscriptionQuery } from './subscribe'
-import { getJwt, metadataStore } from '../../metadata'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -29,7 +30,7 @@ export const createContentReplicator = async (
   > => {
     const replicationState = collection.syncGraphQL({
       url,
-      headers: createHeaders(role, getJwt(), 'admin'),
+      headers: createHeaders(role, getJwt(), ADMIN_ROLE),
       push: {
         batchSize: DEFAULT_BATCH_SIZE,
         queryBuilder: pushQueryBuilder(collection),
@@ -49,11 +50,11 @@ export const createContentReplicator = async (
       errorDir(err)
     })
 
-    replicationState.setHeaders(createHeaders(role, getJwt(), 'admin'))
+    replicationState.setHeaders(createHeaders(role, getJwt(), ADMIN_ROLE))
     wsSubscription = setupGraphQLSubscription()
     jwtSubscription = metadataStore.subscribe(
       (token?: string) => {
-        replicationState.setHeaders(createHeaders(role, token, 'admin'))
+        replicationState.setHeaders(createHeaders(role, token, ADMIN_ROLE))
         wsSubscription?.close()
         wsSubscription = setupGraphQLSubscription()
       },
@@ -65,7 +66,7 @@ export const createContentReplicator = async (
 
   const setupGraphQLSubscription = (): SubscriptionClient => {
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(role, getJwt(), 'admin')
+    const headers = createHeaders(role, getJwt(), ADMIN_ROLE)
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {

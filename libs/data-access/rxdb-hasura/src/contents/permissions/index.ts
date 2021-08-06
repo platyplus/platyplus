@@ -1,4 +1,4 @@
-import { getMetadataTable, Metadata } from '../../metadata'
+import { ADMIN_ROLE, getMetadataTable, Metadata } from '../../metadata'
 import { Contents } from '../../types'
 import { isManyToManyJoinTable } from '../relationships'
 export * from './properties'
@@ -58,7 +58,7 @@ export const canCreate = (
 ) => {
   // * PostgreSQL views cannot be edited (as of now)
   if (metadata.view) return false
-  if (role === 'admin') return true
+  if (role === ADMIN_ROLE) return true
   // ? Check the hasura permission rule ?
   if (fieldName) {
     const property = metadata.properties.get(fieldName)
@@ -98,7 +98,7 @@ export const canUpdate = (
 ): boolean => {
   // * PostgreSQL views cannot be edited (as of now)
   if (metadata.view) return false
-  if (role === 'admin') return true
+  if (role === ADMIN_ROLE) return true
   // ? Check the hasura permission rule ?
   if (fieldName) {
     const property = metadata.properties.get(fieldName)

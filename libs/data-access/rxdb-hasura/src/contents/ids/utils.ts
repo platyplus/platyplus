@@ -1,4 +1,4 @@
-import { ColumnFragment } from '../../generated'
+import { CommonColumnFragment } from '../../generated'
 import { Metadata } from '../../metadata'
 import { Contents } from '../../types'
 import { ArrayElement } from '../../utils'
@@ -7,7 +7,7 @@ export const getIds = (table: Metadata): string[] =>
   table.primaryKey?.columns.map(({ columnName }) => columnName) || ['id']
 
 export const isIdColumn = (
-  column: ArrayElement<Metadata['columns']> | ColumnFragment
+  column: ArrayElement<Metadata['columns']> | CommonColumnFragment
 ): boolean =>
   !!('primaryKey' in column && column.primaryKey) || column.name === 'id'
 

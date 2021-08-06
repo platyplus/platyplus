@@ -1,12 +1,13 @@
 import produce from 'immer'
 import { DeepReadonly } from 'rxdb/dist/types/types'
+
 import {
   columnProperties,
   isRequiredColumn,
   isRequiredRelationship
 } from '../../contents'
-
 import { TableFragment } from '../../generated'
+
 import { metadataStore } from '../store'
 import { Metadata, Property, PropertyType } from '../types'
 

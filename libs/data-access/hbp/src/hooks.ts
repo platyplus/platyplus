@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { METADATA_ROLE } from '@platyplus/rxdb-hasura'
+import { ADMIN_ROLE, METADATA_ROLE } from '@platyplus/rxdb-hasura'
 import { useHbp } from './provider'
 
 export const useAuthenticated = () => {
@@ -19,7 +19,7 @@ export const useUserRoles = (all = true) => {
       []) as string[]
     return all
       ? roles
-      : roles.filter((role) => ![METADATA_ROLE, 'admin'].includes(role))
+      : roles.filter((role) => ![METADATA_ROLE, ADMIN_ROLE].includes(role))
   }, [hbp, all])
   const [roles, setRoles] = useState(getRolesClaim())
   useEffect(() => {
@@ -36,4 +36,4 @@ export const useUserHasRole = (role: string) => {
   return roles.includes(role)
 }
 
-export const useUserIsAdmin = () => useUserHasRole('admin')
+export const useUserIsAdmin = () => useUserHasRole(ADMIN_ROLE)

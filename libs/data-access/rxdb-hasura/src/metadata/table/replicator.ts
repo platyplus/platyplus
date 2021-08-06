@@ -2,6 +2,7 @@ import { RxChangeEvent } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
+import produce from 'immer'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
@@ -10,14 +11,13 @@ import { createHeaders } from '../../utils'
 import { TableFragment } from '../../generated'
 
 import { METADATA_ROLE } from '../constants'
+import { getJwt, metadataStore, setCollectionIsReady } from '../store'
 import { MetadataCollection } from '../types'
 
 import { subscription } from './graphql'
 import { modifier } from './modifier'
 import { queryBuilder } from './pull'
 import { setMetadataTable } from './store-operations'
-import { getJwt, metadataStore, setCollectionIsReady } from '../store'
-import produce from 'immer'
 
 export type MetadataReplicatorOptions = {
   url: string

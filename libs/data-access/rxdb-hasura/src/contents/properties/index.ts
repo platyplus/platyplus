@@ -1,10 +1,10 @@
-import { ColumnFragment } from '../../types'
-import { columnProperties } from '../columns'
 import { JsonSchemaPropertyType, Metadata, PropertyType } from '../../metadata'
+import { filteredRelationships } from '../relationships'
+import { CommonColumnFragment } from '../../generated'
 
+import { columnProperties } from '../columns'
 import { isNullableColumn } from '../required'
 import { isIdColumn } from '../ids'
-import { filteredRelationships } from '../relationships'
 
 const postgresJsonSchemaTypeMapping: Record<
   string,
@@ -33,7 +33,7 @@ const postgresJsonSchemaTypeMapping: Record<
 }
 
 const mainPropertyJsonType = (
-  columnInfo: ColumnFragment
+  columnInfo: CommonColumnFragment
 ): JsonSchemaPropertyType | JsonSchemaPropertyType[] => {
   const udtType = columnInfo.udtName
   const result = postgresJsonSchemaTypeMapping[udtType]
@@ -43,7 +43,7 @@ const mainPropertyJsonType = (
 }
 
 export const propertyJsonType = (
-  columnInfo: ColumnFragment
+  columnInfo: CommonColumnFragment
 ): PropertyType | PropertyType[] => {
   const result = mainPropertyJsonType(columnInfo)
   return isNullableColumn(columnInfo) && !isIdColumn(columnInfo)

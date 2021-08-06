@@ -16,11 +16,15 @@ export const query = gql`
     }
   }
 
-  fragment column on metadata_column_info {
+  fragment commonColumn on metadata_column_info {
     name
     udtName
     isNullable
     default
+  }
+
+  fragment column on metadata_column_info {
+    ...commonColumn
     primaryKey {
       constraintName
     }
@@ -69,11 +73,7 @@ export const query = gql`
       remoteTableId
       mapping {
         column {
-          # TODO shrink?
-          name
-          udtName
-          isNullable
-          default
+          ...commonColumn
         }
         remoteColumnName
       }

@@ -9,12 +9,14 @@ import {
   ContentsCollectionMethods,
   ContentsDocumentMethods
 } from '../../types'
+import { getCollectionMetadata } from '../../metadata'
+
 import { isNullableColumn } from '../required'
 import { columnProperties } from '../columns'
+import { filteredRelationships } from '../relationships'
+
 import { generateDefaultValue } from './generator'
 import { columnHasDefaultValue } from './utils'
-import { getCollectionMetadata } from '../../metadata'
-import { filteredRelationships } from '../relationships'
 
 // TODO 1. Set defaut values from permissions "column preset"
 // TODO 2. Set to SQL default,

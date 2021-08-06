@@ -6,7 +6,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { debug, error, errorDir, warn } from '../../console'
-import { METADATA_ROLE } from '../constants'
+import { ADMIN_ROLE, METADATA_ROLE } from '../constants'
 import { Contents, Database } from '../../types'
 import { createHeaders } from '../../utils'
 
@@ -42,7 +42,7 @@ export const createReplicatedCollection = async (
   > => {
     const replicationState = collection.syncGraphQL({
       url,
-      headers: createHeaders(METADATA_ROLE, getJwt(), 'admin'),
+      headers: createHeaders(METADATA_ROLE, getJwt(), ADMIN_ROLE),
       push: {
         batchSize,
         queryBuilder: settings.pushQueryBuilder,
@@ -60,13 +60,15 @@ export const createReplicatedCollection = async (
       errorDir(err)
     })
 
-    replicationState.setHeaders(createHeaders(METADATA_ROLE, getJwt(), 'admin'))
+    replicationState.setHeaders(
+      createHeaders(METADATA_ROLE, getJwt(), ADMIN_ROLE)
+    )
     wsSubscription = setupGraphQLSubscription()
     jwtSubscription = metadataStore.subscribe(
       (token?: string) => {
         debug(`Replicator (${collection.name}): set token`)
         replicationState.setHeaders(
-          createHeaders(METADATA_ROLE, token, 'admin')
+          createHeaders(METADATA_ROLE, token, ADMIN_ROLE)
         )
         wsSubscription?.close()
         wsSubscription = setupGraphQLSubscription()
@@ -80,7 +82,7 @@ export const createReplicatedCollection = async (
   const setupGraphQLSubscription = (): SubscriptionClient => {
     debug(`setupGraphQLSubscription ${collection.name}`)
     const wsUrl = httpUrlToWebSockeUrl(url)
-    const headers = createHeaders(METADATA_ROLE, getJwt(), 'admin')
+    const headers = createHeaders(METADATA_ROLE, getJwt(), ADMIN_ROLE)
     const wsClient = new SubscriptionClient(wsUrl, {
       reconnect: true,
       connectionParams: {
@@ -126,11 +128,11 @@ export const createReplicatedCollection = async (
     errorSubscription = state.error$.subscribe((data) => {
       warn(`${collection.name} sync error`, data)
     })
-    state.setHeaders(createHeaders(METADATA_ROLE, getJwt(), 'admin'))
+    state.setHeaders(createHeaders(METADATA_ROLE, getJwt(), ADMIN_ROLE))
     jwtSubscription = metadataStore.subscribe(
       (token?: string) => {
         // TODO change in websocket as well
-        state?.setHeaders(createHeaders(METADATA_ROLE, token, 'admin'))
+        state?.setHeaders(createHeaders(METADATA_ROLE, token, ADMIN_ROLE))
       },
       (state) => state.jwt
     )

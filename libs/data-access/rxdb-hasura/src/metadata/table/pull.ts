@@ -1,7 +1,7 @@
 import { RxDatabase, RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import { metadataName } from '../../utils'
-import { stringQuery } from './graphql'
 import { TableFragment } from '../../generated'
+import { stringQuery } from './graphql'
 
 const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 

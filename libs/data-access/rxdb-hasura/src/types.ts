@@ -53,8 +53,6 @@ export type Replicator = {
   stop: () => Promise<void>
 }
 
-export type Roles = 'user' | 'me'
-
 export type ContentsCollections = Map<string, ContentsCollection>
 
 export type DatabaseCollections = MetadataCollections & ContentsCollections

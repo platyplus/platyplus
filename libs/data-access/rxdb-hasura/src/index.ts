@@ -15,7 +15,7 @@ import {
 import { RxHasuraPlugin } from './plugin'
 import { Database, DatabaseCollections } from './types'
 import { collectionName } from './utils'
-import { contentsCollectionCreator } from './contents'
+import { contentsCollectionCreator, isManyToManyJoinTable } from './contents'
 export { RxHasuraPlugin } from './plugin'
 
 enableMapSet()
@@ -86,7 +86,9 @@ export const createRxHasura = async (
   metadataStore.subscribe(
     async (tables: Record<string, Metadata> | false) => {
       if (tables) {
-        for (const table of Object.values(tables)) {
+        for (const table of Object.values(tables).filter(
+          (table) => !isManyToManyJoinTable(table)
+        )) {
           const roles: string[] = table.columns.reduce((acc, column) => {
             for (const permissionType of ['canSelect', 'canInsert']) {
               for (const { roleName } of column[permissionType]) {

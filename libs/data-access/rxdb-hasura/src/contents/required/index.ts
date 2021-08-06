@@ -1,9 +1,10 @@
+import { CommonColumnFragment } from '../../generated'
 import { Metadata } from '../../metadata'
-import { ColumnFragment } from '../../types'
+
 import { columnHasDefaultValue } from '../defaults'
 import { propertyNames } from '../properties'
 
-export const isRequiredColumn = (column: ColumnFragment) =>
+export const isRequiredColumn = (column: CommonColumnFragment) =>
   !isNullableColumn(column) && !columnHasDefaultValue(column)
 
 export const isRequiredRelationship = (rel: Metadata['relationships'][0]) =>
@@ -25,7 +26,7 @@ export const isRequiredProperty = (
 }
 
 // TODO change isNullable to boolean value in SQL view definition
-export const isNullableColumn = (columnInfo: ColumnFragment) =>
+export const isNullableColumn = (columnInfo: CommonColumnFragment) =>
   columnInfo.isNullable !== 'NO'
 
 export const isNullableRelationship = (rel: Metadata['relationships'][0]) =>

@@ -1,14 +1,17 @@
-import { arrayChanges } from '@platyplus/data'
 import { RxCollectionHookCallback } from 'rxdb'
-import { debug, warn } from '../../console'
-import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
+import { arrayChanges } from '@platyplus/data'
+
+import { debug, warn } from '../../console'
+import { getCollectionMetadata } from '../../metadata'
 import {
   Contents,
   ContentsCollection,
   ContentsDocumentMethods
 } from '../../types'
 import { collectionName } from '../../utils'
+
+import { shiftedMetadataTable } from './utils'
 
 const reverseRelations =
   (
@@ -19,14 +22,13 @@ const reverseRelations =
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
     const metadata = getCollectionMetadata(collection)
-    for (const { name, type, remoteTableId } of metadata.relationships) {
-      const remoteMetadata = getMetadataTable(remoteTableId)
-      const remoteCollectionName = collectionName(
-        remoteMetadata,
-        collection.role
-      )
+    for (const relationship of metadata.relationships) {
+      const { name, type } = relationship
+      const remoteMetadata = shiftedMetadataTable(metadata, relationship)
       const remoteCollection =
-        collection.database.collections[remoteCollectionName]
+        collection.database.collections[
+          collectionName(remoteMetadata, collection.role)
+        ]
       const mirrorRelationships = remoteMetadata.relationships.filter(
         (rel) => rel.remoteTableId === metadata.id
       )
@@ -34,7 +36,7 @@ const reverseRelations =
       if (mirrorRelationships.length > 1) {
         // ? sort this out - is it really a problem? Test without it
         warn(
-          `Relation ${collection.name}.${name} points to ${remoteCollection.name}, but ${remoteCollection.name} have more than one relation that points back to ${collection.name}. Can't determine which to process`
+          `Relation ${collection.name}.${name} points to ${remoteMetadata.id}, but ${remoteMetadata.id} have more than one relation that points back to ${collection.name}. Can't determine which to process`
         )
         return
       }
@@ -49,7 +51,7 @@ const reverseRelations =
         type: mirrorRelType
       } of mirrorRelationships) {
         debug(
-          `${collection.name}.${name} (${type}) -> ${remoteCollection.name}.${mirrorRelName} (${mirrorRelType})`
+          `${collection.name}.${name} (${type}) -> ${remoteMetadata.id}.${mirrorRelName} (${mirrorRelType})`
         )
         if (type === 'array') {
           // * From one/many to many

@@ -1,7 +1,7 @@
 import { useRxDB } from 'rxdb-hooks'
 import Auth from 'nhost-js-sdk/dist/Auth'
 
-import { Database, Roles, setAuthStatus } from '@platyplus/rxdb-hasura'
+import { Database, setAuthStatus } from '@platyplus/rxdb-hasura'
 import { createRxHasura } from '@platyplus/rxdb-hasura'
 
 const DEFAULT_DB_NAME = 'rxdb'
@@ -18,4 +18,4 @@ export const initializeDB = async (name: string, auth: Auth) => {
   return db
 }
 
-export const useDB = (): Database<Roles> => useRxDB()
+export const useDB = (): Database => useRxDB()

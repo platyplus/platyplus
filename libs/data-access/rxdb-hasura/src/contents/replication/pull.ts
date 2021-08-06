@@ -12,12 +12,17 @@ import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { FieldMap, metadataName, rxdbJsonataPaths } from '../../utils'
 import {
+  ADMIN_ROLE,
+  getCollectionMetadata,
+  getMetadataTable
+} from '../../metadata'
+
+import {
   addComputedFieldsFromLoadedData,
   documentLabel
 } from '../computed-fields'
 import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
 import { composeId, getIds } from '../ids'
-import { getCollectionMetadata, getMetadataTable } from '../../metadata'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
@@ -46,7 +51,7 @@ export const pullQueryBuilder = (
     []
   )
   const columns = (
-    collection.role === 'admin'
+    collection.role === ADMIN_ROLE
       ? table.columns
       : table.columns.filter((column) => column.canSelect.length)
   )
