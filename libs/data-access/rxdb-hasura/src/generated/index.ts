@@ -12880,7 +12880,32 @@ export type CoreTableFragment = { __typename?: 'metadata_table' } & Pick<
 export type ColumnFragment = { __typename?: 'metadata_column_info' } & Pick<
   Metadata_Column_Info,
   'name' | 'udtName' | 'isNullable' | 'default'
->
+> & {
+    primaryKey: Maybe<
+      { __typename?: 'metadata_primary_key_column' } & Pick<
+        Metadata_Primary_Key_Column,
+        'constraintName'
+      >
+    >
+    canSelect: Array<
+      { __typename?: 'metadata_permission_select_columns' } & Pick<
+        Metadata_Permission_Select_Columns,
+        'roleName'
+      >
+    >
+    canInsert: Array<
+      { __typename?: 'metadata_permission_select_columns' } & Pick<
+        Metadata_Permission_Select_Columns,
+        'roleName'
+      >
+    >
+    canUpdate: Array<
+      { __typename?: 'metadata_permission_update_columns' } & Pick<
+        Metadata_Permission_Update_Columns,
+        'roleName'
+      >
+    >
+  }
 
 export type TableFragment = { __typename?: 'metadata_table' } & {
   view: Maybe<
@@ -12925,40 +12950,16 @@ export type TableFragment = { __typename?: 'metadata_table' } & {
             'remoteColumnName'
           > & {
               column: Maybe<
-                { __typename?: 'metadata_column_info' } & ColumnFragment
+                { __typename?: 'metadata_column_info' } & Pick<
+                  Metadata_Column_Info,
+                  'name' | 'udtName' | 'isNullable' | 'default'
+                >
               >
             }
         >
       }
   >
-  columns: Array<
-    { __typename?: 'metadata_column_info' } & {
-      primaryKey: Maybe<
-        { __typename?: 'metadata_primary_key_column' } & Pick<
-          Metadata_Primary_Key_Column,
-          'constraintName'
-        >
-      >
-      canSelect: Array<
-        { __typename?: 'metadata_permission_select_columns' } & Pick<
-          Metadata_Permission_Select_Columns,
-          'roleName'
-        >
-      >
-      canInsert: Array<
-        { __typename?: 'metadata_permission_select_columns' } & Pick<
-          Metadata_Permission_Select_Columns,
-          'roleName'
-        >
-      >
-      canUpdate: Array<
-        { __typename?: 'metadata_permission_update_columns' } & Pick<
-          Metadata_Permission_Update_Columns,
-          'roleName'
-        >
-      >
-    } & ColumnFragment
-  >
+  columns: Array<{ __typename?: 'metadata_column_info' } & ColumnFragment>
 } & CoreTableFragment
 
 export type MetadataQueryVariables = Exact<{ [key: string]: never }>
@@ -12986,6 +12987,18 @@ export const ColumnFragmentDoc = gql`
     udtName
     isNullable
     default
+    primaryKey {
+      constraintName
+    }
+    canSelect {
+      roleName
+    }
+    canInsert {
+      roleName
+    }
+    canUpdate {
+      roleName
+    }
   }
 `
 export const TableFragmentDoc = gql`
@@ -13023,25 +13036,16 @@ export const TableFragmentDoc = gql`
       remoteTableId
       mapping {
         column {
-          ...column
+          name
+          udtName
+          isNullable
+          default
         }
         remoteColumnName
       }
     }
     columns {
       ...column
-      primaryKey {
-        constraintName
-      }
-      canSelect {
-        roleName
-      }
-      canInsert {
-        roleName
-      }
-      canUpdate {
-        roleName
-      }
     }
   }
   ${CoreTableFragmentDoc}

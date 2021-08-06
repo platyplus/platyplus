@@ -56,14 +56,14 @@
   - [x] wait for metadata/config to be loaded before fetching documents from the backend
   - [x] debug and improve profile page
     - [x] `account` links are still here
-  - [ ] **Many to Many**
+  - [x] Many to Many
     - [x] rollback old system: no join table in push/pull
       - [x] pull
       - [x] push
       - [x] components
-    - [ ] hide from menu
+    - [x] hide from menu
   - [x] link-reverse relationship hooks
-  - [ ] **remove db.contents$ and the related hooks / subscriptions**
+  - [x] remove db.contents$ and the related hooks / subscriptions
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint
       - [x] m2m specific case
@@ -75,8 +75,7 @@
     - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
-  - [ ] get rid of useOrderedContentsCollections
-  - [ ] label - check if label regenerates when changing its template
+  - [x] get rid of useOrderedContentsCollections
   - [ ] **realtime metadata**: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
@@ -116,6 +115,7 @@
 ## Then
 
 - Application
+  - [ ] label - check if label regenerates when changing its template
   - [ ] handle relationships like rxdb-utils views
   - [ ] multi-role
     - [ ] link-reverse: when a document is modified in a role collection, it must be reflected to other roles...

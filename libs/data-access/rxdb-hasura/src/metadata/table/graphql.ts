@@ -21,6 +21,18 @@ export const query = gql`
     udtName
     isNullable
     default
+    primaryKey {
+      constraintName
+    }
+    canSelect {
+      roleName
+    }
+    canInsert {
+      roleName
+    }
+    canUpdate {
+      roleName
+    }
   }
 
   fragment table on metadata_table {
@@ -57,25 +69,17 @@ export const query = gql`
       remoteTableId
       mapping {
         column {
-          ...column
+          # TODO shrink?
+          name
+          udtName
+          isNullable
+          default
         }
         remoteColumnName
       }
     }
     columns {
       ...column
-      primaryKey {
-        constraintName
-      }
-      canSelect {
-        roleName
-      }
-      canInsert {
-        roleName
-      }
-      canUpdate {
-        roleName
-      }
     }
   }
 

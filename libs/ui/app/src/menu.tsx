@@ -1,14 +1,20 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Icon, Nav } from 'rsuite'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import {
   useTableIcon,
   useMetadataTitle,
-  useOrderedContentsCollections,
-  useMetadata
+  useMetadata,
+  useMetadataStore,
+  useIsMetadataReady,
+  sortMetadata,
+  useAppConfig
 } from '@platyplus/react-rxdb-hasura'
 import { MenuItem } from '@platyplus/layout'
+import { canRead, Metadata } from '@platyplus/rxdb-hasura'
+import { useUserRoles } from '@platyplus/hbp'
+
 import { RouteConfig } from './types'
 
 export const Menu: React.FC<{
@@ -17,12 +23,14 @@ export const Menu: React.FC<{
   home: RouteConfig
   register: RouteConfig
   login: RouteConfig
-}> = ({ config, authenticated, home, register, login }) =>
-  authenticated ? (
+}> = ({ config, authenticated, home, register, login }) => {
+  const ready = useIsMetadataReady()
+  return authenticated && ready ? (
     <PrivateMenu config={config} home={home} />
   ) : (
     <PublicMenu home={home} register={register} login={login} />
   )
+}
 
 export const CollectionMenuItem: React.FC<{ id: string; role: string }> = ({
   id,
@@ -57,17 +65,42 @@ export const PrivateMenu: React.FC<{
   home: { enabled?: boolean; title?: string }
   config: boolean
 }> = ({ home, config }) => {
-  const [collections] = useOrderedContentsCollections()
+  const includeMissing = true
+  const roles = useUserRoles(false)
+  const [appConfig] = useAppConfig()
+
+  const tables = useMetadataStore<[string, Metadata[]][]>(
+    useCallback(
+      (state) => {
+        const order = appConfig.menu_order || []
+        return roles.map((role) => [
+          role,
+          Object.values(state.tables)
+            .filter(
+              (table) =>
+                canRead(table, role) &&
+                (includeMissing || order.includes(table.id))
+            )
+            .sort(sortMetadata(order))
+        ])
+      },
+      [roles, includeMissing, appConfig]
+    )
+  )
+  // TODO separator between roles, and role headers (if more than one role)
+
   return (
     <>
       <HomeItem {...home} />
-      {[...collections.values()].map((collection) => (
-        <CollectionMenuItem
-          key={collection.name}
-          id={collection.tableId}
-          role={collection.role}
-        />
-      ))}
+      {tables.map(([role, tables]) =>
+        tables.map((metadata) => (
+          <CollectionMenuItem
+            key={`${metadata.id}.${role}`}
+            id={metadata.id}
+            role={role}
+          />
+        ))
+      )}
       {config && (
         <MenuItem icon="wrench" title="Configuration" href="/config" />
       )}

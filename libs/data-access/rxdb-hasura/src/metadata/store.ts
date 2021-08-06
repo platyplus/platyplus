@@ -2,13 +2,13 @@ import produce from 'immer'
 import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 
-import { Contents, ContentsCollection, ContentsDocument } from '../types'
-import { Metadata } from './types'
+import { ContentsCollection, ContentsDocument } from '../types'
+import { AppConfig, Metadata } from './types'
 import { ConfigCollectionName, CONFIG_TABLES } from './config'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
-  app?: Contents
+  app?: AppConfig
   ready: Record<ConfigCollectionName | 'metadata', boolean>
   jwt?: string
   connected: boolean

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
-import { BehaviorSubject } from 'rxjs'
 
 import { Metadata, MetadataCollections } from './metadata'
 
@@ -62,7 +61,4 @@ export type DatabaseCollections = MetadataCollections & ContentsCollections
 
 export type Database = RxDatabase<DatabaseCollections>
 
-export type DatabasePrototype = {
-  // readonly contents: Record<string, ContentsCollection>
-  readonly contents$: BehaviorSubject<Record<string, ContentsCollection>>
-}
+export type DatabasePrototype = {}

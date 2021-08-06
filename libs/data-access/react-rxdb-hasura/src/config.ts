@@ -4,8 +4,8 @@ import { useLocation } from 'react-use'
 
 import { useUserIsAdmin } from '@platyplus/hbp'
 import {
+  AppConfig,
   CONFIG_TABLES,
-  Contents,
   ContentsCollection
 } from '@platyplus/rxdb-hasura'
 
@@ -21,8 +21,8 @@ export const useConfigEnabled = () => {
 }
 
 export const useAppConfig = (): [
-  Contents,
-  (val: Partial<Contents>) => void
+  AppConfig,
+  (val: Partial<AppConfig>) => void
 ] => {
   const [newId] = useState(uuid())
   const id = useMetadataStore(
@@ -31,23 +31,20 @@ export const useAppConfig = (): [
 
   const initialValues = useMetadataStore((state) => state.app || {})
 
-  const modifiedValues = useStore(
-    useCallback((state) => state.forms.app_config[id] || {}, [id])
-  )
+  const modifiedValues = useStore((state) => state.forms.app_config[id] || {})
 
-  const config = useMemo(() => {
-    return { ...initialValues, ...modifiedValues }
-  }, [modifiedValues, initialValues]) as Contents
+  const config = useMemo(
+    () => ({ ...initialValues, ...modifiedValues }),
+    [modifiedValues, initialValues]
+  ) as AppConfig
 
   const setConfig = useStore(
     useCallback(
-      (state) => (value) => {
-        return state.setConfigForm('app_config', value, id)
-      },
+      (state) => (value: AppConfig) =>
+        state.setConfigForm('app_config', value, id),
       [id]
     )
   )
-
   return [config, setConfig]
 }
 

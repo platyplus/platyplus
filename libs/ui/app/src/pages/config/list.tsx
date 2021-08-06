@@ -4,14 +4,15 @@ import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
 
 import {
   useCountConfigChanges,
-  useOrderedContentsCollections,
+  useMetadataList,
   usePersistConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { ConfigListItem } from './list-item'
 
 export const ConfigListPage: React.FC = () => {
-  const [collections, setCollections] = useOrderedContentsCollections(true)
+  // TODO sort tables, not collections - and exclude join tables
+  const [tables, setTablesOrder] = useMetadataList(true)
   const title = 'Configuration'
   const countChanges = useCountConfigChanges()
   const [show, toggle] = useToggle(false)
@@ -28,10 +29,10 @@ export const ConfigListPage: React.FC = () => {
     oldIndex: number
     newIndex: number
   }) => {
-    const result = Array.from(collections)
+    const result = [...tables]
     const [removed] = result.splice(oldIndex, 1)
     result.splice(newIndex, 0, removed)
-    setCollections(new Map(result))
+    setTablesOrder(result)
   }
 
   return (
@@ -51,7 +52,7 @@ export const ConfigListPage: React.FC = () => {
         </Modal.Footer>
       </Modal>
       <HeaderTitleWrapper title={title}>
-        <Animation.Fade in={!!collections}>
+        <Animation.Fade in={true}>
           {(props) => (
             <div {...props}>
               <ButtonGroup style={{ paddingBottom: '10px' }}>
@@ -66,17 +67,17 @@ export const ConfigListPage: React.FC = () => {
                   </IconButtonWithHelper>
                 )}
               </ButtonGroup>
-              {collections && (
+              {
                 <List hover bordered sortable onSort={sort} pressDelay={300}>
-                  {[...collections.values()].map((collection, index) => (
+                  {tables.map((metadata, index) => (
                     <ConfigListItem
-                      key={index}
+                      key={metadata.id}
                       index={index}
-                      collection={collection}
+                      metadata={metadata}
                     />
                   ))}
                 </List>
-              )}
+              }
             </div>
           )}
         </Animation.Fade>

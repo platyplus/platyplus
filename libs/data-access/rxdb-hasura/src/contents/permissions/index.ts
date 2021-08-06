@@ -1,6 +1,35 @@
 import { getMetadataTable, Metadata } from '../../metadata'
 import { Contents } from '../../types'
+import { isManyToManyJoinTable } from '../relationships'
 export * from './properties'
+
+export const canRead = (
+  metadata: Metadata,
+  role: string,
+  propertyName?: string
+) => {
+  if (propertyName) {
+    const property = metadata.properties.get(propertyName)
+    if (property.column)
+      return property.column.canSelect.some(
+        (permission) => permission.roleName === role
+      )
+    else if (property.relationship) {
+      property.relationship.mapping.every((mapping) =>
+        metadata.properties
+          .get(mapping.column.name)
+          .column.canSelect.some((permission) => permission.roleName === role)
+      )
+    }
+  } else {
+    return (
+      !isManyToManyJoinTable(metadata) &&
+      [...metadata.properties.keys()].some((name) =>
+        canRead(metadata, role, name)
+      )
+    )
+  }
+}
 
 export const canEdit = (
   metadata: Metadata,

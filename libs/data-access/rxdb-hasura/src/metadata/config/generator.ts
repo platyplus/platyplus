@@ -7,7 +7,6 @@ import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { debug, error, errorDir, warn } from '../../console'
 import { METADATA_ROLE } from '../constants'
-import { contentsCollections } from '../../database'
 import { Contents, Database } from '../../types'
 import { createHeaders } from '../../utils'
 
@@ -29,7 +28,6 @@ export const createReplicatedCollection = async (
       autoMigrate: true
     }
   })
-  db.contents$.next(contentsCollections(db))
 
   const settings = generateCollectionSettings(name, config)
   const url = db.options.url

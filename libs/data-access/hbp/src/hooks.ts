@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { METADATA_ROLE } from '@platyplus/rxdb-hasura'
 import { useHbp } from './provider'
 
 export const useAuthenticated = () => {
@@ -11,12 +12,15 @@ export const useAuthenticated = () => {
   return authenticated
 }
 
-export const useUserRoles = () => {
+export const useUserRoles = (all = true) => {
   const hbp = useHbp()
-  const getRolesClaim = useCallback(
-    () => (hbp.auth.getClaim('x-hasura-allowed-roles') || []) as string[],
-    [hbp]
-  )
+  const getRolesClaim = useCallback(() => {
+    const roles = (hbp.auth.getClaim('x-hasura-allowed-roles') ||
+      []) as string[]
+    return all
+      ? roles
+      : roles.filter((role) => ![METADATA_ROLE, 'admin'].includes(role))
+  }, [hbp, all])
   const [roles, setRoles] = useState(getRolesClaim())
   useEffect(() => {
     const unsubscribe = hbp.auth.onTokenChanged(() => {

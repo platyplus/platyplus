@@ -16,7 +16,7 @@ export const filteredRelationships = (
 export const isManyToManyJoinTable = (table: Metadata): boolean => {
   const pkColumns = getIds(table)
   const nbPrimaryForeignKeys = pkColumns.filter((pk) =>
-    table.foreignKeys.some((fk) => fk.columns.includes(pk))
+    table.foreignKeys?.some((fk) => fk.columns.includes(pk))
   ).length
   return nbPrimaryForeignKeys === 2
 }
