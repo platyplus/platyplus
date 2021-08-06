@@ -6,8 +6,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { debug, error, errorDir, warn } from '../../console'
-import { contentsCollectionCreator } from '../../contents'
-import { collectionName, createHeaders } from '../../utils'
+import { createHeaders } from '../../utils'
 import { TableFragment } from '../../generated'
 
 import { METADATA_ROLE } from '../constants'

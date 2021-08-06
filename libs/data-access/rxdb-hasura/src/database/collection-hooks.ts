@@ -11,7 +11,7 @@ export const createRxCollection = async (
   if (collection.options.metadata) {
     // * Metadata option => this is a Contents collection
     collection.role = collection.options.role
-    collection._tableId = collection.options.metadata.id
+    collection.tableId = collection.options.metadata.id
     debug(`create RxCollection ${collection.name}`)
     createHooks(collection)
     contents.next({

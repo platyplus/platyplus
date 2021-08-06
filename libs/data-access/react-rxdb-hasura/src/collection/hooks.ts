@@ -23,7 +23,7 @@ export const useContentsCollections = (me = false): ContentsCollections => {
   const [collections, setCollections] = useState<ContentsCollections>(new Map())
 
   const filter = useCallback(
-    ([key, value]) => value._tableId && (me || !key.startsWith('me_')),
+    ([key, value]) => value.tableId && (me || !key.startsWith('me_')),
     [me]
   )
 

@@ -64,7 +64,7 @@ export const PrivateMenu: React.FC<{
       {[...collections.values()].map((collection) => (
         <CollectionMenuItem
           key={collection.name}
-          id={collection._tableId}
+          id={collection.tableId}
           role={collection.role}
         />
       ))}

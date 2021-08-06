@@ -42,7 +42,7 @@ export const getMetadataTable = (id?: string) =>
   metadataStore.getState().tables[id]
 
 export const getCollectionMetadata = (collection: ContentsCollection) =>
-  getMetadataTable(collection._tableId)
+  getMetadataTable(collection.tableId)
 
 export const getDocumentMetadata = (document: ContentsDocument) =>
   getCollectionMetadata(document.collection)

@@ -18,7 +18,7 @@ const useCollectionMetadata = (
 ): Readonly<Metadata | null> =>
   useMetadataStore(
     useCallback(
-      (store) => collection && store.tables[collection._tableId],
+      (store) => collection && store.tables[collection.tableId],
       [collection]
     )
   )
