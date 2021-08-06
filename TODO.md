@@ -62,7 +62,7 @@
       - [x] push
       - [x] components
     - [ ] hide from menu
-  - [ ] link-reverse relationship hooks
+  - [x] link-reverse relationship hooks
   - [ ] **remove db.contents$ and the related hooks / subscriptions**
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint

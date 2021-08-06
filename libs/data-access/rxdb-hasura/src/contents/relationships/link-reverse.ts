@@ -16,28 +16,19 @@ const reverseRelations =
     insert = false
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
-    console.log('TODO debug reverseRelations')
-    return
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
     const metadata = getCollectionMetadata(collection)
-    const relationships = [...metadata.properties.entries()].filter(
-      ([, prop]) => prop.relationship
-    )
-    for (const [name, { type, relationship }] of relationships) {
-      const remoteMetadata = getMetadataTable(relationship.remoteTableId)
+    for (const { name, type, remoteTableId } of metadata.relationships) {
+      const remoteMetadata = getMetadataTable(remoteTableId)
       const remoteCollectionName = collectionName(
         remoteMetadata,
         collection.role
       )
       const remoteCollection =
         collection.database.collections[remoteCollectionName]
-      const mirrorRelationships = [
-        ...remoteMetadata.properties.values()
-      ].filter(
-        (property) =>
-          property.relationship &&
-          property.relationship.remoteTableId === metadata.id
+      const mirrorRelationships = remoteMetadata.relationships.filter(
+        (rel) => rel.remoteTableId === metadata.id
       )
 
       if (mirrorRelationships.length > 1) {
@@ -45,11 +36,12 @@ const reverseRelations =
         warn(
           `Relation ${collection.name}.${name} points to ${remoteCollection.name}, but ${remoteCollection.name} have more than one relation that points back to ${collection.name}. Can't determine which to process`
         )
+        return
       }
 
       // * Get the previous values of the document
       const oldRelId =
-        !insert && (await collection.findOne(data.id).exec()?.[name])
+        !insert && (await collection.findOne(data.id).exec())?.[name]
       const newRelId = data[name]
 
       for (const {
@@ -59,8 +51,7 @@ const reverseRelations =
         debug(
           `${collection.name}.${name} (${type}) -> ${remoteCollection.name}.${mirrorRelName} (${mirrorRelType})`
         )
-        if (type === 'collection') {
-          console.log('From one/many to many', name)
+        if (type === 'array') {
           // * From one/many to many
           const { add, remove } = arrayChanges<string>(
             oldRelId || [],
@@ -70,7 +61,7 @@ const reverseRelations =
 
           const addDocs = await remoteCollection.findByIds(add)
           for (const remoteDoc of addDocs.values()) {
-            if (mirrorRelType === 'collection') {
+            if (mirrorRelType === 'array') {
               // * From many to many
               remoteDoc.atomicPatch({
                 is_local_change: true,
@@ -88,7 +79,7 @@ const reverseRelations =
             ? await remoteCollection.findByIds(remove)
             : []
           for (const remoteDoc of removeDocs.values()) {
-            if (mirrorRelType === 'collection') {
+            if (mirrorRelType === 'array') {
               remoteDoc.atomicPatch({
                 is_local_change: true,
                 [mirrorRelName]: remoteDoc[name].filter(
@@ -103,7 +94,7 @@ const reverseRelations =
             }
           }
         } else {
-          if (mirrorRelType === 'collection') {
+          if (mirrorRelType === 'array') {
             // * From one to many
             if (oldRelId !== newRelId) {
               if (oldRelId) {
@@ -113,6 +104,7 @@ const reverseRelations =
                 const updatedMirrorValues = oldRemoteDocument[
                   mirrorRelName
                 ].filter((key: string) => key !== data.id)
+                console.log(updatedMirrorValues)
                 await oldRemoteDocument.atomicPatch({
                   is_local_change: true,
                   [mirrorRelName]: updatedMirrorValues
@@ -134,7 +126,9 @@ const reverseRelations =
             }
           } else {
             // TODO From one to one
-            warn('One to One relationship is not set yet')
+            warn(
+              `${metadata.id}.${name}: link-reverse one to one relationship is not set yet`
+            )
           }
         }
       }
