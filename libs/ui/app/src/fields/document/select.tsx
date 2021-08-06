@@ -12,6 +12,7 @@ import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
 import { useCollectionName, useMetadata } from '@platyplus/react-rxdb-hasura'
 import { useAsync } from 'react-use'
+import { switchMap } from 'rxjs'
 
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
@@ -29,12 +30,15 @@ export const DocumentSelectField: FieldComponent = ({
 
   const [data, setData] = useState<ContentsDocument>(null)
   useEffect(() => {
-    // TODO pipe rxjs subscriptions
-    const subscription = document.get$(name).subscribe((id) => {
-      document.collection.database[refCollectionName]
-        .findOne(id)
-        .$.subscribe((refDocument: ContentsDocument) => setData(refDocument))
-    })
+    // ? use rxdb-utils view? -> document[name].$.subscribe...
+    const subscription = document
+      .get$(name)
+      .pipe(
+        switchMap(
+          (id) => document.collection.database[refCollectionName].findOne(id).$
+        )
+      )
+      .subscribe((refDocument: ContentsDocument) => setData(refDocument))
     return () => subscription.unsubscribe()
   }, [
     document,

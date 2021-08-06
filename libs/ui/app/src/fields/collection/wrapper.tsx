@@ -11,6 +11,7 @@ import { useCollectionName } from '@platyplus/react-rxdb-hasura'
 import { CollectionComponentWrapper } from '../../collections'
 import { FieldControl } from '../utils'
 import { CollectionFieldComponent } from './types'
+import { switchMap } from 'rxjs'
 
 export const CollectionField: CollectionFieldComponent = ({
   document,
@@ -32,14 +33,17 @@ export const CollectionField: CollectionFieldComponent = ({
   const [data, setData] = useState<ContentsDocument[]>([])
   useEffect(() => {
     if (!document.get(name)) return // ! react sync issue, weird
-    // TODO pipe rxjs subscriptions
-    const subscription = document.get$(name).subscribe((values) =>
-      document.collection.database[refCollectionName]
-        .findByIds(values)
-        .then((mapDocs: Map<string, ContentsDocument>) => {
-          setData([...mapDocs.values()])
-        })
-    )
+    // ? use rxdb-utils view? -> document[name].$.subscribe...
+    const subscription = document
+      .get$(name)
+      .pipe(
+        switchMap((values) =>
+          document.collection.database[refCollectionName].findByIds$(values)
+        )
+      )
+      .subscribe((mapDocs: Map<string, ContentsDocument>) => {
+        setData([...mapDocs.values()])
+      })
     return () => subscription.unsubscribe()
   }, [
     document,

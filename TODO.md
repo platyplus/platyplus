@@ -116,7 +116,9 @@
 ## Then
 
 - Application
+  - [ ] handle relationships like rxdb-utils views
   - [ ] multi-role
+    - [ ] link-reverse: when a document is modified in a role collection, it must be reflected to other roles...
     - [ ] config module only covers one role - see pages/config/table.tsx
       - [ ] => fetch only one me_metadata table for all roles???
     - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
