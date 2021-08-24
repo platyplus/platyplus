@@ -1,8 +1,9 @@
-import { RxPlugin } from 'rxdb'
+import { RxCollection, RxPlugin } from 'rxdb'
 import { debug } from './console'
 import { createContentReplicator, createHooks } from './contents'
 
 import { createMetadataReplicator, MetadataCollection } from './metadata'
+import { createConfigReplicator } from './metadata'
 import { ContentsCollection } from './types'
 
 export const RxHasuraPlugin: RxPlugin = {
@@ -11,21 +12,17 @@ export const RxHasuraPlugin: RxPlugin = {
 
   prototypes: {},
   hooks: {
-    createRxCollection: async (
-      collection: ContentsCollection
-    ): Promise<void> => {
-      if (collection.options.metadata) {
+    createRxCollection: async (collection: RxCollection): Promise<void> => {
+      debug(`create RxCollection ${collection.name}`)
+      if (collection.options.tableId) {
         // * Metadata option => this is a Contents collection
-        collection.role = collection.options.role
-        collection.tableId = collection.options.metadata.id
-        debug(`create RxCollection ${collection.name}`)
-        createHooks(collection)
-        await createContentReplicator(collection, collection.options.role)
-      } else if (collection.options.isMetadataCollection) {
+        createHooks(collection as ContentsCollection)
+        await createContentReplicator(collection as ContentsCollection)
+      } else if (collection.options.isMetadata) {
         // * isMetadata option => this is a Metadata collection
-        await createMetadataReplicator(
-          collection as unknown as MetadataCollection
-        )
+        await createMetadataReplicator(collection as MetadataCollection)
+      } else if (collection.options.isConfig) {
+        await createConfigReplicator(collection)
       }
     }
   }

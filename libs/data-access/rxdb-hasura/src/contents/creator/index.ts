@@ -11,6 +11,6 @@ export const contentsCollectionCreator = (
     schema: toJsonSchema(metadata, role),
     statics: {},
     methods: {},
-    options: { metadata, role }
+    options: { tableId: metadata.id, role }
   }
 }

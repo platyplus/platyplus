@@ -42,13 +42,13 @@ export const getMetadataTable = (id?: string) =>
   metadataStore.getState().tables[id]
 
 export const getCollectionMetadata = (collection: ContentsCollection) =>
-  getMetadataTable(collection.tableId)
+  getMetadataTable(collection.options.tableId)
 
 export const getDocumentMetadata = (document: ContentsDocument) =>
   getCollectionMetadata(document.collection)
 
 export const setCollectionIsReady = (
-  collectionName: ConfigCollectionName | 'metadata'
+  collectionName: ConfigCollectionName | 'metadata' | string
 ) => {
   metadataStore.setState(
     produce<MetadataStore>((state) => {
@@ -65,6 +65,13 @@ export const setAuthStatus = (status: boolean, jwt?: string) =>
   metadataStore.setState(
     produce<MetadataStore>((partial) => {
       partial.connected = status
+      partial.jwt = jwt
+    })
+  )
+
+export const setJwt = (jwt: string) =>
+  metadataStore.setState(
+    produce<MetadataStore>((partial) => {
       partial.jwt = jwt
     })
   )

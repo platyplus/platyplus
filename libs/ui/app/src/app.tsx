@@ -11,7 +11,8 @@ import 'rsuite/dist/styles/rsuite-dark.css'
 
 const { auth, storage } = createClient({
   baseURL: process.env.NX_HBP_ENDPOINT,
-  useCookies: false
+  useCookies: false,
+  refreshIntervalTime: 5000
 })
 
 export const App: React.ComponentType<AppConfig> = (config) => (

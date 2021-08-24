@@ -69,7 +69,7 @@ export const createRxHasura = async (
             if (ready) {
               await db.addCollections({
                 metadata: {
-                  options: { isMetadataCollection: true },
+                  options: { isMetadata: true },
                   schema: metadataSchema,
                   autoMigrate: true
                 }
@@ -99,13 +99,24 @@ export const createRxHasura = async (
           }, [])
           for (const role of roles) {
             const name = collectionName(table, role)
-            await db.addCollections({
-              [name]: contentsCollectionCreator(table, role)
-            })
+            if (db[name]) {
+              // TODO
+              console.log(`[${name}] already exists`)
+            } else {
+              try {
+                await db.addCollections({
+                  [name]: contentsCollectionCreator(table, role)
+                })
+              } catch {
+                console.warn(
+                  `[${name}] already exists but was not found before attempting to add it`
+                )
+              }
+            }
           }
         }
       } else {
-        console.log('syncing...')
+        // console.log('subscription on tables: nothing new')
       }
     },
     (state) => !state.syncing && state.tables

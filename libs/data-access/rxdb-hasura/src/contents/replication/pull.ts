@@ -51,7 +51,7 @@ export const pullQueryBuilder = (
     []
   )
   const columns = (
-    collection.role === ADMIN_ROLE
+    collection.options.role === ADMIN_ROLE
       ? table.columns
       : table.columns.filter((column) => column.canSelect.length)
   )

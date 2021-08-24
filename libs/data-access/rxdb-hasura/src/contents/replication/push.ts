@@ -210,7 +210,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
     // * Exclude 'always' excludable fields e.g. array many2one relationships and not permitted columns
     const excluded = computedFields(collection)
-    if (collection.role === ADMIN_ROLE) {
+    if (collection.options.role === ADMIN_ROLE) {
       excluded.push(
         ...table.columns
           .filter(

@@ -22,7 +22,7 @@ export const createForeignKeyConstraintsHooks = (
       if (remoteMetadata) {
         const remoteCollection: ContentsCollection =
           collection.database.collections[
-            collectionName(remoteMetadata, collection.role)
+            collectionName(remoteMetadata, collection.options.role)
           ]
         const remoteProperty = remoteMetadata.relationships.find((rel) =>
           rel.mapping.some((mapping) =>

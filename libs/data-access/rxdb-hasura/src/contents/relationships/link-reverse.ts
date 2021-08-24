@@ -27,7 +27,7 @@ const reverseRelations =
       const remoteMetadata = shiftedMetadataTable(metadata, relationship)
       const remoteCollection =
         collection.database.collections[
-          collectionName(remoteMetadata, collection.role)
+          collectionName(remoteMetadata, collection.options.role)
         ]
       const mirrorRelationships = remoteMetadata.relationships.filter(
         (rel) => rel.remoteTableId === metadata.id
