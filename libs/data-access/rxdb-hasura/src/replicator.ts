@@ -6,7 +6,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import produce from 'immer'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
-import { error, errorDir, info, warn } from './console'
+import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
 import {
   getJwt,
@@ -72,9 +72,8 @@ export const createReplicator = async <RxDocType>(
       waitForLeadership: true // defaults to true
     })
     replicationState.error$.subscribe((err) => {
-      error(`[${collection.name}] replication error`)
+      error(`[${collection.name}] replication error`, err)
       // TODO refresh JWT if error is related, but in any case refresh JWT before error occurs
-      errorDir(err)
     })
     replicationState.active$.subscribe((active) => {
       if (active) {
@@ -104,7 +103,7 @@ export const createReplicator = async <RxDocType>(
   }
 
   const initGraphQLSubscription = () => {
-    info(`[${collection.name}] initGraphQLSubscription`)
+    debug(`[${collection.name}] initGraphQLSubscription`)
     if (wsClient) {
       wsClient.unsubscribeAll()
       wsClient.close()
@@ -127,7 +126,7 @@ export const createReplicator = async <RxDocType>(
 
     request.subscribe({
       next: ({ data }) => {
-        info(`[${collection.name}] WS request emitted`, Object.values(data)[0])
+        debug(`[${collection.name}] WS request emitted`, Object.values(data)[0])
         state?.run()
       },
       error: (error) => {
@@ -147,11 +146,12 @@ export const createReplicator = async <RxDocType>(
     wsClient.onReconnecting(() => {
       info(`[${collection.name}] WS reconnecting`)
     })
-    wsClient.onError(() => {
-      info(`[${collection.name}] WS error`)
+    wsClient.onError((err) => {
+      warn(`[${collection.name}] WS error`, err)
     })
   }
   let startOption: undefined | (() => void)
+
   const start = async (): Promise<void> => {
     state = await setupGraphQLReplication()
 
@@ -162,7 +162,7 @@ export const createReplicator = async <RxDocType>(
 
     jwtSubscription = metadataStore.subscribe(
       (_: string | undefined) => {
-        info(`[${collection.name}] set token`)
+        debug(`[${collection.name}] set token`)
         initGraphQLSubscription()
         state.setHeaders(headers())
       },
