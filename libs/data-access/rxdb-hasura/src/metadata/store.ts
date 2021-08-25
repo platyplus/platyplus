@@ -4,35 +4,37 @@ import { devtools } from 'zustand/middleware'
 
 import { ContentsCollection, ContentsDocument } from '../types'
 import { AppConfig, Metadata } from './types'
-import { ConfigCollectionName, CONFIG_TABLES } from './config'
+import { CONFIG_TABLES } from './config'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
+  replication: Record<string, { syncing: boolean; ready: boolean }>
   app?: AppConfig
-  ready: Record<ConfigCollectionName | 'metadata', boolean>
   jwt?: string
   connected: boolean
+  isSyncing: () => boolean
   isReady: () => boolean
   isConfigReady: () => boolean
-  syncing: boolean
 }
 
 export const metadataStore = create<MetadataStore>(
   devtools(
     (set, get) => ({
       tables: {},
+      replication: {
+        app_config: { ready: false, syncing: false },
+        table_config: { ready: false, syncing: false },
+        property_config: { ready: false, syncing: false },
+        metadata: { ready: false, syncing: false }
+      },
       app: null,
       jwt: null,
-      ready: {
-        app_config: false,
-        table_config: false,
-        property_config: false,
-        metadata: false
-      },
       connected: false,
-      syncing: true,
-      isReady: () => Object.values(get().ready).every((value) => value),
-      isConfigReady: () => CONFIG_TABLES.every((value) => get().ready[value])
+      isSyncing: () =>
+        Object.values(get().replication).some((value) => value.syncing),
+      isReady: () => get().isConfigReady() && get().replication.metadata.ready,
+      isConfigReady: () =>
+        CONFIG_TABLES.every((value) => get().replication[value].ready)
     }),
     'metadata'
   )
@@ -47,18 +49,27 @@ export const getCollectionMetadata = (collection: ContentsCollection) =>
 export const getDocumentMetadata = (document: ContentsDocument) =>
   getCollectionMetadata(document.collection)
 
-export const setCollectionIsReady = (
-  collectionName: ConfigCollectionName | 'metadata' | string
-) => {
+export const setCollectionIsReady = (collectionName: string) => {
   metadataStore.setState(
     produce<MetadataStore>((state) => {
-      state.ready[collectionName] = true
+      state.replication[collectionName] = {
+        ready: true,
+        syncing: state.replication[collectionName]?.syncing || false
+      }
     })
   )
 }
-export const isMetadataReady = () =>
-  Object.values(metadataStore.getState().tables).every((value) => value)
 
+export const initCollection = (collectionName: string) => {
+  metadataStore.setState(
+    produce<MetadataStore>((state) => {
+      state.replication[collectionName] = {
+        ready: false,
+        syncing: false
+      }
+    })
+  )
+}
 export const getJwt = () => metadataStore.getState().jwt
 
 export const setAuthStatus = (status: boolean, jwt?: string) =>

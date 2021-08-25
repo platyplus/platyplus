@@ -8,7 +8,12 @@ import produce from 'immer'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { error, errorDir, info, warn } from './console'
 import { createHeaders } from './utils'
-import { getJwt, metadataStore, setCollectionIsReady } from './metadata/store'
+import {
+  getJwt,
+  MetadataStore,
+  metadataStore,
+  setCollectionIsReady
+} from './metadata/store'
 import { DocumentNode } from 'graphql'
 
 const DEFAULT_BATCH_SIZE = 5
@@ -74,17 +79,22 @@ export const createReplicator = async <RxDocType>(
     replicationState.active$.subscribe((active) => {
       if (active) {
         metadataStore.setState(
-          produce((state) => {
-            state.syncing = true
+          produce<MetadataStore>((state) => {
+            state.replication[collection.name] = {
+              syncing: true,
+              ready: state.replication[collection.name]?.ready || false
+            }
           })
         )
       } else {
-        if (metadataStore.getState().isReady())
-          metadataStore.setState(
-            produce((state) => {
-              state.syncing = false
-            })
-          )
+        metadataStore.setState(
+          produce<MetadataStore>((state) => {
+            state.replication[collection.name] = {
+              syncing: false,
+              ready: true
+            }
+          })
+        )
       }
     })
 
@@ -116,8 +126,8 @@ export const createReplicator = async <RxDocType>(
     })
 
     request.subscribe({
-      next: (data) => {
-        info(`[${collection.name}] WS request emitted`, data)
+      next: ({ data }) => {
+        info(`[${collection.name}] WS request emitted`, Object.values(data)[0])
         state?.run()
       },
       error: (error) => {

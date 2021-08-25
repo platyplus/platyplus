@@ -7,8 +7,8 @@ import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 
 import { debug } from './console'
 import {
+  initCollection,
   initConfigCollections,
-  Metadata,
   metadataSchema,
   metadataStore
 } from './metadata'
@@ -64,28 +64,37 @@ export const createRxHasura = async (
     async (connected) => {
       if (connected) {
         await initConfigCollections(db)
-        metadataStore.subscribe(
-          async (ready: boolean) => {
-            if (ready) {
-              await db.addCollections({
-                metadata: {
-                  options: { isMetadata: true },
-                  schema: metadataSchema,
-                  autoMigrate: true
-                }
-              })
+        if (metadataStore.getState().isConfigReady()) {
+          await db.addCollections({
+            metadata: {
+              options: { isMetadata: true },
+              schema: metadataSchema,
+              autoMigrate: true
             }
-          },
-          (state) => state.isConfigReady()
-        )
+          })
+        } else
+          metadataStore.subscribe(
+            async (ready: boolean) => {
+              if (ready) {
+                await db.addCollections({
+                  metadata: {
+                    options: { isMetadata: true },
+                    schema: metadataSchema,
+                    autoMigrate: true
+                  }
+                })
+              }
+            },
+            (state) => state.isConfigReady()
+          )
       }
     },
     (state) => state.connected
   )
 
   metadataStore.subscribe(
-    async (tables: Record<string, Metadata> | false) => {
-      if (tables) {
+    async ({ tables, isSyncing, isReady, replication }) => {
+      if (!isSyncing() && isReady()) {
         for (const table of Object.values(tables).filter(
           (table) => !isManyToManyJoinTable(table)
         )) {
@@ -99,10 +108,8 @@ export const createRxHasura = async (
           }, [])
           for (const role of roles) {
             const name = collectionName(table, role)
-            if (db[name]) {
-              // TODO
-              console.log(`[${name}] already exists`)
-            } else {
+            if (!db[name] && !replication[name]) {
+              initCollection(name)
               try {
                 await db.addCollections({
                   [name]: contentsCollectionCreator(table, role)
@@ -116,10 +123,10 @@ export const createRxHasura = async (
           }
         }
       } else {
-        // console.log('subscription on tables: nothing new')
+        // TODO
+        // console.log('subscription on tables: not syncing / not ready')
       }
-    },
-    (state) => !state.syncing && state.tables
+    }
   )
 
   if (process.env.NODE_ENV === 'development') {
