@@ -1,5 +1,6 @@
 import { canRemove } from '.'
-import { getMetadataTable, Metadata } from '../../metadata'
+import { Metadata } from '../../metadata'
+import { getMetadataTable } from '../../store'
 import { isManyToManyJoinTable } from '../relationships'
 import { isRequiredColumn } from '../required'
 

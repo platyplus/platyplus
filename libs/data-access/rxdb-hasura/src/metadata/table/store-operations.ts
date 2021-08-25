@@ -7,8 +7,8 @@ import {
   isRequiredRelationship
 } from '../../contents'
 import { TableFragment } from '../../generated'
+import { metadataStore } from '../../store'
 
-import { metadataStore } from '../store'
 import { Metadata, Property, PropertyType } from '../types'
 
 const typesMapping: Record<string, PropertyType> = {

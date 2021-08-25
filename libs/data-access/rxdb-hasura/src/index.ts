@@ -1,35 +1,36 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { enableMapSet } from 'immer'
-import { addRxPlugin, createRxDatabase, RxDatabaseCreator } from 'rxdb'
+import {
+  addRxPlugin,
+  createRxDatabase,
+  RxDatabase,
+  RxDatabaseCreator
+} from 'rxdb'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 
 import { debug } from './console'
-import {
-  initCollection,
-  initConfigCollections,
-  metadataSchema,
-  metadataStore
-} from './metadata'
+import { initConfigCollections, metadataSchema } from './metadata'
 import { RxHasuraPlugin } from './plugin'
-import { Database, DatabaseCollections } from './types'
 import { collectionName } from './utils'
 import { contentsCollectionCreator, isManyToManyJoinTable } from './contents'
-export { RxHasuraPlugin } from './plugin'
+import { initCollection, metadataStore } from './store'
 
 enableMapSet()
 
+export { RxHasuraPlugin } from './plugin'
 export * from './contents'
 export * from './types'
 export * from './utils'
 export * from './metadata'
+export * from './store'
 
 export const createRxHasura = async (
   name: string,
   url: string,
   password?: string
-): Promise<Database> => {
+): Promise<RxDatabase> => {
   addRxPlugin(RxDBReplicationGraphQLPlugin)
   addRxPlugin(RxDBAjvValidatePlugin)
   addRxPlugin(RxHasuraPlugin)
@@ -57,7 +58,7 @@ export const createRxHasura = async (
     storage: getRxStoragePouch('memory')
   }
 
-  const db = (await createRxDatabase<DatabaseCollections>(settings)) as Database
+  const db = await createRxDatabase(settings)
 
   // * When receiving a JWT, browse the roles and create metadata accordingly
   metadataStore.subscribe(

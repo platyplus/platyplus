@@ -1,4 +1,4 @@
-import { Database } from '../../types'
+import { RxDatabase } from 'rxdb'
 import { appConfig } from './app'
 import { propertyConfig } from './property'
 import { tableConfig } from './table'
@@ -10,7 +10,7 @@ export const configCollectionDefinitions: Record<string, CollectionConfig> = {
   property_config: propertyConfig
 }
 
-export const initConfigCollections = async (db: Database) => {
+export const initConfigCollections = async (db: RxDatabase) => {
   for (const [name, config] of Object.entries(configCollectionDefinitions)) {
     await db.addCollections({
       [name]: {

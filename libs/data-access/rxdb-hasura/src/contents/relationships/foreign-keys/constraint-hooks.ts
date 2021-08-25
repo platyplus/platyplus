@@ -1,4 +1,4 @@
-import { getDocumentMetadata, getMetadataTable } from '../../../metadata'
+import { getDocumentMetadata, getMetadataTable } from '../../../store'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
 import { collectionName } from '../../../utils'
 import { isManyToManyJoinTable } from '../utils'

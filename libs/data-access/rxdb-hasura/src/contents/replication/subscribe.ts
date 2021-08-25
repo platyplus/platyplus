@@ -1,5 +1,5 @@
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
-import { getCollectionMetadata } from '../../metadata'
+import { getCollectionMetadata } from '../../store'
 import { ContentsCollection } from '../../types'
 import { metadataName } from '../../utils'
 

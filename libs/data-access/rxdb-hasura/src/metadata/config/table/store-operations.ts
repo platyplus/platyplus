@@ -1,5 +1,5 @@
 import produce from 'immer'
-import { MetadataStore, metadataStore } from '../../store'
+import { MetadataStore, metadataStore } from '../../../store'
 import { Metadata, TableConfig } from '../../types'
 
 export const onUpsert = (doc: TableConfig) => {

@@ -2,9 +2,9 @@ import produce from 'immer'
 import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 
-import { ContentsCollection, ContentsDocument } from '../types'
-import { AppConfig, Metadata } from './types'
-import { CONFIG_TABLES } from './config'
+import { ContentsCollection, ContentsDocument } from './types'
+import { AppConfig, Metadata, CONFIG_TABLES } from './metadata'
+import { getNetworkState, subscribeNetworkState } from './network-state'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
@@ -29,7 +29,7 @@ export const metadataStore = create<MetadataStore>(
       },
       app: null,
       jwt: null,
-      connected: false,
+      connected: getNetworkState(),
       isSyncing: () =>
         Object.values(get().replication).some((value) => value.syncing),
       isReady: () => get().isConfigReady() && get().replication.metadata.ready,
@@ -37,6 +37,14 @@ export const metadataStore = create<MetadataStore>(
         CONFIG_TABLES.every((value) => get().replication[value].ready)
     }),
     'metadata'
+  )
+)
+
+subscribeNetworkState((connected) =>
+  metadataStore.setState(
+    produce<MetadataStore>((state) => {
+      state.connected = connected
+    })
   )
 )
 

@@ -11,11 +11,8 @@ import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
 import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { FieldMap, metadataName, rxdbJsonataPaths } from '../../utils'
-import {
-  ADMIN_ROLE,
-  getCollectionMetadata,
-  getMetadataTable
-} from '../../metadata'
+import { ADMIN_ROLE } from '../../metadata'
+import { getCollectionMetadata, getMetadataTable } from '../../store'
 
 import {
   addComputedFieldsFromLoadedData,

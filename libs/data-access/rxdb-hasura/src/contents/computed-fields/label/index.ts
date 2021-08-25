@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import { getCollectionMetadata } from '../../../metadata'
+import { getCollectionMetadata } from '../../../store'
 
 import { Contents, ContentsDocument } from '../../../types'
 

@@ -1,4 +1,5 @@
-import { ADMIN_ROLE, getMetadataTable, Metadata } from '../../metadata'
+import { ADMIN_ROLE, Metadata } from '../../metadata'
+import { getMetadataTable } from '../../store'
 import { Contents } from '../../types'
 import { isManyToManyJoinTable } from '../relationships'
 export * from './properties'

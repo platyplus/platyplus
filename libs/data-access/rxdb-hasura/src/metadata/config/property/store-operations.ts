@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import { MetadataStore, metadataStore } from '../../store'
+import { MetadataStore, metadataStore } from '../../../store'
 import { Metadata, Property } from '../../types'
 import { PropertyConfig } from '../types'
 

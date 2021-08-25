@@ -9,7 +9,7 @@ import {
   ContentsCollectionMethods,
   ContentsDocumentMethods
 } from '../../types'
-import { getCollectionMetadata } from '../../metadata'
+import { getCollectionMetadata } from '../../store'
 
 import { isNullableColumn } from '../required'
 import { columnProperties } from '../columns'

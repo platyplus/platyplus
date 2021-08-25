@@ -13,7 +13,7 @@ import {
   MetadataStore,
   metadataStore,
   setCollectionIsReady
-} from './metadata/store'
+} from './store'
 import { DocumentNode } from 'graphql'
 
 const DEFAULT_BATCH_SIZE = 5

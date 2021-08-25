@@ -3,7 +3,7 @@ import { RxCollectionHookCallback } from 'rxdb'
 import { arrayChanges } from '@platyplus/data'
 
 import { debug, warn } from '../../console'
-import { getCollectionMetadata } from '../../metadata'
+import { getCollectionMetadata } from '../../store'
 import {
   Contents,
   ContentsCollection,

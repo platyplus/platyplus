@@ -3,7 +3,8 @@ import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
 import { warn } from '../../console'
-import { getCollectionMetadata, JsonSchemaPropertyType } from '../../metadata'
+import { JsonSchemaPropertyType } from '../../metadata'
+import { getCollectionMetadata } from '../../store'
 
 import {
   Contents,
