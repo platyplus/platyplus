@@ -28,40 +28,13 @@
     "data-access-hbp": {
       "tags": []
     },
+    "data-access-react-rxdb-hasura": {
+      "tags": []
+    },
     "data-access-rxdb-hasura": {
       "tags": []
     },
-    "util-amqp": {
-      "tags": []
-    },
-    "util-data": {
-      "tags": []
-    },
-    "util-jsonata-schema": {
-      "tags": []
-    },
-    "ui-auth": {
-      "tags": []
-    },
-    "ui-layout": {
-      "tags": []
-    },
-    "ui-navigation": {
-      "tags": []
-    },
-    "util-ts-types": {
-      "tags": []
-    },
     "infrastructure": {
-      "tags": []
-    },
-    "util-pulumi": {
-      "tags": []
-    },
-    "ui-profile": {
-      "tags": []
-    },
-    "data-access-react-rxdb-hasura": {
       "tags": []
     },
     "platyplus": {
@@ -73,6 +46,41 @@
     },
     "ui-app": {
       "tags": []
+    },
+    "ui-auth": {
+      "tags": []
+    },
+    "ui-layout": {
+      "tags": []
+    },
+    "ui-navigation": {
+      "tags": []
+    },
+    "ui-profile": {
+      "tags": []
+    },
+    "util-amqp": {
+      "tags": []
+    },
+    "util-data": {
+      "tags": []
+    },
+    "util-jsonata-schema": {
+      "tags": []
+    },
+    "util-pulumi": {
+      "tags": []
+    },
+    "util-ts-types": {
+      "tags": []
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }

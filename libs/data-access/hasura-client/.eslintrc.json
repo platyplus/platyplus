@@ -4,9 +4,6 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "parserOptions": {
-        "project": ["libs/data-access/hasura-client/tsconfig.*?.json"]
-      },
       "rules": {}
     },
     {

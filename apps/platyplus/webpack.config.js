@@ -22,7 +22,7 @@ module.exports = (config, context) => {
       })
     )
 
-  // TODO https://github.com/jantimon/favicons-webpack-plugin
+  // TODO blocked - nx requires html-webpack-plugin@4 https://github.com/jantimon/favicons-webpack-plugin
   config.plugins.push(
     ...[
       new HtmlWebpackPlugin(),
