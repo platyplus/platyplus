@@ -80,7 +80,7 @@
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] better handling of disconnections / replication errors
     - [ ] PWA
-    - [ ] rxdb persistence
+    - [x] rxdb persistence
 - [ ] Hasura 2
   - avoid regressions
   - list missing metadata elements e.g. muliple db, inherited roles...

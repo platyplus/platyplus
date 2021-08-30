@@ -1,13 +1,23 @@
 import { RxChangeEvent, RxCollection } from 'rxdb'
-import { METADATA_ROLE } from '../constants'
+
+import { createReplicator } from '../../replicator'
+import { setCollectionIsReady } from '../../store'
 import { Contents } from '../../types'
 
+import { METADATA_ROLE } from '../constants'
+
 import { generateCollectionSettings } from './settings-generator'
-import { createReplicator } from '../../replicator'
 
 export const createConfigReplicator = async (collection: RxCollection) => {
   const config = collection.options.config
   const settings = generateCollectionSettings(collection.name, config)
+
+  // * Loads initial data from RxDB if some documents have been persisted (offline mode)
+  const initialDocuments = await collection.find().exec()
+  if (initialDocuments.length) {
+    for (const doc of initialDocuments) config.onUpsert?.(doc.toJSON())
+    setCollectionIsReady(collection.name)
+  }
 
   return await createReplicator(collection, {
     role: METADATA_ROLE,

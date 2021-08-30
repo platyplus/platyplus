@@ -16,10 +16,13 @@ export const canRead = (
         (permission) => permission.roleName === role
       )
     else if (property.relationship) {
-      property.relationship.mapping.every((mapping) =>
-        metadata.properties
-          .get(mapping.column.name)
-          .column.canSelect.some((permission) => permission.roleName === role)
+      property.relationship.mapping.every(
+        (mapping) =>
+          metadata.properties
+            .get(mapping.column.name)
+            ?.column.canSelect.some(
+              (permission) => permission.roleName === role
+            ) || false
       )
     }
   } else {

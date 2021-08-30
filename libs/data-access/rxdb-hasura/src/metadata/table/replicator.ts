@@ -2,6 +2,7 @@ import { RxChangeEvent } from 'rxdb'
 
 import { TableFragment } from '../../generated'
 import { createReplicator } from '../../replicator'
+import { setCollectionIsReady } from '../../store'
 
 import { METADATA_ROLE } from '../constants'
 import { MetadataCollection } from '../types'
@@ -19,7 +20,14 @@ export type MetadataReplicatorOptions = {
 
 export const createMetadataReplicator = async (
   collection: MetadataCollection
-) =>
+) => {
+  // * Loads initial data from RxDB if some documents have been persisted (offline mode)
+  const initialDocuments = await collection.find().exec()
+  if (initialDocuments.length) {
+    for (const doc of initialDocuments) setMetadataTable(doc.toJSON())
+    setCollectionIsReady(collection.name)
+  }
+
   createReplicator(collection, {
     url: collection.database.options.url,
     role: METADATA_ROLE,
@@ -52,3 +60,4 @@ export const createMetadataReplicator = async (
       return () => subscription.unsubscribe()
     }
   })
+}

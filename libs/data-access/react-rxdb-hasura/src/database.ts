@@ -12,13 +12,8 @@ export const initializeDB = async (name: string, auth: Auth) => {
     process.env.NX_HASURA_ENDPOINT
   )
   setAuthStatus(auth.isAuthenticated(), auth.getJWTToken())
-  auth.onAuthStateChanged((status) => {
-    setAuthStatus(status, auth.getJWTToken())
-  })
-  auth.onTokenChanged(() => {
-    console.log('JWT changed')
-    setJwt(auth.getJWTToken())
-  })
+  auth.onAuthStateChanged((status) => setAuthStatus(status, auth.getJWTToken()))
+  auth.onTokenChanged(() => setJwt(auth.getJWTToken()))
 
   return db
 }

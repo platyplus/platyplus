@@ -5,11 +5,13 @@ import { devtools } from 'zustand/middleware'
 import { ContentsCollection, ContentsDocument } from './types'
 import { AppConfig, Metadata, CONFIG_TABLES } from './metadata'
 import { getNetworkState, subscribeNetworkState } from './network-state'
+import { debug } from './console'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
   replication: Record<string, { syncing: boolean; ready: boolean }>
   app?: AppConfig
+  authenticated: boolean
   jwt?: string
   connected: boolean
   isSyncing: () => boolean
@@ -28,6 +30,7 @@ export const metadataStore = create<MetadataStore>(
         metadata: { ready: false, syncing: false }
       },
       app: null,
+      authenticated: false,
       jwt: null,
       connected: getNetworkState(),
       isSyncing: () =>
@@ -40,13 +43,14 @@ export const metadataStore = create<MetadataStore>(
   )
 )
 
-subscribeNetworkState((connected) =>
+subscribeNetworkState((connected) => {
+  debug('network status changed', connected)
   metadataStore.setState(
     produce<MetadataStore>((state) => {
       state.connected = connected
     })
   )
-)
+})
 
 export const getMetadataTable = (id?: string) =>
   metadataStore.getState().tables[id]
@@ -78,19 +82,3 @@ export const initCollection = (collectionName: string) => {
     })
   )
 }
-export const getJwt = () => metadataStore.getState().jwt
-
-export const setAuthStatus = (status: boolean, jwt?: string) =>
-  metadataStore.setState(
-    produce<MetadataStore>((partial) => {
-      partial.connected = status
-      partial.jwt = jwt
-    })
-  )
-
-export const setJwt = (jwt: string) =>
-  metadataStore.setState(
-    produce<MetadataStore>((partial) => {
-      partial.jwt = jwt
-    })
-  )

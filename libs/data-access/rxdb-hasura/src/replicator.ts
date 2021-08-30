@@ -8,13 +8,9 @@ import produce from 'immer'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
-import {
-  getJwt,
-  MetadataStore,
-  metadataStore,
-  setCollectionIsReady
-} from './store'
+import { MetadataStore, metadataStore, setCollectionIsReady } from './store'
 import { DocumentNode } from 'graphql'
+import { getJwt } from './auth-state'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -138,10 +134,10 @@ export const createReplicator = async <RxDocType>(
       info(`[${collection.name}] WS reconnected`)
     })
     wsClient.onConnected(() => {
-      info(`[${collection.name}] WS connected`)
+      debug(`[${collection.name}] WS connected`)
     })
     wsClient.onDisconnected(() => {
-      info(`[${collection.name}] WS disconnected`)
+      debug(`[${collection.name}] WS disconnected`)
     })
     wsClient.onReconnecting(() => {
       info(`[${collection.name}] WS reconnecting`)
@@ -170,7 +166,7 @@ export const createReplicator = async <RxDocType>(
     )
 
     state.awaitInitialReplication().then(() => {
-      info(`[${collection.name}] awaitInitialReplication OK`)
+      debug(`[${collection.name}] awaitInitialReplication OK`)
       setCollectionIsReady(collection.name)
     })
   }
@@ -183,15 +179,15 @@ export const createReplicator = async <RxDocType>(
     startOption?.()
   }
 
-  if (metadataStore.getState().connected) start()
+  const { connected, authenticated } = metadataStore.getState()
+  if (connected && authenticated) start()
   metadataStore.subscribe(
-    async (connected: boolean) => {
-      info(`[${collection.name}] auth status change`, connected)
-      if (connected) {
-        await start()
-      } else await stop()
+    async (ok: boolean) => {
+      info(`[${collection.name}] auth status change`, ok)
+      if (ok) await start()
+      else await stop()
     },
-    (state) => state.connected
+    (state) => state.connected && state.authenticated
   )
 
   return { start, stop }
