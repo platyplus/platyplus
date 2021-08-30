@@ -1,9 +1,9 @@
-import { Database } from '../../types'
+import { RxDatabase } from 'rxdb'
+import { metadataStore } from '../../store'
 import { appConfig } from './app'
-import { createReplicatedCollection } from './generator'
 import { propertyConfig } from './property'
 import { tableConfig } from './table'
-import { CollectionConfig, ConfigCollectionName } from './types'
+import { CollectionConfig } from './types'
 
 export const configCollectionDefinitions: Record<string, CollectionConfig> = {
   app_config: appConfig,
@@ -11,8 +11,18 @@ export const configCollectionDefinitions: Record<string, CollectionConfig> = {
   property_config: propertyConfig
 }
 
-export const initConfigCollections = async (db: Database) => {
+export const initConfigCollections = async (db: RxDatabase) => {
   for (const [name, config] of Object.entries(configCollectionDefinitions)) {
-    await createReplicatedCollection(db, name as ConfigCollectionName, config)
+    if (!metadataStore.getState().replication[name].ready)
+      await db.addCollections({
+        [name]: {
+          schema: config.schema,
+          autoMigrate: true,
+          options: {
+            isConfig: true,
+            config
+          }
+        }
+      })
   }
 }

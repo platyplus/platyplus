@@ -1,6 +1,7 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { getCollectionMetadata, Metadata } from '../../metadata'
+import { Metadata } from '../../metadata'
+import { getCollectionMetadata } from '../../store'
 import { ContentsCollection } from '../../types'
 
 export const createComputedFieldsProperties = (table: Metadata) =>

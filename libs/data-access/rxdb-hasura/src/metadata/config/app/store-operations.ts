@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import { MetadataStore, metadataStore } from '../../store'
+import { MetadataStore, metadataStore } from '../../../store'
 
 export const onUpsert = (doc) => {
   metadataStore.setState(

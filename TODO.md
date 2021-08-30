@@ -64,6 +64,7 @@
     - [x] hide from menu
   - [x] link-reverse relationship hooks
   - [x] remove db.contents$ and the related hooks / subscriptions
+  - [x] get rid of useOrderedContentsCollections
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint
       - [x] m2m specific case
@@ -75,12 +76,11 @@
     - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
-  - [x] get rid of useOrderedContentsCollections
   - [ ] **realtime metadata**: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-    - [ ] better handling of disconnections / replication errors
-    - [ ] PWA
-    - [ ] rxdb persistence
+    - [x] better handling of disconnections / replication errors
+    - [x] PWA
+    - [x] rxdb persistence
 - [ ] Hasura 2
   - avoid regressions
   - list missing metadata elements e.g. muliple db, inherited roles...

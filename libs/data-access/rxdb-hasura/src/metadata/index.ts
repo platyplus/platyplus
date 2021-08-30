@@ -1,6 +1,5 @@
 export * from './config'
 export * from './table'
-export * from './store'
 export * from './types'
 export * from './constants'
 export * from './constants'

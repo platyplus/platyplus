@@ -1,4 +1,5 @@
-import { getMetadataTable, Metadata } from '../../metadata'
+import { Metadata } from '../../metadata'
+import { getMetadataTable } from '../../store'
 
 import { getIds } from '../ids'
 

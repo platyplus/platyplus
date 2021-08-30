@@ -6,16 +6,13 @@ import { reduceStringArrayValues } from '@platyplus/data'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { debug } from '../../console'
 import { metadataName } from '../../utils'
-import {
-  ADMIN_ROLE,
-  getCollectionMetadata,
-  getMetadataTable
-} from '../../metadata'
+import { getCollectionMetadata, getMetadataTable } from '../../store'
 
 import { computedFields } from '../computed-fields'
 import { decomposeId, getIds } from '../ids'
 import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
 import { isRequiredRelationship } from '../required'
+import { ADMIN_ROLE } from '../../metadata'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -210,7 +207,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
     // * Exclude 'always' excludable fields e.g. array many2one relationships and not permitted columns
     const excluded = computedFields(collection)
-    if (collection.role === ADMIN_ROLE) {
+    if (collection.options.role === ADMIN_ROLE) {
       excluded.push(
         ...table.columns
           .filter(

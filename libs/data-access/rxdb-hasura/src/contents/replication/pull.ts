@@ -11,11 +11,8 @@ import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
 import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { FieldMap, metadataName, rxdbJsonataPaths } from '../../utils'
-import {
-  ADMIN_ROLE,
-  getCollectionMetadata,
-  getMetadataTable
-} from '../../metadata'
+import { ADMIN_ROLE } from '../../metadata'
+import { getCollectionMetadata, getMetadataTable } from '../../store'
 
 import {
   addComputedFieldsFromLoadedData,
@@ -51,7 +48,7 @@ export const pullQueryBuilder = (
     []
   )
   const columns = (
-    collection.role === ADMIN_ROLE
+    collection.options.role === ADMIN_ROLE
       ? table.columns
       : table.columns.filter((column) => column.canSelect.length)
   )

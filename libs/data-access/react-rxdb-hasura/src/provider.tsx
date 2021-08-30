@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { RxChangeEvent, RxDatabase } from 'rxdb'
+import { RxDatabase } from 'rxdb'
 import { Provider } from 'rxdb-hooks'
 import Auth from 'nhost-js-sdk/dist/Auth'
 
 import { initializeDB } from './database'
+
 export const RxDBHasuraProvider: React.ComponentType<{
   auth: Auth
   name?: string
@@ -16,10 +17,11 @@ export const RxDBHasuraProvider: React.ComponentType<{
     // setting their state to isFetching:true
     const initDB = async () => {
       const _db = await initializeDB(name, auth)
-      setDb(_db as unknown as RxDatabase)
+      setDb(_db)
     }
     if (!db) initDB()
-  })
-  return <Provider db={db as unknown as RxDatabase}>{children}</Provider>
+  }, [auth, db, name])
+
+  return <Provider db={db}>{children}</Provider>
 }
 export default RxDBHasuraProvider
