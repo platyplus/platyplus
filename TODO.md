@@ -65,6 +65,7 @@
   - [x] link-reverse relationship hooks
   - [x] remove db.contents$ and the related hooks / subscriptions
   - [x] get rid of useOrderedContentsCollections
+  - [x] bug in updating profile: filter non-editable fields from the push replication
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint
       - [x] m2m specific case

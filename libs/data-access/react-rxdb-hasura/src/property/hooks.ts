@@ -4,7 +4,8 @@ import {
   Metadata,
   MetadataDocument,
   PropertyConfig,
-  Property
+  Property,
+  getMetadataTable
 } from '@platyplus/rxdb-hasura'
 
 import { useCollectionTableConfig } from '../collection'
@@ -81,7 +82,14 @@ export const useMetadataProperties = (
           result.set(property, tempProperties.get(property))
           tempProperties.delete(property)
         }
-      return new Map([...result, ...tempProperties])
+      return new Map(
+        [...result, ...tempProperties].filter(([, { relationship }]) =>
+          // * Filter out relationships that points to a non-existing remote table e.g. users.account
+          relationship?.remoteTableId
+            ? !!getMetadataTable(relationship.remoteTableId)
+            : true
+        )
+      )
     } else return null
   }, [state, order, options])
 

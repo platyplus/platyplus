@@ -207,15 +207,22 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
     // * Exclude 'always' excludable fields e.g. array many2one relationships and not permitted columns
     const excluded = computedFields(collection)
-    if (collection.options.role === ADMIN_ROLE) {
-      excluded.push(
-        ...table.columns
-          .filter(
-            (column) => !column[_isNew ? 'canInsert' : 'canUpdate'].length
-          )
-          .map((column) => column.name)
-      )
-    }
+    // * Exclude columns that are not present in the role's permissions (or any role's permission when admin)
+    excluded.push(
+      ...table.columns
+        .filter((column) => {
+          const permissions: Array<{ roleName: string }> =
+            column[_isNew ? 'canInsert' : 'canUpdate']
+          if (collection.options.role === ADMIN_ROLE) {
+            return !permissions.length
+          } else
+            return permissions.every(
+              ({ roleName }) => roleName !== collection.options.role
+            )
+        })
+        .map((column) => column.name)
+    )
+    // }
     for (const field of excluded) delete data[field]
 
     debug('pushModifier: out', { _isNew, ...data, id })

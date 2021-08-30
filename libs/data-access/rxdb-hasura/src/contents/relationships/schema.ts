@@ -12,6 +12,8 @@ export const createRelationshipProperties = (
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
     const refTable = shiftedMetadataTable(table, relationship)
+    // * Pass any relationship that does not point to another table in the store
+    if (!refTable) return
     const relName = relationship.name
     // TODO composite keys
     const column = relationship.mapping[0].column

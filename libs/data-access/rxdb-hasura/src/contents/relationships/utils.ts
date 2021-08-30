@@ -27,7 +27,9 @@ export const shiftedMetadataTable = (
   relationship: Metadata['relationships'][0]
 ) => {
   const refTable = getMetadataTable(relationship.remoteTableId)
-  if (isManyToManyJoinTable(refTable))
+  // * Return null if no correspondig remote table is found in the store
+  if (!refTable) return null
+  else if (isManyToManyJoinTable(refTable))
     return getMetadataTable(
       refTable.relationships.find((rel) => rel.remoteTableId !== table.id)
         .remoteTableId

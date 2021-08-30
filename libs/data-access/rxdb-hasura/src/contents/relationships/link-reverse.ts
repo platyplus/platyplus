@@ -25,6 +25,9 @@ const reverseRelations =
     for (const relationship of metadata.relationships) {
       const { name, type } = relationship
       const remoteMetadata = shiftedMetadataTable(metadata, relationship)
+      // * Pass relationships that don't point to any known metadata table
+      if (!remoteMetadata) return
+
       const remoteCollection =
         collection.database.collections[
           collectionName(remoteMetadata, collection.options.role)
