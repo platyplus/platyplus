@@ -242,13 +242,11 @@
           "options": {
             "outputPath": "dist/apps/platyplus",
             "index": "apps/platyplus/src/index.html",
+            "generateIndexHtml": false,
             "main": "apps/platyplus/src/main.tsx",
             "polyfills": "apps/platyplus/src/polyfills.ts",
             "tsConfig": "apps/platyplus/tsconfig.app.json",
-            "assets": [
-              "apps/platyplus/src/favicon.ico",
-              "apps/platyplus/src/assets"
-            ],
+            "assets": ["apps/platyplus/src/assets"],
             "statsJson": true,
             "styles": [],
             "scripts": [],

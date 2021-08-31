@@ -1,18 +1,31 @@
 const path = require('path')
-const nrwlConfig = require('@nrwl/react/plugins/webpack.js') // require the main @nrwl/react/plugins/webpack configuration function.
+const nrwlConfig = require('@nrwl/react/plugins/webpack.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = (config, context) => {
-  nrwlConfig(config) // first call it so that it @nrwl/react plugin adds its configs, then override your config.
+  const name = process.env.APP_NAME
+  const shortName = process.env.APP_SHORT_NAME || name
+  const description = process.env.APP_DESCRIPTION
+  const themeColor = '#066ace'
+  const backgroundColor = '#202020'
 
+  nrwlConfig(config) // first call it so that it @nrwl/react plugin adds its configs, then override your config.
+  const isProd = config.mode === 'production'
   // ! Webpack resolves the rxjs version of Nx (v6) before the one used by RxDB.
   // ! => Reverse resolve paths so the 'root' node_module goes first...
   // * See https://github.com/webpack/webpack/issues/6538
   config.resolve.modules = config.resolve.modules.reverse()
+  config.resolve.fallback = { fs: false, crypto: false }
+  // TODO not ideal for debugging
+  config.ignoreWarnings = [(warning) => true]
+  config.plugins = config.plugins.filter(
+    (plugin) => plugin.constructor.name !== 'IndexHtmlWebpackPlugin'
+  )
 
-  if (config.mode === 'production')
+  if (isProd)
     config.plugins.push(
       new GenerateSW({
         clientsClaim: true,
@@ -22,31 +35,42 @@ module.exports = (config, context) => {
       })
     )
 
-  // TODO blocked - nx requires html-webpack-plugin@4 https://github.com/jantimon/favicons-webpack-plugin
   config.plugins.push(
     ...[
-      new HtmlWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        title: name,
+        template: path.resolve(__dirname, 'src/index.html'),
+        base: '/',
+        meta: {
+          viewport: 'width=device-width, initial-scale=1'
+        }
+      }),
+      new FaviconsWebpackPlugin(path.resolve(__dirname, 'src/logo.png')),
       new WebpackPwaManifest({
-        name: 'PlatyPlus',
-        short_name: 'PlatyPlus',
-        description: 'PlatyPlus application',
+        name,
+        short_name: shortName,
+        description,
         display: 'standalone',
-        theme_color: '#066ace',
-        background_color: '#202020',
+        theme_color: themeColor,
+        background_color: backgroundColor,
         crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
         ios: true,
-        inject: true,
         icons: [
           {
-            src: path.resolve(__dirname, 'src/assets/icon.png'),
-            sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+            src: path.resolve(__dirname, 'src/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons')
           }
         ]
       })
     ]
   )
+
   return {
     ...config,
-    node: { global: true, fs: 'empty' } // Fix: "Uncaught ReferenceError: global is not defined", and "Can't resolve 'fs'".
+    node: {
+      global: true
+    }
   }
 }
