@@ -77,7 +77,11 @@
     - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
-  - [ ] **realtime metadata**: generate RxDB migrations automatically when metadata changes (columns, properties, etc)
+  - [x] **realtime metadata**
+  - [ ] improve permissions
+    - [ ] hide `new` button when not allowed to insert
+    - [ ] hide `edit` button when not allowed to update
+    - [ ] readonly fields when not allowd to insert/update them
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [x] better handling of disconnections / replication errors
     - [x] PWA
@@ -208,6 +212,7 @@
 ## Later
 
 - [ ] RxDB attachments and hbp storage
+- [ ] realtime metadata without reloading the entire collection on every change
 - [ ] `values.schema.json` in Helm Charts, and other artifacthub annotations
 - [ ] rabbitmq docker, helm & template?
 - [ ] hasura init container: wait for postgres
