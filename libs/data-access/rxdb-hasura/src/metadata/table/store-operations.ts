@@ -7,7 +7,7 @@ import {
   isRequiredRelationship
 } from '../../contents'
 import { TableFragment } from '../../generated'
-import { metadataStore } from '../../store'
+import { MetadataStore, metadataStore } from '../../store'
 
 import { Metadata, Property, PropertyType } from '../types'
 
@@ -34,39 +34,62 @@ const typesMapping: Record<string, PropertyType> = {
   decimal: 'number'
 }
 
-export const setMetadataTable = (table: DeepReadonly<TableFragment>) =>
+export const setMetadataTable = (table: TableFragment) =>
   metadataStore.setState(
-    produce((state) => {
-      const metadata: Metadata = { ...(state.tables[table.id] || {}), ...table }
-      if (!metadata.properties) metadata.properties = new Map()
-      columnProperties(metadata).forEach((col) => {
-        const isPrimary = metadata.primaryKey.columns
+    produce<MetadataStore>((state) => {
+      const previousTable = state.tables[table.id]
+      const nextTable = {
+        ...(previousTable || {}),
+        ...table
+      } as unknown as Metadata
+      if (!nextTable.properties) nextTable.properties = new Map()
+      if (previousTable) {
+        if (previousTable.columns) {
+          // * Remove previous columns that are not part of the schema anymore
+          columnProperties(previousTable).forEach((col) => {
+            if (!table.columns.find(({ name }) => name === col.name))
+              nextTable.properties.delete(col.name)
+          })
+        }
+        if (previousTable.relationships) {
+          // * Remove previous relationships that are not part of the schema anymore
+          previousTable.relationships
+            .filter((rel) => rel.remoteTableId)
+            .forEach((rel) => {
+              if (!table.relationships.find(({ name }) => name === rel.name))
+                nextTable.properties.delete(rel.name)
+            })
+        }
+      }
+
+      columnProperties(nextTable).forEach((col) => {
+        const isPrimary = nextTable.primaryKey.columns
           .map((c) => c.columnName)
           .includes(col.name)
 
         const property: Property = {
           name: col.name,
-          ...(metadata.properties.get(col.name) || {}),
+          ...(nextTable.properties.get(col.name) || {}),
           column: col,
           type: typesMapping[col.udtName],
           required: isRequiredColumn(col),
           primary: isPrimary
         }
-        metadata.properties.set(col.name, property)
+        nextTable.properties.set(col.name, property)
       })
-      metadata?.relationships
+      nextTable.relationships
         .filter((rel) => rel.remoteTableId)
         .forEach((rel) => {
           const property: Property = {
             name: rel.name,
-            ...(metadata.properties.get(rel.name) || {}),
+            ...(nextTable.properties.get(rel.name) || {}),
             relationship: rel,
             type: rel.type === 'object' ? 'document' : 'collection',
             required: isRequiredRelationship(rel),
             primary: false
           }
-          metadata.properties.set(rel.name, property)
+          nextTable.properties.set(rel.name, property)
         })
-      state.tables[table.id] = metadata
+      state.tables[table.id] = nextTable
     })
   )

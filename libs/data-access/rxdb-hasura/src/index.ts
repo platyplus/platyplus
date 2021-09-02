@@ -19,7 +19,12 @@ import {
   isManyToManyJoinTable,
   toJsonSchema
 } from './contents'
-import { initCollection, MetadataStore, metadataStore } from './store'
+import {
+  initCollection,
+  MetadataStore,
+  metadataStore,
+  setCollectionIsReady
+} from './store'
 import { onAuthChange } from './auth-state'
 import { ContentsCollection } from './types'
 
@@ -58,6 +63,7 @@ const onReady =
                 await db.addCollections({
                   [name]: contentsCollectionCreator(table, role)
                 })
+                setCollectionIsReady(name)
               } catch {
                 warn(
                   `[${name}] already exists but was not found before attempting to add it`
@@ -77,10 +83,10 @@ const onReady =
                 await collection.replicator.destroy()
                 await db.removeCollectionDoc(name, previousSchema)
                 await collection.destroy()
-                initCollection(name)
                 await db.addCollections({
                   [name]: contentsCollectionCreator(table, role)
                 })
+                setCollectionIsReady(name)
               } catch (e) {
                 warn(`[${name}] impossible to update collection`, e)
               }

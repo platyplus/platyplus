@@ -7,13 +7,14 @@ import {
   useMetadataTitle,
   useConfigEnabled,
   useMetadata,
-  useCollectionName
+  useCollectionName,
+  useCollection
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper } from '@platyplus/layout'
 import { Loading, useQuery } from '@platyplus/navigation'
 import { CollectionComponentWrapper } from '../collections'
 import { CollectionToolbar } from '../collections/toolbar'
-import { useRxCollection, useRxQuery } from 'rxdb-hooks'
+import { useRxQuery } from 'rxdb-hooks'
 import { RxCollection } from 'rxdb'
 
 const CollectionData: React.FC<{
@@ -56,7 +57,7 @@ export const CollectionPage: React.FC = () => {
   const enabledConfig = useConfigEnabled()
   const metadata = useMetadata(name)
   const collectionName = useCollectionName(metadata, role)
-  const collection = useRxCollection(collectionName)
+  const collection = useCollection(collectionName)
   const [title] = useMetadataTitle(metadata)
   if (!collection || !metadata || !title) return null
   return (

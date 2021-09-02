@@ -79,8 +79,10 @@ export const useMetadataProperties = (
       }
       if (options?.order !== false && order)
         for (const property of order) {
-          result.set(property, tempProperties.get(property))
-          tempProperties.delete(property)
+          if (tempProperties.has(property)) {
+            result.set(property, tempProperties.get(property))
+            tempProperties.delete(property)
+          }
         }
       return new Map(
         [...result, ...tempProperties].filter(([, { relationship }]) =>

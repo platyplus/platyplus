@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
+import { Subject } from 'rxjs'
 
 import { Metadata, MetadataCollections } from './metadata'
 
@@ -58,6 +59,8 @@ export type ContentsCollections = Map<string, ContentsCollection>
 
 export type DatabaseCollections = MetadataCollections & ContentsCollections
 
-export type Database = RxDatabase<DatabaseCollections>
+export type Database = RxDatabase<DatabaseCollections> & {
+  newCollections$: Subject<DatabaseCollections>
+}
 
 export type DatabasePrototype = {}

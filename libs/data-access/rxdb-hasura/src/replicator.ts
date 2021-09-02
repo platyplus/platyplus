@@ -12,7 +12,7 @@ import produce from 'immer'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
-import { MetadataStore, metadataStore, setCollectionIsReady } from './store'
+import { MetadataStore, metadataStore, setCollectionIsSynced } from './store'
 import { getJwt } from './auth-state'
 import { Contents, ContentsCollection, Replicator } from './types'
 import {
@@ -192,7 +192,7 @@ export const createReplicator = async (
 
     state.awaitInitialReplication().then(() => {
       debug(`[${collection.name}] awaitInitialReplication OK`)
-      setCollectionIsReady(collection.name)
+      setCollectionIsSynced(collection.name)
     })
   }
 

@@ -24,7 +24,7 @@ export const createMetadataReplicator = async (
   // * Loads initial data from RxDB if some documents have been persisted (offline mode)
   const initialDocuments = await collection.find().exec()
   if (initialDocuments.length) {
-    for (const doc of initialDocuments) setMetadataTable(doc.toJSON())
+    for (const doc of initialDocuments) setMetadataTable(doc)
     setCollectionIsReady(collection.name)
   }
 
@@ -45,7 +45,7 @@ export const createMetadataReplicator = async (
         }: RxChangeEvent<TableFragment>) => {
           if (documentData.id) {
             if (operation === 'INSERT' || operation === 'UPDATE') {
-              setMetadataTable(documentData)
+              setMetadataTable(documentData as TableFragment)
             }
           }
         }

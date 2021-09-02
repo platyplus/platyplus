@@ -9,6 +9,7 @@ import { debug } from './console'
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
+  // TODO rename 'replication'
   replication: Record<string, { syncing: boolean; ready: boolean }>
   app?: AppConfig
   authenticated: boolean
@@ -61,13 +62,23 @@ export const getCollectionMetadata = (collection: ContentsCollection) =>
 export const getDocumentMetadata = (document: ContentsDocument) =>
   getCollectionMetadata(document.collection)
 
+export const setCollectionIsSynced = (collectionName: string) => {
+  metadataStore.setState(
+    produce<MetadataStore>((state) => {
+      state.replication[collectionName].syncing = false
+    })
+  )
+}
 export const setCollectionIsReady = (collectionName: string) => {
   metadataStore.setState(
     produce<MetadataStore>((state) => {
-      state.replication[collectionName] = {
-        ready: true,
-        syncing: state.replication[collectionName]?.syncing || false
-      }
+      if (state.replication[collectionName])
+        state.replication[collectionName].ready = true
+      else
+        state.replication[collectionName] = {
+          ready: true,
+          syncing: false
+        }
     })
   )
 }

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Animation } from 'rsuite'
 import { useParams } from 'react-router'
 

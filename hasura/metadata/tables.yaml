@@ -1149,7 +1149,6 @@
   - role: user
     permission:
       columns:
-      - bidon
       - deleted
       - id
       - name
