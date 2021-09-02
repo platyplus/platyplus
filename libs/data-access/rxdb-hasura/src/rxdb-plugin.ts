@@ -2,7 +2,11 @@ import { RxCollection, RxPlugin } from 'rxdb'
 import { debug } from './console'
 import { createContentReplicator, createHooks } from './contents'
 
-import { createMetadataReplicator, MetadataCollection } from './metadata'
+import {
+  ConfigCollection,
+  createMetadataReplicator,
+  MetadataCollection
+} from './metadata'
 import { createConfigReplicator } from './metadata'
 import { ContentsCollection } from './types'
 
@@ -23,7 +27,7 @@ export const RxHasuraPlugin: RxPlugin = {
         await createMetadataReplicator(collection as MetadataCollection)
       } else if (collection.options.isConfig) {
         // * isMetadata option => this is a config collection
-        await createConfigReplicator(collection)
+        await createConfigReplicator(collection as ConfigCollection)
       }
     }
   }

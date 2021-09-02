@@ -43,17 +43,10 @@ export const createMetadataReplicator = async (
           documentData,
           previousDocumentData
         }: RxChangeEvent<TableFragment>) => {
-          if (operation === 'INSERT') {
-            if (documentData.id) {
+          if (documentData.id) {
+            if (operation === 'INSERT' || operation === 'UPDATE') {
               setMetadataTable(documentData)
             }
-          } else if (operation === 'UPDATE') {
-            // console.log(
-            //   `[${collection.name}] TODO - Updated metadata`,
-            //   previousDocumentData,
-            //   documentData
-            // )
-            // TODO update collection -> run a migration when needed (only when columns change?)
           }
         }
       )

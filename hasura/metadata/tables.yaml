@@ -1149,10 +1149,11 @@
   - role: user
     permission:
       columns:
+      - bidon
       - deleted
+      - id
       - name
       - updated_at
-      - id
       filter: {}
   update_permissions:
   - role: user

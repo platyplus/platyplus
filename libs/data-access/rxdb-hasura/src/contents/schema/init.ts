@@ -12,14 +12,15 @@ import { Metadata } from '../../metadata'
 
 export const toJsonSchema = (
   table: Metadata,
-  role: string
+  role: string,
+  version = 0
 ): RxJsonSchema<Contents> => {
   return {
     // keyCompression: true,
     type: 'object',
     title: metadataName(table),
     // description: '', // ? Use SQL table comment ? not in metadata yet
-    version: 0,
+    version,
     primaryKey: {
       key: 'id',
       fields: table.columns

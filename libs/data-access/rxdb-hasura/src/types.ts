@@ -51,6 +51,7 @@ export type Modifier = (
 export type Replicator = {
   start: () => Promise<void>
   stop: () => Promise<void>
+  destroy: () => Promise<void>
 }
 
 export type ContentsCollections = Map<string, ContentsCollection>

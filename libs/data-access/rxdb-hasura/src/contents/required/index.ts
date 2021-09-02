@@ -2,10 +2,12 @@ import { CommonColumnFragment } from '../../generated'
 import { Metadata } from '../../metadata'
 
 import { columnHasDefaultValue } from '../defaults'
+import { isIdColumn } from '../ids'
 import { propertyNames } from '../properties'
 
 export const isRequiredColumn = (column: CommonColumnFragment) =>
-  !isNullableColumn(column) && !columnHasDefaultValue(column)
+  (!isNullableColumn(column) && !columnHasDefaultValue(column)) ||
+  isIdColumn(column)
 
 export const isRequiredRelationship = (rel: Metadata['relationships'][0]) =>
   rel.type === 'object' &&

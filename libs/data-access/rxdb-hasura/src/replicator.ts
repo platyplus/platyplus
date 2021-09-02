@@ -1,6 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { RxCollection, RxGraphQLReplicationQueryBuilder } from 'rxdb'
+import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
+import { DocumentNode } from 'graphql'
+import {
+  setLastPullDocument,
+  setLastPushSequence
+} from 'rxdb/dist/lib/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 import produce from 'immer'
@@ -9,21 +13,29 @@ import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
 import { MetadataStore, metadataStore, setCollectionIsReady } from './store'
-import { DocumentNode } from 'graphql'
 import { getJwt } from './auth-state'
+import { Contents, ContentsCollection, Replicator } from './types'
+import {
+  AppConfig,
+  ConfigCollection,
+  MetadataCollection,
+  PropertyConfig,
+  TableConfig
+} from './metadata'
+import { TableFragment } from './generated'
 
 const DEFAULT_BATCH_SIZE = 5
 
-export type ReplicatorOptions = {
+export type ReplicatorOptions<RxDocType> = {
   url: string
   batchSize?: number
   pull: {
     queryBuilder: RxGraphQLReplicationQueryBuilder
-    modifier?: (doc: any) => Promise<any> | any
+    modifier?: (doc: RxDocType) => Promise<RxDocType> | RxDocType
   }
   push?: {
     queryBuilder?: RxGraphQLReplicationQueryBuilder
-    modifier?: (doc: any) => Promise<any> | any
+    modifier?: (doc: RxDocType) => Promise<RxDocType> | RxDocType
   }
   role: string
   substituteRole?: string
@@ -35,21 +47,27 @@ export type ReplicatorOptions = {
   }
 }
 
-export const createReplicator = async <RxDocType>(
-  collection: RxCollection<RxDocType>,
-  options: ReplicatorOptions
-): Promise<{ start: any; stop: any }> => {
+export const createReplicator = async (
+  collection: ContentsCollection | MetadataCollection | ConfigCollection,
+  options: ReplicatorOptions<
+    Contents | TableFragment | AppConfig | PropertyConfig | TableConfig
+  >
+): Promise<Replicator> => {
   const headers = () =>
     createHeaders(options.role, getJwt(), options.substituteRole)
 
-  let state: RxGraphQLReplicationState<RxDocType> | undefined
+  let state:
+    | RxGraphQLReplicationState<Contents>
+    | RxGraphQLReplicationState<TableFragment>
+    | RxGraphQLReplicationState<AppConfig>
+    | RxGraphQLReplicationState<PropertyConfig>
+    | RxGraphQLReplicationState<TableConfig>
+    | undefined
   let wsClient: SubscriptionClient | undefined
   let jwtSubscription: () => void | undefined
   let errorSubscription: Subscription | undefined
 
-  const setupGraphQLReplication = async (): Promise<
-    RxGraphQLReplicationState<RxDocType>
-  > => {
+  const setupGraphQLReplication = async () => {
     const replicationState = collection.syncGraphQL({
       url: options.url,
       headers: headers(),
@@ -94,6 +112,13 @@ export const createReplicator = async <RxDocType>(
     })
 
     replicationState.setHeaders(headers())
+
+    replicationState.canceled$.subscribe(() => {
+      debug(`[${collection.name}] replication cancelled`)
+      jwtSubscription?.()
+      errorSubscription?.unsubscribe()
+      startOption?.()
+    })
     initGraphQLSubscription()
     return replicationState
   }
@@ -172,11 +197,15 @@ export const createReplicator = async <RxDocType>(
   }
 
   const stop = async (): Promise<void> => {
-    info(`[${collection.name}] STOP`)
+    debug(`[${collection.name}] stop replication`)
     await state?.cancel()
-    jwtSubscription?.()
-    errorSubscription?.unsubscribe()
-    startOption?.()
+  }
+
+  const destroy = async (): Promise<void> => {
+    // ? open an issue on RxDB so this can be part of _prepare() in https://github.com/pubkey/rxdb/blob/master/src/plugins/replication-graphql/index.ts
+    await setLastPullDocument(state.collection, state.endpointHash, null)
+    await setLastPushSequence(state.collection, state.endpointHash, 0)
+    await stop()
   }
 
   const { connected, authenticated } = metadataStore.getState()
@@ -189,6 +218,6 @@ export const createReplicator = async <RxDocType>(
     },
     (state) => state.connected && state.authenticated
   )
-
-  return { start, stop }
+  collection.replicator = { start, stop, destroy }
+  return collection.replicator
 }

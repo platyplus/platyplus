@@ -68,6 +68,12 @@ export type MetadataCollection = RxCollection<
   { replicator: Replicator }
 >
 
+export type ConfigCollection = RxCollection<
+  TableConfig | AppConfig | PropertyConfig,
+  Record<string, unknown>,
+  { replicator: Replicator }
+>
+
 export type MetadataCollections = {
   metadata: RxCollection<TableFragment>
   property_config: RxCollection<PropertyConfig>

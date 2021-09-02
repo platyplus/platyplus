@@ -1,14 +1,15 @@
-import { RxChangeEvent, RxCollection } from 'rxdb'
+import { RxChangeEvent } from 'rxdb'
 
 import { createReplicator } from '../../replicator'
 import { setCollectionIsReady } from '../../store'
 import { Contents } from '../../types'
 
 import { METADATA_ROLE } from '../constants'
+import { ConfigCollection } from '../types'
 
 import { generateCollectionSettings } from './settings-generator'
 
-export const createConfigReplicator = async (collection: RxCollection) => {
+export const createConfigReplicator = async (collection: ConfigCollection) => {
   const config = collection.options.config
   const settings = generateCollectionSettings(collection.name, config)
 

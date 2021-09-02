@@ -10,12 +10,18 @@ import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 
-import { debug } from './console'
+import { debug, info, warn } from './console'
 import { RxHasuraPlugin } from './rxdb-plugin'
 import { collectionName } from './utils'
-import { contentsCollectionCreator, isManyToManyJoinTable } from './contents'
+import {
+  equivalentSchemas,
+  contentsCollectionCreator,
+  isManyToManyJoinTable,
+  toJsonSchema
+} from './contents'
 import { initCollection, MetadataStore, metadataStore } from './store'
 import { onAuthChange } from './auth-state'
+import { ContentsCollection } from './types'
 
 enableMapSet()
 
@@ -45,17 +51,42 @@ const onReady =
         }, [])
         for (const role of roles) {
           const name = collectionName(table, role)
-          if (!db[name] && !replication[name]) {
-            initCollection(name)
-            try {
-              await db.addCollections({
-                [name]: contentsCollectionCreator(table, role)
-              })
-            } catch {
-              console.warn(
-                `[${name}] already exists but was not found before attempting to add it`
-              )
+          if (!db[name]) {
+            if (!replication[name]) {
+              initCollection(name)
+              try {
+                await db.addCollections({
+                  [name]: contentsCollectionCreator(table, role)
+                })
+              } catch {
+                warn(
+                  `[${name}] already exists but was not found before attempting to add it`
+                )
+              }
             }
+          } else if (db[name].options.tableId) {
+            const collection = db[name] as ContentsCollection
+            const previousSchema = collection.schema.jsonSchema
+            const newSchema = toJsonSchema(table, role)
+
+            if (!equivalentSchemas(previousSchema, newSchema)) {
+              info(`[${name}] new schema. Reload the entire collection`)
+              // TODO ideally, identify the column/relationship changes and delete the removed one, and go fetch the missing ones through graphql
+
+              try {
+                await collection.replicator.destroy()
+                await db.removeCollectionDoc(name, previousSchema)
+                await collection.destroy()
+                initCollection(name)
+                await db.addCollections({
+                  [name]: contentsCollectionCreator(table, role)
+                })
+              } catch (e) {
+                warn(`[${name}] impossible to update collection`, e)
+              }
+            }
+          } else {
+            warn(`[${name}] Cannot modify a non-contents collection`)
           }
         }
       }

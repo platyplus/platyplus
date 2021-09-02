@@ -1,9 +1,9 @@
 import { RxDatabase, RxGraphQLReplicationQueryBuilder } from 'rxdb'
-import { metadataName } from '../../utils'
+// import { metadataName } from '../../utils'
 import { TableFragment } from '../../generated'
 import { stringQuery } from './graphql'
 
-const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
+// const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 
 // TODO the approach is a 'bit' brutal: subscribe to the full metadata query,
 // fetch it again entirely on every change, then deep compare old and new result...
@@ -11,11 +11,13 @@ const noopQuery = '{metadata_table(where:{_not:{}}) {name}}'
 // ( but it needs to be determined on the postgresql side... )
 export const queryBuilder =
   (db: RxDatabase): RxGraphQLReplicationQueryBuilder =>
-  (doc: TableFragment) => ({
-    query:
-      doc && // * Do not load metadata (again) when metadata collection already exists
-      !db[metadataName(doc)]
-        ? noopQuery
-        : stringQuery,
-    variables: {}
-  })
+  (doc: TableFragment) => {
+    return {
+      query: stringQuery,
+      // query: doc&& // * Do not load metadata (again) when metadata collection already exists
+      //    !db[metadataName(doc)]?
+      //    noopQuery
+      //   : stringQuery,
+      variables: {}
+    }
+  }

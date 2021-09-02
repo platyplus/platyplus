@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const nrwlConfig = require('@nrwl/react/plugins/webpack.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
@@ -37,6 +38,10 @@ module.exports = (config, context) => {
 
   config.plugins.push(
     ...[
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
+        Buffer: ['buffer', 'Buffer']
+      }),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         title: name,
@@ -54,6 +59,7 @@ module.exports = (config, context) => {
         display: 'standalone',
         theme_color: themeColor,
         background_color: backgroundColor,
+        publicPath: '/',
         crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
         ios: true,
         icons: [
