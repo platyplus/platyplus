@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import { RxDatabase } from 'rxdb'
-import { initConfigCollections, metadataSchema } from './metadata'
+import { initConfigCollections, metadataSchema } from '../metadata'
 import { MetadataStore, metadataStore, setCollectionIsReady } from './store'
 
 export const getJwt = () => metadataStore.getState().jwt

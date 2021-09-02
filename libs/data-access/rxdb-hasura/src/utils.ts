@@ -7,6 +7,8 @@ import decode from 'jwt-decode'
 import { jsonataPaths } from '@platyplus/jsonata-schema'
 
 import { Contents, ContentsCollection, ContentsDocument } from './types'
+import { Metadata } from './metadata/types'
+import { debug } from './console'
 
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never
@@ -113,4 +115,27 @@ export const populateDocument = async (
     }
   }
   return result
+}
+
+export const tableRoles = (table: Metadata): string[] =>
+  table.columns.reduce((acc, column) => {
+    for (const permissionType of ['canSelect', 'canInsert']) {
+      for (const { roleName } of column[permissionType]) {
+        !acc.includes(roleName) && acc.push(roleName)
+      }
+    }
+    return acc
+  }, [])
+
+export const removeCollection = async (collection: ContentsCollection) => {
+  debug(`[${collection.name}] remove collection`)
+  // await collection.replicator.destroy()
+  // await db.removeCollectionDoc(name, previousSchema)
+  // await collection.destroy()
+  await collection.replicator.destroy()
+  await collection.database.removeCollectionDoc(
+    collection.name,
+    collection.schema.jsonSchema
+  )
+  await collection.destroy()
 }

@@ -12,8 +12,12 @@ import produce from 'immer'
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
-import { MetadataStore, metadataStore, setCollectionIsSynced } from './store'
-import { getJwt } from './auth-state'
+import {
+  MetadataStore,
+  metadataStore,
+  setCollectionIsSynced,
+  getJwt
+} from './store'
 import { Contents, ContentsCollection, Replicator } from './types'
 import {
   AppConfig,
@@ -41,6 +45,7 @@ export type ReplicatorOptions<RxDocType> = {
   substituteRole?: string
   onStart?: () => undefined | (() => void)
   onStop?: () => void
+  onWsReceive?: (data) => void
   subscription: {
     query: string | DocumentNode
     variables?: () => Record<string, unknown>
@@ -55,7 +60,12 @@ export const createReplicator = async (
 ): Promise<Replicator> => {
   const headers = () =>
     createHeaders(options.role, getJwt(), options.substituteRole)
-
+  const resetWs = () => {
+    if (wsClient) {
+      wsClient.unsubscribeAll()
+      wsClient.close()
+    }
+  }
   let state:
     | RxGraphQLReplicationState<Contents>
     | RxGraphQLReplicationState<TableFragment>
@@ -118,6 +128,7 @@ export const createReplicator = async (
       jwtSubscription?.()
       errorSubscription?.unsubscribe()
       startOption?.()
+      resetWs()
     })
     initGraphQLSubscription()
     return replicationState
@@ -125,10 +136,7 @@ export const createReplicator = async (
 
   const initGraphQLSubscription = () => {
     debug(`[${collection.name}] initGraphQLSubscription`)
-    if (wsClient) {
-      wsClient.unsubscribeAll()
-      wsClient.close()
-    }
+    resetWs()
     wsClient = new SubscriptionClient(httpUrlToWebSockeUrl(options.url), {
       reconnect: true,
       connectionParams: {
@@ -146,9 +154,17 @@ export const createReplicator = async (
     })
 
     request.subscribe({
-      next: ({ data }) => {
-        debug(`[${collection.name}] WS request emitted`, Object.values(data)[0])
-        state?.run()
+      next: ({ data, ...rest }) => {
+        if (data) {
+          debug(
+            `[${collection.name}] WS request emitted`,
+            Object.values(data)[0]
+          )
+          options.onWsReceive?.(Object.values(data)[0])
+          state?.run()
+        } else {
+          debug(`[${collection.name}] WS request emitted, but no data`, rest)
+        }
       },
       error: (error) => {
         warn(`[${collection.name}] WS request error`, error)

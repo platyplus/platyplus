@@ -1,11 +1,12 @@
+import produce from 'immer'
 import { RxChangeEvent } from 'rxdb'
 
 import { TableFragment } from '../../generated'
 import { createReplicator } from '../../replicator'
-import { setCollectionIsReady } from '../../store'
+import { MetadataStore, metadataStore, setCollectionIsReady } from '../../store'
 
 import { METADATA_ROLE } from '../constants'
-import { MetadataCollection } from '../types'
+import { Metadata, MetadataCollection } from '../types'
 import { subscription } from './graphql'
 
 import { modifier } from './modifier'
@@ -51,6 +52,18 @@ export const createMetadataReplicator = async (
         }
       )
       return () => subscription.unsubscribe()
+    },
+    // * When receiving changes in the websocket, check if some of the tables have been removed.
+    // * If so, remove them from the store
+    // * A store subscription will then trigger the removal of the corresponding RxDB collections
+    onWsReceive: (data: Metadata[]) => {
+      metadataStore.setState(
+        produce<MetadataStore>((state) => {
+          Object.keys(metadataStore.getState().tables).forEach((id) => {
+            if (!data.find((table) => table.id === id)) delete state.tables[id]
+          })
+        })
+      )
     }
   })
 }

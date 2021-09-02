@@ -1,11 +1,13 @@
-import produce from 'immer'
+import produce, { enableMapSet } from 'immer'
 import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 
-import { ContentsCollection, ContentsDocument } from './types'
-import { AppConfig, Metadata, CONFIG_TABLES } from './metadata'
+import { ContentsCollection, ContentsDocument } from '../types'
+import { AppConfig, Metadata, CONFIG_TABLES } from '../metadata'
 import { getNetworkState, subscribeNetworkState } from './network-state'
-import { debug } from './console'
+import { debug } from '../console'
+
+enableMapSet()
 
 export type MetadataStore = {
   tables: Record<string, Metadata>
