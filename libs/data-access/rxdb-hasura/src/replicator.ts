@@ -27,6 +27,7 @@ import {
   TableConfig
 } from './metadata'
 import { TableFragment } from './generated'
+import { DELETED_COLUMN } from '.'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -92,7 +93,7 @@ export const createReplicator = async (
       },
       live: true,
       liveInterval: 1000 * 60 * 10, // 10 minutes
-      deletedFlag: 'deleted',
+      deletedFlag: DELETED_COLUMN,
       waitForLeadership: true // defaults to true
     })
     replicationState.error$.subscribe((err) => {

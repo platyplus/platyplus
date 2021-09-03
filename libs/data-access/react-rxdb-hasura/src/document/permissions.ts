@@ -16,10 +16,8 @@ export const useDocumentPermissions = (
   const [remove, setRemove] = useState(false)
   // TODO implement canSave
   useEffect(() => {
-    if (document) {
-      setEdit(canEdit(metadata, role, document))
-      setRemove(canRemove(metadata, role, document))
-    }
+    setEdit(canEdit(metadata, role, document))
+    setRemove(canRemove(metadata, role, document))
   }, [document, metadata, role])
   return { edit, remove }
 }

@@ -16,10 +16,9 @@ export const ToggleField: FieldComponent = ({
   name,
   edit,
   editable
-}) => {
-  if (editable || edit) {
-    return (
-      <FieldControl name={name} readOnly={!edit} accepter={ToggleAccepter} />
-    )
-  } else return <Toggle checked={document[name]} disabled />
-}
+}) =>
+  edit && editable ? (
+    <FieldControl name={name} readOnly={!edit} accepter={ToggleAccepter} />
+  ) : (
+    <Toggle checked={document[name]} disabled />
+  )

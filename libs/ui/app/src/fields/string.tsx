@@ -20,16 +20,15 @@ export const StringField: FieldComponent = ({
   name,
   edit,
   editable
-}) => {
-  if (editable || edit)
-    return (
-      <FieldControl
-        // TODO configure nullable
-        nullable={true}
-        name={name}
-        readOnly={!edit}
-        accepter={NullableInputString}
-      />
-    )
-  else return document[name] || null
-}
+}) =>
+  edit && editable ? (
+    <FieldControl
+      // TODO configure nullable
+      nullable={true}
+      name={name}
+      readOnly={!edit}
+      accepter={NullableInputString}
+    />
+  ) : (
+    document[name] || null
+  )

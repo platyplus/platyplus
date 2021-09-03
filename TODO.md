@@ -66,6 +66,11 @@
   - [x] remove db.contents$ and the related hooks / subscriptions
   - [x] get rid of useOrderedContentsCollections
   - [x] bug in updating profile: filter non-editable fields from the push replication
+  - [x] **realtime metadata**
+  - [x] improve permissions
+    - [x] hide `new` button when not allowed to insert
+    - [x] hide `edit` button when not allowed to update
+    - [x] readonly fields when not allowd to insert/update them
   - [ ] **foreign key constraints**
     - [ ] onDelete constraint
       - [x] m2m specific case
@@ -77,11 +82,6 @@
     - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
-  - [x] **realtime metadata**
-  - [ ] improve permissions
-    - [ ] hide `new` button when not allowed to insert
-    - [ ] hide `edit` button when not allowed to update
-    - [ ] readonly fields when not allowd to insert/update them
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [x] better handling of disconnections / replication errors
     - [x] PWA

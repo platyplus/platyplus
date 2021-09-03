@@ -13,6 +13,7 @@ import { decomposeId, getIds } from '../ids'
 import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
 import { isRequiredRelationship } from '../required'
 import { ADMIN_ROLE } from '../../metadata'
+import { DELETED_COLUMN } from '../columns'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -133,7 +134,7 @@ export const pushQueryBuilder = (
                     constraint: new EnumType(
                       remoteTable.primaryKey.constraintName
                     ),
-                    update_columns: [new EnumType('deleted')],
+                    update_columns: [new EnumType(DELETED_COLUMN)],
                     where: { deleted: { _eq: true } }
                   }
                 },

@@ -5,7 +5,8 @@ import {
   useFormModel,
   useFormGet,
   useFormSet,
-  useMetadataProperties
+  useMetadataProperties,
+  usePropertyPermissions
 } from '@platyplus/react-rxdb-hasura'
 
 import { FieldComponent, FieldComponentWrapper } from '../fields'
@@ -23,6 +24,12 @@ const DocumentField: FieldComponent = ({
   config
 }) => {
   const required = property.required
+  const { edit: editable } = usePropertyPermissions(
+    metadata,
+    role,
+    name,
+    document
+  )
   if (document)
     return (
       <FormGroup>
@@ -38,8 +45,7 @@ const DocumentField: FieldComponent = ({
           property={property}
           name={name}
           edit={edit}
-          // TODO editable according to permissions
-          editable={true}
+          editable={editable}
         />
         {/* {edit && required && <HelpBlock>* Required</HelpBlock>} */}
       </FormGroup>

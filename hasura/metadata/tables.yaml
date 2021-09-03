@@ -170,7 +170,7 @@
       manual_configuration:
         remote_table:
           schema: metadata
-          name: permission_select_columns
+          name: permission_insert_columns
         column_mapping:
           id: column_id
   - name: canSelect
@@ -1141,7 +1141,6 @@
     permission:
       check: {}
       columns:
-      - deleted
       - id
       - name
       backend_only: false
@@ -1158,7 +1157,6 @@
   - role: user
     permission:
       columns:
-      - deleted
       - name
       filter: {}
       check: null
