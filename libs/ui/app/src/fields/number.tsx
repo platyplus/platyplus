@@ -5,15 +5,14 @@ export const NumberField: FieldComponent = ({
   name,
   edit,
   editable
-}) => {
-  if (editable || edit)
-    return (
-      <FieldControl
-        name={name}
-        readOnly={!edit}
-        // TODO configure nullable
-        accepter={NullableNumericInput}
-      />
-    )
-  else return document[name] || null
-}
+}) =>
+  edit && editable ? (
+    <FieldControl
+      name={name}
+      readOnly={!edit}
+      // TODO configure nullable
+      accepter={NullableNumericInput}
+    />
+  ) : (
+    document[name] || null
+  )

@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Contents, ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
+import {
+  Contents,
+  ContentsDocument,
+  ID_COLUMN,
+  Metadata
+} from '@platyplus/rxdb-hasura'
 
 import { useMetadataProperties } from '../property'
 import { useStore } from '../store'
@@ -45,7 +50,7 @@ export const useFormGet = (
   }, [document])
   return useMemo(() => {
     if (!properties) return {} as Contents
-    return [...properties.keys(), 'id'].reduce(
+    return [...properties.keys(), ID_COLUMN].reduce(
       // ? custom id
       (aggregator, key) => {
         aggregator[key] = key in formValues ? formValues[key] : docValues?.[key]

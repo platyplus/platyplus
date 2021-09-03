@@ -5,7 +5,8 @@ import {
   MetadataDocument,
   PropertyConfig,
   Property,
-  getMetadataTable
+  getMetadataTable,
+  SYSTEM_COLUMNS
 } from '@platyplus/rxdb-hasura'
 
 import { useCollectionTableConfig } from '../collection'
@@ -73,7 +74,7 @@ export const useMetadataProperties = (
       const result = new Map<string, Property>()
       const tempProperties = new Map(state)
       if (options?.all !== true) {
-        for (const id of ['id', 'updated_at', 'created_at', 'deleted']) {
+        for (const id of [...SYSTEM_COLUMNS, 'created_at']) {
           tempProperties.delete(id)
         }
       }

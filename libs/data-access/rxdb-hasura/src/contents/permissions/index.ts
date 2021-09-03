@@ -1,6 +1,8 @@
 import { ADMIN_ROLE, Metadata } from '../../metadata'
 import { getMetadataTable } from '../../store'
 import { Contents } from '../../types'
+import { DELETED_COLUMN, SYSTEM_COLUMNS } from '../columns'
+import { getIds } from '../ids'
 import { isManyToManyJoinTable } from '../relationships'
 export * from './properties'
 
@@ -53,7 +55,7 @@ export const canSave = () => {
 }
 
 export const canRemove = (metadata: Metadata, role: string, doc?: Contents) =>
-  canUpdate(metadata, role, 'deleted')
+  canUpdate(metadata, role, DELETED_COLUMN)
 
 export const canCreate = (
   metadata: Metadata,
@@ -65,8 +67,7 @@ export const canCreate = (
   if (role === ADMIN_ROLE) return true
   // ? Check the hasura permission rule ?
   if (fieldName) {
-    const property = metadata.properties.get(fieldName)
-    const relationship = property.relationship
+    const relationship = metadata.properties.get(fieldName)?.relationship
     if (relationship) {
       if (relationship.type === 'object') {
         // * object relationship: check permission to insert every foreign key column
@@ -89,8 +90,19 @@ export const canCreate = (
       )
     }
   } else {
-    return metadata.columns.some((col) =>
-      col.canInsert.some((permission) => permission.roleName === role)
+    const ids = getIds(metadata)
+    // * Must have at least one insertable user-defined column, and id must be insertable as well
+    return (
+      metadata.columns
+        .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))
+        .some((col) =>
+          col.canInsert.some((permission) => permission.roleName === role)
+        ) &&
+      metadata.columns
+        .filter(({ name }) => ids.includes(name))
+        .every((col) =>
+          col.canInsert.some((permission) => permission.roleName === role)
+        )
     )
   }
 }
@@ -105,8 +117,7 @@ export const canUpdate = (
   if (role === ADMIN_ROLE) return true
   // ? Check the hasura permission rule ?
   if (fieldName) {
-    const property = metadata.properties.get(fieldName)
-    const relationship = property.relationship
+    const relationship = metadata.properties.get(fieldName)?.relationship
     if (relationship) {
       // * Relationship
       if (relationship?.type === 'object') {
@@ -130,8 +141,10 @@ export const canUpdate = (
       )
     }
   } else {
-    return metadata.columns.some((col) =>
-      col.canUpdate.some((permission) => permission.roleName === role)
-    )
+    return metadata.columns
+      .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))
+      .some((col) =>
+        col.canUpdate.some((permission) => permission.roleName === role)
+      )
   }
 }

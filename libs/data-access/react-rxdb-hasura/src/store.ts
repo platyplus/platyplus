@@ -3,7 +3,11 @@ import produce from 'immer'
 import path from 'object-path'
 import { devtools } from 'zustand/middleware'
 
-import { ConfigCollectionName, Contents } from '@platyplus/rxdb-hasura'
+import {
+  ConfigCollectionName,
+  Contents,
+  ID_COLUMN
+} from '@platyplus/rxdb-hasura'
 
 type CollectionForm = Record<string, Contents>
 type FormType = Record<string, CollectionForm> &
@@ -37,7 +41,7 @@ export const useStore = create<{
       setConfigForm: (collection, value, givenId, path) =>
         set(
           produce((state) => {
-            const id = givenId || value['id']
+            const id = givenId || value[ID_COLUMN]
             if (!id) return
             if (path) {
               if (!state.forms[collection][id]) state.forms[collection][id] = {}

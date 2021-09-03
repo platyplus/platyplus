@@ -2,9 +2,11 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { TableFragment } from '../../generated'
 import { JsonSchemaFormat, Metadata } from '../../metadata'
-import { isIdColumn } from '../ids'
+import { ID_COLUMN, isIdColumn } from '../ids'
 import { propertyJsonType } from '../properties'
-
+export const DELETED_COLUMN = 'deleted'
+export const UPDATED_AT_COLUMN = 'updated_at'
+export const SYSTEM_COLUMNS = [DELETED_COLUMN, ID_COLUMN, UPDATED_AT_COLUMN]
 const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
   // * Postgres timestamp without timezone does not fit with a default json schema format
   timestamptz: 'date-time',
@@ -29,7 +31,7 @@ export const columnProperties = (
       (!skipRelationships.includes(column.name) ||
         // * filter relationships using the primary key as foreign key
         isIdColumn(column)) &&
-      !(excludeSystemColumns && ['deleted', 'updated_at'].includes(column.name))
+      !(excludeSystemColumns && SYSTEM_COLUMNS.includes(column.name))
   )
 }
 

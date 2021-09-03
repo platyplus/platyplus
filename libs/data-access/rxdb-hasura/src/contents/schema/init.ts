@@ -6,7 +6,7 @@ import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from '../columns'
 import { createRelationshipProperties } from '../relationships'
 import { requiredProperties } from '../required'
-import { isIdColumn } from '../ids'
+import { ID_COLUMN, isIdColumn } from '../ids'
 import { indexes } from './indexes'
 import { Metadata } from '../../metadata'
 
@@ -22,7 +22,7 @@ export const toJsonSchema = (
     // description: '', // ? Use SQL table comment ? not in metadata yet
     version,
     primaryKey: {
-      key: 'id',
+      key: ID_COLUMN,
       fields: table.columns
         .filter((column) => isIdColumn(column))
         .map((column) => column.name),
