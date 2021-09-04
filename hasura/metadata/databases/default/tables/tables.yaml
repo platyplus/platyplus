@@ -1,0 +1,8 @@
+- "!include auth_account_providers.yaml"
+- "!include auth_account_roles.yaml"
+- "!include auth_accounts.yaml"
+- "!include auth_migrations.yaml"
+- "!include auth_providers.yaml"
+- "!include auth_refresh_tokens.yaml"
+- "!include auth_roles.yaml"
+- "!include public_users.yaml"

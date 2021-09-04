@@ -1,1 +1,0 @@
-ALTER TABLE "public"."visite_lab_test" ALTER COLUMN "updated_at" TYPE timestamp without time zone;

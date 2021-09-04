@@ -1,1 +1,0 @@
-CREATE TABLE "metadata"."computed_property"("table_schema" text NOT NULL, "table_name" text NOT NULL, "name" text NOT NULL, "transformation" text, "template" text, PRIMARY KEY ("table_schema","table_name","name") );
