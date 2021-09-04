@@ -1,0 +1,41 @@
+table:
+  name: users
+  schema: public
+object_relationships:
+- name: account
+  using:
+    manual_configuration:
+      column_mapping:
+        id: user_id
+      insertion_order: null
+      remote_table:
+        name: accounts
+        schema: auth
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - id
+    - updated_at
+  role: me
+select_permissions:
+- permission:
+    columns:
+    - avatar_url
+    - created_at
+    - display_name
+    - id
+    - updated_at
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: me
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - avatar_url
+    - display_name
+    filter: {}
+  role: me
