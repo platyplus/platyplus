@@ -5,11 +5,12 @@ import { TableInfoStore, tableInfoStore, setCollectionIsReady } from './store'
 
 export const getJwt = () => tableInfoStore.getState().jwt
 
-export const setAuthStatus = (status: boolean, jwt?: string) =>
+export const setAuthStatus = (status: boolean, jwt: string, isAdmin: boolean) =>
   tableInfoStore.setState(
     produce<TableInfoStore>((partial) => {
       partial.authenticated = status
       partial.jwt = jwt
+      partial.admin = status ? isAdmin : false
     })
   )
 

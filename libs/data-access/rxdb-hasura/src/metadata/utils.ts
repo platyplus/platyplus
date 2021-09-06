@@ -4,6 +4,7 @@ import { print } from 'graphql/language/printer'
 import { info } from '../console'
 import { upsertWithMigration } from './hasura-migrations'
 import { CollectionSettings } from './types'
+import { tableInfoStore } from '..'
 
 export const CONFIG_TABLES: string[] = [
   'app_config',
@@ -46,14 +47,20 @@ export const generateReplicationSettings = (
       : null,
     pushModifier: config.mutation
       ? async (doc) => {
-          if (!isConsoleEnabled()) {
+          if (isConsoleEnabled()) {
             try {
               await upsertWithMigration(collectionName, curateData(doc))
               return null
             } catch {
-              info(
-                'Could not save the migration through Hasura Console. Falling back to regular GraphQL replication'
-              )
+              info('Could not save the migration through Hasura Console.')
+              if (tableInfoStore.getState().admin) {
+                return doc
+              } else {
+                info(
+                  'User is not admin. Cannot fall back to regular GraphQL replication'
+                )
+                return null
+              }
             }
           }
           return doc

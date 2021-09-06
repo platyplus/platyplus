@@ -123,17 +123,16 @@ export const populateDocument = async (
   return result
 }
 
-export const tableRoles = (table: Partial<TableInfo>): string[] =>
-  table.columns.reduce((acc, column) => {
-    for (const permissionType of ['canSelect', 'canInsert']) {
-      if (column[permissionType]) {
-        for (const { roleName } of column[permissionType]) {
-          !acc.includes(roleName) && acc.push(roleName)
-        }
-      }
-    }
-    return acc
-  }, [])
+export const tableRoles = (table: Partial<TableInfo>): string[] => {
+  const roles: string[] = []
+  table.metadata.select_permissions?.forEach((p) => {
+    if (!roles.includes(p.role)) roles.push(p.role)
+  })
+  table.metadata.insert_permissions?.forEach((p) => {
+    if (!roles.includes(p.role)) roles.push(p.role)
+  })
+  return roles
+}
 
 export const removeCollection = async (collection: ContentsCollection) => {
   debug(`[${collection.name}] remove collection`)

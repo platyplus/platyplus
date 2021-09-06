@@ -7,7 +7,8 @@ export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = getCollectionTableInfo(collection)
   const title = tableName(table)
   const now = new Date().toUTCString()
-  const arrayRels = table.metadata.array_relationships.map(({ name }) => name)
+  const arrayRels =
+    table.metadata.array_relationships?.map(({ name }) => name) || []
 
   const query = jsonToGraphQLQuery({
     subscription: {

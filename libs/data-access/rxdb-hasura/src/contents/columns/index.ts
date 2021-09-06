@@ -19,10 +19,11 @@ export const columnProperties = (
   table: Partial<TableInfo>,
   excludeSystemColumns = false
 ) => {
-  const skipRelationships = table.metadata.object_relationships
-    .map((rel) => relationshipMapping(table, rel))
-    .filter((mapping) => Object.keys(mapping).length === 1)
-    .map((mapping) => Object.keys(mapping)[0])
+  const skipRelationships =
+    table.metadata.object_relationships
+      ?.map((rel) => relationshipMapping(table, rel))
+      .filter((mapping) => Object.keys(mapping).length === 1)
+      .map((mapping) => Object.keys(mapping)[0]) || []
   return table.columns.filter(
     (column) =>
       // * filter properties that are already mapped by an object relationship

@@ -15,7 +15,7 @@ export const canRead = (
   role: string,
   propertyName?: string
 ) => {
-  const permissions = tableInfo.metadata.select_permissions.find(
+  const permissions = tableInfo.metadata.select_permissions?.find(
     (p) => p.role === role
   )?.permission
   if (!permissions) return false
@@ -72,7 +72,7 @@ export const canCreate = (
   // * PostgreSQL views cannot be edited (as of now)
   // if (tableInfo.view) return false
   if (role === ADMIN_ROLE) return true
-  const permissions = tableInfo.metadata.insert_permissions.find(
+  const permissions = tableInfo.metadata.insert_permissions?.find(
     (p) => p.role === role
   )?.permission
   if (!permissions) return false
@@ -119,9 +119,10 @@ export const canUpdate = (
   // * PostgreSQL views cannot be edited (as of now)
   // if (tableInfo.view) return false
   if (role === ADMIN_ROLE) return true
-  const permissions = tableInfo.metadata.update_permissions.find(
+  const permissions = tableInfo.metadata.update_permissions?.find(
     (p) => p.role === role
   )?.permission
+  if (!permissions) return false
   // ? Check the hasura permission rule ?
   if (fieldName) {
     const relationship = allRelationships(tableInfo).find(

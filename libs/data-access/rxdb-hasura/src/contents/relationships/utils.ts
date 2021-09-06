@@ -4,14 +4,14 @@ import { getTableInfo } from '../../store'
 import { getIds } from '../ids'
 
 export const allRelationships = (table: Partial<TableInfo>) => [
-  ...table.metadata.array_relationships.map((rel) => ({
+  ...(table.metadata.array_relationships?.map((rel) => ({
     ...rel,
     type: 'array'
-  })),
-  ...table.metadata.object_relationships.map((rel) => ({
+  })) || []),
+  ...(table.metadata.object_relationships?.map((rel) => ({
     ...rel,
     type: 'object'
-  }))
+  })) || [])
 ]
 
 export const filteredRelationships = (table: Partial<TableInfo>) =>
@@ -20,16 +20,16 @@ export const filteredRelationships = (table: Partial<TableInfo>) =>
 export const filteredObjectRelationships = (
   table: Partial<TableInfo>
 ): Array<Relationship> =>
-  table.metadata.object_relationships.filter(
+  table.metadata.object_relationships?.filter(
     (rel) => !!relationshipTable(table, rel)
-  )
+  ) || []
 
 export const filteredArrayRelationships = (
   table: Partial<TableInfo>
 ): Array<Relationship> =>
-  table.metadata.array_relationships.filter(
+  table.metadata.array_relationships?.filter(
     (rel) => !!relationshipTable(table, rel)
-  )
+  ) || []
 
 // * A table is a ManyToMany transition table when it has a composite primary key that refers to two foreign keys
 // TODO won't work with manually defined relationships in Hasura i.e. the ones not using foreign keys

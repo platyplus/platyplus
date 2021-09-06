@@ -54,10 +54,10 @@ const setTableInfo = (table: TableInfo) =>
           // * Remove previous relationships that are not part of the schema anymore
           previousTable.metadata.object_relationships.forEach((rel) => {
             if (
-              !table.metadata.object_relationships.find(
+              !table.metadata.object_relationships?.find(
                 ({ name }) => name === rel.name
               ) &&
-              !table.metadata.array_relationships.find(
+              !table.metadata.array_relationships?.find(
                 ({ name }) => name === rel.name
               )
             )
@@ -68,10 +68,10 @@ const setTableInfo = (table: TableInfo) =>
           // * Remove previous relationships that are not part of the schema anymore
           previousTable.metadata.array_relationships.forEach((rel) => {
             if (
-              !table.metadata.object_relationships.find(
+              !table.metadata.object_relationships?.find(
                 ({ name }) => name === rel.name
               ) &&
-              !table.metadata.array_relationships.find(
+              !table.metadata.array_relationships?.find(
                 ({ name }) => name === rel.name
               )
             )
