@@ -4,7 +4,7 @@ import { useRxData } from 'rxdb-hooks'
 import {
   Contents,
   ContentsDocument,
-  shiftedMetadataTable
+  shiftedTable
 } from '@platyplus/rxdb-hasura'
 import { useCollectionName } from '@platyplus/react-rxdb-hasura'
 
@@ -20,12 +20,12 @@ export const CollectionField: CollectionFieldComponent = ({
   role,
   edit,
   editable,
-  metadata,
+  tableInfo,
   accepter: Accepter,
   component = 'label'
 }) => {
-  const refMetadata = shiftedMetadataTable(metadata, property.relationship)
-  const refCollectionName = useCollectionName(refMetadata, role)
+  const refTable = shiftedTable(tableInfo, property.relationship)
+  const refCollectionName = useCollectionName(refTable, role)
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
     []
@@ -50,8 +50,8 @@ export const CollectionField: CollectionFieldComponent = ({
     name,
     refCollectionName,
     property,
-    refMetadata,
-    metadata.id,
+    refTable,
+    tableInfo.id,
     role
   ])
   const { isFetching, result } = useRxData<Contents>(
@@ -62,7 +62,7 @@ export const CollectionField: CollectionFieldComponent = ({
 
   return edit ? (
     <FieldControl
-      metadata={metadata}
+      tableInfo={tableInfo}
       role={role}
       style={{ minWidth: 300 }}
       name={name}
@@ -74,7 +74,7 @@ export const CollectionField: CollectionFieldComponent = ({
     />
   ) : (
     <CollectionComponentWrapper
-      metadata={refMetadata}
+      tableInfo={refTable}
       role={role}
       data={data}
       componentName={component}

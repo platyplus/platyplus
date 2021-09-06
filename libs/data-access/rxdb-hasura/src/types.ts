@@ -2,13 +2,14 @@
 import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
 import { Subject } from 'rxjs'
 
-import { Metadata, MetadataCollections } from './metadata'
+import { ConfigCollection, TableInfo, TableInfoCollection } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
 export type { ColumnFragment, CoreTableFragment } from './generated'
+export type { Column, Relationship, TableInfo } from './metadata'
 
-export type MetadataDocument = RxDocument<Metadata>
+export type TableInfoDocument = RxDocument<TableInfo>
 
 export type PropertyValue =
   | string
@@ -57,7 +58,9 @@ export type Replicator = {
 
 export type ContentsCollections = Map<string, ContentsCollection>
 
-export type DatabaseCollections = MetadataCollections & ContentsCollections
+export type DatabaseCollections = TableInfoCollection &
+  ConfigCollection &
+  ContentsCollections
 
 export type Database = RxDatabase<DatabaseCollections> & {
   newCollections$: Subject<DatabaseCollections>

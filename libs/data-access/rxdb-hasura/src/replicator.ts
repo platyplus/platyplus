@@ -13,21 +13,21 @@ import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
 import {
-  MetadataStore,
-  metadataStore,
+  TableInfoStore,
+  tableInfoStore,
   setCollectionIsSynced,
   getJwt
 } from './store'
-import { Contents, ContentsCollection, Replicator } from './types'
+import { Contents, ContentsCollection, Replicator, TableInfo } from './types'
 import {
   AppConfig,
   ConfigCollection,
-  MetadataCollection,
+  TableInfoCollection,
   PropertyConfig,
   TableConfig
 } from './metadata'
-import { TableFragment } from './generated'
-import { DELETED_COLUMN } from '.'
+
+import { DELETED_COLUMN } from './contents'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -54,9 +54,9 @@ export type ReplicatorOptions<RxDocType> = {
 }
 
 export const createReplicator = async (
-  collection: ContentsCollection | MetadataCollection | ConfigCollection,
+  collection: ContentsCollection | ConfigCollection | TableInfoCollection,
   options: ReplicatorOptions<
-    Contents | TableFragment | AppConfig | PropertyConfig | TableConfig
+    Contents | AppConfig | PropertyConfig | TableConfig | TableInfo
   >
 ): Promise<Replicator> => {
   const headers = () =>
@@ -69,7 +69,7 @@ export const createReplicator = async (
   }
   let state:
     | RxGraphQLReplicationState<Contents>
-    | RxGraphQLReplicationState<TableFragment>
+    | RxGraphQLReplicationState<TableInfo>
     | RxGraphQLReplicationState<AppConfig>
     | RxGraphQLReplicationState<PropertyConfig>
     | RxGraphQLReplicationState<TableConfig>
@@ -102,8 +102,8 @@ export const createReplicator = async (
     })
     replicationState.active$.subscribe((active) => {
       if (active) {
-        metadataStore.setState(
-          produce<MetadataStore>((state) => {
+        tableInfoStore.setState(
+          produce<TableInfoStore>((state) => {
             state.replication[collection.name] = {
               syncing: true,
               ready: state.replication[collection.name]?.ready || false
@@ -111,8 +111,8 @@ export const createReplicator = async (
           })
         )
       } else {
-        metadataStore.setState(
-          produce<MetadataStore>((state) => {
+        tableInfoStore.setState(
+          produce<TableInfoStore>((state) => {
             state.replication[collection.name] = {
               syncing: false,
               ready: true
@@ -195,10 +195,10 @@ export const createReplicator = async (
 
     startOption = options.onStart?.()
     errorSubscription = state.error$.subscribe((data) => {
-      warn('metadata sync error', data)
+      warn('sync error', data)
     })
 
-    jwtSubscription = metadataStore.subscribe(
+    jwtSubscription = tableInfoStore.subscribe(
       (_: string | undefined) => {
         debug(`[${collection.name}] set token`)
         initGraphQLSubscription()
@@ -225,9 +225,9 @@ export const createReplicator = async (
     await stop()
   }
 
-  const { connected, authenticated } = metadataStore.getState()
+  const { connected, authenticated } = tableInfoStore.getState()
   if (connected && authenticated) start()
-  metadataStore.subscribe(
+  tableInfoStore.subscribe(
     async (ok: boolean) => {
       info(`[${collection.name}] auth status change`, ok)
       if (ok) await start()

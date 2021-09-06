@@ -11,7 +11,7 @@ import {
 
 import { useStore } from './store'
 import { useDB } from './database'
-import { useMetadataStore } from './metadata'
+import { useTableInfoStore } from './metadata'
 
 export const useConfigEnabled = () => {
   const admin = useUserIsAdmin()
@@ -25,11 +25,11 @@ export const useAppConfig = (): [
   (val: Partial<AppConfig>) => void
 ] => {
   const [newId] = useState(uuid())
-  const id = useMetadataStore(
+  const id = useTableInfoStore(
     useCallback((state) => state.app?.id || newId, [newId])
   )
 
-  const initialValues = useMetadataStore((state) => state.app || {})
+  const initialValues = useTableInfoStore((state) => state.app || {})
 
   const modifiedValues = useStore((state) => state.forms.app_config[id] || {})
 
@@ -48,22 +48,22 @@ export const useAppConfig = (): [
   return [config, setConfig]
 }
 
-export const useMetadataConfig = <T>(
-  metadataId?: string,
+export const useConfig = <T>(
+  tableId?: string,
   path?: string,
   fallback?: T
 ): [T, (val: T) => void] => {
-  const initialValues = useMetadataStore(
+  const initialValues = useTableInfoStore(
     useCallback(
-      (state) => (metadataId && state.tables[metadataId]?.config) || {},
-      [metadataId]
+      (state) => (tableId && state.tables[tableId]?.config) || {},
+      [tableId]
     )
   )
 
   const modifiedValues = useStore(
     useCallback(
-      (state) => (metadataId && state.forms.table_config[metadataId]) || {},
-      [metadataId]
+      (state) => (tableId && state.forms.table_config[tableId]) || {},
+      [tableId]
     )
   )
 
@@ -79,8 +79,8 @@ export const useMetadataConfig = <T>(
   const setState = useStore(
     useCallback(
       (state) => (value: T) =>
-        state.setConfigForm('table_config', value, metadataId, path),
-      [metadataId, path]
+        state.setConfigForm('table_config', value, tableId, path),
+      [tableId, path]
     )
   )
   return [state, setState]

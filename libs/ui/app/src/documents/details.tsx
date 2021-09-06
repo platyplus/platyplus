@@ -5,7 +5,7 @@ import {
   useFormModel,
   useFormGet,
   useFormSet,
-  useMetadataProperties,
+  useTableProperties,
   usePropertyPermissions
 } from '@platyplus/react-rxdb-hasura'
 
@@ -17,7 +17,7 @@ import { useRef } from 'react'
 const DocumentField: FieldComponent = ({
   property,
   name,
-  metadata,
+  tableInfo,
   role,
   document,
   edit,
@@ -25,7 +25,7 @@ const DocumentField: FieldComponent = ({
 }) => {
   const required = property.required
   const { edit: editable } = usePropertyPermissions(
-    metadata,
+    tableInfo,
     role,
     name,
     document
@@ -34,12 +34,12 @@ const DocumentField: FieldComponent = ({
     return (
       <FormGroup>
         <ControlLabel>
-          <PropertyIcon metadata={metadata} name={name} />
-          <PropertyTitle metadata={metadata} name={name} editable={config} />
+          <PropertyIcon tableInfo={tableInfo} name={name} />
+          <PropertyTitle tableInfo={tableInfo} name={name} editable={config} />
           {edit && required && '*'}
         </ControlLabel>
         <FieldComponentWrapper
-          metadata={metadata}
+          tableInfo={tableInfo}
           document={document}
           role={role}
           property={property}
@@ -54,17 +54,17 @@ const DocumentField: FieldComponent = ({
 }
 
 export const DocumentDetails: DocumentComponent = ({
-  metadata,
+  tableInfo,
   role,
   document,
   edit,
   formRef,
   config
 }) => {
-  const [properties] = useMetadataProperties(metadata, { role })
-  const form = useFormGet(metadata, role, document)
-  const setForm = useFormSet(metadata, role, document)
-  const model = useFormModel(metadata)
+  const [properties] = useTableProperties(tableInfo, { role })
+  const form = useFormGet(tableInfo, role, document)
+  const setForm = useFormSet(tableInfo, role, document)
+  const model = useFormModel(tableInfo)
   const newRef = useRef()
   const ref = formRef || newRef
   // ? Why does useFormGet rerender the entire DocumentDetails component?
@@ -74,7 +74,7 @@ export const DocumentDetails: DocumentComponent = ({
         {[...properties.entries()].map(([name, property]) => (
           <DocumentField
             key={name}
-            metadata={metadata}
+            tableInfo={tableInfo}
             document={document}
             role={role}
             property={property}

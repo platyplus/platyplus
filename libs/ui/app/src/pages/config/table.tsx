@@ -13,25 +13,23 @@ import {
 } from 'rsuite'
 
 import {
-  useMetadataStore,
-  useMetadataConfig,
-  useMetadataProperties
+  useTableInfoStore,
+  useConfig,
+  useTableProperties
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
 import { upperCaseFirst } from '@platyplus/data'
 
 import { useComponentsLibrary } from '../../components'
 import { PropertyConfig } from './property'
-import { Metadata, metadataName } from '@platyplus/rxdb-hasura'
+import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
 
-const MetadataWrapper: React.FC<{ table: Metadata; title: string }> = ({
-  table,
-  title
-}) => {
-  const [properties, setProperties] = useMetadataProperties(table)
-  const [config, setConfig] = useMetadataConfig<Record<string, unknown>>(
-    table.id
-  )
+const TableWrapper: React.FC<{
+  table: TableInformation
+  title: string
+}> = ({ table, title }) => {
+  const [properties, setProperties] = useTableProperties(table)
+  const [config, setConfig] = useConfig<Record<string, unknown>>(table.id)
 
   const library = useComponentsLibrary()
   const collectionComponents = Object.keys(library.collections)
@@ -117,7 +115,7 @@ const MetadataWrapper: React.FC<{ table: Metadata; title: string }> = ({
         {[...properties.entries()].map(([name, property], index) => (
           <List.Item key={name} index={index}>
             <PropertyConfig
-              metadata={table}
+              tableInfo={table}
               name={name}
               property={property}
               expanded={expandedProperties[name]}
@@ -142,8 +140,10 @@ const MetadataWrapper: React.FC<{ table: Metadata; title: string }> = ({
 
 export const ConfigTablePage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
-  const table = useMetadataStore(useCallback((state) => state.tables[id], [id]))
-  const metaName = useMemo(() => table && metadataName(table), [table])
+  const table = useTableInfoStore(
+    useCallback((state) => state.tables[id], [id])
+  )
+  const metaName = useMemo(() => table && tableName(table), [table])
 
   const title = useMemo(() => {
     const collectionTitle = table.config?.title
@@ -159,7 +159,7 @@ export const ConfigTablePage: React.FC<{ role?: string }> = () => {
     <Animation.Fade in={!!table}>
       {(props) => (
         <div {...props}>
-          {table && <MetadataWrapper table={table} title={title} />}
+          {table && <TableWrapper table={table} title={title} />}
         </div>
       )}
     </Animation.Fade>

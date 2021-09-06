@@ -1,11 +1,38 @@
-import { RxCollection } from 'rxdb'
-import { ColumnFragment, TableFragment } from '../generated'
-import { Replicator } from '../types'
-import { AppConfig } from './config/app/types'
-import { PropertyConfig } from './config/property/types'
-import { TableConfig } from './config/table/types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { XOR } from '@platyplus/ts-types'
+import { RxCollection, RxJsonSchema } from 'rxdb'
+import { DocumentNode } from 'graphql'
 
-export type { PropertyConfig, TableConfig, AppConfig }
+import { Replicator } from '../types'
+import { AppConfig } from './app-config/types'
+import type { PropertyConfig } from './property-config/types'
+import type { TableConfig } from './table-config/types'
+import type { Column, Relationship, TableInfo } from './table-information/types'
+
+export type TableInformation = Partial<ExtendedTableInfo>
+
+export type CollectionSettings = {
+  query: DocumentNode
+  mutation?: DocumentNode
+  subscription: DocumentNode
+  schema: RxJsonSchema<any>
+  onUpsert?: (doc: any) => void
+  onDelete?: (doc: any) => void
+  onWsReceive?: (doc: any[]) => void
+}
+export type {
+  Column,
+  Relationship,
+  TableInfo,
+  PropertyConfig,
+  TableConfig,
+  AppConfig
+}
+
+export type ConfigCollectionName =
+  | 'app_config'
+  | 'property_config'
+  | 'table_config'
 
 export type JsonSchemaFormat =
   | 'date-time'
@@ -34,36 +61,21 @@ export type PropertyType =
   | JsonSchemaPropertyType
   | CustomTypes
 
-export type Metadata = Omit<
-  TableFragment,
-  'foreignKeys' | 'dependentForeignKeys'
-> & {
+export type ExtendedTableInfo = TableInfo & {
   properties: Map<string, Property>
   config?: TableConfig
-  dependentForeignKeys: {
-    tableId: string
-    columns: string[]
-    onDelete: 'a' | 'r' | 'c' | 'n' | 'd'
-    onUpdate: 'a' | 'r' | 'c' | 'n' | 'd'
-  }[]
-  foreignKeys: {
-    columns: string[]
-    refId: string
-  }[]
 }
 
 export type Property = {
   name: string
-  column?: ColumnFragment
-  relationship?: Metadata['relationships'][0]
   config?: PropertyConfig
   type: PropertyType
   required: boolean
   primary: boolean
-}
+} & XOR<{ column: Column }, { relationship: Relationship }>
 
-export type MetadataCollection = RxCollection<
-  TableFragment,
+export type TableInfoCollection = RxCollection<
+  TableInfo,
   Record<string, unknown>,
   { replicator: Replicator }
 >
@@ -74,8 +86,8 @@ export type ConfigCollection = RxCollection<
   { replicator: Replicator }
 >
 
-export type MetadataCollections = {
-  metadata: RxCollection<TableFragment>
+export type PlatyplusCollections = {
+  table_info: TableInfoCollection
   property_config: RxCollection<PropertyConfig>
   table_config: RxCollection<TableConfig>
   app_config: RxCollection<AppConfig>

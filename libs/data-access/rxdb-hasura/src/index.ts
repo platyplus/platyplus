@@ -11,7 +11,7 @@ import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 
 import { debug } from './console'
 import { RxHasuraPlugin } from './rxdb-plugin'
-import { metadataStore, onAuthChange, watchMetadataChanges } from './store'
+import { tableInfoStore, onAuthChange, watchTableInfoChanges } from './store'
 
 export { RxHasuraPlugin } from './rxdb-plugin'
 export * from './contents'
@@ -57,9 +57,9 @@ export const createRxHasura = async (
   debug(`RxDB created: ${settings.name}`)
   if (process.env.NODE_ENV === 'development') window['db'] = db // write to window for debugging
 
-  // * When being connected, browse the roles and create metadata accordingly
-  metadataStore.subscribe(onAuthChange(db), (state) => state.authenticated)
-  metadataStore.subscribe(watchMetadataChanges(db))
+  // * When being connected, browse the roles and create table info accordingly
+  tableInfoStore.subscribe(onAuthChange(db), (state) => state.authenticated)
+  tableInfoStore.subscribe(watchTableInfoChanges(db))
 
   // * runs when db becomes leader
   db.waitForLeadership().then(() => {

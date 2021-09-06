@@ -5,7 +5,7 @@ import { TagGroup } from 'rsuite'
 export const TagCollection: CollectionComponent = ({
   data,
   edit,
-  metadata,
+  tableInfo,
   role
 }) => {
   if (data)
@@ -16,7 +16,7 @@ export const TagCollection: CollectionComponent = ({
           .map((doc, index) => (
             <DocumentTag
               key={index}
-              metadata={metadata}
+              tableInfo={tableInfo}
               role={role}
               document={doc}
               edit={edit}

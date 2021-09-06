@@ -10,13 +10,13 @@ import {
 import { ContentsCollection } from '../types'
 import { collectionName, removeCollection, tableRoles } from '../utils'
 
-import { initCollection, MetadataStore, setCollectionIsReady } from './store'
+import { initCollection, TableInfoStore, setCollectionIsReady } from './store'
 
-export const watchMetadataChanges =
+export const watchTableInfoChanges =
   (db: RxDatabase) =>
   async (
-    { tables, isSyncing, isReady, replication }: MetadataStore,
-    { tables: oldTables }: MetadataStore
+    { tables, isSyncing, isReady, replication }: TableInfoStore,
+    { tables: oldTables }: TableInfoStore
   ) => {
     if (!isSyncing() && isReady()) {
       // * Check if some tables have been removed. If so, remove RxDB collections as well

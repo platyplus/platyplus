@@ -1,10 +1,13 @@
-import { Contents } from '../../types'
-import { isTextType } from '../properties'
 import { v4 as uuid } from 'uuid'
-import { Metadata } from '../../metadata'
+
+import { Contents } from '../../types'
+import { TableInformation } from '../../metadata'
+
+import { isTextType } from '../properties'
+import { allRelationships } from '../relationships'
 
 export const generateDefaultValue = (
-  table: Metadata,
+  table: TableInformation,
   propertyName: string,
   data: Contents
 ) => {
@@ -12,7 +15,9 @@ export const generateDefaultValue = (
   const column = table.columns.find(({ name }) => name === propertyName)
   if (!column) {
     // TODO default values for relations
-    const rel = table.relationships.find(({ name }) => name === propertyName)
+    const rel = allRelationships(table).find(
+      ({ name }) => name === propertyName
+    )
     if (rel?.type === 'array') return []
     else return null
   }

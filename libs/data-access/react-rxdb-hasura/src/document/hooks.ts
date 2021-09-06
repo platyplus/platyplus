@@ -4,14 +4,14 @@ import { useRxDocument } from 'rxdb-hooks'
 import {
   Contents,
   ContentsDocument,
-  Metadata,
-  populateDocument
+  populateDocument,
+  TableInformation
 } from '@platyplus/rxdb-hasura'
 
 import { useCollection, useCollectionName } from '../collection'
 
 export const useDocument = <B extends boolean = false>(
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   id: string,
   populate?: B
@@ -20,7 +20,7 @@ export const useDocument = <B extends boolean = false>(
   isFetching: boolean
 } => {
   type ResultType = B extends true ? Contents : ContentsDocument
-  const collectionName = useCollectionName(metadata, role)
+  const collectionName = useCollectionName(tableInfo, role)
   const collection = useCollection(collectionName)
   const queryConstructor = useMemo(() => id !== 'new' && id, [id])
   const { result, isFetching: isDocumentFetching } =

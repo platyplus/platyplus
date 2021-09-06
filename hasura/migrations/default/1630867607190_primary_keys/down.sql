@@ -1,0 +1,1 @@
+drop view platyplus.primary_keys;

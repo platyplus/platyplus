@@ -2,7 +2,7 @@
 import { Schema } from 'rsuite'
 import { useMemo } from 'react'
 
-import { Metadata } from '@platyplus/rxdb-hasura'
+import { TableInformation } from '@platyplus/rxdb-hasura'
 
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
@@ -47,8 +47,8 @@ const modelTypeConstructor = {
   }
 }
 
-export const useFormModel = (metadata: Metadata) => {
-  const properties = metadata.properties
+export const useFormModel = (tableInfo: TableInformation) => {
+  const properties = tableInfo.properties
   return useMemo(
     () =>
       Model(

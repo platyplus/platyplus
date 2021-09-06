@@ -4,11 +4,11 @@ import {
   ContentsDocument,
   canEdit,
   canRemove,
-  Metadata
+  TableInformation
 } from '@platyplus/rxdb-hasura'
 
 export const useDocumentPermissions = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   document?: ContentsDocument
 ) => {
@@ -16,8 +16,8 @@ export const useDocumentPermissions = (
   const [remove, setRemove] = useState(false)
   // TODO implement canSave
   useEffect(() => {
-    setEdit(canEdit(metadata, role, document))
-    setRemove(canRemove(metadata, role, document))
-  }, [document, metadata, role])
+    setEdit(canEdit(tableInfo, role, document))
+    setRemove(canRemove(tableInfo, role, document))
+  }, [document, tableInfo, role])
   return { edit, remove }
 }

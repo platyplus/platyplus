@@ -1,24 +1,29 @@
-import { CommonColumnFragment } from '../../generated'
-import { Metadata } from '../../metadata'
+import { Column, Relationship, TableInfo } from '../../metadata'
+import { relationshipMapping } from '../relationships'
 
-export const hasDefaultValue = (table: Metadata, propertyName: string) => {
+export const hasDefaultValue = (table: TableInfo, propertyName: string) => {
   return (
     columnHasDefaultValue(
       table.columns.find(({ name }) => name === propertyName)
     ) ||
+    // TODO default array relationship values?
     relationshipHasDefaultValues(
-      table.relationships.find(({ name }) => name === propertyName)
+      table,
+      table.metadata.object_relationships.find(
+        ({ name }) => name === propertyName
+      )
     )
   )
 }
 
-export const columnHasDefaultValue = (column?: CommonColumnFragment) =>
-  !!column?.default
+export const columnHasDefaultValue = (column?: Column) => !!column?.default
 
-export const relationshipHasDefaultValues = (
-  relationship?: Metadata['relationships'][0]
+const relationshipHasDefaultValues = (
+  table: TableInfo,
+  relationship?: Relationship
 ) =>
   !!relationship &&
   // TODO default array relationship values?
-  relationship.type === 'object' &&
-  relationship.mapping.every((mapping) => !!mapping.column.default)
+  Object.keys(relationshipMapping(table, relationship)).every(
+    (colName) => !!table.columns.find(({ name }) => name === colName).default
+  )

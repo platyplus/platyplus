@@ -1,36 +1,43 @@
-import { canRemove } from '.'
-import { Metadata } from '../../metadata'
-import { getMetadataTable } from '../../store'
-import { isManyToManyJoinTable } from '../relationships'
+import { TableInformation } from '../../metadata'
+import {
+  allRelationships,
+  isManyToManyJoinTable,
+  relationshipMapping,
+  relationshipTable
+} from '../relationships'
 import { isRequiredColumn } from '../required'
+import { canRemove } from './can'
 
 /**
  * Checks if items can be removed from an array relationship
- * @param metadata
+ * @param tableInfo
  * @param propertyName
  * @returns
  */
 export const canRemoveCollectionItem = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   propertyName: string,
   role: string
 ) => {
-  const prop = metadata.properties.get(propertyName)
+  const prop = tableInfo.properties.get(propertyName)
   if (prop && prop.type === 'collection') {
-    const remoteMetadata = getMetadataTable(prop.relationship.remoteTableId)
-    if (isManyToManyJoinTable(remoteMetadata)) {
-      return canRemove(remoteMetadata, role)
+    const relationship = allRelationships(tableInfo).find(
+      (rel) => rel.name === propertyName
+    )
+    const remoteInfo = relationshipTable(tableInfo, relationship)
+    if (isManyToManyJoinTable(remoteInfo)) {
+      return canRemove(remoteInfo, role)
     } else {
-      const remoteColumns = prop.relationship.mapping.map(
-        (mapping) => mapping.remoteColumnName
+      const remoteColumns = Object.values(
+        relationshipMapping(tableInfo, relationship)
       )
-      return remoteMetadata.columns
+      return remoteInfo.columns
         .filter((col) => remoteColumns.includes(col.name))
-        .every((col) => !isRequiredColumn(col))
+        .every((col) => !isRequiredColumn(remoteInfo, col))
     }
   } else {
     console.warn(
-      `canRemoveItem ${metadata.id}.${propertyName}: property not found or incorrect type (non "collection"): ${prop.type}`
+      `canRemoveItem ${tableInfo.id}.${propertyName}: property not found or incorrect type (non "collection"): ${prop.type}`
     )
     return false
   }
