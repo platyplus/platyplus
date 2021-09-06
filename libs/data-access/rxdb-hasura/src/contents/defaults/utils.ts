@@ -9,7 +9,7 @@ export const hasDefaultValue = (table: TableInfo, propertyName: string) => {
     // TODO default array relationship values?
     relationshipHasDefaultValues(
       table,
-      table.metadata.object_relationships.find(
+      table.metadata.object_relationships?.find(
         ({ name }) => name === propertyName
       )
     )

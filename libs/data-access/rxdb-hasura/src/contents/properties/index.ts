@@ -43,7 +43,7 @@ const mainPropertyJsonType = (
 }
 
 export const propertyJsonType = (
-  table,
+  table: Partial<TableInfo>,
   columnInfo: Column
 ): PropertyType | PropertyType[] => {
   const result = mainPropertyJsonType(columnInfo)

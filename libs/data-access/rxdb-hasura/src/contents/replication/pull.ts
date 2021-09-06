@@ -36,7 +36,7 @@ export const pullQueryBuilder = (
   const title = tableName(table)
   const idKeys = getIds(table)
   // * Get the list of array relationship names
-  const arrayRelationships = table.metadata.array_relationships
+  const arrayRelationships = table.metadata.array_relationships || []
 
   // * List columns referencing other tables, except its own primary key
   const foreignKeyColumns = allRelationships(table).reduce<string[]>(
@@ -54,7 +54,7 @@ export const pullQueryBuilder = (
   )
 
   const columnPermissions =
-    table.metadata.select_permissions.find(
+    table.metadata.select_permissions?.find(
       (p) => p.role === collection.options.role
     )?.permission.columns || []
   const columns = (

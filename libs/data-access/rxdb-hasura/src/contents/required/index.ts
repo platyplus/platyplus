@@ -26,7 +26,7 @@ export const isRequiredProperty = (
   const column = table.columns.find(({ name }) => name === propertyName)
   if (column) return isRequiredColumn(table, column)
 
-  const relation = table.metadata.object_relationships.find(
+  const relation = table.metadata.object_relationships?.find(
     ({ name }) => name === propertyName
   )
   if (relation) return isRequiredRelationship(table, relation)
@@ -35,7 +35,7 @@ export const isRequiredProperty = (
 }
 
 // TODO change isNullable to boolean value in SQL view definition
-export const isNullableColumn = (columnInfo: Column) => !columnInfo.nullable
+export const isNullableColumn = (columnInfo: Column) => columnInfo.nullable
 
 export const requiredProperties = (table: Partial<TableInfo>): string[] =>
   propertyNames(table).filter((name) => isRequiredProperty(table, name))

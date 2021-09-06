@@ -16,6 +16,7 @@ export type TableInfoStore = {
   app?: AppConfig
   authenticated: boolean
   jwt?: string
+  admin: boolean
   connected: boolean
   isSyncing: () => boolean
   isReady: () => boolean
@@ -35,6 +36,7 @@ export const tableInfoStore = create<TableInfoStore>(
       app: null,
       authenticated: false,
       jwt: null,
+      admin: false,
       connected: getNetworkState(),
       isSyncing: () =>
         Object.values(get().replication).some((value) => value.syncing),

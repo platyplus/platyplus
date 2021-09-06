@@ -11,7 +11,7 @@ export const HomePage: React.FC<{ title?: string }> = ({
 }) => {
   const { value: profile } = useProfile()
   const hasChanges = useCountConfigChanges()
-  const config = useAppConfig()
+  const [config] = useAppConfig()
   return (
     <HeaderTitleWrapper title={title}>
       <Animation.Fade in={!!profile}>
