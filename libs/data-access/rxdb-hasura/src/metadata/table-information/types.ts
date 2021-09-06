@@ -46,11 +46,11 @@ type UpdatePermission = Permission<{
 
 type Metadata = {
   table: { name: string; schema: string }
-  object_relationships: Array<Relationship>
-  array_relationships: Array<Relationship>
-  select_permissions: Array<Permission>
-  insert_permissions: Array<InsertPermission>
-  update_permissions: Array<UpdatePermission>
+  object_relationships?: Array<Relationship>
+  array_relationships?: Array<Relationship>
+  select_permissions?: Array<Permission>
+  insert_permissions?: Array<InsertPermission>
+  update_permissions?: Array<UpdatePermission>
 }
 
 export type Column = {
