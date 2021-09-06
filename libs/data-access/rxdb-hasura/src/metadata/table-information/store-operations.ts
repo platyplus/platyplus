@@ -1,3 +1,4 @@
+import { TableInformation } from '@platyplus/rxdb-hasura'
 import produce from 'immer'
 
 import {
@@ -7,7 +8,7 @@ import {
 } from '../../contents'
 import { TableInfoStore, tableInfoStore } from '../../store'
 
-import { ExtendedTableInfo, PropertyType } from '../types'
+import { PropertyType } from '../types'
 import { TableInfo } from './types'
 
 const typesMapping: Record<string, PropertyType> = {
@@ -40,7 +41,7 @@ const setTableInfo = (table: TableInfo) =>
       const nextTable = {
         ...(previousTable || {}),
         ...table
-      } as ExtendedTableInfo
+      } as TableInformation
       if (!nextTable.properties) nextTable.properties = new Map()
       if (previousTable) {
         if (previousTable.columns) {
@@ -78,7 +79,6 @@ const setTableInfo = (table: TableInfo) =>
           })
         }
       }
-
       columnProperties(nextTable).forEach((col) => {
         nextTable.properties.set(col.name, {
           name: col.name,
@@ -89,7 +89,8 @@ const setTableInfo = (table: TableInfo) =>
           primary: nextTable.primaryKey.columns.includes(col.name)
         })
       })
-      nextTable.metadata.array_relationships.forEach((rel) => {
+
+      nextTable.metadata.array_relationships?.forEach((rel) => {
         nextTable.properties.set(rel.name, {
           name: rel.name,
           config: nextTable.properties.get(rel.name)?.config,
@@ -99,7 +100,7 @@ const setTableInfo = (table: TableInfo) =>
           primary: false
         })
       })
-      nextTable.metadata.object_relationships.forEach((rel) => {
+      nextTable.metadata.object_relationships?.forEach((rel) => {
         nextTable.properties.set(rel.name, {
           name: rel.name,
           config: nextTable.properties.get(rel.name)?.config,
@@ -118,7 +119,7 @@ export const onUpsert = (doc: TableInfo) => {
 }
 
 export const onDelete = (doc: TableInfo) => {
-  console.log('TODO')
+  console.log('TODO onDelete')
 }
 
 // * When receiving changes in the websocket, check if some of the tables have been removed.

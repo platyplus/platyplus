@@ -126,8 +126,10 @@ export const populateDocument = async (
 export const tableRoles = (table: Partial<TableInfo>): string[] =>
   table.columns.reduce((acc, column) => {
     for (const permissionType of ['canSelect', 'canInsert']) {
-      for (const { roleName } of column[permissionType]) {
-        !acc.includes(roleName) && acc.push(roleName)
+      if (column[permissionType]) {
+        for (const { roleName } of column[permissionType]) {
+          !acc.includes(roleName) && acc.push(roleName)
+        }
       }
     }
     return acc

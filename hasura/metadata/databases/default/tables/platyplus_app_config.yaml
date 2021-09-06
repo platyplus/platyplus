@@ -1,11 +1,12 @@
 table:
-  name: primary_keys
+  name: app_config
   schema: platyplus
 select_permissions:
 - permission:
     columns:
     - id
-    - constraint
-    - columns
+    - updated_at
+    - deleted
+    - menu_order
     filter: {}
   role: me

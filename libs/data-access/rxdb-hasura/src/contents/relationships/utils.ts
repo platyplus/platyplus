@@ -69,13 +69,22 @@ export const relationshipMapping = (
 
 export const relationshipTableId = (
   table: Partial<TableInfo>,
-  { using: { foreign_key_constraint_on, manual_configuration } }: Relationship
-): string =>
-  foreign_key_constraint_on
-    ? table.foreignKeys.find(
-        (key) => key.constraint === foreign_key_constraint_on
-      ).to
-    : `${manual_configuration.remote_table.schema}.${manual_configuration.remote_table.name}`
+  relationship: Relationship
+): string | undefined => {
+  if (relationship) {
+    const {
+      using: { foreign_key_constraint_on, manual_configuration }
+    } = relationship
+    return foreign_key_constraint_on
+      ? table.foreignKeys.find(
+          (key) => key.constraint === foreign_key_constraint_on
+        ).to
+      : `${manual_configuration.remote_table.schema}.${manual_configuration.remote_table.name}`
+  } else {
+    // TODO remove
+    throw Error('NOPE')
+  }
+}
 
 export const relationshipTable = (
   table: Partial<TableInfo>,

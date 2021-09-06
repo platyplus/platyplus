@@ -4,6 +4,7 @@ table:
 configuration:
   custom_column_names:
     character_maximum_length: characterMaximumLength
+    data_type: dataType
     generation_expression: generationExpression
     is_generated: isGenerated
     numeric_precision: numericPrecision

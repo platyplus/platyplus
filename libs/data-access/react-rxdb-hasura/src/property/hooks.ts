@@ -88,9 +88,11 @@ export const useTableProperties = (
         }
       return new Map(
         [...result, ...tempProperties].filter(([, { relationship }]) => {
-          // * Filter out relationships that points to a non-existing remote table e.g. users.account
-          const refTableId = relationshipTableId(tableInfo, relationship)
-          return refTableId ? !!getTableInfo(refTableId) : true
+          if (relationship) {
+            // * Filter out relationships that points to a non-existing remote table e.g. users.account
+            const refTableId = relationshipTableId(tableInfo, relationship)
+            return refTableId ? !!getTableInfo(refTableId) : true
+          } else return true
         })
       )
     } else return null
