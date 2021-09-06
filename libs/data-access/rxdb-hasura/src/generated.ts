@@ -13206,7 +13206,7 @@ export const OnTableConfigDocument = gql`
     }
   }
 `
-export const MetadataDocument = gql`
+export const TableInfoDocument = gql`
   query metadata {
     metadata_table {
       ...table
@@ -13357,7 +13357,7 @@ export function getSdk(
     ): Promise<MetadataQuery> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<MetadataQuery>(MetadataDocument, variables, {
+          client.request<MetadataQuery>(TableInfoDocument, variables, {
             ...requestHeaders,
             ...wrappedRequestHeaders
           }),

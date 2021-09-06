@@ -2,12 +2,16 @@ import { useEffect, useMemo, useState } from 'react'
 import { RxCollection } from 'rxdb'
 import { useRxDB, useRxCollection } from 'rxdb-hooks'
 
-import { collectionName, Database, Metadata } from '@platyplus/rxdb-hasura'
+import {
+  collectionName,
+  Database,
+  TableInformation
+} from '@platyplus/rxdb-hasura'
 
-export const useCollectionName = (metadata: Metadata, role: string) =>
-  useMemo(() => metadata && collectionName(metadata, role), [metadata, role])
+export const useCollectionName = (tableInfo: TableInformation, role: string) =>
+  useMemo(() => tableInfo && collectionName(tableInfo, role), [tableInfo, role])
 
-  // TODO remove https://github.com/cvara/rxdb-hooks/pull/36
+// TODO remove https://github.com/cvara/rxdb-hooks/pull/36
 export const useCollection = (name: string) => {
   const db: Database = useRxDB()
   const [collection, setCollection] = useState<RxCollection>()

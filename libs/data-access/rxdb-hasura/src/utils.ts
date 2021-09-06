@@ -6,8 +6,12 @@ import decode from 'jwt-decode'
 
 import { jsonataPaths } from '@platyplus/jsonata-schema'
 
-import { Contents, ContentsCollection, ContentsDocument } from './types'
-import { Metadata } from './metadata/types'
+import {
+  Contents,
+  ContentsCollection,
+  ContentsDocument,
+  TableInfo
+} from './types'
 import { debug } from './console'
 
 export type ArrayElement<ArrayType extends readonly unknown[]> =
@@ -18,13 +22,15 @@ export interface FieldMap {
   [key: string]: FieldMapItem
 }
 
-export const metadataName = (data: { schema: string; name: string }): string =>
-  data.schema === 'public' ? `${data.name}` : `${data.schema}_${data.name}`
+export const tableName = ({
+  metadata: {
+    table: { schema, name }
+  }
+}: Partial<TableInfo>): string =>
+  schema === 'public' ? `${name}` : `${schema}_${name}`
 
-export const collectionName = (
-  metadata: { schema: string; name: string },
-  role: string
-) => `${role}_${metadataName(metadata)}`
+export const collectionName = (tableInfo: Partial<TableInfo>, role: string) =>
+  `${role}_${tableName(tableInfo)}`
 
 // * Generate query fields according to the loaded schema
 // * It is meant to:
@@ -117,7 +123,7 @@ export const populateDocument = async (
   return result
 }
 
-export const tableRoles = (table: Metadata): string[] =>
+export const tableRoles = (table: Partial<TableInfo>): string[] =>
   table.columns.reduce((acc, column) => {
     for (const permissionType of ['canSelect', 'canInsert']) {
       for (const { roleName } of column[permissionType]) {

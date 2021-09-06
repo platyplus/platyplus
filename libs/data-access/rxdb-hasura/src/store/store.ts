@@ -3,14 +3,14 @@ import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 
 import { ContentsCollection, ContentsDocument } from '../types'
-import { AppConfig, Metadata, CONFIG_TABLES } from '../metadata'
+import { AppConfig, CONFIG_TABLES, TableInformation } from '../metadata'
 import { getNetworkState, subscribeNetworkState } from './network-state'
 import { debug } from '../console'
 
 enableMapSet()
 
-export type MetadataStore = {
-  tables: Record<string, Metadata>
+export type TableInfoStore = {
+  tables: Record<string, TableInformation>
   // TODO rename 'replication'
   replication: Record<string, { syncing: boolean; ready: boolean }>
   app?: AppConfig
@@ -22,7 +22,7 @@ export type MetadataStore = {
   isConfigReady: () => boolean
 }
 
-export const metadataStore = create<MetadataStore>(
+export const tableInfoStore = create<TableInfoStore>(
   devtools(
     (set, get) => ({
       tables: {},
@@ -30,7 +30,7 @@ export const metadataStore = create<MetadataStore>(
         app_config: { ready: false, syncing: false },
         table_config: { ready: false, syncing: false },
         property_config: { ready: false, syncing: false },
-        metadata: { ready: false, syncing: false }
+        table_info: { ready: false, syncing: false }
       },
       app: null,
       authenticated: false,
@@ -38,42 +38,43 @@ export const metadataStore = create<MetadataStore>(
       connected: getNetworkState(),
       isSyncing: () =>
         Object.values(get().replication).some((value) => value.syncing),
-      isReady: () => get().isConfigReady() && get().replication.metadata.ready,
+      isReady: () =>
+        get().isConfigReady() && get().replication.table_info.ready,
       isConfigReady: () =>
         CONFIG_TABLES.every((value) => get().replication[value].ready)
     }),
-    'metadata'
+    'table_info'
   )
 )
 
 subscribeNetworkState((connected) => {
   debug('network status changed', connected)
-  metadataStore.setState(
-    produce<MetadataStore>((state) => {
+  tableInfoStore.setState(
+    produce<TableInfoStore>((state) => {
       state.connected = connected
     })
   )
 })
 
-export const getMetadataTable = (id?: string) =>
-  metadataStore.getState().tables[id]
+export const getTableInfo = (id?: string) =>
+  tableInfoStore.getState().tables[id]
 
-export const getCollectionMetadata = (collection: ContentsCollection) =>
-  getMetadataTable(collection.options.tableId)
+export const getCollectionTableInfo = (collection: ContentsCollection) =>
+  getTableInfo(collection.options.tableId)
 
-export const getDocumentMetadata = (document: ContentsDocument) =>
-  getCollectionMetadata(document.collection)
+export const getDocumentTableInfo = (document: ContentsDocument) =>
+  getCollectionTableInfo(document.collection)
 
 export const setCollectionIsSynced = (collectionName: string) => {
-  metadataStore.setState(
-    produce<MetadataStore>((state) => {
+  tableInfoStore.setState(
+    produce<TableInfoStore>((state) => {
       state.replication[collectionName].syncing = false
     })
   )
 }
 export const setCollectionIsReady = (collectionName: string) => {
-  metadataStore.setState(
-    produce<MetadataStore>((state) => {
+  tableInfoStore.setState(
+    produce<TableInfoStore>((state) => {
       if (state.replication[collectionName])
         state.replication[collectionName].ready = true
       else
@@ -86,8 +87,8 @@ export const setCollectionIsReady = (collectionName: string) => {
 }
 
 export const initCollection = (collectionName: string) => {
-  metadataStore.setState(
-    produce<MetadataStore>((state) => {
+  tableInfoStore.setState(
+    produce<TableInfoStore>((state) => {
       state.replication[collectionName] = {
         ready: false,
         syncing: false

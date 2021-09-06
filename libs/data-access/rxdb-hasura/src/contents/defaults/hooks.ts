@@ -9,11 +9,14 @@ import {
   ContentsCollectionMethods,
   ContentsDocumentMethods
 } from '../../types'
-import { getCollectionMetadata } from '../../store'
+import { getCollectionTableInfo } from '../../store'
 
 import { isNullableColumn } from '../required'
 import { columnProperties } from '../columns'
-import { filteredRelationships } from '../relationships'
+import {
+  filteredObjectRelationships,
+  relationshipMapping
+} from '../relationships'
 
 import { generateDefaultValue } from './generator'
 import { columnHasDefaultValue } from './utils'
@@ -28,7 +31,7 @@ const defaultValues = async (
   collection: ContentsCollection,
   data: Contents
 ) => {
-  const table = getCollectionMetadata(collection)
+  const table = getCollectionTableInfo(collection)
 
   // * Generate column default values
   columnProperties(table, true)
@@ -42,16 +45,17 @@ const defaultValues = async (
       data[name] = generateDefaultValue(table, name, data)
     })
 
-  filteredRelationships(table)
-    .filter(
-      (rel) =>
+  filteredObjectRelationships(table)
+    .filter((rel) => {
+      const mapping = relationshipMapping(table, rel)
+      return (
         data[rel.name] == null &&
-        rel.type === 'object' &&
-        rel.mapping.some(
-          ({ column }) =>
-            !isNullableColumn(column) && columnHasDefaultValue(column)
-        )
-    )
+        Object.keys(mapping).some((columnName) => {
+          const column = table.columns.find(({ name }) => name === columnName)
+          return !isNullableColumn(column) && columnHasDefaultValue(column)
+        })
+      )
+    })
     .forEach(({ name }) => {
       data[name] = generateDefaultValue(table, name, data)
     })

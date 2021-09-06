@@ -1,23 +1,23 @@
 import { useHistory } from 'react-router-dom'
 import { Animation, ButtonGroup } from 'rsuite'
 
-import { Metadata } from '@platyplus/rxdb-hasura'
+import { TableInformation } from '@platyplus/rxdb-hasura'
 import { useCollectionPermissions } from '@platyplus/react-rxdb-hasura'
 import { IconButtonWithHelper } from '@platyplus/layout'
 
 export const CollectionToolbar: React.FC<{
-  metadata?: Metadata
+  tableInfo?: TableInformation
   role: string
   edit?: boolean
-}> = ({ metadata, role }) => {
+}> = ({ tableInfo, role }) => {
   const history = useHistory()
   const create = () => {
-    history.push(`/collection/${role}/${metadata.id}/new`)
+    history.push(`/collection/${role}/${tableInfo.id}/new`)
   }
-  const can = useCollectionPermissions(metadata, role)
+  const can = useCollectionPermissions(tableInfo, role)
 
   return (
-    <Animation.Fade in={!!metadata}>
+    <Animation.Fade in={!!tableInfo}>
       {(props, ref) => (
         <div {...props}>
           <ButtonGroup style={{ paddingBottom: '10px' }}>

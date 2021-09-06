@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import { canCreate, Metadata } from '@platyplus/rxdb-hasura'
+import { canCreate, TableInformation } from '@platyplus/rxdb-hasura'
 
-export const useCollectionPermissions = (metadata: Metadata, role: string) => {
+export const useCollectionPermissions = (
+  tableInfo: TableInformation,
+  role: string
+) => {
   const [create, setCreate] = useState(false)
   useEffect(() => {
-    setCreate(canCreate(metadata, role))
-  }, [role, metadata])
+    setCreate(canCreate(tableInfo, role))
+  }, [role, tableInfo])
   return { create }
 }

@@ -3,7 +3,7 @@ import { RxCollectionHookCallback } from 'rxdb'
 import { arrayChanges } from '@platyplus/data'
 
 import { debug, warn } from '../../console'
-import { getCollectionMetadata } from '../../store'
+import { getCollectionTableInfo } from '../../store'
 import {
   Contents,
   ContentsCollection,
@@ -11,7 +11,7 @@ import {
 } from '../../types'
 import { collectionName } from '../../utils'
 
-import { shiftedMetadataTable } from './utils'
+import { allRelationships, relationshipTableId, shiftedTable } from './utils'
 
 const reverseRelations =
   (
@@ -21,25 +21,25 @@ const reverseRelations =
   async (data, doc) => {
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) return
-    const metadata = getCollectionMetadata(collection)
-    for (const relationship of metadata.relationships) {
+    const tableInfo = getCollectionTableInfo(collection)
+    for (const relationship of allRelationships(tableInfo)) {
       const { name, type } = relationship
-      const remoteMetadata = shiftedMetadataTable(metadata, relationship)
-      // * Pass relationships that don't point to any known metadata table
-      if (!remoteMetadata) return
+      const remoteInfo = shiftedTable(tableInfo, relationship)
+      // * Pass relationships that don't point to any known tableInfo table
+      if (!remoteInfo) return
 
       const remoteCollection =
         collection.database.collections[
-          collectionName(remoteMetadata, collection.options.role)
+          collectionName(remoteInfo, collection.options.role)
         ]
-      const mirrorRelationships = remoteMetadata.relationships.filter(
-        (rel) => rel.remoteTableId === metadata.id
+      const mirrorRelationships = allRelationships(remoteInfo).filter(
+        (rel) => relationshipTableId(remoteInfo, rel) === tableInfo.id
       )
 
       if (mirrorRelationships.length > 1) {
         // ? sort this out - is it really a problem? Test without it
         warn(
-          `Relation ${collection.name}.${name} points to ${remoteMetadata.id}, but ${remoteMetadata.id} have more than one relation that points back to ${collection.name}. Can't determine which to process`
+          `Relation ${collection.name}.${name} points to ${remoteInfo.id}, but ${remoteInfo.id} have more than one relation that points back to ${collection.name}. Can't determine which to process`
         )
         return
       }
@@ -54,7 +54,7 @@ const reverseRelations =
         type: mirrorRelType
       } of mirrorRelationships) {
         debug(
-          `${collection.name}.${name} (${type}) -> ${remoteMetadata.id}.${mirrorRelName} (${mirrorRelType})`
+          `${collection.name}.${name} (${type}) -> ${remoteInfo.id}.${mirrorRelName} (${mirrorRelType})`
         )
         if (type === 'array') {
           // * From one/many to many
@@ -131,7 +131,7 @@ const reverseRelations =
           } else {
             // TODO From one to one
             warn(
-              `${metadata.id}.${name}: link-reverse one to one relationship is not set yet`
+              `${tableInfo.id}.${name}: link-reverse one to one relationship is not set yet`
             )
           }
         }

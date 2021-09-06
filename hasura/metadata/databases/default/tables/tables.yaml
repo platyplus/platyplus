@@ -5,4 +5,8 @@
 - "!include auth_providers.yaml"
 - "!include auth_refresh_tokens.yaml"
 - "!include auth_roles.yaml"
+- "!include platyplus_columns.yaml"
+- "!include platyplus_foreign_keys.yaml"
+- "!include platyplus_primary_keys.yaml"
+- "!include platyplus_tables.yaml"
 - "!include public_users.yaml"

@@ -1,15 +1,13 @@
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
-import { getCollectionMetadata } from '../../store'
+import { getCollectionTableInfo } from '../../store'
 import { ContentsCollection } from '../../types'
-import { metadataName } from '../../utils'
+import { tableName } from '../../utils'
 
 export const subscriptionQuery = (collection: ContentsCollection): string => {
-  const table = getCollectionMetadata(collection)
-  const title = metadataName(table)
+  const table = getCollectionTableInfo(collection)
+  const title = tableName(table)
   const now = new Date().toUTCString()
-  const arrayRels = table.relationships
-    .filter(({ type }) => type === 'array')
-    .map(({ name }) => name)
+  const arrayRels = table.metadata.array_relationships.map(({ name }) => name)
 
   const query = jsonToGraphQLQuery({
     subscription: {

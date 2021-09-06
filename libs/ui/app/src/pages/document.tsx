@@ -9,7 +9,7 @@ import {
   DocumentTitle,
   useConfigEnabled,
   useDocumentTitle,
-  useMetadata,
+  useTableInfo,
   useDocument
 } from '@platyplus/react-rxdb-hasura'
 
@@ -21,18 +21,18 @@ export const DocumentPage: React.FC = () => {
   const editing = useQuery().has('edit') || id === 'new'
   const enabledConfig = useConfigEnabled()
 
-  const metadata = useMetadata(name)
-  const { document, isFetching } = useDocument(metadata, role, id)
-  const [title] = useDocumentTitle(metadata)
+  const tableInfo = useTableInfo(name)
+  const { document, isFetching } = useDocument(tableInfo, role, id)
+  const [title] = useDocumentTitle(tableInfo)
   const formRef = useRef()
-  if (!metadata) return null
+  if (!tableInfo) return null
   return (
     <HeaderTitleWrapper
       title={title}
       component={
         <DocumentTitle
           editable={enabledConfig}
-          metadata={metadata}
+          tableInfo={tableInfo}
           document={document}
         />
       }
@@ -46,7 +46,7 @@ export const DocumentPage: React.FC = () => {
                 <DocumentPanel
                   title={
                     <DocumentLabel
-                      metadata={metadata}
+                      tableInfo={tableInfo}
                       role={role}
                       editable={enabledConfig}
                       document={document}
@@ -54,7 +54,7 @@ export const DocumentPage: React.FC = () => {
                   }
                   toolbar={
                     <DocumentToolbar
-                      metadata={metadata}
+                      tableInfo={tableInfo}
                       role={role}
                       document={document}
                       edit={editing}
@@ -64,7 +64,7 @@ export const DocumentPage: React.FC = () => {
                 >
                   <DocumentComponentWrapper
                     config={enabledConfig}
-                    metadata={metadata}
+                    tableInfo={tableInfo}
                     role={role}
                     document={document}
                     edit={editing}

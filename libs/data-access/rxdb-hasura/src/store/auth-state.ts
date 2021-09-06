@@ -1,21 +1,21 @@
 import { produce } from 'immer'
 import { RxDatabase } from 'rxdb'
-import { initConfigCollections, metadataSchema } from '../metadata'
-import { MetadataStore, metadataStore, setCollectionIsReady } from './store'
+import { initConfigCollections, tableInformationSettings } from '../metadata'
+import { TableInfoStore, tableInfoStore, setCollectionIsReady } from './store'
 
-export const getJwt = () => metadataStore.getState().jwt
+export const getJwt = () => tableInfoStore.getState().jwt
 
 export const setAuthStatus = (status: boolean, jwt?: string) =>
-  metadataStore.setState(
-    produce<MetadataStore>((partial) => {
+  tableInfoStore.setState(
+    produce<TableInfoStore>((partial) => {
       partial.authenticated = status
       partial.jwt = jwt
     })
   )
 
 export const setJwt = (jwt: string) =>
-  metadataStore.setState(
-    produce<MetadataStore>((partial) => {
+  tableInfoStore.setState(
+    produce<TableInfoStore>((partial) => {
       partial.jwt = jwt
     })
   )
@@ -24,21 +24,21 @@ export const onAuthChange =
   (db: RxDatabase) => async (authenticated: boolean) => {
     if (authenticated) {
       await initConfigCollections(db)
-      const addMetadataCollection = async () => {
+      const addTableInfoCollection = async () => {
         await db.addCollections({
-          metadata: {
-            options: { isMetadata: true },
-            schema: metadataSchema,
+          table_info: {
+            options: { isTableInfo: true, config: tableInformationSettings },
+            schema: tableInformationSettings.schema,
             autoMigrate: true
           }
         })
-        setCollectionIsReady('metadata')
+        setCollectionIsReady('table_info')
       }
-      if (metadataStore.getState().isConfigReady())
-        await addMetadataCollection()
+      if (tableInfoStore.getState().isConfigReady())
+        await addTableInfoCollection()
       else
-        metadataStore.subscribe(
-          async (ready: boolean) => ready && (await addMetadataCollection()),
+        tableInfoStore.subscribe(
+          async (ready: boolean) => ready && (await addTableInfoCollection()),
           (state) => state.isConfigReady()
         )
     }

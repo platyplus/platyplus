@@ -1,31 +1,32 @@
 import { useCallback, useMemo } from 'react'
 
 import {
-  Metadata,
-  MetadataDocument,
+  TableInformation,
+  TableInfoDocument,
   PropertyConfig,
   Property,
-  getMetadataTable,
-  SYSTEM_COLUMNS
+  getTableInfo,
+  SYSTEM_COLUMNS,
+  relationshipTableId
 } from '@platyplus/rxdb-hasura'
 
 import { useCollectionTableConfig } from '../collection'
-import { useMetadataStore } from '../metadata'
+import { useTableInfoStore } from '../metadata'
 import { useStore } from '../store'
 
 export const usePropertyConfig = <T = PropertyConfig>(
-  metadata: Metadata | MetadataDocument | undefined,
+  tableInfo: TableInformation | TableInfoDocument | undefined,
   property: string,
   path?: string,
   fallback?: T
 ): [T, (val: T) => void] => {
-  const id = useMemo(() => `${metadata.id}.${property}`, [metadata, property])
+  const id = useMemo(() => `${tableInfo.id}.${property}`, [tableInfo, property])
 
-  const initialValues = useMetadataStore(
+  const initialValues = useTableInfoStore(
     useCallback(
       (state) =>
-        state.tables[metadata.id].properties.get(property)?.config || {},
-      [metadata, property]
+        state.tables[tableInfo.id].properties.get(property)?.config || {},
+      [tableInfo, property]
     )
   )
   const modifiedValues = useStore(
@@ -50,22 +51,22 @@ export const usePropertyConfig = <T = PropertyConfig>(
 }
 
 export const useCollectionPropertyConfig = <T = PropertyConfig>(
-  metadata: Metadata,
+  tableInfo: TableInformation,
   property: string,
   path?: string,
   fallback?: T
 ) => {
-  return usePropertyConfig(metadata, property, path, fallback)
+  return usePropertyConfig(tableInfo, property, path, fallback)
 }
 
-export const useMetadataProperties = (
-  metadata: Metadata,
+export const useTableProperties = (
+  tableInfo: TableInformation,
   options?: { all?: boolean; role?: string; order?: boolean }
 ): [Map<string, Property>, (val: Map<string, Property>) => void] => {
-  const state = useMemo(() => metadata.properties, [metadata])
+  const state = useMemo(() => tableInfo.properties, [tableInfo])
 
   const [order, setOrder] = useCollectionTableConfig<string[]>(
-    metadata.id,
+    tableInfo.id,
     'order'
   )
 
@@ -86,15 +87,14 @@ export const useMetadataProperties = (
           }
         }
       return new Map(
-        [...result, ...tempProperties].filter(([, { relationship }]) =>
+        [...result, ...tempProperties].filter(([, { relationship }]) => {
           // * Filter out relationships that points to a non-existing remote table e.g. users.account
-          relationship?.remoteTableId
-            ? !!getMetadataTable(relationship.remoteTableId)
-            : true
-        )
+          const refTableId = relationshipTableId(tableInfo, relationship)
+          return refTableId ? !!getTableInfo(refTableId) : true
+        })
       )
     } else return null
-  }, [state, order, options])
+  }, [state, order, options, tableInfo])
 
   const setProperties = useCallback(
     (newProperties: Map<string, Property>) =>

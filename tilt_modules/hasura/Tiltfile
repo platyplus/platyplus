@@ -55,13 +55,13 @@ def hasura(release_name='',
     config = read_yaml(os.path.join(path, 'config.yaml'), False)
     if not config:
         local('mkdir -p {}'.format(os.path.join(path, '..')))
-        local('hasura init {} --version 2 --endpoint {}'.format(path, endpoint))
+        local('hasura init {} --version 3 --endpoint {}'.format(path, endpoint))
         # * Bug in the latest hasura cli version - set metadata version.yaml to 3
-        local('echo "version: 2" > {}'.format(
-            os.path.join(path, 'metadata/version.yaml')))
+        # local('echo "version: 3" > {}'.format(
+        #     os.path.join(path, 'metadata/version.yaml')))
 
     serve_cmds = [
-        'hasura migrate apply {}'.format(console_options),
+        'hasura migrate apply {} --all-databases'.format(console_options),
         'hasura metadata apply {}'.format(console_options),
         'hasura console {}'.format(console_options)
     ]

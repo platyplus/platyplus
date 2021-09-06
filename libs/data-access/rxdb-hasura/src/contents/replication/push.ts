@@ -5,12 +5,18 @@ import { reduceStringArrayValues } from '@platyplus/data'
 
 import { Contents, ContentsCollection, Modifier } from '../../types'
 import { debug } from '../../console'
-import { metadataName } from '../../utils'
-import { getCollectionMetadata, getMetadataTable } from '../../store'
+import { tableName } from '../../utils'
+import { getCollectionTableInfo } from '../../store'
 
 import { computedFields } from '../computed-fields'
 import { decomposeId, getIds } from '../ids'
-import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
+import {
+  filteredArrayRelationships,
+  filteredObjectRelationships,
+  isManyToManyJoinTable,
+  relationshipMapping,
+  relationshipTable
+} from '../relationships'
 import { isRequiredRelationship } from '../required'
 import { ADMIN_ROLE } from '../../metadata'
 import { DELETED_COLUMN } from '../columns'
@@ -21,13 +27,11 @@ const isNewDocument = (doc: Contents): boolean => !doc.updated_at
 export const pushQueryBuilder = (
   collection: ContentsCollection
 ): RxGraphQLReplicationQueryBuilder => {
-  const table = getCollectionMetadata(collection)
-  const title = metadataName(table)
+  const table = getCollectionTableInfo(collection)
+  const title = tableName(table)
   const idKeys = getIds(table)
 
-  const arrayRelationships = filteredRelationships(table).filter(
-    ({ type }) => type === 'array'
-  )
+  const arrayRelationships = filteredArrayRelationships(table)
 
   return ({ _isNew, ...initialDoc }: Contents) => {
     debug('push query builder in', initialDoc)
@@ -68,9 +72,10 @@ export const pushQueryBuilder = (
               }
             }),
         ...arrayRelationships.reduce((acc, rel) => {
-          const remoteTable = getMetadataTable(rel.remoteTableId)
+          const remoteTable = relationshipTable(table, rel)
           const isManyToMany = isManyToManyJoinTable(remoteTable)
-          const remoteTableName = metadataName(remoteTable)
+          const remoteTableName = tableName(remoteTable)
+          const mapping = Object.entries(relationshipMapping(table, rel))
           if (isManyToMany) {
             // * Many to Many: flag join table items as null
             // TODO improve performance: instead of flagging them all as deleted then upserting the new ones, update only the deleted ones
@@ -78,11 +83,13 @@ export const pushQueryBuilder = (
               __args: {
                 where: {
                   _and: [
-                    ...rel.mapping.map((mapping) => ({
-                      [mapping.remoteColumnName]: {
-                        _eq: doc[mapping.column.name]
-                      }
-                    })),
+                    ...Object.entries(relationshipMapping(table, rel)).map(
+                      ([local, remote]) => ({
+                        [remote]: {
+                          _eq: doc[local]
+                        }
+                      })
+                    ),
                     { deleted: { _eq: false } }
                   ]
                 },
@@ -92,20 +99,20 @@ export const pushQueryBuilder = (
             }
           } else {
             // * One to many: set remote FK to null, only when allowed
-            if (!isRequiredRelationship(rel)) {
+            if (!isRequiredRelationship(table, rel)) {
               // * only if relationship is not required
               // TODO what about DEFAULT value instead of NULL?
               acc[`update_${remoteTableName}`] = {
                 __args: {
                   where: {
-                    _and: rel.mapping.map((mapping) => ({
-                      [mapping.remoteColumnName]: {
-                        _eq: doc[mapping.column.name]
+                    _and: mapping.map(([local, remote]) => ({
+                      [remote]: {
+                        _eq: doc[local]
                       }
                     }))
                   },
-                  _set: rel.mapping.reduce((acc, mapping) => {
-                    acc[mapping.remoteColumnName] = null
+                  _set: mapping.reduce((acc, [, remote]) => {
+                    acc[remote] = null
                     return acc
                   }, {})
                 },
@@ -121,9 +128,9 @@ export const pushQueryBuilder = (
                   objects: arrayValues[rel.name].map((value) => {
                     return remoteTable.foreignKeys.reduce(
                       (acc, fk) => {
-                        fk.columns.forEach((col) => {
+                        mapping.forEach(([local]) => {
                           // TODO composite keys
-                          acc[col] = fk.refId === table.id ? doc.id : value
+                          acc[local] = fk.to === table.id ? doc.id : value
                         })
                         return acc
                       },
@@ -131,9 +138,7 @@ export const pushQueryBuilder = (
                     )
                   }),
                   on_conflict: {
-                    constraint: new EnumType(
-                      remoteTable.primaryKey.constraintName
-                    ),
+                    constraint: new EnumType(remoteTable.primaryKey.constraint),
                     update_columns: [new EnumType(DELETED_COLUMN)],
                     where: { deleted: { _eq: true } }
                   }
@@ -146,17 +151,15 @@ export const pushQueryBuilder = (
                   objects: arrayValues[rel.name].map((value) => {
                     const ids = decomposeId(table, doc.id)
                     const remotePk = decomposeId(remoteTable, value)
-                    return rel.mapping.reduce((acc, mapping) => {
-                      acc[mapping.remoteColumnName] = ids[mapping.column.name]
+                    return mapping.reduce((acc, [local, remote]) => {
+                      acc[remote] = ids[local]
                       return acc
                     }, remotePk)
                   }),
                   on_conflict: {
-                    constraint: new EnumType(
-                      remoteTable.primaryKey.constraintName
-                    ),
-                    update_columns: rel.mapping.map(
-                      (mapping) => new EnumType(mapping.remoteColumnName)
+                    constraint: new EnumType(remoteTable.primaryKey.constraint),
+                    update_columns: mapping.map(
+                      ([, remote]) => new EnumType(remote)
                     )
                   }
                 },
@@ -179,14 +182,9 @@ export const pushQueryBuilder = (
 
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   // TODO replicate only what has changed e.g. _changes sent to the query builder
-  const table = getCollectionMetadata(collection)
-  // * Don't push changes on views
-  if (table.view) return () => null
+  const table = getCollectionTableInfo(collection)
 
-  const relationships = filteredRelationships(table)
-  const objectRelationships = relationships.filter(
-    ({ type }) => type === 'object'
-  )
+  const objectRelationships = filteredObjectRelationships(table)
 
   return async (data) => {
     debug('pushModifier: in:', data)
@@ -199,10 +197,11 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
 
     // * Object relationships:move back property name to the right foreign key column
-    for (const { name, mapping } of objectRelationships) {
-      if (data[name] !== undefined) {
-        data[mapping[0].column?.name] = data[name]
-        delete data[name]
+    for (const rel of objectRelationships) {
+      if (data[rel.name] !== undefined) {
+        const mapping = Object.keys(relationshipMapping(table, rel))
+        data[mapping[0]] = data[rel.name]
+        delete data[rel.name]
       }
     }
 

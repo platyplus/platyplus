@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import { getCollectionMetadata } from '../../../store'
+import { getCollectionTableInfo } from '../../../store'
 
 import { Contents, ContentsDocument } from '../../../types'
 
@@ -12,14 +12,14 @@ export const computeTemplate = (doc: Contents, template = '{{id}}') => {
 // * Pros: ability to sort/filter documents by label
 // * Cons:
 // *    - not part of the react store configuration system
-// *    - as a result, must reload metadata - and eventually recompute the entire Rx collection entirely
+// *    - as a result, must reload tableInfo - and eventually recompute the entire Rx collection entirely
 export const documentLabel = (
   doc: Contents,
   collection: ContentsDocument['collection']
 ): string | null => {
-  const metadata = getCollectionMetadata(collection)
+  const tableInfo = getCollectionTableInfo(collection)
   const template =
-    metadata.config?.document_label || `{{${collection.schema.primaryPath}}}`
+    tableInfo.config?.document_label || `{{${collection.schema.primaryPath}}}`
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
   return (
     compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || doc.id

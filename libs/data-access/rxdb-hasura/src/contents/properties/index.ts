@@ -1,10 +1,10 @@
-import { JsonSchemaPropertyType, Metadata, PropertyType } from '../../metadata'
+import { JsonSchemaPropertyType, PropertyType } from '../../metadata'
 import { filteredRelationships } from '../relationships'
-import { CommonColumnFragment } from '../../generated'
 
 import { columnProperties } from '../columns'
 import { isNullableColumn } from '../required'
 import { isIdColumn } from '../ids'
+import { Column, TableInfo } from '../../types'
 
 const postgresJsonSchemaTypeMapping: Record<
   string,
@@ -33,7 +33,7 @@ const postgresJsonSchemaTypeMapping: Record<
 }
 
 const mainPropertyJsonType = (
-  columnInfo: CommonColumnFragment
+  columnInfo: Column
 ): JsonSchemaPropertyType | JsonSchemaPropertyType[] => {
   const udtType = columnInfo.udtName
   const result = postgresJsonSchemaTypeMapping[udtType]
@@ -43,10 +43,11 @@ const mainPropertyJsonType = (
 }
 
 export const propertyJsonType = (
-  columnInfo: CommonColumnFragment
+  table,
+  columnInfo: Column
 ): PropertyType | PropertyType[] => {
   const result = mainPropertyJsonType(columnInfo)
-  return isNullableColumn(columnInfo) && !isIdColumn(columnInfo)
+  return isNullableColumn(columnInfo) && !isIdColumn(table, columnInfo)
     ? [...(typeof result === 'string' ? [result] : result), 'null']
     : result
 }
@@ -62,7 +63,7 @@ export const isTextType = (type: PropertyType): boolean =>
     'collection'
   ].includes(type)
 
-export const propertyNames = (table: Metadata) => {
+export const propertyNames = (table: Partial<TableInfo>) => {
   return [
     ...columnProperties(table).map(({ name }) => name),
     ...filteredRelationships(table).map(({ name }) => name)

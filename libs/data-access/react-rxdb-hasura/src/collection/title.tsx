@@ -1,19 +1,19 @@
 import { InlineValue } from '@platyplus/layout'
-import { Metadata, metadataName } from '@platyplus/rxdb-hasura'
+import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
 import { useMemo } from 'react'
 
-import { useMetadataConfig } from '../config'
+import { useConfig } from '../config'
 
-export const useMetadataTitle = (metadata?: Metadata) => {
-  const id = useMemo(() => metadata?.id, [metadata])
-  const fallback = useMemo(() => metadata && metadataName(metadata), [metadata])
-  return useMetadataConfig<string>(id, 'title', fallback)
+export const useCollectionTitle = (tableInfo?: TableInformation) => {
+  const id = useMemo(() => tableInfo?.id, [tableInfo])
+  const fallback = useMemo(() => tableInfo && tableName(tableInfo), [tableInfo])
+  return useConfig<string>(id, 'title', fallback)
 }
 
 export const CollectionTitle: React.FC<{
-  metadata?: Metadata
+  tableInfo?: TableInformation
   editable?: boolean
-}> = ({ metadata, editable }) => {
-  const [value, onChange] = useMetadataTitle(metadata)
+}> = ({ tableInfo, editable }) => {
+  const [value, onChange] = useCollectionTitle(tableInfo)
   return <InlineValue editable={editable} value={value} onChange={onChange} />
 }

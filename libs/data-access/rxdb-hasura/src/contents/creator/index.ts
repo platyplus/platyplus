@@ -1,19 +1,19 @@
 import { RxCollectionCreator } from 'rxdb/dist/types/types'
-import { Metadata } from '../../metadata'
+import { TableInfo } from '../../types'
 
 import { toJsonSchema } from '../schema'
 
 export const contentsCollectionCreator = (
-  metadata: Metadata,
+  table: Partial<TableInfo>,
   role: string
 ): RxCollectionCreator => {
   // const version = update ? Object.keys(previousMigrations).length + 1 : 0
   const version = 0
   return {
-    schema: toJsonSchema(metadata, role, version),
+    schema: toJsonSchema(table, role, version),
     statics: {},
     methods: {},
-    options: { tableId: metadata.id, role }
+    options: { tableId: table.id, role }
 
     //   migrationStrategies: update
     //     ? {

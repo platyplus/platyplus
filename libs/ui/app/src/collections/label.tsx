@@ -3,7 +3,7 @@ import React from 'react'
 import { DocumentLabel } from '../documents'
 
 export const LabelCollection: CollectionComponent = ({
-  metadata,
+  tableInfo,
   role,
   data,
   edit,
@@ -17,7 +17,7 @@ export const LabelCollection: CollectionComponent = ({
           <React.Fragment key={doc.primary}>
             {!!index && ', '}
             <DocumentLabel
-              metadata={metadata}
+              tableInfo={tableInfo}
               role={role}
               config={config}
               document={doc}

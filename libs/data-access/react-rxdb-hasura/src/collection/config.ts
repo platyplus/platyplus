@@ -1,9 +1,9 @@
-import { useMetadataConfig } from '../config'
+import { useConfig } from '../config'
 
 export const useCollectionTableConfig = <T>(
   tableId: string,
   path?: string,
   fallback?: T
 ): [T, (val: T) => void] => {
-  return useMetadataConfig(tableId, path, fallback)
+  return useConfig(tableId, path, fallback)
 }

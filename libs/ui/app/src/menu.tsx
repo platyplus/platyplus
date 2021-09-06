@@ -4,15 +4,15 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import {
   useTableIcon,
-  useMetadataTitle,
-  useMetadata,
-  useMetadataStore,
-  useIsMetadataReady,
-  sortMetadata,
+  useCollectionTitle,
+  useTableInfo,
+  useTableInfoStore,
+  useIsTableInfoReady,
+  sortTableInfo,
   useAppConfig
 } from '@platyplus/react-rxdb-hasura'
 import { MenuItem } from '@platyplus/layout'
-import { canRead, Metadata } from '@platyplus/rxdb-hasura'
+import { canRead, TableInformation } from '@platyplus/rxdb-hasura'
 import { useUserRoles } from '@platyplus/hbp'
 
 import { RouteConfig } from './types'
@@ -24,7 +24,7 @@ export const Menu: React.FC<{
   register: RouteConfig
   login: RouteConfig
 }> = ({ config, authenticated, home, register, login }) => {
-  const ready = useIsMetadataReady()
+  const ready = useIsTableInfoReady()
   return authenticated && ready ? (
     <PrivateMenu config={config} home={home} />
   ) : (
@@ -36,8 +36,8 @@ export const CollectionMenuItem: React.FC<{ id: string; role: string }> = ({
   id,
   role
 }) => {
-  const metadata = useMetadata(id)
-  const [title] = useMetadataTitle(metadata)
+  const tableInfo = useTableInfo(id)
+  const [title] = useCollectionTitle(tableInfo)
   const [icon] = useTableIcon(id)
   const location = useLocation()
   const history = useHistory()
@@ -69,7 +69,7 @@ export const PrivateMenu: React.FC<{
   const roles = useUserRoles(false)
   const [appConfig] = useAppConfig()
 
-  const tables = useMetadataStore<[string, Metadata[]][]>(
+  const tables = useTableInfoStore<[string, TableInformation[]][]>(
     useCallback(
       (state) => {
         const order = appConfig.menu_order || []
@@ -81,7 +81,7 @@ export const PrivateMenu: React.FC<{
                 canRead(table, role) &&
                 (includeMissing || order.includes(table.id))
             )
-            .sort(sortMetadata(order))
+            .sort(sortTableInfo(order))
         ])
       },
       [roles, includeMissing, appConfig]
@@ -93,10 +93,10 @@ export const PrivateMenu: React.FC<{
     <>
       <HomeItem {...home} />
       {tables.map(([role, tables]) =>
-        tables.map((metadata) => (
+        tables.map((tableInfo) => (
           <CollectionMenuItem
-            key={`${metadata.id}.${role}`}
-            id={metadata.id}
+            key={`${tableInfo.id}.${role}`}
+            id={tableInfo.id}
             role={role}
           />
         ))
