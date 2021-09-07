@@ -1,6 +1,6 @@
 import { produce } from 'immer'
-import { RxDatabase } from 'rxdb'
 import { addTableInfoCollection, initConfigCollections } from '../metadata'
+import { Database } from '../types'
 import { TableInfoStore, tableInfoStore } from './store'
 
 export const getJwt = () => tableInfoStore.getState().jwt
@@ -22,15 +22,13 @@ export const setJwt = (jwt: string) =>
   )
 
 export const onAuthChange =
-  (db: RxDatabase) => async (authenticated: boolean) => {
+  (db: Database) => async (authenticated: boolean) => {
     if (authenticated) {
       await initConfigCollections(db)
-      if (tableInfoStore.getState().isConfigReady())
-        await addTableInfoCollection(db)
-      else
-        tableInfoStore.subscribe(
-          async (ready: boolean) => ready && (await addTableInfoCollection(db)),
-          (state) => state.isConfigReady()
-        )
+      db.isConfigReady$.subscribe(async (ready) => {
+        if (ready) {
+          await addTableInfoCollection(db)
+        }
+      })
     }
   }

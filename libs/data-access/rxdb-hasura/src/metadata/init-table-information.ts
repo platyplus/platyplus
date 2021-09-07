@@ -1,9 +1,8 @@
-import { RxDatabase } from 'rxdb'
-import { setCollectionIsReady } from '../store'
+import { Database } from '../types'
 import { tableInformationSettings } from './table-information'
 import { TABLE_INFO_TABLE } from './utils'
 
-export const addTableInfoCollection = async (db: RxDatabase) => {
+export const addTableInfoCollection = async (db: Database) => {
   await db.addCollections({
     [TABLE_INFO_TABLE]: {
       schema: tableInformationSettings.schema,
@@ -11,5 +10,4 @@ export const addTableInfoCollection = async (db: RxDatabase) => {
       autoMigrate: true
     }
   })
-  setCollectionIsReady(TABLE_INFO_TABLE)
 }

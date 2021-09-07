@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   Animation,
@@ -13,9 +13,9 @@ import {
 } from 'rsuite'
 
 import {
-  useTableInfoStore,
   useTableConfig,
-  useTableProperties
+  useTableProperties,
+  useTableInfo
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
 import { upperCaseFirst } from '@platyplus/data'
@@ -140,9 +140,7 @@ const TableWrapper: React.FC<{
 
 export const ConfigTablePage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
-  const table = useTableInfoStore(
-    useCallback((state) => state.tables[id], [id])
-  )
+  const table = useTableInfo(id)
   const metaName = useMemo(() => table && tableName(table), [table])
   const [config] = useTableConfig(id)
   const title = useMemo(() => {

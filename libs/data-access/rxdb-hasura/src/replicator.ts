@@ -1,4 +1,4 @@
-import { RxGraphQLReplicationQueryBuilder } from 'rxdb'
+import { RxCollection, RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { DocumentNode } from 'graphql'
 import {
@@ -7,27 +7,15 @@ import {
 } from 'rxdb/dist/lib/plugins/replication-graphql'
 import { Subscription } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
-import produce from 'immer'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
 import { debug, error, info, warn } from './console'
 import { createHeaders } from './utils'
-import {
-  TableInfoStore,
-  tableInfoStore,
-  setCollectionIsSynced,
-  getJwt
-} from './store'
-import { Contents, ContentsCollection, Replicator, TableInfo } from './types'
-import {
-  AppConfig,
-  ConfigCollection,
-  TableInfoCollection,
-  PropertyConfig,
-  TableConfig
-} from './metadata'
+import { tableInfoStore, setCollectionIsSynced, getJwt } from './store'
+import { Replicator } from './types'
 
 import { DELETED_COLUMN } from './contents'
+import { setReplicationBusy, setReplicationReady } from './rxdb-plugin'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -53,12 +41,10 @@ export type ReplicatorOptions<RxDocType> = {
   }
 }
 
-export const createReplicator = async (
-  collection: ContentsCollection | ConfigCollection | TableInfoCollection,
-  options: ReplicatorOptions<
-    Contents | AppConfig | PropertyConfig | TableConfig | TableInfo
-  >
-): Promise<Replicator> => {
+export const createReplicator = async <T>(
+  collection: RxCollection<T, unknown> & { replicator: Replicator<T> },
+  options: ReplicatorOptions<T>
+): Promise<Replicator<T>> => {
   const headers = () =>
     createHeaders(options.role, getJwt(), options.substituteRole)
   const resetWs = () => {
@@ -67,13 +53,7 @@ export const createReplicator = async (
       wsClient.close()
     }
   }
-  let state:
-    | RxGraphQLReplicationState<Contents>
-    | RxGraphQLReplicationState<TableInfo>
-    | RxGraphQLReplicationState<AppConfig>
-    | RxGraphQLReplicationState<PropertyConfig>
-    | RxGraphQLReplicationState<TableConfig>
-    | undefined
+  let state: RxGraphQLReplicationState<T> | undefined
   let wsClient: SubscriptionClient | undefined
   let jwtSubscription: () => void | undefined
   let errorSubscription: Subscription | undefined
@@ -100,25 +80,12 @@ export const createReplicator = async (
       error(`[${collection.name}] replication error`, err)
       // TODO refresh JWT if error is related, but in any case refresh JWT before error occurs
     })
-    replicationState.active$.subscribe((active) => {
+
+    replicationState.initialReplicationComplete$.subscribe((active) => {
       if (active) {
-        tableInfoStore.setState(
-          produce<TableInfoStore>((state) => {
-            state.replication[collection.name] = {
-              syncing: true,
-              ready: state.replication[collection.name]?.ready || false
-            }
-          })
-        )
+        setReplicationReady(collection.name)
       } else {
-        tableInfoStore.setState(
-          produce<TableInfoStore>((state) => {
-            state.replication[collection.name] = {
-              syncing: false,
-              ready: true
-            }
-          })
-        )
+        setReplicationBusy(collection.name)
       }
     })
 
@@ -235,6 +202,6 @@ export const createReplicator = async (
     },
     (state) => state.connected && state.authenticated
   )
-  collection.replicator = { start, stop, destroy }
+  collection.replicator = { start, stop, destroy, state }
   return collection.replicator
 }
