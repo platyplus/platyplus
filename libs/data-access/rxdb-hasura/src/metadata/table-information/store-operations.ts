@@ -23,7 +23,7 @@ const setTableInfo = (table: TableInfo) =>
   )
 
 export const onUpsert = (doc: TableInfo) => {
-  console.log('TODO re-rxdbify the table information change listener')
+  console.log('re-rxdbify the table information change listener?', doc)
   setTableInfo(doc)
 }
 

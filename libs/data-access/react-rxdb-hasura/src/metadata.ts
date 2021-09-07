@@ -1,19 +1,14 @@
-import { useCallback, useMemo } from 'react'
-import create from 'zustand'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
   isManyToManyJoinTable,
   TableInformation,
-  tableInfoStore,
   TABLE_INFO_TABLE
 } from '@platyplus/rxdb-hasura'
 
-import { useAppConfig } from './config'
-import { useCollection } from '.'
+import { useAppConfig, useTablesConfig } from './config'
+import { useCollection, useDB } from '.'
 import { useRxDocument, useRxQuery } from 'rxdb-hooks'
-
-// TODO remove
-export const useTableInfoStore = create(tableInfoStore)
 
 export const useTableInfo = (id: string): TableInformation => {
   const { result } = useRxDocument<TableInformation>(TABLE_INFO_TABLE, id, {
@@ -22,8 +17,17 @@ export const useTableInfo = (id: string): TableInformation => {
   return result
 }
 
-export const useIsTableInfoReady = () =>
-  useTableInfoStore((store) => store.isReady())
+export const useIsTableInfoReady = () => {
+  const [ready, setReady] = useState(false)
+  const db = useDB()
+  useEffect(() => {
+    if (db) {
+      const subscription = db.isReady$.subscribe((status) => setReady(status))
+      return () => subscription.unsubscribe()
+    }
+  }, [db])
+  return ready
+}
 
 export const sortTableInfo = (order: string[]) => {
   return (a: TableInformation, b: TableInformation) => {
@@ -44,9 +48,7 @@ export const useTableInfoList = (
   includeMissing = false
 ): [TableInformation[], (val: TableInformation[]) => void] => {
   const [appConfig, setAppConfig] = useAppConfig()
-  const collection = useCollection(TABLE_INFO_TABLE)
-  const q = useMemo(() => collection?.find(), [collection])
-  const { result: tables } = useRxQuery<TableInformation>(q)
+  const tables = useTablesConfig()
 
   const orderedList = useMemo(() => {
     const order = appConfig.menu_order ? [...appConfig.menu_order] : []

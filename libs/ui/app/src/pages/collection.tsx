@@ -63,7 +63,7 @@ export const CollectionPage: React.FC = () => {
   const collectionName = useCollectionName(tableInfo, role)
   const collection = useCollection(collectionName)
   const [title] = useCollectionTitle(tableInfo)
-  if (!collection || !tableInfo || !title) return null
+  if (!collection || !tableInfo || !title) return <div>PROBLEM</div>
   return (
     <CollectionData
       {...{ collection, title, tableInfo, enabledConfig, role, edit }}

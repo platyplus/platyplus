@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { Icon, Nav } from 'rsuite'
 import { useHistory, useLocation } from 'react-router-dom'
 
@@ -6,10 +6,10 @@ import {
   useTableIcon,
   useCollectionTitle,
   useTableInfo,
-  useTableInfoStore,
   useIsTableInfoReady,
   sortTableInfo,
-  useAppConfig
+  useAppConfig,
+  useTablesConfig
 } from '@platyplus/react-rxdb-hasura'
 import { MenuItem } from '@platyplus/layout'
 import { canRead, TableInformation } from '@platyplus/rxdb-hasura'
@@ -69,24 +69,21 @@ export const PrivateMenu: React.FC<{
   const roles = useUserRoles(false)
   const [appConfig] = useAppConfig()
 
-  const tables = useTableInfoStore<[string, TableInformation[]][]>(
-    useCallback(
-      (state) => {
-        const order = appConfig.menu_order || []
-        return roles.map((role) => [
-          role,
-          Object.values(state.tables)
-            .filter(
-              (table) =>
-                canRead(table, role) &&
-                (includeMissing || order.includes(table.id))
-            )
-            .sort(sortTableInfo(order))
-        ])
-      },
-      [roles, includeMissing, appConfig]
-    )
-  )
+  const tablesInfo = useTablesConfig()
+
+  const tables = useMemo<[string, TableInformation[]][]>(() => {
+    const order = appConfig.menu_order || []
+    return roles.map((role) => [
+      role,
+      tablesInfo
+        .filter(
+          (table) =>
+            canRead(table, role) && (includeMissing || order.includes(table.id))
+        )
+        .sort(sortTableInfo(order))
+    ])
+  }, [roles, includeMissing, appConfig, tablesInfo])
+
   // TODO separator between roles, and role headers (if more than one role)
 
   return (

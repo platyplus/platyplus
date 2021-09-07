@@ -7,6 +7,7 @@ import {
   Database,
   TableInformation
 } from '@platyplus/rxdb-hasura'
+import { filter } from 'rxjs'
 
 export const useCollectionName = (tableInfo: TableInformation, role: string) =>
   useMemo(() => tableInfo && collectionName(tableInfo, role), [tableInfo, role])
@@ -19,15 +20,12 @@ export const useCollection = (name: string) => {
   useEffect(() => {
     if (db[name]) {
       setCollection(db[name])
-      // * See https://github.com/cvara/rxdb-hooks/blob/master/src/plugins.ts
-      const subscription = db.newCollections$.subscribe((event: Database) => {
-        if (event[name]) {
-          setCollection(event[name])
-        }
-      })
-      return () => subscription.unsubscribe()
     } else {
-      setCollection(initialCollection)
+      // * See https://github.com/cvara/rxdb-hooks/blob/master/src/plugins.ts
+      const subscription = db.newCollections$
+        .pipe(filter((event) => !!event[name]))
+        .subscribe((event) => setCollection(event[name]))
+      return () => subscription.unsubscribe()
     }
   }, [name, db, initialCollection])
   return collection

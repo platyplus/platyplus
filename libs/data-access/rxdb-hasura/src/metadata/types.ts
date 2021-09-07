@@ -75,33 +75,24 @@ export type Property = {
   primary: boolean
 } & XOR<{ column: Column }, { relationship: Relationship }>
 
-export type TableInfoCollection = RxCollection<
-  TableInfo,
+export type ReplicatedCollection<T> = RxCollection<
+  T,
   Record<string, unknown>,
-  { replicator: Replicator }
+  { replicator: Replicator<T> }
 >
 
-export type ConfigCollection = RxCollection<
-  TableConfig | AppConfig | PropertyConfig,
-  Record<string, unknown>,
-  { replicator: Replicator }
->
+export type TableInfoCollection = ReplicatedCollection<TableInfo>
 
-export type TableConfigCollection = RxCollection<
-  TableConfig,
-  Record<string, unknown>,
-  { replicator: Replicator }
->
-export type PropertyConfigCollection = RxCollection<
-  PropertyConfig,
-  Record<string, unknown>,
-  { replicator: Replicator }
->
-export type AppConfigCollection = RxCollection<
-  AppConfig,
-  Record<string, unknown>,
-  { replicator: Replicator }
->
+export type TableConfigCollection = ReplicatedCollection<TableConfig>
+
+export type PropertyConfigCollection = ReplicatedCollection<PropertyConfig>
+
+export type AppConfigCollection = ReplicatedCollection<AppConfig>
+
+export type ConfigCollection =
+  | TableConfigCollection
+  | AppConfigCollection
+  | PropertyConfigCollection
 
 export type PlatyplusCollections = {
   [TABLE_INFO_TABLE]: TableInfoCollection

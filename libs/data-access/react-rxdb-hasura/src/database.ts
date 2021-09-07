@@ -28,7 +28,6 @@ export const initializeDB = async (name: string, auth: Auth) => {
   updateAuthToRxDB(auth)
   auth.onAuthStateChanged((status) => updateAuthToRxDB(auth, status))
   auth.onTokenChanged(() => setJwt(auth.getJWTToken()))
-
   return db
 }
 

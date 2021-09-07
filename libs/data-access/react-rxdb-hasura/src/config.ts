@@ -9,14 +9,16 @@ import {
   CONFIG_TABLES,
   ContentsCollection,
   TableConfig,
-  TABLE_CONFIG_TABLE
+  TableInformation,
+  TABLE_CONFIG_TABLE,
+  TABLE_INFO_TABLE
 } from '@platyplus/rxdb-hasura'
 
 import { useStore } from './store'
 import { useDB } from './database'
-import { useTableInfoStore } from './metadata'
-import { useRxDocument } from 'rxdb-hooks'
+import { useRxDocument, useRxQuery } from 'rxdb-hooks'
 import { useSingleton } from './document'
+import { useCollection } from './collection'
 
 export const useConfigEnabled = () => {
   const admin = useUserIsAdmin()
@@ -33,9 +35,7 @@ export const useAppConfig = (): [
 
   const { value: initialValues } = useSingleton<AppConfig>(APP_CONFIG_TABLE)
 
-  const id = useTableInfoStore(
-    useCallback((state) => initialValues?.id || newId, [initialValues, newId])
-  )
+  const id = useMemo(() => initialValues?.id || newId, [initialValues, newId])
 
   const modifiedValues = useStore(
     (state) =>
@@ -122,4 +122,11 @@ export const usePersistConfig = () => {
     }
     clearConfig()
   }, [forms, db, clearConfig])
+}
+
+export const useTablesConfig = () => {
+  const collection = useCollection(TABLE_INFO_TABLE)
+  const q = useMemo(() => collection?.find(), [collection])
+  const { result } = useRxQuery<TableInformation>(q)
+  return result
 }

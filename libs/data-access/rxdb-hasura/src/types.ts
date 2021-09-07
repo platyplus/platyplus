@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
-import { Subject } from 'rxjs'
+import { RxCollection, RxDocument } from 'rxdb'
+import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
+import { RxDatabaseBase } from 'rxdb/dist/types/rx-database'
+import { Observable, Subject } from 'rxjs'
 
-import { ConfigCollection, TableInfo, TableInfoCollection } from './metadata'
+import { PlatyplusCollections, TableInfo } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
@@ -35,7 +37,7 @@ export type ContentsCollectionMethods = {}
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string
   tableId: string
-  replicator: Replicator
+  replicator: Replicator<Contents>
 }
 
 export type ContentsCollection = RxCollection<
@@ -48,20 +50,21 @@ export type Modifier = (
   doc: Contents
 ) => Contents | null | Promise<Contents | null>
 
-export type Replicator = {
+export type Replicator<T> = {
   start: () => Promise<void>
   stop: () => Promise<void>
   destroy: () => Promise<void>
+  state: RxGraphQLReplicationState<T>
 }
 
-export type ContentsCollections = Map<string, ContentsCollection>
+export type DatabaseCollections = PlatyplusCollections &
+  Record<string, ContentsCollection>
 
-export type DatabaseCollections = TableInfoCollection &
-  ConfigCollection &
-  ContentsCollections
-
-export type Database = RxDatabase<DatabaseCollections> & {
+export type DatabasePrototype = {
   newCollections$: Subject<DatabaseCollections>
+  isConfigReady$: Observable<boolean>
+  isReady$: Observable<boolean>
 }
 
-export type DatabasePrototype = {}
+export type Database = RxDatabaseBase<unknown, unknown, DatabaseCollections> &
+  DatabasePrototype

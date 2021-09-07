@@ -4,18 +4,19 @@ import { print } from 'graphql/language/printer'
 import { info } from '../console'
 import { tableInfoStore } from '../store'
 import { upsertWithMigration } from './hasura-migrations'
-import { CollectionSettings } from './types'
+import { CollectionSettings, ConfigCollectionName } from './types'
 
 export const TABLE_CONFIG_TABLE = 'table_config'
 export const APP_CONFIG_TABLE = 'app_config'
 export const PROPERTY_CONFIG_TABLE = 'property_config'
 export const TABLE_INFO_TABLE = 'table_info'
 
-export const CONFIG_TABLES: string[] = [
+export const CONFIG_TABLES: ConfigCollectionName[] = [
   APP_CONFIG_TABLE,
   PROPERTY_CONFIG_TABLE,
   TABLE_CONFIG_TABLE
 ]
+export const PLATYPLUS_TABLES = [...CONFIG_TABLES, TABLE_INFO_TABLE]
 
 export const isConsoleEnabled = (): boolean => {
   return document.location.hostname === 'localhost'
