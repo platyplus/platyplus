@@ -2,7 +2,7 @@
 import { Schema } from 'rsuite'
 import { useMemo } from 'react'
 
-import { TableInformation } from '@platyplus/rxdb-hasura'
+import { TableInformation, tableProperties } from '@platyplus/rxdb-hasura'
 
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
@@ -48,7 +48,7 @@ const modelTypeConstructor = {
 }
 
 export const useFormModel = (tableInfo: TableInformation) => {
-  const properties = tableInfo.properties
+  const properties = tableProperties(tableInfo)
   return useMemo(
     () =>
       Model(

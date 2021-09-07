@@ -4,15 +4,23 @@ import create from 'zustand'
 import {
   isManyToManyJoinTable,
   TableInformation,
-  tableInfoStore
+  tableInfoStore,
+  TABLE_INFO_TABLE
 } from '@platyplus/rxdb-hasura'
 
 import { useAppConfig } from './config'
+import { useCollection } from '.'
+import { useRxDocument, useRxQuery } from 'rxdb-hooks'
 
+// TODO remove
 export const useTableInfoStore = create(tableInfoStore)
 
-export const useTableInfo = (id: string): TableInformation =>
-  useTableInfoStore(useCallback((store) => store.tables[id], [id]))
+export const useTableInfo = (id: string): TableInformation => {
+  const { result } = useRxDocument<TableInformation>(TABLE_INFO_TABLE, id, {
+    json: true
+  })
+  return result
+}
 
 export const useIsTableInfoReady = () =>
   useTableInfoStore((store) => store.isReady())
@@ -36,7 +44,9 @@ export const useTableInfoList = (
   includeMissing = false
 ): [TableInformation[], (val: TableInformation[]) => void] => {
   const [appConfig, setAppConfig] = useAppConfig()
-  const tables = useTableInfoStore((state) => state.tables)
+  const collection = useCollection(TABLE_INFO_TABLE)
+  const q = useMemo(() => collection?.find(), [collection])
+  const { result: tables } = useRxQuery<TableInformation>(q)
 
   const orderedList = useMemo(() => {
     const order = appConfig.menu_order ? [...appConfig.menu_order] : []

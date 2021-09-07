@@ -151,7 +151,7 @@ export const addComputedFieldsFromCollection = async (
     )
   }
   */
-  data.label = documentLabel(data, collection) || ''
+  data.label = (await documentLabel(data, collection)) || ''
 }
 
 export const addComputedFieldsFromDoc: RxCollectionHookCallback<

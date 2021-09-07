@@ -1,7 +1,8 @@
 import gql from 'graphql-tag'
+import { TABLE_CONFIG_TABLE } from '../utils'
 export const query = gql`
   query tableConfig($updated_at: timestamptz!, $batchSize: Int!) {
-    platyplus_table_config(
+    platyplus_${TABLE_CONFIG_TABLE}(
       where: { updated_at: { _gt: $updated_at } }
       limit: $batchSize
       order_by: [{ updated_at: asc }, { id: asc }]
@@ -21,12 +22,12 @@ export const query = gql`
 `
 export const mutation = gql`
   mutation insertTableConfig(
-    $objects: [platyplus_table_config_insert_input!]!
+    $objects: [platyplus_${TABLE_CONFIG_TABLE}_insert_input!]!
   ) {
-    insert_platyplus_table_config(
+    insert_platyplus_${TABLE_CONFIG_TABLE}(
       objects: $objects
       on_conflict: {
-        constraint: table_config_pkey
+        constraint: ${TABLE_CONFIG_TABLE}_pkey
         update_columns: [
           deleted
           component
@@ -47,7 +48,7 @@ export const mutation = gql`
 `
 export const subscription = gql`
   subscription onTableConfig($now: timestamptz!) {
-    platyplus_table_config(
+    platyplus_${TABLE_CONFIG_TABLE}(
       where: { updated_at: { _gt: $now } }
       order_by: { updated_at: asc }
     ) {

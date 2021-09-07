@@ -212,7 +212,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
   return async (data) => {
     debug('pullModifier: in', collection.name, { ...data })
     data = addComputedFieldsFromLoadedData(data, collection)
-    data.label = documentLabel(data, collection) || ''
+    data.label = (await documentLabel(data, collection)) || ''
     data.id = composeId(tableInfo, data)
     // * Flatten relationship data so it fits in the `population` system
     for (const rel of filteredArrayRelationships(tableInfo)) {

@@ -2,12 +2,12 @@ import { InlineValue } from '@platyplus/layout'
 import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
 import { useMemo } from 'react'
 
-import { useConfig } from '../config'
+import { useTableConfig } from '../config'
 
 export const useCollectionTitle = (tableInfo?: TableInformation) => {
   const id = useMemo(() => tableInfo?.id, [tableInfo])
   const fallback = useMemo(() => tableInfo && tableName(tableInfo), [tableInfo])
-  return useConfig<string>(id, 'title', fallback)
+  return useTableConfig<string>(id, 'title', fallback)
 }
 
 export const CollectionTitle: React.FC<{

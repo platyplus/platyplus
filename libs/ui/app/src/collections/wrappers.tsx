@@ -1,3 +1,4 @@
+import { useTableConfig } from '@platyplus/react-rxdb-hasura'
 import { useMemo } from 'react'
 
 import { useComponentsLibrary } from '../components'
@@ -6,7 +7,8 @@ import { CollectionComponent } from './types'
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
 }> = ({ edit = false, componentName, tableInfo, role, ...rest }) => {
-  const collectionComponentName = tableInfo.config?.component || 'default'
+  const [config] = useTableConfig(tableInfo.id)
+  const collectionComponentName = config?.component || 'default'
   const name = useMemo(
     () => componentName || collectionComponentName,
     [componentName, collectionComponentName]

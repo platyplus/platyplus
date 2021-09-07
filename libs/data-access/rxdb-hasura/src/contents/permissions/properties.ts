@@ -1,4 +1,5 @@
 import { TableInformation } from '../../metadata'
+import { tableProperties } from '../properties'
 import {
   allRelationships,
   isManyToManyJoinTable,
@@ -19,7 +20,7 @@ export const canRemoveCollectionItem = (
   propertyName: string,
   role: string
 ) => {
-  const prop = tableInfo.properties.get(propertyName)
+  const prop = tableProperties(tableInfo).get(propertyName)
   if (prop && prop.type === 'collection') {
     const relationship = allRelationships(tableInfo).find(
       (rel) => rel.name === propertyName

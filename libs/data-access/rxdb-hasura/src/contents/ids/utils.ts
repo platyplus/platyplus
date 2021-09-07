@@ -2,7 +2,7 @@ import { Column, TableInfo, Contents } from '../../types'
 export const ID_COLUMN = 'id'
 
 export const getIds = (table: Partial<TableInfo>): string[] =>
-  table.primaryKey.columns || [ID_COLUMN]
+  table.primaryKey?.columns || [ID_COLUMN]
 
 export const isIdColumn = (
   table: Partial<TableInfo>,

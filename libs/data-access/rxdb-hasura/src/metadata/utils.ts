@@ -2,14 +2,19 @@ import produce from 'immer'
 import { print } from 'graphql/language/printer'
 
 import { info } from '../console'
+import { tableInfoStore } from '../store'
 import { upsertWithMigration } from './hasura-migrations'
 import { CollectionSettings } from './types'
-import { tableInfoStore } from '..'
+
+export const TABLE_CONFIG_TABLE = 'table_config'
+export const APP_CONFIG_TABLE = 'app_config'
+export const PROPERTY_CONFIG_TABLE = 'property_config'
+export const TABLE_INFO_TABLE = 'table_info'
 
 export const CONFIG_TABLES: string[] = [
-  'app_config',
-  'property_config',
-  'table_config'
+  APP_CONFIG_TABLE,
+  PROPERTY_CONFIG_TABLE,
+  TABLE_CONFIG_TABLE
 ]
 
 export const isConsoleEnabled = (): boolean => {

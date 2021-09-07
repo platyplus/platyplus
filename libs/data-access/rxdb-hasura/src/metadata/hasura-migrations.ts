@@ -3,6 +3,11 @@ import axios from 'axios'
 import { escape } from 'sqlstring'
 import { PropertyConfig } from './types'
 import { Contents } from '../types'
+import {
+  APP_CONFIG_TABLE,
+  PROPERTY_CONFIG_TABLE,
+  TABLE_CONFIG_TABLE
+} from './utils'
 
 const CONSOLE_API = 'http://localhost:9693/apis'
 const client = axios.create({ baseURL: CONSOLE_API })
@@ -37,20 +42,20 @@ const upsertQuery = (
 
 const tableConfigToSql = (id: string, config: Contents) => {
   return upsertQuery(
-    `platyplus.table_config`,
+    `platyplus.${TABLE_CONFIG_TABLE}`,
     config,
     { id },
-    'table_config_pkey'
+    `${TABLE_CONFIG_TABLE}_pkey`
   )
 }
 
 const appConfigToSql = (config: Contents) => {
   const { id, ...updateValues } = config
   return upsertQuery(
-    `platyplus.app_config`,
+    `platyplus.${APP_CONFIG_TABLE}`,
     config,
     updateValues,
-    'app_config_pkey'
+    `${APP_CONFIG_TABLE}_pkey`
   )
 }
 
@@ -60,10 +65,10 @@ const propertyConfigToSql = (config: PropertyConfig) => {
   insertValues.property_name = id.substring(id.lastIndexOf('.') + 1)
   insertValues.table_id = id.substring(0, id.lastIndexOf('.'))
   return upsertQuery(
-    `platyplus.property_config`,
+    `platyplus.${PROPERTY_CONFIG_TABLE}`,
     insertValues,
     updateValues,
-    'property_config_pkey'
+    `${PROPERTY_CONFIG_TABLE}_pkey`
   )
 }
 
@@ -74,10 +79,12 @@ export const createSqlMigrations = async (
   const sql = sqlOperations.join('\n')
   const request = {
     name: 'upsert_config',
+    datasource: 'default',
     up: [
       {
         type: 'run_sql',
         args: {
+          source: 'default',
           sql,
           cascade: false,
           read_only: false
@@ -97,9 +104,9 @@ export const upsertWithMigration = async (
 ) => {
   // ? how to make it work with batches to avoid multiple migration files ?
   const sql = {
-    app_config: () => appConfigToSql(data),
-    table_config: () => tableConfigToSql(data.id, data),
-    property_config: () => propertyConfigToSql(data)
+    [APP_CONFIG_TABLE]: () => appConfigToSql(data),
+    [TABLE_CONFIG_TABLE]: () => tableConfigToSql(data.id, data),
+    [PROPERTY_CONFIG_TABLE]: () => propertyConfigToSql(data)
   }[collectionName]
   if (sql) {
     await createSqlMigrations([sql()])

@@ -8,8 +8,14 @@ import { AppConfig } from './app-config/types'
 import type { PropertyConfig } from './property-config/types'
 import type { TableConfig } from './table-config/types'
 import type { Column, Relationship, TableInfo } from './table-information/types'
+import {
+  APP_CONFIG_TABLE,
+  PROPERTY_CONFIG_TABLE,
+  TABLE_CONFIG_TABLE,
+  TABLE_INFO_TABLE
+} from './utils'
 
-export type TableInformation = Partial<ExtendedTableInfo>
+export type TableInformation = TableInfo
 
 export type CollectionSettings = {
   query: DocumentNode
@@ -30,9 +36,9 @@ export type {
 }
 
 export type ConfigCollectionName =
-  | 'app_config'
-  | 'property_config'
-  | 'table_config'
+  | typeof APP_CONFIG_TABLE
+  | typeof PROPERTY_CONFIG_TABLE
+  | typeof TABLE_CONFIG_TABLE
 
 export type JsonSchemaFormat =
   | 'date-time'
@@ -61,11 +67,6 @@ export type PropertyType =
   | JsonSchemaPropertyType
   | CustomTypes
 
-export type ExtendedTableInfo = TableInfo & {
-  properties: Map<string, Property>
-  config?: TableConfig
-}
-
 export type Property = {
   name: string
   config?: PropertyConfig
@@ -86,9 +87,25 @@ export type ConfigCollection = RxCollection<
   { replicator: Replicator }
 >
 
+export type TableConfigCollection = RxCollection<
+  TableConfig,
+  Record<string, unknown>,
+  { replicator: Replicator }
+>
+export type PropertyConfigCollection = RxCollection<
+  PropertyConfig,
+  Record<string, unknown>,
+  { replicator: Replicator }
+>
+export type AppConfigCollection = RxCollection<
+  AppConfig,
+  Record<string, unknown>,
+  { replicator: Replicator }
+>
+
 export type PlatyplusCollections = {
-  table_info: TableInfoCollection
-  property_config: RxCollection<PropertyConfig>
-  table_config: RxCollection<TableConfig>
-  app_config: RxCollection<AppConfig>
+  [TABLE_INFO_TABLE]: TableInfoCollection
+  [PROPERTY_CONFIG_TABLE]: PropertyConfigCollection
+  [TABLE_CONFIG_TABLE]: TableConfigCollection
+  [APP_CONFIG_TABLE]: AppConfigCollection
 }

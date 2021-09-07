@@ -1,7 +1,8 @@
 import gql from 'graphql-tag'
+import { PROPERTY_CONFIG_TABLE } from '../utils'
 export const query = gql`
   query propertyConfig($updated_at: timestamptz!, $batchSize: Int!) {
-    platyplus_property_config(
+    platyplus_${PROPERTY_CONFIG_TABLE}(
       where: { updated_at: { _gt: $updated_at } }
       limit: $batchSize
       order_by: [{ updated_at: asc }, { id: asc }]
@@ -21,12 +22,12 @@ export const query = gql`
 `
 export const mutation = gql`
   mutation insertPropertyConfig(
-    $objects: [platyplus_property_config_insert_input!]!
+    $objects: [platyplus_${PROPERTY_CONFIG_TABLE}_insert_input!]!
   ) {
-    insert_platyplus_property_config(
+    insert_platyplus_${PROPERTY_CONFIG_TABLE}(
       objects: $objects
       on_conflict: {
-        constraint: property_config_pkey
+        constraint: ${PROPERTY_CONFIG_TABLE}_pkey
         update_columns: [
           table_id
           deleted
@@ -47,7 +48,7 @@ export const mutation = gql`
 `
 export const subscription = gql`
   subscription onPropertyConfig($now: timestamptz!) {
-    platyplus_property_config(
+    platyplus_${PROPERTY_CONFIG_TABLE}(
       where: { updated_at: { _gt: $now } }
       order_by: { updated_at: asc }
     ) {
