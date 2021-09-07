@@ -2,6 +2,7 @@ import { ADMIN_ROLE, TableInformation } from '../../metadata'
 import { Contents } from '../../types'
 import { DELETED_COLUMN, SYSTEM_COLUMNS } from '../columns'
 import { getIds } from '../ids'
+import { tableProperties } from '../properties'
 import {
   allRelationships,
   isManyToManyJoinTable,
@@ -15,26 +16,30 @@ export const canRead = (
   role: string,
   propertyName?: string
 ) => {
-  const permissions = tableInfo.metadata.select_permissions?.find(
+  const permissions = tableInfo.metadata?.select_permissions?.find(
     (p) => p.role === role
   )?.permission
   if (!permissions) return false
 
   if (propertyName) {
-    const property = tableInfo.properties.get(propertyName)
-    if (property.column) {
+    const column = tableInfo.columns?.find((c) => c.name === propertyName)
+    if (column) {
       return permissions.columns.includes(propertyName)
-    } else if (property.relationship) {
-      const mapping = Object.keys(
-        relationshipMapping(tableInfo, property.relationship)
-      )
+    } else {
+      // TODO re-implement
+      console.warn('TODO uncomment')
+      // if (property.relationship) {
+      // const mapping = Object.keys(
+      //   relationshipMapping(tableInfo, property.relationship)
+      // )
 
-      return mapping.every((col) => permissions.columns.includes(col))
+      // return mapping.every((col) => permissions.columns.includes(col))
+      return false
     }
   } else {
     return (
       !isManyToManyJoinTable(tableInfo) &&
-      [...tableInfo.properties.keys()].some((name) =>
+      [...tableProperties(tableInfo).keys()].some((name) =>
         canRead(tableInfo, role, name)
       )
     )

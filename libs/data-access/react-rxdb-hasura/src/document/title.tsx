@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 import { Contents, TableInformation, tableName } from '@platyplus/rxdb-hasura'
 import { InlineValue } from '@platyplus/layout'
-
-import { useCollectionTableConfig } from '../collection'
+import { useTableConfig } from '../config'
 
 // * Document title e.g. 'Visite'. config.document_title="Visite" whereas config.title="Visits"
 export const useDocumentTitle = (
@@ -11,11 +10,7 @@ export const useDocumentTitle = (
   document?: Contents
 ) => {
   const name = useMemo(() => tableInfo && tableName(tableInfo), [tableInfo])
-  return useCollectionTableConfig<string>(
-    document?.collection,
-    'document_title',
-    name
-  )
+  return useTableConfig<string>(tableInfo?.id, 'document_title', name)
 }
 
 export const DocumentTitle: React.FC<{

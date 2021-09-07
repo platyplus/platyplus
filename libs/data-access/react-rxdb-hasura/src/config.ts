@@ -5,13 +5,18 @@ import { useLocation } from 'react-use'
 import { useUserIsAdmin } from '@platyplus/hbp'
 import {
   AppConfig,
+  APP_CONFIG_TABLE,
   CONFIG_TABLES,
-  ContentsCollection
+  ContentsCollection,
+  TableConfig,
+  TABLE_CONFIG_TABLE
 } from '@platyplus/rxdb-hasura'
 
 import { useStore } from './store'
 import { useDB } from './database'
 import { useTableInfoStore } from './metadata'
+import { useRxDocument } from 'rxdb-hooks'
+import { useSingleton } from './document'
 
 export const useConfigEnabled = () => {
   const admin = useUserIsAdmin()
@@ -25,61 +30,66 @@ export const useAppConfig = (): [
   (val: Partial<AppConfig>) => void
 ] => {
   const [newId] = useState(uuid())
+
+  const { value: initialValues } = useSingleton<AppConfig>(APP_CONFIG_TABLE)
+
   const id = useTableInfoStore(
-    useCallback((state) => state.app?.id || newId, [newId])
+    useCallback((state) => initialValues?.id || newId, [initialValues, newId])
   )
 
-  const initialValues = useTableInfoStore((state) => state.app || {})
-
-  const modifiedValues = useStore((state) => state.forms.app_config[id] || {})
+  const modifiedValues = useStore(
+    (state) =>
+      (state.forms[APP_CONFIG_TABLE] &&
+        Object.values(state.forms[APP_CONFIG_TABLE])[0]) ||
+      {}
+  )
 
   const config = useMemo(
-    () => ({ ...initialValues, ...modifiedValues }),
+    () => ({ ...(initialValues?.toJSON() || {}), ...modifiedValues }),
     [modifiedValues, initialValues]
   ) as AppConfig
 
   const setConfig = useStore(
     useCallback(
       (state) => (value: AppConfig) =>
-        state.setConfigForm('app_config', value, id),
+        state.setConfigForm(APP_CONFIG_TABLE, value, id),
       [id]
     )
   )
   return [config, setConfig]
 }
 
-export const useConfig = <T>(
+export const useTableConfig = <T = TableConfig>(
   tableId?: string,
   path?: string,
   fallback?: T
 ): [T, (val: T) => void] => {
-  const initialValues = useTableInfoStore(
-    useCallback(
-      (state) => (tableId && state.tables[tableId]?.config) || {},
-      [tableId]
-    )
+  const { result: initialValues } = useRxDocument<TableConfig>(
+    TABLE_CONFIG_TABLE,
+    tableId,
+    { json: true }
   )
 
   const modifiedValues = useStore(
     useCallback(
-      (state) => (tableId && state.forms.table_config[tableId]) || {},
+      (state) => (tableId && state.forms[TABLE_CONFIG_TABLE][tableId]) || {},
       [tableId]
     )
   )
-
   const state = useMemo(() => {
     if (path) {
       return (
-        (path in modifiedValues ? modifiedValues[path] : initialValues[path]) ??
-        fallback
+        (path in modifiedValues
+          ? modifiedValues[path]
+          : initialValues?.[path]) ?? fallback
       )
-    } else return { ...initialValues, ...modifiedValues }
+    } else return { ...(initialValues || {}), ...modifiedValues }
   }, [modifiedValues, initialValues, path, fallback])
 
   const setState = useStore(
     useCallback(
       (state) => (value: T) =>
-        state.setConfigForm('table_config', value, tableId, path),
+        state.setConfigForm(TABLE_CONFIG_TABLE, value, tableId, path),
       [tableId, path]
     )
   )

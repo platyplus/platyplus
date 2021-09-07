@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid'
 import { Contents } from '../../types'
 import { TableInformation } from '../../metadata'
 
-import { isTextType } from '../properties'
 import { allRelationships } from '../relationships'
 
 export const generateDefaultValue = (
@@ -34,8 +33,11 @@ export const generateDefaultValue = (
       return null
     }
   } else {
-    const type = table.properties.get(propertyName).type
-    if (isTextType(type)) return ''
-    else return null
+    // TODO
+    console.log('TODO re-implement')
+    // const type = table.properties.get(propertyName).type
+    // if (isTextType(type)) return ''
+    // else return null
+    return null
   }
 }

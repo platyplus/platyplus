@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars'
+import { TableConfigCollection, TABLE_CONFIG_TABLE } from '../../../metadata'
 import { getCollectionTableInfo } from '../../../store'
-
-import { Contents, ContentsDocument } from '../../../types'
+import { Contents, ContentsCollection } from '../../../types'
 
 export const computeTemplate = (doc: Contents, template = '{{id}}') => {
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
@@ -13,13 +13,19 @@ export const computeTemplate = (doc: Contents, template = '{{id}}') => {
 // * Cons:
 // *    - not part of the react store configuration system
 // *    - as a result, must reload tableInfo - and eventually recompute the entire Rx collection entirely
-export const documentLabel = (
+export const documentLabel = async (
   doc: Contents,
-  collection: ContentsDocument['collection']
-): string | null => {
+  collection: ContentsCollection
+): Promise<string | null> => {
   const tableInfo = getCollectionTableInfo(collection)
+  const config = await (
+    collection.database[TABLE_CONFIG_TABLE] as TableConfigCollection
+  )
+    .findOne(tableInfo.id)
+    .exec()
+
   const template =
-    tableInfo.config?.document_label || `{{${collection.schema.primaryPath}}}`
+    config?.document_label || `{{${collection.schema.primaryPath}}}`
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
   return (
     compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || doc.id

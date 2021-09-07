@@ -3,7 +3,14 @@ import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 
 import { ContentsCollection, ContentsDocument } from '../types'
-import { AppConfig, CONFIG_TABLES, TableInformation } from '../metadata'
+import {
+  APP_CONFIG_TABLE,
+  CONFIG_TABLES,
+  PROPERTY_CONFIG_TABLE,
+  TableInformation,
+  TABLE_CONFIG_TABLE,
+  TABLE_INFO_TABLE
+} from '../metadata'
 import { getNetworkState, subscribeNetworkState } from './network-state'
 import { debug } from '../console'
 
@@ -11,15 +18,17 @@ enableMapSet()
 
 export type TableInfoStore = {
   tables: Record<string, TableInformation>
-  // TODO rename 'replication'
+  // TODO remove 'replication' - see following todos
   replication: Record<string, { syncing: boolean; ready: boolean }>
-  app?: AppConfig
   authenticated: boolean
   jwt?: string
   admin: boolean
   connected: boolean
+  // TODO remove isConfigReady and use RxJSs combineLatest in RxDB
   isSyncing: () => boolean
+  // TODO remove isConfigReady and use RxJSs combineLatest in RxDB
   isReady: () => boolean
+  // TODO remove isConfigReady and use RxJSs combineLatest in RxDB
   isConfigReady: () => boolean
 }
 
@@ -28,12 +37,11 @@ export const tableInfoStore = create<TableInfoStore>(
     (set, get) => ({
       tables: {},
       replication: {
-        app_config: { ready: false, syncing: false },
-        table_config: { ready: false, syncing: false },
-        property_config: { ready: false, syncing: false },
-        table_info: { ready: false, syncing: false }
+        [APP_CONFIG_TABLE]: { ready: false, syncing: false },
+        [TABLE_CONFIG_TABLE]: { ready: false, syncing: false },
+        [PROPERTY_CONFIG_TABLE]: { ready: false, syncing: false },
+        [TABLE_INFO_TABLE]: { ready: false, syncing: false }
       },
-      app: null,
       authenticated: false,
       jwt: null,
       admin: false,
@@ -41,11 +49,11 @@ export const tableInfoStore = create<TableInfoStore>(
       isSyncing: () =>
         Object.values(get().replication).some((value) => value.syncing),
       isReady: () =>
-        get().isConfigReady() && get().replication.table_info.ready,
+        get().isConfigReady() && get().replication[TABLE_INFO_TABLE].ready,
       isConfigReady: () =>
         CONFIG_TABLES.every((value) => get().replication[value].ready)
     }),
-    'table_info'
+    TABLE_INFO_TABLE
   )
 )
 
@@ -65,8 +73,9 @@ export const getCollectionTableInfo = (collection: ContentsCollection) =>
   getTableInfo(collection.options.tableId)
 
 export const getDocumentTableInfo = (document: ContentsDocument) =>
-  getCollectionTableInfo(document.collection)
+  getCollectionTableInfo(document.collection as ContentsCollection)
 
+// TODO get rid of this
 export const setCollectionIsSynced = (collectionName: string) => {
   tableInfoStore.setState(
     produce<TableInfoStore>((state) => {
@@ -74,6 +83,8 @@ export const setCollectionIsSynced = (collectionName: string) => {
     })
   )
 }
+
+// TODO get rid of this
 export const setCollectionIsReady = (collectionName: string) => {
   tableInfoStore.setState(
     produce<TableInfoStore>((state) => {
@@ -88,6 +99,7 @@ export const setCollectionIsReady = (collectionName: string) => {
   )
 }
 
+// TODO get rid of this
 export const initCollection = (collectionName: string) => {
   tableInfoStore.setState(
     produce<TableInfoStore>((state) => {

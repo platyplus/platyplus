@@ -182,12 +182,11 @@ export const pushQueryBuilder = (
 
 export const pushModifier = (collection: ContentsCollection): Modifier => {
   // TODO replicate only what has changed e.g. _changes sent to the query builder
-  const table = getCollectionTableInfo(collection)
-
-  const objectRelationships = filteredObjectRelationships(table)
 
   return async (data) => {
     debug('pushModifier: in:', data)
+    const table = await getCollectionTableInfo(collection)
+    const objectRelationships = filteredObjectRelationships(table)
     // * Do not push data if it is flaged as a local change
     if (data.is_local_change) return null
     else delete data.is_local_change

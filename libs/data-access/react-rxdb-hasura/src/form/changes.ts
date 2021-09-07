@@ -1,7 +1,11 @@
 import deepEqual from 'deep-equal'
 import { useMemo } from 'react'
 
-import { ContentsDocument, TableInformation } from '@platyplus/rxdb-hasura'
+import {
+  ContentsDocument,
+  TableInformation,
+  tableProperties
+} from '@platyplus/rxdb-hasura'
 
 import { useFormRawValues } from './state'
 
@@ -10,7 +14,7 @@ export const useFormHasChanged = (
   role: string,
   document: ContentsDocument
 ) => {
-  const properties = tableInfo.properties
+  const properties = tableProperties(tableInfo)
   const formValues = useFormRawValues(tableInfo, role, document)
 
   return useMemo(

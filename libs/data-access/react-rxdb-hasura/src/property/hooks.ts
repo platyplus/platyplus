@@ -7,12 +7,14 @@ import {
   Property,
   getTableInfo,
   SYSTEM_COLUMNS,
-  relationshipTableId
+  relationshipTableId,
+  tableProperties,
+  PROPERTY_CONFIG_TABLE
 } from '@platyplus/rxdb-hasura'
 
-import { useCollectionTableConfig } from '../collection'
-import { useTableInfoStore } from '../metadata'
 import { useStore } from '../store'
+import { useTableConfig } from '../config'
+import { useRxDocument } from 'rxdb-hooks'
 
 export const usePropertyConfig = <T = PropertyConfig>(
   tableInfo: TableInformation | TableInfoDocument | undefined,
@@ -22,28 +24,31 @@ export const usePropertyConfig = <T = PropertyConfig>(
 ): [T, (val: T) => void] => {
   const id = useMemo(() => `${tableInfo.id}.${property}`, [tableInfo, property])
 
-  const initialValues = useTableInfoStore(
-    useCallback(
-      (state) =>
-        state.tables[tableInfo.id].properties.get(property)?.config || {},
-      [tableInfo, property]
-    )
+  const { result: initialValues } = useRxDocument<PropertyConfig>(
+    PROPERTY_CONFIG_TABLE,
+    `${tableInfo.id}.${property}`,
+    { json: true }
   )
+
   const modifiedValues = useStore(
-    useCallback((state) => (id && state.forms.property_config[id]) || {}, [id])
+    useCallback(
+      (state) => (id && state.forms[PROPERTY_CONFIG_TABLE][id]) || {},
+      [id]
+    )
   )
   const state = useMemo(() => {
     if (path) {
       return (
-        (path in modifiedValues ? modifiedValues[path] : initialValues[path]) ||
-        fallback
+        (path in modifiedValues
+          ? modifiedValues[path]
+          : initialValues?.[path]) || fallback
       )
-    } else return { ...initialValues, ...modifiedValues }
+    } else return { ...(initialValues || {}), ...modifiedValues }
   }, [modifiedValues, initialValues, path, fallback])
   const setState = useStore(
     useCallback(
       (state) => (value: T) =>
-        state.setConfigForm('property_config', value, id, path),
+        state.setConfigForm(PROPERTY_CONFIG_TABLE, value, id, path),
       [path, id]
     )
   )
@@ -63,12 +68,9 @@ export const useTableProperties = (
   tableInfo: TableInformation,
   options?: { all?: boolean; role?: string; order?: boolean }
 ): [Map<string, Property>, (val: Map<string, Property>) => void] => {
-  const state = useMemo(() => tableInfo.properties, [tableInfo])
+  const state = useMemo(() => tableProperties(tableInfo), [tableInfo])
 
-  const [order, setOrder] = useCollectionTableConfig<string[]>(
-    tableInfo.id,
-    'order'
-  )
+  const [order, setOrder] = useTableConfig<string[]>(tableInfo.id, 'order')
 
   const properties = useMemo(() => {
     if (state) {

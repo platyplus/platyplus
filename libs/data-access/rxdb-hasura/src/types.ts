@@ -27,9 +27,7 @@ export type Contents = Record<string, any> & {
   label: string
 }
 
-export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods> & {
-  collection: ContentsCollection
-}
+export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods>
 
 export type ContentsDocumentMethods = {}
 export type ContentsCollectionMethods = {}

@@ -1,4 +1,4 @@
-import { useCollectionTableConfig } from '../collection'
+import { useTableConfig } from '../config'
 
 export const useDocumentComponentName = (tableId: string) =>
-  useCollectionTableConfig(tableId, 'document_component', 'default')
+  useTableConfig(tableId, 'document_component', 'default')

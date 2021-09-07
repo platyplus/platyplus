@@ -8,10 +8,10 @@ import {
 } from '@platyplus/rxdb-hasura'
 
 import { useFormGet } from '../form'
-import { useCollectionTableConfig } from '../collection'
+import { useTableConfig } from '../config'
 
 export const useDocumentLabelTemplate = (tableInfo: TableInformation) =>
-  useCollectionTableConfig<string>(tableInfo.id, 'document_label')
+  useTableConfig<string>(tableInfo.id, 'document_label')
 
 export const useDocumentLabel = (
   tableInfo: TableInformation,

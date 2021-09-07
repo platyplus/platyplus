@@ -14,7 +14,7 @@ import {
 
 import {
   useTableInfoStore,
-  useConfig,
+  useTableConfig,
   useTableProperties
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
@@ -29,7 +29,7 @@ const TableWrapper: React.FC<{
   title: string
 }> = ({ table, title }) => {
   const [properties, setProperties] = useTableProperties(table)
-  const [config, setConfig] = useConfig<Record<string, unknown>>(table.id)
+  const [config, setConfig] = useTableConfig<Record<string, unknown>>(table.id)
 
   const library = useComponentsLibrary()
   const collectionComponents = Object.keys(library.collections)
@@ -144,16 +144,16 @@ export const ConfigTablePage: React.FC<{ role?: string }> = () => {
     useCallback((state) => state.tables[id], [id])
   )
   const metaName = useMemo(() => table && tableName(table), [table])
-
+  const [config] = useTableConfig(id)
   const title = useMemo(() => {
-    const collectionTitle = table?.config?.title
+    const collectionTitle = config?.title
     return (
       metaName &&
       (collectionTitle !== metaName
         ? `${collectionTitle} (${metaName})`
         : metaName)
     )
-  }, [metaName, table])
+  }, [metaName, config])
 
   return (
     <Animation.Fade in={!!table}>
