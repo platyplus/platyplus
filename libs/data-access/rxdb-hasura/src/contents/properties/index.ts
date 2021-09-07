@@ -4,7 +4,11 @@ import {
   PropertyType,
   TableInformation
 } from '../../metadata'
-import { filteredRelationships } from '../relationships'
+import {
+  filteredArrayRelationships,
+  filteredObjectRelationships,
+  filteredRelationships
+} from '../relationships'
 
 import { columnProperties } from '../columns'
 import {
@@ -117,7 +121,7 @@ export const tableProperties = (
     })
   })
 
-  table.metadata.array_relationships?.forEach((rel) => {
+  filteredArrayRelationships(table).forEach((rel) => {
     result.set(rel.name, {
       name: rel.name,
       relationship: rel,
@@ -126,7 +130,7 @@ export const tableProperties = (
       primary: false
     })
   })
-  table.metadata.object_relationships?.forEach((rel) => {
+  filteredObjectRelationships(table).forEach((rel) => {
     result.set(rel.name, {
       name: rel.name,
       relationship: rel,

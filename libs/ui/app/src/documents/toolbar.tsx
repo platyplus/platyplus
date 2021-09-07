@@ -68,13 +68,13 @@ export const DocumentToolbar: React.FC<{
                   icon="save"
                   helper="Save"
                   onClick={handleSave}
-                  disabled={!hasChanged}
+                  disabled={!(hasChanged && can.save)}
                 />
                 <IconButtonWithHelper
                   icon="undo"
                   helper="Reset"
                   onClick={reset}
-                  disabled={!hasChanged}
+                  disabled={!(hasChanged && can.save)}
                 />
                 <IconButtonWithHelper
                   icon="back-arrow"
