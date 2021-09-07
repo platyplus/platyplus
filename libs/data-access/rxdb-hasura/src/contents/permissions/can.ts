@@ -56,11 +56,17 @@ export const canEdit = (
     ? canCreate(tableInfo, role, propertyName)
     : canUpdate(tableInfo, role, propertyName)
 
-export const canSave = () => {
+export const canSave = (
+  tableInfo: TableInformation,
+  role: string,
+  document?: Contents,
+  propertyName?: string
+) => {
+  // TODO
   // ? validate data ?
   // * check hasura permissions
   // * check SQL constraints
-  return true
+  return canEdit(tableInfo, role, document, propertyName)
 }
 
 export const canRemove = (
