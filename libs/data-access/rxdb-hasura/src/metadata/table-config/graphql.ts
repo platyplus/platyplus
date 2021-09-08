@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { TABLE_CONFIG_TABLE } from '../utils'
+import { TABLE_CONFIG_TABLE } from '../../constants'
 export const query = gql`
   query tableConfig($updated_at: timestamptz!, $batchSize: Int!) {
     platyplus_${TABLE_CONFIG_TABLE}(

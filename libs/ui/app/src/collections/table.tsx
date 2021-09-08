@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom'
 import { Table } from 'rsuite'
 
 import { PropertyTitle, useTableProperties } from '@platyplus/react-rxdb-hasura'
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
+import { canRead, ContentsDocument } from '@platyplus/rxdb-hasura'
 
 import { CollectionComponent } from './types'
 import { FieldComponentWrapper } from '../fields'
@@ -28,31 +28,33 @@ export const TableCollection: CollectionComponent = ({
         history.push(`/collection/${role}/${tableInfo.id}/${data.id}`)
       }}
     >
-      {[...properties.values()].map((property) => (
-        <Column flexGrow={1} key={property.name}>
-          <HeaderCell>
-            <PropertyTitle
-              editable={config}
-              tableInfo={tableInfo}
-              name={property.name}
-            />
-          </HeaderCell>
-          <Cell>
-            {(document: ContentsDocument) => {
-              return (
-                <FieldComponentWrapper
-                  tableInfo={tableInfo}
-                  role={role}
-                  name={property.name}
-                  property={property}
-                  document={document}
-                  edit={false}
-                />
-              )
-            }}
-          </Cell>
-        </Column>
-      ))}
+      {[...properties.entries()]
+        .filter(([propertyName]) => canRead(tableInfo, role, propertyName))
+        .map(([, property]) => (
+          <Column flexGrow={1} key={property.name}>
+            <HeaderCell>
+              <PropertyTitle
+                editable={config}
+                tableInfo={tableInfo}
+                name={property.name}
+              />
+            </HeaderCell>
+            <Cell>
+              {(document: ContentsDocument) => {
+                return (
+                  <FieldComponentWrapper
+                    tableInfo={tableInfo}
+                    role={role}
+                    name={property.name}
+                    property={property}
+                    document={document}
+                    edit={false}
+                  />
+                )
+              }}
+            </Cell>
+          </Column>
+        ))}
     </Table>
   )
 }

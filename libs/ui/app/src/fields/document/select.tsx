@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { SelectPicker } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
@@ -10,8 +10,12 @@ import {
 
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
-import { useCollectionName, useTableInfo } from '@platyplus/react-rxdb-hasura'
-import { switchMap } from 'rxjs'
+import {
+  useCollectionName,
+  useOptions,
+  useTableInfo
+} from '@platyplus/react-rxdb-hasura'
+import { filter, switchMap } from 'rxjs'
 
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
@@ -28,19 +32,23 @@ export const DocumentSelectField: FieldComponent = ({
     relationshipTableId(tableInfo, property.relationship)
   )
   const refCollectionName = useCollectionName(refTable, role)
-
   const [data, setData] = useState<ContentsDocument>(null)
+
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
-    const subscription = document
-      .get$(name)
-      .pipe(
-        switchMap(
-          (id) => document.collection.database[refCollectionName].findOne(id).$
+    if (document && refCollectionName) {
+      const subscription = document
+        .get$(name)
+        .pipe(
+          filter((id) => !!id),
+          switchMap(
+            (id) =>
+              document.collection.database[refCollectionName].findOne(id).$
+          )
         )
-      )
-      .subscribe((refDocument: ContentsDocument) => setData(refDocument))
-    return () => subscription.unsubscribe()
+        .subscribe((refDocument: ContentsDocument) => setData(refDocument))
+      return () => subscription.unsubscribe()
+    }
   }, [
     document,
     name,
@@ -55,22 +63,16 @@ export const DocumentSelectField: FieldComponent = ({
     (collection) => collection.find().sort('label'),
     []
   )
-  const { result, isFetching } = useRxData<Contents>(
-    refCollectionName,
-    queryConstructor
-  )
+  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
 
-  const options = useMemo(
-    () => result.map((doc) => ({ label: doc.label, value: doc.id })),
-    [result]
-  )
+  const options = useOptions(refTable, result, role)
 
   return edit ? (
     <FieldControl
       style={{ minWidth: 300 }}
       name={name}
       readOnly={!edit}
-      data={isFetching ? [] : options}
+      data={options}
       cleanable={edit}
       accepter={SelectPicker}
     />

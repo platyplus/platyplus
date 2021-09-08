@@ -2,16 +2,16 @@
 import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
-import { warn } from '../../console'
-import { JsonSchemaPropertyType } from '../../metadata'
 
+import { JsonSchemaPropertyType } from '../../metadata'
 import {
   Contents,
   ContentsCollection,
   ContentsDocument,
   ContentsDocumentMethods
 } from '../../types'
-import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
+import { warn, FieldMapItem, rxdbJsonataPaths } from '../../utils'
+
 import { documentLabel } from './label'
 
 type ComputedProperty = {

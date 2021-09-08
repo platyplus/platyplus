@@ -2,7 +2,7 @@ import { ContentsCollection } from '../../types'
 
 import { pullModifier, pullQueryBuilder } from './pull'
 import { pushModifier, pushQueryBuilder } from './push'
-import { createReplicator } from '../../replicator'
+import { createReplicator } from '../../utils/replicator'
 import { subscriptionQuery } from './subscribe'
 
 const DEFAULT_BATCH_SIZE = 5

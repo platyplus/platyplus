@@ -17,7 +17,7 @@ import {
   isRequiredRelationship
 } from '../required'
 import { isIdColumn } from '../ids'
-import { Column, TableInfo } from '../../types'
+import { Column } from '../../types'
 
 const postgresJsonSchemaTypeMapping: Record<
   string,
@@ -56,7 +56,7 @@ const mainPropertyJsonType = (
 }
 
 export const propertyJsonType = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   columnInfo: Column
 ): PropertyType | PropertyType[] => {
   const result = mainPropertyJsonType(columnInfo)
@@ -76,7 +76,7 @@ export const isTextType = (type: PropertyType): boolean =>
     'collection'
   ].includes(type)
 
-export const propertyNames = (table: Partial<TableInfo>) => {
+export const propertyNames = (table: TableInformation) => {
   return [
     ...columnProperties(table).map(({ name }) => name),
     ...filteredRelationships(table).map(({ name }) => name)
@@ -110,6 +110,7 @@ export const tableProperties = (
   table: TableInformation
 ): Map<string, Property> => {
   const result = new Map()
+  if (!table) return result
 
   columnProperties(table).forEach((col) => {
     result.set(col.name, {
@@ -134,7 +135,7 @@ export const tableProperties = (
     result.set(rel.name, {
       name: rel.name,
       relationship: rel,
-      type: 'object',
+      type: 'document',
       required: isRequiredRelationship(table, rel),
       primary: false
     })

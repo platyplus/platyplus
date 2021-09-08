@@ -1,9 +1,11 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { ContentsCollection, TableInfo } from '../../types'
+import { TableInformation } from '../../metadata'
+import { ContentsCollection } from '../../types'
+
 import { UPDATED_AT_COLUMN } from '../columns'
 
-export const createComputedFieldsProperties = (table: Partial<TableInfo>) =>
+export const createComputedFieldsProperties = (table: TableInformation) =>
   ({
     label: {
       type: 'string'

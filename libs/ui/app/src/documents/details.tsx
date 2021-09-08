@@ -24,13 +24,13 @@ const DocumentField: FieldComponent = ({
   config
 }) => {
   const required = property.required
-  const { edit: editable } = usePropertyPermissions(
+  const { edit: editable, read: readable } = usePropertyPermissions(
     tableInfo,
     role,
     name,
     document
   )
-  if (document)
+  if (document && readable)
     return (
       <FormGroup>
         <ControlLabel>
@@ -50,7 +50,7 @@ const DocumentField: FieldComponent = ({
         {/* {edit && required && <HelpBlock>* Required</HelpBlock>} */}
       </FormGroup>
     )
-  else return <div>no document</div>
+  else return null
 }
 
 export const DocumentDetails: DocumentComponent = ({

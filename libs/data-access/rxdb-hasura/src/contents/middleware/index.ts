@@ -1,4 +1,4 @@
-import { debug } from '../../console'
+import { debug } from '../../utils'
 import { ContentsCollection } from '../../types'
 import { createComputedFieldsHooks } from '../computed-fields'
 import { createDefaultValuesHooks } from '../defaults'

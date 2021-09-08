@@ -1,16 +1,15 @@
-import { Column, TableInfo, Contents } from '../../types'
+import { TableInformation } from '../../metadata'
+import { Column, Contents } from '../../types'
 export const ID_COLUMN = 'id'
 
-export const getIds = (table: Partial<TableInfo>): string[] =>
+export const getIds = (table: TableInformation): string[] =>
   table.primaryKey?.columns || [ID_COLUMN]
 
-export const isIdColumn = (
-  table: Partial<TableInfo>,
-  column: Column
-): boolean => getIds(table).includes(column.name)
+export const isIdColumn = (table: TableInformation, column: Column): boolean =>
+  getIds(table).includes(column.name)
 
 export const composeId = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   data: Contents,
   separator = '|'
 ): string =>
@@ -19,7 +18,7 @@ export const composeId = (
     .join(separator)
 
 export const decomposeId = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   id: string,
   separator = '|'
 ) => {

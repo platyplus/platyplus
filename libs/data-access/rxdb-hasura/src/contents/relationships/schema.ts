@@ -1,5 +1,5 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
-import { TableInfo } from '../../metadata'
+import { TableInformation } from '../../metadata'
 import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
@@ -10,7 +10,7 @@ import {
 } from './utils'
 
 export const createRelationshipProperties = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   role: string
 ): Record<string, TopLevelProperty> => {
   const result: Record<string, TopLevelProperty> = {}

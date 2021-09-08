@@ -5,9 +5,7 @@ import {
   TableInfoDocument,
   PropertyConfig,
   Property,
-  getTableInfo,
   SYSTEM_COLUMNS,
-  relationshipTableId,
   tableProperties,
   PROPERTY_CONFIG_TABLE
 } from '@platyplus/rxdb-hasura'
@@ -65,12 +63,12 @@ export const useCollectionPropertyConfig = <T = PropertyConfig>(
 }
 
 export const useTableProperties = (
-  tableInfo: TableInformation,
+  tableInfo?: TableInformation,
   options?: { all?: boolean; role?: string; order?: boolean }
 ): [Map<string, Property>, (val: Map<string, Property>) => void] => {
   const state = useMemo(() => tableProperties(tableInfo), [tableInfo])
 
-  const [order, setOrder] = useTableConfig<string[]>(tableInfo.id, 'order')
+  const [order, setOrder] = useTableConfig<string[]>(tableInfo?.id, 'order')
 
   const properties = useMemo(() => {
     if (state) {
@@ -92,13 +90,14 @@ export const useTableProperties = (
         [...result, ...tempProperties].filter(([, { relationship }]) => {
           if (relationship) {
             // * Filter out relationships that points to a non-existing remote table e.g. users.account
-            const refTableId = relationshipTableId(tableInfo, relationship)
-            return refTableId ? !!getTableInfo(refTableId) : true
+            // const refTableId = relationshipTableId(tableInfo, relationship)
+            // return refTableId ? !!getTableInfo(refTableId) : true
+            return true
           } else return true
         })
       )
     } else return null
-  }, [state, order, options, tableInfo])
+  }, [state, order, options])
 
   const setProperties = useCallback(
     (newProperties: Map<string, Property>) =>

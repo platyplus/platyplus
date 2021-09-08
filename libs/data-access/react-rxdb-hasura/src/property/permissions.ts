@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import {
   ContentsDocument,
   canEdit,
-  TableInformation
+  TableInformation,
+  canRead
 } from '@platyplus/rxdb-hasura'
 
 export const usePropertyPermissions = (
@@ -13,8 +14,10 @@ export const usePropertyPermissions = (
   document?: ContentsDocument
 ) => {
   const [edit, setEdit] = useState(false)
+  const [read, setRead] = useState(false)
   useEffect(() => {
     setEdit(canEdit(tableInfo, role, document, propertyName))
+    setRead(canRead(tableInfo, role, propertyName))
   }, [document, tableInfo, role, propertyName])
-  return { edit }
+  return { edit, read }
 }

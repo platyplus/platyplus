@@ -2,7 +2,7 @@
 import { RxCollection, RxDocument } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { RxDatabaseBase } from 'rxdb/dist/types/rx-database'
-import { Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
 
 import { PlatyplusCollections, TableInfo } from './metadata'
 
@@ -64,6 +64,11 @@ export type DatabasePrototype = {
   newCollections$: Subject<DatabaseCollections>
   isConfigReady$: Observable<boolean>
   isReady$: Observable<boolean>
+  jwt$: BehaviorSubject<string | null>
+  isAdmin$: BehaviorSubject<boolean>
+  isAuthenticated$: BehaviorSubject<boolean>
+  isConnected$: Observable<boolean>
+  setAuthStatus: (status: boolean, newJwt: string, admin: boolean) => void
 }
 
 export type Database = RxDatabaseBase<unknown, unknown, DatabaseCollections> &

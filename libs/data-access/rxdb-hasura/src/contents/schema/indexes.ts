@@ -1,7 +1,7 @@
-import { TableInfo } from '../../metadata'
+import { TableInformation } from '../../metadata'
 
 // * PostgreSQL indexes + label
-export const indexes = (table: Partial<TableInfo>): (string | string[])[] => {
+export const indexes = (table: TableInformation): (string | string[])[] => {
   // TODO map foreign keys e.g. table.config.table_id -> index on table_id
   // * Map PostgreSQL indexes
   // TODO revoir completement

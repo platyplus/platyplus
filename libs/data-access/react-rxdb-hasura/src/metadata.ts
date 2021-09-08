@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRxDocument } from 'rxdb-hooks'
 
 import {
   isManyToManyJoinTable,
@@ -7,8 +8,7 @@ import {
 } from '@platyplus/rxdb-hasura'
 
 import { useAppConfig, useTablesConfig } from './config'
-import { useCollection, useDB } from '.'
-import { useRxDocument, useRxQuery } from 'rxdb-hooks'
+import { useDB } from './database'
 
 export const useTableInfo = (id: string): TableInformation => {
   const { result } = useRxDocument<TableInformation>(TABLE_INFO_TABLE, id, {

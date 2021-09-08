@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import { escape } from 'sqlstring'
-import { PropertyConfig } from './types'
 import { Contents } from '../types'
 import {
   APP_CONFIG_TABLE,
+  CONSOLE_API,
   PROPERTY_CONFIG_TABLE,
   TABLE_CONFIG_TABLE
-} from './utils'
+} from '../constants'
+import { PropertyConfig } from './types'
+import { info, warn } from '../utils'
 
-const CONSOLE_API = 'http://localhost:9693/apis'
 const client = axios.create({ baseURL: CONSOLE_API })
 
 const escapeValues = (values: Record<string, unknown>) =>
@@ -95,7 +96,7 @@ export const createSqlMigrations = async (
     skip_execution: false
   }
   await client.post('/migrate', request)
-  console.info('OK')
+  info('Migration created')
 }
 
 export const upsertWithMigration = async (
@@ -111,8 +112,6 @@ export const upsertWithMigration = async (
   if (sql) {
     await createSqlMigrations([sql()])
   } else {
-    console.warn(
-      `upsertWithMigration not implemented for collection ${collectionName}`
-    )
+    warn(`upsertWithMigration not implemented for collection ${collectionName}`)
   }
 }

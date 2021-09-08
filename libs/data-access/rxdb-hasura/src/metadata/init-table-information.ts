@@ -1,6 +1,6 @@
+import { TABLE_INFO_TABLE } from '../constants'
 import { Database } from '../types'
 import { tableInformationSettings } from './table-information'
-import { TABLE_INFO_TABLE } from './utils'
 
 export const addTableInfoCollection = async (db: Database) => {
   await db.addCollections({

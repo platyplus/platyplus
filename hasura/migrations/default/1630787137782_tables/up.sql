@@ -68,17 +68,15 @@ WHERE platyplus.TABLES.id = subquery.id
 	and platyplus.TABLES.deleted = true;
 -- update tracked tables with metadata changes
 UPDATE platyplus.TABLES
-SET metadata = subquery.value
+SET metadata = subquery.value,
+	updated_at = default
 FROM (
 		select n.*
 		from old_tables o
 			inner join new_tables n on (o.id = n.id)
-		where (
-				not(
-					o.value @> n.value
-					AND o.value <@ n.value
-				)
-				and not n.schema in ('auth', 'platyplus')
+		where not (
+				o.value::text = n.value::text
+				or n.schema in ('auth', 'platyplus')
 			)
 	) AS subquery
 WHERE platyplus.TABLES.id = subquery.id;
@@ -100,17 +98,35 @@ $function$;
 CREATE TRIGGER platyplus_check_update
 AFTER
 UPDATE ON hdb_catalog.hdb_metadata FOR EACH ROW EXECUTE PROCEDURE platyplus.MONITOR_METADATA();
-CREATE OR REPLACE FUNCTION platyplus.monitor_table_events() RETURNS event_trigger LANGUAGE plpgsql AS $function$
+CREATE OR REPLACE FUNCTION platyplus.monitor_table_update() RETURNS event_trigger LANGUAGE plpgsql AS $function$
 DECLARE obj record;
 BEGIN FOR obj IN
 SELECT *
-FROM pg_event_trigger_ddl_commands() LOOP
-insert into platyplus.tables
-values (concat(obj.object_identity)) ON CONFLICT ON CONSTRAINT tables_pkey DO
-UPDATE
-SET id = concat(obj.object_identity);
+FROM pg_event_trigger_ddl_commands()
+WHERE schema_name NOT IN ('auth', 'platyplus')
+	and object_type = 'table' LOOP
+update platyplus.tables
+set updated_at = default
+where id = concat(obj.object_identity)
+	and deleted = false;
 END LOOP;
 END;
 $function$;
-CREATE EVENT TRIGGER platyplus_abort_ddl ON ddl_command_end
-WHEN TAG IN ('CREATE TABLE', 'ALTER TABLE') EXECUTE FUNCTION platyplus.monitor_table_events();
+CREATE EVENT TRIGGER platyplus_update_table ON ddl_command_end
+WHEN TAG IN ('ALTER TABLE') EXECUTE FUNCTION platyplus.monitor_table_update();
+CREATE OR REPLACE FUNCTION platyplus.monitor_table_drop() RETURNS event_trigger LANGUAGE plpgsql AS $function$
+DECLARE obj record;
+BEGIN FOR obj IN
+SELECT *
+FROM pg_event_trigger_dropped_objects()
+WHERE schema_name NOT IN ('auth', 'platyplus')
+	and object_type = 'table' LOOP
+update platyplus.tables
+set deleted = true,
+	metadata = DEFAULT
+where id = concat(obj.object_identity)
+	and deleted = false;
+END LOOP;
+END;
+$function$;
+CREATE EVENT TRIGGER platyplus_table_drop ON sql_drop EXECUTE FUNCTION platyplus.monitor_table_drop();

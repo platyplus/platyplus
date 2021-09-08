@@ -29,7 +29,7 @@ export const useDocument = <B extends boolean = false>(
   useEffect(() => {
     if (id === 'new') setDocument(collection?.newDocument() as ContentsDocument)
     else if (result) {
-      const update = async () => {
+      const subscription = result.$.subscribe(async () => {
         if (populate) {
           setPopulating(true)
           const populated = await populateDocument(result)
@@ -38,8 +38,7 @@ export const useDocument = <B extends boolean = false>(
           setDocument(result)
         }
         setPopulating(false)
-      }
-      const subscription = result.$.subscribe(() => update())
+      })
       return () => subscription.unsubscribe()
     }
   }, [id, result, collection, populate])

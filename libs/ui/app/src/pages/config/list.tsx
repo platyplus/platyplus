@@ -11,7 +11,6 @@ import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { ConfigListItem } from './list-item'
 
 export const ConfigListPage: React.FC = () => {
-  // TODO sort tables, not collections - and exclude join tables
   const [tables, setTablesOrder] = useTableInfoList(true)
   const title = 'Configuration'
   const countChanges = useCountConfigChanges()

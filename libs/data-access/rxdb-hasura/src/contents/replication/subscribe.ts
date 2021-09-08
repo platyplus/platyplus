@@ -1,7 +1,6 @@
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
-import { getCollectionTableInfo } from '../../store'
+import { getCollectionTableInfo, tableName } from '../../metadata'
 import { ContentsCollection } from '../../types'
-import { tableName } from '../../utils'
 
 export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = getCollectionTableInfo(collection)
