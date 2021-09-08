@@ -1,16 +1,19 @@
 import { TableInformation } from '../../metadata'
+import { propertyJsonType } from '../properties'
 
 // * PostgreSQL indexes + label
 export const indexes = (table: TableInformation): (string | string[])[] => {
-  // TODO map foreign keys e.g. table.config.table_id -> index on table_id
   // * Map PostgreSQL indexes
   // TODO revoir completement
-  /*
+  // ? automatically add [id, updated_at]? In any case:
+  // TODO perf: either document or automate the creation of [updated_at] and [id, updated_at] (or [updated_at, id]?) indexes
+  // ? automatically map foreign keys e.g. table.config.table_id -> index on table_id
+  // TODO perf: either document or automate creation of indexes on foreign keys
   const postgresIndexes = table.indexes
     .filter(({ columns }) =>
-      columns.every(({ columnName }) => {
-        const column = table.columns.find((c) => c.name === columnName)
-        const type = column && propertyJsonType(column)
+      columns.every((name) => {
+        const column = table.columns.find((c) => c.name === name)
+        const type = column && propertyJsonType(table, column)
         return (
           // TODO raise warning when postgresql index cannot be converted into an RxDB index
           typeof type === 'string' &&
@@ -18,8 +21,8 @@ export const indexes = (table: TableInformation): (string | string[])[] => {
         )
       })
     )
-    .map(({ columns }) => columns.map(({ columnName }) => columnName))
+    .map(({ columns }) => columns.map((columnName) => columnName))
   return [...postgresIndexes, 'label']
-    */
+
   return ['label']
 }

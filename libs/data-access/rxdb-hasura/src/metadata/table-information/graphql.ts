@@ -37,6 +37,10 @@ export const query = gql`
         constraint
         mapping
       }
+      indexes {
+        name
+        columns
+      }
     }
   }
 `

@@ -145,7 +145,6 @@ export const ConfigTablePage: React.FC<{ role?: string }> = () => {
   const [config] = useTableConfig(id)
   const title = useMemo(() => {
     const collectionTitle = config?.title
-    console.log(collectionTitle)
     return (
       metaName &&
       (collectionTitle && collectionTitle !== metaName

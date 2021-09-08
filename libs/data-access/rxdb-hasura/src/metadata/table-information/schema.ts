@@ -36,6 +36,12 @@ export const schema: RxJsonSchema<TableInfo> = {
       items: {
         type: 'object'
       }
+    },
+    indexes: {
+      type: 'array',
+      items: {
+        type: 'object'
+      }
     }
   }
 }

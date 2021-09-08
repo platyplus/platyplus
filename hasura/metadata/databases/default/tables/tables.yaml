@@ -8,6 +8,7 @@
 - "!include platyplus_app_config.yaml"
 - "!include platyplus_columns.yaml"
 - "!include platyplus_foreign_keys.yaml"
+- "!include platyplus_indexes.yaml"
 - "!include platyplus_primary_keys.yaml"
 - "!include platyplus_property_config.yaml"
 - "!include platyplus_table_config.yaml"

@@ -46,11 +46,11 @@ type UpdatePermission = Permission<{
 
 type Metadata = {
   table: { name: string; schema: string }
-  object_relationships?: Array<Relationship>
-  array_relationships?: Array<Relationship>
-  select_permissions?: Array<Permission>
-  insert_permissions?: Array<InsertPermission>
-  update_permissions?: Array<UpdatePermission>
+  object_relationships?: Relationship[]
+  array_relationships?: Relationship[]
+  select_permissions?: Permission[]
+  insert_permissions?: InsertPermission[]
+  update_permissions?: UpdatePermission[]
 }
 
 export type Column = {
@@ -66,12 +66,18 @@ export type Column = {
   generationExpression: string | null
   characterMaximumLength: number | null
 }
+
+type Index = {
+  name: string
+  columns: string[]
+}
 export type TableInfo = {
   id: string
   updated_at: unknown
   metadata: Metadata
   primaryKey: PrimaryKey
-  foreignKeys: Array<Omit<ForeignKey, 'from'>>
-  dependentForeignKeys: Array<Omit<ForeignKey, 'to'>>
-  columns: Array<Column>
+  foreignKeys: Omit<ForeignKey, 'from'>[]
+  dependentForeignKeys: Omit<ForeignKey, 'to'>[]
+  columns: Column[]
+  indexes: Index[]
 }

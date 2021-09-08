@@ -19,10 +19,9 @@
   - [ ] improve login/register
 - [ ] Hasura 2
   - [ ] cascade delete - reactivate
-  - [ ] computed properties
   - [ ] refetch the entire collection when new columns/relationships are added
   - [ ] default values
-  - [ ] indexes
+  - [x] indexes
   - [ ] test offline mode
 - [ ] Docker images
   - [ ] GitHub action
@@ -51,38 +50,34 @@
   - [ ] technical schema on how RxDB starts (auth/jwt, metadata, config, contents...)
 - [ ] make everything work with Pulumi
 
-## Then
+## MVP 2
 
 - Application
-  - [ ] list missing metadata elements e.g. muliple db, inherited roles...
-  - [ ] label - check if label regenerates when changing its template
-  - [ ] handle relationships like rxdb-utils views
-  - [ ] multi-role
-    - [ ] link-reverse: when a document is modified in a role collection, it must be reflected to other roles...
-    - [ ] config module only covers one role - see pages/config/table.tsx
-      - [ ] => fetch only one me_metadata table for all roles???
-    - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
-  - [ ] list Hasura features to be mapped to RxDB e.g.
-    - [ ] remote schemas
-    - [ ] inherited roles
-    - [ ] remote relationships
-    - [ ] column presets
+  - [ ] reset/change password
+  - [ ] avatar picker (image-url component)
+  - [ ] prefix `platyplus_` all the internal collections
+  - [ ] home page (pages table, at this stage as a singleton)
+
+## Post-MVP
+
+- Application
   - [ ] nullable values vs default values vs form values
-  - [ ] refactor the way to load table/collection/property components
-  - [ ] validation rules stored on the backend
+  - [ ] work on form validation rules
     - [ ] Postgres domain e.g. email
     - [ ] number/string min/max
-  - [ ] permissions
-  - [ ] varchar(x) -> validate string length < x
-  - [ ] created_at / created_by
-  - [ ] computed values
-  - [ ] searchable collections
-  - [ ] review indexes in RxDB
-  - [ ] add Hasura permissions to create/update/remove permissions
-  - [ ] custom menus
-    - [ ] for everyone / per role / per user
-    - [ ] filtered collections
-  - [ ] components
+    - [ ] varchar(x) -> validate string length < x
+    - [ ] something else stored in `property_conig`
+      - [ ] frontend validation
+      - [ ] backend validation?
+  - [ ] collections
+    - [ ] search/filter
+    - [ ] sort
+    - [ ] paginate
+  - [ ] computed properties
+    - [ ] transient / generated on-the-fly
+    - [ ] locally persisted
+    - [ ] isomorphic
+  - [ ] some components:
     - [ ] one2one
       - [ ] update sync of reverse relationship
     - [ ] email
@@ -106,9 +101,33 @@
       - [ ] array
       - [ ] uri
     - [ ] singletons
-  - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
+
+## Then
+
+- Application
+  - [ ] handle relationships like rxdb-utils views
+  - [ ] multi-role
+    - [ ] link-reverse: when a document is modified in a role collection, it must be reflected to other roles...
+    - [ ] config module only covers one role - see pages/config/table.tsx
+      - [ ] => fetch only one me_metadata table for all roles???
+    - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
+  - [ ] list Hasura features to be mapped to RxDB e.g.
+    - [ ] remote schemas
+    - [ ] inherited roles
+    - [ ] remote relationships
+    - [ ] column presets
+    - [ ] multiple DBs (mark as out of scope)
+    - [ ] details on permissions
+  - [ ] permissions
+  - [ ] created_at / created_by
+  - [ ] review indexes in RxDB
+  - [ ] add Hasura permissions to create/update/remove permissions
+  - [ ] custom menus
+    - [ ] for everyone / per role / per user
+    - [ ] filtered collections
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
   - [ ] Better integration with HBP e.g. registration, password change, OAuth, 2fa...
+- Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
 - Charts
   - [ ] Hasura: wait for postrges service to be ready
   - [ ] HBP: wait for hasura service to be ready
@@ -124,10 +143,8 @@
 - Application
   - [ ] map metadata views and tables with camelCase
   - [ ] push only columns that have changed
-  - [ ] pagination
   - [ ] internationalisation
   - [ ] conflict resolution
-  - [ ] Isomorphic validation
   - [ ] map custom GraphQL names vs PostgreSQL names
   - [ ] encryption
   - [ ] unique columns or sets of columns: tricky. in a hook? don't forget to index. See https://github.com/pubkey/rxdb/issues/728

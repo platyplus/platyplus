@@ -39,6 +39,15 @@ array_relationships:
       remote_table:
         name: foreign_keys
         schema: platyplus
+- name: indexes
+  using:
+    manual_configuration:
+      column_mapping:
+        id: table_id
+      insertion_order: null
+      remote_table:
+        name: indexes
+        schema: platyplus
 select_permissions:
 - permission:
     columns:

@@ -13,7 +13,8 @@ where not cons.table_schema in (
 		'hdb_catalog',
 		'information_schema',
 		'pg_catalog',
-		'platyplus'
+		'platyplus',
+		'auth'
 	)
 	and cons.constraint_type = 'PRIMARY KEY'
 group by cons.table_catalog,

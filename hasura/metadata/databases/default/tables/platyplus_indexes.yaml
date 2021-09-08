@@ -1,0 +1,11 @@
+table:
+  name: indexes
+  schema: platyplus
+select_permissions:
+- permission:
+    columns:
+    - table_id
+    - name
+    - columns
+    filter: {}
+  role: me
