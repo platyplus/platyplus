@@ -12,7 +12,7 @@ export const ConfigListItem: React.FC<{
   const name = useMemo(() => tableName(tableInfo), [tableInfo])
   const history = useHistory()
   const [configTitle] = useCollectionTitle(tableInfo)
-  const title = configTitle ? `${configTitle} (${name})` : name
+  const title = configTitle !== name ? `${configTitle} (${name})` : name
   return (
     <List.Item
       index={index}
