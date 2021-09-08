@@ -4,9 +4,9 @@ import { useRxData } from 'rxdb-hooks'
 import {
   Contents,
   ContentsDocument,
-  shiftedMetadataTable
+  shiftedTable
 } from '@platyplus/rxdb-hasura'
-import { useCollectionName } from '@platyplus/react-rxdb-hasura'
+import { useCollectionName, useOptions } from '@platyplus/react-rxdb-hasura'
 
 import { CollectionComponentWrapper } from '../../collections'
 import { FieldControl } from '../utils'
@@ -20,12 +20,12 @@ export const CollectionField: CollectionFieldComponent = ({
   role,
   edit,
   editable,
-  metadata,
+  tableInfo,
   accepter: Accepter,
   component = 'label'
 }) => {
-  const refMetadata = shiftedMetadataTable(metadata, property.relationship)
-  const refCollectionName = useCollectionName(refMetadata, role)
+  const refTable = shiftedTable(tableInfo, property.relationship)
+  const refCollectionName = useCollectionName(refTable, role)
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
     []
@@ -50,31 +50,29 @@ export const CollectionField: CollectionFieldComponent = ({
     name,
     refCollectionName,
     property,
-    refMetadata,
-    metadata.id,
+    refTable,
+    tableInfo.id,
     role
   ])
-  const { isFetching, result } = useRxData<Contents>(
-    refCollectionName,
-    queryConstructor
-  )
-  const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
+  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
+
+  const options = useOptions(refTable, result, role)
 
   return edit ? (
     <FieldControl
-      metadata={metadata}
+      tableInfo={tableInfo}
       role={role}
       style={{ minWidth: 300 }}
       name={name}
       readOnly={!edit}
-      data={isFetching ? [] : options}
+      data={options}
       initial={data}
       cleanable={edit}
       accepter={Accepter}
     />
   ) : (
     <CollectionComponentWrapper
-      metadata={refMetadata}
+      tableInfo={refTable}
       role={role}
       data={data}
       componentName={component}

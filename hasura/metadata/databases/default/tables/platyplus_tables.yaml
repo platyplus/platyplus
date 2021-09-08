@@ -1,0 +1,50 @@
+table:
+  name: tables
+  schema: platyplus
+object_relationships:
+- name: primaryKey
+  using:
+    manual_configuration:
+      column_mapping:
+        id: id
+      insertion_order: null
+      remote_table:
+        name: primary_keys
+        schema: platyplus
+array_relationships:
+- name: columns
+  using:
+    manual_configuration:
+      column_mapping:
+        id: table_id
+      insertion_order: null
+      remote_table:
+        name: columns
+        schema: platyplus
+- name: dependentForeignKeys
+  using:
+    manual_configuration:
+      column_mapping:
+        id: to
+      insertion_order: null
+      remote_table:
+        name: foreign_keys
+        schema: platyplus
+- name: foreignKeys
+  using:
+    manual_configuration:
+      column_mapping:
+        id: from
+      insertion_order: null
+      remote_table:
+        name: foreign_keys
+        schema: platyplus
+select_permissions:
+- permission:
+    columns:
+    - id
+    - updated_at
+    - deleted
+    - metadata
+    filter: {}
+  role: me

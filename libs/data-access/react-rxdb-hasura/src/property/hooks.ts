@@ -1,48 +1,52 @@
 import { useCallback, useMemo } from 'react'
 
 import {
-  Metadata,
-  MetadataDocument,
+  TableInformation,
+  TableInfoDocument,
   PropertyConfig,
   Property,
-  getMetadataTable,
-  SYSTEM_COLUMNS
+  SYSTEM_COLUMNS,
+  tableProperties,
+  PROPERTY_CONFIG_TABLE
 } from '@platyplus/rxdb-hasura'
 
-import { useCollectionTableConfig } from '../collection'
-import { useMetadataStore } from '../metadata'
 import { useStore } from '../store'
+import { useTableConfig } from '../config'
+import { useRxDocument } from 'rxdb-hooks'
 
 export const usePropertyConfig = <T = PropertyConfig>(
-  metadata: Metadata | MetadataDocument | undefined,
+  tableInfo: TableInformation | TableInfoDocument | undefined,
   property: string,
   path?: string,
   fallback?: T
 ): [T, (val: T) => void] => {
-  const id = useMemo(() => `${metadata.id}.${property}`, [metadata, property])
+  const id = useMemo(() => `${tableInfo.id}.${property}`, [tableInfo, property])
 
-  const initialValues = useMetadataStore(
-    useCallback(
-      (state) =>
-        state.tables[metadata.id].properties.get(property)?.config || {},
-      [metadata, property]
-    )
+  const { result: initialValues } = useRxDocument<PropertyConfig>(
+    PROPERTY_CONFIG_TABLE,
+    `${tableInfo.id}.${property}`,
+    { json: true }
   )
+
   const modifiedValues = useStore(
-    useCallback((state) => (id && state.forms.property_config[id]) || {}, [id])
+    useCallback(
+      (state) => (id && state.forms[PROPERTY_CONFIG_TABLE][id]) || {},
+      [id]
+    )
   )
   const state = useMemo(() => {
     if (path) {
       return (
-        (path in modifiedValues ? modifiedValues[path] : initialValues[path]) ||
-        fallback
+        (path in modifiedValues
+          ? modifiedValues[path]
+          : initialValues?.[path]) || fallback
       )
-    } else return { ...initialValues, ...modifiedValues }
+    } else return { ...(initialValues || {}), ...modifiedValues }
   }, [modifiedValues, initialValues, path, fallback])
   const setState = useStore(
     useCallback(
       (state) => (value: T) =>
-        state.setConfigForm('property_config', value, id, path),
+        state.setConfigForm(PROPERTY_CONFIG_TABLE, value, id, path),
       [path, id]
     )
   )
@@ -50,24 +54,21 @@ export const usePropertyConfig = <T = PropertyConfig>(
 }
 
 export const useCollectionPropertyConfig = <T = PropertyConfig>(
-  metadata: Metadata,
+  tableInfo: TableInformation,
   property: string,
   path?: string,
   fallback?: T
 ) => {
-  return usePropertyConfig(metadata, property, path, fallback)
+  return usePropertyConfig(tableInfo, property, path, fallback)
 }
 
-export const useMetadataProperties = (
-  metadata: Metadata,
+export const useTableProperties = (
+  tableInfo?: TableInformation,
   options?: { all?: boolean; role?: string; order?: boolean }
 ): [Map<string, Property>, (val: Map<string, Property>) => void] => {
-  const state = useMemo(() => metadata.properties, [metadata])
+  const state = useMemo(() => tableProperties(tableInfo), [tableInfo])
 
-  const [order, setOrder] = useCollectionTableConfig<string[]>(
-    metadata.id,
-    'order'
-  )
+  const [order, setOrder] = useTableConfig<string[]>(tableInfo?.id, 'order')
 
   const properties = useMemo(() => {
     if (state) {
@@ -86,12 +87,14 @@ export const useMetadataProperties = (
           }
         }
       return new Map(
-        [...result, ...tempProperties].filter(([, { relationship }]) =>
-          // * Filter out relationships that points to a non-existing remote table e.g. users.account
-          relationship?.remoteTableId
-            ? !!getMetadataTable(relationship.remoteTableId)
-            : true
-        )
+        [...result, ...tempProperties].filter(([, { relationship }]) => {
+          if (relationship) {
+            // * Filter out relationships that points to a non-existing remote table e.g. users.account
+            // const refTableId = relationshipTableId(tableInfo, relationship)
+            // return refTableId ? !!getTableInfo(refTableId) : true
+            return true
+          } else return true
+        })
       )
     } else return null
   }, [state, order, options])

@@ -1,0 +1,29 @@
+table:
+  name: columns
+  schema: platyplus
+configuration:
+  custom_column_names:
+    character_maximum_length: characterMaximumLength
+    data_type: dataType
+    generation_expression: generationExpression
+    is_generated: isGenerated
+    numeric_precision: numericPrecision
+    table_id: tableId
+    udt_name: udtName
+  custom_root_fields: {}
+select_permissions:
+- permission:
+    columns:
+    - table_id
+    - name
+    - position
+    - default
+    - nullable
+    - data_type
+    - udt_name
+    - character_maximum_length
+    - numeric_precision
+    - is_generated
+    - generation_expression
+    filter: {}
+  role: me

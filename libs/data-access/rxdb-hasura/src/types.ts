@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { RxCollection, RxDatabase, RxDocument } from 'rxdb'
-import { Subject } from 'rxjs'
+import { RxCollection, RxDocument } from 'rxdb'
+import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
+import { RxDatabaseBase } from 'rxdb/dist/types/rx-database'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
 
-import { Metadata, MetadataCollections } from './metadata'
+import { PlatyplusCollections, TableInfo } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
-export type { ColumnFragment, CoreTableFragment } from './generated'
+export type { Column, Relationship, TableInfo } from './metadata'
 
-export type MetadataDocument = RxDocument<Metadata>
+export type TableInfoDocument = RxDocument<TableInfo>
 
 export type PropertyValue =
   | string
@@ -26,9 +28,7 @@ export type Contents = Record<string, any> & {
   label: string
 }
 
-export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods> & {
-  collection: ContentsCollection
-}
+export type ContentsDocument = RxDocument<Contents, ContentsDocumentMethods>
 
 export type ContentsDocumentMethods = {}
 export type ContentsCollectionMethods = {}
@@ -36,7 +36,7 @@ export type ContentsCollectionMethods = {}
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
   role: string
   tableId: string
-  replicator: Replicator
+  replicator: Replicator<Contents>
 }
 
 export type ContentsCollection = RxCollection<
@@ -49,18 +49,26 @@ export type Modifier = (
   doc: Contents
 ) => Contents | null | Promise<Contents | null>
 
-export type Replicator = {
+export type Replicator<T> = {
   start: () => Promise<void>
   stop: () => Promise<void>
   destroy: () => Promise<void>
+  state: RxGraphQLReplicationState<T>
 }
 
-export type ContentsCollections = Map<string, ContentsCollection>
+export type DatabaseCollections = PlatyplusCollections &
+  Record<string, ContentsCollection>
 
-export type DatabaseCollections = MetadataCollections & ContentsCollections
-
-export type Database = RxDatabase<DatabaseCollections> & {
+export type DatabasePrototype = {
   newCollections$: Subject<DatabaseCollections>
+  isConfigReady$: Observable<boolean>
+  isReady$: Observable<boolean>
+  jwt$: BehaviorSubject<string | null>
+  isAdmin$: BehaviorSubject<boolean>
+  isAuthenticated$: BehaviorSubject<boolean>
+  isConnected$: Observable<boolean>
+  setAuthStatus: (status: boolean, newJwt: string, admin: boolean) => void
 }
 
-export type DatabasePrototype = {}
+export type Database = RxDatabaseBase<unknown, unknown, DatabaseCollections> &
+  DatabasePrototype

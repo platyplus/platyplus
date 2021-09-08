@@ -4,25 +4,43 @@ import { InlineValue } from '@platyplus/layout'
 import {
   computeTemplate,
   ContentsDocument,
-  Metadata
+  defaultLabelTemplate,
+  TableInformation
 } from '@platyplus/rxdb-hasura'
 
 import { useFormGet } from '../form'
-import { useCollectionTableConfig } from '../collection'
+import { useTableConfig } from '../config'
+import { useTableProperties } from '../property'
 
-export const useDocumentLabelTemplate = (metadata: Metadata) =>
-  useCollectionTableConfig<string>(metadata.id, 'document_label')
+export const useDocumentLabelTemplate = (
+  tableInfo: TableInformation,
+  role?: string
+): [string, (val: string) => void] => {
+  const [properties] = useTableProperties(tableInfo, { role })
+  const [existingTemplate, setTemplate] = useTableConfig<string>(
+    tableInfo?.id,
+    'document_label'
+  )
+  const template = useMemo(() => {
+    if (existingTemplate) return existingTemplate
+    const firstProperty = properties.keys().next().value
+    return firstProperty
+      ? `{{${firstProperty}}}`
+      : defaultLabelTemplate(tableInfo)
+  }, [tableInfo, existingTemplate, properties])
+  return [template, setTemplate]
+}
 
 export const useDocumentLabel = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   document: ContentsDocument
 ): [string, string, (val: string) => void] => {
-  const [template, setTemplate] = useDocumentLabelTemplate(metadata)
-  const form = useFormGet(metadata, role, document)
+  const [template, setTemplate] = useDocumentLabelTemplate(tableInfo, role)
+  const form = useFormGet(tableInfo, role, document)
 
   const label = useMemo(
-    () => form && template && computeTemplate(form, template),
+    () => form && computeTemplate(form, template),
     [form, template]
   )
 
@@ -30,12 +48,16 @@ export const useDocumentLabel = (
 }
 
 export const DocumentLabel: React.FC<{
-  metadata: Metadata
+  tableInfo: TableInformation
   role: string
   document: ContentsDocument
   editable?: boolean
-}> = ({ document, editable, role, metadata }) => {
-  const [value, template, onChange] = useDocumentLabel(metadata, role, document)
+}> = ({ document, editable, role, tableInfo }) => {
+  const [value, template, onChange] = useDocumentLabel(
+    tableInfo,
+    role,
+    document
+  )
   return (
     <InlineValue
       editable={editable}

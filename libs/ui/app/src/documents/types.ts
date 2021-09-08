@@ -2,10 +2,10 @@
 import React, { MutableRefObject } from 'react'
 import { FormInstance } from 'rsuite/lib/Form'
 
-import { ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, TableInformation } from '@platyplus/rxdb-hasura'
 
 type CommonDocumentComponentProps<T = {}> = T & {
-  metadata: Metadata
+  tableInfo: TableInformation
   role: string
   edit: boolean
   formRef?: MutableRefObject<FormInstance>

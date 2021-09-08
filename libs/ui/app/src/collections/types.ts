@@ -1,10 +1,10 @@
 import React from 'react'
-import { ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
+import { ContentsDocument, TableInformation } from '@platyplus/rxdb-hasura'
 
 type CommonCollectionComponentProps = {
   edit: boolean
   config?: boolean
-  metadata: Metadata
+  tableInfo: TableInformation
   role: string
   data: ContentsDocument[]
 }

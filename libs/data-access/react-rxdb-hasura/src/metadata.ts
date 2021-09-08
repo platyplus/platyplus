@@ -1,24 +1,36 @@
-import { useCallback, useMemo } from 'react'
-import create from 'zustand'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRxDocument } from 'rxdb-hooks'
 
 import {
   isManyToManyJoinTable,
-  Metadata,
-  metadataStore
+  TableInformation,
+  TABLE_INFO_TABLE
 } from '@platyplus/rxdb-hasura'
 
-import { useAppConfig } from './config'
+import { useAppConfig, useTablesConfig } from './config'
+import { useDB } from './database'
 
-export const useMetadataStore = create(metadataStore)
+export const useTableInfo = (id: string): TableInformation => {
+  const { result } = useRxDocument<TableInformation>(TABLE_INFO_TABLE, id, {
+    json: true
+  })
+  return result
+}
 
-export const useMetadata = (id: string): Metadata =>
-  useMetadataStore(useCallback((store) => store.tables[id], [id]))
+export const useIsTableInfoReady = () => {
+  const [ready, setReady] = useState(false)
+  const db = useDB()
+  useEffect(() => {
+    if (db) {
+      const subscription = db.isReady$.subscribe((status) => setReady(status))
+      return () => subscription.unsubscribe()
+    }
+  }, [db])
+  return ready
+}
 
-export const useIsMetadataReady = () =>
-  useMetadataStore((store) => store.isReady())
-
-export const sortMetadata = (order: string[]) => {
-  return (a: Metadata, b: Metadata) => {
+export const sortTableInfo = (order: string[]) => {
+  return (a: TableInformation, b: TableInformation) => {
     const indexA = order.findIndex((id) => a.id === id)
     const indexB = order.findIndex((id) => b.id === id)
     if (indexA < 0) return 1
@@ -32,11 +44,11 @@ export const sortMetadata = (order: string[]) => {
  * @param includeMissing also include collections that are not part of the order list
  * @returns
  */
-export const useMetadataList = (
+export const useTableInfoList = (
   includeMissing = false
-): [Metadata[], (val: Metadata[]) => void] => {
+): [TableInformation[], (val: TableInformation[]) => void] => {
   const [appConfig, setAppConfig] = useAppConfig()
-  const tables = useMetadataStore((state) => state.tables)
+  const tables = useTablesConfig()
 
   const orderedList = useMemo(() => {
     const order = appConfig.menu_order ? [...appConfig.menu_order] : []
@@ -46,12 +58,12 @@ export const useMetadataList = (
           !isManyToManyJoinTable(table) &&
           (includeMissing || order.includes(table.id))
       )
-      .sort(sortMetadata(order))
+      .sort(sortTableInfo(order))
     return result
   }, [appConfig, tables, includeMissing])
 
   const setListOrder = useCallback(
-    (val: Metadata[]) => {
+    (val: TableInformation[]) => {
       setAppConfig({ menu_order: val.map((table) => table.id) })
     },
     [setAppConfig]

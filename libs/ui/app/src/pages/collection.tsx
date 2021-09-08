@@ -1,12 +1,16 @@
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router'
 
-import { Contents, ContentsDocument, Metadata } from '@platyplus/rxdb-hasura'
+import {
+  Contents,
+  ContentsDocument,
+  TableInformation
+} from '@platyplus/rxdb-hasura'
 import {
   CollectionTitle,
-  useMetadataTitle,
+  useCollectionTitle,
   useConfigEnabled,
-  useMetadata,
+  useTableInfo,
   useCollectionName,
   useCollection
 } from '@platyplus/react-rxdb-hasura'
@@ -20,27 +24,27 @@ import { RxCollection } from 'rxdb'
 const CollectionData: React.FC<{
   collection: RxCollection
   title: string
-  metadata: Metadata
+  tableInfo: TableInformation
   enabledConfig: boolean
   role: string
   edit: boolean
-}> = ({ collection, title, metadata, enabledConfig, role, edit }) => {
+}> = ({ collection, title, tableInfo, enabledConfig, role, edit }) => {
   const q = useMemo(() => collection.find().sort('label'), [collection])
   const { isFetching, result } = useRxQuery<Contents>(q)
   return (
     <HeaderTitleWrapper
       title={title}
       component={
-        <CollectionTitle editable={enabledConfig} metadata={metadata} />
+        <CollectionTitle editable={enabledConfig} tableInfo={tableInfo} />
       }
     >
-      <CollectionToolbar metadata={metadata} role={role} />
+      <CollectionToolbar tableInfo={tableInfo} role={role} />
       {isFetching ? (
         <Loading backdrop />
       ) : (
         <CollectionComponentWrapper
           config={enabledConfig}
-          metadata={metadata}
+          tableInfo={tableInfo}
           role={role}
           data={result as ContentsDocument[]} // TODO PR useRxQuery type in 'rxdb-hooks'to include Orm methods e.g. useRxQuery<T,U>
           edit={edit}
@@ -55,14 +59,14 @@ export const CollectionPage: React.FC = () => {
   const query = useQuery()
   const edit = useMemo(() => query.has('edit'), [query])
   const enabledConfig = useConfigEnabled()
-  const metadata = useMetadata(name)
-  const collectionName = useCollectionName(metadata, role)
+  const tableInfo = useTableInfo(name)
+  const collectionName = useCollectionName(tableInfo, role)
   const collection = useCollection(collectionName)
-  const [title] = useMetadataTitle(metadata)
-  if (!collection || !metadata || !title) return null
+  const [title] = useCollectionTitle(tableInfo)
+  if (!collection || !tableInfo || !title) return <div>PROBLEM</div>
   return (
     <CollectionData
-      {...{ collection, title, metadata, enabledConfig, role, edit }}
+      {...{ collection, title, tableInfo, enabledConfig, role, edit }}
     />
   )
 }

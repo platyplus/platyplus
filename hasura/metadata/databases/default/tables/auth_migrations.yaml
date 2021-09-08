@@ -1,0 +1,3 @@
+table:
+  name: migrations
+  schema: auth

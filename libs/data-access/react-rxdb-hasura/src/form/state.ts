@@ -4,12 +4,12 @@ import {
   Contents,
   ContentsDocument,
   ID_COLUMN,
-  Metadata
+  TableInformation
 } from '@platyplus/rxdb-hasura'
 
-import { useMetadataProperties } from '../property'
 import { useStore } from '../store'
 import { useCollectionName } from '../collection'
+import { useTableProperties } from '../property'
 
 /**
  * Get the form values of a given document
@@ -17,11 +17,11 @@ import { useCollectionName } from '../collection'
  * @returns
  */
 export const useFormRawValues = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   document: Contents
 ): Contents => {
-  const collectionName = useCollectionName(metadata, role)
+  const collectionName = useCollectionName(tableInfo, role)
   return useStore(
     useCallback(
       (state) =>
@@ -33,12 +33,12 @@ export const useFormRawValues = (
 }
 
 export const useFormGet = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   document: ContentsDocument
 ) => {
-  const [properties] = useMetadataProperties(metadata)
-  const formValues = useFormRawValues(metadata, role, document)
+  const [properties] = useTableProperties(tableInfo)
+  const formValues = useFormRawValues(tableInfo, role, document)
   const [docValues, setDocValues] = useState(null)
   useEffect(() => {
     if (document) {
@@ -62,11 +62,11 @@ export const useFormGet = (
 }
 
 export const useFormSet = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   document: Contents
 ) => {
-  const collectionName = useCollectionName(metadata, role)
+  const collectionName = useCollectionName(tableInfo, role)
   return useStore(
     (state) => (values: Record<string, unknown>) =>
       state.setForm(collectionName, document, values)

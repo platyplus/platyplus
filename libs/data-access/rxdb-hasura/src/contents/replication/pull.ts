@@ -8,38 +8,41 @@ import {
 
 import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
 
-import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { FieldMap, metadataName, rxdbJsonataPaths } from '../../utils'
-import { ADMIN_ROLE } from '../../metadata'
-import { getCollectionMetadata, getMetadataTable } from '../../store'
+import { FieldMap, debug } from '../../utils'
+import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
 
 import {
   addComputedFieldsFromLoadedData,
   documentLabel
 } from '../computed-fields'
-import { filteredRelationships, isManyToManyJoinTable } from '../relationships'
+import {
+  allRelationships,
+  filteredArrayRelationships,
+  filteredObjectRelationships,
+  isManyToManyJoinTable,
+  relationshipMapping,
+  relationshipTable
+} from '../relationships'
 import { composeId, getIds } from '../ids'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
   batchSize: number
 ): RxGraphQLReplicationQueryBuilder => {
-  const table = getCollectionMetadata(collection)
-  const title = metadataName(table)
+  const table = getCollectionTableInfo(collection)
+  const title = tableName(table)
   const idKeys = getIds(table)
   // * Get the list of array relationship names
-  const arrayRelationships = table.relationships.filter(
-    ({ type }) => type === 'array'
-  )
+  const arrayRelationships = table.metadata.array_relationships || []
 
   // * List columns referencing other tables, except its own primary key
-  const foreignKeyColumns = table.relationships.reduce<string[]>(
+  const foreignKeyColumns = allRelationships(table).reduce<string[]>(
     (aggr, curr) => {
+      const cols = Object.keys(relationshipMapping(table, curr))
       aggr.push(
-        ...curr.mapping.reduce<string[]>((mAggr, mCurr) => {
-          if (!idKeys.includes(mCurr.column?.name))
-            mAggr.push(mCurr.column?.name)
+        ...cols.reduce<string[]>((mAggr, mCurr) => {
+          if (!idKeys.includes(mCurr)) mAggr.push(mCurr)
           return mAggr
         }, [])
       )
@@ -47,54 +50,58 @@ export const pullQueryBuilder = (
     },
     []
   )
+
+  const columnPermissions =
+    table.metadata.select_permissions?.find(
+      (p) => p.role === collection.options.role
+    )?.permission.columns || []
   const columns = (
     collection.options.role === ADMIN_ROLE
       ? table.columns
-      : table.columns.filter((column) => column.canSelect.length)
+      : table.columns.filter((col) => columnPermissions.includes(col.name))
   )
     // * Filter out columns referencing other tables
     .filter((column) => !foreignKeyColumns.includes(column.name))
 
-  const objectRelationshipFields = filteredRelationships(table)
-    .filter(({ type }) => type === 'object')
-    .map(
-      (relationship) =>
-        ({
-          [relationship.name]: reduceArrayValues(
-            relationship.mapping,
-            ({ remoteColumnName }) => [remoteColumnName, true]
-          )
-        } as FieldMap)
-    )
+  const objectRelationshipFields = filteredObjectRelationships(table).map(
+    (relationship) =>
+      ({
+        [relationship.name]: Object.values(
+          relationshipMapping(table, relationship)
+        ).reduce((agg, curr) => {
+          agg[curr] = true
+          return agg
+        }, {})
+      } as FieldMap)
+  )
   // * - keys as per defined in the relationship mapping
   // * - aggregate (last updated_at) so when it changes it will trigger a new pull
-  const arrayRelationshipFields = filteredRelationships(table)
-    .filter(({ type }) => type === 'array')
-    .map(
-      (relationship) =>
-        ({
-          [relationship.name]: getMetadataTable(
-            relationship.remoteTableId
-          ).primaryKey.columns.reduce(
-            (acc, column) => {
-              acc[column.columnName] = true
-              return acc
-            },
-            {
-              __args: {
-                where: {
-                  deleted: {
-                    _eq: false
-                  }
+  const arrayRelationshipFields = filteredArrayRelationships(table).map(
+    (relationship) =>
+      ({
+        [relationship.name]: relationshipTable(
+          table,
+          relationship
+        ).primaryKey.columns.reduce(
+          (acc, column) => {
+            acc[column] = true
+            return acc
+          },
+          {
+            __args: {
+              where: {
+                deleted: {
+                  _eq: false
                 }
               }
             }
-          ),
-          [`${relationship.name}_aggregate`]: {
-            aggregate: { max: { updated_at: true } }
           }
-        } as FieldMap)
-    )
+        ),
+        [`${relationship.name}_aggregate`]: {
+          aggregate: { max: { updated_at: true } }
+        }
+      } as FieldMap)
+  )
 
   const fieldsObject = deepmerge.all<FieldMap>([
     // * Column fields
@@ -102,11 +109,12 @@ export const pullQueryBuilder = (
     // * Add fields required for array relationships
     ...arrayRelationshipFields,
     // * Add fields required for object relationships
-    ...objectRelationshipFields,
+    ...objectRelationshipFields
     // * Add fields required for computed properties
-    ...table.computedProperties
-      .filter((prop) => prop.transformation)
-      .map((prop) => rxdbJsonataPaths(prop.transformation, collection))
+    // TODO computedProperties
+    // ...table.computedProperties
+    //   .filter((prop) => prop.transformation)
+    //   .map((prop) => rxdbJsonataPaths(prop.transformation, collection))
   ])
 
   const idColumns = table.columns.filter(({ name }) => idKeys.includes(name))
@@ -147,13 +155,13 @@ export const pullQueryBuilder = (
                         }
                       }
                     },
-                    ...rel.mapping
-                      .filter((mapping) => mapping.column)
-                      .map((mapping) => ({
-                        [mapping.column.name]: {
-                          _eq: new VariableType(mapping.column.name)
+                    ...Object.keys(relationshipMapping(table, rel)).map(
+                      (col) => ({
+                        [col]: {
+                          _eq: new VariableType(col)
                         }
-                      }))
+                      })
+                    )
                   ]
                 })
                 // ? add conditions on object relationships?
@@ -198,39 +206,40 @@ export const pullQueryBuilder = (
 }
 
 export const pullModifier = (collection: ContentsCollection): Modifier => {
-  const metadata = getCollectionMetadata(collection)
+  const tableInfo = getCollectionTableInfo(collection)
   return async (data) => {
     debug('pullModifier: in', collection.name, { ...data })
     data = addComputedFieldsFromLoadedData(data, collection)
-    data.label = documentLabel(data, collection) || ''
-    data.id = composeId(metadata, data)
+    data.label = (await documentLabel(data, collection)) || ''
+    data.id = composeId(tableInfo, data)
     // * Flatten relationship data so it fits in the `population` system
-    for (const { name, type, remoteTableId } of filteredRelationships(
-      metadata
-    )) {
-      const refMetadata = getMetadataTable(remoteTableId)
-      if (type === 'array') {
-        if (isManyToManyJoinTable(refMetadata)) {
-          // * Many to Many relationships
-          const fks = refMetadata.foreignKeys.find(
-            // TODO
-            // ! equals or different???
-            (fk) => fk.refId !== metadata.id
-          ).columns
-          data[name] = (data[name] as []).map((item) =>
-            fks.map((key) => item[key]).join('|')
-          )
-        } else {
-          // * One to Many relationships: set remote id columns as an array
-          data[name] = (data[name] as []).map((item) =>
-            composeId(refMetadata, item)
-          )
-        }
+    for (const rel of filteredArrayRelationships(tableInfo)) {
+      const refTable = relationshipTable(tableInfo, rel)
+      if (isManyToManyJoinTable(refTable)) {
+        // * Many to Many relationships
+        const fks = refTable.foreignKeys.find(
+          // TODO
+          // ! equals or different???
+          (fk) => fk.to !== tableInfo.id
+        ).mapping
+        data[rel.name] = (data[rel.name] as []).map((item) =>
+          Object.keys(fks)
+            .map((key) => item[key])
+            .join('|')
+        )
       } else {
-        // * Object relationships: move foreign key columns to the property name
-        if (data[name]) {
-          data[name] = composeId(refMetadata, data[name])
-        }
+        // * One to Many relationships: set remote id columns as an array
+        data[rel.name] = (data[rel.name] as []).map((item) =>
+          composeId(refTable, item)
+        )
+      }
+    }
+
+    for (const rel of filteredObjectRelationships(tableInfo)) {
+      const refTable = relationshipTable(tableInfo, rel)
+      // * Object relationships: move foreign key columns to the property name
+      if (data[rel.name]) {
+        data[rel.name] = composeId(refTable, data[rel.name])
       }
     }
     debug('pullModifier: out', collection.name, { ...data })

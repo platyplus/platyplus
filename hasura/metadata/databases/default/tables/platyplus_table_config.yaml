@@ -1,0 +1,19 @@
+table:
+  name: table_config
+  schema: platyplus
+select_permissions:
+- permission:
+    columns:
+    - component
+    - deleted
+    - description
+    - document_component
+    - document_label
+    - document_title
+    - icon
+    - id
+    - order
+    - title
+    - updated_at
+    filter: {}
+  role: me

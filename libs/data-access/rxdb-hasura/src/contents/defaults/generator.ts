@@ -1,10 +1,14 @@
-import { Contents } from '../../types'
-import { isTextType } from '../properties'
 import { v4 as uuid } from 'uuid'
-import { Metadata } from '../../metadata'
+
+import { Contents } from '../../types'
+import { TableInformation } from '../../metadata'
+
+import { findRelationship } from '../relationships'
+import { warn } from '../../utils'
+import { isTextType, tableProperties } from '../properties'
 
 export const generateDefaultValue = (
-  table: Metadata,
+  table: TableInformation,
   propertyName: string,
   data: Contents
 ) => {
@@ -12,7 +16,7 @@ export const generateDefaultValue = (
   const column = table.columns.find(({ name }) => name === propertyName)
   if (!column) {
     // TODO default values for relations
-    const rel = table.relationships.find(({ name }) => name === propertyName)
+    const rel = findRelationship(table, propertyName)
     if (rel?.type === 'array') return []
     else return null
   }
@@ -25,11 +29,11 @@ export const generateDefaultValue = (
     } catch {
       if (defaultTemplate.startsWith('now()')) return new Date().toISOString()
       if (defaultTemplate.startsWith('gen_random_uuid()')) return uuid()
-      console.log('Impossible to parse default value', defaultTemplate)
+      warn('Impossible to parse default value', defaultTemplate)
       return null
     }
   } else {
-    const type = table.properties.get(propertyName).type
+    const type = tableProperties(table).get(propertyName).type
     if (isTextType(type)) return ''
     else return null
   }

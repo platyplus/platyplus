@@ -1,7 +1,11 @@
-import { getDocumentMetadata, getMetadataTable } from '../../../store'
+import { getDocumentTableInfo, getTableInfo } from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
 import { collectionName } from '../../../utils'
-import { isManyToManyJoinTable } from '../utils'
+import {
+  allRelationships,
+  isManyToManyJoinTable,
+  relationshipMapping
+} from '../utils'
 /**
  * Events on forein keys:
  * a = no action
@@ -14,29 +18,31 @@ export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preRemove(async (data: Contents, document: ContentsDocument) => {
-    const metadata = getDocumentMetadata(document)
-    for (const fk of metadata.dependentForeignKeys) {
-      const remoteMetadata = getMetadataTable(fk.tableId)
-      if (isManyToManyJoinTable(remoteMetadata)) return // * No possible changes on join many to many tables
-      // TODO remoteMetadata is null when fk aims at a join m2m table
-      if (remoteMetadata) {
+    const tableInfo = getDocumentTableInfo(document)
+    for (const fk of tableInfo.dependentForeignKeys) {
+      const remoteInfo = getTableInfo(fk.from)
+      if (isManyToManyJoinTable(remoteInfo)) return // * No possible changes on join many to many tables
+      // TODO remote table info is null when fk aims at a join m2m table
+      if (remoteInfo) {
         const remoteCollection: ContentsCollection =
           collection.database.collections[
-            collectionName(remoteMetadata, collection.options.role)
+            collectionName(remoteInfo, collection.options.role)
           ]
-        const remoteProperty = remoteMetadata.relationships.find((rel) =>
-          rel.mapping.some((mapping) =>
-            fk.columns.includes(mapping.column.name)
-          )
-        )
+
+        const remoteProperty = allRelationships(remoteInfo).find((rel) => {
+          const mapping = relationshipMapping(remoteInfo, rel)
+          return Object.keys(mapping).some((col) => !!fk.mapping[col])
+        })
+        // ! TODO onDelete
+        /*
         if (fk.onDelete === 'c') {
-          console.log(`cascade delete ${fk.tableId}.${remoteProperty.name}`)
+          debug(`cascade delete ${fk.tableId}.${remoteProperty.name}`)
           await remoteCollection
             .find()
             .where(remoteProperty.name)
             .equals(data.id)
             .remove()
-        }
+        }*/
         // TODO restrict, null, default, no action
       }
     }

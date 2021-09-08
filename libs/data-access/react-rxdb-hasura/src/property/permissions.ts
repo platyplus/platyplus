@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react'
 
-import { ContentsDocument, canEdit, Metadata } from '@platyplus/rxdb-hasura'
+import {
+  ContentsDocument,
+  canEdit,
+  TableInformation,
+  canRead
+} from '@platyplus/rxdb-hasura'
 
 export const usePropertyPermissions = (
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   propertyName: string,
   document?: ContentsDocument
 ) => {
   const [edit, setEdit] = useState(false)
+  const [read, setRead] = useState(false)
   useEffect(() => {
-    setEdit(canEdit(metadata, role, document, propertyName))
-  }, [document, metadata, role, propertyName])
-  return { edit }
+    setEdit(canEdit(tableInfo, role, document, propertyName))
+    setRead(canRead(tableInfo, role, propertyName))
+  }, [document, tableInfo, role, propertyName])
+  return { edit, read }
 }

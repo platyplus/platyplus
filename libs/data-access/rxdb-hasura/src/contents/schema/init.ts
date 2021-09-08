@@ -1,36 +1,35 @@
 import { RxJsonSchema } from 'rxdb'
 
 import { Contents } from '../../types'
-import { metadataName } from '../../utils'
+import { TableInformation, tableName } from '../../metadata'
 import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from '../columns'
 import { createRelationshipProperties } from '../relationships'
 import { requiredProperties } from '../required'
 import { ID_COLUMN, isIdColumn } from '../ids'
 import { indexes } from './indexes'
-import { Metadata } from '../../metadata'
 
 export const toJsonSchema = (
-  table: Metadata,
+  table: TableInformation,
   role: string,
   version = 0
 ): RxJsonSchema<Contents> => {
   return {
     // keyCompression: true,
     type: 'object',
-    title: metadataName(table),
-    // description: '', // ? Use SQL table comment ? not in metadata yet
+    title: tableName(table),
+    // description: '', // ? Use SQL table comment ?
     version,
     primaryKey: {
       key: ID_COLUMN,
       fields: table.columns
-        .filter((column) => isIdColumn(column))
+        .filter((column) => isIdColumn(table, column))
         .map((column) => column.name),
       separator: '|'
     },
     properties: {
       ...table.columns
-        .filter((column) => isIdColumn(column))
+        .filter((column) => isIdColumn(table, column))
         .reduce(
           (acc, column) => {
             acc[column.name] = { type: 'string' }

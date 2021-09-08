@@ -1,9 +1,9 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { TableFragment } from '../../generated'
-import { JsonSchemaFormat, Metadata } from '../../metadata'
+import { JsonSchemaFormat, TableInformation } from '../../metadata'
 import { ID_COLUMN, isIdColumn } from '../ids'
 import { propertyJsonType } from '../properties'
+import { relationshipMapping } from '../relationships'
 export const DELETED_COLUMN = 'deleted'
 export const UPDATED_AT_COLUMN = 'updated_at'
 export const SYSTEM_COLUMNS = [DELETED_COLUMN, ID_COLUMN, UPDATED_AT_COLUMN]
@@ -16,30 +16,33 @@ const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
 }
 
 export const columnProperties = (
-  table: TableFragment | Metadata,
+  table: TableInformation,
   excludeSystemColumns = false
 ) => {
-  const skipRelationships = table.relationships
-    .filter(
-      (relationship) =>
-        relationship.type === 'object' && relationship.mapping.length === 1
-    )
-    .map((relationship) => relationship.mapping[0].column?.name)
+  const skipRelationships =
+    table.metadata.object_relationships
+      ?.map((rel) => relationshipMapping(table, rel))
+      .filter((mapping) => Object.keys(mapping).length === 1)
+      .map((mapping) => Object.keys(mapping)[0]) || []
   return table.columns.filter(
     (column) =>
       // * filter properties that are already mapped by an object relationship
       (!skipRelationships.includes(column.name) ||
         // * filter relationships using the primary key as foreign key
+<<<<<<< HEAD
         isIdColumn(column)) &&
+=======
+        isIdColumn(table, column)) &&
+>>>>>>> e6f045d540f13549e85ed42ff88ca96cb470bf01
       !(excludeSystemColumns && SYSTEM_COLUMNS.includes(column.name))
   )
 }
 
-export const createColumnProperties = (table: Metadata) => {
+export const createColumnProperties = (table: TableInformation) => {
   const result: Record<string, TopLevelProperty> = {}
   columnProperties(table, true).forEach((column) => {
     const sqlType = column.udtName
-    const type = propertyJsonType(column)
+    const type = propertyJsonType(table, column)
     const property: TopLevelProperty = {
       type
     }

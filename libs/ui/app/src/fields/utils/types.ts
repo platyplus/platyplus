@@ -1,9 +1,13 @@
-import { ContentsDocument, Metadata, Property } from '@platyplus/rxdb-hasura'
+import {
+  ContentsDocument,
+  TableInformation,
+  Property
+} from '@platyplus/rxdb-hasura'
 import React from 'react'
 
 export type FieldComponent<T = Record<string, unknown>> = React.FC<
   T & {
-    metadata: Metadata
+    tableInfo: TableInformation
     role: string
     property: Property
     name: string

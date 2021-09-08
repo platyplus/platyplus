@@ -1,0 +1,11 @@
+table:
+  name: primary_keys
+  schema: platyplus
+select_permissions:
+- permission:
+    columns:
+    - id
+    - constraint
+    - columns
+    filter: {}
+  role: me

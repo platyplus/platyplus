@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 import { RxQueryResultDoc, useRxData } from 'rxdb-hooks'
 
-import { Contents, ContentsDocument } from '@platyplus/rxdb-hasura'
+import { RxDocument } from 'rxdb'
+import { Contents } from '@platyplus/rxdb-hasura'
 
-export const useSingleton = (
+export const useSingleton = <T = Contents, U = RxDocument<T, unknown>>(
   collectionName: string
-): Omit<RxQueryResultDoc<Contents>, 'result'> & {
-  value: ContentsDocument
+): Omit<RxQueryResultDoc<T>, 'result'> & {
+  value: RxDocument<T, U>
 } => {
-  const { result, isFetching, ...rest } = useRxData<Contents>(
+  const { result, isFetching, ...rest } = useRxData<T>(
     collectionName,
     (collection) => collection.find().limit(1)
   )
   const [fetching, setFetching] = useState(true)
 
-  const document = useMemo(() => result[0] as ContentsDocument, [result])
+  const document = useMemo(() => result[0] as RxDocument<T, U>, [result])
 
   useEffect(() => {
     if (document) {

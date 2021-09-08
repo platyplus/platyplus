@@ -4,18 +4,18 @@ import { DocumentPanel, HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
 import { PageFunction } from './types'
 import { DocumentComponentWrapper, DocumentToolbar } from '../documents'
-import { useMetadata } from '@platyplus/react-rxdb-hasura'
+import { useTableInfo } from '@platyplus/react-rxdb-hasura'
 import { METADATA_ROLE } from '@platyplus/rxdb-hasura'
 import { useLocation } from 'react-use'
 
 export const ProfilePage: PageFunction = ({ title }) => {
   const { value: profile } = useProfile()
   const editing = useQuery().has('edit')
-  const metadata = useMetadata('public.users')
+  const tableInfo = useTableInfo('public.users')
   // TODO profile actions e.g. change/reset password
   const location = useLocation()
   const href = location.pathname
-  if (!profile || !metadata) return null
+  if (!profile || !tableInfo) return null
   return (
     <HeaderTitleWrapper title={title} previous>
       <Animation.Fade in={!!profile}>
@@ -25,7 +25,7 @@ export const ProfilePage: PageFunction = ({ title }) => {
               title={<DisplayName profile={profile} />}
               toolbar={
                 <DocumentToolbar
-                  metadata={metadata}
+                  tableInfo={tableInfo}
                   role={METADATA_ROLE}
                   document={profile}
                   edit={editing}
@@ -34,7 +34,7 @@ export const ProfilePage: PageFunction = ({ title }) => {
               }
             >
               <DocumentComponentWrapper
-                metadata={metadata}
+                tableInfo={tableInfo}
                 role={METADATA_ROLE}
                 document={profile}
                 edit={editing}

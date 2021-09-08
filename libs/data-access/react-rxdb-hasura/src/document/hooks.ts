@@ -4,14 +4,14 @@ import { useRxDocument } from 'rxdb-hooks'
 import {
   Contents,
   ContentsDocument,
-  Metadata,
-  populateDocument
+  populateDocument,
+  TableInformation
 } from '@platyplus/rxdb-hasura'
 
 import { useCollection, useCollectionName } from '../collection'
 
 export const useDocument = <B extends boolean = false>(
-  metadata: Metadata,
+  tableInfo: TableInformation,
   role: string,
   id: string,
   populate?: B
@@ -20,7 +20,7 @@ export const useDocument = <B extends boolean = false>(
   isFetching: boolean
 } => {
   type ResultType = B extends true ? Contents : ContentsDocument
-  const collectionName = useCollectionName(metadata, role)
+  const collectionName = useCollectionName(tableInfo, role)
   const collection = useCollection(collectionName)
   const queryConstructor = useMemo(() => id !== 'new' && id, [id])
   const { result, isFetching: isDocumentFetching } =
@@ -29,7 +29,7 @@ export const useDocument = <B extends boolean = false>(
   useEffect(() => {
     if (id === 'new') setDocument(collection?.newDocument() as ContentsDocument)
     else if (result) {
-      const update = async () => {
+      const subscription = result.$.subscribe(async () => {
         if (populate) {
           setPopulating(true)
           const populated = await populateDocument(result)
@@ -38,8 +38,7 @@ export const useDocument = <B extends boolean = false>(
           setDocument(result)
         }
         setPopulating(false)
-      }
-      const subscription = result.$.subscribe(() => update())
+      })
       return () => subscription.unsubscribe()
     }
   }, [id, result, collection, populate])

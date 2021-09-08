@@ -5,6 +5,7 @@ import { devtools } from 'zustand/middleware'
 
 import {
   ConfigCollectionName,
+  CONFIG_TABLES,
   Contents,
   ID_COLUMN
 } from '@platyplus/rxdb-hasura'
@@ -14,9 +15,7 @@ type FormType = Record<string, CollectionForm> &
   Record<ConfigCollectionName, CollectionForm>
 
 const resetConfig = produce((state) => {
-  state.app_config = {}
-  state.table_config = {}
-  state.property_config = {}
+  CONFIG_TABLES.forEach((table) => (state[table] = {}))
 })
 export const useStore = create<{
   forms: FormType

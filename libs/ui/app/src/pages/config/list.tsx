@@ -4,15 +4,14 @@ import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
 
 import {
   useCountConfigChanges,
-  useMetadataList,
+  useTableInfoList,
   usePersistConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { ConfigListItem } from './list-item'
 
 export const ConfigListPage: React.FC = () => {
-  // TODO sort tables, not collections - and exclude join tables
-  const [tables, setTablesOrder] = useMetadataList(true)
+  const [tables, setTablesOrder] = useTableInfoList(true)
   const title = 'Configuration'
   const countChanges = useCountConfigChanges()
   const [show, toggle] = useToggle(false)
@@ -69,11 +68,11 @@ export const ConfigListPage: React.FC = () => {
               </ButtonGroup>
               {
                 <List hover bordered sortable onSort={sort} pressDelay={300}>
-                  {tables.map((metadata, index) => (
+                  {tables.map((tableInfo, index) => (
                     <ConfigListItem
-                      key={metadata.id}
+                      key={tableInfo.id}
                       index={index}
-                      metadata={metadata}
+                      tableInfo={tableInfo}
                     />
                   ))}
                 </List>

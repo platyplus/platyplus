@@ -1,25 +1,33 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
-import { Metadata } from '../../metadata'
+import { TableInformation } from '../../metadata'
 import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
-import { filteredRelationships, shiftedMetadataTable } from './utils'
+import {
+  filteredRelationships,
+  relationshipMapping,
+  shiftedTable
+} from './utils'
 
 export const createRelationshipProperties = (
-  table: Metadata,
+  table: TableInformation,
   role: string
 ): Record<string, TopLevelProperty> => {
   const result: Record<string, TopLevelProperty> = {}
   filteredRelationships(table).forEach((relationship) => {
-    const refTable = shiftedMetadataTable(table, relationship)
+    const refTable = shiftedTable(table, relationship)
     // * Pass any relationship that does not point to another table in the store
     if (!refTable) return
     const relName = relationship.name
+
+    const mapping = relationshipMapping(table, relationship)
     // TODO composite keys
-    const column = relationship.mapping[0].column
+    const column = table.columns.find(
+      ({ name }) => Object.keys(mapping)[0] === name
+    )
     const ref = collectionName(refTable, role)
 
-    const type = propertyJsonType(column)
+    const type = propertyJsonType(table, column)
     if (relationship.type === 'object') {
       // * Object relationships
       result[relName] = {

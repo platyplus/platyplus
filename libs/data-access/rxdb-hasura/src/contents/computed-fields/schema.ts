@@ -1,24 +1,26 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { Metadata } from '../../metadata'
-import { getCollectionMetadata } from '../../store'
+import { TableInformation } from '../../metadata'
 import { ContentsCollection } from '../../types'
 import { UPDATED_AT_COLUMN } from '../columns'
 
-export const createComputedFieldsProperties = (table: Metadata) =>
+import { UPDATED_AT_COLUMN } from '../columns'
+
+export const createComputedFieldsProperties = (table: TableInformation) =>
   ({
     label: {
       type: 'string'
-    },
-    ...table.computedProperties.reduce<Record<string, TopLevelProperty>>(
-      (aggr, curr) => {
-        aggr[curr.name] = {
-          type: curr.nullable ? ['null', curr.type] : curr.type
-        }
-        return aggr
-      },
-      {}
-    )
+    }
+    // TODO computedProperties
+    // ...table.computedProperties.reduce<Record<string, TopLevelProperty>>(
+    //   (aggr, curr) => {
+    //     aggr[curr.name] = {
+    //       type: curr.nullable ? ['null', curr.type] : curr.type
+    //     }
+    //     return aggr
+    //   },
+    //   {}
+    // )
   } as Record<string, TopLevelProperty> & { label: TopLevelProperty })
 
 /**
@@ -27,8 +29,9 @@ export const createComputedFieldsProperties = (table: Metadata) =>
  */
 export const computedFields = (collection: ContentsCollection): string[] => [
   'label',
-  UPDATED_AT_COLUMN,
-  ...getCollectionMetadata(collection).computedProperties.map(
-    (prop) => prop.name
-  )
+  UPDATED_AT_COLUMN
+  // TODO computedProperties
+  // ...getCollectionTableInfo(collection).computedProperties.map(
+  //   (prop) => prop.name
+  // )
 ]

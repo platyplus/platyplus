@@ -2,17 +2,16 @@
 import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
-import { warn } from '../../console'
-import { JsonSchemaPropertyType } from '../../metadata'
-import { getCollectionMetadata } from '../../store'
 
+import { JsonSchemaPropertyType } from '../../metadata'
 import {
   Contents,
   ContentsCollection,
   ContentsDocument,
   ContentsDocumentMethods
 } from '../../types'
-import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
+import { warn, FieldMapItem, rxdbJsonataPaths } from '../../utils'
+
 import { documentLabel } from './label'
 
 type ComputedProperty = {
@@ -141,14 +140,18 @@ export const addComputedFieldsFromCollection = async (
   data: Contents,
   collection: ContentsCollection
 ): Promise<void> => {
-  for (const property of getCollectionMetadata(collection).computedProperties) {
+  // * TODO computedProperties
+  /*
+  for (const property of getCollectionTableInfo(collection)
+    .computedProperties) {
     data[property.name] = compute(
       data,
       property as ComputedProperty,
       collection
     )
   }
-  data.label = documentLabel(data, collection) || ''
+  */
+  data.label = (await documentLabel(data, collection)) || ''
 }
 
 export const addComputedFieldsFromDoc: RxCollectionHookCallback<
@@ -181,10 +184,12 @@ export const addComputedFieldsFromLoadedData = (
   data: Contents,
   collection: ContentsCollection
 ): Contents => {
-  const metadata = getCollectionMetadata(collection)
-  if (metadata.computedProperties.length) {
+  // TODO computedProperties
+  /*
+  const tableInfo = getCollectionTableInfo(collection)
+  if (tableInfo.computedProperties.length) {
     const filteredData = removeDeleted(data) || data
-    for (const property of metadata.computedProperties) {
+    for (const property of tableInfo.computedProperties) {
       filteredData[property.name] = evaluate(
         filteredData,
         property as ComputedProperty
@@ -192,4 +197,6 @@ export const addComputedFieldsFromLoadedData = (
     }
     return filteredData
   } else return data
+  */
+  return data
 }

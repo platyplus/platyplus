@@ -1,0 +1,18 @@
+table:
+  name: property_config
+  schema: platyplus
+select_permissions:
+- permission:
+    columns:
+    - id
+    - updated_at
+    - deleted
+    - table_id
+    - property_name
+    - component
+    - json_schema
+    - icon
+    - title
+    - description
+    filter: {}
+  role: me

@@ -1,10 +1,11 @@
-import { Metadata } from '../../metadata'
-import { propertyJsonType } from '../properties'
+import { TableInformation } from '../../metadata'
 
 // * PostgreSQL indexes + label
-export const indexes = (table: Metadata): (string | string[])[] => {
+export const indexes = (table: TableInformation): (string | string[])[] => {
   // TODO map foreign keys e.g. table.config.table_id -> index on table_id
   // * Map PostgreSQL indexes
+  // TODO revoir completement
+  /*
   const postgresIndexes = table.indexes
     .filter(({ columns }) =>
       columns.every(({ columnName }) => {
@@ -19,4 +20,6 @@ export const indexes = (table: Metadata): (string | string[])[] => {
     )
     .map(({ columns }) => columns.map(({ columnName }) => columnName))
   return [...postgresIndexes, 'label']
+    */
+  return ['label']
 }

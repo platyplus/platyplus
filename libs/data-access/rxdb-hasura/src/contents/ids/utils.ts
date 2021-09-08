@@ -1,19 +1,15 @@
-import { CommonColumnFragment } from '../../generated'
-import { Metadata } from '../../metadata'
-import { Contents } from '../../types'
-import { ArrayElement } from '../../utils'
+import { TableInformation } from '../../metadata'
+import { Column, Contents } from '../../types'
 export const ID_COLUMN = 'id'
 
-export const getIds = (table: Metadata): string[] =>
-  table.primaryKey?.columns.map(({ columnName }) => columnName) || [ID_COLUMN]
+export const getIds = (table: TableInformation): string[] =>
+  table.primaryKey?.columns || [ID_COLUMN]
 
-export const isIdColumn = (
-  column: ArrayElement<Metadata['columns']> | CommonColumnFragment
-): boolean =>
-  !!('primaryKey' in column && column.primaryKey) || column.name === ID_COLUMN
+export const isIdColumn = (table: TableInformation, column: Column): boolean =>
+  getIds(table).includes(column.name)
 
 export const composeId = (
-  table: Metadata,
+  table: TableInformation,
   data: Contents,
   separator = '|'
 ): string =>
@@ -21,7 +17,11 @@ export const composeId = (
     .map((key) => data[key])
     .join(separator)
 
-export const decomposeId = (table: Metadata, id: string, separator = '|') => {
+export const decomposeId = (
+  table: TableInformation,
+  id: string,
+  separator = '|'
+) => {
   const splitId = id.split(separator)
   return getIds(table).reduce((acc, col, index) => {
     acc[col] = splitId[index]

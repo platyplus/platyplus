@@ -10,7 +10,7 @@ import {
 import { usePropertyConfig } from '@platyplus/react-rxdb-hasura'
 
 import { IconPicker } from '@platyplus/layout'
-import { Metadata, Property } from '@platyplus/rxdb-hasura'
+import { TableInformation, Property } from '@platyplus/rxdb-hasura'
 import { upperCaseFirst } from '@platyplus/data'
 
 import { useComponentsLibrary } from '../../components'
@@ -18,13 +18,13 @@ import { useMemo } from 'react'
 import { PropertyIcon } from '../../documents'
 
 export const PropertyConfig: React.FC<{
-  metadata: Metadata
+  tableInfo: TableInformation
   name: string
   property: Property
   expanded: boolean
   onSelect: () => void
-}> = ({ metadata, name, property, expanded, onSelect }) => {
-  const [config, setConfig] = usePropertyConfig(metadata, name, null)
+}> = ({ tableInfo, name, property, expanded, onSelect }) => {
+  const [config, setConfig] = usePropertyConfig(tableInfo, name, null)
   const library = useComponentsLibrary().fields
 
   const fieldComponents = useMemo(
@@ -39,7 +39,7 @@ export const PropertyConfig: React.FC<{
     <Panel
       header={
         <span>
-          <PropertyIcon metadata={metadata} name={name} />
+          <PropertyIcon tableInfo={tableInfo} name={name} />
           {title}
         </span>
       }
