@@ -1,8 +1,0 @@
-table:
-  name: tables
-  schema: public
-select_permissions:
-- permission:
-    columns: []
-    filter: {}
-  role: me

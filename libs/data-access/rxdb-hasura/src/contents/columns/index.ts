@@ -29,11 +29,7 @@ export const columnProperties = (
       // * filter properties that are already mapped by an object relationship
       (!skipRelationships.includes(column.name) ||
         // * filter relationships using the primary key as foreign key
-<<<<<<< HEAD
-        isIdColumn(column)) &&
-=======
         isIdColumn(table, column)) &&
->>>>>>> e6f045d540f13549e85ed42ff88ca96cb470bf01
       !(excludeSystemColumns && SYSTEM_COLUMNS.includes(column.name))
   )
 }
