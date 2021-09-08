@@ -4,16 +4,16 @@ import { RxCollection, RxJsonSchema } from 'rxdb'
 import { DocumentNode } from 'graphql'
 
 import { Replicator } from '../types'
-import { AppConfig } from './app-config/types'
-import type { PropertyConfig } from './property-config/types'
-import type { TableConfig } from './table-config/types'
-import type { Column, Relationship, TableInfo } from './table-information/types'
 import {
   APP_CONFIG_TABLE,
   PROPERTY_CONFIG_TABLE,
   TABLE_CONFIG_TABLE,
   TABLE_INFO_TABLE
-} from './utils'
+} from '../constants'
+import { AppConfig } from './app-config/types'
+import type { PropertyConfig } from './property-config/types'
+import type { TableConfig } from './table-config/types'
+import type { Column, Relationship, TableInfo } from './table-information/types'
 
 export type TableInformation = TableInfo
 
@@ -34,11 +34,6 @@ export type {
   TableConfig,
   AppConfig
 }
-
-export type ConfigCollectionName =
-  | typeof APP_CONFIG_TABLE
-  | typeof PROPERTY_CONFIG_TABLE
-  | typeof TABLE_CONFIG_TABLE
 
 export type JsonSchemaFormat =
   | 'date-time'

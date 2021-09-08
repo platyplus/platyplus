@@ -8,11 +8,9 @@ import {
 
 import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
 
-import { debug } from '../../console'
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { FieldMap, tableName } from '../../utils'
-import { ADMIN_ROLE } from '../../metadata'
-import { getCollectionTableInfo } from '../../store'
+import { FieldMap, debug } from '../../utils'
+import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
 
 import {
   addComputedFieldsFromLoadedData,

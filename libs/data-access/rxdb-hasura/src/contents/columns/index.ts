@@ -1,6 +1,6 @@
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 
-import { JsonSchemaFormat, TableInfo } from '../../metadata'
+import { JsonSchemaFormat, TableInformation } from '../../metadata'
 import { ID_COLUMN, isIdColumn } from '../ids'
 import { propertyJsonType } from '../properties'
 import { relationshipMapping } from '../relationships'
@@ -16,7 +16,7 @@ const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
 }
 
 export const columnProperties = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   excludeSystemColumns = false
 ) => {
   const skipRelationships =
@@ -34,7 +34,7 @@ export const columnProperties = (
   )
 }
 
-export const createColumnProperties = (table: Partial<TableInfo>) => {
+export const createColumnProperties = (table: TableInformation) => {
   const result: Record<string, TopLevelProperty> = {}
   columnProperties(table, true).forEach((column) => {
     const sqlType = column.udtName

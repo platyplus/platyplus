@@ -4,7 +4,7 @@ import { DELETED_COLUMN, SYSTEM_COLUMNS } from '../columns'
 import { getIds } from '../ids'
 import { tableProperties } from '../properties'
 import {
-  allRelationships,
+  findRelationship,
   isManyToManyJoinTable,
   relationshipMapping,
   relationshipTable
@@ -26,15 +26,13 @@ export const canRead = (
     if (column) {
       return permissions.columns.includes(propertyName)
     } else {
-      // TODO re-implement
-      console.warn('TODO uncomment')
-      // if (property.relationship) {
-      // const mapping = Object.keys(
-      //   relationshipMapping(tableInfo, property.relationship)
-      // )
-
-      // return mapping.every((col) => permissions.columns.includes(col))
-      return false
+      const relationship = findRelationship(tableInfo, propertyName)
+      if (relationship) {
+        const mapping = Object.keys(
+          relationshipMapping(tableInfo, relationship)
+        )
+        return mapping.every((col) => permissions.columns.includes(col))
+      }
     }
   } else {
     return (
@@ -62,7 +60,7 @@ export const canSave = (
   document?: Contents,
   propertyName?: string
 ) => {
-  // TODO
+  // TODO implement canSave correctly
   // ? validate data ?
   // * check hasura permissions
   // * check SQL constraints
@@ -89,9 +87,7 @@ export const canCreate = (
   if (!permissions) return false
   // ? Check the hasura permission rule ?
   if (fieldName) {
-    const relationship = allRelationships(tableInfo).find(
-      (rel) => rel.name === fieldName
-    )
+    const relationship = findRelationship(tableInfo, fieldName)
     if (relationship) {
       const mapping = relationshipMapping(tableInfo, relationship)
       if (relationship.type === 'object') {
@@ -136,9 +132,7 @@ export const canUpdate = (
   if (!permissions) return false
   // ? Check the hasura permission rule ?
   if (fieldName) {
-    const relationship = allRelationships(tableInfo).find(
-      (rel) => rel.name === fieldName
-    )
+    const relationship = findRelationship(tableInfo, fieldName)
     if (relationship) {
       // * Relationship
       const mapping = relationshipMapping(tableInfo, relationship)

@@ -1,9 +1,11 @@
-import { Relationship, TableInfo } from '../../metadata'
-import { getTableInfo } from '../../store'
+import { getTableInfo, Relationship, TableInformation } from '../../metadata'
 
 import { getIds } from '../ids'
 
-export const allRelationships = (table: Partial<TableInfo>) => [
+export const findRelationship = (table: TableInformation, name: string) =>
+  allRelationships(table).find((rel) => rel.name === name)
+
+export const allRelationships = (table: TableInformation) => [
   ...(table.metadata.array_relationships?.map((rel) => ({
     ...rel,
     type: 'array'
@@ -14,18 +16,18 @@ export const allRelationships = (table: Partial<TableInfo>) => [
   })) || [])
 ]
 
-export const filteredRelationships = (table: Partial<TableInfo>) =>
+export const filteredRelationships = (table: TableInformation) =>
   allRelationships(table).filter((rel) => !!relationshipTable(table, rel))
 
 export const filteredObjectRelationships = (
-  table: Partial<TableInfo>
+  table: TableInformation
 ): Array<Relationship> =>
   table.metadata.object_relationships?.filter(
     (rel) => !!relationshipTable(table, rel)
   ) || []
 
 export const filteredArrayRelationships = (
-  table: Partial<TableInfo>
+  table: TableInformation
 ): Array<Relationship> =>
   table.metadata.array_relationships?.filter(
     (rel) => !!relationshipTable(table, rel)
@@ -33,7 +35,7 @@ export const filteredArrayRelationships = (
 
 // * A table is a ManyToMany transition table when it has a composite primary key that refers to two foreign keys
 // TODO won't work with manually defined relationships in Hasura i.e. the ones not using foreign keys
-export const isManyToManyJoinTable = (table: Partial<TableInfo>): boolean => {
+export const isManyToManyJoinTable = (table: TableInformation): boolean => {
   const pkColumns = getIds(table)
   const nbPrimaryForeignKeys = pkColumns.filter((pk) =>
     table.foreignKeys?.some((fk) => Object.keys(fk.mapping).includes(pk))
@@ -42,7 +44,7 @@ export const isManyToManyJoinTable = (table: Partial<TableInfo>): boolean => {
 }
 
 export const shiftedTable = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   relationship: Relationship
 ) => {
   const refTable = relationshipTable(table, relationship)
@@ -58,17 +60,18 @@ export const shiftedTable = (
 }
 
 export const relationshipMapping = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   rel: Relationship
-): Record<string, string> =>
-  rel.using.foreign_key_constraint_on
-    ? table.foreignKeys.find(
-        (key) => key.constraint === rel.using.foreign_key_constraint_on
-      ).mapping
+): Record<string, string> => {
+  return rel.using.foreign_key_constraint_on
+    ? table.foreignKeys.find((key) =>
+        Object.keys(key.mapping).includes(rel.using.foreign_key_constraint_on)
+      )?.mapping
     : rel.using.manual_configuration.column_mapping
+}
 
 export const relationshipTableId = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   relationship: Relationship
 ): string | undefined => {
   if (relationship) {
@@ -76,17 +79,12 @@ export const relationshipTableId = (
       using: { foreign_key_constraint_on, manual_configuration }
     } = relationship
     return foreign_key_constraint_on
-      ? table.foreignKeys.find(
-          (key) => key.constraint === foreign_key_constraint_on
+      ? table.foreignKeys.find((key) =>
+          Object.keys(key.mapping).includes(foreign_key_constraint_on)
         ).to
       : `${manual_configuration.remote_table.schema}.${manual_configuration.remote_table.name}`
-  } else {
-    // TODO remove
-    throw Error('NOPE')
   }
 }
 
-export const relationshipTable = (
-  table: Partial<TableInfo>,
-  rel: Relationship
-) => getTableInfo(relationshipTableId(table, rel))
+export const relationshipTable = (table: TableInformation, rel: Relationship) =>
+  getTableInfo(relationshipTableId(table, rel))

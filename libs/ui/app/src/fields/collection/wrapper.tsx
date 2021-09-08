@@ -6,7 +6,7 @@ import {
   ContentsDocument,
   shiftedTable
 } from '@platyplus/rxdb-hasura'
-import { useCollectionName } from '@platyplus/react-rxdb-hasura'
+import { useCollectionName, useOptions } from '@platyplus/react-rxdb-hasura'
 
 import { CollectionComponentWrapper } from '../../collections'
 import { FieldControl } from '../utils'
@@ -54,11 +54,9 @@ export const CollectionField: CollectionFieldComponent = ({
     tableInfo.id,
     role
   ])
-  const { isFetching, result } = useRxData<Contents>(
-    refCollectionName,
-    queryConstructor
-  )
-  const options = result.map((doc) => ({ label: doc.label, value: doc.id }))
+  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
+
+  const options = useOptions(refTable, result, role)
 
   return edit ? (
     <FieldControl
@@ -67,7 +65,7 @@ export const CollectionField: CollectionFieldComponent = ({
       style={{ minWidth: 300 }}
       name={name}
       readOnly={!edit}
-      data={isFetching ? [] : options}
+      data={options}
       initial={data}
       cleanable={edit}
       accepter={Accepter}

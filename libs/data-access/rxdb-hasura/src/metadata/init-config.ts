@@ -1,13 +1,12 @@
-import { tableInfoStore } from '../store'
-import { CollectionSettings } from './types'
-import { appConfig } from './app-config'
-import { propertyConfig } from './property-config'
-import { tableConfig } from './table-config'
 import {
   APP_CONFIG_TABLE,
   PROPERTY_CONFIG_TABLE,
   TABLE_CONFIG_TABLE
-} from './utils'
+} from '../constants'
+import { CollectionSettings } from './types'
+import { appConfig } from './app-config'
+import { propertyConfig } from './property-config'
+import { tableConfig } from './table-config'
 import { Database } from '../types'
 
 const configCollectionDefinitions: Record<string, CollectionSettings> = {
@@ -18,7 +17,7 @@ const configCollectionDefinitions: Record<string, CollectionSettings> = {
 
 export const initConfigCollections = async (db: Database) => {
   for (const [name, config] of Object.entries(configCollectionDefinitions)) {
-    if (!tableInfoStore.getState().replication[name].ready) {
+    if (!db.collections[name]?.replicator.state) {
       await db.addCollections({
         [name]: {
           schema: config.schema,

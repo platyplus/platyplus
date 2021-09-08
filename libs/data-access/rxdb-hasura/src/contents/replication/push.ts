@@ -4,9 +4,7 @@ import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
 import { reduceStringArrayValues } from '@platyplus/data'
 
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { debug } from '../../console'
-import { tableName } from '../../utils'
-import { getCollectionTableInfo } from '../../store'
+import { debug } from '../../utils'
 
 import { computedFields } from '../computed-fields'
 import { decomposeId, getIds } from '../ids'
@@ -18,7 +16,7 @@ import {
   relationshipTable
 } from '../relationships'
 import { isRequiredRelationship } from '../required'
-import { ADMIN_ROLE } from '../../metadata'
+import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
 import { DELETED_COLUMN } from '../columns'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
@@ -185,7 +183,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
 
   return async (data) => {
     debug('pushModifier: in:', data)
-    const table = await getCollectionTableInfo(collection)
+    const table = getCollectionTableInfo(collection)
     const objectRelationships = filteredObjectRelationships(table)
     // * Do not push data if it is flaged as a local change
     if (data.is_local_change) return null
@@ -194,7 +192,6 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     if (data['_deleted']) data.deleted = true
     const _isNew = isNewDocument(data)
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
-
     // * Object relationships:move back property name to the right foreign key column
     for (const rel of objectRelationships) {
       if (data[rel.name] !== undefined) {
@@ -222,7 +219,6 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
         })
         .map((column) => column.name)
     )
-    // }
     for (const field of excluded) delete data[field]
 
     debug('pushModifier: out', { _isNew, ...data, id })

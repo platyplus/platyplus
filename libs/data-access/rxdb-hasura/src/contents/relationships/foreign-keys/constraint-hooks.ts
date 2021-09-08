@@ -1,4 +1,4 @@
-import { getDocumentTableInfo, getTableInfo } from '../../../store'
+import { getDocumentTableInfo, getTableInfo } from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
 import { collectionName } from '../../../utils'
 import {
@@ -36,7 +36,7 @@ export const createForeignKeyConstraintsHooks = (
         // ! TODO onDelete
         /*
         if (fk.onDelete === 'c') {
-          console.log(`cascade delete ${fk.tableId}.${remoteProperty.name}`)
+          debug(`cascade delete ${fk.tableId}.${remoteProperty.name}`)
           await remoteCollection
             .find()
             .where(remoteProperty.name)

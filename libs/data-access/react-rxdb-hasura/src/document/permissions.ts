@@ -19,7 +19,6 @@ export const useDocumentPermissions = (
   useEffect(() => {
     setEdit(canEdit(tableInfo, role, document))
     setRemove(canRemove(tableInfo, role, document))
-    // TODO implement canSave correctly
     setSave(canSave(tableInfo, role, document))
   }, [document, tableInfo, role])
   return { edit, remove, save }

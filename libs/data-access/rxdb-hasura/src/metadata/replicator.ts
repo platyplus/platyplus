@@ -1,10 +1,10 @@
 import { RxChangeEvent } from 'rxdb'
 
-import { createReplicator } from '../replicator'
-import { setCollectionIsReady } from '../store'
+import { createReplicator } from '../utils/replicator'
+import { setReplicationReady } from '../state'
 import { Contents } from '../types'
 
-import { METADATA_ROLE } from './constants'
+import { METADATA_ROLE } from '../constants'
 import {
   CollectionSettings,
   ConfigCollection,
@@ -26,7 +26,7 @@ export const createSettingsReplicator = async (
   if (initialDocuments.length) {
     for (const doc of initialDocuments)
       collectionSettings.onUpsert?.(doc.toJSON())
-    setCollectionIsReady(collection.name)
+    setReplicationReady(collection.name)
   }
 
   return await createReplicator(collection, {

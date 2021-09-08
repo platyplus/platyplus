@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { PROPERTY_CONFIG_TABLE } from '../utils'
+import { PROPERTY_CONFIG_TABLE } from '../../constants'
 export const query = gql`
   query propertyConfig($updated_at: timestamptz!, $batchSize: Int!) {
     platyplus_${PROPERTY_CONFIG_TABLE}(

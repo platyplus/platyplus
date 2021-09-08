@@ -1,23 +1,28 @@
 import produce from 'immer'
 import { print } from 'graphql/language/printer'
 
-import { info } from '../console'
-import { tableInfoStore } from '../store'
+import { info } from '../utils'
 import { upsertWithMigration } from './hasura-migrations'
-import { CollectionSettings, ConfigCollectionName } from './types'
+import { CollectionSettings, TableInformation } from './types'
+import { Database } from '../types'
 
-export const TABLE_CONFIG_TABLE = 'table_config'
-export const APP_CONFIG_TABLE = 'app_config'
-export const PROPERTY_CONFIG_TABLE = 'property_config'
-export const TABLE_INFO_TABLE = 'table_info'
+export const tableName = ({
+  metadata: {
+    table: { schema, name }
+  }
+}: TableInformation): string =>
+  schema === 'public' ? `${name}` : `${schema}_${name}`
 
-export const CONFIG_TABLES: ConfigCollectionName[] = [
-  APP_CONFIG_TABLE,
-  PROPERTY_CONFIG_TABLE,
-  TABLE_CONFIG_TABLE
-]
-export const PLATYPLUS_TABLES = [...CONFIG_TABLES, TABLE_INFO_TABLE]
-
+export const tableRoles = (table: TableInformation): string[] => {
+  const roles: string[] = []
+  table.metadata.select_permissions?.forEach((p) => {
+    if (!roles.includes(p.role)) roles.push(p.role)
+  })
+  table.metadata.insert_permissions?.forEach((p) => {
+    if (!roles.includes(p.role)) roles.push(p.role)
+  })
+  return roles
+}
 export const isConsoleEnabled = (): boolean => {
   return document.location.hostname === 'localhost'
 }
@@ -59,7 +64,8 @@ export const generateReplicationSettings = (
               return null
             } catch {
               info('Could not save the migration through Hasura Console.')
-              if (tableInfoStore.getState().admin) {
+              const db: Database = doc.collection.database
+              if (db.isAdmin$.getValue()) {
                 return doc
               } else {
                 info(

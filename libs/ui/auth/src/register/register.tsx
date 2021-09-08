@@ -44,8 +44,8 @@ export const Register = ({ redirect = '/' }: RegisterProps) => {
         const { email, password } = formValue
         await auth.register({ email, password })
       } catch (error) {
-        console.log(error)
-        return alert('login failed')
+        console.warn(error)
+        return alert('registration failed')
       }
       router.push(redirect)
     }

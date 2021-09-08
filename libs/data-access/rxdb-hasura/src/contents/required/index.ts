@@ -1,16 +1,16 @@
-import { Column, Relationship, TableInfo } from '../../metadata'
+import { Column, Relationship, TableInformation } from '../../metadata'
 
 import { columnHasDefaultValue } from '../defaults'
 import { isIdColumn } from '../ids'
 import { propertyNames } from '../properties'
 import { relationshipMapping } from '../relationships'
 
-export const isRequiredColumn = (table: Partial<TableInfo>, column: Column) =>
+export const isRequiredColumn = (table: TableInformation, column: Column) =>
   (!isNullableColumn(column) && !columnHasDefaultValue(column)) ||
   isIdColumn(table, column)
 
 export const isRequiredRelationship = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   rel: Relationship
 ) =>
   Object.keys(relationshipMapping(table, rel)).some((colName) => {
@@ -19,7 +19,7 @@ export const isRequiredRelationship = (
   })
 
 export const isRequiredProperty = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   propertyName: string
 ): boolean => {
   // * Property is required when column is not nullable
@@ -34,8 +34,7 @@ export const isRequiredProperty = (
   return undefined
 }
 
-// TODO change isNullable to boolean value in SQL view definition
 export const isNullableColumn = (columnInfo: Column) => columnInfo.nullable
 
-export const requiredProperties = (table: Partial<TableInfo>): string[] =>
+export const requiredProperties = (table: TableInformation): string[] =>
   propertyNames(table).filter((name) => isRequiredProperty(table, name))

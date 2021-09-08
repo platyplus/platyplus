@@ -1,4 +1,5 @@
 import { TableInformation } from '../../metadata'
+import { warn } from '../../utils'
 import { tableProperties } from '../properties'
 import {
   allRelationships,
@@ -37,7 +38,7 @@ export const canRemoveCollectionItem = (
         .every((col) => !isRequiredColumn(remoteInfo, col))
     }
   } else {
-    console.warn(
+    warn(
       `canRemoveItem ${tableInfo.id}.${propertyName}: property not found or incorrect type (non "collection"): ${prop.type}`
     )
     return false

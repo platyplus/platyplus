@@ -1,10 +1,10 @@
 import { RxCollectionCreator } from 'rxdb/dist/types/types'
-import { TableInfo } from '../../types'
+import { TableInformation } from '../../metadata'
 
 import { toJsonSchema } from '../schema'
 
 export const contentsCollectionCreator = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   role: string
 ): RxCollectionCreator => {
   // const version = update ? Object.keys(previousMigrations).length + 1 : 0
@@ -20,7 +20,7 @@ export const contentsCollectionCreator = (
     //         ...previousMigrations,
     //         [version]: (doc) => {
     //           doc._deleted = false
-    //           console.log('TODO migration', doc)
+    //           warn('TODO migration', doc)
     //           if ('bidon' in doc) delete doc.bidon
     //           return doc
     //         }

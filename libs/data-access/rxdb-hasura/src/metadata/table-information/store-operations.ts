@@ -1,45 +1,31 @@
-import { TableInformation } from '@platyplus/rxdb-hasura'
+import { ContentsCollection, Database } from '@platyplus/rxdb-hasura'
 import produce from 'immer'
-
-import { TableInfoStore, tableInfoStore } from '../../store'
+import { RxDocument } from 'rxdb'
+import { collectionName, removeCollection } from '../../utils'
+import { tableRoles } from '../utils'
+import { TableInfoStore, tableInfoStore } from './store'
 
 import { TableInfo } from './types'
 
-// TODO remove
-const setTableInfo = (table: TableInfo) =>
+export const onUpsert = (table: TableInfo) => {
   tableInfoStore.setState(
     produce<TableInfoStore>((state) => {
-      const previousTable = state.tables[table.id]
-      const nextTable: TableInformation = previousTable
-        ? {
-            ...previousTable,
-            ...table
-          }
-        : {
-            ...table
-          }
-      state.tables[table.id] = nextTable
+      state.tables[table.id] = table
     })
   )
-
-export const onUpsert = (doc: TableInfo) => {
-  console.log('re-rxdbify the table information change listener?', doc)
-  setTableInfo(doc)
 }
 
-export const onDelete = (doc: TableInfo) => {
-  console.log('TODO onDelete')
-}
-
-// * When receiving changes in the websocket, check if some of the tables have been removed.
-// * If so, remove them from the store
-// * A store subscription will then trigger the removal of the corresponding RxDB collections
-export const onWsReceive = (data: TableInfo[]) => {
+export const onDelete = async (table: RxDocument<TableInfo>) => {
   tableInfoStore.setState(
     produce<TableInfoStore>((state) => {
-      Object.keys(tableInfoStore.getState().tables).forEach((id) => {
-        if (!data.find((table) => table.id === id)) delete state.tables[id]
-      })
+      delete state.tables[table.id]
     })
   )
+  // * Remove RxDB collections as well
+  const db: Database = table.collection.database
+  for (const role of tableRoles(table)) {
+    const name = collectionName(table, role)
+    const collection = db.collections[name] as ContentsCollection
+    if (collection) await removeCollection(collection)
+  }
 }

@@ -1,7 +1,7 @@
 import { RxJsonSchema } from 'rxdb'
 
-import { Contents, TableInfo } from '../../types'
-import { tableName } from '../../utils'
+import { Contents } from '../../types'
+import { TableInformation, tableName } from '../../metadata'
 import { createComputedFieldsProperties } from '../computed-fields'
 import { createColumnProperties } from '../columns'
 import { createRelationshipProperties } from '../relationships'
@@ -10,7 +10,7 @@ import { ID_COLUMN, isIdColumn } from '../ids'
 import { indexes } from './indexes'
 
 export const toJsonSchema = (
-  table: Partial<TableInfo>,
+  table: TableInformation,
   role: string,
   version = 0
 ): RxJsonSchema<Contents> => {

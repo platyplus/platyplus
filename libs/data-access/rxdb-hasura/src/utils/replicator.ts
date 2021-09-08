@@ -5,17 +5,16 @@ import {
   setLastPullDocument,
   setLastPushSequence
 } from 'rxdb/dist/lib/plugins/replication-graphql'
-import { Subscription } from 'rxjs'
+import { combineLatest, Subscription, map, distinctUntilChanged } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
-import { debug, error, info, warn } from './console'
-import { createHeaders } from './utils'
-import { tableInfoStore, setCollectionIsSynced, getJwt } from './store'
-import { Replicator } from './types'
 
-import { DELETED_COLUMN } from './contents'
-import { setReplicationBusy, setReplicationReady } from './rxdb-plugin'
+import { Database, Replicator } from '../types'
+import { DELETED_COLUMN } from '../contents'
+import { setReplicationBusy, setReplicationReady } from '../state'
+import { debug, error, info, warn } from './console'
+import { createHeaders } from './hasura'
 
 const DEFAULT_BATCH_SIZE = 5
 
@@ -45,8 +44,9 @@ export const createReplicator = async <T>(
   collection: RxCollection<T, unknown> & { replicator: Replicator<T> },
   options: ReplicatorOptions<T>
 ): Promise<Replicator<T>> => {
+  const db: Database = collection.database
   const headers = () =>
-    createHeaders(options.role, getJwt(), options.substituteRole)
+    createHeaders(options.role, db.jwt$.getValue(), options.substituteRole)
   const resetWs = () => {
     if (wsClient) {
       wsClient.unsubscribeAll()
@@ -55,7 +55,7 @@ export const createReplicator = async <T>(
   }
   let state: RxGraphQLReplicationState<T> | undefined
   let wsClient: SubscriptionClient | undefined
-  let jwtSubscription: () => void | undefined
+  let jwtSubscription: Subscription | undefined
   let errorSubscription: Subscription | undefined
 
   const setupGraphQLReplication = async () => {
@@ -81,30 +81,24 @@ export const createReplicator = async <T>(
       // TODO refresh JWT if error is related, but in any case refresh JWT before error occurs
     })
 
-    replicationState.initialReplicationComplete$.subscribe((active) => {
-      if (active) {
-        setReplicationReady(collection.name)
-      } else {
-        setReplicationBusy(collection.name)
-      }
-    })
-
-    replicationState.setHeaders(headers())
+    replicationState.initialReplicationComplete$.subscribe((active) =>
+      active
+        ? setReplicationReady(collection.name)
+        : setReplicationBusy(collection.name)
+    )
 
     replicationState.canceled$.subscribe(() => {
       debug(`[${collection.name}] replication cancelled`)
-      jwtSubscription?.()
+      jwtSubscription?.unsubscribe()
       errorSubscription?.unsubscribe()
       startOption?.()
       resetWs()
     })
-    initGraphQLSubscription()
     return replicationState
   }
 
-  const initGraphQLSubscription = () => {
+  const initWsSubscription = () => {
     debug(`[${collection.name}] initGraphQLSubscription`)
-    resetWs()
     wsClient = new SubscriptionClient(httpUrlToWebSockeUrl(options.url), {
       reconnect: true,
       connectionParams: {
@@ -165,18 +159,14 @@ export const createReplicator = async <T>(
       warn('sync error', data)
     })
 
-    jwtSubscription = tableInfoStore.subscribe(
-      (_: string | undefined) => {
-        debug(`[${collection.name}] set token`)
-        initGraphQLSubscription()
-        state.setHeaders(headers())
-      },
-      (state) => state.jwt
-    )
+    db.jwt$.subscribe((jwt) => {
+      debug(`[${collection.name}] set token`)
+      initWsSubscription()
+      state.setHeaders(headers())
+    })
 
     state.awaitInitialReplication().then(() => {
       debug(`[${collection.name}] awaitInitialReplication OK`)
-      setCollectionIsSynced(collection.name)
     })
   }
 
@@ -192,16 +182,16 @@ export const createReplicator = async <T>(
     await stop()
   }
 
-  const { connected, authenticated } = tableInfoStore.getState()
-  if (connected && authenticated) start()
-  tableInfoStore.subscribe(
-    async (ok: boolean) => {
-      info(`[${collection.name}] auth status change`, ok)
+  combineLatest([db.isConnected$, db.isAuthenticated$])
+    .pipe(
+      map(([connected, authenticated]) => connected && authenticated),
+      distinctUntilChanged<boolean>()
+    )
+    .subscribe(async (ok) => {
+      debug(`[${collection.name}] auth status change`, ok)
       if (ok) await start()
       else await stop()
-    },
-    (state) => state.connected && state.authenticated
-  )
+    })
   collection.replicator = { start, stop, destroy, state }
   return collection.replicator
 }
