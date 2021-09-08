@@ -15,9 +15,14 @@ const client = axios.create({ baseURL: CONSOLE_API })
 
 const escapeValues = (values: Record<string, unknown>) =>
   Object.entries(values).reduce((acc, [key, value]) => {
-    if (typeof value === 'object') {
-      acc[key] = `'${JSON.stringify(value).replace(/[']/g, "''")}'::jsonb`
-    } else acc[key] = value == null ? null : escape(value)
+    // ? Not ideal: does not update a value set to 'null' - still, not the case yet...
+    if (value !== null) {
+      if (typeof value === 'object') {
+        acc[key] = `'${JSON.stringify(value).replace(/[']/g, "''")}'::jsonb`
+      } else {
+        acc[key] = value == null ? null : escape(value)
+      }
+    }
     return acc
   }, {})
 
@@ -99,18 +104,20 @@ export const createSqlMigrations = async (
   info('Migration created')
 }
 
-export const upsertWithMigration = async (
-  collectionName: string,
-  data: any
-) => {
-  // ? how to make it work with batches to avoid multiple migration files ?
-  const sql = {
+export const createSqlConfigInstruction = (collectionName: string, data: any) =>
+  ({
     [APP_CONFIG_TABLE]: () => appConfigToSql(data),
     [TABLE_CONFIG_TABLE]: () => tableConfigToSql(data.id, data),
     [PROPERTY_CONFIG_TABLE]: () => propertyConfigToSql(data)
-  }[collectionName]
+  }[collectionName]?.())
+
+export const upsertConfigWithMigration = async (
+  collectionName: string,
+  data: any
+) => {
+  const sql = createSqlConfigInstruction(collectionName, data)
   if (sql) {
-    await createSqlMigrations([sql()])
+    await createSqlMigrations([sql])
   } else {
     warn(`upsertWithMigration not implemented for collection ${collectionName}`)
   }

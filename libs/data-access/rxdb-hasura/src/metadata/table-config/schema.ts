@@ -25,6 +25,9 @@ export const schema: RxJsonSchema<TableConfig> = {
     document_title: {
       type: ['string', 'null']
     },
+    document_component: {
+      type: ['string', 'null']
+    },
     icon: {
       type: ['string', 'null']
     },

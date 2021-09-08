@@ -8,6 +8,8 @@ import {
   APP_CONFIG_TABLE,
   CONFIG_TABLES,
   ContentsCollection,
+  createSqlConfigInstruction,
+  createSqlMigrations,
   TableConfig,
   TableInformation,
   TABLE_CONFIG_TABLE,
@@ -110,16 +112,34 @@ export const usePersistConfig = () => {
   const clearConfig = useStore((state) => state.clearConfig)
   const db = useDB()
   return useCallback(async () => {
-    for (const collectionName of CONFIG_TABLES) {
-      if (forms[collectionName]) {
-        const collection: ContentsCollection = db[collectionName]
-        for (const [id, value] of Object.entries(forms[collectionName])) {
-          const doc = await collection.findOne(id).exec()
-          if (doc) await doc.atomicPatch(value)
-          else collection.atomicUpsert({ id, ...value })
+    // * Create batch SQL migration instructions of every changed config item
+    const migrations = CONFIG_TABLES.reduce(
+      (aggr, collectionName) => [
+        ...aggr,
+        ...Object.entries(forms[collectionName]).map(([id, value]) =>
+          createSqlConfigInstruction(collectionName, { id, ...value })
+        )
+      ],
+      []
+    )
+    if (migrations.length)
+      try {
+        // * Try to migrate through the console.
+        // * If it succeeds, the GraphQL replication-subscription will send back the updated documents
+        await createSqlMigrations(migrations)
+      } catch {
+        // * If the migration fails, fall back to the regular RxDB way of saving+replicating documents
+        for (const collectionName of CONFIG_TABLES) {
+          if (forms[collectionName]) {
+            const collection: ContentsCollection = db[collectionName]
+            for (const [id, value] of Object.entries(forms[collectionName])) {
+              const doc = await collection.findOne(id).exec()
+              if (doc) await doc.atomicPatch(value)
+              else collection.atomicUpsert({ id, ...value })
+            }
+          }
         }
       }
-    }
     clearConfig()
   }, [forms, db, clearConfig])
 }

@@ -2,7 +2,7 @@ import produce from 'immer'
 import { print } from 'graphql/language/printer'
 
 import { info } from '../utils'
-import { upsertWithMigration } from './hasura-migrations'
+import { upsertConfigWithMigration } from './hasura-migrations'
 import { CollectionSettings, TableInformation } from './types'
 import { Database } from '../types'
 
@@ -58,24 +58,13 @@ export const generateReplicationSettings = (
       : null,
     pushModifier: config.mutation
       ? async (doc) => {
-          if (isConsoleEnabled()) {
-            try {
-              await upsertWithMigration(collectionName, curateData(doc))
-              return null
-            } catch {
-              info('Could not save the migration through Hasura Console.')
-              const db: Database = doc.collection.database
-              if (db.isAdmin$.getValue()) {
-                return doc
-              } else {
-                info(
-                  'User is not admin. Cannot fall back to regular GraphQL replication'
-                )
-                return null
-              }
-            }
+          const db: Database = doc.collection.database
+          if (db.isAdmin$.getValue()) {
+            return doc
+          } else {
+            info('User is not admin. Cannot push config changes to the server')
+            return null
           }
-          return doc
         }
       : null,
     subscription: print(config.subscription)

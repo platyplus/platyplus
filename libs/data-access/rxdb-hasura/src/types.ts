@@ -8,7 +8,6 @@ import { PlatyplusCollections, TableInfo } from './metadata'
 
 export type ValuesOf<T extends unknown[]> = T[number]
 
-export type { ColumnFragment, CoreTableFragment } from './generated'
 export type { Column, Relationship, TableInfo } from './metadata'
 
 export type TableInfoDocument = RxDocument<TableInfo>
