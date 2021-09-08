@@ -4,7 +4,8 @@ import { Contents } from '../../types'
 import { TableInformation } from '../../metadata'
 
 import { findRelationship } from '../relationships'
-import { error, warn } from '../../utils'
+import { warn } from '../../utils'
+import { isTextType, tableProperties } from '../properties'
 
 export const generateDefaultValue = (
   table: TableInformation,
@@ -32,11 +33,8 @@ export const generateDefaultValue = (
       return null
     }
   } else {
-    // TODO
-    error('TODO re-implement')
-    // const type = table.properties.get(propertyName).type
-    // if (isTextType(type)) return ''
-    // else return null
-    return null
+    const type = tableProperties(table).get(propertyName).type
+    if (isTextType(type)) return ''
+    else return null
   }
 }

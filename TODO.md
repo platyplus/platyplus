@@ -86,9 +86,17 @@
     - [x] better handling of disconnections / replication errors
     - [x] PWA
     - [x] rxdb persistence
+  - [ ] destroy database on logout
+  - [ ] improve login/register
+  - [x] generate only one migration file when multiple config changes are available
 - [ ] Hasura 2
-  - avoid regressions
-  - list missing metadata elements e.g. muliple db, inherited roles...
+  - [ ] cascade delete - reactivate
+  - [ ] computed properties
+  - [ ] refetch the entire collection when new columns/relationships are added
+  - [ ] default values
+  - [ ] indexes
+  - [ ] test offline mode
+  - [x] bug on generating config migrations: 'null' string values are somehow inserted
 - [ ] Docker images
   - [ ] GitHub action
   - [ ] Platyplus Hasura (include migrations + schema)
@@ -115,11 +123,12 @@
       - [ ] Kubernetes
   - [ ] technical schema on how RxDB starts (auth/jwt, metadata, config, contents...)
 - [ ] make everything work with Pulumi
-- [ ] squash Hasura migrations
+- [x] squash Hasura migrations
 
 ## Then
 
 - Application
+  - [ ] list missing metadata elements e.g. muliple db, inherited roles...
   - [ ] label - check if label regenerates when changing its template
   - [ ] handle relationships like rxdb-utils views
   - [ ] multi-role
@@ -174,7 +183,7 @@
   - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
   - [x] remove useless code in rxdb-hasura (e.g. document.component())
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
-  - [ ] Better integration with HBP e.g. registration, password change, 2fa...
+  - [ ] Better integration with HBP e.g. registration, password change, OAuth, 2fa...
 - Charts
   - [ ] Hasura: wait for postrges service to be ready
   - [ ] HBP: wait for hasura service to be ready

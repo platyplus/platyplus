@@ -14,6 +14,7 @@ export const query = gql`
       description
       document_label
       document_title
+      document_component
       icon
       order
       title
@@ -34,6 +35,7 @@ export const mutation = gql`
           description
           document_label
           document_title
+          document_component
           icon
           order
           title

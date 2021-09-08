@@ -4,15 +4,16 @@ table:
 select_permissions:
 - permission:
     columns:
-    - id
-    - updated_at
-    - deleted
     - component
+    - deleted
     - description
+    - document_component
     - document_label
     - document_title
     - icon
+    - id
     - order
     - title
+    - updated_at
     filter: {}
   role: me
