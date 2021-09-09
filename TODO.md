@@ -15,14 +15,13 @@
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-  - [ ] destroy database on logout
-  - [ ] improve login/register
-- [ ] Hasura 2
-  - [ ] cascade delete - reactivate
-  - [ ] refetch the entire collection when new columns/relationships are added
-  - [ ] default values
-  - [x] indexes
-  - [ ] test offline mode
+  - [ ] improve login/register errors and validation
+  - [ ] Hasura 2
+    - [ ] reactivate cascade delete
+    - [ ] bug: refetch the entire collection when new columns/relationships are added
+    - [ ] test default values
+    - [ ] update Helm chart
+    - [ ] update Tilt extension
 - [ ] Docker images
   - [ ] GitHub action
   - [ ] Platyplus Hasura (include migrations + schema)
@@ -30,24 +29,30 @@
 - [ ] Helm Charts
   - [ ] GitHub action
   - [ ] Platyplus
-  - [ ] Hasura 2
-  - [ ] HBP 2.7
-- [ ] Tilt
-  - [ ] HBP 2.7: (do not publish - wait until hasura-auth is out)
-  - [ ] Hasura 2
+  - [ ] Hasura Auth
+- [ ] Hasura Auth Tilt extension
 - [ ] Documentation
-  - [ ] docusaurus
+  - [ ] Docusaurus
   - [ ] GitHub Action
-  - [ ] adjust existing contents
-  - [ ] add guide.md
-  - [ ] Getting started
+  - [ ] Adjust existing contents
+  - [ ] Pitch, main features + feature matric
+  - [ ] Main features
+  - [ ] Configuration guide
+    - [ ] 'basic'
+    - [ ] extend Platyplus
+  - [ ] Installation guide / getting started
     - [ ] Dev
       - [ ] Docker-compose
       - [ ] Tilt
     - [ ] Deploy
       - [ ] Docker-compose
       - [ ] Kubernetes
-  - [ ] technical schema on how RxDB starts (auth/jwt, metadata, config, contents...)
+  - [ ] Technical documentation
+    - [ ] Schema on how RxDB starts (auth/jwt, metadata, config, contents...)
+    - [ ] readme for every Docker image
+    - [ ] readme for every Helm chart
+    - [ ] readme for evey NPM package
+    - [ ] contribute
 - [ ] make everything work with Pulumi
 
 ## MVP 2
@@ -61,6 +66,7 @@
 ## Post-MVP
 
 - Application
+  - [ ] destroy database on logout
   - [ ] nullable values vs default values vs form values
   - [ ] work on form validation rules
     - [ ] Postgres domain e.g. email

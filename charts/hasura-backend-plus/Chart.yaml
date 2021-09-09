@@ -5,7 +5,7 @@ home: https://platy.dev/charts/hasura-backend-plus.html
 sources:
   - https://github.com/platyplus/platydev/tree/master/charts/hasura-backend-plus
   - https://github.com/nhost/hasura-backend-plus
-icon: https://nhost.github.io/hasura-backend-plus/logo.png
+icon: https://nhost.github.io/hasura-backend-plus/img/logo.png
 appVersion: 2.2.2
 version: 0.1.12
 dependencies:
@@ -28,5 +28,3 @@ keywords:
   - minio
   - authentication
   - storage
-annotations:
-  artifacthub.io/changes: '- fix: improve connection to Hasura'

@@ -21,6 +21,3 @@ keywords:
   - hasura
   - graphql
   - postgresql
-annotations:
-  artifacthub.io/changes: |-
-    - fix: correct configmap name
