@@ -3,7 +3,6 @@
   "compilerOptions": {
     "lib": ["es2019"],
     "outDir": "../../dist/out-tsc",
-    "esModuleInterop": true,
     "module": "commonjs",
     "types": ["node"]
   },

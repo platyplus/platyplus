@@ -21,6 +21,60 @@
     }
   },
   "projects": {
+    "charts-hasura": {
+      "root": "charts/hasura",
+      "sourceRoot": "charts/hasura",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["helm dependencies update ."],
+            "cwd": "charts/hasura",
+            "parallel": false
+          }
+        },
+        "version": {
+          "executor": "./tools/executors/helm:version"
+        }
+      }
+    },
+    "charts-hasura-backend-plus": {
+      "root": "charts/hasura-backend-plus",
+      "sourceRoot": "charts/hasura-backend-plus",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["helm dependencies update ."],
+            "cwd": "charts/hasura-backend-plus",
+            "parallel": false
+          }
+        },
+        "version": {
+          "executor": "./tools/executors/helm:version"
+        }
+      }
+    },
+    "charts-standard-service": {
+      "root": "charts/standard-service",
+      "sourceRoot": "charts/standard-service",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["helm dependencies update ."],
+            "cwd": "charts/standard-service",
+            "parallel": false
+          }
+        },
+        "version": {
+          "executor": "./tools/executors/helm:version"
+        }
+      }
+    },
     "data-access-hasura-client": {
       "root": "libs/data-access/hasura-client",
       "sourceRoot": "libs/data-access/hasura-client/src",
@@ -59,6 +113,14 @@
           "options": {
             "jestConfig": "libs/data-access/hasura-client/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -99,6 +161,14 @@
           "options": {
             "jestConfig": "libs/data-access/hbp/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -142,6 +212,14 @@
             "jestConfig": "libs/data-access/react-rxdb-hasura/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -184,6 +262,14 @@
             "jestConfig": "libs/data-access/rxdb-hasura/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -199,7 +285,7 @@
             "outputPath": "dist/apps/infrastructure",
             "main": "apps/infrastructure/index.ts",
             "tsConfig": "apps/infrastructure/tsconfig.app.json",
-            "assets": ["apps/infrastructure/assets"]
+            "assets": []
           },
           "configurations": {
             "production": {
@@ -227,6 +313,14 @@
           "options": {
             "jestConfig": "apps/infrastructure/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -302,6 +396,14 @@
             "jestConfig": "apps/platyplus/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -327,6 +429,14 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"]
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -368,6 +478,14 @@
             "jestConfig": "libs/ui/app/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -407,6 +525,14 @@
           "options": {
             "jestConfig": "libs/ui/auth/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -448,6 +574,14 @@
             "jestConfig": "libs/ui/layout/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -487,6 +621,14 @@
           "options": {
             "jestConfig": "libs/ui/navigation/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -528,6 +670,14 @@
             "jestConfig": "libs/ui/profile/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -568,6 +718,14 @@
             "jestConfig": "libs/util/amqp/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -607,6 +765,14 @@
           "options": {
             "jestConfig": "libs/util/data/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -650,6 +816,14 @@
             "jestConfig": "libs/util/jsonata-schema/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
         }
       }
     },
@@ -681,6 +855,14 @@
             "packageJson": "libs/util/pulumi/package.json",
             "main": "libs/util/pulumi/src/index.ts",
             "assets": ["libs/util/pulumi/*.md"]
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -721,6 +903,14 @@
           "options": {
             "jestConfig": "libs/util/ts-types/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "syncVersions": false,
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }

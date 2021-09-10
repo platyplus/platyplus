@@ -28,7 +28,12 @@
     "help": "nx help",
     "codegen": "graphql-codegen --config codegen.yml",
     "pwa-asset-generator": "echo \"TODO pwa-asset-generator\"",
-    "bundle-report": "webpack-bundle-analyzer dist/apps/platyplus/stats.json"
+    "bundle-report": "webpack-bundle-analyzer dist/apps/platyplus/stats.json",
+    "cz": "cz",
+    "prepare": "husky install",
+    "version": "nx affected --target=version",
+    "ci:build": "nx run-many --all --target=build --prod",
+    "ci:publish": "nx run-many --all --target=publish"
   },
   "private": true,
   "dependencies": {
@@ -86,6 +91,8 @@
     "@babel/preset-env": "7.14.4",
     "@babel/preset-react": "7.13.13",
     "@babel/preset-typescript": "7.13.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@graphql-codegen/add": "^2.0.2",
     "@graphql-codegen/cli": "^1.21.6",
     "@graphql-codegen/introspection": "^1.18.2",
@@ -94,6 +101,7 @@
     "@graphql-codegen/typescript-graphql-files-modules": "^1.18.1",
     "@graphql-codegen/typescript-graphql-request": "^3.1.1",
     "@graphql-codegen/typescript-operations": "^1.17.16",
+    "@jscutlery/semver": "^2.7.0",
     "@nrwl/cli": "12.8.0",
     "@nrwl/cypress": "12.8.0",
     "@nrwl/eslint-plugin-nx": "12.8.0",
@@ -123,8 +131,10 @@
     "@typescript-eslint/parser": "4.28.5",
     "babel-jest": "26.2.2",
     "babel-plugin-styled-components": "1.10.7",
+    "commitizen": "^4.2.4",
     "copy-webpack-plugin": "^9.0.1",
     "cypress": "^6.0.1",
+    "cz-conventional-changelog": "^3.3.0",
     "dotenv": "10.0.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
@@ -138,6 +148,7 @@
     "favicons-webpack-plugin": "^5.0.2",
     "html-webpack-plugin": "^5.3.2",
     "http-server": "^13.0.1",
+    "husky": "^6.0.0",
     "jest": "27.0.3",
     "mini-css-extract-plugin": "^2.1.0",
     "prettier": "2.3.2",
@@ -157,5 +168,15 @@
     "webpack-pwa-manifest": "^4.3.0",
     "webpack-sources": "^3.0.2",
     "workbox-webpack-plugin": "^6.2.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }

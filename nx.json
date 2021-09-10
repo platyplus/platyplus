@@ -73,6 +73,16 @@
     },
     "util-ts-types": {
       "tags": []
+    },
+    "charts-hasura": {
+      "tags": []
+    },
+    "charts-hasura-backend-plus": {
+      "tags": [],
+      "implicitDependencies": ["charts-hasura"]
+    },
+    "charts-standard-service": {
+      "tags": []
     }
   },
   "targetDependencies": {
