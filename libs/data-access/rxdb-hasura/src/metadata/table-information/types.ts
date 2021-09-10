@@ -7,6 +7,8 @@ type PrimaryKey = {
 type ForeignKey = {
   from: string
   to: string
+  update_rule: 'CASCADE' | 'SET NULL' | 'SET DEFAULT' | 'RESTRICT' | 'NO ACTION'
+  delete_rule: 'CASCADE' | 'SET NULL' | 'SET DEFAULT' | 'RESTRICT' | 'NO ACTION'
   constraint: string
   mapping: Record<string, string>
 }

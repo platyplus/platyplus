@@ -4,9 +4,11 @@ table:
 select_permissions:
 - permission:
     columns:
-    - from
-    - to
     - constraint
+    - delete_rule
+    - from
     - mapping
+    - to
+    - update_rule
     filter: {}
   role: me

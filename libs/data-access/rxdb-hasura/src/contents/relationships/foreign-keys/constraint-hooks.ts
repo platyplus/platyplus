@@ -1,19 +1,12 @@
 import { getDocumentTableInfo, getTableInfo } from '../../../metadata'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
-import { collectionName } from '../../../utils'
+import { collectionName, debug } from '../../../utils'
 import {
   allRelationships,
   isManyToManyJoinTable,
   relationshipMapping
 } from '../utils'
-/**
- * Events on forein keys:
- * a = no action
- * r = restrict
- * c = cascade
- * n = set null
- * d = set default
- */
+
 export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
@@ -33,16 +26,16 @@ export const createForeignKeyConstraintsHooks = (
           const mapping = relationshipMapping(remoteInfo, rel)
           return Object.keys(mapping).some((col) => !!fk.mapping[col])
         })
+
         // ! TODO onDelete
-        /*
-        if (fk.onDelete === 'c') {
-          debug(`cascade delete ${fk.tableId}.${remoteProperty.name}`)
+        if (fk.delete_rule === 'CASCADE') {
+          debug(`cascade delete ${fk.from}.${remoteProperty.name}`)
           await remoteCollection
             .find()
             .where(remoteProperty.name)
             .equals(data.id)
             .remove()
-        }*/
+        }
         // TODO restrict, null, default, no action
       }
     }

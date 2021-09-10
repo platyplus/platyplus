@@ -30,6 +30,8 @@ export const query = gql`
       foreignKeys {
         to
         constraint
+        update_rule
+        delete_rule
         mapping
       }
       dependentForeignKeys {

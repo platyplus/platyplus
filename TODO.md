@@ -11,25 +11,30 @@
       - [ ] restrict - idem
       - [ ] no action - idem
       - [ ] set default - only when default exists or columns are nullable
-    - [ ] canSave - only when fk constraints allow it
     - [ ] onUpdate
     - bug on validating form with a required many2one field: is it related?
+  - [ ] canSave: validate data
+    - [ ] only when fk constraints allow it
+    - [ ] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
   - [ ] improve login/register errors and validation
   - [ ] Hasura 2
-    - [ ] reactivate cascade delete
     - [ ] bug: refetch the entire collection when new columns/relationships are added
-    - [ ] test default values
     - [ ] update Helm chart
-    - [ ] update Tilt extension
+      - [ ] update to PostgreSQL 13
+      - [ ] update environment variables
+    - [ ] Update Tilt extension
+  - [ ] UI Toast warnings and errors
 - [ ] Docker images
   - [ ] GitHub action
+    - [ ] [docker hub description](https://github.com/marketplace/actions/docker-hub-description)
   - [ ] Platyplus Hasura (include migrations + schema)
   - [ ] Platyplus Nginx (nx build, GitHub action)
 - [ ] Helm Charts
   - [ ] GitHub action
   - [ ] Platyplus
   - [ ] Hasura Auth
+    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platydev/hasura-backend-plus?modal=security-report
 - [ ] Hasura Auth Tilt extension
 - [ ] Documentation
   - [ ] Docusaurus
@@ -137,7 +142,6 @@
 - Charts
   - [ ] Hasura: wait for postrges service to be ready
   - [ ] HBP: wait for hasura service to be ready
-  - [ ] clean legacy Helm Charts (artifacthub annotation bug)
   - [ ] Publish chart in awesome Hasura
 - [ ] Nx & npm semver
 - [ ] online demo(s)?
@@ -177,6 +181,7 @@
 - [ ] when fetching HBP metadata/migrations:
   - `git clone --filter` only the required directories
   - copy only sql files of the migrations (Hasura config v1), not the yaml files (Hasura config 1)
+- [ ] clean legacy Helm Charts (artifacthub annotation bug): download old tar.gz files, remove annotation, re-package upload, move back to the right S3 storage
 
 ## Parked
 
