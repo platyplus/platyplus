@@ -102,7 +102,7 @@ export default function version(
           target: context.projectName,
           projectName: context.projectName
         })
-      : `${context.projectName}-`
+      : `${context.projectName}@`
 
   const projectRoot = getProjectRoot(context)
   const newVersion$ = tryBump({

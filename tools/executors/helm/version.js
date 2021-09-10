@@ -77,7 +77,7 @@ function version(_a, context) {
             target: context.projectName,
             projectName: context.projectName
         })
-        : context.projectName + "-";
+        : context.projectName + "@";
     var projectRoot = workspace_1.getProjectRoot(context);
     var newVersion$ = try_bump_1.tryBump({
         preset: preset,

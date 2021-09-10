@@ -32,6 +32,7 @@
     "cz": "cz",
     "prepare": "husky install",
     "version": "nx affected --target=version",
+    "version:all": "nx run-many --all --target=version",
     "ci:build": "nx run-many --all --target=build --prod",
     "ci:publish": "nx run-many --all --target=publish"
   },
