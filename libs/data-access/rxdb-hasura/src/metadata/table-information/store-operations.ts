@@ -1,6 +1,6 @@
-import { ContentsCollection, Database } from '@platyplus/rxdb-hasura'
 import produce from 'immer'
 import { RxDocument } from 'rxdb'
+import { ContentsCollection, Database } from '../../types'
 import { collectionName, removeCollection } from '../../utils'
 import { tableRoles } from '../utils'
 import { TableInfoStore, tableInfoStore } from './store'

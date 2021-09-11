@@ -2,7 +2,6 @@ import produce from 'immer'
 import { print } from 'graphql/language/printer'
 
 import { info } from '../utils'
-import { upsertConfigWithMigration } from './hasura-migrations'
 import { CollectionSettings, TableInformation } from './types'
 import { Database } from '../types'
 
