@@ -147,6 +147,7 @@
 - [ ] online demo(s)?
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
 - [ ] packages: update README.md
+- [ ] https://stackoverflow.com/questions/57927115/anyone-know-a-way-to-delete-a-workflow-from-github-actions/65374631#65374631
 
 ## Next
 
