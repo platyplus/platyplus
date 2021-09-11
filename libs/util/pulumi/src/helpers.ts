@@ -18,17 +18,16 @@ export const getNameSpace = (
   namespace: string
 ): kubernetes.core.v1.Namespace => {
   if (!registeredNamespaces[`${provider.urn}.${namespace}`]) {
-    registeredNamespaces[
-      `${provider.urn}.${namespace}`
-    ] = new kubernetes.core.v1.Namespace(
-      namespace,
-      {
-        metadata: {
-          name: namespace
-        }
-      },
-      { provider }
-    )
+    registeredNamespaces[`${provider.urn}.${namespace}`] =
+      new kubernetes.core.v1.Namespace(
+        namespace,
+        {
+          metadata: {
+            name: namespace
+          }
+        },
+        { provider }
+      )
   }
   return registeredNamespaces[`${provider.urn}.${namespace}`]
 }

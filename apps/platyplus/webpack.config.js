@@ -31,7 +31,6 @@ module.exports = (config, context) => {
       new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
-        exclude: ['stats.json'],
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024 // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
       })
     )

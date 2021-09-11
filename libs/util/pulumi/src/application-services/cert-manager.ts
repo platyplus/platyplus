@@ -35,8 +35,7 @@ export const certManager = (
   const crds = new kubernetes.yaml.ConfigFile(
     'cert-manager-crds',
     {
-      file:
-        'https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml',
+      file: 'https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml',
       resourcePrefix: parentName
     },
     { provider }
@@ -51,7 +50,7 @@ export const certManager = (
       },
       type: 'Opaque',
       data: {
-        'digitalocean.token': apiToken.apply(token =>
+        'digitalocean.token': apiToken.apply((token) =>
           Buffer.from(token).toString('base64')
         )
       }
@@ -89,7 +88,7 @@ export const certManager = (
   )
 
   ns.metadata.name.apply(
-    namespace =>
+    (namespace) =>
       new kubernetes.core.v1.Secret(
         childName(parentName, 'acme-crt-secret-mirror'),
         {

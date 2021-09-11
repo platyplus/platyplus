@@ -3,12 +3,9 @@
 .vercel
 .vscode
 *.log
-apps/*/helm
+libs
 charts
-dist
-documentation
-infrastructure
-migrate
+# dist
 node_modules
 tilt_modules
 Tiltfile

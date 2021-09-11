@@ -1,7 +1,7 @@
 ARG TAG=latest
 FROM hasura/graphql-engine:${TAG}.cli-migrations-v3
-COPY metadata /hasura-metadata
-COPY migrations /platyplus-migrations
+COPY apps/hasura/metadata /hasura-metadata
+COPY apps/hasura/migrations /platyplus-migrations
 ENV HASURA_GRAPHQL_MIGRATIONS_DIR=/platyplus-migrations
 
 # * User should be able to use platyplus-hasura image

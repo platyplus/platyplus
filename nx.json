@@ -22,6 +22,19 @@
     }
   },
   "projects": {
+    "apps-hasura": {
+      "tags": []
+    },
+    "charts-hasura": {
+      "tags": []
+    },
+    "charts-hasura-backend-plus": {
+      "tags": [],
+      "implicitDependencies": ["charts-hasura"]
+    },
+    "charts-standard-service": {
+      "tags": []
+    },
     "data-access-hasura-client": {
       "tags": []
     },
@@ -72,16 +85,6 @@
       "tags": []
     },
     "util-ts-types": {
-      "tags": []
-    },
-    "charts-hasura": {
-      "tags": []
-    },
-    "charts-hasura-backend-plus": {
-      "tags": [],
-      "implicitDependencies": ["charts-hasura"]
-    },
-    "charts-standard-service": {
       "tags": []
     }
   },

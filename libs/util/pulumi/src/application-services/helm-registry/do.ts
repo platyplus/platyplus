@@ -78,7 +78,7 @@ export const digitalOceanHelmRegistry = (
               annotations: {
                 'kubernetes.io/tls-acme': 'true'
               },
-              hosts: domain.map(d => {
+              hosts: domain.map((d) => {
                 const host: Record<string, unknown> = {
                   name: `${name}.${d.name}`,
                   path: '/'

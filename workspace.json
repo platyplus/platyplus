@@ -21,17 +21,45 @@
     }
   },
   "projects": {
+    "apps-hasura": {
+      "root": "apps/hasura",
+      "sourceRoot": "apps/hasura",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/docker-build.sh hasura"
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master"
+          }
+        }
+      }
+    },
     "charts-hasura": {
       "root": "charts/hasura",
       "sourceRoot": "charts/hasura",
       "projectType": "library",
       "targets": {
-        "build": {
-          "builder": "@nrwl/workspace:run-commands",
+        "prepare": {
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "commands": ["helm dependencies update ."],
-            "cwd": "charts/hasura",
+            "command": "helm dependency build charts/hasura",
             "parallel": false
+          }
+        },
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm package charts/hasura -u -d dist/charts/hasura",
+            "parallel": false
+          },
+          "configurations": {
+            "production": {}
           }
         },
         "version": {
@@ -44,12 +72,21 @@
       "sourceRoot": "charts/hasura-backend-plus",
       "projectType": "library",
       "targets": {
-        "build": {
-          "builder": "@nrwl/workspace:run-commands",
+        "prepare": {
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "commands": ["helm dependencies update ."],
-            "cwd": "charts/hasura-backend-plus",
+            "command": "helm dependency update charts/hasura-backend-plus",
             "parallel": false
+          }
+        },
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm package charts/hasura-backend-plus -u -d dist/charts/hasura-backend-plus",
+            "parallel": false
+          },
+          "configurations": {
+            "production": {}
           }
         },
         "version": {
@@ -62,12 +99,21 @@
       "sourceRoot": "charts/standard-service",
       "projectType": "library",
       "targets": {
-        "build": {
-          "builder": "@nrwl/workspace:run-commands",
+        "prepare": {
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "commands": ["helm dependencies update ."],
-            "cwd": "charts/standard-service",
+            "command": "helm dependency update charts/standard-service",
             "parallel": false
+          }
+        },
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm package charts/standard-service -u -d dist/charts/standard-service",
+            "parallel": false
+          },
+          "configurations": {
+            "production": {}
           }
         },
         "version": {
@@ -105,7 +151,8 @@
             "lintFilePatterns": [
               "libs/data-access/hasura-client/**/*.{ts,tsx,js,jsx}"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -118,9 +165,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -153,7 +198,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/data-access/hbp/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -166,9 +212,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -203,7 +247,8 @@
             "lintFilePatterns": [
               "libs/data-access/react-rxdb-hasura/**/*.{ts,tsx,js,jsx}"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -216,9 +261,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -253,7 +296,8 @@
             "lintFilePatterns": [
               "libs/data-access/rxdb-hasura/**/*.{ts,tsx,js,jsx}"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -266,9 +310,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -305,7 +347,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/infrastructure/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -318,9 +361,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -330,7 +371,7 @@
       "sourceRoot": "apps/platyplus/src",
       "projectType": "application",
       "targets": {
-        "build": {
+        "build-webpack": {
           "executor": "@nrwl/web:build",
           "outputs": ["{options.outputPath}"],
           "options": {
@@ -372,6 +413,21 @@
             }
           }
         },
+        "build": {
+          "dependsOn": [
+            {
+              "target": "build-webpack",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/docker-build.sh platyplus"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
@@ -387,7 +443,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/platyplus/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -400,9 +457,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -429,14 +484,13 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -469,7 +523,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/ui/app/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -482,9 +537,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -517,7 +570,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/ui/auth/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -530,9 +584,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -565,7 +617,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/ui/layout/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -578,9 +631,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -613,7 +664,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/ui/navigation/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -626,9 +678,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -661,7 +711,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/ui/profile/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -674,9 +725,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -709,7 +758,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/util/amqp/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -722,9 +772,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -757,7 +805,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/util/data/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -770,9 +819,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -807,7 +854,8 @@
             "lintFilePatterns": [
               "libs/util/jsonata-schema/**/*.{ts,tsx,js,jsx}"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -820,9 +868,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -836,7 +882,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/util/pulumi/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -860,9 +907,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }
@@ -895,7 +940,8 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/util/ts-types/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -908,9 +954,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "syncVersions": false,
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "baseBranch": "master"
           }
         }
       }

@@ -11,7 +11,7 @@ export const digitalOceanIngress = (
   options: IngressOptions
 ): { ingressIp: pulumi.Output<string> } => {
   const domain = options.domain
-  const domainsResources = domain.map(d => {
+  const domainsResources = domain.map((d) => {
     return {
       ...d,
       resource: new Domain(d.name, {
@@ -28,7 +28,7 @@ export const digitalOceanIngress = (
   )
 
   const ingressIp = namespace.metadata.name.apply(
-    ns =>
+    (ns) =>
       ingressChart.getResource(
         'v1/Service',
         ns,
