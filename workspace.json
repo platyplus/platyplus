@@ -24,22 +24,33 @@
     "hasura": {
       "root": "apps/hasura",
       "sourceRoot": "apps/hasura",
-      "projectType": "library",
+      "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh build hasura"
-          },
-          "configurations": {
-            "production": {}
           }
         },
-        "deploy": {
+        "publish-docker": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh push hasura"
           }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "publish-docker",
+              "projects": "self"
+            }
+          ]
         },
         "version": {
           "executor": "@jscutlery/semver:version",
@@ -52,7 +63,7 @@
     "charts-hasura": {
       "root": "charts/hasura",
       "sourceRoot": "charts/hasura",
-      "projectType": "library",
+      "projectType": "application",
       "targets": {
         "prepare": {
           "executor": "@nrwl/workspace:run-commands",
@@ -61,7 +72,7 @@
             "parallel": false
           }
         },
-        "deploy": {
+        "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "helm push charts/hasura platydev"
@@ -75,7 +86,7 @@
     "charts-hasura-backend-plus": {
       "root": "charts/hasura-backend-plus",
       "sourceRoot": "charts/hasura-backend-plus",
-      "projectType": "library",
+      "projectType": "application",
       "targets": {
         "prepare": {
           "executor": "@nrwl/workspace:run-commands",
@@ -84,7 +95,7 @@
             "parallel": false
           }
         },
-        "deploy": {
+        "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "helm push charts/hasura-backend-plus platydev"
@@ -98,7 +109,7 @@
     "charts-standard-service": {
       "root": "charts/standard-service",
       "sourceRoot": "charts/standard-service",
-      "projectType": "library",
+      "projectType": "application",
       "targets": {
         "prepare": {
           "executor": "@nrwl/workspace:run-commands",
@@ -107,7 +118,7 @@
             "parallel": false
           }
         },
-        "deploy": {
+        "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "helm push charts/standard-service platydev"
@@ -324,20 +335,16 @@
             "outputPath": "dist/apps/infrastructure",
             "main": "apps/infrastructure/index.ts",
             "tsConfig": "apps/infrastructure/tsconfig.app.json",
-            "assets": []
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/infrastructure/environments/environment.ts",
-                  "with": "apps/infrastructure/environments/environment.prod.ts"
-                }
-              ]
-            }
+            "assets": [],
+            "optimization": true,
+            "extractLicenses": true,
+            "inspect": false,
+            "fileReplacements": [
+              {
+                "replace": "apps/infrastructure/environments/environment.ts",
+                "with": "apps/infrastructure/environments/environment.prod.ts"
+              }
+            ]
           }
         },
         "lint": {
@@ -379,35 +386,30 @@
             "polyfills": "apps/platyplus/src/polyfills.ts",
             "tsConfig": "apps/platyplus/tsconfig.app.json",
             "assets": ["apps/platyplus/src/assets"],
-            "statsJson": true,
             "styles": [],
             "scripts": [],
-            "webpackConfig": "apps/platyplus/webpack.config.js"
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/platyplus/src/environments/environment.ts",
-                  "with": "apps/platyplus/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "statsJson": false,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
-            }
+            "webpackConfig": "apps/platyplus/webpack.config.js",
+            "fileReplacements": [
+              {
+                "replace": "apps/platyplus/src/environments/environment.ts",
+                "with": "apps/platyplus/src/environments/environment.prod.ts"
+              }
+            ],
+            "optimization": true,
+            "statsJson": false,
+            "outputHashing": "all",
+            "sourceMap": false,
+            "extractCss": true,
+            "namedChunks": false,
+            "extractLicenses": true,
+            "vendorChunk": true,
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }
+            ]
           }
         },
         "build": {
@@ -420,26 +422,32 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh build platyplus"
-          },
-          "configurations": {
-            "production": {}
           }
         },
-        "deploy": {
+        "publish-docker": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh push platyplus"
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "publish-docker",
+              "projects": "self"
+            }
+          ]
+        },
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
             "buildTarget": "platyplus:build"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "platyplus:build:production"
-            }
           }
         },
         "lint": {
@@ -476,11 +484,6 @@
             "cypressConfig": "apps/platyplus-e2e/cypress.json",
             "tsConfig": "apps/platyplus-e2e/tsconfig.e2e.json",
             "devServerTarget": "platyplus:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "platyplus:serve:production"
-            }
           }
         },
         "lint": {

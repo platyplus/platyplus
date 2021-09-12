@@ -4,7 +4,10 @@
       "dependencies": "*",
       "devDependencies": "*"
     },
-    ".eslintrc.json": "*"
+    ".eslintrc.json": "*",
+    "tools/nginx.conf": "*",
+    "tools/executors/helm/**/*": "*",
+    "tools/executors/docker.sh": "*"
   },
   "affected": {
     "defaultBase": "master"

@@ -1,8 +1,10 @@
-name: Latest commit on master
+name: Latest push on master
 on:
   push:
     branches:
-      - master # TODO filter pushes with tags - handled in another workflow
+      - master
+    tags-ignore:
+      - '**' # TODO * pushes with tags - handled in the release workflow
 jobs:
   nx:
     name: Nx lint,build,deploy
@@ -14,14 +16,6 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: '14'
-      - name: Install Helm & Push plugin
-        run: |
-          sudo snap install helm --classic
-          helm plugin install https://github.com/chartmuseum/helm-push.git
-          helm repo add platydev https://charts.platy.dev --username "$CHARTMUSEUM_USER" --password "$CHARTMUSEUM_PASSWORD"
-        env:
-          CHARTMUSEUM_USER: ${{ secrets.CHARTMUSEUM_USER }}
-          CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
@@ -38,20 +32,11 @@ jobs:
         uses: mansagroup/nrwl-nx-action@v2
         with:
           targets: lint
-          projects: platyplus
           nxCloud: 'true'
-      - name: Build
+      - name: Publish
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: build
-          projects: hasura,platyplus
-          nxCloud: 'true'
-          args: --configuration=production
-      - name: Deploy
-        uses: mansagroup/nrwl-nx-action@v2
-        with:
-          targets: deploy
-          projects: hasura,platyplus,charts-hasura,charts-hasura-backend-plus,charts-standard-service
+          targets: publish-docker
           nxCloud: 'true'
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}

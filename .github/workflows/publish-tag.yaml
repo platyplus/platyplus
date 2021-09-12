@@ -1,0 +1,43 @@
+name: Publish artifacts on tag
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '**'
+jobs:
+  nx:
+    name: Nx lint, build, deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install NodeJS
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - name: Install Helm & Push plugin
+        run: |
+          sudo snap install helm --classic
+          helm plugin install https://github.com/chartmuseum/helm-push.git
+          helm repo add platydev https://charts.platy.dev --username "$CHARTMUSEUM_USER" --password "$CHARTMUSEUM_PASSWORD"
+        env:
+          CHARTMUSEUM_USER: ${{ secrets.CHARTMUSEUM_USER }}
+          CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install NodeJS packages
+        run: yarn
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Lint, publish
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: lint,publish
+          nxCloud: 'true'
