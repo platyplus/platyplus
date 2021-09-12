@@ -48,4 +48,5 @@ jobs:
         env:
           TEST_ENV: TEST_ENV_VALUE
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          TEST_ENV_END: TEST_ENV_VALUE_END
