@@ -438,6 +438,9 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh build platyplus"
+          },
+          "configurations": {
+            "production": {}
           }
         },
         "deploy": {
