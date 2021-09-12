@@ -46,4 +46,11 @@ jobs:
         uses: mansagroup/nrwl-nx-action@v2
         with:
           targets: publish
+          all: 'true'
+          # TODO Check version before publish so it avoids to try to publish already existing version.
+          # * done: NPM
+          # TODO  : Docker, Helm Charts?
+          # TODO -----------------------------------------------------------
+          # TODO ----> OR: pass on 'projects' through the git tags???? <----
+          # TODO -----------------------------------------------------------
           nxCloud: 'true'

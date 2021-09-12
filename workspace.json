@@ -45,6 +45,10 @@
           }
         },
         "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": ":"
+          },
           "dependsOn": [
             {
               "target": "publish-docker",
@@ -153,6 +157,18 @@
             ]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh data-access/hasura-client"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -202,6 +218,18 @@
             ]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh data-access/hbp"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -247,6 +275,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh data-access/react-rxdb-hasura"
           }
         },
         "lint": {
@@ -296,6 +336,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh data-access/rxdb-hasura"
           }
         },
         "lint": {
@@ -437,6 +489,10 @@
           }
         },
         "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": ":"
+          },
           "dependsOn": [
             {
               "target": "publish-docker",
@@ -525,6 +581,18 @@
             ]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh ui/app"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -570,6 +638,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh ui/auth"
           }
         },
         "lint": {
@@ -619,6 +699,18 @@
             ]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh ui/layout"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -664,6 +756,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh ui/navigation"
           }
         },
         "lint": {
@@ -713,6 +817,18 @@
             ]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh ui/profile"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -758,6 +874,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh util/amqp"
           }
         },
         "lint": {
@@ -807,6 +935,18 @@
             ]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh util/data"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -852,6 +992,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh util/jsonata-schema"
           }
         },
         "lint": {
@@ -910,6 +1062,18 @@
             "assets": ["libs/util/pulumi/*.md"]
           }
         },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh util/pulumi"
+          }
+        },
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
@@ -940,6 +1104,18 @@
                 "output": "."
               }
             ]
+          }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/npm-publish.sh util/ts-types"
           }
         },
         "lint": {
