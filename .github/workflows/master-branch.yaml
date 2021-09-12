@@ -5,7 +5,7 @@ on:
       - master # TODO filter pushes with tags - handled in another workflow
 jobs:
   nx:
-    name: Nx lint,build
+    name: Nx lint,build,deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
