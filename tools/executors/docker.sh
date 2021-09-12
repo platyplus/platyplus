@@ -22,12 +22,14 @@ case $1 in
     fi
     ;;
   "push") 
-    docker push --all-tags $REPOSITORY
+  # TODO uncomment
+    # docker push --all-tags $REPOSITORY
     # TODO description from package.json
+    # PACKAGE_VERSION=$(jq -r '.description // "" | select(. != "") // ""' package.json)
     DESCRIPTION=$2
     docker run -v $PWD/$WORKING_DIR:/workspace \
-      -e DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME \
-      -e DOCKERHUB_PASSWORD=$DOCKERHUB_TOKEN \
+      -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
+      -e DOCKERHUB_PASSWORD="$DOCKERHUB_TOKEN" \
       -e DOCKERHUB_REPOSITORY=$REPOSITORY \
       -e README_FILEPATH='/workspace/README.md' \
       -e SHORT_DESCRIPTION=$DESCRIPTION \
