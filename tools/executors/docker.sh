@@ -18,7 +18,7 @@ case $1 in
     ;;
   "push") 
     docker push --all-tags $REPOSITORY
-    DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' package.json)
+    DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' $WORKING_DIR/package.json)
     docker run -v $PWD/$WORKING_DIR:/workspace \
       -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
       -e DOCKERHUB_PASSWORD="$DOCKERHUB_PASSWORD" \
