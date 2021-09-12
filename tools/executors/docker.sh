@@ -8,11 +8,7 @@ DOCKERFILE=$WORKING_DIR/Dockerfile
 VERSION=$(git describe --tags HEAD | grep charts-$2@ | awk -F @ '{ print v$2 }')
 REPOSITORY=$ORG/$2
 LATEST_TAG=$REPOSITORY:latest
-env
-echo $TEST_ENV
-echo $DOCKERHUB_USERNAME
-echo $DOCKERHUB_TOKEN
-echo $TEST_ENV_END
+
 
 case $1 in
   "build") 
@@ -22,14 +18,18 @@ case $1 in
     fi
     ;;
   "push") 
-  # TODO uncomment
+    echo $TEST_ENV
+    echo $DOCKERHUB_USERNAME
+    echo $DOCKERHUB_PASSWORD
+    echo $TEST_ENV_END
+    # TODO uncomment
     # docker push --all-tags $REPOSITORY
     # TODO description from package.json
     # PACKAGE_VERSION=$(jq -r '.description // "" | select(. != "") // ""' package.json)
     DESCRIPTION=$2
     docker run -v $PWD/$WORKING_DIR:/workspace \
       -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
-      -e DOCKERHUB_PASSWORD="$DOCKERHUB_TOKEN" \
+      -e DOCKERHUB_PASSWORD="$DOCKERHUB_PASSWORD" \
       -e DOCKERHUB_REPOSITORY=$REPOSITORY \
       -e README_FILEPATH='/workspace/README.md' \
       -e SHORT_DESCRIPTION=$DESCRIPTION \
