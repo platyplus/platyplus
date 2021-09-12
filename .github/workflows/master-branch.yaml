@@ -16,7 +16,7 @@ jobs:
           node-version: '14'
       - name: Install Helm & Push plugin
         run: |
-          sudo apt-get -y install helm
+          sudo snap install helm --classic
           helm plugin install https://github.com/chartmuseum/helm-push.git
           helm repo add platydev https://charts.platy.dev --username "$CHARTMUSEUM_USER" --password "$CHARTMUSEUM_USER"
         env:
