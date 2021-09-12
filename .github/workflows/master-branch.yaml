@@ -44,7 +44,7 @@ jobs:
         uses: mansagroup/nrwl-nx-action@v2
         with:
           targets: build
-          projects: hasura,platyplus,charts-hasura,charts-hasura-backend-plus,charts-standard-service
+          projects: hasura,platyplus
           nxCloud: 'true'
           args: --configuration=production
       - name: Deploy

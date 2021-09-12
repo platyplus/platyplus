@@ -61,20 +61,10 @@
             "parallel": false
           }
         },
-        "build": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm package charts/hasura -u -d dist/charts/hasura",
-            "parallel": false
-          },
-          "configurations": {
-            "production": {}
-          }
-        },
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push --force dist/charts/hasura-*.tgz platydev"
+            "command": "helm push --force charts/hasura/ platydev"
           }
         },
         "version": {
@@ -94,20 +84,10 @@
             "parallel": false
           }
         },
-        "build": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm package charts/hasura-backend-plus -u -d dist/charts/hasura-backend-plus",
-            "parallel": false
-          },
-          "configurations": {
-            "production": {}
-          }
-        },
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push --force dist/charts/hasura-backend-plus-*.tgz platydev"
+            "command": "helm push --force charts/hasura-backend-plus/ platydev"
           }
         },
         "version": {
@@ -127,20 +107,10 @@
             "parallel": false
           }
         },
-        "build": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm package charts/standard-service -u -d dist/charts/standard-service",
-            "parallel": false
-          },
-          "configurations": {
-            "production": {}
-          }
-        },
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push --force dist/charts/standard-service-*.tgz platydev"
+            "command": "helm push --force charts/standard-service/ platydev"
           }
         },
         "version": {
