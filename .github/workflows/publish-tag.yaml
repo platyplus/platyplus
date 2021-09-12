@@ -36,8 +36,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Lint, publish
+      - name: Lint
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: lint,publish
+          targets: lint
+          all: 'true'
+          parallel: 'true'
+      - name: Publish
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: publish
           nxCloud: 'true'

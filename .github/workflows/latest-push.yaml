@@ -28,17 +28,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Lint
-      #   uses: mansagroup/nrwl-nx-action@v2
-      #   with:
-      #     targets: lint
-      #     all: 'true'
-      #     parallel: 'true'
+      - name: Lint
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: lint
+          all: 'true'
+          parallel: 'true'
       - name: Publish
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: lint,publish-docker
-          affected: 'true'
+          targets: publish-docker
+          all: 'true'
           nxCloud: 'true'
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
