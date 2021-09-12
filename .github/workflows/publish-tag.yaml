@@ -2,9 +2,9 @@ name: Publish artifacts on tag
 on:
   push:
     branches:
-      - master
+      - '!*'
     tags:
-      - '**'
+      - '*'
 jobs:
   nx:
     name: Nx lint, build, deploy
