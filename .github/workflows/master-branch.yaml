@@ -26,9 +26,22 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Run Nx
+      - name: Lint
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: lint,build:production,deploy
+          targets: lint
+          projects: platyplus
+          nxCloud: 'true'
+      - name: Build
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: build
+          projects: hasura,platyplus
+          nxCloud: 'true'
+          args: --configuration=production
+      - name: Deploy
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: deploy
           projects: hasura,platyplus
           nxCloud: 'true'

@@ -26,10 +26,6 @@
       "sourceRoot": "apps/hasura",
       "projectType": "library",
       "targets": {
-        "lint": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": { "command": "echo \"no linting yet for this project\"" }
-        },
         "build": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
@@ -42,7 +38,7 @@
         "deploy": {
           "dependsOn": [
             {
-              "target": "build:production",
+              "target": "build",
               "projects": "self"
             }
           ],
@@ -447,7 +443,7 @@
         "deploy": {
           "dependsOn": [
             {
-              "target": "build:production",
+              "target": "build",
               "projects": "self"
             }
           ],
