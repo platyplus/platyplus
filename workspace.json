@@ -71,6 +71,12 @@
             "production": {}
           }
         },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm push --force dist/charts/hasura-*.tgz platydev"
+          }
+        },
         "version": {
           "executor": "./tools/executors/helm:version"
         }
@@ -98,6 +104,12 @@
             "production": {}
           }
         },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm push --force dist/charts/hasura-backend-plus-*.tgz platydev"
+          }
+        },
         "version": {
           "executor": "./tools/executors/helm:version"
         }
@@ -123,6 +135,12 @@
           },
           "configurations": {
             "production": {}
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm push --force dist/charts/standard-service-*.tgz platydev"
           }
         },
         "version": {
