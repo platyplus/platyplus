@@ -7,7 +7,7 @@ on:
       - '**' # TODO * pushes with tags - handled in the release workflow
 jobs:
   nx:
-    name: Nx lint,build,deploy
+    name: Nx
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,15 +28,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Lint
-        uses: mansagroup/nrwl-nx-action@v2
-        with:
-          targets: lint
-          nxCloud: 'true'
+      # - name: Lint
+      #   uses: mansagroup/nrwl-nx-action@v2
+      #   with:
+      #     targets: lint
+      #     all: 'true'
+      #     parallel: 'true'
       - name: Publish
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: publish-docker
+          targets: lint,publish-docker
+          affected: 'true'
           nxCloud: 'true'
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
