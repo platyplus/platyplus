@@ -20,7 +20,7 @@ case $1 in
     docker push --all-tags $REPOSITORY
     # TODO description from package.json
     DESCRIPTION=$2
-    docker run -v $WORKING_DIR:/workspace \
+    docker run -v $PWD/$WORKING_DIR:/workspace \
       -e DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME \
       -e DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD \
       -e DOCKERHUB_REPOSITORY=$REPOSITORY \
