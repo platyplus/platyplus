@@ -25,11 +25,12 @@
       - [ ] update environment variables
     - [ ] Update Tilt extension
   - [ ] UI Toast warnings and errors
+- [ ] nx platyplus:version
 - [ ] Docker images
-  - [ ] GitHub action
-    - [ ] [docker hub description](https://github.com/marketplace/actions/docker-hub-description)
-  - [ ] Platyplus Hasura (include migrations + schema)
-  - [ ] Platyplus Nginx (nx build, GitHub action)
+  - [x] GitHub action
+    - [x] [docker hub description](https://github.com/marketplace/actions/docker-hub-description)
+  - [x] Platyplus Hasura (include migrations + schema)
+  - [x] Platyplus Nginx (nx build, GitHub action)
 - [ ] Helm Charts
   - [ ] GitHub action
   - [ ] Platyplus

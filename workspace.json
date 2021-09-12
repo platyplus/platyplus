@@ -36,12 +36,6 @@
           }
         },
         "deploy": {
-          "dependsOn": [
-            {
-              "target": "build",
-              "projects": "self"
-            }
-          ],
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh push hasura"
@@ -444,12 +438,6 @@
           }
         },
         "deploy": {
-          "dependsOn": [
-            {
-              "target": "build",
-              "projects": "self"
-            }
-          ],
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "./tools/executors/docker.sh push platyplus"

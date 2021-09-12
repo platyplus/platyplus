@@ -45,3 +45,6 @@ jobs:
           targets: deploy
           projects: hasura,platyplus
           nxCloud: 'true'
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
