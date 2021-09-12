@@ -46,5 +46,6 @@ jobs:
           projects: hasura,platyplus
           nxCloud: 'true'
         env:
+          TEST_ENV: TEST_ENV_VALUE
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}

@@ -8,6 +8,8 @@ DOCKERFILE=$WORKING_DIR/Dockerfile
 VERSION=$(git describe --tags HEAD | grep charts-$2@ | awk -F @ '{ print v$2 }')
 REPOSITORY=$ORG/$2
 LATEST_TAG=$REPOSITORY:latest
+env
+echo $TEST_ENV
 
 case $1 in
   "build") 
