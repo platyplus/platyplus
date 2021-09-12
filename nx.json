@@ -22,7 +22,7 @@
     }
   },
   "projects": {
-    "apps-hasura": {
+    "hasura": {
       "tags": []
     },
     "charts-hasura": {

@@ -21,7 +21,7 @@
     }
   },
   "projects": {
-    "apps-hasura": {
+    "hasura": {
       "root": "apps/hasura",
       "sourceRoot": "apps/hasura",
       "projectType": "library",
@@ -29,7 +29,19 @@
         "build": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "./tools/docker-build.sh hasura"
+            "command": "./tools/executors/docker.sh build hasura"
+          }
+        },
+        "deploy": {
+          "dependsOn": [
+            {
+              "target": "build:production",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh push hasura"
           }
         },
         "version": {
@@ -422,10 +434,19 @@
           ],
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "./tools/docker-build.sh platyplus"
-          },
-          "configurations": {
-            "production": {}
+            "command": "./tools/executors/docker.sh build platyplus"
+          }
+        },
+        "deploy": {
+          "dependsOn": [
+            {
+              "target": "build:production",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh push platyplus"
           }
         },
         "serve": {
