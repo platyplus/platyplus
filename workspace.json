@@ -64,7 +64,7 @@
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push --force charts/hasura/ platydev"
+            "command": "helm push charts/hasura platydev"
           }
         },
         "version": {
@@ -87,7 +87,7 @@
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push --force charts/hasura-backend-plus/ platydev"
+            "command": "helm push charts/hasura-backend-plus platydev"
           }
         },
         "version": {
@@ -110,7 +110,7 @@
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push --force charts/standard-service/ platydev"
+            "command": "helm push charts/standard-service platydev"
           }
         },
         "version": {
