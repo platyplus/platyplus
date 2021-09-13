@@ -42,3 +42,7 @@ Thumbs.db
 .local.env
 .helm
 .migrate
+
+# Generated Docusaurus files
+.docusaurus/
+.cache-loader/

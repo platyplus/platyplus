@@ -90,6 +90,9 @@
     },
     "util-ts-types": {
       "tags": []
+    },
+    "documentation": {
+      "tags": []
     }
   },
   "targetDependencies": {
