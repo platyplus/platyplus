@@ -1,5 +1,5 @@
 module.exports = {
-  onInit: ({ utils }) => {
+  onPreBuild: ({ utils }) => {
     const currentProject = process.env.PROJECT_NAME
     const lastDeployedCommit = process.env.CACHED_COMMIT_REF
     const latestCommit = process.env.COMMIT_REF
