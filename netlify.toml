@@ -1,2 +1,2 @@
-[build]
-  ignore = "./tools/project-changed.sh $PROJECT_NAME $CACHED_COMMIT_REF $COMMIT_REF"
+[[plugins]]
+package = "./tools/plugins/netlify/skip-build"
