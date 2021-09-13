@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'My Site',
+  title: 'Platyplus DevTools',
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
