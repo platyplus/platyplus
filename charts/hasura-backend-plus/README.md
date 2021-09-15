@@ -62,7 +62,7 @@ The following table lists the configurable parameters of the chart and their def
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
 | `imageConfig.repository`        |                                                                                                                                         | `nhost/hasura-backend-plus`                           |
 | `imageConfig.pullPolicy`        |                                                                                                                                         | `IfNotPresent`                                        |
-| `imageConfig.tag`               | Overrides the image tag                                                                                                                 | `latest`                                              |
+| `imageConfig.tag`               | Overrides the image tag                                                                                                                 | Chart.yaml appVersion                                 |
 | `ingress.enabled`               | Enable ingress controller resource                                                                                                      | `false`                                               |
 | `ingress.annotations`           | Ingress annotations                                                                                                                     | `[]`                                                  |
 | `ingress.labels`                | Ingress labels                                                                                                                          | `[]`                                                  |
@@ -204,6 +204,7 @@ hasura:
     keys: # Config map and secret keys
       endpoint: endpoint
       adminSecret: adminSecret
+      databaseUrl: databaseUrl
       jwt:
         key: jwt.key
         algorithm: jwt.algorithm

@@ -84,6 +84,25 @@ spec:
                   key: hasura.endpoint
               {{- end }}
             {{- end }}
+            - name: DATABASE_URL
+            {{- if .Values.connect.hasura.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.databaseUrl "context" $) }}"
+            {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-postgresql"
+                  key: databaseUrl
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: postgresql.databaseUrl
+              {{- end }}
+            {{- end }}
             - name: HASURA_GRAPHQL_ADMIN_SECRET
             {{- if .Values.connect.hasura.enabled }}
               valueFrom:

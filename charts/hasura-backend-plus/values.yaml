@@ -2,7 +2,7 @@ imageConfig:
   repository: nhost/hasura-backend-plus
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  # tag: latest
 
 ## Ingress for load balancer
 ingress:
@@ -147,7 +147,7 @@ minio:
   # secretKey:
   #   password: <minio-secret-key>
 connect:
-  hasura:
+  hasura: # connect to an hasura instance not managed by this chart, but in the same cluster
     enabled: false
     # configMap: '{{ .Release.Name }}-hasura'
     # secret: '{{ .Release.Name }}-hasura'
@@ -156,6 +156,7 @@ connect:
     keys:
       endpoint: endpoint
       adminSecret: adminSecret
+      databaseUrl: databaseUrl
       jwt:
         key: jwt.key
         algorithm: jwt.algorithm
@@ -163,9 +164,15 @@ connect:
           namespace: jwt.claims.namespace
 hasura:
   enabled: true
-  # If not enabled, set the following values to connect to an external instance:
+  postgresql:
+    initdbScripts:
+      hbp-init.sql: |
+        CREATE SCHEMA IF NOT EXISTS auth;
+        CREATE SCHEMA IF NOT EXISTS storage;
+  # If not enabled, set the following values to connect to an instance outside of the cluster:
   # endpoint: "https://my-hasura.com/v1/graphql"
   # adminSecret: "my-admin-secret"
+  # databaseUrl: "postgres://username:password@host:port/database"
   # Make also sure auth.jwt reflects your Hasura config
 
 replicaCount: 1
