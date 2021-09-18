@@ -29,6 +29,9 @@
     "hasura": {
       "tags": []
     },
+    "hasura-cli": {
+      "tags": []
+    },
     "charts-hasura": {
       "tags": []
     },

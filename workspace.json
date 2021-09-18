@@ -65,6 +65,50 @@
         }
       }
     },
+    "hasura-cli": {
+      "root": "apps/hasura-cli",
+      "sourceRoot": "apps/hasura-cli",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh build hasura-cli"
+          }
+        },
+        "publish-docker": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh push hasura-cli"
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": ":"
+          },
+          "dependsOn": [
+            {
+              "target": "publish-docker",
+              "projects": "self"
+            }
+          ]
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
+        }
+      }
+    },
     "charts-hasura": {
       "root": "charts/hasura",
       "sourceRoot": "charts/hasura",
