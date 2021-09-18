@@ -59,7 +59,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -189,7 +190,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -248,7 +250,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -309,7 +312,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -370,7 +374,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -417,7 +422,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -524,7 +530,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -552,7 +559,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -611,7 +619,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -670,7 +679,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -729,7 +739,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -788,7 +799,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -847,7 +859,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -906,7 +919,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -965,7 +979,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -1026,7 +1041,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -1077,7 +1093,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }
@@ -1136,7 +1153,8 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
           }
         }
       }

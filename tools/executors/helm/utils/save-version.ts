@@ -16,6 +16,7 @@ export const saveVersion = async ({
   const rawFile = await readFile(filePath, 'utf-8')
   const yamlFile = yaml.parse(rawFile)
   yamlFile.version = newVersion
-  if (!dryRun) await writeFile(filePath, yamlFile)
+  // TODO commit file
+  if (!dryRun) await writeFile(filePath, yaml.stringify(yamlFile))
   logger.info(`New Chart version in ${filePath}: ${yamlFile.version}`)
 }

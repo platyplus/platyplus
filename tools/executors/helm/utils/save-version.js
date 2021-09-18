@@ -55,7 +55,7 @@ var saveVersion = function (_a) {
                     yamlFile = yaml.parse(rawFile);
                     yamlFile.version = newVersion;
                     if (!!dryRun) return [3 /*break*/, 3];
-                    return [4 /*yield*/, promises_1.writeFile(filePath, yamlFile)];
+                    return [4 /*yield*/, promises_1.writeFile(filePath, yaml.stringify(yamlFile))];
                 case 2:
                     _c.sent();
                     _c.label = 3;
