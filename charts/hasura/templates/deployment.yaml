@@ -139,8 +139,6 @@ spec:
               value: "{{ .Values.events.batchSize | int }}"
             - name: HASURA_GRAPHQL_ASYNC_ACTIONS_FETCH_INTERVAL
               value: "{{ .Values.actions.async.fetchInterval | int }}"
-            - name: HASURA_GRAPHQL_PG_STRIPES
-              value: "{{ .Values.pgClient.stripes | int }}"
             - name: HASURA_GRAPHQL_PG_CONNECTIONS
               value: "{{ .Values.pgClient.connections | int }}"
             - name: HASURA_GRAPHQL_PG_TIMEOUT
@@ -149,8 +147,6 @@ spec:
               value: "{{ .Values.pgClient.preparedStatements }}"
             - name: HASURA_GRAPHQL_TX_ISOLATION
               value: "{{ .Values.pgClient.transactionIsolation }}"
-            - name: HASURA_GRAPHQL_NO_OF_RETRIES
-              value: "{{ .Values.pgClient.retries }}"
             - name: HASURA_GRAPHQL_PG_CONN_LIFETIME
               value: "{{ .Values.pgClient.lifetime }}"
             - name: HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES

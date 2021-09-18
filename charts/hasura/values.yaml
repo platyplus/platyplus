@@ -107,12 +107,10 @@ pgClient:
     database: hasura
     username: postgres
     password: null
-  stripes: 1
   connections: 50
   timeout: 180
   preparedStatements: true
   transactionIsolation: read-committed
-  retries: 1
   lifetime: 600
   stringifyNumericTypes: false
 
