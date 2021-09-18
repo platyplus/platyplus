@@ -106,7 +106,7 @@ imageConfig:
 postgresql:
   enabled: true
   image:
-    tag: 12.3.0
+    tag: 13.4-alpine
   postgresqlDatabase: hasura
   existingSecret: '{{ .Release.Name }}-postgresql'
   # postgresqlPassword: <secret-postgresql-password> # ! Also change the password with psql if you change this value !
