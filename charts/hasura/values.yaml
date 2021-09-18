@@ -41,6 +41,11 @@ console:
 
 unauthorizedRole: anonymous
 
+auth:
+  hook:
+    url: null
+    mode: GET
+
 cors:
   disable: false
   domain:
@@ -54,6 +59,45 @@ telemetry:
 events:
   poolSize: 100
   fetchInterval: 3000000
+  batchSize: 100
+
+actions:
+  async:
+    fetchInterval: 0
+
+remoteSchemas:
+  permissions:
+    enabled: false
+
+functions:
+  inferPermissions:
+    enabled: true
+
+metadata:
+  external: false
+  host: null
+  port: 5432
+  database: hasura
+  username: postgres
+  password: null
+
+schema:
+  sync:
+    poll: 1000
+
+experimental:
+  - inherited_roles
+
+gracefulShutdownInterval: 60
+
+maintenanceMode:
+  enabled: false
+
+websocket:
+  compression:
+    enabled: false
+  keepAlive: 5
+  initTimeout: 3
 
 pgClient:
   external:
@@ -68,6 +112,8 @@ pgClient:
   timeout: 180
   preparedStatements: true
   transactionIsolation: read-committed
+  retries: 1
+  lifetime: 600
   stringifyNumericTypes: false
 
 enabledApis:
@@ -106,7 +152,7 @@ imageConfig:
 postgresql:
   enabled: true
   image:
-    tag: 13.4-alpine
+    tag: 13.4.0
   postgresqlDatabase: hasura
   existingSecret: '{{ .Release.Name }}-postgresql'
   # postgresqlPassword: <secret-postgresql-password> # ! Also change the password with psql if you change this value !
