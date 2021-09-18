@@ -7,6 +7,17 @@ import useBaseUrl from '@docusaurus/useBaseUrl'
 import styles from './styles.module.css'
 
 const features = [
+  /* // TODO
+- Offline-first
+- 'Isomorphic' - define schema, permissions etc in one single place and make it work both backend and frontend
+- Hasura
+- soft-delete
+- real-time
+- ACID / relational
+- Cloud friendly - Kubernetes, Docker
+- Extensible - custom components
+- open-source / no vendor lockin
+*/
   {
     title: 'Easy to Use',
     imageUrl: 'img/undraw_docusaurus_mountain.svg',

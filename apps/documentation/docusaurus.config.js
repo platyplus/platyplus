@@ -1,30 +1,34 @@
 module.exports = {
-  title: 'Platyplus DevTools',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Platyplus',
+  tagline: 'Offline-first, realtime headless CMS based on Hasura',
+  url: 'https://platy.plus',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'platyplus', // Usually your GitHub org/user name.
+  projectName: 'platydev', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'Platyplus',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg'
+        alt: 'Platyplus Logo',
+        src: 'img/logo.png'
       },
       items: [
         {
           to: 'docs/',
           activeBasePath: 'docs',
-          label: 'Docs',
+          label: 'Documentation',
           position: 'left'
         },
-        { to: 'blog', label: 'Blog', position: 'left' },
+        // TODO
+        // { to: 'api', label: 'API', position: 'left' },
+        // { to: 'blog', label: 'Blog', position: 'left' },
+        // { to: 'demo', label: 'Demo', position: 'left' },
+        // { to: 'community', label: 'Community', position: 'left' },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/platyplus/platydev',
           label: 'GitHub',
           position: 'right'
         }
@@ -34,50 +38,54 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/'
+              label: 'Introduction',
+              to: 'docs/guide/'
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2/'
+              label: 'Installation',
+              to: 'docs/guide/'
+            },
+            {
+              label: 'Features',
+              to: 'docs/features/'
             }
           ]
         },
         {
           title: 'Community',
           items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus'
-            },
+            // {
+            //   label: 'Stack Overflow',
+            //   href: 'https://stackoverflow.com/questions/tagged/platyplus'
+            // },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus'
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus'
+              href: 'https://discord.gg/AtQ5bNTQ'
             }
+            // {
+            //   label: 'Twitter',
+            //   href: 'https://twitter.com/docusaurus'
+            // }
           ]
         },
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: 'blog'
-            },
+            // {
+            //   label: 'Blog',
+            //   to: 'blog'
+            // },
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus'
+              href: 'https://github.com/platyplus/platydev'
             }
           ]
         }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`
+      copyright: `Copyright © ${new Date().getFullYear()} Platyplus, Inc. Built with Docusaurus.`
     },
     colorMode: {
       respectPrefersColorScheme: true
@@ -85,19 +93,22 @@ module.exports = {
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      '@docusaurus/preset-classic', // ? refine ?
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/'
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
+          sidebarCollapsed: false,
+          sidebarCollapsible: false,
+          include: ['**/*.{md,mdx}'],
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+            'https://github.com/platyplus/platydev/edit/master/apps/documentation/'
         },
+        // blog: {
+        //   showReadingTime: true,
+        //   // Please change this to your repo.
+        //   editUrl:
+        //     'https://github.com/platyplus/platydev/edit/master/apps/documentation/blog/'
+        // },
         theme: {
           customCss: require.resolve('./src/css/custom.css')
         }

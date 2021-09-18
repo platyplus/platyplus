@@ -1,3 +1,9 @@
+---
+id: configuration
+title: Configuration
+sidebar_label: Configuration
+---
+
 ## Create a table
 
 ### Create the system columns
@@ -45,13 +51,13 @@ Although the following indexes are not mandatory, they are strongly recommended 
 
 You have to make sure the desired roles have read access to system columns.
 
-| name           | select | insert                                    | update                                           | delete |
-| -------------- | ------ | ----------------------------------------- | ------------------------------------------------ | ------ |
-| id             | yes    | if the role is allowed to create a record | never                                            | never  |
-| updated_at     | yes    | never                                     | never                                            | never  |
-| deleted        | yes    | never                                     | if the role is allowed to soft delete the record | never  |
-| \<other>       |        |                                           |                                                  |        |
-| \<relation_id> |        |                                           |                                                  |        |
+| name          | select | insert                                    | update                                           | delete |
+| ------------- | ------ | ----------------------------------------- | ------------------------------------------------ | ------ |
+| id            | yes    | if the role is allowed to create a record | never                                            | never  |
+| updated_at    | yes    | never                                     | never                                            | never  |
+| deleted       | yes    | never                                     | if the role is allowed to soft delete the record | never  |
+| {other}       |        |                                           |                                                  |        |
+| {relation_id} |        |                                           |                                                  |        |
 
 ### Additional configuration
 

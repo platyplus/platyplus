@@ -1,9 +1,10 @@
 ---
-id: mdx
-title: Powered by MDX
+id: readme
+title: Readme
+hide_title: true
 ---
 
-You can write JSX and use React components within your Markdown thanks to [MDX](https://mdxjs.com/).
+import README from '../../platyplus/README.md';
 
 export const Highlight = ({children, color}) => ( <span style={{
       backgroundColor: color,
@@ -12,6 +13,8 @@ export const Highlight = ({children, color}) => ( <span style={{
       padding: '0.2rem',
     }}> {children} </span> );
 
+<README />
+You can write JSX and use React components within your Markdown thanks to [MDX](https://mdxjs.com/).
 <Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
 
 I can write **Markdown** alongside my _JSX_!

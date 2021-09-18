@@ -1,4 +1,8 @@
-# Roadmap
+---
+id: todo
+title: To do list
+sidebar_label: To do list
+---
 
 ## MVP
 
@@ -12,26 +16,23 @@
       - [ ] no action - idem
       - [ ] set default - only when default exists or columns are nullable
     - [ ] onUpdate
-    - bug on validating form with a required many2one field: is it related?
+    - [ ] bug on validating form with a required many2one field: is it related?
+  - [ ] bug: refetch the entire collection when new columns/relationships are added
   - [ ] canSave: validate data
     - [ ] only when fk constraints allow it
     - [ ] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-  - [ ] improve login/register errors and validation
-  - [ ] Hasura 2
-    - [ ] bug: refetch the entire collection when new columns/relationships are added
-    - [ ] update Helm chart
-      - [ ] update to PostgreSQL 13
-      - [ ] update environment variables
-    - [ ] Update Tilt extension
+  - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
 - [ ] nx platyplus:version
-- [ ] Helm Charts
-  - [ ] GitHub action
-  - [ ] Platyplus
-  - [ ] Hasura Auth
-    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platydev/hasura-backend-plus?modal=security-report
-- [ ] Hasura Auth Tilt extension
+- [ ] Hasura 2
+  - [ ] update Helm chart
+    - [ ] update to PostgreSQL 13
+    - [ ] adapt environment variables
+  - [ ] Update Tilt extension
+    - [ ] upgrade hasura version
+    - [ ] custom hasura `image` param
+- [ ] Platyplus Helm Chart
 - [ ] Documentation
   - [ ] Docusaurus
   - [ ] GitHub Action
@@ -54,10 +55,15 @@
     - [ ] readme for every Helm chart
     - [ ] readme for evey NPM package
     - [ ] contribute
+  - [ ] boilerplate / template project (tilt/docker-compose)
 - [ ] make everything work with Pulumi
 
 ## MVP 2
 
+- [ ] Hasura Auth
+  - [ ] Helm chart
+    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platydev/hasura-backend-plus?modal=security-report
+  - [ ] Tilt extension
 - Application
   - [ ] reset/change password
   - [ ] avatar picker (image-url component)
