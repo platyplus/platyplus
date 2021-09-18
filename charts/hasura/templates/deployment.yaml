@@ -1,4 +1,8 @@
 {{- $fullname := include "hasura.fullname" . -}}
+{{- $host := ternary (printf "%s-postgresql" .Release.Name) .Values.pgClient.external.host .Values.postgresql.enabled  -}}
+{{- $port := (coalesce .Values.postgresql.servicePort .Values.pgClient.external.port 5432) | int -}}
+{{- $metadata_host := ternary .Values.metadata.host $host .Values.metadata.external  -}}
+{{- $metadata_port := ternary .Values.metadata.port $port .Values.metadata.external  -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,12 +35,22 @@ spec:
       serviceAccountName: {{ include "hasura.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{/*
-      # initContainers:
-      #   - name: wait-postgres
-      #     image: busybox:1.28
-      #     command: ['sh', '-c', "until nc -z {{ .Release.Name }}-postgresql {{ .Values.postgresql.servicePort |int }}; do echo en attente de postgresql; sleep 2; done"]
-      */}}
+      initContainers:
+        - name: wait-postgres
+          image: busybox:1.33.1
+          command:
+            - 'sh'
+            - '-c'
+            - "until nc -z $DB_HOST $DB_PORT && nc -z $METADATA_HOST $METADATA_PORT; do echo \"waiting for database and/or metadata db\"; sleep 1; done"
+          env:
+            - name: DB_HOST
+              value: "{{ $host }}"
+            - name: DB_PORT
+              value: "{{ $port | int }}"
+            - name: METADATA_HOST
+              value: "{{ $metadata_host }}"
+            - name: METADATA_PORT
+              value: "{{ $metadata_port | int }}"
       volumes:
         - name: hasura-migrations
           configMap:
