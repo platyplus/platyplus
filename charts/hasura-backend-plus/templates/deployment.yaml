@@ -77,6 +77,24 @@ spec:
                   key: hasura.endpoint
               {{- end }}
             {{- end }}
+        {{- if .Values.connect.hasura.enabled }}
+        - name: update-postgresql
+          image: jbergknoff/postgresql-client
+          args: ["$(DATABASE_URL)"]
+          command:
+            - "psql"
+            - "-c"
+            - |
+              CREATE SCHEMA IF NOT EXISTS auth;
+              CREATE SCHEMA IF NOT EXISTS storage; 
+              ALTER DATABASE hasura SET search_path = auth;
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.postgresql.secret "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.databaseUrl "context" $) }}"
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

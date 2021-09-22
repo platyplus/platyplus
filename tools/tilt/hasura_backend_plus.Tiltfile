@@ -9,8 +9,7 @@ def hasura_backend_plus(release_name='',
                         resource_name='hasura-backend-plus',
                         hasura_service='hasura',
                         port=9000,
-#  TODO to be sure to fetch last HBP image
-                        tag='v2.7.1',
+                        tag='2.7.1',
                         yaml=''
                         ):
     hbp_resource = '{}-{}'.format(release_name,
@@ -40,33 +39,11 @@ def hasura_backend_plus(release_name='',
                     release_name=release_name,
                     set=['image={}'.format(hbp_image),
                          'hasura.enabled=false',
+                         'storage.enabled=false',
+                         'minio.enabled=false',  
                          'connect.hasura.enabled=true',
                          'connect.hasura.configMap={}'.format(hasura_service),
                          'connect.hasura.secret={}'.format(hasura_service),
-                         #  TODO to be sure to fetch last HBP image
-                         'imageConfig.pullPolicy=Always',
-                         # TODO https://github.com/nhost/hasura-backend-plus/issues/606
-                         'auth.providers.redirect.success=BIDON',
-                         'auth.providers.redirect.error=BIDON',
-                         #  TODO https://github.com/nhost/hasura-backend-plus/issues/614
-                         'serverUrl=http://localhost:4200',
-                         # TODO update HBP Helm Chart
-                         'extraEnv[0].name=DATABASE_URL',
-                         'extraEnv[0].valueFrom.secretKeyRef.name=hasura-postgresql',
-                         'extraEnv[0].valueFrom.secretKeyRef.key=databaseUrl',
-                         #  TODO https://github.com/nhost/hasura-backend-plus/issues/609
-                         'extraEnv[1].name=S3_ENDPOINT',
-                         'extraEnv[1].value=bidon',
-                         'extraEnv[2].name=S3_BUCKET',
-                         'extraEnv[2].value=bidon',
-                         'extraEnv[3].name=S3_ACCESS_KEY_ID',
-                         'extraEnv[3].value=bidon',
-                         'extraEnv[4].name=S3_SECRET_ACCESS_KEY',
-                         'extraEnv[4].value=bidon',
-                         # TODO update HBP Helm chart - anyway, bug in HBP, GRAVATAR_ENABLED is always true...
-                         #  'extraEnv[5].name=GRAVATAR_ENABLED',
-                         #  'extraEnv[5].value=false',
-                         'minio.enabled=false',  # TODO enable storage
-                         'storage.enabled=false'  # TODO enable minio
+                         'connect.hasura.postgresql.secret={}-postgresql'.format(hasura_service)
                          ]
                     )

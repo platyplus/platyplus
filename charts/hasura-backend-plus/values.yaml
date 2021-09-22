@@ -147,7 +147,7 @@ minio:
   #   password: <minio-secret-key>
 connect:
   hasura: # connect to an hasura instance not managed by this chart, but in the same cluster
-    enabled: true
+    enabled: false
     # configMap: '{{ .Release.Name }}-hasura'
     # secret: '{{ .Release.Name }}-hasura'
     configMap: 'hasura'
@@ -165,8 +165,10 @@ connect:
           namespace: jwt.claims.namespace
 
 hasura:
-  enabled: false
+  enabled: true
   postgresql:
+    postgresqlExtendedConf:
+      search_path: auth
     initdbScripts:
       hbp-init.sql: |
         CREATE SCHEMA IF NOT EXISTS auth;
