@@ -6,7 +6,6 @@ sources:
   - https://github.com/platyplus/platydev/tree/master/charts/platyplus
   - https://github.com/platyplus/platydev/tree/master/apps/platyplus
   - https://github.com/platyplus/platydev/tree/master/apps/hasura
-# icon: https://nhost.github.io/hasura-backend-plus/img/logo.png
 appVersion: 0.1.0
 version: 0.0.1
 dependencies:
