@@ -1,0 +1,21 @@
+hasura-backend-plus:
+  storage:
+    enabled: false
+  minio:
+    enabled: false
+  hasura:
+    enabled: true
+    imageConfig:
+      repository: platyplus/hasura
+      tag: latest
+
+frontend:
+  imageConfig:
+    repository: platyplus/platyplus
+    tag: latest
+  enabled: true
+  connect:
+    hasura:
+      enabled: true
+  configFile:
+    enabled: true

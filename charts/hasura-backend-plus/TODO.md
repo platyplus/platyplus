@@ -17,6 +17,5 @@
   - See: https://github.com/helm/helm/issues/3276
   - [ ] HBP email templates
   - [ ] storage.rulesPath
-  - [ ] load hbp migrations/metadata through Helm instead of AUTO_MIGRATE
   - [ ] include jwt key through JWT_KEY_FILE_PATH path.resolve(process.env.PWD || '.', 'custom/keys/private.pem')
         and maybe: autogenerate a pem file that is stored as a secret

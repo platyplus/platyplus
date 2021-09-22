@@ -178,6 +178,29 @@
         }
       }
     },
+    "charts-platyplus": {
+      "root": "charts/platyplus",
+      "sourceRoot": "charts/platyplus",
+      "projectType": "application",
+      "targets": {
+        "prepare": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["helm dependency update charts/platyplus"],
+            "parallel": false
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["helm push charts/platyplus platydev"]
+          }
+        },
+        "version": {
+          "executor": "./tools/executors/helm:version"
+        }
+      }
+    },
     "data-access-hasura-client": {
       "root": "libs/data-access/hasura-client",
       "sourceRoot": "libs/data-access/hasura-client/src",
@@ -553,7 +576,7 @@
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "platyplus:build"
+            "buildTarget": "platyplus:build-webpack"
           }
         },
         "lint": {

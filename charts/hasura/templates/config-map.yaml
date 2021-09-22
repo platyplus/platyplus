@@ -9,4 +9,4 @@ metadata:
 data:
   jwt.algorithm: "{{ (fromJson $jwtSecret).type }}"
   jwt.claims.namespace: "{{ (fromJson $jwtSecret).claims_namespace }}"
-  endpoint: "http://{{ $fullname }}/v1/graphql"
+  endpoint: "http://{{ $fullname }}"

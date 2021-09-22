@@ -45,25 +45,18 @@ spec:
               - key: storage.rules
                 path: rules.yaml
       {{- end }}
-      containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-        {{- if .Values.image }}
-          image: {{ .Values.image }}
-        {{- else }}
-          image: "{{ .Values.imageConfig.repository }}:{{ .Values.imageConfig.tag | default .Chart.AppVersion }}"
-        {{- end }}
-          imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 3000
-              protocol: TCP
-          volumeMounts:
-          {{- if .Values.storage.rules }}
-            - name: storage-rules
-              mountPath: /app/custom/storage-rules
-          {{- end }}
+      initContainers:
+        - name: wait-hasura
+          image: busybox
+          command:
+            - 'sh'
+            - '-c'
+            - |
+              until wget 2>/dev/null -q --spider $HASURA_ENDPOINT/healthz
+              do
+                echo \"waiting for hasura\"
+                sleep 1
+              done
           env:
             - name: HASURA_ENDPOINT
             {{- if .Values.connect.hasura.enabled }}
@@ -84,6 +77,47 @@ spec:
                   key: hasura.endpoint
               {{- end }}
             {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+        {{- if .Values.image }}
+          image: {{ .Values.image }}
+        {{- else }}
+          image: "{{ .Values.imageConfig.repository }}:{{ .Values.imageConfig.tag | default .Chart.AppVersion }}"
+        {{- end }}
+          imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+          {{- if .Values.storage.rules }}
+            - name: storage-rules
+              mountPath: /app/custom/storage-rules
+          {{- end }}
+          env:
+            - name: ENDPOINT
+            {{- if .Values.connect.hasura.enabled }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.configMap "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.endpoint "context" $) }}"
+            {{- else }}
+              {{- if .Values.hasura.enabled }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ .Release.Name }}-hasura"
+                  key: endpoint
+              {{- else }}
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{ $fullname }}"
+                  key: hasura.endpoint
+              {{- end }}
+            {{- end }}
+            - name: HASURA_ENDPOINT
+              value: "$(ENDPOINT)/v1/graphql"
             - name: DATABASE_URL
             {{- if .Values.connect.hasura.enabled }}
               valueFrom:
@@ -196,8 +230,6 @@ spec:
                 configMapKeyRef:
                   name: "{{ $fullname }}"
                   key: jwt.customFields
-            - name: AUTO_MIGRATE
-              value: "{{ .Values.autoMigrate }}"
             {{- if .Values.serverUrl }}
             - name: SERVER_URL
               value: "{{- include "common.tplvalues.render" (dict "value" .Values.serverUrl "context" $) }}"            

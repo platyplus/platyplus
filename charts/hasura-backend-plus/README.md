@@ -77,7 +77,7 @@ The following table lists the configurable parameters of the chart and their def
 | `ingress.extraPaths[0].port`    | The port of the service to route traffic to.                                                                                            | ``                                                    |
 | `hasura.enabled`                | Embed Hasura into the chart. <br/> If not, you must set `hasura.endpoint`, `hasura.adminSecret` and `auth.jwt` from your Hasura config. | `true`                                                |
 | `hasura.serviceName`            |                                                                                                                                         | `nil`                                                 |
-| `hasura.endpoint`               | External endpoint (including `/v1/graphql` suffix) <br/> Required when Hasura is not embedded.                                          | `nil`                                                 |
+| `hasura.endpoint`               | External endpoint <br/> Required when Hasura is not embedded.                                                                           | `nil`                                                 |
 | `hasura.adminSecret`            | Required when Hasura is not embedded                                                                                                    | `nil`                                                 |
 | `hasura.*`                      | Any other Hasura chart parameter                                                                                                        | default Charts values                                 |
 | `minio.enabled`                 | Include a Minio service into the chart and connect it to storage endpoints.                                                             | `true`                                                |
@@ -98,7 +98,6 @@ The following table lists the configurable Hasura-Backend-Plus parameters of the
 
 | Parameter                                    | Description                                                                                                                                                  | Default                                                                                                                      |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| `autoMigrate`                                |                                                                                                                                                              | `true`                                                                                                                       |
 | `serverUrl`                                  |                                                                                                                                                              | `nil`                                                                                                                        |
 | `storage.enabled`                            | Activates HBP storage endpoints. Requires either `minio.enabled` or `storage.external.enabled` to be true                                                    | `true`                                                                                                                       |
 | `storage.rules`                              | Custom HBP [storage rules](https://nhost.github.io/hasura-backend-plus/configuration.html#storage-rules)                                                     | `nil`([Default HBP storage rules](https://github.com/nhost/hasura-backend-plus/blob/master/custom/storage-rules/rules.yaml)) |
@@ -187,7 +186,7 @@ auth:
       namespace: 'https://hasura.io/jwt/claims' # set as default
 hasura:
   enabled: false
-  endpoint: https://my-existing-endpoint/v1/graphql
+  endpoint: https://my-existing-endpoint
   adminSecret: my-hasura-admin-secret-that-will-be-stored-as-a-secret
 ```
 

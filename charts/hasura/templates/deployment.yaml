@@ -37,11 +37,21 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: wait-postgres
-          image: busybox:1.33.1
+          image: busybox
           command:
             - 'sh'
             - '-c'
-            - "until nc -z $DB_HOST $DB_PORT && nc -z $METADATA_HOST $METADATA_PORT; do echo \"waiting for database and/or metadata db\"; sleep 1; done"
+            - |
+              until nc -z $DB_HOST $DB_PORT
+              do
+                echo \"waiting for database\"
+                sleep 1
+              done
+              until nc -z $METADATA_HOST $METADATA_PORT
+              do
+                echo \"waiting for metadata database\"
+                sleep 1
+              done
           env:
             - name: DB_HOST
               value: "{{ $host }}"
@@ -51,28 +61,8 @@ spec:
               value: "{{ $metadata_host }}"
             - name: METADATA_PORT
               value: "{{ $metadata_port | int }}"
-      volumes:
-        - name: hasura-migrations
-          configMap:
-            name: "{{ $fullname }}-migrations"
-        - name: hasura-metadata
-          configMap:
-            name: "{{ $fullname }}-metadata"
       containers:
         - name: {{ .Chart.Name }}
-          volumeMounts:
-            {{- range $path, $bytes := .Files.Glob (printf "migrations/**") }}
-              {{- $finalPath := (index (regexSplit "migrations/" ($path) -1) 1) }}
-            - name: hasura-migrations
-              mountPath: {{ printf "/hasura-migrations/%s" $finalPath }}
-              subPath: {{ sha256sum $finalPath }}
-            {{- end }}
-            {{- range $path, $bytes := .Files.Glob (printf "metadata/**") }}
-              {{- $finalPath := (index (regexSplit "metadata/" ($path) -1) 1) }}
-            - name: hasura-metadata
-              mountPath: {{ printf "/hasura-metadata/%s" $finalPath }}
-              subPath: {{ sha256sum $finalPath }}
-            {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
         {{- if .Values.image }}

@@ -1,0 +1,33 @@
+apiVersion: v2
+name: platyplus
+description: Platyplus
+home: https://platy.dev/charts/platyplus.html
+sources:
+  - https://github.com/platyplus/platydev/tree/master/charts/platyplus
+  - https://github.com/platyplus/platydev/tree/master/apps/platyplus
+  - https://github.com/platyplus/platydev/tree/master/apps/hasura
+# icon: https://nhost.github.io/hasura-backend-plus/img/logo.png
+appVersion: 0.1.0
+version: 0.0.1
+dependencies:
+  - name: hasura-backend-plus
+    version: 0.1.13
+    repository: file://../hasura-backend-plus
+    condition: hasura.enabled
+  - name: standard-service
+    alias: frontend
+    version: 0.1.8
+    repository: file://../standard-service
+    condition: frontend.enabled
+keywords:
+  - hasura
+  - graphql
+  - postgresql
+  - hasura-backend-plus
+  - cms
+  - offline-first
+  - realtime
+  - rxdb
+  - react
+  - nocode
+  - lowcode

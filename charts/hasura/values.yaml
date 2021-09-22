@@ -80,6 +80,17 @@ metadata:
   database: hasura
   username: postgres
   password: null
+  configMap: {}
+  # configMap:
+  #   name: metadata
+  # file: metadata.tar
+
+migrations:
+  configMaps:
+    {}
+    # example:
+    #   name: migrations
+    #   file: migrations.tar
 
 schema:
   sync:

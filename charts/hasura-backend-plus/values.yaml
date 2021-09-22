@@ -35,7 +35,6 @@ ingress:
 #      ## Secrets must be added manually to the namespace
 #      tlsSecret: my-service.domain2-tls
 
-autoMigrate: true
 serverUrl: null
 
 limiter:
@@ -170,7 +169,7 @@ hasura:
         CREATE SCHEMA IF NOT EXISTS auth;
         CREATE SCHEMA IF NOT EXISTS storage;
   # If not enabled, set the following values to connect to an instance outside of the cluster:
-  # endpoint: "https://my-hasura.com/v1/graphql"
+  # endpoint: "https://my-hasura.com
   # adminSecret: "my-admin-secret"
   # databaseUrl: "postgres://username:password@host:port/database"
   # Make also sure auth.jwt reflects your Hasura config

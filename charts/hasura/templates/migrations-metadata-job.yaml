@@ -1,0 +1,124 @@
+{{- if or (.Values.migrations.configMaps) (.Values.metadata.configMap) }}            
+{{- $fullname := include "hasura.fullname" . -}}
+{{- $chart := include "hasura.chart" . -}}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $fullname }}-migrations-metadata
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ $fullname }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: {{ $chart }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      name: {{ $fullname }}-migrations
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ $fullname }}
+        helm.sh/chart: {{ $chart }}
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: workdir
+          emptyDir: {}
+        {{- range $k, $v := .Values.migrations.configMaps }}
+        - name: {{ $k | quote }}
+          configMap:
+            name: {{ include "common.tplvalues.render" (dict "value" $v.name "context" $) }}
+        {{- end }}
+        {{- if .Values.metadata.configMap }}
+        - name: metadata
+          configMap:
+            name: {{ include "common.tplvalues.render" (dict "value" .Values.metadata.configMap.name "context" $) }}
+        {{- end}}
+      containers:
+        - name: prepare
+          image: busybox
+          command: 
+            - sh
+            - "-c"
+            - |
+              set -e
+              touch /workdir/config.yaml
+              mkdir -p /workdir/migrations
+              mkdir -p /workdir/metadata
+              {{- range $k, $v := .Values.migrations.configMaps }}
+              {{ printf "base64 -d /migrations/%s/%s | tar -xvf - -C /workdir/migrations" $k (default "migrations.tar" $v.file) }}
+              {{- end }}
+              {{- if .Values.metadata.configMap }}
+              base64 -d /metadata/metadata.tar | tar -xvf - -C /workdir/metadata
+              {{- end }}
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
+            {{- range $k, $v := .Values.migrations.configMaps }}
+            - name: {{ $k | quote }}
+              mountPath: {{ printf "/migrations/%s/%s" $k (default "migrations.tar" $v.file) }}
+              subPath: {{ default "migrations.tar" $v.file }}
+            {{- end }}
+            {{- if .Values.metadata.configMap }}
+            - name: metadata
+              mountPath: /metadata/metadata.tar
+              subPath: {{ default "metadata.tar" .Values.metadata.configMap.file }}
+            {{- end }}
+        - name: wait-hasura
+          image: busybox
+          command:
+            - 'sh'
+            - '-c'
+            - |
+              until wget 2>/dev/null -q --spider $HASURA_ENDPOINT/healthz
+              do
+                echo \"waiting for hasura\"
+                sleep 1
+              done
+          env:
+            - name: HASURA_ENDPOINT
+              value: "http://{{ $fullname }}"
+        - name: hasura-cli-script
+        # TODO use hasura version...
+          image: platyplus/hasura-cli
+          command:
+            - sh
+            - "-c"
+            - |
+              set -e
+              {{- if .Values.migrations.configMaps }}
+              for d in /workdir/migrations/*; do
+                echo "migrate apply on $(basename $d)"
+                hasura --skip-update-check --project /workdir migrate apply --database-name $(basename $d)
+              done
+              {{- end }}
+              {{- if .Values.metadata.configMap }}
+              echo metadata apply
+              ls /workdir/
+              ls /workdir/metadata/*
+              cat /workdir/metadata/actions.yaml
+              hasura --skip-update-check --project /workdir metadata apply
+              {{- end }}
+          volumeMounts:
+            - name: workdir
+              mountPath: /workdir
+          env:
+            - name: HASURA_GRAPHQL_VERSION
+              value: "3"
+            - name: HASURA_GRAPHQL_ENDPOINT
+              value: "http://{{ $fullname }}"
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ $fullname }}"
+                  key: adminSecret
+            - name: HASURA_GRAPHQL_METADATA_DIRECTORY
+              value: metadata
+            - name: HASURA_GRAPHQL_MIGRATIONS_DIRECTORY
+              value: migrations
+{{- end }}

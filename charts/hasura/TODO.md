@@ -10,3 +10,10 @@
       https://github.com/helm/helm/issues/3276
 - [ ] helm hooks for migrations/metadata. In particular upgrade/rollback hooks
 - [ ] generic ingress
+- [ ] handle migrations for multiple databases
+- documentation
+  - tar -cvf migrations.tar -C migrations .
+  - kubectl create configmap migrations --from-file=migrations.tar
+  - rm migrations.tar
+  - .Values.migrations.configMaps.<unique-name> = { name: migrations, file: migrations.tar }
+  - same thing for metadata (except that it accepts only one configmap value)

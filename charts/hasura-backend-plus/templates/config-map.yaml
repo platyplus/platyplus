@@ -46,3 +46,4 @@ data:
 {{- end }}
   limiter.max-requests: "{{ .Values.limiter.maxRequests | int }}"
   limiter.time-frame: "{{ .Values.limiter.timeFrame | int }}"
+  

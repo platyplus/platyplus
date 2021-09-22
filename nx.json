@@ -42,6 +42,10 @@
     "charts-standard-service": {
       "tags": []
     },
+    "charts-platyplus": {
+      "tags": [],
+      "implicitDependencies": ["hasura", "platyplus"]
+    },
     "data-access-hasura-client": {
       "tags": []
     },

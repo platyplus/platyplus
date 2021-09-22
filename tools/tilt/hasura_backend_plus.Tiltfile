@@ -10,7 +10,7 @@ def hasura_backend_plus(release_name='',
                         hasura_service='hasura',
                         port=9000,
 #  TODO to be sure to fetch last HBP image
-                        tag='v2.6.1',
+                        tag='v2.7.1',
                         yaml=''
                         ):
     hbp_resource = '{}-{}'.format(release_name,
