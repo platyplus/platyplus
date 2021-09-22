@@ -2,6 +2,15 @@
 ## [0.1.14](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.1.13...charts-hasura-backend-plus@0.1.14) (2021-09-22)
 
 
+### Bug Fixes
+
+* hasura connect ([1fc59dc](https://github.com/platyplus/platydev/commit/1fc59dcdb7ba3634a30ea36703b1a02f56be07e8))
+
+
+
+## [0.1.14](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.1.13...charts-hasura-backend-plus@0.1.14) (2021-09-22)
+
+
 
 ## [0.1.13](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.1.12...charts-hasura-backend-plus@0.1.13) (2021-09-15)
 
