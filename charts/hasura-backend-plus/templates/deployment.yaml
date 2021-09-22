@@ -122,8 +122,8 @@ spec:
             {{- if .Values.connect.hasura.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.secret "context" $) }}"
-                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.databaseUrl "context" $) }}"
+                  name: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.postgresql.secret "context" $) }}"
+                  key: "{{- include "common.tplvalues.render" (dict "value" .Values.connect.hasura.keys.databaseUrl "context" $) }}"
             {{- else }}
               {{- if .Values.hasura.enabled }}
               valueFrom:

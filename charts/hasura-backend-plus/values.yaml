@@ -35,7 +35,7 @@ ingress:
 #      ## Secrets must be added manually to the namespace
 #      tlsSecret: my-service.domain2-tls
 
-serverUrl: null
+serverUrl: localhost:4200
 
 limiter:
   maxRequests: 1000
@@ -147,11 +147,13 @@ minio:
   #   password: <minio-secret-key>
 connect:
   hasura: # connect to an hasura instance not managed by this chart, but in the same cluster
-    enabled: false
+    enabled: true
     # configMap: '{{ .Release.Name }}-hasura'
     # secret: '{{ .Release.Name }}-hasura'
     configMap: 'hasura'
     secret: 'hasura'
+    postgresql:
+      secret: postgresql
     keys:
       endpoint: endpoint
       adminSecret: adminSecret
@@ -161,8 +163,9 @@ connect:
         algorithm: jwt.algorithm
         claims:
           namespace: jwt.claims.namespace
+
 hasura:
-  enabled: true
+  enabled: false
   postgresql:
     initdbScripts:
       hbp-init.sql: |
