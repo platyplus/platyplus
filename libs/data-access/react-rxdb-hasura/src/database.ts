@@ -15,11 +15,8 @@ const updateAuthToRxDB = (db: Database, auth: Auth, status?: boolean) => {
   db.setAuthStatus(authenticated, token, admin)
 }
 
-export const initializeDB = async (name: string, auth: Auth) => {
-  const db = await createRxHasura(
-    name || DEFAULT_DB_NAME,
-    process.env.NX_HASURA_ENDPOINT
-  )
+export const initializeDB = async (name: string, url: string, auth: Auth) => {
+  const db = await createRxHasura(name || DEFAULT_DB_NAME, url)
   updateAuthToRxDB(db, auth)
   auth.onAuthStateChanged((status) => updateAuthToRxDB(db, auth, status))
   auth.onTokenChanged(() => db.jwt$.next(auth.getJWTToken()))

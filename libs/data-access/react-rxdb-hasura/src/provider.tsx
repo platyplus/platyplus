@@ -9,8 +9,9 @@ import { RxDatabase } from 'rxdb'
 
 export const RxDBHasuraProvider: React.ComponentType<{
   auth: Auth
+  url: string
   name?: string
-}> = ({ auth, name, children }) => {
+}> = ({ auth, url, name, children }) => {
   const [db, setDb] = useState<Database>()
 
   useEffect(() => {
@@ -18,11 +19,11 @@ export const RxDBHasuraProvider: React.ComponentType<{
     // consumer hooks that depend on it will still work, absorbing the delay by
     // setting their state to isFetching:true
     const initDB = async () => {
-      const _db = await initializeDB(name, auth)
+      const _db = await initializeDB(name, url, auth)
       setDb(_db)
     }
     if (!db) initDB()
-  }, [auth, db, name])
+  }, [auth, db, url, name])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <Provider db={db as RxDatabase<any>}>{children}</Provider>

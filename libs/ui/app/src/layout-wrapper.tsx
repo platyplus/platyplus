@@ -3,7 +3,7 @@ import { Layout, Logo } from '@platyplus/layout'
 import { useAuthenticated } from '@platyplus/hbp'
 import { ProfileStatusMenu } from '@platyplus/profile'
 import { Menu } from './menu'
-import { AppConfig } from './types'
+import { AppSettings } from './types'
 import { Routes } from './routes'
 import { ComponentsContext } from './components'
 import { defaultCollectionComponents } from './collections'
@@ -18,7 +18,7 @@ const defaultComponents = {
   fields: defaultFieldComponents,
   documents: defaultDocumentComponents
 }
-export const LayoutWrapper: React.FC<AppConfig> = ({
+export const LayoutWrapper: React.FC<AppSettings> = ({
   components = {},
   home = { enabled: true, title: 'Home' },
   login = { enabled: true, title: 'Login' },

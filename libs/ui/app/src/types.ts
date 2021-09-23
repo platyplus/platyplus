@@ -22,4 +22,16 @@ export type ComponentsConfig = {
   documents: DocumentComponentsConfig
 }
 
-export type AppConfig = RoutesConfig & { components?: ComponentsConfig }
+export type AppSettings = {
+  components?: ComponentsConfig
+} & RoutesConfig
+
+export type JSONAppConfig = {
+  hasuraUrl: string | { prefix: string }
+  authUrl: string | { prefix: string }
+} & AppSettings
+
+export type AppConfig = {
+  hasuraUrl: string
+  authUrl: string
+} & AppSettings

@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = (config, context) => {
   const name = process.env.APP_NAME
@@ -37,6 +38,9 @@ module.exports = (config, context) => {
 
   config.plugins.push(
     ...[
+      new CopyPlugin({
+        patterns: [{ from: './config.json', to: './' }]
+      }),
       new webpack.ProvidePlugin({
         process: 'process/browser',
         Buffer: ['buffer', 'Buffer']

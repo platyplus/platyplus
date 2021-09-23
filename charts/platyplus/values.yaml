@@ -4,18 +4,17 @@ hasura-backend-plus:
   minio:
     enabled: false
   hasura:
-    enabled: true
     imageConfig:
       repository: platyplus/hasura
       tag: latest
 
 frontend:
+  enabled: true
   imageConfig:
     repository: platyplus/platyplus
     tag: latest
-  enabled: true
-  connect:
-    hasura:
-      enabled: true
-  configFile:
-    enabled: true
+  # configFile:
+  #   enabled: true
+  #   values:
+  #     hasuraUrl: http://hasura.test.com
+  #     authUrl: http://hbp.test.com

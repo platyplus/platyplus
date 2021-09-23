@@ -518,6 +518,10 @@
               {
                 "replace": "apps/platyplus/src/environments/environment.ts",
                 "with": "apps/platyplus/src/environments/environment.prod.ts"
+              },
+              {
+                "replace": "apps/platyplus/src/config.json",
+                "with": "apps/platyplus/src/environments/config.prod.json"
               }
             ],
             "optimization": true,

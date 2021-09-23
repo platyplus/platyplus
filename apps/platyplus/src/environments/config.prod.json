@@ -1,0 +1,4 @@
+{
+  "authUrl": { "prefix": "auth" },
+  "hasuraUrl": { "prefix": "hasura" }
+}
