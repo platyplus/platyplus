@@ -7,7 +7,7 @@ import {
   ContentsCollection,
   ContentsDocumentMethods
 } from '../../types'
-import { debug, warn, collectionName, info } from '../../utils'
+import { debug, warn, collectionName } from '../../utils'
 import { getCollectionTableInfo } from '../../metadata'
 
 import { allRelationships, getMirrorRelationship } from './utils'
@@ -33,6 +33,7 @@ const reverseRelations =
       // * Pass relationships that don't point to any known tableInfo table
       if (!mirrorRelationship) return
 
+      console.log(mirrorTable.id)
       const remoteCollection =
         collection.database.collections[
           collectionName(mirrorTable, collection.options.role)
@@ -43,7 +44,7 @@ const reverseRelations =
       const newRelId = data[name]
       const { name: mirrorRelName, type: mirrorRelType } = mirrorRelationship
 
-      info(
+      debug(
         `${collection.name}.${name} (${type}) -> ${mirrorTable.id}.${mirrorRelName} (${mirrorRelType})`
       )
       if (type === 'array') {

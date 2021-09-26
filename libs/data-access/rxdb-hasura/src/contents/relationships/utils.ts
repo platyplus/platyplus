@@ -35,6 +35,7 @@ export const filteredArrayRelationships = (
 
 // * A table is a ManyToMany transition table when it has a composite primary key that refers to two foreign keys
 // TODO won't work with manually defined relationships in Hasura i.e. the ones not using foreign keys
+// TODO check again - probaly buggy
 export const isManyToManyJoinTable = (table: TableInformation): boolean => {
   const pkColumns = getIds(table)
   const nbPrimaryForeignKeys = pkColumns.filter((pk) =>
@@ -58,13 +59,13 @@ export const shiftedTable = (
   const refTable = relationshipTable(table, relationship)
   // * Return null if no correspondig remote table is found in the store
   if (!refTable) return null
-  else if (isManyToManyJoinTable(refTable))
+  else if (isManyToManyJoinTable(refTable)) {
     return getTableInfo(
       allRelationships(refTable)
         .map((rel) => relationshipTableId(refTable, rel))
         .find((relId) => relId !== table.id)
     )
-  else return refTable
+  } else return refTable
 }
 
 export const relationshipMapping = (
@@ -123,13 +124,7 @@ export const getMirrorRelationship = (
   tableInfo: TableInformation,
   rel: Relationship
 ): [TableInformation, Relationship] => {
-  const refTable = relationshipTable(tableInfo, rel)
-  console.log(
-    allRelationships(refTable)
-      .map((rel) => rel.name)
-      .join(', ')
-  )
-
+  const refTable = shiftedTable(tableInfo, rel)
   if (rel.using.manual_configuration) {
     throw Error(`not implemented`)
   }

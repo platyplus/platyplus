@@ -4,6 +4,7 @@ import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
 import {
+  allRelationships,
   filteredRelationships,
   relationshipMapping,
   shiftedTable
@@ -17,48 +18,53 @@ export const createRelationshipProperties = (
   filteredRelationships(table).forEach((relationship) => {
     const refTable = shiftedTable(table, relationship)
     // * Pass any relationship that does not point to another table in the store
-    if (!refTable) return
-    const relName = relationship.name
+    if (refTable) {
+      const relName = relationship.name
 
-    const mapping = relationshipMapping(table, relationship)
-    // TODO composite keys
-    const column = table.columns.find(
-      ({ name }) => Object.keys(mapping)[0] === name
-    )
-    const ref = collectionName(refTable, role)
+      const mapping = relationshipMapping(table, relationship)
+      // TODO composite keys
+      const column = table.columns.find(
+        ({ name }) => Object.keys(mapping)[0] === name
+      )
+      const ref = collectionName(refTable, role)
 
-    const type = propertyJsonType(table, column)
-    if (relationship.type === 'object') {
-      // * Object relationships
-      result[relName] = {
-        type: ['string', 'null'], // ? null only if relationship is nullable?
-        ref
-      }
-    } else if (relationship.type === 'array') {
-      // * Array relationships
-      result[relName] = {
-        type: 'array',
-        ref,
-        items: {
-          type
+      const type = propertyJsonType(table, column)
+      if (relationship.type === 'object') {
+        // * Object relationships
+        result[relName] = {
+          type: ['string', 'null'], // ? null only if relationship is nullable?
+          ref
         }
-      }
-      // * Add the relationship aggregates - it is needed for the replication system
-      result[`${relName}_aggregate`] = {
-        type: 'object',
-        properties: {
-          aggregate: {
-            type: 'object',
-            properties: {
-              max: {
-                type: 'object',
-                properties: { updated_at: { type: ['string', 'null'] } }
+      } else if (relationship.type === 'array') {
+        // * Array relationships
+        result[relName] = {
+          type: 'array',
+          ref,
+          items: {
+            type
+          }
+        }
+        // TODO only for many2many relationships
+        // * Add the relationship aggregates - it is needed for the replication system
+        result[`${relName}_aggregate`] = {
+          type: 'object',
+          properties: {
+            aggregate: {
+              type: 'object',
+              properties: {
+                max: {
+                  type: 'object',
+                  properties: { updated_at: { type: ['string', 'null'] } }
+                }
               }
             }
           }
         }
       }
+    } else {
+      console.warn('NO REF TABLE', relationship)
     }
   })
+
   return result
 }

@@ -240,6 +240,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         )
       } else {
         // * One to Many relationships: set remote id columns as an array
+
         data[rel.name] = (data[rel.name] as []).map((item) =>
           composeId(refTable, item)
         )
@@ -254,37 +255,40 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         data[rel.name] = refId
       }
 
-      // * Update mirror one-to-many relationship
-      const refCollectionName = collectionName(
-        refTable,
-        collection.options.role
-      )
-      const refCollection = collection.database.collections[refCollectionName]
-      const refId: string = data[rel.name]
-      const oldRefId: string = oldDoc?.get(rel.name)
-      // * remove previous value from the mirror one-to-many relationship
-      if (oldRefId && oldRefId !== refId) {
-        const oldRefDoc: ContentsDocument = await refCollection
-          ?.findOne(oldRefId)
-          .exec()
-        const mirrorRel: string[] = oldRefDoc.get(refRel.name)
-        await oldRefDoc.atomicPatch({
-          is_local_change: true,
-          [refRel.name]: mirrorRel.filter((key) => key !== data.id)
-        })
-      }
-      // * add data item from the mirror one-to-many relationship
-      if (refId) {
-        const refDoc: ContentsDocument = await refCollection
-          ?.findOne(refId)
-          .exec()
-        if (refDoc) {
-          const mirrorRel: string[] = refDoc.get(refRel.name)
-          if (mirrorRel && !mirrorRel.includes(data.id)) {
-            await refDoc.atomicPatch({
-              is_local_change: true,
-              [refRel.name]: [...mirrorRel, data.id]
-            })
+      if (!isManyToManyRelationship(refTable, refRel)) {
+        // * Update mirror one-to-many relationship
+        const refCollectionName = collectionName(
+          refTable,
+          collection.options.role
+        )
+        const refCollection = collection.database.collections[refCollectionName]
+        const refId: string = data[rel.name]
+        const oldRefId: string = oldDoc?.get(rel.name)
+        // * remove previous value from the mirror one-to-many relationship
+        if (oldRefId && oldRefId !== refId) {
+          const oldRefDoc: ContentsDocument = await refCollection
+            ?.findOne(oldRefId)
+            .exec()
+          const mirrorRel: string[] = oldRefDoc.get(refRel.name)
+          await oldRefDoc.atomicPatch({
+            is_local_change: true,
+            [refRel.name]: mirrorRel.filter((key) => key !== data.id)
+          })
+        }
+        // * add data item from the mirror one-to-many relationship
+        // TODO BUG!!!!!!
+        if (refId) {
+          const refDoc: ContentsDocument = await refCollection
+            ?.findOne(refId)
+            .exec()
+          if (refDoc) {
+            const mirrorRel: string[] = refDoc.get(refRel.name)
+            if (mirrorRel && !mirrorRel.includes(data.id)) {
+              await refDoc.atomicPatch({
+                is_local_change: true,
+                [refRel.name]: [...mirrorRel, data.id]
+              })
+            }
           }
         }
       }

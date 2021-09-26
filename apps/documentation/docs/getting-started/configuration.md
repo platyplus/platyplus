@@ -33,9 +33,11 @@ sidebar_label: Configuration
 - Many to Many
   - composite primary key
   - each pk is fk to the two colums
-  - only two columns
-  - permissions: select both columns, and aggregation queries
-  - defines both relations in the join column
+  - only the above two columns + deleted + updated_at
+  - permissions: select both columns, updated_at, deleted, and allow aggregation queries.
+    - insert: deleted and keys (TODO: avoid upsert on pull replication)
+    - update: deleted
+  - defines both relations in the join table
 
 ### Create indexes
 

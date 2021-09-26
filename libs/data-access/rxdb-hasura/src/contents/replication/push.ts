@@ -77,8 +77,8 @@ export const pushQueryBuilder = (
           if (isManyToMany) {
             // * Many to Many: flag join table items as null
             // TODO improve performance: instead of flagging them all as deleted then upserting the new ones, update only the deleted ones
-            acc[`update_${remoteTableName}`] = {
-              __name: `reset_${remoteTableName}`,
+            acc[`reset_${remoteTableName}`] = {
+              __aliasFor: `update_${remoteTableName}`,
               __args: {
                 where: {
                   _and: [
@@ -130,7 +130,7 @@ export const pushQueryBuilder = (
                   objects: arrayValues[rel.name].map((value) => {
                     return remoteTable.foreignKeys.reduce(
                       (acc, fk) => {
-                        mapping.forEach(([local]) => {
+                        Object.keys(fk.mapping).forEach((local) => {
                           // TODO composite keys
                           acc[local] = fk.to === table.id ? doc.id : value
                         })
