@@ -8,8 +8,13 @@ import {
 
 import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
 
-import { Contents, ContentsCollection, Modifier } from '../../types'
-import { FieldMap, debug } from '../../utils'
+import {
+  Contents,
+  ContentsCollection,
+  ContentsDocument,
+  Modifier
+} from '../../types'
+import { FieldMap, debug, collectionName } from '../../utils'
 import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
 
 import {
@@ -17,10 +22,12 @@ import {
   documentLabel
 } from '../computed-fields'
 import {
-  allRelationships,
   filteredArrayRelationships,
   filteredObjectRelationships,
+  filteredRelationships,
+  getMirrorRelationship,
   isManyToManyJoinTable,
+  isManyToManyRelationship,
   relationshipMapping,
   relationshipTable
 } from '../relationships'
@@ -34,10 +41,12 @@ export const pullQueryBuilder = (
   const title = tableName(table)
   const idKeys = getIds(table)
   // * Get the list of array relationship names
-  const arrayRelationships = table.metadata.array_relationships || []
-
+  const arrayRelationships = filteredArrayRelationships(table)
+  const manyToManyRelationships = filteredArrayRelationships(table).filter(
+    (rel) => isManyToManyRelationship(table, rel)
+  )
   // * List columns referencing other tables, except its own primary key
-  const foreignKeyColumns = allRelationships(table).reduce<string[]>(
+  const foreignKeyColumns = filteredRelationships(table).reduce<string[]>(
     (aggr, curr) => {
       const cols = Object.keys(relationshipMapping(table, curr))
       aggr.push(
@@ -74,34 +83,35 @@ export const pullQueryBuilder = (
         }, {})
       } as FieldMap)
   )
-  // * - keys as per defined in the relationship mapping
-  // * - aggregate (last updated_at) so when it changes it will trigger a new pull
-  const arrayRelationshipFields = filteredArrayRelationships(table).map(
-    (relationship) =>
-      ({
-        [relationship.name]: relationshipTable(
-          table,
-          relationship
-        ).primaryKey.columns.reduce(
-          (acc, column) => {
-            acc[column] = true
-            return acc
-          },
-          {
-            __args: {
-              where: {
-                deleted: {
-                  _eq: false
-                }
+
+  const arrayRelationshipFields = arrayRelationships.map((relationship) => {
+    const res: Record<string, unknown> = {
+      [relationship.name]: relationshipTable(
+        table,
+        relationship
+      ).primaryKey.columns.reduce(
+        (acc, column) => {
+          acc[column] = true
+          return acc
+        },
+        {
+          __args: {
+            where: {
+              deleted: {
+                _eq: false
               }
             }
           }
-        ),
-        [`${relationship.name}_aggregate`]: {
-          aggregate: { max: { updated_at: true } }
         }
-      } as FieldMap)
-  )
+      )
+    }
+    if (isManyToManyRelationship(table, relationship)) {
+      res[`${relationship.name}_aggregate`] = {
+        aggregate: { max: { updated_at: true } }
+      }
+    }
+    return res
+  }) as FieldMap[]
 
   const fieldsObject = deepmerge.all<FieldMap>([
     // * Column fields
@@ -127,7 +137,7 @@ export const pullQueryBuilder = (
           column.name,
           column.udtName === 'uuid' ? 'uuid' : 'String'
         ]),
-        ...reduceArrayValues(arrayRelationships, ({ name }) => [
+        ...reduceArrayValues(manyToManyRelationships, ({ name }) => [
           `updated_at_${name}`,
           'timestamptz'
         ])
@@ -145,7 +155,7 @@ export const pullQueryBuilder = (
                   }))
                 ]
               },
-              ...arrayRelationships.map(
+              ...manyToManyRelationships.map(
                 (rel) => ({
                   _and: [
                     {
@@ -182,7 +192,7 @@ export const pullQueryBuilder = (
   return (doc) => {
     const res = {
       query,
-      variables: arrayRelationships.reduce<Partial<Contents>>(
+      variables: manyToManyRelationships.reduce<Partial<Contents>>(
         // * add the existing updated_at array relationship aggregates if they exist
         (variables, { name }) => {
           variables[`updated_at_${name}`] =
@@ -212,6 +222,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     data = addComputedFieldsFromLoadedData(data, collection)
     data.label = (await documentLabel(data, collection)) || ''
     data.id = composeId(tableInfo, data)
+    const oldDoc = await collection.findOne(data.id).exec()
     // * Flatten relationship data so it fits in the `population` system
     for (const rel of filteredArrayRelationships(tableInfo)) {
       const refTable = relationshipTable(tableInfo, rel)
@@ -236,12 +247,49 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
     }
 
     for (const rel of filteredObjectRelationships(tableInfo)) {
-      const refTable = relationshipTable(tableInfo, rel)
+      const [refTable, refRel] = getMirrorRelationship(tableInfo, rel)
       // * Object relationships: move foreign key columns to the property name
       if (data[rel.name]) {
-        data[rel.name] = composeId(refTable, data[rel.name])
+        const refId = composeId(refTable, data[rel.name])
+        data[rel.name] = refId
+      }
+
+      // * Update mirror one-to-many relationship
+      const refCollectionName = collectionName(
+        refTable,
+        collection.options.role
+      )
+      const refCollection = collection.database.collections[refCollectionName]
+      const refId: string = data[rel.name]
+      const oldRefId: string = oldDoc?.get(rel.name)
+      // * remove previous value from the mirror one-to-many relationship
+      if (oldRefId && oldRefId !== refId) {
+        const oldRefDoc: ContentsDocument = await refCollection
+          ?.findOne(oldRefId)
+          .exec()
+        const mirrorRel: string[] = oldRefDoc.get(refRel.name)
+        await oldRefDoc.atomicPatch({
+          is_local_change: true,
+          [refRel.name]: mirrorRel.filter((key) => key !== data.id)
+        })
+      }
+      // * add data item from the mirror one-to-many relationship
+      if (refId) {
+        const refDoc: ContentsDocument = await refCollection
+          ?.findOne(refId)
+          .exec()
+        if (refDoc) {
+          const mirrorRel: string[] = refDoc.get(refRel.name)
+          if (mirrorRel && !mirrorRel.includes(data.id)) {
+            await refDoc.atomicPatch({
+              is_local_change: true,
+              [refRel.name]: [...mirrorRel, data.id]
+            })
+          }
+        }
       }
     }
+
     debug('pullModifier: out', collection.name, { ...data })
     return data
   }

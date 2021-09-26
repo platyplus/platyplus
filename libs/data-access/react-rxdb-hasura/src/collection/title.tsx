@@ -4,16 +4,16 @@ import { useMemo } from 'react'
 
 import { useTableConfig } from '../config'
 
-export const useCollectionTitle = (tableInfo?: TableInformation) => {
-  const id = useMemo(() => tableInfo?.id, [tableInfo])
-  const fallback = useMemo(() => tableInfo && tableName(tableInfo), [tableInfo])
+export const useCollectionTitle = (tableinfo?: TableInformation) => {
+  const id = useMemo(() => tableinfo?.id, [tableinfo])
+  const fallback = useMemo(() => tableinfo && tableName(tableinfo), [tableinfo])
   return useTableConfig<string>(id, 'title', fallback)
 }
 
 export const CollectionTitle: React.FC<{
-  tableInfo?: TableInformation
+  tableinfo?: TableInformation
   editable?: boolean
-}> = ({ tableInfo, editable }) => {
-  const [value, onChange] = useCollectionTitle(tableInfo)
+}> = ({ tableinfo, editable }) => {
+  const [value, onChange] = useCollectionTitle(tableinfo)
   return <InlineValue editable={editable} value={value} onChange={onChange} />
 }

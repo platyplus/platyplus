@@ -6,18 +6,18 @@ import { useDocumentLabel } from '@platyplus/react-rxdb-hasura'
 export const DocumentTag: DocumentComponent<TagProps> = ({
   document,
   edit,
-  tableInfo,
+  tableinfo,
   role,
   ...props
 }) => {
-  const [label] = useDocumentLabel(tableInfo, role, document)
+  const [label] = useDocumentLabel(tableinfo, role, document)
   if (!document) return null
 
   return (
     <Tag {...props}>
       {label}
       {/* <Link
-        to={`/collection/${role}/${tableInfo.id}/${document.id}`}
+        to={`/collection/${role}/${tableinfo.id}/${document.id}`}
         style={{ textDecoration: 'none' }}
       >
         {label}

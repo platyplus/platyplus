@@ -11,7 +11,7 @@ import { decomposeId, getIds } from '../ids'
 import {
   filteredArrayRelationships,
   filteredObjectRelationships,
-  isManyToManyJoinTable,
+  isManyToManyRelationship,
   relationshipMapping,
   relationshipTable
 } from '../relationships'
@@ -71,13 +71,14 @@ export const pushQueryBuilder = (
             }),
         ...arrayRelationships.reduce((acc, rel) => {
           const remoteTable = relationshipTable(table, rel)
-          const isManyToMany = isManyToManyJoinTable(remoteTable)
+          const isManyToMany = isManyToManyRelationship(table, rel)
           const remoteTableName = tableName(remoteTable)
           const mapping = Object.entries(relationshipMapping(table, rel))
           if (isManyToMany) {
             // * Many to Many: flag join table items as null
             // TODO improve performance: instead of flagging them all as deleted then upserting the new ones, update only the deleted ones
             acc[`update_${remoteTableName}`] = {
+              __name: `reset_${remoteTableName}`,
               __args: {
                 where: {
                   _and: [
@@ -100,7 +101,8 @@ export const pushQueryBuilder = (
             if (!isRequiredRelationship(table, rel)) {
               // * only if relationship is not required
               // TODO what about DEFAULT value instead of NULL?
-              acc[`update_${remoteTableName}`] = {
+              acc[`reset_${remoteTableName}`] = {
+                __aliasFor: `update_${remoteTableName}`,
                 __args: {
                   where: {
                     _and: mapping.map(([local, remote]) => ({
@@ -121,7 +123,9 @@ export const pushQueryBuilder = (
 
           if (arrayValues[rel.name]?.length) {
             if (isManyToMany) {
+              // * Many to Many: upsert transition table values
               acc[`insert_${remoteTableName}`] = {
+                __aliasFor: `insert_${remoteTableName}`,
                 __args: {
                   objects: arrayValues[rel.name].map((value) => {
                     return remoteTable.foreignKeys.reduce(
@@ -144,22 +148,23 @@ export const pushQueryBuilder = (
                 affected_rows: true
               }
             } else {
-              acc[`insert_${remoteTableName}`] = {
+              const ids = decomposeId(table, doc.id)
+              acc[`set_${remoteTableName}`] = {
+                __aliasFor: `update_${remoteTableName}`,
                 __args: {
-                  objects: arrayValues[rel.name].map((value) => {
-                    const ids = decomposeId(table, doc.id)
-                    const remotePk = decomposeId(remoteTable, value)
-                    return mapping.reduce((acc, [local, remote]) => {
-                      acc[remote] = ids[local]
-                      return acc
-                    }, remotePk)
-                  }),
-                  on_conflict: {
-                    constraint: new EnumType(remoteTable.primaryKey.constraint),
-                    update_columns: mapping.map(
-                      ([, remote]) => new EnumType(remote)
-                    )
-                  }
+                  where: {
+                    _or: arrayValues[rel.name].map((value) => {
+                      const remotePk = decomposeId(remoteTable, value)
+                      return mapping.reduce((acc, [local]) => {
+                        acc[local] = { _eq: remotePk[local] }
+                        return acc
+                      }, {})
+                    })
+                  },
+                  _set: mapping.reduce((acc, [local, remote]) => {
+                    acc[remote] = ids[local]
+                    return acc
+                  }, {})
                 },
                 affected_rows: true
               }

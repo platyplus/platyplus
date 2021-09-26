@@ -6,18 +6,18 @@ import { useCollectionPermissions } from '@platyplus/react-rxdb-hasura'
 import { IconButtonWithHelper } from '@platyplus/layout'
 
 export const CollectionToolbar: React.FC<{
-  tableInfo?: TableInformation
+  tableinfo?: TableInformation
   role: string
   edit?: boolean
-}> = ({ tableInfo, role }) => {
+}> = ({ tableinfo, role }) => {
   const history = useHistory()
   const create = () => {
-    history.push(`/collection/${role}/${tableInfo.id}/new`)
+    history.push(`/collection/${role}/${tableinfo.id}/new`)
   }
-  const can = useCollectionPermissions(tableInfo, role)
+  const can = useCollectionPermissions(tableinfo, role)
 
   return (
-    <Animation.Fade in={!!tableInfo}>
+    <Animation.Fade in={!!tableinfo}>
       {(props, ref) => (
         <div {...props}>
           <ButtonGroup style={{ paddingBottom: '10px' }}>

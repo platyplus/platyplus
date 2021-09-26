@@ -14,10 +14,10 @@ export const useDocumentTitle = (
 }
 
 export const DocumentTitle: React.FC<{
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   document: Contents
   editable?: boolean
-}> = ({ tableInfo, document, editable }) => {
-  const [value, onChange] = useDocumentTitle(tableInfo, document)
+}> = ({ tableinfo, document, editable }) => {
+  const [value, onChange] = useDocumentTitle(tableinfo, document)
   return <InlineValue editable={editable} value={value} onChange={onChange} />
 }

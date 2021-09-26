@@ -4,7 +4,7 @@ import { FieldComponent } from '../utils'
 
 export type CollectionFieldProps = {
   accepter: React.ComponentType<CheckPickerProps | TagPickerProps>
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   initial: ContentsDocument[]
   component: string
 } & (CheckPickerProps | TagPickerProps)

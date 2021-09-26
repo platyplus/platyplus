@@ -14,20 +14,20 @@ import { ContentsDocument, TableInformation } from '@platyplus/rxdb-hasura'
 import { IconButtonWithHelper, ICON_RED } from '@platyplus/layout'
 
 export const DocumentToolbar: React.FC<{
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   role: string
   document?: ContentsDocument
   edit?: boolean
   href?: string
   formRef?: MutableRefObject<FormInstance>
-}> = ({ tableInfo, role, document, edit, href, formRef }) => {
+}> = ({ tableinfo, role, document, edit, href, formRef }) => {
   const query = useQuery()
   const editing = edit ?? query.has('edit')
   const location = useLocation()
   const history = useHistory()
-  const hasChanged = useFormHasChanged(tableInfo, role, document)
-  const reset = useFormReset(tableInfo, role, document)
-  const save = useFormSave(tableInfo, role, document)
+  const hasChanged = useFormHasChanged(tableinfo, role, document)
+  const reset = useFormReset(tableinfo, role, document)
+  const save = useFormSave(tableinfo, role, document)
 
   const handleSave = async () => {
     if (formRef) {
@@ -36,7 +36,7 @@ export const DocumentToolbar: React.FC<{
     }
     await save()
     history.replace(
-      href || `/collection/${role}/${tableInfo.id}/${document.id}`
+      href || `/collection/${role}/${tableinfo.id}/${document.id}`
     )
   }
 
@@ -52,7 +52,7 @@ export const DocumentToolbar: React.FC<{
     await document.remove()
     history.goBack()
   }
-  const can = useDocumentPermissions(tableInfo, role, document)
+  const can = useDocumentPermissions(tableinfo, role, document)
   return (
     <Animation.Fade in={!!document}>
       {(props, ref) => (

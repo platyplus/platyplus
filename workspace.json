@@ -21,94 +21,6 @@
     }
   },
   "projects": {
-    "hasura": {
-      "root": "apps/hasura",
-      "sourceRoot": "apps/hasura",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/docker.sh build hasura"
-          }
-        },
-        "publish-docker": {
-          "dependsOn": [
-            {
-              "target": "build",
-              "projects": "self"
-            }
-          ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/docker.sh push hasura"
-          }
-        },
-        "publish": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": ":"
-          },
-          "dependsOn": [
-            {
-              "target": "publish-docker",
-              "projects": "self"
-            }
-          ]
-        },
-        "version": {
-          "executor": "@jscutlery/semver:version",
-          "options": {
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          }
-        }
-      }
-    },
-    "hasura-cli": {
-      "root": "apps/hasura-cli",
-      "sourceRoot": "apps/hasura-cli",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/docker.sh build hasura-cli"
-          }
-        },
-        "publish-docker": {
-          "dependsOn": [
-            {
-              "target": "build",
-              "projects": "self"
-            }
-          ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/docker.sh push hasura-cli"
-          }
-        },
-        "publish": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": ":"
-          },
-          "dependsOn": [
-            {
-              "target": "publish-docker",
-              "projects": "self"
-            }
-          ]
-        },
-        "version": {
-          "executor": "@jscutlery/semver:version",
-          "options": {
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          }
-        }
-      }
-    },
     "charts-hasura": {
       "root": "charts/hasura",
       "sourceRoot": "charts/hasura",
@@ -155,29 +67,6 @@
         }
       }
     },
-    "charts-standard-service": {
-      "root": "charts/standard-service",
-      "sourceRoot": "charts/standard-service",
-      "projectType": "application",
-      "targets": {
-        "prepare": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm dependency update charts/standard-service",
-            "parallel": false
-          }
-        },
-        "publish": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm push charts/standard-service platydev"
-          }
-        },
-        "version": {
-          "executor": "./tools/executors/helm:version"
-        }
-      }
-    },
     "charts-platyplus": {
       "root": "charts/platyplus",
       "sourceRoot": "charts/platyplus",
@@ -194,6 +83,29 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": ["helm push charts/platyplus platydev"]
+          }
+        },
+        "version": {
+          "executor": "./tools/executors/helm:version"
+        }
+      }
+    },
+    "charts-standard-service": {
+      "root": "charts/standard-service",
+      "sourceRoot": "charts/standard-service",
+      "projectType": "application",
+      "targets": {
+        "prepare": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm dependency update charts/standard-service",
+            "parallel": false
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "helm push charts/standard-service platydev"
           }
         },
         "version": {
@@ -447,6 +359,113 @@
         }
       }
     },
+    "documentation": {
+      "projectType": "application",
+      "root": "apps/documentation",
+      "sourceRoot": "apps/documentation/src",
+      "targets": {
+        "build": {
+          "executor": "@nx-plus/docusaurus:browser",
+          "options": {
+            "outputPath": "dist/apps/documentation"
+          }
+        },
+        "serve": {
+          "executor": "@nx-plus/docusaurus:dev-server",
+          "options": {
+            "port": 3000
+          }
+        }
+      }
+    },
+    "hasura": {
+      "root": "apps/hasura",
+      "sourceRoot": "apps/hasura",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh build hasura"
+          }
+        },
+        "publish-docker": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh push hasura"
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": ":"
+          },
+          "dependsOn": [
+            {
+              "target": "publish-docker",
+              "projects": "self"
+            }
+          ]
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
+        }
+      }
+    },
+    "hasura-cli": {
+      "root": "apps/hasura-cli",
+      "sourceRoot": "apps/hasura-cli",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh build hasura-cli"
+          }
+        },
+        "publish-docker": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "./tools/executors/docker.sh push hasura-cli"
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": ":"
+          },
+          "dependsOn": [
+            {
+              "target": "publish-docker",
+              "projects": "self"
+            }
+          ]
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@"
+          }
+        }
+      }
+    },
     "infrastructure": {
       "root": "apps/infrastructure",
       "sourceRoot": "apps/infrastructure",
@@ -539,6 +558,20 @@
                 "maximumError": "5mb"
               }
             ]
+          },
+          "configurations": {
+            "dev": {
+              "fileReplacements": [],
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": false,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "budgets": [],
+              "statsJson": true
+            }
           }
         },
         "build": {
@@ -580,7 +613,7 @@
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "platyplus:build-webpack"
+            "buildTarget": "platyplus:build-webpack:dev"
           }
         },
         "lint": {
@@ -1226,25 +1259,6 @@
           "options": {
             "baseBranch": "master",
             "versionTagPrefix": "${target}@"
-          }
-        }
-      }
-    },
-    "documentation": {
-      "projectType": "application",
-      "root": "apps/documentation",
-      "sourceRoot": "apps/documentation/src",
-      "targets": {
-        "build": {
-          "executor": "@nx-plus/docusaurus:browser",
-          "options": {
-            "outputPath": "dist/apps/documentation"
-          }
-        },
-        "serve": {
-          "executor": "@nx-plus/docusaurus:dev-server",
-          "options": {
-            "port": 3000
           }
         }
       }

@@ -6,8 +6,8 @@ import { CollectionComponent } from './types'
 
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
-}> = ({ edit = false, componentName, tableInfo, role, ...rest }) => {
-  const [config] = useTableConfig(tableInfo.id)
+}> = ({ edit = false, componentName, tableinfo, role, ...rest }) => {
+  const [config] = useTableConfig(tableinfo.id)
   const collectionComponentName = config?.component || 'default'
   const name = useMemo(
     () => componentName || collectionComponentName,
@@ -19,7 +19,7 @@ export const CollectionComponentWrapper: CollectionComponent<{
     () => name && collectionComponents[name],
     [name, collectionComponents]
   )
-  if (!tableInfo || !role) return null
+  if (!tableinfo || !role) return null
   if (!Component) return <div>Collection component is missing: {name}</div>
-  return <Component tableInfo={tableInfo} role={role} edit={edit} {...rest} />
+  return <Component tableinfo={tableinfo} role={role} edit={edit} {...rest} />
 }

@@ -1,13 +1,16 @@
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
 import { getCollectionTableInfo, tableName } from '../../metadata'
 import { ContentsCollection } from '../../types'
+import { isManyToManyRelationship } from '../relationships'
 
 export const subscriptionQuery = (collection: ContentsCollection): string => {
   const table = getCollectionTableInfo(collection)
   const title = tableName(table)
   const now = new Date().toUTCString()
   const arrayRels =
-    table.metadata.array_relationships?.map(({ name }) => name) || []
+    table.metadata.array_relationships
+      ?.filter((rel) => isManyToManyRelationship(table, rel))
+      .map(({ name }) => name) || []
 
   const query = jsonToGraphQLQuery({
     subscription: {

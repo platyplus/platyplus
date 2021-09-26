@@ -17,7 +17,7 @@ import { useRef } from 'react'
 const DocumentField: FieldComponent = ({
   property,
   name,
-  tableInfo,
+  tableinfo,
   role,
   document,
   edit,
@@ -25,7 +25,7 @@ const DocumentField: FieldComponent = ({
 }) => {
   const required = property.required
   const { edit: editable, read: readable } = usePropertyPermissions(
-    tableInfo,
+    tableinfo,
     role,
     name,
     document
@@ -34,12 +34,12 @@ const DocumentField: FieldComponent = ({
     return (
       <FormGroup>
         <ControlLabel>
-          <PropertyIcon tableInfo={tableInfo} name={name} />
-          <PropertyTitle tableInfo={tableInfo} name={name} editable={config} />
+          <PropertyIcon tableinfo={tableinfo} name={name} />
+          <PropertyTitle tableinfo={tableinfo} name={name} editable={config} />
           {edit && required && '*'}
         </ControlLabel>
         <FieldComponentWrapper
-          tableInfo={tableInfo}
+          tableinfo={tableinfo}
           document={document}
           role={role}
           property={property}
@@ -54,17 +54,17 @@ const DocumentField: FieldComponent = ({
 }
 
 export const DocumentDetails: DocumentComponent = ({
-  tableInfo,
+  tableinfo,
   role,
   document,
   edit,
   formRef,
   config
 }) => {
-  const [properties] = useTableProperties(tableInfo, { role })
-  const form = useFormGet(tableInfo, role, document)
-  const setForm = useFormSet(tableInfo, role, document)
-  const model = useFormModel(tableInfo)
+  const [properties] = useTableProperties(tableinfo, { role })
+  const form = useFormGet(tableinfo, role, document)
+  const setForm = useFormSet(tableinfo, role, document)
+  const model = useFormModel(tableinfo)
   const newRef = useRef()
   const ref = formRef || newRef
   // ? Why does useFormGet rerender the entire DocumentDetails component?
@@ -74,7 +74,7 @@ export const DocumentDetails: DocumentComponent = ({
         {[...properties.entries()].map(([name, property]) => (
           <DocumentField
             key={name}
-            tableInfo={tableInfo}
+            tableinfo={tableinfo}
             document={document}
             role={role}
             property={property}

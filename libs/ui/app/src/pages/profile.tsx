@@ -11,11 +11,11 @@ import { useLocation } from 'react-use'
 export const ProfilePage: PageFunction = ({ title }) => {
   const { value: profile } = useProfile()
   const editing = useQuery().has('edit')
-  const tableInfo = useTableInfo('public.users')
+  const tableinfo = useTableInfo('public.users')
   // TODO profile actions e.g. change/reset password
   const location = useLocation()
   const href = location.pathname
-  if (!profile || !tableInfo) return null
+  if (!profile || !tableinfo) return null
   return (
     <HeaderTitleWrapper title={title} previous>
       <Animation.Fade in={!!profile}>
@@ -25,7 +25,7 @@ export const ProfilePage: PageFunction = ({ title }) => {
               title={<DisplayName profile={profile} />}
               toolbar={
                 <DocumentToolbar
-                  tableInfo={tableInfo}
+                  tableinfo={tableinfo}
                   role={METADATA_ROLE}
                   document={profile}
                   edit={editing}
@@ -34,7 +34,7 @@ export const ProfilePage: PageFunction = ({ title }) => {
               }
             >
               <DocumentComponentWrapper
-                tableInfo={tableInfo}
+                tableinfo={tableinfo}
                 role={METADATA_ROLE}
                 document={profile}
                 edit={editing}

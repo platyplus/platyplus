@@ -45,7 +45,7 @@ export const createReplicator = async <T>(
   collection: RxCollection<T, unknown> & { replicator: Replicator<T> },
   options: ReplicatorOptions<T>
 ): Promise<Replicator<T>> => {
-  const db: Database = collection.database
+  const db = collection.database as unknown as Database
   const headers = () =>
     createHeaders(options.role, db.jwt$.getValue(), options.substituteRole)
   const resetWs = () => {

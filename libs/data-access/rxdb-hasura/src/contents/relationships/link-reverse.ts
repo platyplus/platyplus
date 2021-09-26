@@ -7,10 +7,10 @@ import {
   ContentsCollection,
   ContentsDocumentMethods
 } from '../../types'
-import { debug, warn, collectionName } from '../../utils'
+import { debug, warn, collectionName, info } from '../../utils'
 import { getCollectionTableInfo } from '../../metadata'
 
-import { allRelationships, relationshipTableId, shiftedTable } from './utils'
+import { allRelationships, getMirrorRelationship } from './utils'
 
 const reverseRelations =
   (
@@ -19,120 +19,114 @@ const reverseRelations =
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
     // * Stop recursive spreading of changes done locally
-    if (data.is_local_change) return
+    if (data.is_local_change) {
+      return
+    }
     const tableInfo = getCollectionTableInfo(collection)
     for (const relationship of allRelationships(tableInfo)) {
       const { name, type } = relationship
-      const remoteInfo = shiftedTable(tableInfo, relationship)
+      const [mirrorTable, mirrorRelationship] = getMirrorRelationship(
+        tableInfo,
+        relationship
+      )
+
       // * Pass relationships that don't point to any known tableInfo table
-      if (!remoteInfo) return
+      if (!mirrorRelationship) return
 
       const remoteCollection =
         collection.database.collections[
-          collectionName(remoteInfo, collection.options.role)
+          collectionName(mirrorTable, collection.options.role)
         ]
-      const mirrorRelationships = allRelationships(remoteInfo).filter(
-        (rel) => relationshipTableId(remoteInfo, rel) === tableInfo.id
-      )
-
-      if (mirrorRelationships.length > 1) {
-        // ? sort this out - is it really a problem? Test without it
-        warn(
-          `Relation ${collection.name}.${name} points to ${remoteInfo.id}, but ${remoteInfo.id} have more than one relation that points back to ${collection.name}. Can't determine which to process`
-        )
-        return
-      }
-
       // * Get the previous values of the document
       const oldRelId =
         !insert && (await collection.findOne(data.id).exec())?.[name]
       const newRelId = data[name]
+      const { name: mirrorRelName, type: mirrorRelType } = mirrorRelationship
 
-      for (const {
-        name: mirrorRelName,
-        type: mirrorRelType
-      } of mirrorRelationships) {
-        debug(
-          `${collection.name}.${name} (${type}) -> ${remoteInfo.id}.${mirrorRelName} (${mirrorRelType})`
+      info(
+        `${collection.name}.${name} (${type}) -> ${mirrorTable.id}.${mirrorRelName} (${mirrorRelType})`
+      )
+      if (type === 'array') {
+        // * From one/many to many
+        const { add, remove } = arrayChanges<string>(
+          oldRelId || [],
+          newRelId || [],
+          (a, b) => a === b
         )
-        if (type === 'array') {
-          // * From one/many to many
-          const { add, remove } = arrayChanges<string>(
-            oldRelId || [],
-            newRelId || [],
-            (a, b) => a === b
-          )
-
-          const addDocs = await remoteCollection.findByIds(add)
-          for (const remoteDoc of addDocs.values()) {
-            if (mirrorRelType === 'array') {
-              // * From many to many
-              remoteDoc.atomicPatch({
+        const addDocs = await remoteCollection.findByIds(add)
+        for (const remoteDoc of addDocs.values()) {
+          // * Add new keys
+          if (mirrorRelType === 'array') {
+            // * From many to many
+            await remoteDoc.atomicPatch({
+              is_local_change: true,
+              [mirrorRelName]: [...remoteDoc[name], doc.id]
+            })
+          } else {
+            // * From one to many
+            await remoteDoc.atomicPatch({
+              is_local_change: false,
+              [mirrorRelName]: remoteDoc[name]
+            })
+          }
+        }
+        const removeDocs = remove.length
+          ? await remoteCollection.findByIds(remove)
+          : []
+        for (const remoteDoc of removeDocs.values()) {
+          // * Remove removed keys
+          if (mirrorRelType === 'array') {
+            // * From many to many
+            await remoteDoc.atomicPatch({
+              is_local_change: true,
+              [mirrorRelName]: remoteDoc[name].filter(
+                (key: string) => key !== doc.id
+              )
+            })
+          } else {
+            // * From one to many
+            await remoteDoc.atomicPatch({
+              is_local_change: false,
+              [mirrorRelName]: null
+            })
+          }
+        }
+      } else {
+        // * From one to one/many
+        if (mirrorRelType === 'array') {
+          // * From one to many
+          if (oldRelId !== newRelId) {
+            if (oldRelId) {
+              const oldRemoteDocument = await remoteCollection
+                .findOne(oldRelId)
+                .exec()
+              const updatedMirrorValues = oldRemoteDocument[
+                mirrorRelName
+              ].filter((key: string) => key !== data.id)
+              await oldRemoteDocument.atomicPatch({
                 is_local_change: true,
-                [mirrorRelName]: [...remoteDoc[name], doc.id]
-              })
-            } else {
-              // * From one to many
-              remoteDoc.atomicPatch({
-                is_local_change: false,
-                [mirrorRelName]: remoteDoc[name]
+                [mirrorRelName]: updatedMirrorValues
               })
             }
-          }
-          const removeDocs = remove.length
-            ? await remoteCollection.findByIds(remove)
-            : []
-          for (const remoteDoc of removeDocs.values()) {
-            if (mirrorRelType === 'array') {
-              remoteDoc.atomicPatch({
+            if (newRelId) {
+              const newRemoteDocument = await remoteCollection
+                .findOne(newRelId)
+                .exec()
+              const updatedMirrorValues = [
+                ...newRemoteDocument[mirrorRelName],
+                data.id
+              ]
+              await newRemoteDocument.atomicPatch({
                 is_local_change: true,
-                [mirrorRelName]: remoteDoc[name].filter(
-                  (key: string) => key !== doc.id
-                )
-              })
-            } else {
-              remoteDoc.atomicPatch({
-                is_local_change: false,
-                [mirrorRelName]: null
+                [mirrorRelName]: updatedMirrorValues
               })
             }
           }
         } else {
-          if (mirrorRelType === 'array') {
-            // * From one to many
-            if (oldRelId !== newRelId) {
-              if (oldRelId) {
-                const oldRemoteDocument = await remoteCollection
-                  .findOne(oldRelId)
-                  .exec()
-                const updatedMirrorValues = oldRemoteDocument[
-                  mirrorRelName
-                ].filter((key: string) => key !== data.id)
-                await oldRemoteDocument.atomicPatch({
-                  is_local_change: true,
-                  [mirrorRelName]: updatedMirrorValues
-                })
-              }
-              if (newRelId) {
-                const newRemoteDocument = await remoteCollection
-                  .findOne(newRelId)
-                  .exec()
-                const updatedMirrorValues = [
-                  ...newRemoteDocument[mirrorRelName],
-                  data.id
-                ]
-                await newRemoteDocument.atomicPatch({
-                  is_local_change: true,
-                  [mirrorRelName]: updatedMirrorValues
-                })
-              }
-            }
-          } else {
-            // TODO From one to one
-            warn(
-              `${tableInfo.id}.${name}: link-reverse one to one relationship is not set yet`
-            )
-          }
+          // TODO From one to one
+          warn(
+            `${tableInfo.id}.${name}: link-reverse one to one relationship is not set yet`
+          )
         }
       }
     }

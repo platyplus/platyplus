@@ -5,7 +5,7 @@ import { CollectionFieldProps } from './types'
 export type Option = { value: string; label: string }
 
 export const useCollectionFieldAccepter = ({
-  tableInfo,
+  tableinfo,
   role,
   initial,
   name,
@@ -15,8 +15,8 @@ export const useCollectionFieldAccepter = ({
 
   // TODO more granular permission: check if a specific item can be removed from the list
   const canRemoveItem = useMemo(
-    () => canRemoveCollectionItem(tableInfo, name, role),
-    [tableInfo, name, role]
+    () => canRemoveCollectionItem(tableinfo, name, role),
+    [tableinfo, name, role]
   )
   const disabledItemValues = useMemo(
     () => (canRemoveItem ? [] : initialIds),

@@ -68,11 +68,11 @@ export const ConfigListPage: React.FC = () => {
               </ButtonGroup>
               {
                 <List hover bordered sortable onSort={sort} pressDelay={300}>
-                  {tables.map((tableInfo, index) => (
+                  {tables.map((tableinfo, index) => (
                     <ConfigListItem
-                      key={tableInfo.id}
+                      key={tableinfo.id}
                       index={index}
-                      tableInfo={tableInfo}
+                      tableinfo={tableinfo}
                     />
                   ))}
                 </List>

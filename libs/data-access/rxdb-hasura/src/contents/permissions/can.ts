@@ -107,6 +107,7 @@ export const canCreate = (
   } else {
     const ids = getIds(tableInfo)
     // * Must have at least one insertable user-defined column, and id must be insertable as well
+    // TODO 'deleted' must have a default value
     return (
       tableInfo.columns
         .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))

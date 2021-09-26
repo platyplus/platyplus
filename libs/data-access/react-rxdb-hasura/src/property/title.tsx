@@ -10,15 +10,15 @@ import { useCollectionPropertyConfig } from './hooks'
  * The `setTitle` method will set a new title value to the config store
  * @return [title, setTitle]
  */
-const usePropertyTitle = (tableInfo: TableInformation, property: string) =>
-  useCollectionPropertyConfig(tableInfo, property, 'title', property)
+const usePropertyTitle = (tableinfo: TableInformation, property: string) =>
+  useCollectionPropertyConfig(tableinfo, property, 'title', property)
 
 export const PropertyTitle: React.FC<{
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   name: string
   editable?: boolean
-}> = ({ tableInfo, name, editable }) => {
-  const [value, setValue] = usePropertyTitle(tableInfo, name)
+}> = ({ tableinfo, name, editable }) => {
+  const [value, setValue] = usePropertyTitle(tableinfo, name)
   return editable ? (
     <InlineValue editable={editable} value={value} onChange={setValue} />
   ) : (

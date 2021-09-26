@@ -10,13 +10,13 @@ import { FieldComponentWrapper } from '../fields'
 const { Column, HeaderCell, Cell } = Table
 
 export const TableCollection: CollectionComponent = ({
-  tableInfo,
+  tableinfo,
   role,
   data,
   config
 }) => {
   const history = useHistory()
-  const [properties] = useTableProperties(tableInfo)
+  const [properties] = useTableProperties(tableinfo)
 
   return (
     <Table
@@ -25,17 +25,17 @@ export const TableCollection: CollectionComponent = ({
       autoHeight
       data={data}
       onRowClick={(data: ContentsDocument) => {
-        history.push(`/collection/${role}/${tableInfo.id}/${data.id}`)
+        history.push(`/collection/${role}/${tableinfo.id}/${data.id}`)
       }}
     >
       {[...properties.entries()]
-        .filter(([propertyName]) => canRead(tableInfo, role, propertyName))
+        .filter(([propertyName]) => canRead(tableinfo, role, propertyName))
         .map(([, property]) => (
           <Column flexGrow={1} key={property.name}>
             <HeaderCell>
               <PropertyTitle
                 editable={config}
-                tableInfo={tableInfo}
+                tableinfo={tableinfo}
                 name={property.name}
               />
             </HeaderCell>
@@ -43,7 +43,7 @@ export const TableCollection: CollectionComponent = ({
               {(document: ContentsDocument) => {
                 return (
                   <FieldComponentWrapper
-                    tableInfo={tableInfo}
+                    tableinfo={tableinfo}
                     role={role}
                     name={property.name}
                     property={property}

@@ -48,13 +48,13 @@ export const useDocumentLabel = (
 }
 
 export const DocumentLabel: React.FC<{
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   role: string
   document: ContentsDocument
   editable?: boolean
-}> = ({ document, editable, role, tableInfo }) => {
+}> = ({ document, editable, role, tableinfo }) => {
   const [value, template, onChange] = useDocumentLabel(
-    tableInfo,
+    tableinfo,
     role,
     document
   )

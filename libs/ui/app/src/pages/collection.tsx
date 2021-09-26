@@ -24,27 +24,27 @@ import { RxCollection } from 'rxdb'
 const CollectionData: React.FC<{
   collection: RxCollection
   title: string
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   enabledConfig: boolean
   role: string
   edit: boolean
-}> = ({ collection, title, tableInfo, enabledConfig, role, edit }) => {
+}> = ({ collection, title, tableinfo, enabledConfig, role, edit }) => {
   const q = useMemo(() => collection.find().sort('label'), [collection])
   const { isFetching, result } = useRxQuery<Contents>(q)
   return (
     <HeaderTitleWrapper
       title={title}
       component={
-        <CollectionTitle editable={enabledConfig} tableInfo={tableInfo} />
+        <CollectionTitle editable={enabledConfig} tableinfo={tableinfo} />
       }
     >
-      <CollectionToolbar tableInfo={tableInfo} role={role} />
+      <CollectionToolbar tableinfo={tableinfo} role={role} />
       {isFetching ? (
         <Loading backdrop />
       ) : (
         <CollectionComponentWrapper
           config={enabledConfig}
-          tableInfo={tableInfo}
+          tableinfo={tableinfo}
           role={role}
           data={result as ContentsDocument[]} // TODO PR useRxQuery type in 'rxdb-hooks'to include Orm methods e.g. useRxQuery<T,U>
           edit={edit}
@@ -59,14 +59,14 @@ export const CollectionPage: React.FC = () => {
   const query = useQuery()
   const edit = useMemo(() => query.has('edit'), [query])
   const enabledConfig = useConfigEnabled()
-  const tableInfo = useTableInfo(name)
-  const collectionName = useCollectionName(tableInfo, role)
+  const tableinfo = useTableInfo(name)
+  const collectionName = useCollectionName(tableinfo, role)
   const collection = useCollection(collectionName)
-  const [title] = useCollectionTitle(tableInfo)
-  if (!collection || !tableInfo || !title) return <div>PROBLEM</div>
+  const [title] = useCollectionTitle(tableinfo)
+  if (!collection || !tableinfo || !title) return <div>PROBLEM</div>
   return (
     <CollectionData
-      {...{ collection, title, tableInfo, enabledConfig, role, edit }}
+      {...{ collection, title, tableinfo, enabledConfig, role, edit }}
     />
   )
 }

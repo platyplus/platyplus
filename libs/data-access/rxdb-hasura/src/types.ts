@@ -34,8 +34,6 @@ export type ContentsDocumentMethods = {}
 export type ContentsCollectionMethods = {}
 
 export type ContentsCollectionPrototype = ContentsCollectionMethods & {
-  role: string
-  tableId: string
   replicator: Replicator<Contents>
 }
 

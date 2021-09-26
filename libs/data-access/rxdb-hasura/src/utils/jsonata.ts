@@ -17,7 +17,10 @@ const generateRxdbJsonataPaths = (
         if (value === true) {
           aggr[key] = { [collection.schema.primaryPath]: true, deleted: true }
         } else
-          aggr[key] = generateRxdbJsonataPaths(value, collection?.database[ref])
+          aggr[key] = generateRxdbJsonataPaths(
+            value,
+            collection?.database[ref] as ContentsCollection
+          )
       } else aggr[key] = true
 
       return aggr

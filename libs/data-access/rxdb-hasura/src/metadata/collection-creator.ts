@@ -24,10 +24,8 @@ export const createContentsCollections = async (
           await db.addCollections({
             [name]: contentsCollectionCreator(table, role)
           })
-        } catch {
-          warn(
-            `[${name}] already exists but was not found before attempting to add it`
-          )
+        } catch (error) {
+          warn(`[${name}] Error creating the collection`, error)
         }
       } else if (db[name].options.tableId) {
         const collection = db[name] as ContentsCollection

@@ -20,11 +20,11 @@ export const CollectionField: CollectionFieldComponent = ({
   role,
   edit,
   editable,
-  tableInfo,
+  tableinfo,
   accepter: Accepter,
   component = 'label'
 }) => {
-  const refTable = shiftedTable(tableInfo, property.relationship)
+  const refTable = shiftedTable(tableinfo, property.relationship)
   const refCollectionName = useCollectionName(refTable, role)
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
@@ -51,7 +51,7 @@ export const CollectionField: CollectionFieldComponent = ({
     refCollectionName,
     property,
     refTable,
-    tableInfo.id,
+    tableinfo.id,
     role
   ])
   const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
@@ -60,7 +60,7 @@ export const CollectionField: CollectionFieldComponent = ({
 
   return edit ? (
     <FieldControl
-      tableInfo={tableInfo}
+      tableinfo={tableinfo}
       role={role}
       style={{ minWidth: 300 }}
       name={name}
@@ -72,7 +72,7 @@ export const CollectionField: CollectionFieldComponent = ({
     />
   ) : (
     <CollectionComponentWrapper
-      tableInfo={refTable}
+      tableinfo={refTable}
       role={role}
       data={data}
       componentName={component}

@@ -38,8 +38,8 @@ export const geojsonToTiles = (
           mask,
           units: 'degrees'
         })
-        grid.features.forEach(feature => {
-          feature?.geometry?.coordinates?.[0]?.forEach(corner => {
+        grid.features.forEach((feature) => {
+          feature?.geometry?.coordinates?.[0]?.forEach((corner) => {
             const done = `${zoom}/${corner[0]}/${corner[1]}`
             if (!doneTiles.includes(done)) {
               const [x, y, z] = LngLatToXYZ([corner[0], corner[1]], zoom)
@@ -49,15 +49,15 @@ export const geojsonToTiles = (
             }
           })
         })
-        console.log(` [*] Found ${nbTilesForZoom} tiles for zoom ${zoom}`)
+        console.info(` [*] Found ${nbTilesForZoom} tiles for zoom ${zoom}`)
         zoom--
       } while (nbTilesForZoom > 0 && zoom > minZoom)
     }
   }
   // * Generate the tiles list
-  console.log(' [*] Calculating tiles coordinates...')
+  console.info(' [*] Calculating tiles coordinates...')
   const tiles: number[][] = []
   if (geojson) walkTiles(geojson, tiles)
-  console.log(` [*] Found ${tiles.length} tiles.`)
+  console.info(` [*] Found ${tiles.length} tiles.`)
   return tiles
 }

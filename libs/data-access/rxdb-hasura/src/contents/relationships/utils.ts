@@ -43,6 +43,14 @@ export const isManyToManyJoinTable = (table: TableInformation): boolean => {
   return nbPrimaryForeignKeys === 2
 }
 
+export const isManyToManyRelationship = (
+  table: TableInformation,
+  rel: Relationship
+): boolean => {
+  const remoteTable = relationshipTable(table, rel)
+  return isManyToManyJoinTable(remoteTable)
+}
+
 export const shiftedTable = (
   table: TableInformation,
   relationship: Relationship
@@ -61,13 +69,30 @@ export const shiftedTable = (
 
 export const relationshipMapping = (
   table: TableInformation,
-  rel: Relationship
+  { using: { foreign_key_constraint_on, manual_configuration } }: Relationship
 ): Record<string, string> => {
-  return rel.using.foreign_key_constraint_on
-    ? table.foreignKeys.find((key) =>
-        Object.keys(key.mapping).includes(rel.using.foreign_key_constraint_on)
+  if (foreign_key_constraint_on) {
+    if (typeof foreign_key_constraint_on === 'string') {
+      const fk = foreign_key_constraint_on
+      return table.foreignKeys.find((key) =>
+        Object.keys(key.mapping).includes(fk)
       )?.mapping
-    : rel.using.manual_configuration.column_mapping
+    } else {
+      const fk = foreign_key_constraint_on.column
+      const tableId = `${foreign_key_constraint_on.table.schema}.${foreign_key_constraint_on.table.name}`
+      const remoteTable = getTableInfo(tableId)
+      const mapping = remoteTable.foreignKeys.find(
+        (key) => key.to === table.id && Object.keys(key.mapping).includes(fk)
+      )?.mapping
+      // Revert mapping
+      return Object.entries(mapping).reduce((agg, [key, value]) => {
+        agg[value] = key
+        return agg
+      }, {})
+    }
+  } else {
+    return manual_configuration.column_mapping
+  }
 }
 
 export const relationshipTableId = (
@@ -78,13 +103,52 @@ export const relationshipTableId = (
     const {
       using: { foreign_key_constraint_on, manual_configuration }
     } = relationship
-    return foreign_key_constraint_on
-      ? table.foreignKeys.find((key) =>
+    if (foreign_key_constraint_on) {
+      if (typeof foreign_key_constraint_on === 'string') {
+        return table.foreignKeys.find((key) =>
           Object.keys(key.mapping).includes(foreign_key_constraint_on)
-        ).to
-      : `${manual_configuration.remote_table.schema}.${manual_configuration.remote_table.name}`
+        )?.to
+      } else {
+        return `${foreign_key_constraint_on.table.schema}.${foreign_key_constraint_on.table.name}`
+      }
+    } else
+      return `${manual_configuration.remote_table.schema}.${manual_configuration.remote_table.name}`
   }
 }
 
 export const relationshipTable = (table: TableInformation, rel: Relationship) =>
   getTableInfo(relationshipTableId(table, rel))
+
+export const getMirrorRelationship = (
+  tableInfo: TableInformation,
+  rel: Relationship
+): [TableInformation, Relationship] => {
+  const refTable = relationshipTable(tableInfo, rel)
+  console.log(
+    allRelationships(refTable)
+      .map((rel) => rel.name)
+      .join(', ')
+  )
+
+  if (rel.using.manual_configuration) {
+    throw Error(`not implemented`)
+  }
+  const fromKey =
+    typeof rel.using.foreign_key_constraint_on === 'string'
+      ? rel.using.foreign_key_constraint_on
+      : rel.using.foreign_key_constraint_on.column
+
+  const refRel = allRelationships(refTable).find(
+    ({ using: { foreign_key_constraint_on, manual_configuration }, name }) => {
+      if (foreign_key_constraint_on) {
+        if (typeof foreign_key_constraint_on === 'string') {
+          return fromKey === foreign_key_constraint_on
+        } else return fromKey === foreign_key_constraint_on.column
+      } else {
+        console.warn('not implemented yet - manual_configuration')
+        return false
+      }
+    }
+  )
+  return [refTable, refRel]
+}

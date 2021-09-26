@@ -7,7 +7,7 @@ import React from 'react'
 
 export type FieldComponent<T = Record<string, unknown>> = React.FC<
   T & {
-    tableInfo: TableInformation
+    tableinfo: TableInformation
     role: string
     property: Property
     name: string

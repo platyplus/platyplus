@@ -21,18 +21,18 @@ export const DocumentPage: React.FC = () => {
   const editing = useQuery().has('edit') || id === 'new'
   const enabledConfig = useConfigEnabled()
 
-  const tableInfo = useTableInfo(name)
-  const { document, isFetching } = useDocument(tableInfo, role, id)
-  const [title] = useDocumentTitle(tableInfo)
+  const tableinfo = useTableInfo(name)
+  const { document, isFetching } = useDocument(tableinfo, role, id)
+  const [title] = useDocumentTitle(tableinfo)
   const formRef = useRef()
-  if (!tableInfo) return null
+  if (!tableinfo) return null
   return (
     <HeaderTitleWrapper
       title={title}
       component={
         <DocumentTitle
           editable={enabledConfig}
-          tableInfo={tableInfo}
+          tableinfo={tableinfo}
           document={document}
         />
       }
@@ -46,7 +46,7 @@ export const DocumentPage: React.FC = () => {
                 <DocumentPanel
                   title={
                     <DocumentLabel
-                      tableInfo={tableInfo}
+                      tableinfo={tableinfo}
                       role={role}
                       editable={enabledConfig}
                       document={document}
@@ -54,7 +54,7 @@ export const DocumentPage: React.FC = () => {
                   }
                   toolbar={
                     <DocumentToolbar
-                      tableInfo={tableInfo}
+                      tableinfo={tableinfo}
                       role={role}
                       document={document}
                       edit={editing}
@@ -64,7 +64,7 @@ export const DocumentPage: React.FC = () => {
                 >
                   <DocumentComponentWrapper
                     config={enabledConfig}
-                    tableInfo={tableInfo}
+                    tableinfo={tableinfo}
                     role={role}
                     document={document}
                     edit={editing}

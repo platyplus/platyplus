@@ -83,7 +83,7 @@ const recurseLoading = async (
     async (aggr, [key, value]) => {
       const ref = collection.schema.jsonSchema.properties[key]?.ref
       if (ref) {
-        const refCollection = collection.database[ref]
+        const refCollection = collection.database[ref] as ContentsCollection
         if (Array.isArray(doc[key])) {
           aggr[key] = await Promise.all(
             doc[key].map(

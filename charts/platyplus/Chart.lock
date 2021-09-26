@@ -1,9 +1,9 @@
 dependencies:
 - name: hasura-backend-plus
   repository: file://../hasura-backend-plus
-  version: 0.1.13
+  version: 0.1.14
 - name: standard-service
   repository: file://../standard-service
   version: 0.1.8
-digest: sha256:b0c8cb075a5d52654c2ea51d3a3093d185dd8e03c5a33ee9eeb99b84558f12dd
-generated: "2021-09-21T20:25:26.987042+02:00"
+digest: sha256:142716a22c8a74d7c385419ab2841e937b69c2ce1453e79059da6d1b61a60a08
+generated: "2021-09-23T22:21:05.662107+02:00"

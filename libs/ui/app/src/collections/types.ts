@@ -4,7 +4,7 @@ import { ContentsDocument, TableInformation } from '@platyplus/rxdb-hasura'
 type CommonCollectionComponentProps = {
   edit: boolean
   config?: boolean
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   role: string
   data: ContentsDocument[]
 }

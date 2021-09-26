@@ -5,7 +5,7 @@ import { FormInstance } from 'rsuite/lib/Form'
 import { ContentsDocument, TableInformation } from '@platyplus/rxdb-hasura'
 
 type CommonDocumentComponentProps<T = {}> = T & {
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   role: string
   edit: boolean
   formRef?: MutableRefObject<FormInstance>

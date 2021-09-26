@@ -18,13 +18,13 @@ import { useMemo } from 'react'
 import { PropertyIcon } from '../../documents'
 
 export const PropertyConfig: React.FC<{
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   name: string
   property: Property
   expanded: boolean
   onSelect: () => void
-}> = ({ tableInfo, name, property, expanded, onSelect }) => {
-  const [config, setConfig] = usePropertyConfig(tableInfo, name, null)
+}> = ({ tableinfo, name, property, expanded, onSelect }) => {
+  const [config, setConfig] = usePropertyConfig(tableinfo, name, null)
   const library = useComponentsLibrary().fields
 
   const fieldComponents = useMemo(
@@ -39,7 +39,7 @@ export const PropertyConfig: React.FC<{
     <Panel
       header={
         <span>
-          <PropertyIcon tableInfo={tableInfo} name={name} />
+          <PropertyIcon tableinfo={tableinfo} name={name} />
           {title}
         </span>
       }

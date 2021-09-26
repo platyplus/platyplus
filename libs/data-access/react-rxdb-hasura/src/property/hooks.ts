@@ -90,8 +90,6 @@ export const useTableProperties = (
         [...result, ...tempProperties].filter(([, { relationship }]) => {
           if (relationship) {
             // * Filter out relationships that points to a non-existing remote table e.g. users.account
-            // const refTableId = relationshipTableId(tableInfo, relationship)
-            // return refTableId ? !!getTableInfo(refTableId) : true
             return true
           } else return true
         })

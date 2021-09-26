@@ -6,12 +6,12 @@ import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
 import { useCollectionTitle } from '@platyplus/react-rxdb-hasura'
 
 export const ConfigListItem: React.FC<{
-  tableInfo: TableInformation
+  tableinfo: TableInformation
   index: number
-}> = ({ tableInfo, index }) => {
-  const name = useMemo(() => tableName(tableInfo), [tableInfo])
+}> = ({ tableinfo, index }) => {
+  const name = useMemo(() => tableName(tableinfo), [tableinfo])
   const history = useHistory()
-  const [configTitle] = useCollectionTitle(tableInfo)
+  const [configTitle] = useCollectionTitle(tableinfo)
   const title = configTitle !== name ? `${configTitle} (${name})` : name
   return (
     <List.Item
@@ -20,7 +20,7 @@ export const ConfigListItem: React.FC<{
         cursor: 'pointer'
       }}
       onClick={() => {
-        history.push(`/config/${tableInfo.id}`)
+        history.push(`/config/${tableinfo.id}`)
       }}
     >
       <span>{title}</span>

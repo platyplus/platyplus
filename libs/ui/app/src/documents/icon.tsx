@@ -5,11 +5,11 @@ import { TableInformation } from '@platyplus/rxdb-hasura'
 
 export const PropertyIcon: React.FC<
   Omit<IconProps, 'icon'> & {
-    tableInfo: TableInformation
+    tableinfo: TableInformation
     name: string
   }
-> = ({ tableInfo, name, ...props }) => {
-  const [icon] = usePropertyIcon(tableInfo, name)
+> = ({ tableinfo, name, ...props }) => {
+  const [icon] = usePropertyIcon(tableinfo, name)
   if (!icon) return null
   return <Icon {...props} icon={icon} style={{ paddingRight: '10px' }} />
 }

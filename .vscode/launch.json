@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "configurations": [
+    {
+      "name": "Launch Platyplus",
+      "request": "launch",
+      "type": "pwa-chrome",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/platyplus/src",
+      "trace": true,
+      "outFiles": ["${workspaceFolder}/**/*.{js,ts}", "!**/node_modules/**"]
+    }
+  ]
+}

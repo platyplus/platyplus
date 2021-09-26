@@ -11,6 +11,7 @@ import {
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
 import {
+  useCollection,
   useCollectionName,
   useOptions,
   useTableInfo
@@ -20,7 +21,7 @@ import { filter, switchMap } from 'rxjs'
 // TODO DRY from ../collection/wrapper
 export const DocumentSelectField: FieldComponent = ({
   role,
-  tableInfo,
+  tableinfo,
   document,
   name,
   edit,
@@ -29,22 +30,19 @@ export const DocumentSelectField: FieldComponent = ({
 }) => {
   // TODO async - see https://rsuitejs.com/components/select-picker/#Async
   const refTable = useTableInfo(
-    relationshipTableId(tableInfo, property.relationship)
+    relationshipTableId(tableinfo, property.relationship)
   )
   const refCollectionName = useCollectionName(refTable, role)
   const [data, setData] = useState<ContentsDocument>(null)
-
+  const collection = useCollection(refCollectionName)
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
-    if (document && refCollectionName) {
+    if (collection) {
       const subscription = document
         .get$(name)
         .pipe(
           filter((id) => !!id),
-          switchMap(
-            (id) =>
-              document.collection.database[refCollectionName].findOne(id).$
-          )
+          switchMap((id) => collection.findOne(id).$)
         )
         .subscribe((refDocument: ContentsDocument) => setData(refDocument))
       return () => subscription.unsubscribe()
@@ -55,8 +53,9 @@ export const DocumentSelectField: FieldComponent = ({
     refCollectionName,
     property,
     refTable,
-    tableInfo.id,
-    role
+    tableinfo.id,
+    role,
+    collection
   ])
 
   const queryConstructor = useCallback(
@@ -78,7 +77,7 @@ export const DocumentSelectField: FieldComponent = ({
     />
   ) : data ? (
     <DocumentComponentWrapper
-      tableInfo={refTable}
+      tableinfo={refTable}
       role={role}
       document={data}
       componentName="label"

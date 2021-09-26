@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { CollectionComponent } from './types'
 
 export const ListCollection: CollectionComponent = ({
-  tableInfo,
+  tableinfo,
   role,
   data
 }) => {
@@ -19,7 +19,7 @@ export const ListCollection: CollectionComponent = ({
             cursor: 'pointer'
           }}
           onClick={() => {
-            history.push(`/collection/${role}/${tableInfo.id}/${item.id}`)
+            history.push(`/collection/${role}/${tableinfo.id}/${item.id}`)
           }}
         >
           {item.label}

@@ -14,9 +14,18 @@ type ForeignKey = {
 }
 export type Relationship = {
   name: string
+  type?: string
   using: XOR<
     {
-      foreign_key_constraint_on: string
+      foreign_key_constraint_on:
+        | string
+        | {
+            column: string
+            table: {
+              schema: string
+              name: string
+            }
+          }
     },
     {
       manual_configuration: {

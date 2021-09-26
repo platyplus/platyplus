@@ -87,7 +87,7 @@ spec:
             - |
               CREATE SCHEMA IF NOT EXISTS auth;
               CREATE SCHEMA IF NOT EXISTS storage; 
-              ALTER DATABASE hasura SET search_path = auth;
+              ALTER DATABASE hasura SET search_path TO auth,"$user",public;
           env:
             - name: DATABASE_URL
               valueFrom:
@@ -252,7 +252,7 @@ spec:
             - name: SERVER_URL
               value: "{{- include "common.tplvalues.render" (dict "value" .Values.serverUrl "context" $) }}"            
             {{- end }}
-            - name: AUTH_ENABLE
+            - name: AUTH_ENABLED
               value: "{{ .Values.auth.enabled }}"
             - name: AUTH_LOCAL_USERS_ENABLE
               value: "{{ .Values.auth.localUsers }}"

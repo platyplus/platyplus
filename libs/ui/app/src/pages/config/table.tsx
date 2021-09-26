@@ -115,7 +115,7 @@ const TableWrapper: React.FC<{
         {[...properties.entries()].map(([name, property], index) => (
           <List.Item key={name} index={index}>
             <PropertyConfig
-              tableInfo={table}
+              tableinfo={table}
               name={name}
               property={property}
               expanded={expandedProperties[name]}
