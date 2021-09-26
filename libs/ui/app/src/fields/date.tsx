@@ -1,4 +1,5 @@
-import { UI_DATE_FORMAT } from '../config'
+import { format, parseISO } from 'date-fns'
+import { UI_DATE_FORMAT, UI_DATE_FORMAT_FNS } from '../config'
 import { DatePickerAccepter, FieldControl, FieldComponent } from './utils'
 
 export const DateField: FieldComponent = ({ document, name, edit, editable }) =>
@@ -12,6 +13,6 @@ export const DateField: FieldComponent = ({ document, name, edit, editable }) =>
       time={false}
       accepter={DatePickerAccepter}
     />
-  ) : (
-    document[name] || null
-  )
+  ) : document[name] ? (
+    <span>{format(parseISO(document[name]), UI_DATE_FORMAT_FNS)}</span>
+  ) : null

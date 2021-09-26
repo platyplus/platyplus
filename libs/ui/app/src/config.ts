@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react'
 import { useLocalStorage } from 'react-use'
 import { AppConfig, AppSettings, JSONAppConfig } from './types'
 
+// TODO remove this once rsuite 5 is on
 export const UI_DATE_FORMAT = 'DD/MM/YYYY'
 export const UI_TIME_FORMAT = 'HH:mm:ss'
 export const UI_DATE_TIME_FORMAT = `${UI_DATE_FORMAT} ${UI_TIME_FORMAT}`
+
+export const UI_DATE_FORMAT_FNS = 'dd/MM/yyyy'
+export const UI_TIME_FORMAT_FNS = 'HH:mm:ss'
+export const UI_DATE_TIME_FORMAT_FNS = `${UI_DATE_FORMAT_FNS} ${UI_TIME_FORMAT_FNS}`
 
 const getConfig = async (initialSettings: AppSettings) =>
   fetch(window.location.origin + '/config.json').then((res) =>
