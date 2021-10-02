@@ -26,12 +26,6 @@
     }
   },
   "projects": {
-    "hasura": {
-      "tags": []
-    },
-    "hasura-cli": {
-      "tags": []
-    },
     "charts-hasura": {
       "tags": []
     },
@@ -39,12 +33,12 @@
       "tags": [],
       "implicitDependencies": ["charts-hasura"]
     },
-    "charts-standard-service": {
-      "tags": []
-    },
     "charts-platyplus": {
       "tags": [],
       "implicitDependencies": ["hasura", "platyplus"]
+    },
+    "charts-standard-service": {
+      "tags": []
     },
     "data-access-hasura-client": {
       "tags": []
@@ -56,6 +50,15 @@
       "tags": []
     },
     "data-access-rxdb-hasura": {
+      "tags": []
+    },
+    "documentation": {
+      "tags": []
+    },
+    "hasura": {
+      "tags": []
+    },
+    "hasura-cli": {
       "tags": []
     },
     "infrastructure": {
@@ -96,9 +99,6 @@
       "tags": []
     },
     "util-ts-types": {
-      "tags": []
-    },
-    "documentation": {
       "tags": []
     }
   },

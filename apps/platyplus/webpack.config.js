@@ -39,7 +39,12 @@ module.exports = (config, context) => {
   config.plugins.push(
     ...[
       new CopyPlugin({
-        patterns: [{ from: './config.json', to: './' }]
+        patterns: [
+          {
+            from: isProd ? './config.prod.json' : './config.json',
+            to: './config.json'
+          }
+        ]
       }),
       new webpack.ProvidePlugin({
         process: 'process/browser',
@@ -75,7 +80,15 @@ module.exports = (config, context) => {
       })
     ]
   )
-
+  config.devServer = {
+    ...config.devServer,
+    host: '0.0.0.0',
+    compress: true,
+    disableHostCheck: true,
+    watchOptions: {
+      poll: true // Or you can set a value in milliseconds.
+    }
+  }
   return {
     ...config,
     node: {

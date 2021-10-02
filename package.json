@@ -5,8 +5,8 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "build": "nx build",
-    "build:production": "nx build:production",
+    "build": "nx build:dev",
+    "build:production": "nx build",
     "start:production": "http-server dist/apps/platyplus -p 8088 --proxy http://localhost:8088?",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
@@ -136,6 +136,7 @@
     "@types/ws": "^7.4.7",
     "@typescript-eslint/eslint-plugin": "4.31.2",
     "@typescript-eslint/parser": "4.31.2",
+    "@wanews/nx-pulumi": "^0.18.0",
     "babel-jest": "26.2.2",
     "babel-plugin-styled-components": "1.10.7",
     "commitizen": "^4.2.4",

@@ -6529,6 +6529,14 @@
     "@typescript-eslint/types" "4.31.2"
     eslint-visitor-keys "^2.0.0"
 
+"@wanews/nx-pulumi@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@wanews/nx-pulumi/-/nx-pulumi-0.18.0.tgz#6c9433e937768ecd11d855a95dbf45cb9d6ea627"
+  integrity sha512-iQlhkW7ubXSlruwQ2QMqAb4ZTsg7Gz2+vq8XqlhPgNOv4Z4kKcfrdEi5njELA4VLhzv1xHPmWXbdeO9A0NrDCQ==
+  dependencies:
+    execa "^5.0.0"
+    js-yaml "^4.0.0"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"

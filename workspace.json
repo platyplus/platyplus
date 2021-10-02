@@ -471,23 +471,13 @@
       "sourceRoot": "apps/infrastructure",
       "projectType": "application",
       "targets": {
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+        "deploy": {
+          "executor": "@wanews/nx-pulumi:up"
+        },
+        "destroy": {
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "outputPath": "dist/apps/infrastructure",
-            "main": "apps/infrastructure/index.ts",
-            "tsConfig": "apps/infrastructure/tsconfig.app.json",
-            "assets": [],
-            "optimization": true,
-            "extractLicenses": true,
-            "inspect": false,
-            "fileReplacements": [
-              {
-                "replace": "apps/infrastructure/environments/environment.ts",
-                "with": "apps/infrastructure/environments/environment.prod.ts"
-              }
-            ]
+            "command": "pulumi destroy --cwd apps/infrastructure"
           }
         },
         "lint": {

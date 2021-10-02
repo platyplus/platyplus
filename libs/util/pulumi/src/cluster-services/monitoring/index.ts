@@ -5,7 +5,6 @@ import { childName, getDomains, getNameSpace } from '../../helpers'
 import { MonitoringInitOptions } from './types'
 
 // !!!! Deactivated for now, too many problems... Following issues
-// TODO https://github.com/pulumi/pulumi-kubernetes/issues/1389
 // TODO grafana default username/password
 
 export const monitoring = (
@@ -47,7 +46,7 @@ export const monitoring = (
     childName(parentName, 'kube-prometheus-stack'),
     {
       chart: 'kube-prometheus-stack',
-      version: '14.9.0',
+      version: '19.0.1',
       fetchOpts: {
         repo: 'https://prometheus-community.github.io/helm-charts'
       },

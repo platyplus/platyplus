@@ -152,6 +152,7 @@ export const certManager = (
     childName(parentName, 'cert-manager'),
     {
       chart: 'cert-manager',
+      // TODO upgrade
       version: '1.2.0',
       fetchOpts: {
         repo: 'https://charts.jetstack.io'

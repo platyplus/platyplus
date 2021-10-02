@@ -3,8 +3,6 @@
 .vercel
 .vscode
 *.log
-libs
-charts
 # dist
 node_modules
 tilt_modules

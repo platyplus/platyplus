@@ -33,7 +33,6 @@ const reverseRelations =
       // * Pass relationships that don't point to any known tableInfo table
       if (!mirrorRelationship) return
 
-      console.log(mirrorTable.id)
       const remoteCollection =
         collection.database.collections[
           collectionName(mirrorTable, collection.options.role)

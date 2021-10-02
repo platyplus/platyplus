@@ -19,11 +19,17 @@ const getConfig = async (initialSettings: AppSettings) =>
         return {
           hasuraUrl:
             typeof hasuraUrl === 'string'
-              ? hasuraUrl
+              ? process.env.NODE_ENV === 'development' &&
+                !window.location.hostname.includes('localhost')
+                ? `${window.location.protocol}//hasura.${window.location.host}/v1/graphql`
+                : hasuraUrl
               : `${window.location.protocol}//${hasuraUrl.prefix}.${window.location.host}/v1/graphql`,
           authUrl:
             typeof authUrl === 'string'
-              ? authUrl
+              ? process.env.NODE_ENV === 'development' &&
+                !window.location.hostname.includes('localhost')
+                ? `${window.location.protocol}//auth.${window.location.host}/v1/graphql`
+                : authUrl
               : `${window.location.protocol}//${authUrl.prefix}.${window.location.host}`,
           ...config,
           ...initialSettings
