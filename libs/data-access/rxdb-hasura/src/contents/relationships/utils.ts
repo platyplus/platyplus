@@ -37,6 +37,7 @@ export const filteredArrayRelationships = (
 // TODO won't work with manually defined relationships in Hasura i.e. the ones not using foreign keys
 // TODO check again - probaly buggy
 export const isManyToManyJoinTable = (table: TableInformation): boolean => {
+  if (!table) return false
   const pkColumns = getIds(table)
   const nbPrimaryForeignKeys = pkColumns.filter((pk) =>
     table.foreignKeys?.some((fk) => Object.keys(fk.mapping).includes(pk))
@@ -126,7 +127,9 @@ export const getMirrorRelationship = (
 ): [TableInformation, Relationship] => {
   const refTable = shiftedTable(tableInfo, rel)
   if (rel.using.manual_configuration) {
-    throw Error(`not implemented`)
+    // TODO profile
+    console.error(`not implemented`)
+    return [null, null]
   }
   const fromKey =
     typeof rel.using.foreign_key_constraint_on === 'string'

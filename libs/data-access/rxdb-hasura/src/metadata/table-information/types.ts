@@ -4,7 +4,7 @@ type PrimaryKey = {
   columns: string[]
 }
 
-type ForeignKey = {
+export type ForeignKey = {
   from: string
   to: string
   update_rule: 'CASCADE' | 'SET NULL' | 'SET DEFAULT' | 'RESTRICT' | 'NO ACTION'

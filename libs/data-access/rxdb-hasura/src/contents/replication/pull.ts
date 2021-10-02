@@ -265,7 +265,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         const refId: string = data[rel.name]
         const oldRefId: string = oldDoc?.get(rel.name)
         // * remove previous value from the mirror one-to-many relationship
-        if (oldRefId && oldRefId !== refId) {
+        if (refRel && oldRefId && oldRefId !== refId) {
           const oldRefDoc: ContentsDocument = await refCollection
             ?.findOne(oldRefId)
             .exec()
@@ -277,7 +277,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
         }
         // * add data item from the mirror one-to-many relationship
         // TODO BUG!!!!!!
-        if (refId) {
+        if (refRel && refId) {
           const refDoc: ContentsDocument = await refCollection
             ?.findOne(refId)
             .exec()

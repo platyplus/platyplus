@@ -16,6 +16,7 @@ export const usePropertyPermissions = (
   const [edit, setEdit] = useState(false)
   const [read, setRead] = useState(false)
   useEffect(() => {
+    console.log(propertyName, canEdit(tableInfo, role, document, propertyName))
     setEdit(canEdit(tableInfo, role, document, propertyName))
     setRead(canRead(tableInfo, role, propertyName))
   }, [document, tableInfo, role, propertyName])

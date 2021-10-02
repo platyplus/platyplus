@@ -58,7 +58,7 @@ export const CollectionField: CollectionFieldComponent = ({
 
   const options = useOptions(refTable, result, role)
 
-  return edit ? (
+  return editable && edit ? (
     <FieldControl
       tableinfo={tableinfo}
       role={role}

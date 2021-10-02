@@ -66,7 +66,7 @@ export const DocumentSelectField: FieldComponent = ({
 
   const options = useOptions(refTable, result, role)
 
-  return edit ? (
+  return editable && edit ? (
     <FieldControl
       style={{ minWidth: 300 }}
       name={name}
