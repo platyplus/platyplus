@@ -8,6 +8,9 @@
     "dbaeumer.vscode-eslint",
     "tchoupinax.tilt",
     "redhat.vscode-yaml",
-    "silvenon.mdx"
+    "silvenon.mdx",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "vscode-icons-team.vscode-icons",
+    "eamodio.gitlens"
   ]
 }
