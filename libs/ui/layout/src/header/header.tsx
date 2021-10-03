@@ -1,5 +1,5 @@
 import { Header as GenericHeader, Icon, IconButton, Portal } from 'rsuite'
-import React, { FunctionComponent, ReactNode } from 'react'
+import React, { FunctionComponent, ReactNode, useEffect, useRef } from 'react'
 
 import StatusMenu from '../status-menu/status-menu'
 import styled from 'styled-components'
@@ -20,13 +20,19 @@ const Container = styled.div`
   }
 `
 export const useTitleContainer = createGlobalState<HTMLElement>()
-export const Header: FunctionComponent<{
+
+const Header: FunctionComponent<{
   statusMenu?: ReactNode
   toggle?: () => void
   collapsed?: boolean
   sideMenu?: boolean
 }> = ({ toggle, statusMenu, sideMenu }) => {
   const [, setContainer] = useTitleContainer()
+  const ref = useRef()
+  useEffect(() => {
+    setContainer(ref.current)
+  }, [setContainer, ref])
+
   return (
     <GenericHeader>
       {/* // TODO https://github.com/nfl/react-helmet */}
@@ -44,10 +50,7 @@ export const Header: FunctionComponent<{
               icon={<Icon icon="align-justify" />}
             />
           )}
-          <span
-            ref={(ref) => setContainer(ref)}
-            style={{ width: '100%' }}
-          ></span>
+          <span ref={ref} style={{ width: '100%' }} />
         </div>
         <StatusMenu>{statusMenu}</StatusMenu>
       </Container>
