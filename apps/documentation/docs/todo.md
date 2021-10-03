@@ -26,17 +26,17 @@ sidebar_label: To do list
   - [ ] UI Toast warnings and errors
 - [ ] nx platyplus:version
 - [ ] Hasura 2
-  - [ ] update Helm chart
-    - [ ] update to PostgreSQL 13
-    - [ ] adapt environment variables
-  - [ ] Update Tilt extension
-    - [ ] upgrade hasura version
-    - [ ] custom hasura `image` param
+  - [x] update Helm chart
+    - [x] update to PostgreSQL 13
+    - [x] adapt environment variables
+  - [x] Update Tilt extension
+    - [x] upgrade hasura version
+    - [x] custom hasura `image` param
 - [ ] Platyplus Helm Chart
 - [ ] Documentation
-  - [ ] Docusaurus
+  - [x] Docusaurus
   - [ ] GitHub Action
-  - [ ] Adjust existing contents
+  - [x] Adjust existing contents
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
   - [ ] Configuration guide
