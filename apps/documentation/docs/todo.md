@@ -25,18 +25,9 @@ sidebar_label: To do list
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
 - [ ] nx platyplus:version
-- [ ] Hasura 2
-  - [x] update Helm chart
-    - [x] update to PostgreSQL 13
-    - [x] adapt environment variables
-  - [x] Update Tilt extension
-    - [x] upgrade hasura version
-    - [x] custom hasura `image` param
 - [ ] Platyplus Helm Chart
 - [ ] Documentation
-  - [x] Docusaurus
   - [ ] GitHub Action
-  - [x] Adjust existing contents
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
   - [ ] Configuration guide
@@ -57,6 +48,7 @@ sidebar_label: To do list
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
 - [ ] make everything work with Pulumi
+- [ ] change `platy.dev` to `platy.plus`
 
 ## MVP 2
 
