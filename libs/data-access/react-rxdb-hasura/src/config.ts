@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { useLocation } from 'react-use'
 
-import { useUserIsAdmin } from '@platyplus/hbp'
+import { useAuthenticated, useUserIsAdmin } from '@platyplus/hbp'
 import {
   AppConfig,
   APP_CONFIG_TABLE,
@@ -23,10 +23,11 @@ import { useSingleton } from './document'
 import { useCollection } from './collection'
 
 export const useConfigEnabled = () => {
+  const auth = useAuthenticated()
   const admin = useUserIsAdmin()
   const location = useLocation()
   // TODO ping localhost:9693
-  return location.hostname === 'localhost' || admin
+  return auth && (location.hostname === 'localhost' || admin)
 }
 
 export const useAppConfig = (): [
