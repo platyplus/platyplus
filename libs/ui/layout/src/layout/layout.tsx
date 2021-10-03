@@ -27,7 +27,7 @@ export const Layout: React.FC<{
   return (
     <ThemeProvider theme={theme}>
       <Container className="app">
-        {!!menu && (
+        {hasSideMenu && (
           <SideMenu logo={logo} toggle={toggle} collapsed={collapsed}>
             {menu}
           </SideMenu>
@@ -37,7 +37,7 @@ export const Layout: React.FC<{
             statusMenu={statusMenu}
             collapsed={collapsed}
             toggle={toggle}
-            sideMenu={!!menu}
+            sideMenu={hasSideMenu}
           />
           <StyledContent>{children}</StyledContent>
         </Container>
