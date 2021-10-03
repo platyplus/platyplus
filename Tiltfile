@@ -52,6 +52,7 @@ else:
                 )
 
     k8s_resource('standard-service',
+                    new_name='frontend',
                     port_forwards='4200:4200',
                     links=[link('http://localhost:4200/', 'App')])
 
