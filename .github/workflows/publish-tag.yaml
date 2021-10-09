@@ -31,29 +31,20 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install NodeJS packages
         run: yarn
-      - name: Lint
-        uses: mansagroup/nrwl-nx-action@v2
-        with:
-          targets: lint
-          all: 'true'
-          parallel: 'true'
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: echo ::set-output name=project::$(git describe --tags HEAD | grep $2@ | awk -F @ '{ print v$1 }')
       - name: Publish
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: publish
-          # TODO GH action runs once for each tag -> easier to handle: see the "<====="
-          all: 'true'
+          targets: lint,publish
+          projects: ${{ steps.vars.outputs.project }}
           # TODO Check version before publish so it avoids to try to publish already existing version.
           # * done: NPM
           # TODO  : Docker, Helm Charts?
-          # TODO -----------------------------------------------------------
-          # TODO ----> OR: pass on 'projects' through the git tags???? <---- <=====
-          # TODO -----------------------------------------------------------
           nxCloud: 'true'
         env:
           HELM_EXPERIMENTAL_OCI: 1
