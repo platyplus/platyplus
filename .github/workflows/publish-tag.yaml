@@ -14,6 +14,7 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: '14'
+      # TODO only if tag is related to an Helm chart
       - name: Install Helm & Push plugin
         run: |
           sudo snap install helm --classic
@@ -32,6 +33,7 @@ jobs:
       - name: Set project var
         id: vars
         run: echo ::set-output name=project::$(git describe --tags HEAD | grep $2@ | awk -F @ '{ print v$1 }')
+      # TODO only if tag is related to a Docker image
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -42,9 +44,6 @@ jobs:
         with:
           targets: publish
           projects: ${{ steps.vars.outputs.project }}
-          # TODO Check version before publish so it avoids to try to publish already existing version.
-          # * done: NPM
-          # TODO  : Docker, Helm Charts?
           nxCloud: 'true'
         env:
           HELM_EXPERIMENTAL_OCI: 1
