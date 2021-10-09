@@ -1,7 +1,17 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+## [0.2.3](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.2.2...data-access-rxdb-hasura@0.2.3) (2021-10-09)
+
+
+### Bug Fixes
+
+* many to many ([eff74f3](https://github.com/platyplus/platydev/commit/eff74f3b28c9cadd3e435bc16956836105d8249e))
+* post-demo bug fixing ([cbf9fc6](https://github.com/platyplus/platydev/commit/cbf9fc662a541831a6fc3a682015b5de3e7f5011))
+* remove bugs, upgrade packages ([826f1c2](https://github.com/platyplus/platydev/commit/826f1c2c2147ed1b436e9f58b36d1fc4346d7f91))
+
+
 
 ## [0.2.2](https://github.com/platyplus/platydev/compare/@platyplus/rxdb-hasura@0.2.1...@platyplus/rxdb-hasura@0.2.2) (2021-01-26)
 
