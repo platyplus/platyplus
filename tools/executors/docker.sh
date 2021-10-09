@@ -11,15 +11,17 @@ LATEST_TAG=$REPOSITORY:latest
 
 case $1 in
   "build") 
-    docker build . -f $DOCKERFILE -t $LATEST_TAG
+    docker build . -f $DOCKERFILE -t docker.io/$REPOSITORY
+    echo "tag: docker.io/$LATEST_TAG"
+    docker tag $REPOSITORY docker.io/$LATEST_TAG
     if [ -n "$VERSION" ]; then
-      echo "tag: $REPOSITORY:$VERSION"
-      docker tag $LATEST_TAG $REPOSITORY:$VERSION
+      echo "tag: docker.io/$REPOSITORY:$VERSION"
+      docker tag $REPOSITORY docker.io/$REPOSITORY:$VERSION
     fi
     ;;
   "push") 
-    echo "docker push --all-tags $REPOSITORY"
-    docker push --all-tags $REPOSITORY
+    echo "docker push --all-tags docker.io/$REPOSITORY"
+    docker push --all-tags docker.io/$REPOSITORY
     # TODO doesn't work with GH Action -> when the 'publish' action becomes meant for one single tag, move to a GH action step
     # DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' $WORKING_DIR/package.json)
     # echo "Pushing description: $DESCRIPTION"
