@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/platyplus/platydev/compare/platyplus@0.1.0...platyplus@0.2.0) (2021-10-09)
+
+
+### Bug Fixes
+
+* post-demo bug fixing ([cbf9fc6](https://github.com/platyplus/platydev/commit/cbf9fc662a541831a6fc3a682015b5de3e7f5011))
+
+
+### Features
+
+* dynamic config.json file that can be rewritten on static file 'runtime' ([8eebae6](https://github.com/platyplus/platydev/commit/8eebae64d4039e6a05503abb58b03c11dfaaf9b6))
+
+
+
 # 0.1.0 (2021-09-15)
 
 
