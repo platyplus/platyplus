@@ -2,6 +2,22 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.1.0...data-access-react-rxdb-hasura@0.2.0) (2021-10-09)
+
+
+### Bug Fixes
+
+* always hide config side status menu when user is not authenticated ([995f91e](https://github.com/platyplus/platydev/commit/995f91e6c6c4092638f2196ecaf219c56ebd6d65))
+* post-demo bug fixing ([cbf9fc6](https://github.com/platyplus/platydev/commit/cbf9fc662a541831a6fc3a682015b5de3e7f5011))
+* remove bugs, upgrade packages ([826f1c2](https://github.com/platyplus/platydev/commit/826f1c2c2147ed1b436e9f58b36d1fc4346d7f91))
+
+
+### Features
+
+* dynamic config.json file that can be rewritten on static file 'runtime' ([8eebae6](https://github.com/platyplus/platydev/commit/8eebae64d4039e6a05503abb58b03c11dfaaf9b6))
+
+
+
 # 0.1.0 (2021-09-15)
 
 
