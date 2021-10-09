@@ -22,7 +22,7 @@ case $1 in
     docker push --all-tags $REPOSITORY
     DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' $WORKING_DIR/package.json)
     echo "Pushing description: $DESCRIPTION"
-    docker run -v $PWD/$WORKING_DIR:/workspace \
+    docker run -a stderr -v $PWD/$WORKING_DIR:/workspace \
       -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
       -e DOCKERHUB_PASSWORD="$DOCKERHUB_PASSWORD" \
       -e DOCKERHUB_REPOSITORY=$REPOSITORY \

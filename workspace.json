@@ -36,7 +36,7 @@
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push charts/hasura platydev"
+            "command": "${HOME}/.local/share/helm/plugins/helm-push/bin/helmpush charts/hasura platydev"
           }
         },
         "version": {
@@ -59,7 +59,7 @@
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push charts/hasura-backend-plus platydev"
+            "command": "${HOME}/.local/share/helm/plugins/helm-push/bin/helmpush charts/hasura-backend-plus platydev"
           }
         },
         "version": {
@@ -82,7 +82,9 @@
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "commands": ["helm push charts/platyplus platydev"]
+            "commands": [
+              "${HOME}/.local/share/helm/plugins/helm-push/bin/helmpush charts/platyplus platydev"
+            ]
           }
         },
         "version": {
@@ -105,7 +107,7 @@
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "helm push charts/standard-service platydev"
+            "command": "${HOME}/.local/share/helm/plugins/helm-push/bin/helmpush charts/standard-service platydev"
           }
         },
         "version": {
