@@ -20,15 +20,16 @@ case $1 in
   "push") 
     echo "docker push --all-tags $REPOSITORY"
     docker push --all-tags $REPOSITORY
-    DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' $WORKING_DIR/package.json)
-    echo "Pushing description: $DESCRIPTION"
-    docker run -a stderr -v $PWD/$WORKING_DIR:/workspace \
-      -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
-      -e DOCKERHUB_PASSWORD="$DOCKERHUB_PASSWORD" \
-      -e DOCKERHUB_REPOSITORY=$REPOSITORY \
-      -e README_FILEPATH='/workspace/README.md' \
-      -e SHORT_DESCRIPTION="$DESCRIPTION" \
-      peterevans/dockerhub-description:2
+    # TODO doesn't work with GH Action -> when the 'publish' action becomes meant for one single tag, move to a GH action step
+    # DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' $WORKING_DIR/package.json)
+    # echo "Pushing description: $DESCRIPTION"
+    # docker run -a stderr -v $PWD/$WORKING_DIR:/workspace \
+    #   -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
+    #   -e DOCKERHUB_PASSWORD="$DOCKERHUB_PASSWORD" \
+    #   -e DOCKERHUB_REPOSITORY=$REPOSITORY \
+    #   -e README_FILEPATH='/workspace/README.md' \
+    #   -e SHORT_DESCRIPTION="$DESCRIPTION" \
+    #   peterevans/dockerhub-description:2
   ;;
    *) echo "unknown command" ;;
 esac
