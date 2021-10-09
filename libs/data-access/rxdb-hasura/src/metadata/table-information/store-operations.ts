@@ -22,7 +22,7 @@ export const onDelete = async (table: RxDocument<TableInfo>) => {
     })
   )
   // * Remove RxDB collections as well
-  const db: Database = table.collection.database
+  const db = table.collection.database as unknown as Database
   for (const role of tableRoles(table)) {
     const name = collectionName(table, role)
     const collection = db.collections[name] as ContentsCollection
