@@ -42,7 +42,7 @@ jobs:
       - name: Publish
         uses: mansagroup/nrwl-nx-action@v2
         with:
-          targets: lint,publish
+          targets: publish
           projects: ${{ steps.vars.outputs.project }}
           # TODO Check version before publish so it avoids to try to publish already existing version.
           # * done: NPM
