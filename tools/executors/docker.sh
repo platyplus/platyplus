@@ -13,12 +13,15 @@ case $1 in
   "build") 
     docker build . -f $DOCKERFILE -t $LATEST_TAG
     if [ -n "$VERSION" ]; then
+      echo "tag: $REPOSITORY:$VERSION"
       docker tag $LATEST_TAG $REPOSITORY:$VERSION
     fi
     ;;
   "push") 
+    echo "docker push --all-tags $REPOSITORY"
     docker push --all-tags $REPOSITORY
     DESCRIPTION=$(jq -r '.description // "" | select(. != "") // ""' $WORKING_DIR/package.json)
+    echo "Pushing description: $DESCRIPTION"
     docker run -v $PWD/$WORKING_DIR:/workspace \
       -e DOCKERHUB_USERNAME="$DOCKERHUB_USERNAME" \
       -e DOCKERHUB_PASSWORD="$DOCKERHUB_PASSWORD" \
