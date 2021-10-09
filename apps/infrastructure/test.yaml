@@ -26,9 +26,9 @@ metadata:
   name: kuard
 spec:
   ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
   selector:
     app: kuard
 ---
@@ -37,20 +37,21 @@ kind: Ingress
 metadata:
   name: kuard
   annotations:
-    kubernetes.io/tls-acme: "true"
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: nginx
 spec:
   tls:
-  - hosts:
-    - example.platy.plus
-    secretName: kuard-certificate
+    - hosts:
+        - test.platy.plus
+      secretName: kuard-certificate
   rules:
-  - host: example.platy.plus
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kuard
-            port:
-              number: 80
+    - host: test.platy.plus
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kuard
+                port:
+                  number: 80

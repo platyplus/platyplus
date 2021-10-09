@@ -13,6 +13,6 @@ if (config) {
       file: 'test.yaml',
       resourcePrefix: clusterName
     },
-    { provider: config.pulumiProvider }
+    { provider: config.pulumiProvider, dependsOn: [config.cluster] }
   )
 }

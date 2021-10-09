@@ -12,22 +12,22 @@ export const reflector = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: ReflectorOptions
-): { chart: kubernetes.helm.v3.Chart } => {
+): kubernetes.helm.v3.Release => {
   const ns = getNameSpace(provider, options.namespace)
-
-  const chart = new kubernetes.helm.v3.Chart(
+  const name = 'reflector'
+  return new kubernetes.helm.v3.Release(
     childName(parentName, 'reflector'),
     {
       chart: 'reflector',
+      name,
       // TODO fixed version
       // version: '0.0.0',
-      fetchOpts: {
+      repositoryOpts: {
         repo: 'https://emberstack.github.io/helm-charts'
       },
-      namespace: ns.metadata.name
+      namespace: ns.metadata.name,
+      values: {}
     },
     { provider }
   )
-
-  return { chart }
 }

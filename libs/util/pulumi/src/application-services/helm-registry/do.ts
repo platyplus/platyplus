@@ -10,7 +10,7 @@ export const digitalOceanHelmRegistry = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: HelmRegistryInitOptions
-): { name: string; chart: kubernetes.helm.v3.Chart } => {
+): kubernetes.helm.v3.Release => {
   const { domain, namespace } = options
   const ns = getNameSpace(provider, namespace)
   const name = options.name || 'charts'
@@ -45,13 +45,15 @@ export const digitalOceanHelmRegistry = (
   const spacesAccessId = doConfig.requireSecret('spacesAccessId')
   const spacesSecretKey = doConfig.requireSecret('spacesSecretKey')
 
-  const chart = new kubernetes.helm.v3.Chart(
+  return new kubernetes.helm.v3.Release(
     childName(parentName, name),
     {
       chart: 'chartmuseum',
+      // TODO check latest version
       version: '3.1.0',
+      name,
       namespace: ns.metadata.name,
-      fetchOpts: {
+      repositoryOpts: {
         repo: 'https://chartmuseum.github.io/charts'
       },
       values: {
@@ -95,6 +97,4 @@ export const digitalOceanHelmRegistry = (
     },
     { provider, dependsOn: [spacesBucket] }
   )
-
-  return { chart, name }
 }

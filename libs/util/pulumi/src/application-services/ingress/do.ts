@@ -1,7 +1,7 @@
 import { DnsRecord, Domain } from '@pulumi/digitalocean'
 import * as pulumi from '@pulumi/pulumi'
+import * as k8s from '@pulumi/kubernetes'
 
-import { getNameSpace } from '../../helpers'
 import { ingressNginx } from './nginx'
 import { IngressOptions } from './types'
 
@@ -19,22 +19,15 @@ export const digitalOceanIngress = (
       })
     }
   })
-  const namespace = getNameSpace(provider, options.namespace)
 
-  const { chart: ingressChart, name: ingressChartName } = ingressNginx(
-    parentName,
-    provider,
-    options.namespace
-  )
+  const ingressRelease = ingressNginx(parentName, provider, options.namespace)
 
-  const ingressIp = namespace.metadata.name.apply(
-    (ns) =>
-      ingressChart.getResource(
-        'v1/Service',
-        ns,
-        `${parentName}-${ingressChartName}-controller`
-      ).status.loadBalancer.ingress[0].ip
+  const srv = k8s.core.v1.Service.get(
+    `ingress-nginx-controller`,
+    pulumi.interpolate`${ingressRelease.status.namespace}/${ingressRelease.status.name}-controller`,
+    { provider }
   )
+  const ingressIp = srv.status.loadBalancer.ingress[0].ip
 
   for (const { name, root, resource } of domainsResources) {
     // * Root DNS 'A' record - add it by default, root param value otherwise

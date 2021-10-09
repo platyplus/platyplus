@@ -10,7 +10,7 @@ export const helmRegistry = (
   providerName: ClusterProvider,
   provider: pulumi.ProviderResource,
   options: HelmRegistryInitOptions
-): { name: string; chart: kubernetes.helm.v3.Chart } => {
+): kubernetes.helm.v3.Release => {
   if (providerName === 'digitalocean')
     return digitalOceanHelmRegistry(parentName, provider, options)
   else throw Error(`Helm registry not set for provider ${providerName}`)

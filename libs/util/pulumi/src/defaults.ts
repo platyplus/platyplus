@@ -19,7 +19,7 @@ export const DEFAULT_CLUSTER_CONFIG: ClusterConfig = {
     enabled: true,
     namespace: 'cluster-services',
     monitoring: {
-      enabled: true,
+      enabled: false,
       ingress: {
         enabled: true,
         subdomain: 'monitoring',

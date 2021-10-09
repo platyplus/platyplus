@@ -1,16 +1,7 @@
 config:
   digitalocean:spacesAccessId:
-    secure: AAABAOAiuBL6W7xFU6wHt41DIL0y9Bfc46Nb3V5NgWvNPR1766PVfLVBaZe8ONQb/gSYsA==
+    secure: AAABACAWWgmK/QpPXgIdUizplDJ07N3pojGPME4zFvn5sdczciyE6gkKkSDsCNzXrdtmwg==
   digitalocean:spacesSecretKey:
-    secure: AAABAMud3nWEhXFExZalpaHsWyuC9mRO1AEjCo4pkIa7lz8uklpeSMj0zjgqwxak3p5/WDH6NcCVkMabEV4vc3vlmppsYRX1VFnB
+    secure: AAABALTyuLkuXsxeofSha/cG+cW+Oi3za6JK84TIEQhyV9pYQy2SME3dZ1cYAKSchVNzqUtDOy0svU0ZDxEfVPlFj4pwjAa8pbh0
   digitalocean:token:
-    secure: AAABAA0/+aKQpSziSHSwWMy6VKPj0gyerqMl/l2efYCms8zGpXg5eh30vBO9CkyVNW+Njw5eXE68tJ05/taJTbztchVuu+qCnsZQ2ou+swWN5X1LZEUgJjfsmcBN5jTA
-  infrastructure:clusters:
-    platy-plus:
-      appServices:
-        helmRegistry:
-          basicAuth:
-            password:
-              secure: AAABABIZLw6yodaEY5fxuS6NoTnNCkg+xk3vo0yQR2joS4iUIFImlw==
-            username:
-              secure: AAABADrfpnGsnf6MrOqOQziA/zXZGu2ujWC7kx9MDI9SKoLcX+tmcyDoEQ==
+    secure: AAABAKIelrG3SjyNOx/rqIrGHdH4mF8+2+ZHjvKYr6YBUZs41KLzl6ynAnxPVRmvHnpJKdRvjvD9qlAXeUop1Qv6HhhQRJr1wJ4dUuTrXD2ybHROgx3wntTSiqZMXrFa

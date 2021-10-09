@@ -14,7 +14,7 @@ export const initApplicationServices = (
     ingress(name, provider, pulumiProvider, { domain, namespace })
   }
   if (appServices.certManager.enabled) {
-    certManager(name, pulumiProvider, {
+    certManager(name, provider, pulumiProvider, {
       domain,
       namespace,
       email: appServices.certManager.email

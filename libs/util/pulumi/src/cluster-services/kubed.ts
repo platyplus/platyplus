@@ -12,21 +12,21 @@ export const kubed = (
   parentName: string,
   provider: pulumi.ProviderResource,
   options: KubedOptions
-): { chart: kubernetes.helm.v3.Chart } => {
+): kubernetes.helm.v3.Release => {
   const ns = getNameSpace(provider, options.namespace)
-
-  const chart = new kubernetes.helm.v3.Chart(
-    childName(parentName, 'kubed'),
+  const name = 'kubed'
+  return new kubernetes.helm.v3.Release(
+    childName(parentName, name),
     {
       chart: 'kubed',
+      name,
       version: '0.12.0',
-      fetchOpts: {
+      repositoryOpts: {
         repo: 'https://charts.appscode.com/stable'
       },
-      namespace: ns.metadata.name
+      namespace: ns.metadata.name,
+      values: {}
     },
     { provider }
   )
-
-  return { chart }
 }
