@@ -36,7 +36,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - run: echo ::set-output name=project::$(git describe --tags HEAD | grep $2@ | awk -F @ '{ print v$1 }')
+      - name: Set project var
+        id: vars
+        run: echo ::set-output name=project::$(git describe --tags HEAD | grep $2@ | awk -F @ '{ print v$1 }')
       - name: Publish
         uses: mansagroup/nrwl-nx-action@v2
         with:
