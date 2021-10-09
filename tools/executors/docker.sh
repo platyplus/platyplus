@@ -5,7 +5,7 @@
 ORG=platyplus
 WORKING_DIR=apps/$2
 DOCKERFILE=$WORKING_DIR/Dockerfile
-VERSION=$(git describe --tags HEAD | grep charts-$2@ | awk -F @ '{ print v$2 }')
+VERSION=$(git describe --tags HEAD | grep $2@ | awk -F @ '{ print v$2 }')
 REPOSITORY=$ORG/$2
 LATEST_TAG=$REPOSITORY:latest
 
