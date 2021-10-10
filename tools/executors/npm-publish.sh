@@ -1,6 +1,6 @@
 WORKING_DIR=dist/libs/$1
 
-PACKAGE_NAME=$(jq -r '.name // "" | select(. != "") // ""' package.json)
+PACKAGE_NAME=$(jq -r '.name // "" | select(. != "") // ""' $WORKING_DIR/package.json)
 LAST_VERSION=$(npm view $PACKAGE_NAME .version --silent || echo '0.0.0')
 CURRENT_VERSION=$(jq -r '.version // "" | select(. != "") // ""' $WORKING_DIR/package.json)
 
