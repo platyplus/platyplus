@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.2...util-pulumi@0.1.3) (2021-10-10)
+
+
+### Bug Fixes
+
+* export initClusters ([8efcb6a](https://github.com/platyplus/platydev/commit/8efcb6a9c42dcb1b004e7084fc33f29bb67f15de))
+
+
+
 ## [0.1.2](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.1...util-pulumi@0.1.2) (2021-10-10)
 
 
