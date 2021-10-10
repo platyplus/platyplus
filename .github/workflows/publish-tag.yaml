@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
+          scope: '@platyplus'
       # TODO only if tag is related to an Helm chart
       - name: Install Helm & Push plugin
         run: |
