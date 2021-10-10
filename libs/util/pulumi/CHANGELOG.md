@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.1.0](https://github.com/platyplus/platydev/compare/util-pulumi@0.0.1...util-pulumi@0.1.0) (2021-10-10)
+
+
+### Features
+
+* use either vercel or netlify, and allow to give www dns subdomain ([5cf23a7](https://github.com/platyplus/platydev/commit/5cf23a72ad3c5ec62f9ca6de904b9de5923c8f3c))
+
+
+
 ## [0.0.2](https://github.com/platyplus/platydev/compare/util-pulumi@0.0.1...util-pulumi@0.0.2) (2021-10-10)
 
 
