@@ -1,4 +1,8 @@
 # Changelog
+## [0.1.1](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.0...charts-platyplus@0.1.1) (2021-10-10)
+
+
+
 # 0.1.0 (2021-10-09)
 
 
