@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.2](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.1...util-pulumi@0.1.2) (2021-10-10)
+
+
+### Bug Fixes
+
+* import crds package.json files ([127ce96](https://github.com/platyplus/platydev/commit/127ce96a074d8777216dd52fe53b2805dac50ec3))
+
+
+
 ## [0.1.1](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.0...util-pulumi@0.1.1) (2021-10-10)
 
 
