@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.0...util-pulumi@0.1.1) (2021-10-10)
+
+
+### Bug Fixes
+
+* do not import tslib helpers ([7243585](https://github.com/platyplus/platydev/commit/724358528a99633a0ef26a1538f6b49343a0c80b))
+
+
+
 # [0.1.0](https://github.com/platyplus/platydev/compare/util-pulumi@0.0.1...util-pulumi@0.1.0) (2021-10-10)
 
 
