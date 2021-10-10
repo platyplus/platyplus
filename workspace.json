@@ -494,13 +494,6 @@
             "jestConfig": "apps/infrastructure/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "version": {
-          "executor": "@jscutlery/semver:version",
-          "options": {
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          }
         }
       }
     },

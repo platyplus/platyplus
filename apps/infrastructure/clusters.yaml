@@ -4,4 +4,5 @@ platy-plus:
       enabled: false
   domain:
     - name: platy.plus
-      root: 76.76.21.21 # * root domain, pointing to vercel (technical documentation from platyplus repo)
+      root: NETLIFY
+      www: ROOT

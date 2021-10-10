@@ -13,6 +13,7 @@ export type ClusterProvider = 'digitalocean'
 export type DnsDomain = {
   name: string
   root?: string
+  www?: string
 }
 
 export type AppServicesConfig = {

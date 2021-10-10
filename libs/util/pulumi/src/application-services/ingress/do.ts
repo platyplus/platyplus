@@ -4,6 +4,7 @@ import * as k8s from '@pulumi/kubernetes'
 
 import { ingressNginx } from './nginx'
 import { IngressOptions } from './types'
+import { PROVIDER_IPS } from './constants'
 
 export const digitalOceanIngress = (
   parentName: string,
@@ -29,20 +30,32 @@ export const digitalOceanIngress = (
   )
   const ingressIp = srv.status.loadBalancer.ingress[0].ip
 
-  for (const { name, root, resource } of domainsResources) {
+  for (const { name, root, www, resource } of domainsResources) {
     // * Root DNS 'A' record - add it by default, root param value otherwise
+    const rootValue = root ? PROVIDER_IPS[root] || root : ingressIp
     new DnsRecord(
       `@.${name}`,
       {
         type: 'A',
         name: '@',
         domain: name,
-        value: root || ingressIp
-        // value: ingressIp
+        value: rootValue
       },
       { dependsOn: [resource] }
     )
-
+    if (www) {
+      const wwwValue = www === 'ROOT' ? rootValue : PROVIDER_IPS[www] || www
+      new DnsRecord(
+        `www.${name}`,
+        {
+          type: 'A',
+          name: 'www',
+          domain: name,
+          value: wwwValue
+        },
+        { dependsOn: [resource] }
+      )
+    }
     // * Star DNS 'A' record
     new DnsRecord(
       `*.${name}`,

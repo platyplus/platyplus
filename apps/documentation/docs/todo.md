@@ -27,7 +27,6 @@ sidebar_label: To do list
 - [ ] nx platyplus:version
 - [ ] Platyplus Helm Chart
 - [ ] Documentation
-  - [ ] GitHub Action
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
   - [ ] Configuration guide
@@ -49,6 +48,7 @@ sidebar_label: To do list
   - [ ] boilerplate / template project (tilt/docker-compose)
 - [ ] make everything work with Pulumi
 - [ ] change `platy.dev` to `platy.plus`
+- [ ] service worker: get bundle after it changed
 
 ## MVP 2
 
