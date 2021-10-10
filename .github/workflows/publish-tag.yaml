@@ -14,6 +14,7 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
       # TODO only if tag is related to an Helm chart
       - name: Install Helm & Push plugin
         run: |
@@ -49,3 +50,4 @@ jobs:
           HELM_EXPERIMENTAL_OCI: 1
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

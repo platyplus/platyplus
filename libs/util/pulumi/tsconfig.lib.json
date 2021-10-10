@@ -4,8 +4,10 @@
     "module": "commonjs",
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    "importHelpers": false,
+    "resolveJsonModule": true
   },
   "exclude": ["**/*.spec.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "src/crds/**/package.json"]
 }
