@@ -187,7 +187,3 @@ helm install --name my-release platydev/hasura \
   --set ingress.hosts[0].tls=true
   --set ingress.hosts[0].tlsSecret=my-release.tls-secret
 ```
-
-## Contribute
-
-This chart may not fit with your needs yet, as some options may still be missing, or may need further documentation. Don't hesitate to open an issue of to ask your questions through [Discord](https://discord.gg/Bez8xY).

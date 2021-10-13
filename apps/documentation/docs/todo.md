@@ -24,8 +24,8 @@ sidebar_label: To do list
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
-- [ ] nx platyplus:version
 - [ ] Platyplus Helm Chart
+  - [ ] nx platyplus:version
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
@@ -46,9 +46,14 @@ sidebar_label: To do list
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- [ ] make everything work with Pulumi
 - [ ] change `platy.dev` to `platy.plus`
+  - [ ] change code references
+  - [ ] copy s3 charts -> https://www.digitalocean.com/community/tutorials/how-to-transfer-digitalocean-spaces-between-regions-using-rclone#copying-objects-from-s3-to-spaces
+  - [ ] point both domains to new cluster
+  - [ ] shut down old cluster
+  - [ ] change in artifacthub, dockerhub, github, npmjs
 - [ ] service worker: get bundle after it changed
+- [ ] remove infrastructure app / reshape it to pulumi-e2e?
 
 ## MVP 2
 
@@ -61,6 +66,7 @@ sidebar_label: To do list
   - [ ] avatar picker (image-url component)
   - [ ] prefix `platyplus_` all the internal collections
   - [ ] home page (pages table, at this stage as a singleton)
+- [ ] Platyplus Tilt extension
 
 ## Post-MVP
 
