@@ -71,23 +71,17 @@ const features = [
   }
 ]
 
-function Feature({ imageUrl, title, description }) {
+function Feature({ imageUrl, title, description, dark }) {
   const imgUrl = useBaseUrl(imageUrl)
   const { isDarkTheme } = useThemeContext()
+  const classes = `${styles.featureImage} ${
+    isDarkTheme ? styles.darkFeatureImage : styles.lightFeatureImage
+  }`
   return (
     <div className={clsx('col col--4', styles.feature)}>
       {imgUrl && (
         <div className="text--center">
-          <img
-            className={styles.featureImage}
-            src={imgUrl}
-            alt={title}
-            style={
-              isDarkTheme
-                ? { filter: 'invert(85%)' }
-                : { filter: 'invert(20%)' }
-            }
-          />
+          <img className={classes} src={imgUrl} alt={title} />
         </div>
       )}
       <h3>{title}</h3>
