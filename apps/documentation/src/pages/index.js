@@ -9,38 +9,14 @@ import ThemedImage from '@theme/ThemedImage'
 import styles from './styles.module.css'
 
 const features = [
-  /* // TODO
-- 'Isomorphic' - define schema, permissions etc in one single place and make it work both backend and frontend
-- Hasura, ACID / relational, soft-delete, field-level permissions...
-- Extensible - custom components
-*/
   {
-    title: 'SGDB',
+    title: 'Relational',
     imageUrl: 'img/database.svg',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    )
-  },
-  {
-    title: 'Offline-first',
-    imageUrl: 'img/disconnect.svg',
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    )
-  },
-  {
-    title: 'Realtime',
-    imageUrl: 'img/time.svg',
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Describe your application data from a PostgreSQL schema and Hasura
+        metadata. Define field-level access permissions, relations and
+        validation rules.
       </>
     )
   },
@@ -49,8 +25,39 @@ const features = [
     imageUrl: 'img/merge.svg',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Avoid the hussle to define roles, permissions, validations and form
+        logic twice: describe it once for both frontend and backend.
+      </>
+    )
+  },
+  {
+    title: 'Offline-first',
+    imageUrl: 'img/disconnect.svg',
+    description: (
+      <>
+        Data is processed in the frontend first, then synced with the backend
+        when connection is available.
+      </>
+    )
+  },
+  {
+    title: 'Realtime',
+    imageUrl: 'img/time.svg',
+    description: (
+      <>
+        Sync client and server instantly with GraphQL subscriptions over
+        websockets.
+      </>
+    )
+  },
+  {
+    title: 'Modern architecture',
+    imageUrl: 'img/ship.svg',
+    description: (
+      <>
+        Extend your app with React components, and your business logic with
+        serverless functions or microservices connected to your Hasura backend.
+        Ready to use with Kubernetes.
       </>
     )
   },
@@ -59,16 +66,10 @@ const features = [
     imageUrl: 'img/open-source.svg',
     description: (
       <>
-        No vendor lockin. Extend or customize your website layout by reusing
-        React. Docusaurus can be extended while reusing the same header and
-        footer.
+        Exclusively built with open-source tools: React, Hasura, Kubernetes,
+        RxDB... Don't get stuck with a vendor. Contribute and share instead!
       </>
     )
-  },
-  {
-    title: 'Modern architecture',
-    imageUrl: 'img/ship.svg',
-    description: <>Kubernetes, Docker, React</>
   }
 ]
 
@@ -100,10 +101,7 @@ function Home() {
   const { siteConfig = {} } = context
 
   return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
-    >
+    <Layout title={siteConfig.title} description="Platyplus website">
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>

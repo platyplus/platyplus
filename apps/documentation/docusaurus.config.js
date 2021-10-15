@@ -1,18 +1,18 @@
 module.exports = {
   title: 'Platyplus',
-  tagline: 'Offline-first, realtime headless CMS based on Hasura',
+  tagline: 'Low-code, offline-first apps with Hasura',
   url: 'https://platy.plus',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'platyplus', // Usually your GitHub org/user name.
-  projectName: 'platydev', // Usually your repo name.
+  projectName: 'platyplus', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'Platyplus',
       logo: {
-        alt: 'Platyplus Logo',
+        alt: 'Logo',
         src: 'img/logo.png'
       },
       items: [
@@ -28,7 +28,7 @@ module.exports = {
         // { to: 'demo', label: 'Demo', position: 'left' },
         // { to: 'community', label: 'Community', position: 'left' },
         {
-          href: 'https://github.com/platyplus/platydev',
+          href: 'https://github.com/platyplus/platyplus',
           label: 'GitHub',
           position: 'right'
         }
@@ -80,7 +80,7 @@ module.exports = {
             // },
             {
               label: 'GitHub',
-              href: 'https://github.com/platyplus/platydev'
+              href: 'https://github.com/platyplus/platyplus'
             }
           ]
         }
@@ -101,13 +101,13 @@ module.exports = {
           sidebarCollapsible: false,
           include: ['**/*.{md,mdx}'],
           editUrl:
-            'https://github.com/platyplus/platydev/edit/master/apps/documentation/'
+            'https://github.com/platyplus/platyplus/edit/master/apps/documentation/'
         },
         // blog: {
         //   showReadingTime: true,
         //   // Please change this to your repo.
         //   editUrl:
-        //     'https://github.com/platyplus/platydev/edit/master/apps/documentation/blog/'
+        //     'https://github.com/platyplus/platyplus/edit/master/apps/documentation/blog/'
         // },
         theme: {
           customCss: require.resolve('./src/css/custom.css')
