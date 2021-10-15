@@ -85,7 +85,7 @@ module.exports = {
           ]
         }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Platyplus, Inc. Built with Docusaurus.`
+      copyright: `Copyright © ${new Date().getFullYear()} Platyplus, Inc.`
     },
     colorMode: {
       respectPrefersColorScheme: true
