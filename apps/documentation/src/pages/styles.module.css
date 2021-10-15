@@ -34,12 +34,5 @@
   padding: 25px;
   height: 200px;
   width: 200px;
-}
-
-.darkFeatureImage {
-  filter: invert(85%);
-}
-
-.lightFeatureImage {
   filter: invert(25%);
 }

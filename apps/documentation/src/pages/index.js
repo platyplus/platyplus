@@ -3,8 +3,9 @@ import clsx from 'clsx'
 import Layout from '@theme/Layout'
 import Link from '@docusaurus/Link'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
-import useThemeContext from '@theme/hooks/useThemeContext'
 import useBaseUrl from '@docusaurus/useBaseUrl'
+import ThemedImage from '@theme/ThemedImage'
+
 import styles from './styles.module.css'
 
 const features = [
@@ -71,17 +72,21 @@ const features = [
   }
 ]
 
-function Feature({ imageUrl, title, description, dark }) {
+function Feature({ imageUrl, title, description }) {
   const imgUrl = useBaseUrl(imageUrl)
-  const { isDarkTheme } = useThemeContext()
-  const classes = `${styles.featureImage} ${
-    isDarkTheme ? styles.darkFeatureImage : styles.lightFeatureImage
-  }`
+  const imgUrlDark = useBaseUrl(imageUrl.replace('.svg', '-dark.svg'))
   return (
     <div className={clsx('col col--4', styles.feature)}>
       {imgUrl && (
         <div className="text--center">
-          <img className={classes} src={imgUrl} alt={title} />
+          <ThemedImage
+            className={styles.featureImage}
+            sources={{
+              light: imgUrl,
+              dark: imgUrlDark
+            }}
+            alt={title}
+          />
         </div>
       )}
       <h3>{title}</h3>
