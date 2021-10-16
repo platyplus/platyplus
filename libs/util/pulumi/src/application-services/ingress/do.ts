@@ -4,7 +4,7 @@ import * as k8s from '@pulumi/kubernetes'
 
 import { ingressNginx } from './nginx'
 import { IngressOptions } from './types'
-import { PROVIDER_IPS } from './constants'
+import { PROVIDER_IPS } from '../../constants'
 
 export const digitalOceanIngress = (
   parentName: string,
