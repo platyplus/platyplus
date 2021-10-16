@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - '*'
+    paths-ignore:
+      - 'apps/documentation/**/*'
 jobs:
   nx:
     name: Nx
