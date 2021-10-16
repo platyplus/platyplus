@@ -23,7 +23,7 @@ jobs:
         run: |
           sudo snap install helm --classic
           helm plugin install https://github.com/chartmuseum/helm-push.git
-          helm repo add platydev https://charts.platy.dev --username "$CHARTMUSEUM_USER" --password "$CHARTMUSEUM_PASSWORD"
+          helm repo add platyplus https://charts.platy.dev --username "$CHARTMUSEUM_USER" --password "$CHARTMUSEUM_PASSWORD"
         env:
           CHARTMUSEUM_USER: ${{ secrets.CHARTMUSEUM_USER }}
           CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
