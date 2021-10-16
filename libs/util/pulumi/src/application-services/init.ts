@@ -26,13 +26,14 @@ export const initApplicationServices = (
   }
   if (appServices.helmRegistry.enabled) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { enabled, ...options } = appServices.helmRegistry
+    const { enabled, additionalRoutes, ...options } = appServices.helmRegistry
     helmRegistry(name, provider, pulumiProvider, {
       ...options,
       tls: appServices.certManager.enabled,
       ingress: appServices.ingress.enabled,
       domain,
-      namespace
+      namespace,
+      additionalRoutes
     })
   }
   return { ingressIp }

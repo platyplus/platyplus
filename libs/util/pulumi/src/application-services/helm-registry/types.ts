@@ -12,6 +12,7 @@ export type HelmRegistryOptions = {
     username: string
     password: string
   }
+  additionalRoutes?: string[]
 }
 
 export type HelmRegistryInitOptions = HelmRegistryOptions &

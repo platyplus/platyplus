@@ -11,7 +11,7 @@ export const digitalOceanHelmRegistry = (
   provider: pulumi.ProviderResource,
   options: HelmRegistryInitOptions
 ): kubernetes.helm.v3.Release => {
-  const { domain, namespace } = options
+  const { domain, namespace, additionalRoutes } = options
   const ns = getNameSpace(provider, namespace)
   const name = options.name || 'charts'
 
@@ -80,9 +80,12 @@ export const digitalOceanHelmRegistry = (
               annotations: {
                 'kubernetes.io/tls-acme': 'true'
               },
-              hosts: domain.map((d) => {
+              hosts: [
+                ...domain.map((d) => d.name),
+                ...(additionalRoutes || [])
+              ].map((d) => {
                 const host: Record<string, unknown> = {
-                  name: `${name}.${d.name}`,
+                  name: `${name}.${d}`,
                   path: '/'
                 }
                 if (tls) {
