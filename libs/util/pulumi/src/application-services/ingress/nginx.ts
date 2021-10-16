@@ -21,6 +21,7 @@ export const ingressNginx = (
         repo: 'https://kubernetes.github.io/ingress-nginx'
       },
       values: {
+        // ? not present in https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
         controller: {
           ingressClass: 'nginx'
         }

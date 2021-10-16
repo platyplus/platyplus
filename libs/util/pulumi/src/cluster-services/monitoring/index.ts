@@ -27,6 +27,7 @@ export const monitoring = (
       values[service] = {
         ingress: {
           enabled: ingress.enabled && enabled,
+          ingressClassName: 'nginx', // TODO check
           annotations: tls
             ? {
                 'kubernetes.io/tls-acme': 'true'

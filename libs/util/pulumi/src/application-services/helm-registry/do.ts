@@ -49,8 +49,7 @@ export const digitalOceanHelmRegistry = (
     childName(parentName, name),
     {
       chart: 'chartmuseum',
-      // TODO check latest version
-      version: '3.1.0',
+      version: '3.3.0',
       name,
       namespace: ns.metadata.name,
       repositoryOpts: {
@@ -77,6 +76,7 @@ export const digitalOceanHelmRegistry = (
         ingress: ingress
           ? {
               enabled: true,
+              ingressClassName: 'nginx',
               annotations: {
                 'kubernetes.io/tls-acme': 'true'
               },
