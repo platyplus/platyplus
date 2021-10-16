@@ -41,11 +41,7 @@ module.exports = {
           title: 'Learn',
           items: [
             {
-              label: 'Introduction',
-              to: 'docs/guide/'
-            },
-            {
-              label: 'Installation',
+              label: 'Guide',
               to: 'docs/guide/'
             },
             {

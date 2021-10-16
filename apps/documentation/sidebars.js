@@ -8,6 +8,13 @@ module.exports = {
       ]
     },
     'features',
-    { Roadmap: ['todo'] }
+    { Roadmap: ['todo'] },
+    {
+      'API Reference': [
+        'api-reference/helm',
+        'api-reference/docker',
+        'api-reference/pulumi'
+      ]
+    }
   ]
 }
