@@ -2,14 +2,11 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.2.2](https://github.com/platyplus/platydev/compare/util-pulumi@0.2.1...util-pulumi@0.2.2) (2021-10-16)
-
+## [0.2.2](https://github.com/platyplus/platyplus/compare/util-pulumi@0.2.1...util-pulumi@0.2.2) (2021-10-16)
 
 ### Bug Fixes
 
-* correct additional route ([b1a91e4](https://github.com/platyplus/platydev/commit/b1a91e4180ec61eeef6c153aaa3ef5ca4b4b8267))
-
-
+- correct additional route ([b1a91e4](https://github.com/platyplus/platyplus/commit/b1a91e4180ec61eeef6c153aaa3ef5ca4b4b8267))
 
 ## [0.2.1](https://github.com/platyplus/platyplus/compare/util-pulumi@0.2.0...util-pulumi@0.2.1) (2021-10-16)
 
