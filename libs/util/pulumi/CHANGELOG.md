@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.4...util-pulumi@0.2.0) (2021-10-16)
+
+
+### Features
+
+* expose ingressIp ([5f59bae](https://github.com/platyplus/platydev/commit/5f59bae8e052f6a8211e1ac430c04223db232287))
+
+
+
 ## [0.1.4](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.3...util-pulumi@0.1.4) (2021-10-16)
 
 
