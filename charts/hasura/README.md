@@ -5,8 +5,8 @@
 ## TL;DR
 
 ```sh
-helm repo add platydev https://charts.platy.dev
-helm install my-release platydev/hasura
+helm repo add platyplus https://charts.platy.plus
+helm install my-release platyplus/hasura
 ```
 
 ## Introduction
@@ -28,8 +28,8 @@ This chart bootstraps a Hasura deployment on a Kubernetes cluster using the Helm
 To install the chart with the release name my-release:
 
 ```sh
-helm repo add platydev https://charts.platy.dev
-helm install my-release platydev/hasura
+helm repo add platyplus https://charts.platy.plus
+helm install my-release platyplus/hasura
 ```
 
 The command deploys Hasura and PostgreSQL on the Kubernetes cluster in the default configuration. The [Parameters](#Parameters) and [Hasura parameters](#Hasura-parameters) sections list the parameters that can be configured during installation.
@@ -166,7 +166,7 @@ In most cases, you should not specify values for `ingress.hosts[0].serviceName` 
 Specifying extra paths to prepend to every host configuration is especially useful when configuring [custom actions with AWS ALB Ingress Controller](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/#actions).
 
 ```shell
-helm install --name my-release platydev/hasura \
+helm install --name my-release platyplus/hasura \
   --set ingress.enabled=true \
   --set ingress.hosts[0].name=my-release.domain.com \
   --set ingress.extraPaths[0].service=ssl-redirect \
@@ -180,7 +180,7 @@ For annotations, please see [this document for nginx](https://github.com/kuberne
 #### Example Ingress configuration
 
 ```shell
-helm install --name my-release platydev/hasura \
+helm install --name my-release platyplus/hasura \
   --set ingress.enabled=true \
   --set ingress.hosts[0].name=my-release.domain.com \
   --set ingress.hosts[0].path=/

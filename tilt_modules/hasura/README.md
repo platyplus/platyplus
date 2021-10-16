@@ -24,7 +24,7 @@ Any modification then done through the Hasura console will be stored locally.
 
 ## Use an alternative Helm Chart
 
-The extension uses the [Hasura PlatyDev Helm Chart](https://artifacthub.io/packages/helm/platydev/hasura) to depoy Hasura. you can deploy Hasura in another way in using the `yaml` parameter e.g.:
+The extension uses the [Hasura platyplus Helm Chart](https://artifacthub.io/packages/helm/platyplus/hasura) to depoy Hasura. you can deploy Hasura in another way in using the `yaml` parameter e.g.:
 
 ```sh
 hasura(yaml=helm('./my-local-hasura-chart'))

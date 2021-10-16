@@ -3,21 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.1](https://github.com/platyplus/platydev/compare/@platyplus/jsonata-schema@0.1.0...@platyplus/jsonata-schema@0.1.1) (2021-01-26)
-
+## [0.1.1](https://github.com/platyplus/platyplus/compare/@platyplus/jsonata-schema@0.1.0...@platyplus/jsonata-schema@0.1.1) (2021-01-26)
 
 ### Bug Fixes
 
-* correct import ([60bee2d](https://github.com/platyplus/platydev/commit/60bee2d62db7b84b83e2ae9410685219012f6244))
-
-
-
-
+- correct import ([60bee2d](https://github.com/platyplus/platyplus/commit/60bee2d62db7b84b83e2ae9410685219012f6244))
 
 # 0.1.0 (2021-01-26)
 
-
 ### Features
 
-* computed properties ([7a7a4f2](https://github.com/platyplus/platydev/commit/7a7a4f2bab688420fc8397cd56c9f7e0abbf9e6f))
-* extend jsonata-schema scope ([a88696b](https://github.com/platyplus/platydev/commit/a88696b7ea6c88ec58f11f4e3598923d23bcbd3e))
+- computed properties ([7a7a4f2](https://github.com/platyplus/platyplus/commit/7a7a4f2bab688420fc8397cd56c9f7e0abbf9e6f))
+- extend jsonata-schema scope ([a88696b](https://github.com/platyplus/platyplus/commit/a88696b7ea6c88ec58f11f4e3598923d23bcbd3e))

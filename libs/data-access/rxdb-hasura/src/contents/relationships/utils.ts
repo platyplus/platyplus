@@ -127,8 +127,8 @@ export const getMirrorRelationship = (
 ): [TableInformation, Relationship] => {
   const refTable = shiftedTable(tableInfo, rel)
   if (rel.using.manual_configuration) {
-    // TODO profile
-    console.error(`not implemented`)
+    // TODO profile!!!
+    console.error(`not implemented`, rel)
     return [null, null]
   }
   const fromKey =

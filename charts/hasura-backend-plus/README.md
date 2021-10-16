@@ -7,8 +7,8 @@ It will also create the default Traefik routes to HBP and Hasura with a valid Le
 ## TL;DR
 
 ```sh
-helm repo add platydev https://charts.platy.dev
-helm install my-release platydev/hasura-backend-plus
+helm repo add platyplus https://charts.platy.plus
+helm install my-release platyplus/hasura-backend-plus
 ```
 
 ## Introduction
@@ -30,8 +30,8 @@ This chart bootstraps a Hasura-Backend-Plus deployment on a Kubernetes cluster u
 To install the chart with the release name my-release:
 
 ```sh
-helm repo add platydev https://charts.platy.dev
-helm install my-release platydev/hasura-backend-plus
+helm repo add platyplus https://charts.platy.plus
+helm install my-release platyplus/hasura-backend-plus
 ```
 
 The command deploys Hasura-Backend-Plus, PostgreSQL and Minio on the Kubernetes cluster in the default configuration. The [Parameters](#Parameters) and [Hasura-Backend-Plus Parameters](#) sections list the parameters that can be configured during installation.
@@ -172,7 +172,7 @@ The following table lists the configurable Hasura-Backend-Plus parameters of the
 
 ### Configuring Hasura
 
-A child [Hasura Helm chart](https://github.com/platyplus/platydev/tree/master/charts/hasura) is embedded by default.
+A child [Hasura Helm chart](https://github.com/platyplus/platyplus/tree/master/charts/hasura) is embedded by default.
 
 If you want to connect to an existing Hasura instance, you must set the following parameters in your `values.yaml` file:
 
@@ -251,7 +251,7 @@ In most cases, you should not specify values for `ingress.hosts[0].serviceName` 
 Specifying extra paths to prepend to every host configuration is especially useful when configuring [custom actions with AWS ALB Ingress Controller](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/#actions).
 
 ```shell
-helm install --name my-release platydev/hasura-backend-plus \
+helm install --name my-release platyplus/hasura-backend-plus \
   --set ingress.enabled=true \
   --set ingress.hosts[0].name=my-release.domain.com \
   --set ingress.extraPaths[0].service=ssl-redirect \
@@ -265,7 +265,7 @@ For annotations, please see [this document for nginx](https://github.com/kuberne
 #### Example Ingress configuration
 
 ```shell
-helm install --name my-release platydev/hasura-backend-plus \
+helm install --name my-release platyplus/hasura-backend-plus \
   --set ingress.enabled=true \
   --set ingress.hosts[0].name=my-release.domain.com \
   --set ingress.hosts[0].path=/

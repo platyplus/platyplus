@@ -45,7 +45,7 @@ else:
             #     format(congrats))
         ])
     helm_remote('standard-service',
-                repo_url='https://charts.platy.dev',
+                repo_url='https://charts.platy.plus',
                 set=['imageConfig.repository=local.tilt.dev/nx',
                     'targetPort=4200',
                     'imageConfig.tag=latest']

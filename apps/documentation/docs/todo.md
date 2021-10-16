@@ -46,7 +46,7 @@ sidebar_label: To do list
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- [ ] change `platy.dev` to `platy.plus`
+- [ ] change `platy.plus` to `platy.plus`
   - [ ] change code references
   - [ ] copy s3 charts -> https://www.digitalocean.com/community/tutorials/how-to-transfer-digitalocean-spaces-between-regions-using-rclone#copying-objects-from-s3-to-spaces
   - [ ] point both domains to new cluster
@@ -59,7 +59,7 @@ sidebar_label: To do list
 
 - [ ] Hasura Auth
   - [ ] Helm chart
-    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platydev/hasura-backend-plus?modal=security-report
+    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platyplus/hasura-backend-plus?modal=security-report
   - [ ] Tilt extension
 - Application
   - [ ] reset/change password

@@ -3,10 +3,10 @@
   "version": "0.2.3",
   "description": "RxDB Hasura plugin",
   "author": "Pierre-Louis Mercereau <24897252+plmercereau@users.noreply.github.com>",
-  "homepage": "https://platy.dev",
+  "homepage": "https://platy.plus",
   "repository": {
     "type": "git",
-    "url": "https://github.com/platyplus/platydev.git",
+    "url": "https://github.com/platyplus/platyplus.git",
     "directory": "packages/rxdb-hasura"
   }
 }

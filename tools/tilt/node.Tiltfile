@@ -72,7 +72,7 @@ def node(release_name='',
         k8s_yaml(yaml)
     else:
         helm_remote('standard-service',
-                    repo_url='https://charts.platy.dev',
+                    repo_url='https://charts.platy.plus',
                     release_name=release_name,
                     set=['fullnameOverride={}'.format(resource_name),
                          'targetPort={}'.format(container_port),

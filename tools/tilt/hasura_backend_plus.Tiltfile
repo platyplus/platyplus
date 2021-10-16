@@ -35,7 +35,7 @@ def hasura_backend_plus(release_name='',
         k8s_yaml(yaml)
     else:
         helm_remote('hasura-backend-plus',
-                    repo_url='https://charts.platy.dev',
+                    repo_url='https://charts.platy.plus',
                     release_name=release_name,
                     set=['image={}'.format(hbp_image),
                          'hasura.enabled=false',
