@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.4](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.3...util-pulumi@0.1.4) (2021-10-16)
+
+
+### Bug Fixes
+
+* correct chartmuseum ingress ([3e11a18](https://github.com/platyplus/platydev/commit/3e11a182a753347371d39dd211ceb0db9f887848))
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/util-pulumi@0.1.2...util-pulumi@0.1.3) (2021-10-10)
 
 
