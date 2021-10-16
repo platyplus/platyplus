@@ -81,16 +81,16 @@ export const digitalOceanHelmRegistry = (
                 'kubernetes.io/tls-acme': 'true'
               },
               hosts: [
-                ...domain.map((d) => d.name),
+                ...domain.map((d) => `${name}.${d.name}`),
                 ...(additionalRoutes || [])
-              ].map((d) => {
+              ].map((n) => {
                 const host: Record<string, unknown> = {
-                  name: `${name}.${d}`,
+                  name: n,
                   path: '/'
                 }
                 if (tls) {
                   host.tls = true
-                  host.tlsSecret = `${name}.tls-secret`
+                  host.tlsSecret = `${n}.tls-secret`
                 }
                 return host
               })
