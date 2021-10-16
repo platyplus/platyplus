@@ -1,5 +1,6 @@
 import { KubernetesCluster } from '@pulumi/digitalocean'
 import * as kubernetes from '@pulumi/kubernetes'
+import { Output } from '@pulumi/pulumi'
 
 import { HelmRegistryOptions } from './application-services/helm-registry/types'
 import { MonitoringOptions } from './cluster-services/monitoring/types'
@@ -55,4 +56,5 @@ export type ClustersConfig = Record<string, ClusterConfig>
 export type ClusterConfigOutput = ClusterConfig & { domain: DnsDomain[] } & {
   cluster: KubernetesCluster
   pulumiProvider: kubernetes.Provider
+  ingressIp?: Output<string>
 }

@@ -35,7 +35,7 @@ export const initClusters = (): Map<string, ClusterConfigOutput> => {
       const { domain, appServices, clusterServices } = config
       // * Create the Kubernetes cluster
       const { provider: pulumiProvider, cluster } = initCluster(name, config)
-      const fullConfig = {
+      const fullConfig: ClusterConfigOutput = {
         ...config,
         pulumiProvider,
         cluster,
@@ -47,7 +47,10 @@ export const initClusters = (): Map<string, ClusterConfigOutput> => {
       }
       // * Create applications services, if enabled
       if (appServices?.enabled) {
-        initApplicationServices(name, fullConfig)
+        fullConfig.ingressIp = initApplicationServices(
+          name,
+          fullConfig
+        ).ingressIp
       }
       // * Return general configuration so it can be used later on
       return [name, fullConfig]

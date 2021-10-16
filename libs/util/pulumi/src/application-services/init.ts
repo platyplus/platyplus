@@ -1,3 +1,4 @@
+import { Output } from '@pulumi/pulumi'
 import { ClusterConfigOutput } from '../types'
 import { certManager } from './cert-manager'
 import { helmRegistry } from './helm-registry'
@@ -6,12 +7,15 @@ import { ingress } from './ingress'
 export const initApplicationServices = (
   name: string,
   config: ClusterConfigOutput
-): void => {
+): { ingressIp?: Output<string> } => {
   const { domain, appServices, provider, pulumiProvider } = config
   const { namespace } = appServices
-
+  let ingressIp: Output<string>
   if (appServices.ingress.enabled) {
-    ingress(name, provider, pulumiProvider, { domain, namespace })
+    ingressIp = ingress(name, provider, pulumiProvider, {
+      domain,
+      namespace
+    }).ingressIp
   }
   if (appServices.certManager.enabled) {
     certManager(name, provider, pulumiProvider, {
@@ -31,4 +35,5 @@ export const initApplicationServices = (
       namespace
     })
   }
+  return { ingressIp }
 }
