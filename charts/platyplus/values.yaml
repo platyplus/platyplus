@@ -1,3 +1,10 @@
+global:
+  ingress:
+    enabled: true
+    # domain: mydomain.com
+    tls:
+      enabled: false
+
 hasura-backend-plus:
   storage:
     enabled: false
@@ -7,14 +14,16 @@ hasura-backend-plus:
     imageConfig:
       repository: platyplus/hasura
       tag: latest
+  ingress:
+    subdomain: auth
 
 frontend:
   enabled: true
   imageConfig:
     repository: platyplus/platyplus
     tag: latest
-  # configFile:
-  #   enabled: true
-  #   values:
-  #     hasuraUrl: http://hasura.test.com
-  #     authUrl: http://hbp.test.com
+  configFile:
+    enabled: "{{and .Values.global.ingress.enabled .Values.global.ingress.domain}}"
+    values:
+      hasuraUrl: "{{ternary \"https\" \"http\" .Values.global.ingress.tls.enabled }}://hasura.{{.Values.global.ingress.domain}}/v1/graphql"
+      authUrl: "{{ternary \"https\" \"http\" .Values.global.ingress.tls.enabled }}://auth.{{.Values.global.ingress.domain}}"

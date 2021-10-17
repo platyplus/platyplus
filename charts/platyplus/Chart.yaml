@@ -10,12 +10,12 @@ appVersion: 0.1.0
 version: 0.1.2
 dependencies:
   - name: hasura-backend-plus
-    version: 0.1.14
+    version: 0.2.0
     repository: file://../hasura-backend-plus
     condition: hasura.enabled
   - name: standard-service
     alias: frontend
-    version: 0.1.8
+    version: 0.1.13
     repository: file://../standard-service
     condition: frontend.enabled
 keywords:
