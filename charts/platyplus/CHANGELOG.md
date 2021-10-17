@@ -1,4 +1,12 @@
 # Changelog
+## [0.1.3](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.2...charts-platyplus@0.1.3) (2021-10-17)
+
+
+### Bug Fixes
+
+* glue everything together ([31be4cf](https://github.com/platyplus/platydev/commit/31be4cf80430bb1c424e12f7bf0461ec061f71a2))
+
+
 
 ## [0.1.2](https://github.com/platyplus/platyplus/compare/charts-platyplus@0.1.1...charts-platyplus@0.1.2) (2021-10-10)
 
