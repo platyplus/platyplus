@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.1](https://github.com/platyplus/platydev/compare/platyplus@0.2.0...platyplus@0.2.1) (2021-10-17)
+
+
+### Bug Fixes
+
+* copy dist files with the correct user permissions ([d23b557](https://github.com/platyplus/platydev/commit/d23b55771bc7ba6d4b03b659191dcfd31b5be81a))
+
+
+
 # [0.2.0](https://github.com/platyplus/platyplus/compare/platyplus@0.1.0...platyplus@0.2.0) (2021-10-09)
 
 ### Bug Fixes
