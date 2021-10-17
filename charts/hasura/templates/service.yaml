@@ -3,9 +3,6 @@ kind: Service
 metadata:
   name: {{ include "hasura.fullname" . }}
   labels: {{- include "hasura.labels" . | nindent 4 }}
-  annotations:
-    traefik.ingress.kubernetes.io/affinity: "true"
-    traefik.ingress.kubernetes.io/session-cookie-name: "sticky"
 spec:
   type: {{ .Values.service.type }}
   ports:

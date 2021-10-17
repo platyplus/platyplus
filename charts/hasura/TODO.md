@@ -9,7 +9,6 @@
 - [ ] change way of loading migrations/metadata when helm 3.5 is released (01/2021)
       https://github.com/helm/helm/issues/3276
 - [ ] helm hooks for migrations/metadata. In particular upgrade/rollback hooks
-- [ ] generic ingress
 - [ ] handle migrations for multiple databases
 - documentation
   - tar -cvf migrations.tar -C migrations .
