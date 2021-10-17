@@ -120,7 +120,7 @@ Return the default server url
   {{- printf "%s://%s.%s" $protocol $name .Values.global.ingress.domain -}}
 {{- else -}}
 {{- if gt (len .Values.ingress.hosts) 0 }}
-{{- printf "%s://%s" $protocol (index .Values.ingress.hosts 0) -}}
+{{- printf "%s://%s" $protocol (index .Values.ingress.hosts 0).name -}}
 {{- end }}
 {{- end }}
 {{- end }}

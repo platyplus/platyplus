@@ -251,6 +251,11 @@ spec:
             {{- if .Values.serverUrl }}
             - name: SERVER_URL
               value: "{{- include "common.tplvalues.render" (dict "value" .Values.serverUrl "context" $) }}"            
+            {{- else}}
+            {{- if or .Values.ingress.enabled .Values.global.ingress.enabled }}
+            - name: SERVER_URL
+              value: "{{- include "hasura-backend-plus.serverUrl" . }}"            
+            {{- end }}
             {{- end }}
             - name: AUTH_ENABLED
               value: "{{ .Values.auth.enabled }}"
