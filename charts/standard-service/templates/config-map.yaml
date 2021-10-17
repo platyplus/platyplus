@@ -1,5 +1,6 @@
 {{- $fullname := include "standard-service.fullname" . -}}
-{{- if .Values.configFile.enabled }}
+{{- $enabled := include "common.tplvalues.render" (dict "value" .Values.configFile.enabled "context" $) }}
+{{- if $enabled }}
 {{- $context := $ -}}
 apiVersion: v1
 kind: ConfigMap
