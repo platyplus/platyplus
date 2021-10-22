@@ -15,7 +15,7 @@ If not available already, install an Ingress controller:
 helm install --namespace kube-system nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
 ```
 
-Set a DNS domain that points to your cluster. If working locally, you can use [Nip](https://nip.io/):
+Set a DNS domain that points to your cluster. If working locally, you can use <a href="https://nip.io/" target="_blank">Nip</a>:
 
 ```bash
 export PLATYPLUS_DOMAIN=127.0.0.1.nip.io
