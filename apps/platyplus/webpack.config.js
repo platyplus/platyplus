@@ -27,14 +27,16 @@ module.exports = (config, context) => {
     (plugin) => plugin.constructor.name !== 'IndexHtmlWebpackPlugin'
   )
 
-  if (isProd)
+  if (isProd) {
     config.plugins.push(
       new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
-        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024 // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
+        navigateFallback: 'index.html'
       })
     )
+  }
 
   config.plugins.push(
     ...[
