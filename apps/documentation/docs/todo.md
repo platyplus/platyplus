@@ -47,13 +47,13 @@ sidebar_label: To do list
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
 - [ ] change `platy.plus` to `platy.plus`
-  - [ ] change code references
-  - [ ] copy s3 charts -> https://www.digitalocean.com/community/tutorials/how-to-transfer-digitalocean-spaces-between-regions-using-rclone#copying-objects-from-s3-to-spaces
-  - [ ] point both domains to new cluster
-  - [ ] shut down old cluster
   - [ ] change in artifacthub, dockerhub, github, npmjs
 - [ ] service worker: get bundle after it changed
 - [ ] remove infrastructure app / reshape it to pulumi-e2e?
+- [ ] clean old platuplus/hasura docker image from previous migrations
+- [ ] home page doesn't render when no platyplus.tables record in postgres
+- [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
+- [ ] when changing the permission to make a table deletable, need to reload the client
 
 ## MVP 2
 

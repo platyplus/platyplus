@@ -1,6 +1,4 @@
-# @platyplus/pulumi
-
-# Infrastructure
+# Platyplus Pulumi package
 
 ## Configure Digital Ocean credentials
 

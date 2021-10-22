@@ -1,8 +1,6 @@
 # Platyplus Helm Chart
 
-## Install on a local Kubernetes cluster
-
-If not done already, install an Ingress controller:
+If not available already, install an Ingress controller:
 
 ```sh
 helm install --namespace kube-system nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
@@ -11,10 +9,10 @@ helm install --namespace kube-system nginx ingress-nginx --repo https://kubernet
 Then install the chart
 
 ```sh
-helm install my-release platyplus --repo https://charts.platy.plus --set global.ingress.domain=127.0.0.1.nip.io
+helm install my-release platyplus --namespace default --repo https://charts.platy.plus --set global.ingress.domain=127.0.0.1.nip.io
 ```
 
-### Hasura console
+## Hasura console
 
 ```sh
 export HASURA_GRAPHQL_ADMIN_SECRET=$(kubectl get secrets my-release-hasura -o jsonpath='{.data.adminSecret}' | base64 --decode)
@@ -23,7 +21,3 @@ export HASURA_GRAPHQL_VERSION=3
 touch config.yaml
 hasura console
 ```
-
-## Install with Docker-componen
-
-## Use Tilt

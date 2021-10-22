@@ -18,12 +18,17 @@ module.exports = {
       items: [
         {
           to: 'docs/',
-          activeBasePath: 'docs',
+          activeBaseRegex: `docs/(?!artifacts)`,
           label: 'Documentation',
           position: 'left'
         },
         // TODO
-        // { to: 'api', label: 'API', position: 'left' },
+        {
+          to: 'docs/artifacts/',
+          activeBasePath: 'docs/artifacts',
+          label: 'Packages & Artifacts',
+          position: 'left'
+        },
         // { to: 'blog', label: 'Blog', position: 'left' },
         // { to: 'demo', label: 'Demo', position: 'left' },
         // { to: 'community', label: 'Community', position: 'left' },
@@ -94,7 +99,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           sidebarCollapsed: false,
-          sidebarCollapsible: false,
+          sidebarCollapsible: true,
           include: ['**/*.{md,mdx}'],
           editUrl:
             'https://github.com/platyplus/platyplus/edit/master/apps/documentation/'
