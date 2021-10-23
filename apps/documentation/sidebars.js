@@ -26,6 +26,7 @@ module.exports = {
         }
       ]
     },
+    'artifacts/tilt',
     'artifacts/pulumi'
   ]
 }

@@ -2,8 +2,14 @@
 id: index
 slug: /artifacts
 title: Introduction
-# sidebar_label: Pulumi
-# hide_title: true
 ---
 
 # Packages & Artifacts
+
+Platyplus blocks have been developed in the most possible generic way, so they can be extended more easily, or even used in other contexts:
+
+- Helm charts
+- Docker images
+- A [Pulumi package](artifacts/pulumi) to quickly deploy a production-ready Digital Ocean cluster
+- <a href="https://tilt.dev/" target="_blank">Tilt</a> extensions to ease Hasura/Platyplus development on a Kubernets cluster
+- Javascript packages for custom frontend build
