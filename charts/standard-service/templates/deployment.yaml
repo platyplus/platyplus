@@ -1,3 +1,4 @@
+{{- $configFileEnabled := include "common.tplvalues.render" (dict "value" .Values.configFile.enabled "context" $) }}
 {{- $fullname := include "standard-service.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -29,7 +30,7 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "standard-service.serviceAccountName" . }}
       volumes:
-      {{- if .Values.configFile.enabled }}
+      {{- if $configFileEnabled }}
         - name: config-file
           configMap:
             name: "{{ $fullname }}"
@@ -54,7 +55,7 @@ spec:
               containerPort: {{ .Values.targetPort }}
               protocol: TCP
           volumeMounts:
-          {{- if .Values.configFile.enabled }}
+          {{- if $configFileEnabled }}
             - name: config-file
               mountPath: "{{ .Values.configFile.path }}/{{ .Values.configFile.name }}"
               subPath: "{{ .Values.configFile.name }}"
