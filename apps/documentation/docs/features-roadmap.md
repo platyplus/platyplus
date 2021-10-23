@@ -4,6 +4,16 @@ title: Features & Roadmap
 sidebar_label: Features & Roadmap
 ---
 
+#### Legend
+
+- ✅ implemented
+- 🟠 partially implemented
+- 📅 planned
+- ❔ considered feature, to be further analysed
+- ❌ won't be implemented
+
+## Core features
+
 | Description                                        | Status |
 | -------------------------------------------------- | :----: |
 | Registration page                                  |   ✅   |
@@ -54,9 +64,9 @@ sidebar_label: Features & Roadmap
 | Tilt extension                                     |   📅   |
 | Deploy with docker-compose                         |   📅   |
 
-### Components
+## Components
 
-#### Collections
+### Collections
 
 | Title     | Status | Details |
 | --------- | :----: | ------- |
@@ -66,7 +76,7 @@ sidebar_label: Features & Roadmap
 | Calendar  |   📅   |
 | Charts    |   📅   |
 
-#### Documents
+### Documents
 
 | Title            | Status | Details                                            |
 | ---------------- | :----: | -------------------------------------------------- |
@@ -76,7 +86,7 @@ sidebar_label: Features & Roadmap
 | Label            |   ✅   |
 | Nested documents |   📅   | Create/update/delete a child doc from a parent doc |
 
-#### Fields
+### Fields
 
 | Title                 | Status | Details |
 | --------------------- | :----: | ------- |
