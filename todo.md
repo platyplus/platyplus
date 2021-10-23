@@ -46,8 +46,6 @@ sidebar_label: To do list
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- [ ] change `platy.plus` to `platy.plus`
-  - [ ] change in artifacthub, dockerhub, github, npmjs
 - [ ] service worker: get bundle after it changed
 - [ ] remove infrastructure app / reshape it to pulumi-e2e?
 - [ ] clean old platuplus/hasura docker image from previous migrations
@@ -80,10 +78,6 @@ sidebar_label: To do list
     - [ ] something else stored in `property_conig`
       - [ ] frontend validation
       - [ ] backend validation?
-  - [ ] collections
-    - [ ] search/filter
-    - [ ] sort
-    - [ ] paginate
   - [ ] computed properties
     - [ ] transient / generated on-the-fly
     - [ ] locally persisted
@@ -91,27 +85,15 @@ sidebar_label: To do list
   - [ ] some components:
     - [ ] one2one
       - [ ] update sync of reverse relationship
-    - [ ] email
-    - [ ] time
-    - [ ] cards
-    - [ ] nested relations
-    - [ ] calendar
-    - [ ] QR code / codebar scanner
-    - [ ] time period (from-to)
-    - [ ] charts
     - [ ] maps & PostGIS
       - [ ] point field: location/single dot
       - [ ] collection / many2one: polygon, multiple dots
-    - [ ] icon
-    - [ ] avatar
-    - [ ] rich text / markdown
     - [ ] complete every field component
       - [ ] ipv4 / ipv6
       - [ ] hostname
       - [ ] object
       - [ ] array
       - [ ] uri
-    - [ ] singletons
 
 ## Then
 
@@ -123,21 +105,12 @@ sidebar_label: To do list
       - [ ] => fetch only one me_metadata table for all roles???
     - [ ] (multi-role bug) push/pull replication: add the current hasura-role to the headers
   - [ ] list Hasura features to be mapped to RxDB e.g.
-    - [ ] remote schemas
-    - [ ] inherited roles
-    - [ ] remote relationships
-    - [ ] column presets
-    - [ ] multiple DBs (mark as out of scope)
     - [ ] details on permissions
   - [ ] permissions
-  - [ ] created_at / created_by
-  - [ ] review indexes in RxDB
   - [ ] add Hasura permissions to create/update/remove permissions
   - [ ] custom menus
     - [ ] for everyone / per role / per user
-    - [ ] filtered collections
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
-  - [ ] Better integration with HBP e.g. registration, password change, OAuth, 2fa...
 - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
 - Charts
   - [ ] Hasura: wait for postrges service to be ready
