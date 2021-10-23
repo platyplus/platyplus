@@ -19,3 +19,7 @@
 .project
 .idea/
 *.tmproj
+metadata
+migrations
+config.yaml
+seeds

@@ -4,6 +4,6 @@ dependencies:
   version: 0.2.0
 - name: standard-service
   repository: file://../standard-service
-  version: 0.1.13
-digest: sha256:629fa52b3802266ae58a1e50385765a03b9da8d1c63d1623adc610e676b197f4
-generated: "2021-10-17T09:18:56.371138+02:00"
+  version: 0.1.14
+digest: sha256:5fa51a57e0301f8d5f3515224d172bdd5b2bbaa3eb0ea815f7928b3a301d0504
+generated: "2021-10-23T14:10:46.789724+02:00"
