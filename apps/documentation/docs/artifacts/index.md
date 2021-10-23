@@ -6,7 +6,7 @@ title: Introduction
 
 # Packages & Artifacts
 
-Platyplus blocks have been developed in the most possible generic way, so they can be extended more easily, or even used in other contexts:
+Platyplus is designed to be as generic as possible, so they can be extended more easily, or even used in other contexts:
 
 - Helm charts
 - Docker images
