@@ -1,4 +1,13 @@
 # Changelog
+## [0.1.3](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.2...charts-platyplus@0.1.3) (2021-10-23)
+
+
+### Bug Fixes
+
+* allow templated configfile value ([2a8e6e1](https://github.com/platyplus/platydev/commit/2a8e6e17f5997f26b4362ca65bba7a2f4951cb01))
+* glue everything together ([31be4cf](https://github.com/platyplus/platydev/commit/31be4cf80430bb1c424e12f7bf0461ec061f71a2))
+
+
 
 ## [0.1.3](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.2...charts-platyplus@0.1.3) (2021-10-17)
 
