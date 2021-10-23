@@ -52,6 +52,7 @@ sidebar_label: To do list
 - [ ] home page doesn't render when no platyplus.tables record in postgres
 - [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
 - [ ] when changing the permission to make a table deletable, need to reload the client
+- [ ] light mode by default
 
 ## MVP 2
 
@@ -75,7 +76,7 @@ sidebar_label: To do list
     - [ ] Postgres domain e.g. email
     - [ ] number/string min/max
     - [ ] varchar(x) -> validate string length < x
-    - [ ] something else stored in `property_conig`
+    - [ ] something else stored in `property_config`
       - [ ] frontend validation
       - [ ] backend validation?
   - [ ] computed properties
@@ -127,10 +128,7 @@ sidebar_label: To do list
 - Application
   - [ ] map metadata views and tables with camelCase
   - [ ] push only columns that have changed
-  - [ ] internationalisation
-  - [ ] conflict resolution
   - [ ] map custom GraphQL names vs PostgreSQL names
-  - [ ] encryption
   - [ ] unique columns or sets of columns: tricky. in a hook? don't forget to index. See https://github.com/pubkey/rxdb/issues/728
 - Charts
   - [ ] argocd that deploys applications (chartmuseum)
