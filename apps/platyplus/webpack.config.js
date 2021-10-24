@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const nrwlConfig = require('@nrwl/react/plugins/webpack.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { GenerateSW } = require('workbox-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -26,17 +26,6 @@ module.exports = (config, context) => {
   config.plugins = config.plugins.filter(
     (plugin) => plugin.constructor.name !== 'IndexHtmlWebpackPlugin'
   )
-
-  if (isProd) {
-    config.plugins.push(
-      new GenerateSW({
-        clientsClaim: true,
-        skipWaiting: true,
-        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
-        navigateFallback: 'index.html'
-      })
-    )
-  }
 
   config.plugins.push(
     ...[
@@ -79,9 +68,19 @@ module.exports = (config, context) => {
             destination: path.join('assets', 'icons')
           }
         ]
+      }),
+      new InjectManifest({
+        swSrc: './service-worker.ts',
+        swDest: 'service-worker.js',
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
+        exclude: [
+          'config.json',
+          ...(isProd ? [] : [/(.*?)/]) // * exclude basically everything in dev mode
+        ]
       })
     ]
   )
+
   config.devServer = {
     ...config.devServer,
     host: '0.0.0.0',
