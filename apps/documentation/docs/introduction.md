@@ -7,7 +7,7 @@ slug: /
 
 Platyplus fastens the delivery of applications in defining a PostgreSQL schema, enriching it with Hasura permissions and relationships, and bringing the logic to the frontend, in order to avoid the hussle to redefine forms, validation rules and schema logic again.
 
-The structure of the contents is then exposed as collections, documents and fields. As some configuration can sometimes not be guessed from the Postgres DDL and the Hasura metadata (e.g. order of the fields, human-readable column names...), an additional customisation layer is stored on the backend, in order to always keep the same frontend application and avoid writing a single line of code.
+Contents is then exposed as collections, documents, and fields. As configuration can sometimes not be guessed from the Postgres DDL and the Hasura metadata (e.g. order of the fields, human-readable column names...), an additional customisation layer is stored on the backend, in order to always keep the same frontend application and avoid writing a single line of code.
 
 As Platyplus brings the Hasura roles and permissions system to the frontend, users can share the same records of a table, but with different permissions, so it can support quite complex collaborative logic such as workflows.
 
