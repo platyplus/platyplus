@@ -1,5 +1,9 @@
 import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { NetworkFirst } from 'workbox-strategies'
+import {
+  NetworkFirst,
+  NetworkOnly,
+  StaleWhileRevalidate
+} from 'workbox-strategies'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 
 import { createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
@@ -19,5 +23,11 @@ registerRoute(
   })
 )
 
-// ? Is fallback working?
-registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
+if (process.env.NODE_ENV === 'production') {
+  // ? Is fallback working?
+  registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
+  registerRoute(
+    ({ url }) => url.pathname.startsWith('/assets/'),
+    new StaleWhileRevalidate()
+  )
+} else registerRoute(/(.*?)/, new NetworkOnly())

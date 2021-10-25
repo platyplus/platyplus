@@ -22,7 +22,7 @@ export const columnProperties = (
   const skipRelationships =
     table.metadata.object_relationships
       ?.map((rel) => relationshipMapping(table, rel))
-      .filter((mapping) => Object.keys(mapping).length === 1)
+      .filter((mapping) => mapping && Object.keys(mapping).length === 1)
       .map((mapping) => Object.keys(mapping)[0]) || []
   return table.columns.filter(
     (column) =>

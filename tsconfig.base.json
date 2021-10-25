@@ -33,6 +33,7 @@
         "libs/data-access/react-rxdb-hasura/src/index.ts"
       ],
       "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"],
+      "@platyplus/theme": ["libs/ui/theme/src/index.ts"],
       "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"]
     }
   },

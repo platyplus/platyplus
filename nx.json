@@ -86,6 +86,9 @@
     "ui-profile": {
       "tags": []
     },
+    "ui-theme": {
+      "tags": []
+    },
     "util-amqp": {
       "tags": []
     },

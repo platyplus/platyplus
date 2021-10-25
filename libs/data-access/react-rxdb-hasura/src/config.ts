@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import { useLocation } from 'react-use'
 
 import { useAuthenticated, useUserIsAdmin } from '@platyplus/hbp'
 import {
@@ -10,6 +9,7 @@ import {
   ContentsCollection,
   createSqlConfigInstruction,
   createSqlMigrations,
+  isConsoleEnabled,
   TableConfig,
   TableInformation,
   TABLE_CONFIG_TABLE,
@@ -19,15 +19,14 @@ import {
 import { useStore } from './store'
 import { useDB } from './database'
 import { useRxDocument, useRxQuery } from 'rxdb-hooks'
-import { useSingleton } from './document'
+import { useSingleton } from './document/singleton'
 import { useCollection } from './collection'
 
 export const useConfigEnabled = () => {
   const auth = useAuthenticated()
   const admin = useUserIsAdmin()
-  const location = useLocation()
-  // TODO ping localhost:9693
-  return auth && (location.hostname === 'localhost' || admin)
+  const consoleEnabled = isConsoleEnabled()
+  return auth && (consoleEnabled || admin)
 }
 
 export const useAppConfig = (): [

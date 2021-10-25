@@ -15,4 +15,4 @@ if ('serviceWorker' in navigator) {
   })
 }
 
-ReactDOM.render(<App title="Platyplus" />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))

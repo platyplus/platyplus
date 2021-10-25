@@ -4,20 +4,24 @@ import {
   useConfigEnabled,
   useCountConfigChanges
 } from '@platyplus/react-rxdb-hasura'
+import { ThemeToggle } from '@platyplus/theme'
 
 export const ConfigStatusMenuItem: React.FC = () => {
   const enabled = useConfigEnabled()
   const history = useHistory()
   const countChanges = useCountConfigChanges()
-  if (enabled)
-    return (
-      <Badge content={countChanges}>
-        <IconButton
-          circle
-          icon={<Icon icon="wrench" />}
-          onClick={() => history.push('/config')}
-        />
-      </Badge>
-    )
-  else return null
+  return (
+    <>
+      {enabled && (
+        <Badge content={countChanges}>
+          <IconButton
+            circle
+            icon={<Icon icon="wrench" />}
+            onClick={() => history.push('/config')}
+          />
+        </Badge>
+      )}
+      <ThemeToggle />
+    </>
+  )
 }

@@ -8,7 +8,7 @@ import {
   TableInformation
 } from '@platyplus/rxdb-hasura'
 
-import { useCollection, useCollectionName } from '../collection'
+import { useCollection, useCollectionName } from '../collection/hooks'
 
 export const useDocument = <B extends boolean = false>(
   tableInfo: TableInformation,

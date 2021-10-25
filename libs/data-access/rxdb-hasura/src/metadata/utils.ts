@@ -23,7 +23,11 @@ export const tableRoles = (table: TableInformation): string[] => {
   return roles
 }
 export const isConsoleEnabled = (): boolean => {
-  return document.location.hostname === 'localhost'
+  // TODO ping localhost:9693
+  return (
+    document.location.hostname === 'localhost' ||
+    document.location.hostname.includes('127.0.0.1')
+  )
 }
 
 const curateData = produce((data) => {

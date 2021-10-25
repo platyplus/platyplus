@@ -1,6 +1,6 @@
+import { isConsoleEnabled } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
-import { useLocalStorage } from 'react-use'
-import { AppConfig, AppSettings, JSONAppConfig } from './types'
+import { AppConfig, JSONAppConfig } from './types'
 
 // TODO remove this once rsuite 5 is on
 export const UI_DATE_FORMAT = 'DD/MM/YYYY'
@@ -11,54 +11,40 @@ export const UI_DATE_FORMAT_FNS = 'dd/MM/yyyy'
 export const UI_TIME_FORMAT_FNS = 'HH:mm:ss'
 export const UI_DATE_TIME_FORMAT_FNS = `${UI_DATE_FORMAT_FNS} ${UI_TIME_FORMAT_FNS}`
 
-const getConfig = async (initialSettings: AppSettings) =>
-  fetch(window.location.origin + '/config.json').then((res) =>
+const getConfig = async () =>
+  fetch(`${window.location.origin}/config.json`).then((res) =>
     res
       .json()
       .then(({ hasuraUrl, authUrl, ...config }: Partial<JSONAppConfig>) => {
+        const isLocal = isConsoleEnabled()
         return {
           hasuraUrl:
             typeof hasuraUrl === 'string'
-              ? process.env.NODE_ENV === 'development' &&
-                !window.location.hostname.includes('localhost')
+              ? process.env.NODE_ENV === 'development' && !isLocal
                 ? `${window.location.protocol}//hasura.${window.location.host}/v1/graphql`
                 : hasuraUrl
               : `${window.location.protocol}//${hasuraUrl.prefix}.${window.location.host}/v1/graphql`,
           authUrl:
             typeof authUrl === 'string'
-              ? process.env.NODE_ENV === 'development' &&
-                !window.location.hostname.includes('localhost')
+              ? process.env.NODE_ENV === 'development' && !isLocal
                 ? `${window.location.protocol}//auth.${window.location.host}/v1/graphql`
                 : authUrl
               : `${window.location.protocol}//${authUrl.prefix}.${window.location.host}`,
-          ...config,
-          ...initialSettings
+          ...config
         }
       })
   )
 
-export const useConfig = (appSettings: AppSettings) => {
-  // TODO ability to reload config - something with the service worker instead of localstorage
-  const [persistedConfig, setPersistedConfig] =
-    useLocalStorage<AppConfig>('platyplus-config')
+export const useConfig = () => {
   const [config, setConfig] = useState<AppConfig>()
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (loading) {
-      if (process.env.NODE_ENV !== 'production') {
-        getConfig(appSettings).then((config) => {
-          setConfig(config)
-          setLoading(false)
-        })
-      } else {
-        if (persistedConfig) {
-          setConfig(persistedConfig)
-          setLoading(false)
-        } else {
-          getConfig(appSettings).then(setPersistedConfig)
-        }
-      }
+      getConfig().then((config) => {
+        setConfig(config)
+        setLoading(false)
+      })
     }
-  }, [loading, persistedConfig, setPersistedConfig, appSettings])
+  }, [loading])
   return { loading, config }
 }

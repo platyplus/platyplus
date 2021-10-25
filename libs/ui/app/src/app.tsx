@@ -1,14 +1,10 @@
 import { BrowserRouter } from 'react-router-dom'
 import { createClient } from 'nhost-js-sdk'
-// import 'rsuite/lib/styles/index.less' // or 'rsuite/dist/styles/rsuite-default.css'
-// import 'rsuite/dist/styles/rsuite-dark.css'
-import 'rsuite/dist/styles/rsuite-default.css'
-
 import { HbpProvider } from '@platyplus/hbp'
+import '@platyplus/theme'
 import { RxDBHasuraProvider } from '@platyplus/react-rxdb-hasura'
-
 import { LayoutWrapper } from './layout-wrapper'
-import { AppConfig, AppSettings } from './types'
+import { AppConfig } from './types'
 import { useConfig } from './config'
 
 const RootApp: React.ComponentType<AppConfig> = ({
@@ -34,8 +30,8 @@ const RootApp: React.ComponentType<AppConfig> = ({
   )
 }
 
-export const App: React.FC<AppSettings> = (appSettings) => {
-  const { config, loading } = useConfig(appSettings)
+export const App: React.FC = () => {
+  const { config, loading } = useConfig()
   if (loading) return null
   else return <RootApp {...config} />
 }

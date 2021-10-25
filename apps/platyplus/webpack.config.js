@@ -74,7 +74,8 @@ module.exports = (config, context) => {
         swDest: 'service-worker.js',
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
         exclude: [
-          'config.json',
+          /^assets\//,
+          'config.json', // TODO precache BUT NetworkFirst policy
           ...(isProd ? [] : [/(.*?)/]) // * exclude basically everything in dev mode
         ]
       })
