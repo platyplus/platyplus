@@ -67,8 +67,8 @@ sidebar_label: Features & Roadmap
 
 ### User account management
 
-| Feature                     | Status | Description |
-| --------------------------- | :----: | ----------- |
+| Feature                     | Status | Description                                                   |
+| --------------------------- | :----: | ------------------------------------------------------------- |
 | Registration page           |   ✅   |
 | Optional registration page  |   📅   |
 | Login page                  |   ✅   |
@@ -77,7 +77,7 @@ sidebar_label: Features & Roadmap
 | OAuth                       |   📅   |
 | Multi-factor authentication |   📅   |
 | Email verification          |   📅   |
-| Dark/light mode             |   📅   |
+| Dark/light mode             |   ✅   | Not persisted in the backend but in the browser local storage |
 
 ## Developer Experience
 
