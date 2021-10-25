@@ -64,7 +64,7 @@ export const Login: FunctionComponent<{ redirect?: string }> = ({
                 <Button appearance="primary" type="submit">
                   Sign in
                 </Button>
-                <Button appearance="link">Forgot password?</Button>
+                {/* <Button appearance="link">Forgot password?</Button> */}
               </ButtonToolbar>
             </FormGroup>
           </Form>
