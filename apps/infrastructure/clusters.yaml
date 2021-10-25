@@ -1,8 +1,0 @@
-platy-plus:
-  appServices:
-    helmRegistry:
-      enabled: false
-  domain:
-    - name: platy.plus
-      root: NETLIFY
-      www: ROOT

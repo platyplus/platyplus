@@ -1,7 +1,0 @@
-config:
-  digitalocean:spacesAccessId:
-    secure: AAABACAWWgmK/QpPXgIdUizplDJ07N3pojGPME4zFvn5sdczciyE6gkKkSDsCNzXrdtmwg==
-  digitalocean:spacesSecretKey:
-    secure: AAABALTyuLkuXsxeofSha/cG+cW+Oi3za6JK84TIEQhyV9pYQy2SME3dZ1cYAKSchVNzqUtDOy0svU0ZDxEfVPlFj4pwjAa8pbh0
-  digitalocean:token:
-    secure: AAABAKIelrG3SjyNOx/rqIrGHdH4mF8+2+ZHjvKYr6YBUZs41KLzl6ynAnxPVRmvHnpJKdRvjvD9qlAXeUop1Qv6HhhQRJr1wJ4dUuTrXD2ybHROgx3wntTSiqZMXrFa

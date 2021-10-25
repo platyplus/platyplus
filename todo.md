@@ -46,13 +46,8 @@ sidebar_label: To do list
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- [ ] service worker: get bundle after it changed
-- [ ] remove infrastructure app / reshape it to pulumi-e2e?
-- [ ] clean old platuplus/hasura docker image from previous migrations
-- [ ] home page doesn't render when no platyplus.tables record in postgres
 - [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
 - [ ] when changing the permission to make a table deletable, need to reload the client
-- [ ] light mode by default
 
 ## MVP 2
 
@@ -157,11 +152,8 @@ sidebar_label: To do list
 
 ## Parked
 
-- [ ] dark/light mode
-  - [ ] rsuite next -> when CSS variables are available
-  - [ ] from device's defaults
-  - [ ] store in localstorage
-  - [ ] store in the backend?
+- [ ] dark/light mode: store in user profile?
+- [ ] rsuite next -> when CSS variables are available
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
   - See: https://github.com/bitnami/charts/issues/2061
 - [ ] Include external files (Helm 3.6)

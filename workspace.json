@@ -466,37 +466,6 @@
         }
       }
     },
-    "infrastructure": {
-      "root": "apps/infrastructure",
-      "sourceRoot": "apps/infrastructure",
-      "projectType": "application",
-      "targets": {
-        "deploy": {
-          "executor": "@wanews/nx-pulumi:up"
-        },
-        "destroy": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "pulumi destroy --cwd apps/infrastructure"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/infrastructure/**/*.ts"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/infrastructure"],
-          "options": {
-            "jestConfig": "apps/infrastructure/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "platyplus": {
       "root": "apps/platyplus",
       "sourceRoot": "apps/platyplus/src",
