@@ -12,10 +12,10 @@ hasura_console(path='./apps/hasura', wait_for_services=['http://localhost:9000/h
 config.define_bool("production")
 cfg = config.parse()
 if cfg.get('production', False):
-    local_resource('web', serve_cmd='yarn build:production && yarn start:production', links=[
+    local_resource('web', serve_cmd='yarn build:local && yarn start:production', links=[
                link('http://localhost:8088/', 'Frontend')],)
     cmd_button('build-production',
-                argv=['sh', '-c', 'yarn build:production'],
+                argv=['sh', '-c', 'yarn build:local'],
                 resource='web',
                 icon_name='build',
                 text='Rebuild',
@@ -35,7 +35,7 @@ else:
         live_update=[
             sync('.', '/app'),
             run('cd /app && yarn install', trigger=['./package.json', './yarn.lock'])
-
+            # TODO webpack
             # if all that changed was start-time.txt, make sure the server
             # reloads so that it will reflect the new startup time
             # run('touch /app/index.js', trigger='./start-time.txt'),

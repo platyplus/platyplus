@@ -24,10 +24,10 @@ registerRoute(
 )
 
 if (process.env.NODE_ENV === 'production') {
-  // ? Is fallback working?
-  registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
   registerRoute(
     ({ url }) => url.pathname.startsWith('/assets/'),
     new StaleWhileRevalidate()
   )
+  // ? Is fallback working?
+  registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
 } else registerRoute(/(.*?)/, new NetworkOnly())

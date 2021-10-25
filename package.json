@@ -6,6 +6,7 @@
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build:dev",
+    "build:local": "nx build-webpack:dev",
     "build:production": "nx build",
     "start:production": "http-server dist/apps/platyplus -p 8088 --proxy http://localhost:8088?",
     "test": "nx test",
