@@ -1,5 +1,11 @@
 import { RxDocument } from 'rxdb'
-import { collectionName, removeCollection, info, warn } from '../utils'
+import {
+  collectionName,
+  removeCollection,
+  info,
+  warn,
+  createCollection
+} from '../utils'
 import {
   contentsCollectionCreator,
   equivalentSchemas,
@@ -20,13 +26,7 @@ export const createContentsCollections = async (
     for (const role of tableRoles(table)) {
       const name = collectionName(table, role)
       if (!db[name]) {
-        try {
-          await db.addCollections({
-            [name]: contentsCollectionCreator(table, role)
-          })
-        } catch (error) {
-          warn(`[${name}] Error creating the collection`, error)
-        }
+        await createCollection(db, name, contentsCollectionCreator(table, role))
       } else if (db[name].options.tableId) {
         const collection = db[name] as ContentsCollection
         const previousSchema = collection.schema.jsonSchema
@@ -35,14 +35,12 @@ export const createContentsCollections = async (
         if (!equivalentSchemas(previousSchema, newSchema)) {
           info(`[${name}] new schema. Reload the entire collection`)
           // TODO ideally, identify the column/relationship changes and delete the removed one, and go fetch the missing ones through graphql
-          try {
-            await removeCollection(collection)
-            await db.addCollections({
-              [name]: contentsCollectionCreator(table, role)
-            })
-          } catch (e) {
-            warn(`[${name}] impossible to update collection`, e)
-          }
+          await removeCollection(collection)
+          await createCollection(
+            db,
+            name,
+            contentsCollectionCreator(table, role)
+          )
         }
       } else {
         warn(`[${name}] Cannot modify a non-contents collection`)

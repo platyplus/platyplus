@@ -12,7 +12,6 @@ import { httpUrlToWebSockeUrl } from '@platyplus/data'
 
 import { Database, Replicator } from '../types'
 import { DELETED_COLUMN } from '../contents'
-import { setReplicationBusy, setReplicationReady } from '../state'
 import { debug, error, info, warn } from './console'
 
 import { createHeaders } from './hasura'
@@ -82,11 +81,11 @@ export const createReplicator = async <T>(
       // TODO refresh JWT if error is related, but in any case refresh JWT before error occurs
     })
 
-    replicationState.initialReplicationComplete$.subscribe((active) =>
-      active
-        ? setReplicationReady(collection.name)
-        : setReplicationBusy(collection.name)
-    )
+    // replicationState.initialReplicationComplete$.subscribe((active) =>
+    //   active
+    //     ? setReplicationReady(collection.name)
+    //     : setReplicationBusy(collection.name)
+    // )
 
     replicationState.canceled$.subscribe(() => {
       debug(`[${collection.name}] replication cancelled`)
@@ -147,7 +146,7 @@ export const createReplicator = async <T>(
       info(`[${collection.name}] WS reconnecting`)
     })
     wsClient.onError((err) => {
-      warn(`[${collection.name}] WS error`, err)
+      info(`[${collection.name}] WS error`, err)
     })
   }
   let startOption: undefined | (() => void)
@@ -162,8 +161,10 @@ export const createReplicator = async <T>(
 
     db.jwt$.subscribe((jwt) => {
       debug(`[${collection.name}] set token`)
-      initWsSubscription()
-      state.setHeaders(headers())
+      if (jwt) {
+        state.setHeaders(headers())
+        initWsSubscription()
+      } else debug(`[${collection.name}] set token BUT NO JWT`)
     })
 
     state.awaitInitialReplication().then(() => {

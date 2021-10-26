@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { createClient } from 'nhost-js-sdk'
-import { HbpProvider } from '@platyplus/hbp'
+import { HbpProvider, createHbpClient } from '@platyplus/hbp'
 import '@platyplus/theme'
 import { RxDBHasuraProvider } from '@platyplus/react-rxdb-hasura'
 import { LayoutWrapper } from './layout-wrapper'
@@ -12,13 +12,7 @@ const RootApp: React.ComponentType<AppConfig> = ({
   authUrl,
   ...config
 }) => {
-  const { auth, storage } = createClient({
-    baseURL: authUrl,
-    useCookies: false,
-    // * Autorefresh interval in ms (defaults to Math.max(30 * 1000, JWTExpiresIn - 45000))
-    // TODO use JWTExpiresIn
-    refreshIntervalTime: 60000
-  })
+  const { auth, storage } = createHbpClient(authUrl)
   return (
     <BrowserRouter>
       <HbpProvider auth={auth} storage={storage}>

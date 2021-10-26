@@ -49,7 +49,7 @@ export const addStateToDatabasePrototype = (proto: Database) => {
     newJwt: string | null,
     admin: boolean
   ) => {
-    debug('[setAuthStatus]', status, newJwt)
+    debug('[setAuthStatus]', status, !!newJwt)
     if (typeof status === 'boolean') {
       proto.isAuthenticated$.next(status)
       proto.jwt$.next(newJwt)

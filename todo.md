@@ -23,7 +23,6 @@ sidebar_label: To do list
     - [ ] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] logout
-    - [ ] switch offline -> online: screen blinks (shows 'loading tables information...' for a moment)
     - [ ] rerun tests with actual contents
     - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
   - [ ] Improve login/register errors and validation
@@ -92,6 +91,8 @@ sidebar_label: To do list
       - [ ] object
       - [ ] array
       - [ ] uri
+  - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
+  - [ ] home page side menu item is not colored (active) when authenticated (route redirect `/` to `/home`)
 
 ## Then
 
