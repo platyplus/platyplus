@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom'
 import { useHbp } from '@platyplus/hbp'
+import { warn } from '@platyplus/logger'
 import { useState } from 'react'
 import {
   Button,
@@ -44,7 +45,7 @@ export const Register = ({ redirect = '/' }: RegisterProps) => {
         const { email, password } = formValue
         await auth.register({ email, password })
       } catch (error) {
-        console.warn(error)
+        warn(error)
         return alert('registration failed')
       }
       router.push(redirect)
@@ -63,7 +64,7 @@ export const Register = ({ redirect = '/' }: RegisterProps) => {
             onChange={(v: typeof formValue) => setFormValue(v)}
             onCheck={(formError) => {
               // TODO quite verbose: checks on every key entry
-              console.log('error', formError)
+              warn('error', formError)
             }}
           >
             <FormGroup>

@@ -7,9 +7,10 @@ import {
   Observable,
   of
 } from 'rxjs'
+
+import { debug } from '@platyplus/logger'
 import { CONFIG_TABLES, PLATYPLUS_TABLES } from './metadata'
 import { Database } from './types'
-import { debug } from './utils'
 
 const readyTables = new BehaviorSubject<string[]>([])
 

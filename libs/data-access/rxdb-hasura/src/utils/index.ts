@@ -5,7 +5,6 @@ import clone from 'clone-deep'
 import { Contents, ContentsDocument } from '../types'
 
 export * from './collections'
-export * from './console'
 export * from './graphql'
 export * from './hasura'
 export * from './jsonata'

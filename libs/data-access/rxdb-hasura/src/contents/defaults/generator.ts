@@ -1,10 +1,11 @@
 import { v4 as uuid } from 'uuid'
 
+import { warn } from '@platyplus/logger'
+
 import { Contents } from '../../types'
 import { TableInformation } from '../../metadata'
 
 import { findRelationship } from '../relationships'
-import { warn } from '../../utils'
 import { isTextType, tableProperties } from '../properties'
 
 export const generateDefaultValue = (

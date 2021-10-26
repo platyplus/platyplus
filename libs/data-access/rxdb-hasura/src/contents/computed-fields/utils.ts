@@ -3,6 +3,8 @@ import Handlebars from 'handlebars'
 import jsonata from 'jsonata'
 import { isRxDocument, RxCollectionHookCallback } from 'rxdb'
 
+import { warn } from '@platyplus/logger'
+
 import { JsonSchemaPropertyType } from '../../metadata'
 import {
   Contents,
@@ -10,7 +12,8 @@ import {
   ContentsDocument,
   ContentsDocumentMethods
 } from '../../types'
-import { warn, FieldMapItem, rxdbJsonataPaths } from '../../utils'
+
+import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
 
 import { documentLabel } from './label'
 

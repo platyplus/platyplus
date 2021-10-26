@@ -2,6 +2,7 @@
 import { Schema } from 'rsuite'
 import { useMemo } from 'react'
 
+import { error, warn } from '@platyplus/logger'
 import { TableInformation, tableProperties } from '@platyplus/rxdb-hasura'
 
 import { TopLevelProperty } from 'rxdb/dist/types/types'
@@ -42,7 +43,7 @@ const modelTypeConstructor = {
   integer: () => Types.NumberType(),
   boolean: () => Types.BooleanType(),
   null: (name: string, property: TopLevelProperty) => {
-    console.error('Null type is not allowed', { name, property })
+    error('Null type is not allowed', { name, property })
     throw Error('Null type is not allowed')
   }
 }
@@ -56,7 +57,7 @@ export const useFormModel = (tableInfo: TableInformation) => {
           const type = property.type
           const modelType = modelTypeConstructor[type]?.(name, property)
           if (!modelType) {
-            console.log('Unknown model type for property', property)
+            warn('Unknown model type for property', property)
           } else {
             if (property.required) {
               if (type === 'collection' || type === 'array') {

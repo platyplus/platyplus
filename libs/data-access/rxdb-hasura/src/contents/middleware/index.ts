@@ -1,4 +1,5 @@
-import { debug } from '../../utils'
+import { debug } from '@platyplus/logger'
+
 import { ContentsCollection } from '../../types'
 import { createComputedFieldsHooks } from '../computed-fields'
 import { createDefaultValuesHooks } from '../defaults'

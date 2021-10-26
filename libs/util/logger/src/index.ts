@@ -1,4 +1,4 @@
-// TODO move to another package / find a better way to log/debug
+// ? find a better way to log/debug?
 enum LOG_LEVEL {
   MUTE = 0,
   ERROR = 1,

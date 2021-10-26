@@ -1,5 +1,6 @@
 import * as ReactDOM from 'react-dom'
 
+import { info } from '@platyplus/logger'
 import { App } from '@platyplus/app'
 
 if ('serviceWorker' in navigator) {
@@ -7,10 +8,10 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/service-worker.js')
       .then((registration) => {
-        console.log('[SW] registered')
+        info('[SW] registered')
       })
       .catch((registrationError) => {
-        console.log('[SW] registration failed: ', registrationError)
+        info('[SW] registration failed: ', registrationError)
       })
   })
 }

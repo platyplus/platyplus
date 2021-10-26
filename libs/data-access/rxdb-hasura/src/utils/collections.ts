@@ -1,9 +1,9 @@
 import { RxCollectionCreator } from 'rxdb'
 
+import { warn, debug } from '@platyplus/logger'
+
 import { Database, ContentsCollection } from '../types'
 import { TableInformation, tableName } from '../metadata'
-
-import { debug, warn } from './console'
 
 export const collectionName = (tableInfo: TableInformation, role: string) =>
   `${role}_${tableName(tableInfo)}`

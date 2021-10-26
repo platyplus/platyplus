@@ -26,6 +26,7 @@
       "@platyplus/hbp": ["libs/data-access/hbp/src/index.ts"],
       "@platyplus/jsonata-schema": ["libs/util/jsonata-schema/src/index.ts"],
       "@platyplus/layout": ["libs/ui/layout/src/index.ts"],
+      "@platyplus/logger": ["libs/util/logger/src/index.ts"],
       "@platyplus/navigation": ["libs/ui/navigation/src/index.ts"],
       "@platyplus/profile": ["libs/ui/profile/src/index.ts"],
       "@platyplus/pulumi": ["libs/util/pulumi/src/index.ts"],

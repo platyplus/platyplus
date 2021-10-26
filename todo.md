@@ -25,6 +25,7 @@ sidebar_label: To do list
     - [ ] logout
     - [ ] rerun tests with actual contents
     - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
+    - [ ] WS reconnecting: don't try if offline
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
 - [ ] Platyplus Helm Chart
@@ -64,7 +65,6 @@ sidebar_label: To do list
 
 ## Post-MVP
 
-- console.log/debug library
 - Application
   - [ ] destroy database on logout
   - [ ] nullable values vs default values vs form values

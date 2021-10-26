@@ -95,6 +95,9 @@
     "util-jsonata-schema": {
       "tags": []
     },
+    "util-logger": {
+      "tags": []
+    },
     "util-pulumi": {
       "tags": []
     },

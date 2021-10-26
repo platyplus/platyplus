@@ -2,9 +2,9 @@ import { clone, RxGraphQLReplicationQueryBuilder } from 'rxdb'
 import { jsonToGraphQLQuery, EnumType } from 'json-to-graphql-query'
 
 import { reduceStringArrayValues } from '@platyplus/data'
+import { debug } from '@platyplus/logger'
 
 import { Contents, ContentsCollection, Modifier } from '../../types'
-import { debug } from '../../utils'
 
 import { computedFields } from '../computed-fields'
 import { decomposeId, getIds } from '../ids'

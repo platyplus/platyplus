@@ -5,7 +5,8 @@ import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
 import { addPouchPlugin, getRxStoragePouch } from 'rxdb/plugins/pouchdb'
 
-import { debug } from './utils'
+import { debug } from '@platyplus/logger'
+
 import { RxHasuraPlugin } from './rxdb-plugin'
 import { Database, DatabaseCollections } from './types'
 import {

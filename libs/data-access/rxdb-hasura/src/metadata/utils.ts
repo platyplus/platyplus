@@ -1,7 +1,8 @@
 import produce from 'immer'
 import { print } from 'graphql/language/printer'
 
-import { info } from '../utils'
+import { info } from '@platyplus/logger'
+
 import { CollectionSettings, TableInformation } from './types'
 import { Database } from '../types'
 

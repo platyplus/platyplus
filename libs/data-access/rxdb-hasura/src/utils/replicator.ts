@@ -9,10 +9,10 @@ import { combineLatest, Subscription, map, distinctUntilChanged } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
+import { debug, error, info, warn } from '@platyplus/logger'
 
 import { Database, Replicator } from '../types'
 import { DELETED_COLUMN } from '../contents'
-import { debug, error, info, warn } from './console'
 
 import { createHeaders } from './hasura'
 

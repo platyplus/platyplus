@@ -1,7 +1,8 @@
+import { debug, info, warn } from '@platyplus/logger'
 import { getDocumentTableInfo, getTableInfo } from '../../../metadata'
 import { ForeignKey } from '../../../metadata/table-information/types'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
-import { collectionName, debug, info } from '../../../utils'
+import { collectionName } from '../../../utils'
 import {
   allRelationships,
   isManyToManyJoinTable,
@@ -44,16 +45,16 @@ export const createForeignKeyConstraintsHooks = (
               .remove()
           },
           'NO ACTION': () => {
-            console.log('TODO')
+            warn('TODO')
           },
           RESTRICT: () => {
-            console.log('TODO')
+            warn('TODO')
           },
           'SET DEFAULT': () => {
-            console.log('TODO')
+            warn('TODO')
           },
           'SET NULL': () => {
-            console.log('TODO')
+            warn('TODO')
           }
         }
         actions[fk.delete_rule]()

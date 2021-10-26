@@ -2,6 +2,8 @@ import { NhostAuthProvider } from '@nhost/react-auth'
 import { createContext, FunctionComponent, useContext } from 'react'
 import { createClient, NhostClient } from 'nhost-js-sdk'
 
+import { info } from '@platyplus/logger'
+
 const Context = createContext<Pick<NhostClient, 'auth' | 'storage'>>({
   auth: null,
   storage: null
@@ -16,20 +18,15 @@ export const createHbpClient = (authUrl: string) => {
     refreshIntervalTime: 60000
   })
 
-  window.addEventListener('load', function () {
-    function updateOnlineStatus(event: Event) {
-      const condition = navigator.onLine ? 'online' : 'offline'
+  function updateOnlineStatus(event: Event) {
+    const condition = navigator.onLine ? 'online' : 'offline'
+    info('[network] status', condition)
+    if (condition) auth.refreshSession()
+  }
 
-      console.log(
-        'beforeend',
-        'Event: ' + event.type + '; Status: ' + condition
-      )
-      if (condition) auth.refreshSession()
-    }
+  window.addEventListener('online', updateOnlineStatus)
+  window.addEventListener('offline', updateOnlineStatus)
 
-    window.addEventListener('online', updateOnlineStatus)
-    window.addEventListener('offline', updateOnlineStatus)
-  })
   return { auth, storage }
 }
 

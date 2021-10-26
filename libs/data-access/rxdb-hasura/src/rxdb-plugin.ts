@@ -1,5 +1,7 @@
 import { RxCollection, RxPlugin } from 'rxdb'
-import { debug } from './utils'
+
+import { debug } from '@platyplus/logger'
+
 import { createContentReplicator, createHooks } from './contents'
 import { ConfigCollection, TableInfoCollection } from './metadata'
 import { createSettingsReplicator } from './metadata'

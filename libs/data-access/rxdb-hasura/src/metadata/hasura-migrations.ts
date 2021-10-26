@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import { escape } from 'sqlstring'
+
+import { info, warn } from '@platyplus/logger'
+
 import { Contents } from '../types'
 import {
   APP_CONFIG_TABLE,
@@ -8,8 +11,8 @@ import {
   PROPERTY_CONFIG_TABLE,
   TABLE_CONFIG_TABLE
 } from '../constants'
+
 import { PropertyConfig } from './types'
-import { info, warn } from '../utils'
 
 const client = axios.create({ baseURL: CONSOLE_API })
 

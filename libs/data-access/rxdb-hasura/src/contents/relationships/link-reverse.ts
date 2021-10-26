@@ -1,13 +1,13 @@
 import { RxCollectionHookCallback } from 'rxdb'
 
 import { arrayChanges } from '@platyplus/data'
-
+import { warn, debug } from '@platyplus/logger'
 import {
   Contents,
   ContentsCollection,
   ContentsDocumentMethods
 } from '../../types'
-import { debug, warn, collectionName } from '../../utils'
+import { collectionName } from '../../utils'
 import { getCollectionTableInfo } from '../../metadata'
 
 import { allRelationships, getMirrorRelationship } from './utils'

@@ -1,11 +1,7 @@
 import { RxDocument } from 'rxdb'
-import {
-  collectionName,
-  removeCollection,
-  info,
-  warn,
-  createCollection
-} from '../utils'
+import { info, warn } from '@platyplus/logger'
+
+import { collectionName, removeCollection, createCollection } from '../utils'
 import {
   contentsCollectionCreator,
   equivalentSchemas,
@@ -13,6 +9,7 @@ import {
   toJsonSchema
 } from '../contents'
 import { ContentsCollection, Database } from '../types'
+
 import { TableInformation } from './types'
 import { tableRoles } from './utils'
 

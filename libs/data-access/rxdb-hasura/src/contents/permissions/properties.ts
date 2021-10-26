@@ -1,5 +1,7 @@
+import { warn } from '@platyplus/logger'
+
 import { TableInformation } from '../../metadata'
-import { warn } from '../../utils'
+
 import { tableProperties } from '../properties'
 import {
   allRelationships,

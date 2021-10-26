@@ -1132,6 +1132,39 @@
         }
       }
     },
+    "util-logger": {
+      "root": "libs/util/logger",
+      "sourceRoot": "libs/util/logger/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/util/logger/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util/logger"],
+          "options": {
+            "jestConfig": "libs/util/logger/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/util/logger",
+            "tsConfig": "libs/util/logger/tsconfig.lib.json",
+            "packageJson": "libs/util/logger/package.json",
+            "main": "libs/util/logger/src/index.ts",
+            "assets": ["libs/util/logger/*.md"]
+          }
+        }
+      }
+    },
     "util-pulumi": {
       "root": "libs/util/pulumi",
       "sourceRoot": "libs/util/pulumi/src",

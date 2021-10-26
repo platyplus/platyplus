@@ -7,6 +7,7 @@ import {
 } from 'json-to-graphql-query'
 
 import { reduceArrayValues, reduceStringArrayValues } from '@platyplus/data'
+import { debug } from '@platyplus/logger'
 
 import {
   Contents,
@@ -14,7 +15,7 @@ import {
   ContentsDocument,
   Modifier
 } from '../../types'
-import { FieldMap, debug, collectionName } from '../../utils'
+import { FieldMap, collectionName } from '../../utils'
 import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
 
 import {

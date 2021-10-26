@@ -1,5 +1,7 @@
 import { RxChangeEvent } from 'rxdb'
 
+import { debug } from '@platyplus/logger'
+
 import { createReplicator } from '../utils/replicator'
 import { setReplicationReady } from '../state'
 import { Contents } from '../types'
@@ -11,7 +13,6 @@ import {
   TableInfoCollection
 } from './types'
 import { generateReplicationSettings } from './utils'
-import { debug } from '../utils'
 
 export const createSettingsReplicator = async (
   collection: ConfigCollection | TableInfoCollection
