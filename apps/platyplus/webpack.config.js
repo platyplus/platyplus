@@ -43,6 +43,7 @@ module.exports = (config, context) => {
         process: 'process/browser',
         Buffer: ['buffer', 'Buffer']
       }),
+      new webpack.EnvironmentPlugin(['DEBUG']),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         title: name,

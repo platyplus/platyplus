@@ -7,12 +7,11 @@ enum LOG_LEVEL {
   DEBUG = 4
 }
 
-// TODO set level in an environment variable
-const VERBOSE_LEVEL = process.env.DEBUG // TODO set in webpack/yarn
+const VERBOSE_LEVEL = process.env.DEBUG
   ? LOG_LEVEL.DEBUG
   : process.env.NODE_ENV === 'development'
   ? LOG_LEVEL.INFO
-  : LOG_LEVEL.DEBUG // TODO set to WARN
+  : LOG_LEVEL.WARN
 
 export const debug = (...args: unknown[]): unknown =>
   VERBOSE_LEVEL >= LOG_LEVEL.DEBUG && console.log(...args)
