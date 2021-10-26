@@ -12,7 +12,7 @@ hasura_console(path='./apps/hasura', wait_for_services=['http://localhost:9000/h
 config.define_bool("production")
 cfg = config.parse()
 if cfg.get('production', False):
-    local_resource('web', serve_cmd='yarn build:local && yarn start:production', links=[
+    local_resource('web', serve_cmd='yarn build:local && yarn start:local', links=[
                link('http://localhost:8088/', 'Frontend')],)
     cmd_button('build-production',
                 argv=['sh', '-c', 'yarn build:local'],

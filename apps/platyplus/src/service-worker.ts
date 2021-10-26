@@ -22,7 +22,6 @@ registerRoute(
     ]
   })
 )
-
 if (process.env.NODE_ENV === 'production') {
   registerRoute(
     ({ url }) => url.pathname.startsWith('/assets/'),

@@ -11,11 +11,12 @@ module.exports = (config, context) => {
   const name = process.env.APP_NAME
   const shortName = process.env.APP_SHORT_NAME || name
   const description = process.env.APP_DESCRIPTION
-  const themeColor = '#066ace'
+  const themeColor = '#6ebdab' // TODO override rsuite variable
   const backgroundColor = '#202020'
 
   nrwlConfig(config) // first call it so that it @nrwl/react plugin adds its configs, then override your config.
-  const isProd = config.mode === 'production'
+  const isProd =
+    config.mode === 'production' || process.env.NODE_ENV === 'production'
   // ! Webpack resolves the rxjs version of Nx (v6) before the one used by RxDB.
   // ! => Reverse resolve paths so the 'root' node_module goes first...
   // * See https://github.com/webpack/webpack/issues/6538
@@ -26,13 +27,14 @@ module.exports = (config, context) => {
   config.plugins = config.plugins.filter(
     (plugin) => plugin.constructor.name !== 'IndexHtmlWebpackPlugin'
   )
+  const CONFIG = process.env.CONFIG_FILE || (isProd ? 'prod' : 'local')
 
   config.plugins.push(
     ...[
       new CopyPlugin({
         patterns: [
           {
-            from: isProd ? './config.prod.json' : './config.json',
+            from: `./config.${CONFIG}.json`,
             to: './config.json'
           }
         ]
@@ -59,6 +61,7 @@ module.exports = (config, context) => {
         theme_color: themeColor,
         background_color: backgroundColor,
         publicPath: '/',
+        start_url: '.',
         crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
         ios: true,
         icons: [
@@ -73,11 +76,7 @@ module.exports = (config, context) => {
         swSrc: './service-worker.ts',
         swDest: 'service-worker.js',
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
-        exclude: [
-          /^assets\//,
-          'config.json', // TODO precache BUT NetworkFirst policy
-          ...(isProd ? [] : [/(.*?)/]) // * exclude basically everything in dev mode
-        ]
+        exclude: isProd ? [] : [/(.*?)/]
       })
     ]
   )
