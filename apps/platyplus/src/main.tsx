@@ -7,10 +7,10 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/service-worker.js')
       .then((registration) => {
-        console.log('SW registered')
+        console.log('[SW] registered')
       })
       .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError)
+        console.log('[SW] registration failed: ', registrationError)
       })
   })
 }

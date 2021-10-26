@@ -1,11 +1,11 @@
-import { useAuth } from '@nhost/react-auth'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
 
 import { Loading } from '@platyplus/navigation'
 import { useIsTableInfoReady } from '@platyplus/react-rxdb-hasura'
+import { useAuthenticated } from '@platyplus/hbp'
 
 export const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-  const { signedIn } = useAuth()
+  const signedIn = useAuthenticated()
   const tableInfoReady = useIsTableInfoReady()
 
   return (
@@ -14,10 +14,10 @@ export const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
       render={({ location }) => {
         // user is logged-in
         if (signedIn === null) {
-          return <Loading backdrop />
+          return <Loading backdrop content="loading authentication status..." />
         }
         if (!tableInfoReady) {
-          return <Loading backdrop />
+          return <Loading backdrop content="loading tables information..." />
         }
         if (!signedIn) {
           return (

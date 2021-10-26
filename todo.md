@@ -22,6 +22,10 @@ sidebar_label: To do list
     - [ ] only when fk constraints allow it
     - [ ] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
+    - [ ] logout
+    - [ ] switch offline -> online: screen blinks (shows 'loading tables information...' for a moment)
+    - [ ] rerun tests with actual contents
+    - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
 - [ ] Platyplus Helm Chart
@@ -51,19 +55,17 @@ sidebar_label: To do list
 
 ## MVP 2
 
-- [ ] Hasura Auth
-  - [ ] Helm chart
-    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platyplus/hasura-backend-plus?modal=security-report
-  - [ ] Tilt extension
 - Application
   - [ ] reset/change password
   - [ ] avatar picker (image-url component)
   - [ ] prefix `platyplus_` all the internal collections
   - [ ] home page (pages table, at this stage as a singleton)
 - [ ] Platyplus Tilt extension
+- [ ] review `nx version`
 
 ## Post-MVP
 
+- console.log/debug library
 - Application
   - [ ] destroy database on logout
   - [ ] nullable values vs default values vs form values
@@ -152,6 +154,11 @@ sidebar_label: To do list
 
 ## Parked
 
+- [ ] Hasura Auth
+  - [ ] Helm chart
+    - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platyplus/hasura-backend-plus?modal=security-report
+  - [ ] Tilt extension
+  - [ ] use latest JS sdk
 - [ ] dark/light mode: store in user profile?
 - [ ] rsuite next -> when CSS variables are available
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?

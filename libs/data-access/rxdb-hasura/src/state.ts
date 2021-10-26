@@ -9,10 +9,12 @@ import {
 } from 'rxjs'
 import { CONFIG_TABLES, PLATYPLUS_TABLES } from './metadata'
 import { Database } from './types'
+import { debug } from './utils'
 
 const readyTables = new BehaviorSubject<string[]>([])
 
 export const setReplicationReady = (name: string) => {
+  debug(`[${name}] setReplicationReady`)
   const value = readyTables.getValue()
   if (!value.includes(name)) {
     value.push(name)
@@ -20,6 +22,7 @@ export const setReplicationReady = (name: string) => {
   }
 }
 export const setReplicationBusy = (name: string) => {
+  debug(`[${name}] setReplicationBusy`)
   const state = readyTables.getValue()
   const value = state.filter((v) => v !== name)
   if (value.length !== state.length) {
@@ -41,10 +44,17 @@ export const addStateToDatabasePrototype = (proto: Database) => {
   proto.jwt$ = new BehaviorSubject<string | null>(null)
   proto.isAdmin$ = new BehaviorSubject<boolean>(false)
   proto.isAuthenticated$ = new BehaviorSubject<boolean>(false)
-  proto.setAuthStatus = (status: boolean, newJwt: string, admin: boolean) => {
-    proto.isAuthenticated$.next(status)
-    proto.jwt$.next(newJwt)
-    proto.isAdmin$.next(status ? admin : false)
+  proto.setAuthStatus = (
+    status: boolean | null,
+    newJwt: string | null,
+    admin: boolean
+  ) => {
+    debug('[setAuthStatus]', status, newJwt)
+    if (typeof status === 'boolean') {
+      proto.isAuthenticated$.next(status)
+      proto.jwt$.next(newJwt)
+      proto.isAdmin$.next(status ? admin : false)
+    }
   }
   proto.isConnected$ = merge(
     of(null),

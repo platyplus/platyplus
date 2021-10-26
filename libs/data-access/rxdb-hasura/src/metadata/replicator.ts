@@ -11,6 +11,7 @@ import {
   TableInfoCollection
 } from './types'
 import { generateReplicationSettings } from './utils'
+import { debug } from '../utils'
 
 export const createSettingsReplicator = async (
   collection: ConfigCollection | TableInfoCollection
@@ -26,8 +27,10 @@ export const createSettingsReplicator = async (
   if (initialDocuments.length) {
     for (const doc of initialDocuments)
       collectionSettings.onUpsert?.(doc.toJSON())
-    setReplicationReady(collection.name)
+  } else {
+    debug(`[${collection.name}] no initial documents`)
   }
+  setReplicationReady(collection.name)
 
   return await createReplicator(collection, {
     role: METADATA_ROLE,

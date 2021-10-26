@@ -1,8 +1,8 @@
-import { useAuth } from '@nhost/react-auth'
+import { useAuthenticated } from '@platyplus/hbp'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
 
 export const PublicRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-  const { signedIn } = useAuth()
+  const signedIn = useAuthenticated()
   return (
     <Route
       {...rest}

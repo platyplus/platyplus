@@ -189,7 +189,7 @@ export const createReplicator = async <T>(
       distinctUntilChanged<boolean>()
     )
     .subscribe(async (ok) => {
-      debug(`[${collection.name}] auth status change`, ok)
+      debug(`[${collection.name}] auth/connection status change`, ok)
       if (ok) await start()
       else await stop()
     })

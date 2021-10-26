@@ -57,12 +57,14 @@ export const createRxHasura = async (
   const db = (await createRxDatabase<DatabaseCollections>(
     settings
   )) as unknown as Database
-  debug(`RxDB created: ${settings.name}`)
+  debug(`[db] created: ${settings.name}`)
   if (process.env.NODE_ENV === 'development') window['db'] = db // write to window for debugging
 
   // * When being connected, browse the roles and create table info accordingly
   db.isAuthenticated$.pipe(filter((status) => status)).subscribe(async () => {
+    debug('[db.isAuthenticated]: subscribe to config readiness')
     db.isConfigReady$.subscribe(async (ready) => {
+      debug('[db.isAuthenticated] isConfigReady event', ready)
       if (ready) addTableInfoCollection(db)
       else await initConfigCollections(db)
     })
@@ -78,7 +80,7 @@ export const createRxHasura = async (
 
   // * runs when db becomes leader
   db.waitForLeadership().then(() => {
-    debug('DB took the leadership')
+    debug('[db] took the leadership')
   })
 
   return db

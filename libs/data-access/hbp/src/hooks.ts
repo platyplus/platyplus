@@ -1,13 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ADMIN_ROLE, METADATA_ROLE } from '@platyplus/rxdb-hasura'
 import { useHbp } from './provider'
+import Auth from 'nhost-js-sdk/dist/Auth'
+
+export const isAuthenticated = (auth: Auth) => {
+  // TODO won't work for any type of storage
+  return auth.isAuthenticated() ?? !!localStorage.getItem('nhostRefreshToken')
+}
 
 export const useAuthenticated = () => {
   const hbp = useHbp()
-  const [authenticated, setAuthenticated] = useState(hbp.auth.isAuthenticated())
+
+  const [authenticated, setAuthenticated] = useState(isAuthenticated(hbp.auth))
 
   hbp.auth.onAuthStateChanged((isAuth) => {
-    setAuthenticated(isAuth)
+    setAuthenticated(isAuth ?? isAuthenticated(hbp.auth))
   })
   return authenticated
 }

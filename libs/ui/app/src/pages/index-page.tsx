@@ -1,11 +1,11 @@
 import { HeaderTitleWrapper } from '@platyplus/layout'
-import { useAuth } from '@nhost/react-auth'
 import { Link, Redirect } from 'react-router-dom'
+import { useAuthenticated } from '@platyplus/hbp'
 
 export const IndexPage: React.FC<{ title?: string }> = ({
   title = 'Index page'
 }) => {
-  const { signedIn } = useAuth()
+  const signedIn = useAuthenticated()
   if (signedIn) {
     return <Redirect to="/home" />
   } else
