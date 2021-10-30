@@ -11,14 +11,13 @@ import {
   useCollectionTitle,
   useConfigEnabled,
   useTableInfo,
-  useCollectionName,
-  useCollection
+  useCollectionName
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper } from '@platyplus/layout'
 import { Loading, useQuery } from '@platyplus/navigation'
 import { CollectionComponentWrapper } from '../collections'
 import { CollectionToolbar } from '../collections/toolbar'
-import { useRxQuery } from 'rxdb-hooks'
+import { useRxCollection, useRxQuery } from 'rxdb-hooks'
 import { RxCollection } from 'rxdb'
 
 const CollectionData: React.FC<{
@@ -61,7 +60,7 @@ export const CollectionPage: React.FC = () => {
   const enabledConfig = useConfigEnabled()
   const tableinfo = useTableInfo(name)
   const collectionName = useCollectionName(tableinfo, role)
-  const collection = useCollection(collectionName)
+  const collection = useRxCollection(collectionName)
   const [title] = useCollectionTitle(tableinfo)
   if (!collection || !tableinfo || !title) return <div>PROBLEM</div>
   return (

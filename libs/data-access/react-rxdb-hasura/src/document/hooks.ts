@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useRxDocument } from 'rxdb-hooks'
+import { useRxCollection, useRxDocument } from 'rxdb-hooks'
 
 import {
   Contents,
@@ -8,7 +8,7 @@ import {
   TableInformation
 } from '@platyplus/rxdb-hasura'
 
-import { useCollection, useCollectionName } from '../collection/hooks'
+import { useCollectionName } from '../collection/hooks'
 
 export const useDocument = <B extends boolean = false>(
   tableInfo: TableInformation,
@@ -21,7 +21,7 @@ export const useDocument = <B extends boolean = false>(
 } => {
   type ResultType = B extends true ? Contents : ContentsDocument
   const collectionName = useCollectionName(tableInfo, role)
-  const collection = useCollection(collectionName)
+  const collection = useRxCollection(collectionName)
   const queryConstructor = useMemo(() => id !== 'new' && id, [id])
   const { result, isFetching: isDocumentFetching } =
     useRxDocument<ContentsDocument>(collectionName, queryConstructor)

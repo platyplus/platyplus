@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { SelectPicker } from 'rsuite'
-import { useRxData } from 'rxdb-hooks'
+import { useRxCollection, useRxData } from 'rxdb-hooks'
 
 import {
   Contents,
@@ -11,7 +11,6 @@ import {
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
 import {
-  useCollection,
   useCollectionName,
   useOptions,
   useTableInfo
@@ -34,7 +33,7 @@ export const DocumentSelectField: FieldComponent = ({
   )
   const refCollectionName = useCollectionName(refTable, role)
   const [data, setData] = useState<ContentsDocument>(null)
-  const collection = useCollection(refCollectionName)
+  const collection = useRxCollection<ContentsDocument>(refCollectionName)
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
     if (collection) {
@@ -44,7 +43,7 @@ export const DocumentSelectField: FieldComponent = ({
           filter((id) => !!id),
           switchMap((id) => collection.findOne(id).$)
         )
-        .subscribe((refDocument: ContentsDocument) => setData(refDocument))
+        .subscribe((refDocument) => setData(refDocument))
       return () => subscription.unsubscribe()
     }
   }, [
