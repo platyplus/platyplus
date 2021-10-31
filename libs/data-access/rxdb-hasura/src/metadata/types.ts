@@ -14,7 +14,7 @@ import { AppConfig } from './app-config/types'
 import type { PropertyConfig } from './property-config/types'
 import type { TableConfig } from './table-config/types'
 import type { Column, Relationship, TableInfo } from './table-information/types'
-
+export type { MenuItem } from './app-config/types'
 export type TableInformation = TableInfo
 
 export type CollectionSettings = {

@@ -18,9 +18,8 @@ import {
 
 import { useStore } from './store'
 import { useDB } from './database'
-import { useRxDocument, useRxQuery } from 'rxdb-hooks'
+import { useRxCollection, useRxDocument, useRxQuery } from 'rxdb-hooks'
 import { useSingleton } from './document/singleton'
-import { useCollection } from './collection'
 
 export const useConfigEnabled = () => {
   const auth = useAuthenticated()
@@ -145,7 +144,7 @@ export const usePersistConfig = () => {
 }
 
 export const useTablesConfig = () => {
-  const collection = useCollection(TABLE_INFO_TABLE)
+  const collection = useRxCollection(TABLE_INFO_TABLE)
   const q = useMemo(() => collection?.find(), [collection])
   const { result } = useRxQuery<TableInformation>(q)
   return result

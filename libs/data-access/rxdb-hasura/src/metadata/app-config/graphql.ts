@@ -9,7 +9,7 @@ export const query = gql`
     ) {
       id
       updated_at
-      menu_order
+      menu
       deleted
     }
   }
@@ -20,7 +20,7 @@ export const mutation = gql`
       objects: $objects
       on_conflict: {
         constraint: ${APP_CONFIG_TABLE}_pkey
-        update_columns: [deleted, menu_order]
+        update_columns: [deleted, menu]
       }
     ) {
       returning {

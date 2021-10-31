@@ -2672,10 +2672,10 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@7.14.8":
-  version "7.14.8"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.8.tgz#7119a56f421018852694290b9f9148097391b446"
-  integrity sha512-twj3L8Og5SaCRCErB4x4ajbvBIVV77CGeFglHpeg5WC5FF8TZzBWXtTJ4MqaD9QszLYTtr+IsaAL2rEUevb+eg==
+"@babel/runtime@7.15.4", "@babel/runtime@^7.10.3", "@babel/runtime@^7.12.13":
+  version "7.15.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
+  integrity sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -2697,13 +2697,6 @@
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.0.tgz#46794bc20b612c5f75e62dd071e24dfd95f1cbe6"
   integrity sha512-JELkvo/DlpNdJ7dlyw/eY7E0suy5i5GQH+Vlxaq1nsNJ+H7f4Vtv3jMeCEgRhZZQFXTjldYfQgv2qmM6M1v5wA==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
-"@babel/runtime@^7.10.3", "@babel/runtime@^7.12.13":
-  version "7.15.4"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
-  integrity sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -5904,12 +5897,7 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
 
-"@types/json-schema@7.0.8":
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.8.tgz#edf1bf1dbf4e04413ca8e5b17b3b7d7d54b59818"
-  integrity sha512-YSBPTLTVm2e2OoQIDYx8HaeWJ5tTToLH67kXR7zYNGupXMEHa2++G8k+DczX2cFVgalypqtyZIcU19AFcmOpmg==
-
-"@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8":
+"@types/json-schema@7.0.9", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
@@ -9875,10 +9863,10 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-js@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
-  integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
+crypto-js@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 crypto-random-string@^1.0.0:
   version "1.0.0"
@@ -10527,19 +10515,7 @@ dedent@0.7.0, dedent@^0.7.0:
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha1-JJXduvbrh0q7Dhvp3yLS5aVEMmw=
 
-deep-equal@^1.0.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.1.1.tgz#b5c98c942ceffaf7cb051e24e1434a25a2e6076a"
-  integrity sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g==
-  dependencies:
-    is-arguments "^1.0.4"
-    is-date-object "^1.0.1"
-    is-regex "^1.0.4"
-    object-is "^1.0.1"
-    object-keys "^1.1.1"
-    regexp.prototype.flags "^1.2.0"
-
-deep-equal@^2.0.1, deep-equal@^2.0.5:
+deep-equal@2.0.5, deep-equal@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-2.0.5.tgz#55cd2fe326d83f9cbf7261ef0e060b3f724c5cb9"
   integrity sha512-nPiRgmbAtm1a3JsnLCf6/SLfXcjyN5v8L1TXzdCmHrXJ4hx+gW/w1YCcn7z8gJtSiDArZCgYtbao3QqLm/N1Sw==
@@ -10559,6 +10535,18 @@ deep-equal@^2.0.1, deep-equal@^2.0.5:
     which-boxed-primitive "^1.0.1"
     which-collection "^1.0.1"
     which-typed-array "^1.1.2"
+
+deep-equal@^1.0.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.1.1.tgz#b5c98c942ceffaf7cb051e24e1434a25a2e6076a"
+  integrity sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g==
+  dependencies:
+    is-arguments "^1.0.4"
+    is-date-object "^1.0.1"
+    is-regex "^1.0.4"
+    object-is "^1.0.1"
+    object-keys "^1.1.1"
+    regexp.prototype.flags "^1.2.0"
 
 deep-extend@^0.6.0:
   version "0.6.0"
@@ -10602,10 +10590,10 @@ defaults@^1.0.3:
   dependencies:
     clone "^1.0.2"
 
-defekt@7.3.2:
-  version "7.3.2"
-  resolved "https://registry.yarnpkg.com/defekt/-/defekt-7.3.2.tgz#54e789d89fab0317e035946ed69d6bc542c2be07"
-  integrity sha512-4spUugjxcZTlQaHuKQWVtI+DJx1Pp+zjCD+/0vpMPjNnliowHCEYsVm4sbyzgspuB7Y8djKN/J6V+7phrCVXUQ==
+defekt@7.3.3:
+  version "7.3.3"
+  resolved "https://registry.yarnpkg.com/defekt/-/defekt-7.3.3.tgz#042e0e1164c28d0276c8f2168c305a4281f4a9f6"
+  integrity sha512-IVSwlS50EZosgrtIXruq9blDFzB9MsFvbl8Ty1L33va8a2tgRVWJYDWUhvWZpBPwr5VKGDCiZR+o2/PbuuITOQ==
 
 defer-to-connect@^1.0.1:
   version "1.1.3"
@@ -12734,15 +12722,15 @@ get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
-get-graphql-from-jsonschema@8.0.13:
-  version "8.0.13"
-  resolved "https://registry.yarnpkg.com/get-graphql-from-jsonschema/-/get-graphql-from-jsonschema-8.0.13.tgz#9b3979ecd26e75b03bb0d7d35972c7b8e9ad5bd1"
-  integrity sha512-MvZV8IwWJq/6zsMDddyDEMXi1D7lv+rKJIgQY9zltmPR1O7+04ho7xmlOGwzXGFfCUOUwE2VcofI41E1aVsYaQ==
+get-graphql-from-jsonschema@8.0.16:
+  version "8.0.16"
+  resolved "https://registry.yarnpkg.com/get-graphql-from-jsonschema/-/get-graphql-from-jsonschema-8.0.16.tgz#479760abc08bd95a00d46ec58e15653a08bb732a"
+  integrity sha512-iwbywzMKyd2v547YH5zJ3eeEf6QHucvdUR3Lk/vfyhq5zY3t5oUx79hdBLrXEldql7/gQl/t7BWTr/WM79U3Wg==
   dependencies:
     "@types/common-tags" "1.8.1"
-    "@types/json-schema" "7.0.8"
+    "@types/json-schema" "7.0.9"
     common-tags "1.8.0"
-    defekt "7.3.2"
+    defekt "7.3.3"
 
 get-intrinsic@^1.0.1, get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
   version "1.1.1"
@@ -16112,10 +16100,10 @@ jsonpointer@^4.0.0, jsonpointer@^4.1.0:
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.1.0.tgz#501fb89986a2389765ba09e6053299ceb4f2c2cc"
   integrity sha512-CXcRvMyTlnR53xMcKnuMzfCA5i/nfblTnnr74CZb6C4vG39eu6w51t7nKmU5MfLfbTgGItliNyjO/ciNPDqClg==
 
-jsonschema-key-compression@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/jsonschema-key-compression/-/jsonschema-key-compression-1.4.0.tgz#49346627f64e132ab3585fd5abd4923d4aedc544"
-  integrity sha512-ADDtLCnu5bUa4b9dDshc2u4Z1XXReX3kGhZLJ9OqZD6f7g+Gm/Dyn9ex4tgOag5tfFLfNK9N7p2I5LkVR/Eyiw==
+jsonschema-key-compression@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/jsonschema-key-compression/-/jsonschema-key-compression-1.6.0.tgz#fcfdd075399b8533bc9bc66b5d30cf4601e12d9d"
+  integrity sha512-bPLErzX1hXmGPWOOZVWlvotn5PEJWe+8PNvYwXR7J9hDSCgWANdgFGiZLMFbKRPkCBXy4btcwHRt03z0VGpexQ==
 
 jsontoxml@^1.0.1:
   version "1.0.1"
@@ -17994,7 +17982,7 @@ object-path@0.11.5:
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.5.tgz#d4e3cf19601a5140a55a16ad712019a9c50b577a"
   integrity sha512-jgSbThcoR/s+XumvGMTMf81QVBmah+/Q7K7YduKeKVWL7N111unR2d6pZZarSk6kY/caeNxUDyxOvMWyzoU2eg==
 
-object-path@^0.11.8:
+object-path@0.11.8, object-path@^0.11.8:
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.8.tgz#ed002c02bbdd0070b78a27455e8ae01fc14d4742"
   integrity sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==
@@ -21699,17 +21687,17 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxdb-hooks@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/rxdb-hooks/-/rxdb-hooks-3.0.1.tgz#95671563dfb4395009b999ad6c557cd09de0ed1f"
-  integrity sha512-CRIg0lWCDVaa8jzE6WeS7nQxF/X48cl1MUxrbAWUcm6MN1A/c/4GU5z9eg4OKrXLruyfPOq2gQ5n7wbp27/DBA==
+rxdb-hooks@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/rxdb-hooks/-/rxdb-hooks-3.0.2.tgz#74959186d252f086c035c462b46620dfd4d40766"
+  integrity sha512-63sr4aWnq1nayV68xrC2tE+gMRI0/Zkh70a3KmSJGhajjqU4knZYmKrI9ScP629+qZX+QgTYM6SFeSs60l7o3g==
 
-rxdb@10.0.3:
-  version "10.0.3"
-  resolved "https://registry.yarnpkg.com/rxdb/-/rxdb-10.0.3.tgz#6bf03f763727382913ec954e51a3c1577c18442c"
-  integrity sha512-N2ok1KTTWOeHUuZjE/GZnqmvPYUowAIacDuGWvJxSPR8CyAq3LF+3JGvsuGO4hCGM966PbBzE5Ltjl4/8Xj64w==
+rxdb@10.2.2:
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/rxdb/-/rxdb-10.2.2.tgz#dd43e30d166f71603bd22243a598ef06f21eae87"
+  integrity sha512-b0jCzSj4JFJJ85Jo1jUiWnqwzivTo+y6RYQE8vBnYfqfX04QMDGpVnpm25aJ6HysBdbneEbP/7mftk9Z5jr0qA==
   dependencies:
-    "@babel/runtime" "7.14.8"
+    "@babel/runtime" "7.15.4"
     "@types/clone" "2.1.1"
     "@types/cors" "2.8.12"
     "@types/deep-equal" "1.0.1"
@@ -21721,19 +21709,19 @@ rxdb@10.0.3:
     broadcast-channel "3.7.0"
     clone "^2.1.2"
     cors "2.8.5"
-    crypto-js "4.0.0"
+    crypto-js "4.1.1"
     custom-idle-queue "3.0.1"
-    deep-equal "^2.0.1"
+    deep-equal "2.0.5"
     deep-freeze "0.0.1"
     event-reduce-js "1.4.0"
     express "4.17.1"
-    get-graphql-from-jsonschema "8.0.13"
+    get-graphql-from-jsonschema "8.0.16"
     graphql-client "2.0.1"
     is-electron "2.2.0"
     is-my-json-valid "2.20.5"
-    jsonschema-key-compression "1.4.0"
+    jsonschema-key-compression "1.6.0"
     modifyjs "0.3.1"
-    object-path "0.11.5"
+    object-path "0.11.8"
     oblivious-set "1.0.0"
     pouchdb-adapter-http "7.2.2"
     pouchdb-all-dbs "1.1.1"

@@ -20,7 +20,7 @@ export const ConfigListItem: React.FC<{
         cursor: 'pointer'
       }}
       onClick={() => {
-        history.push(`/config/${tableinfo.id}`)
+        history.push(`/config/tables/${tableinfo.id}`)
       }}
     >
       <span>{title}</span>

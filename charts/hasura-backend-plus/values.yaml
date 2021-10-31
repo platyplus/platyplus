@@ -153,7 +153,7 @@ hasura:
   enabled: true
   postgresql:
     postgresqlExtendedConf:
-      search_path: auth,"$user",public
+      search_path: "\"$user\",public,auth"
     initdbScripts:
       hbp-init.sql: |
         CREATE SCHEMA IF NOT EXISTS auth;

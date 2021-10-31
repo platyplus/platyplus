@@ -1,13 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRxDocument } from 'rxdb-hooks'
 
-import {
-  isManyToManyJoinTable,
-  TableInformation,
-  TABLE_INFO_TABLE
-} from '@platyplus/rxdb-hasura'
+import { TableInformation, TABLE_INFO_TABLE } from '@platyplus/rxdb-hasura'
 
-import { useAppConfig, useTablesConfig } from './config'
 import { useDB } from './database'
 
 export const useTableInfo = (id: string): TableInformation => {
@@ -37,37 +32,4 @@ export const sortTableInfo = (order: string[]) => {
     if (indexB < 0) return -1
     return indexA > indexB ? 1 : -1
   }
-}
-
-/**
- *
- * @param includeMissing also include collections that are not part of the order list
- * @returns
- */
-export const useTableInfoList = (
-  includeMissing = false
-): [TableInformation[], (val: TableInformation[]) => void] => {
-  const [appConfig, setAppConfig] = useAppConfig()
-  const tables = useTablesConfig()
-
-  const orderedList = useMemo(() => {
-    const order = appConfig.menu_order ? [...appConfig.menu_order] : []
-    const result = Object.values(tables)
-      .filter(
-        (table) =>
-          !isManyToManyJoinTable(table) &&
-          (includeMissing || order.includes(table.id))
-      )
-      .sort(sortTableInfo(order))
-    return result
-  }, [appConfig, tables, includeMissing])
-
-  const setListOrder = useCallback(
-    (val: TableInformation[]) => {
-      setAppConfig({ menu_order: val.map((table) => table.id) })
-    },
-    [setAppConfig]
-  )
-
-  return [orderedList, setListOrder]
 }

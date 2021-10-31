@@ -87,7 +87,7 @@ spec:
             - |
               CREATE SCHEMA IF NOT EXISTS auth;
               CREATE SCHEMA IF NOT EXISTS storage; 
-              ALTER DATABASE hasura SET search_path TO auth,"$user",public;
+              ALTER DATABASE hasura SET search_path TO "$user",public,auth;
           env:
             - name: DATABASE_URL
               valueFrom:

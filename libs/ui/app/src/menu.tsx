@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react'
-import { Icon, Nav } from 'rsuite'
-import { useHistory, useLocation } from 'react-router-dom'
+import { Divider, IconProps } from 'rsuite'
 
 import {
   useTableIcon,
   useCollectionTitle,
   useTableInfo,
   useIsTableInfoReady,
-  sortTableInfo,
   useAppConfig,
   useTablesConfig
 } from '@platyplus/react-rxdb-hasura'
+
 import { MenuItem } from '@platyplus/layout'
-import { canRead, TableInformation } from '@platyplus/rxdb-hasura'
+import { canRead, MenuItem as MenuItemType } from '@platyplus/rxdb-hasura'
 import { useUserRoles } from '@platyplus/hbp'
 
 import { RouteConfig } from './types'
+import { PropType } from '@platyplus/ts-types'
 
 export const Menu: React.FC<{
   config: boolean
@@ -32,27 +32,21 @@ export const Menu: React.FC<{
   )
 }
 
-export const CollectionMenuItem: React.FC<{ id: string; role: string }> = ({
-  id,
-  role
-}) => {
+export const CollectionMenuItem: React.FC<{
+  id: string
+  role: string
+  name?: string
+  icon?: PropType<IconProps, 'icon'>
+}> = ({ id, role, name, icon }) => {
   const tableInfo = useTableInfo(id)
-  const [title] = useCollectionTitle(tableInfo)
-  const [icon] = useTableIcon(id)
-  const location = useLocation()
-  const history = useHistory()
-  const href = `/collection/${role}/${id}`
+  const [configTitle] = useCollectionTitle(tableInfo)
+  const [configIcon] = useTableIcon(id)
   return (
-    <Nav.Item
-      onSelect={() => {
-        history.push(href)
-      }}
-      eventKey={href}
-      active={location.pathname === href}
-      icon={<Icon icon={icon} />}
-    >
-      {title}
-    </Nav.Item>
+    <MenuItem
+      href={`/collection/${role}/${id}`}
+      title={name || configTitle}
+      icon={icon || configIcon}
+    />
   )
 }
 
@@ -65,24 +59,32 @@ export const PrivateMenu: React.FC<{
   home: { enabled?: boolean; title?: string }
   config: boolean
 }> = ({ home, config }) => {
-  const includeMissing = true
+  // const includeMissing = true
   const roles = useUserRoles(false)
   const [appConfig] = useAppConfig()
 
   const tablesInfo = useTablesConfig()
 
-  const tables = useMemo<[string, TableInformation[]][]>(() => {
-    const order = appConfig.menu_order || []
-    return roles.map((role) => [
-      role,
-      tablesInfo
-        .filter(
-          (table) =>
-            canRead(table, role) && (includeMissing || order.includes(table.id))
-        )
-        .sort(sortTableInfo(order))
-    ])
-  }, [roles, includeMissing, appConfig, tablesInfo])
+  // TODO return MenuItem instead
+  const tables = useMemo<[string, Partial<MenuItemType>[]][]>(
+    () =>
+      roles.map((role) => [
+        role,
+        (
+          appConfig.menu ||
+          tablesInfo.map<Partial<MenuItemType>>((table) => ({
+            type: 'table',
+            id: table.id
+          }))
+        ).filter((item) => {
+          if (item.type === 'table') {
+            const table = tablesInfo.find((ti) => ti.id === item.id)
+            return table && canRead(table, role)
+          } else return true
+        })
+      ]),
+    [roles, appConfig, tablesInfo]
+  )
 
   // TODO separator between roles, and role headers (if more than one role)
 
@@ -90,16 +92,36 @@ export const PrivateMenu: React.FC<{
     <>
       <HomeItem {...home} />
       {tables.map(([role, tables]) =>
-        tables.map((tableInfo) => (
-          <CollectionMenuItem
-            key={`${tableInfo.id}.${role}`}
-            id={tableInfo.id}
-            role={role}
-          />
-        ))
+        tables.map((item, index) => {
+          if (item.type === 'table')
+            return (
+              <CollectionMenuItem
+                key={`${index}.${item.id}.${role}`}
+                id={item.id}
+                name={item.name}
+                icon={item.icon as PropType<IconProps, 'icon'>}
+                role={role}
+              />
+            )
+          else if (item.type === 'page')
+            return (
+              <MenuItem
+                key={`${index}.${item.id}.${role}`}
+                icon={item.icon as PropType<IconProps, 'icon'>}
+                title={item.name}
+                href={`/pages/${item.id}`}
+              />
+            )
+          else return null
+        })
       )}
       {config && (
-        <MenuItem icon="wrench" title="Configuration" href="/config" />
+        <>
+          <Divider />
+          <MenuItem href="/config" title="Configuration" icon="wrench" />
+          <MenuItem href="/config/tables" title="Tables" level={1} />
+          <MenuItem href="/config/menu" title="Menu" level={1} />
+        </>
       )}
     </>
   )

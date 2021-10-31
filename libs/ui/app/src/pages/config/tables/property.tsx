@@ -13,9 +13,9 @@ import { IconPicker } from '@platyplus/layout'
 import { TableInformation, Property } from '@platyplus/rxdb-hasura'
 import { upperCaseFirst } from '@platyplus/data'
 
-import { useComponentsLibrary } from '../../components'
+import { useComponentsLibrary } from '../../../components'
 import { useMemo } from 'react'
-import { PropertyIcon } from '../../documents'
+import { PropertyIcon } from '../../../documents'
 
 export const PropertyConfig: React.FC<{
   tableinfo: TableInformation

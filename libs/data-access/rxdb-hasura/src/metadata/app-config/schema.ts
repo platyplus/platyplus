@@ -12,10 +12,10 @@ export const schema: RxJsonSchema<AppConfig> = {
     updated_at: {
       type: 'string'
     },
-    menu_order: {
+    menu: {
       type: ['array', 'null'],
       items: {
-        type: 'string'
+        type: 'object'
       }
     }
   },

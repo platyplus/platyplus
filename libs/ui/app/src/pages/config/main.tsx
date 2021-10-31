@@ -1,17 +1,14 @@
 import { useToggle } from 'react-use'
 import React from 'react'
-import { Animation, Button, ButtonGroup, List, Modal } from 'rsuite'
+import { Animation, Button, ButtonGroup, Modal } from 'rsuite'
 
 import {
   useCountConfigChanges,
-  useTableInfoList,
   usePersistConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
-import { ConfigListItem } from './list-item'
 
-export const ConfigListPage: React.FC = () => {
-  const [tables, setTablesOrder] = useTableInfoList(true)
+export const ConfigPage: React.FC = () => {
   const title = 'Configuration'
   const countChanges = useCountConfigChanges()
   const [show, toggle] = useToggle(false)
@@ -19,19 +16,6 @@ export const ConfigListPage: React.FC = () => {
   const save = async () => {
     saveConfig()
     toggle(false)
-  }
-
-  const sort = ({
-    oldIndex,
-    newIndex
-  }: {
-    oldIndex: number
-    newIndex: number
-  }) => {
-    const result = [...tables]
-    const [removed] = result.splice(oldIndex, 1)
-    result.splice(newIndex, 0, removed)
-    setTablesOrder(result)
   }
 
   return (
@@ -55,7 +39,7 @@ export const ConfigListPage: React.FC = () => {
           {(props) => (
             <div {...props}>
               <ButtonGroup style={{ paddingBottom: '10px' }}>
-                {countChanges && (
+                {countChanges ? (
                   <IconButtonWithHelper
                     icon="save"
                     helper="Apply changes"
@@ -64,19 +48,10 @@ export const ConfigListPage: React.FC = () => {
                   >
                     Apply changes
                   </IconButtonWithHelper>
+                ) : (
+                  <div>No changes yet</div>
                 )}
               </ButtonGroup>
-              {
-                <List hover bordered sortable onSort={sort} pressDelay={300}>
-                  {tables.map((tableinfo, index) => (
-                    <ConfigListItem
-                      key={tableinfo.id}
-                      index={index}
-                      tableinfo={tableinfo}
-                    />
-                  ))}
-                </List>
-              }
             </div>
           )}
         </Animation.Fade>

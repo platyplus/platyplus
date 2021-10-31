@@ -22,10 +22,8 @@ sidebar_label: To do list
     - [ ] only when fk constraints allow it
     - [ ] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-    - [ ] logout
-    - [ ] rerun tests with actual contents
-    - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
-    - [ ] WS reconnecting: don't try if offline
+    - [ ] logout: remove RxDB, and redirect to home
+    - [ ] rerun tests with some contents
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
 - [ ] Platyplus Helm Chart
@@ -52,10 +50,16 @@ sidebar_label: To do list
   - [ ] boilerplate / template project (tilt/docker-compose)
 - [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
 - [ ] when changing the permission to make a table deletable, need to reload the client
+- [ ] default postgresql schema became 'auth' :/
+- [ ] problem when refreshing token
 
 ## MVP 2
 
 - Application
+  - [ ] WS reconnecting: don't try to connect when offline
+  - [ ] WS too many attempts (one per collection - too much when x collections)
+  - [ ] hide login/register when offline - or notice if won't work
+  - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
   - [ ] reset/change password
   - [ ] avatar picker (image-url component)
   - [ ] prefix `platyplus_` all the internal collections
@@ -107,8 +111,6 @@ sidebar_label: To do list
     - [ ] details on permissions
   - [ ] permissions
   - [ ] add Hasura permissions to create/update/remove permissions
-  - [ ] custom menus
-    - [ ] for everyone / per role / per user
   - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
 - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
 - Charts

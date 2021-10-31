@@ -7,6 +7,6 @@ select_permissions:
     - id
     - updated_at
     - deleted
-    - menu_order
+    - menu
     filter: {}
   role: me

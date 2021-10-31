@@ -1,4 +1,4 @@
-CREATE TABLE "platyplus"."app_config" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "updated_at" timestamptz NOT NULL DEFAULT now(), "deleted" boolean NOT NULL DEFAULT false, "menu_order" jsonb NOT NULL DEFAULT '[]', PRIMARY KEY ("id") );
+CREATE TABLE "platyplus"."app_config" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "updated_at" timestamptz NOT NULL DEFAULT now(), "deleted" boolean NOT NULL DEFAULT false, "menu" jsonb NOT NULL DEFAULT '[]', PRIMARY KEY ("id") );
 CREATE OR REPLACE FUNCTION "platyplus"."set_current_timestamp_updated_at"()
 RETURNS TRIGGER AS $$
 DECLARE

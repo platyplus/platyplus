@@ -1,5 +1,14 @@
 import React, { FunctionComponent } from 'react'
-import { Sidenav, Nav, Navbar, Icon, Sidebar, IconProps } from 'rsuite'
+import {
+  Sidenav,
+  Nav,
+  Navbar,
+  Icon,
+  Sidebar,
+  IconProps,
+  Dropdown,
+  NavItemProps
+} from 'rsuite'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { PropType } from '@platyplus/ts-types'
@@ -32,7 +41,11 @@ export const SideMenu: FunctionComponent<{
       width={collapsed ? 56 : 260}
       collapsible
     >
-      <Sidenav expanded={!collapsed} appearance="subtle">
+      <Sidenav
+        expanded={!collapsed}
+        appearance="subtle"
+        defaultOpenKeys={['config']}
+      >
         {logo && <Sidenav.Header>{logo}</Sidenav.Header>}
         <Sidenav.Body>
           <Nav>{children}</Nav>
@@ -45,11 +58,35 @@ export const SideMenu: FunctionComponent<{
 
 export default SideMenu
 
-export const MenuItem: React.FC<{
+export const DropDownMenuItem: React.FC<{
   icon?: PropType<IconProps, 'icon'>
   href: string
   title: string
 }> = ({ icon, href, title }) => {
+  const history = useHistory()
+  const location = useLocation()
+  return (
+    <Dropdown.Item
+      onSelect={() => {
+        history.push(href)
+      }}
+      key={href}
+      active={location.pathname === href}
+      icon={icon && <Icon icon={icon} />}
+    >
+      {title}
+    </Dropdown.Item>
+  )
+}
+
+export const MenuItem: React.FC<
+  {
+    icon?: PropType<IconProps, 'icon'>
+    href: string
+    title: string
+    level?: number
+  } & Omit<NavItemProps, 'icon'>
+> = ({ icon, href, title, level = 0, ...rest }) => {
   const history = useHistory()
   const location = useLocation()
   return (
@@ -60,8 +97,9 @@ export const MenuItem: React.FC<{
       key={href}
       active={location.pathname === href}
       icon={icon && <Icon icon={icon} />}
+      {...rest}
     >
-      {title}
+      <span style={{ paddingLeft: `${(level + 1) * 12}px` }}>{title}</span>
     </Nav.Item>
   )
 }

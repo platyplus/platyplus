@@ -178,7 +178,8 @@ export const createReplicator = async <T>(
   }
 
   const destroy = async (): Promise<void> => {
-    // ? open an issue on RxDB so this can be part of _prepare() in https://github.com/pubkey/rxdb/blob/master/src/plugins/replication-graphql/index.ts
+    // TODO check if it is really solved: https://gitter.im/pubkey/rxdb?at=61391ec763dca818914c246e
+    //  this should be part of _prepare() in https://github.com/pubkey/rxdb/blob/master/src/plugins/replication-graphql/index.ts
     await setLastPullDocument(state.collection, state.endpointHash, null)
     await setLastPushSequence(state.collection, state.endpointHash, 0)
     await stop()
