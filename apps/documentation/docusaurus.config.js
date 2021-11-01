@@ -8,6 +8,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'platyplus', // Usually your GitHub org/user name.
   projectName: 'platyplus', // Usually your repo name.
+  plugins: ['@docusaurus/plugin-google-gtag'],
   themeConfig: {
     navbar: {
       title: 'Platyplus',
@@ -86,6 +87,11 @@ module.exports = {
     },
     colorMode: {
       respectPrefersColorScheme: true
+    },
+    gtag: {
+      trackingID: 'UA-142387636-1',
+      // Champs facultatifs.
+      anonymizeIP: true // Les IP doivent-elles être anonymisées ?
     }
   },
   presets: [
