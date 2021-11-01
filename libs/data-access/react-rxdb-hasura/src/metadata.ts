@@ -23,13 +23,3 @@ export const useIsTableInfoReady = () => {
   }, [db])
   return ready
 }
-
-export const sortTableInfo = (order: string[]) => {
-  return (a: TableInformation, b: TableInformation) => {
-    const indexA = order.findIndex((id) => a.id === id)
-    const indexB = order.findIndex((id) => b.id === id)
-    if (indexA < 0) return 1
-    if (indexB < 0) return -1
-    return indexA > indexB ? 1 : -1
-  }
-}

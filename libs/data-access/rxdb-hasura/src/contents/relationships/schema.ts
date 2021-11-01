@@ -4,7 +4,6 @@ import { collectionName } from '../../utils'
 
 import { propertyJsonType } from '../properties'
 import {
-  allRelationships,
   filteredRelationships,
   relationshipMapping,
   shiftedTable
