@@ -1,4 +1,4 @@
--- TODO do NOT include 'platyplus' and 'auth' schemas in platyplus.tables, primary keys and foreign keys
+-- ? do NOT include 'platyplus' and 'auth' schemas in platyplus.tables, primary keys and foreign keys
 create schema "platyplus";
 CREATE TABLE "platyplus"."tables" (
 	"id" text NOT NULL,

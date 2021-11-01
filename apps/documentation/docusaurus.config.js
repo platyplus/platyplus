@@ -22,16 +22,12 @@ module.exports = {
           label: 'Documentation',
           position: 'left'
         },
-        // TODO
         {
           to: 'docs/artifacts/',
           activeBasePath: 'docs/artifacts',
           label: 'Packages & Artifacts',
           position: 'left'
         },
-        // { to: 'blog', label: 'Blog', position: 'left' },
-        // { to: 'demo', label: 'Demo', position: 'left' },
-        // { to: 'community', label: 'Community', position: 'left' },
         {
           href: 'https://github.com/platyplus/platyplus',
           label: 'GitHub',

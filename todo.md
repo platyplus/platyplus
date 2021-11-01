@@ -1,9 +1,3 @@
----
-id: todo
-title: To do list
-sidebar_label: To do list
----
-
 ## MVP
 
 - [ ] Application
@@ -17,12 +11,11 @@ sidebar_label: To do list
       - [ ] set default - only when default exists or columns are nullable
     - [ ] onUpdate
     - [ ] bug on validating form with a required many2one field: is it related?
-  - [ ] bug: refetch the entire collection when new columns/relationships are added
   - [ ] canSave: validate data
     - [ ] only when fk constraints allow it
     - [ ] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-    - [ ] logout: remove RxDB, and redirect to home
+    - [x] logout: remove RxDB, and redirect to home
     - [ ] rerun tests with some contents
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
@@ -46,25 +39,29 @@ sidebar_label: To do list
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
-- [ ] when changing the permission to make a table deletable, need to reload the client
-- [ ] problem when refreshing token
+- Bugs
+  - [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
+  - [ ] when changing the permission to make a table deletable, need to reload the client
+  - [ ] replication problem when refreshing token
+  - [ ] when loading a `/config/table/:id page`, information is not set in the form inputs - but then set after clicking on the tabs and coming back
+  - [ ] refetch the entire collection when new columns/relationships are added
 
 ## MVP 2
 
 - Application
   - [ ] WS reconnecting: don't try to connect when offline
-  - [ ] WS too many attempts (one per collection - too much when x collections)
-  - [ ] hide login/register when offline - or notice if won't work
-  - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
+  - [ ] deactivate login/register forms when network is down - useNetworkStatus
+  - [ ] don't show 'admin' features when offline? -> don't allow saving them. Persist zustand store
   - [ ] reset/change password
   - [ ] avatar picker (image-url component)
 - [ ] Platyplus Tilt extension
-- [ ] review `nx version` & `nx publish`
 
 ## Post-MVP
 
+- [ ] review `nx version` & `nx publish`
 - Application
+  - [ ] set registration/login/home config in `config.json` - and then link to HBP config in the platyplus chart
+  - [ ] WS too many attempts (one per collection - too much when x collections)
   - [ ] destroy database on logout
   - [ ] nullable values vs default values vs form values
   - [ ] work on form validation rules
@@ -116,11 +113,12 @@ sidebar_label: To do list
 - [ ] Main website cleanup - remove charts tab and link to artifacthub
 - [ ] packages: update README.md
 - [ ] https://stackoverflow.com/questions/57927115/anyone-know-a-way-to-delete-a-workflow-from-github-actions/65374631#65374631
+- [ ] review TODOs in the code
 
 ## Next
 
 - Application
-  - [ ] map metadata views and tables with camelCase
+  - [ ] map GraphQL metadata views and tables with camelCase
   - [ ] push only columns that have changed
   - [ ] map custom GraphQL names vs PostgreSQL names
   - [ ] unique columns or sets of columns: tricky. in a hook? don't forget to index. See https://github.com/pubkey/rxdb/issues/728
@@ -131,7 +129,6 @@ sidebar_label: To do list
   - [ ] PostgreSql HA https://github.com/bitnami/charts/tree/master/bitnami/postgresql-ha
 - [ ] Custom Express/Koa service
 - [ ] in every package.json: add keywords
-- [ ] review TODOs in the code
 
 ## Later
 
