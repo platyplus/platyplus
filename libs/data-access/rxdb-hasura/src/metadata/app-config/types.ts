@@ -1,3 +1,5 @@
+import { ReplicatedCollection } from '../utils/replication/types'
+
 export type MenuItem = {
   type: 'table' | 'page'
   id: string
@@ -9,3 +11,5 @@ export type AppConfig = {
   updated_at: string
   menu: Array<MenuItem>
 }
+
+export type AppConfigCollection = ReplicatedCollection<AppConfig>

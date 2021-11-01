@@ -5,6 +5,8 @@ import { reduceStringArrayValues } from '@platyplus/data'
 import { debug } from '@platyplus/logger'
 
 import { Contents, ContentsCollection, Modifier } from '../../types'
+import { ADMIN_ROLE } from '../../constants'
+import { getCollectionTableInfo, tableName } from '../../metadata'
 
 import { computedFields } from '../computed-fields'
 import { decomposeId, getIds } from '../ids'
@@ -16,7 +18,6 @@ import {
   relationshipTable
 } from '../relationships'
 import { isRequiredRelationship } from '../required'
-import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
 import { DELETED_COLUMN } from '../columns'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend

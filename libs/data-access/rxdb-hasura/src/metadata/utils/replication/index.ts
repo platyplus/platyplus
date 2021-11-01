@@ -2,17 +2,16 @@ import { RxChangeEvent } from 'rxdb'
 
 import { debug } from '@platyplus/logger'
 
-import { createReplicator } from '../utils/replicator'
-import { setReplicationReady } from '../state'
-import { Contents } from '../types'
+import { createReplicator } from '../../../utils/replicator'
+import { setReplicationReady } from '../../../state'
+import { Contents } from '../../../types'
+import { METADATA_ROLE } from '../../../constants'
 
-import { METADATA_ROLE } from '../constants'
-import {
-  CollectionSettings,
-  ConfigCollection,
-  TableInfoCollection
-} from './types'
-import { generateReplicationSettings } from './utils'
+import { TableInfoCollection } from '../../table-information/types'
+import { ConfigCollection } from '../../types'
+
+import { generateReplicationSettings } from './generate-settings'
+import { CollectionSettings } from '../types'
 
 export const createSettingsReplicator = async (
   collection: ConfigCollection | TableInfoCollection

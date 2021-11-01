@@ -1,31 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { XOR } from '@platyplus/ts-types'
-import { RxCollection, RxJsonSchema } from 'rxdb'
-import { DocumentNode } from 'graphql'
 
-import { Replicator } from '../types'
-import {
-  APP_CONFIG_TABLE,
-  PROPERTY_CONFIG_TABLE,
-  TABLE_CONFIG_TABLE,
-  TABLE_INFO_TABLE
-} from '../constants'
-import { AppConfig } from './app-config/types'
-import type { PropertyConfig } from './property-config/types'
-import type { TableConfig } from './table-config/types'
-import type { Column, Relationship, TableInfo } from './table-information/types'
-export type { MenuItem } from './app-config/types'
+import { AppConfig, AppConfigCollection } from './app-config/types'
+import type {
+  PropertyConfig,
+  PropertyConfigCollection
+} from './property-config/types'
+import type { TableConfig, TableConfigCollection } from './table-config/types'
+import type {
+  Column,
+  Relationship,
+  TableInfo,
+  TableInfoCollection
+} from './table-information/types'
+import { PagesCollection } from './page/types'
+import { PROPERTY_CONFIG_TABLE } from './property-config'
+import { TABLE_CONFIG_TABLE } from './table-config'
+import { APP_CONFIG_TABLE } from './app-config'
+import { PAGES_TABLE } from './page/constants'
+import { TABLE_INFO_TABLE } from './table-information'
+
 export type TableInformation = TableInfo
 
-export type CollectionSettings = {
-  query: DocumentNode
-  mutation?: DocumentNode
-  subscription: DocumentNode
-  schema: RxJsonSchema<any>
-  onUpsert?: (doc: any) => void
-  onDelete?: (doc: any) => void
-  onWsReceive?: (doc: any[]) => void
-}
 export type {
   Column,
   Relationship,
@@ -70,28 +66,25 @@ export type Property = {
   primary: boolean
 } & XOR<{ column: Column }, { relationship: Relationship }>
 
-export type ReplicatedCollection<T> = RxCollection<
-  T,
-  Record<string, unknown>,
-  { replicator: Replicator<T> }
->
-
-export type TableInfoCollection = ReplicatedCollection<TableInfo>
-
-export type TableConfigCollection = ReplicatedCollection<TableConfig>
-
-export type PropertyConfigCollection = ReplicatedCollection<PropertyConfig>
-
-export type AppConfigCollection = ReplicatedCollection<AppConfig>
+export type ConfigCollections = {
+  [PROPERTY_CONFIG_TABLE]: PropertyConfigCollection
+  [TABLE_CONFIG_TABLE]: TableConfigCollection
+  [APP_CONFIG_TABLE]: AppConfigCollection
+  [PAGES_TABLE]: PagesCollection
+}
 
 export type ConfigCollection =
   | TableConfigCollection
   | AppConfigCollection
   | PropertyConfigCollection
+  | PagesCollection
 
 export type PlatyplusCollections = {
   [TABLE_INFO_TABLE]: TableInfoCollection
-  [PROPERTY_CONFIG_TABLE]: PropertyConfigCollection
-  [TABLE_CONFIG_TABLE]: TableConfigCollection
-  [APP_CONFIG_TABLE]: AppConfigCollection
-}
+} & ConfigCollections
+
+export type ConfigCollectionName =
+  | typeof APP_CONFIG_TABLE
+  | typeof PROPERTY_CONFIG_TABLE
+  | typeof TABLE_CONFIG_TABLE
+  | typeof PAGES_TABLE

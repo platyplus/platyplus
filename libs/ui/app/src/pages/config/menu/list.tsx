@@ -19,7 +19,11 @@ import {
   IconButtonWithHelper,
   IconPicker
 } from '@platyplus/layout'
-import { useAppConfig, useTablesConfig } from '@platyplus/react-rxdb-hasura'
+import {
+  useAppConfig,
+  usePages,
+  useTablesConfig
+} from '@platyplus/react-rxdb-hasura'
 import { MenuListItem } from './list-item'
 import { isManyToManyJoinTable, MenuItem } from '@platyplus/rxdb-hasura'
 
@@ -35,7 +39,11 @@ export const ConfigMenuPage: React.FC = () => {
         .map((table) => ({ value: table.id, label: table.id })),
     [tables]
   )
-
+  const pages = usePages()
+  const pageOptions = useMemo(
+    () => pages.map((page) => ({ value: page.slug, label: page.slug })),
+    [pages]
+  )
   const sort = ({ oldIndex, newIndex }) => {
     const moveItem = menu[oldIndex]
     const newMenu = [...menu]
@@ -114,8 +122,8 @@ export const ConfigMenuPage: React.FC = () => {
                         name="type"
                         accepter={SelectPicker}
                         data={[
-                          { value: 'table', label: 'Table' }
-                          //   { value: 'page', label: 'Page' }
+                          { value: 'table', label: 'Table' },
+                          { value: 'page', label: 'Page' }
                         ]}
                         defaultValue="table"
                         cleanable={false}
@@ -127,7 +135,11 @@ export const ConfigMenuPage: React.FC = () => {
                       <FormControl
                         name="id"
                         accepter={SelectPicker}
-                        data={tableOptions}
+                        data={
+                          formValue.type === 'table'
+                            ? tableOptions
+                            : pageOptions
+                        }
                       />
                     </FormGroup>
 

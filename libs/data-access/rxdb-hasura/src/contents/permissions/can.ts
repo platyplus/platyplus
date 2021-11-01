@@ -1,4 +1,5 @@
-import { ADMIN_ROLE, TableInformation } from '../../metadata'
+import { ADMIN_ROLE } from '../../constants'
+import { TableInformation } from '../../metadata'
 import { Contents } from '../../types'
 import { DELETED_COLUMN, SYSTEM_COLUMNS } from '../columns'
 import { getIds } from '../ids'

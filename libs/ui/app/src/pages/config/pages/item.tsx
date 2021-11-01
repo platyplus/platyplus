@@ -5,7 +5,7 @@ import { List } from 'rsuite'
 import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
 import { useCollectionTitle } from '@platyplus/react-rxdb-hasura'
 
-export const ConfigListItem: React.FC<{
+export const ConfigPageItem: React.FC<{
   tableinfo: TableInformation
   index: number
 }> = ({ tableinfo, index }) => {
@@ -20,7 +20,7 @@ export const ConfigListItem: React.FC<{
         cursor: 'pointer'
       }}
       onClick={() => {
-        history.push(`/config/tables/${tableinfo.id}`)
+        history.push(`/config/collections/${tableinfo.id}`)
       }}
     >
       <span>{title}</span>

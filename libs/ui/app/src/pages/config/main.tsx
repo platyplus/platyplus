@@ -4,7 +4,8 @@ import { Animation, Button, ButtonGroup, Modal } from 'rsuite'
 
 import {
   useCountConfigChanges,
-  usePersistConfig
+  usePersistConfig,
+  useResetConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 
@@ -17,7 +18,7 @@ export const ConfigPage: React.FC = () => {
     saveConfig()
     toggle(false)
   }
-
+  const reset = useResetConfig()
   return (
     <>
       <Modal show={show} onHide={toggle}>
@@ -40,14 +41,24 @@ export const ConfigPage: React.FC = () => {
             <div {...props}>
               <ButtonGroup style={{ paddingBottom: '10px' }}>
                 {countChanges ? (
-                  <IconButtonWithHelper
-                    icon="save"
-                    helper="Apply changes"
-                    onClick={toggle}
-                    size="sm"
-                  >
-                    Apply changes
-                  </IconButtonWithHelper>
+                  <>
+                    <IconButtonWithHelper
+                      icon="save"
+                      helper="Apply changes"
+                      onClick={toggle}
+                      size="sm"
+                    >
+                      Apply changes
+                    </IconButtonWithHelper>
+                    <IconButtonWithHelper
+                      icon="undo"
+                      helper="Reset changes"
+                      onClick={reset}
+                      size="sm"
+                    >
+                      Reset
+                    </IconButtonWithHelper>
+                  </>
                 ) : (
                   <div>No changes yet</div>
                 )}

@@ -1,3 +1,5 @@
+import { ReplicatedCollection } from '../utils/replication/types'
+
 export type TableConfig = {
   id: string
   updated_at: string
@@ -10,3 +12,5 @@ export type TableConfig = {
   icon?: string
   order?: string[]
 }
+
+export type TableConfigCollection = ReplicatedCollection<TableConfig>

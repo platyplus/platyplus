@@ -12,7 +12,8 @@ import { Database, DatabaseCollections } from './types'
 import {
   addTableInfoCollection,
   initConfigCollections,
-  createContentsCollections
+  createContentsCollections,
+  TABLE_INFO_TABLE
 } from './metadata'
 
 export { RxHasuraPlugin } from './rxdb-plugin'
@@ -21,6 +22,7 @@ export * from './types'
 export * from './utils'
 export * from './metadata'
 export * from './state'
+export * from './constants'
 
 const persist = process.env.NODE_ENV !== 'development'
 
@@ -74,9 +76,9 @@ export const createRxHasura = async (
   db.isReady$
     .pipe(filter((ready) => ready))
     .subscribe(() =>
-      db.collections.table_info
-        .find()
-        .$.subscribe((tables) => createContentsCollections(db, tables))
+      db.collections[TABLE_INFO_TABLE].find().$.subscribe((tables) =>
+        createContentsCollections(db, tables)
+      )
     )
 
   // * runs when db becomes leader

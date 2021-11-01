@@ -7,7 +7,8 @@ import {
   useTableInfo,
   useIsTableInfoReady,
   useAppConfig,
-  useTablesConfig
+  useTablesConfig,
+  usePage
 } from '@platyplus/react-rxdb-hasura'
 
 import { MenuItem } from '@platyplus/layout'
@@ -50,6 +51,23 @@ export const CollectionMenuItem: React.FC<{
   )
 }
 
+export const PageMenuItem: React.FC<{
+  id: string
+  role: string
+  name?: string
+  icon?: PropType<IconProps, 'icon'>
+}> = ({ id, name, icon }) => {
+  const page = usePage(id)
+  // TODO canRead
+  return (
+    <MenuItem
+      href={`/pages/${id}`}
+      title={name || page?.title}
+      icon={(icon || page?.icon) as PropType<IconProps, 'icon'>}
+    />
+  )
+}
+
 const HomeItem: React.FC<{ title?: string; enabled?: boolean }> = ({
   enabled,
   title
@@ -59,7 +77,6 @@ export const PrivateMenu: React.FC<{
   home: { enabled?: boolean; title?: string }
   config: boolean
 }> = ({ home, config }) => {
-  // const includeMissing = true
   const roles = useUserRoles(false)
   const [appConfig] = useAppConfig()
 
@@ -105,11 +122,12 @@ export const PrivateMenu: React.FC<{
             )
           else if (item.type === 'page')
             return (
-              <MenuItem
+              <PageMenuItem
                 key={`${index}.${item.id}.${role}`}
+                id={item.id}
                 icon={item.icon as PropType<IconProps, 'icon'>}
-                title={item.name}
-                href={`/pages/${item.id}`}
+                role={role}
+                name={item.name}
               />
             )
           else return null
@@ -119,7 +137,8 @@ export const PrivateMenu: React.FC<{
         <>
           <Divider />
           <MenuItem href="/config" title="Configuration" icon="wrench" />
-          <MenuItem href="/config/tables" title="Tables" level={1} />
+          <MenuItem href="/config/collections" title="Collections" level={1} />
+          <MenuItem href="/config/pages" title="Pages" level={1} />
           <MenuItem href="/config/menu" title="Menu" level={1} />
         </>
       )}

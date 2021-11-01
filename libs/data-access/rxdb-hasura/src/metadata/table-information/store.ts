@@ -2,8 +2,8 @@ import { enableMapSet } from 'immer'
 import create from 'zustand/vanilla'
 import { devtools } from 'zustand/middleware'
 import { TableInformation } from '../types'
-import { TABLE_INFO_TABLE } from '../../constants'
 import { ContentsCollection, ContentsDocument } from '../../types'
+import { TABLE_INFO_TABLE } from './constants'
 
 // ! The table information store is ONLY here to get table information from relationships in a synchronous manner.
 // ! Always Use RxDB when possible

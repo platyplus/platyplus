@@ -11,10 +11,13 @@ import {
   DocumentPage,
   PageNotFound,
   ProfilePage,
-  ConfigTablesPage,
-  ConfigTablePage,
+  ConfigCollectionsPage,
+  ConfigCollectionPage,
   ConfigPage,
-  ConfigMenuPage
+  ConfigMenuPage,
+  ConfigPagesPage,
+  ConfigPagePage,
+  PagePage
 } from './pages'
 import { RoutesConfig } from './types'
 import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
@@ -41,21 +44,36 @@ export const Routes: React.FC<RoutesConfig> = ({
         exact
         children={<DocumentPage />}
       />
+      <PrivateRoute path={`/pages/:slug`} exact children={<PagePage />} />
       {configEnabled && (
         <PrivateRoute path={`/config`} exact children={<ConfigPage />} />
       )}
       {configEnabled && (
         <PrivateRoute
-          path={`/config/tables`}
+          path={`/config/collections`}
           exact
-          children={<ConfigTablesPage />}
+          children={<ConfigCollectionsPage />}
         />
       )}
       {configEnabled && (
         <PrivateRoute
-          path={`/config/tables/:id`}
+          path={`/config/collections/:id`}
           exact
-          children={<ConfigTablePage />}
+          children={<ConfigCollectionPage />}
+        />
+      )}
+      {configEnabled && (
+        <PrivateRoute
+          path={`/config/pages`}
+          exact
+          children={<ConfigPagesPage />}
+        />
+      )}
+      {configEnabled && (
+        <PrivateRoute
+          path={`/config/pages/:id`}
+          exact
+          children={<ConfigPagePage />}
         />
       )}
       {configEnabled && (

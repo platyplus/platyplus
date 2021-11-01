@@ -1,4 +1,5 @@
-export * from './tables'
+export * from './collections'
 export * from './status-menu'
 export * from './main'
 export * from './menu'
+export * from './pages'

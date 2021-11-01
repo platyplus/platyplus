@@ -16,7 +16,8 @@ import {
   Modifier
 } from '../../types'
 import { FieldMap, collectionName } from '../../utils'
-import { ADMIN_ROLE, getCollectionTableInfo, tableName } from '../../metadata'
+import { getCollectionTableInfo, tableName } from '../../metadata'
+import { ADMIN_ROLE } from '../../constants'
 
 import {
   addComputedFieldsFromLoadedData,

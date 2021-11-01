@@ -1,8 +1,9 @@
 import gql from 'graphql-tag'
-import { APP_CONFIG_TABLE } from '../../constants'
+import { APP_CONFIG_TABLE } from './constants'
+
 export const query = gql`
   query appConfig($updated_at: timestamptz!, $batchSize: Int!) {
-    platyplus_${APP_CONFIG_TABLE}(
+    ${APP_CONFIG_TABLE}(
       where: { updated_at: { _gt: $updated_at } }
       limit: $batchSize
       order_by: [{ updated_at: asc }, { id: asc }]
@@ -15,8 +16,8 @@ export const query = gql`
   }
 `
 export const mutation = gql`
-  mutation insertAppConfig($objects: [platyplus_${APP_CONFIG_TABLE}_insert_input!]!) {
-    insert_platyplus_${APP_CONFIG_TABLE}(
+  mutation insertAppConfig($objects: [${APP_CONFIG_TABLE}_insert_input!]!) {
+    insert_${APP_CONFIG_TABLE}(
       objects: $objects
       on_conflict: {
         constraint: ${APP_CONFIG_TABLE}_pkey
@@ -31,7 +32,7 @@ export const mutation = gql`
 `
 export const subscription = gql`
   subscription onAppConfig($now: timestamptz!) {
-    platyplus_${APP_CONFIG_TABLE}(
+    ${APP_CONFIG_TABLE}(
       where: { updated_at: { _gt: $now } }
       order_by: { updated_at: asc }
     ) {

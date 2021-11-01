@@ -138,7 +138,7 @@ const TableWrapper: React.FC<{
   )
 }
 
-export const ConfigTablePage: React.FC<{ role?: string }> = () => {
+export const ConfigCollectionPage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
   const table = useTableInfo(id)
   const metaName = useMemo(() => table && tableName(table), [table])
@@ -157,7 +157,9 @@ export const ConfigTablePage: React.FC<{ role?: string }> = () => {
     <Animation.Fade in={!!table}>
       {(props) => (
         <div {...props}>
-          {table && <TableWrapper table={table} title={title} />}
+          {table && (
+            <TableWrapper table={table} title={`Collection: ${title}`} />
+          )}
         </div>
       )}
     </Animation.Fade>

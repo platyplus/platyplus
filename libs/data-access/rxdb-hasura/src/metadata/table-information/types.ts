@@ -1,4 +1,5 @@
 import type { XOR } from '@platyplus/ts-types'
+import { ReplicatedCollection } from '../utils/replication/types'
 type PrimaryKey = {
   constraint: string
   columns: string[]
@@ -92,3 +93,5 @@ export type TableInfo = {
   columns: Column[]
   indexes: Index[]
 }
+
+export type TableInfoCollection = ReplicatedCollection<TableInfo>

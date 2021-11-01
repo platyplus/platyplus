@@ -26,8 +26,6 @@ sidebar_label: To do list
     - [ ] rerun tests with some contents
   - [ ] Improve login/register errors and validation
   - [ ] UI Toast warnings and errors
-- [ ] Platyplus Helm Chart
-  - [ ] nx platyplus:version
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
@@ -50,7 +48,6 @@ sidebar_label: To do list
   - [ ] boilerplate / template project (tilt/docker-compose)
 - [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
 - [ ] when changing the permission to make a table deletable, need to reload the client
-- [ ] default postgresql schema became 'auth' :/
 - [ ] problem when refreshing token
 
 ## MVP 2
@@ -62,10 +59,9 @@ sidebar_label: To do list
   - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
   - [ ] reset/change password
   - [ ] avatar picker (image-url component)
-  - [ ] prefix `platyplus_` all the internal collections
   - [ ] home page (pages table, at this stage as a singleton)
 - [ ] Platyplus Tilt extension
-- [ ] review `nx version`
+- [ ] review `nx version` & `nx publish`
 
 ## Post-MVP
 

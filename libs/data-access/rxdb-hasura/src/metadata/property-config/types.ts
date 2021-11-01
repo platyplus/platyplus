@@ -1,3 +1,5 @@
+import { ReplicatedCollection } from '../utils/replication/types'
+
 export type PropertyConfig = {
   id: string
   updated_at: string
@@ -9,3 +11,5 @@ export type PropertyConfig = {
   description?: string
   title?: string
 }
+
+export type PropertyConfigCollection = ReplicatedCollection<PropertyConfig>

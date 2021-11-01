@@ -1,8 +1,9 @@
 import gql from 'graphql-tag'
+import { TABLE_INFO_TABLE } from './constants'
 
 export const query = gql`
   query tableInfo($updated_at: timestamptz!, $batchSize: Int!) {
-    platyplus_tables(
+    ${TABLE_INFO_TABLE}(
       where: { updated_at: { _gt: $updated_at } }
       limit: $batchSize
       order_by: [{ updated_at: asc }, { id: asc }]
@@ -49,7 +50,7 @@ export const query = gql`
 
 export const subscription = gql`
   subscription onTableInfo($now: timestamptz!) {
-    platyplus_tables(
+    ${TABLE_INFO_TABLE}(
       where: { updated_at: { _gt: $now } }
       order_by: { updated_at: asc }
     ) {

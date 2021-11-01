@@ -6,14 +6,14 @@ import { ConfigListItem } from './item'
 import { isManyToManyJoinTable } from '@platyplus/rxdb-hasura'
 import { useTablesConfig } from '@platyplus/react-rxdb-hasura'
 
-export const ConfigTablesPage: React.FC = () => {
+export const ConfigCollectionsPage: React.FC = () => {
   const tables = useTablesConfig()
   const list = useMemo(() => {
     const result = tables.filter((table) => !isManyToManyJoinTable(table))
     return result
   }, [tables])
 
-  const title = 'Tables configuration'
+  const title = 'Collections configuration'
 
   return (
     <HeaderTitleWrapper title={title}>

@@ -4,15 +4,13 @@ import { escape } from 'sqlstring'
 
 import { info, warn } from '@platyplus/logger'
 
-import { Contents } from '../types'
+import { CONSOLE_API } from '../../constants'
 import {
   APP_CONFIG_TABLE,
-  CONSOLE_API,
+  PAGES_TABLE,
   PROPERTY_CONFIG_TABLE,
   TABLE_CONFIG_TABLE
 } from '../constants'
-
-import { PropertyConfig } from './types'
 
 const client = axios.create({ baseURL: CONSOLE_API })
 
@@ -29,56 +27,27 @@ const escapeValues = (values: Record<string, unknown>) =>
     return acc
   }, {})
 
-const upsertQuery = (
-  table: string,
+export const upsertQuery = (
+  collection: string,
+
   updateValues: Record<string, any>,
-  insertValues: Record<string, any>,
-  constraint: string
+  insertValues: Record<string, any>
 ) => {
+  const sep = collection.indexOf('_')
+  const schema = collection.substring(0, sep)
+  const table = collection.substring(sep + 1)
   const insert = escapeValues({ ...insertValues, ...updateValues })
-  const sqlInsert = `INSERT INTO ${table} (${Object.keys(insert)
+  const sqlInsert = `INSERT INTO ${schema}.${table} (${Object.keys(insert)
     .map((v) => `"${v}"`)
     .join(', ')}) VALUES(${Object.values(insert).join(', ')})`
   const update = escapeValues(updateValues)
 
-  const sqlUpdate = `ON CONFLICT ON CONSTRAINT ${constraint} DO UPDATE SET ${Object.entries(
+  const sqlUpdate = `ON CONFLICT ON CONSTRAINT ${table}_pkey DO UPDATE SET ${Object.entries(
     update
   )
     .map(([key, value]) => `"${key}" = ${value}`)
     .join(', ')}`
   return `${sqlInsert} ${sqlUpdate};`
-}
-
-const tableConfigToSql = (id: string, config: Contents) => {
-  return upsertQuery(
-    `platyplus.${TABLE_CONFIG_TABLE}`,
-    config,
-    { id },
-    `${TABLE_CONFIG_TABLE}_pkey`
-  )
-}
-
-const appConfigToSql = (config: Contents) => {
-  const { id, ...updateValues } = config
-  return upsertQuery(
-    `platyplus.${APP_CONFIG_TABLE}`,
-    config,
-    updateValues,
-    `${APP_CONFIG_TABLE}_pkey`
-  )
-}
-
-const propertyConfigToSql = (config: PropertyConfig) => {
-  const insertValues = { ...config }
-  const { id, ...updateValues } = config
-  insertValues.property_name = id.substring(id.lastIndexOf('.') + 1)
-  insertValues.table_id = id.substring(0, id.lastIndexOf('.'))
-  return upsertQuery(
-    `platyplus.${PROPERTY_CONFIG_TABLE}`,
-    insertValues,
-    updateValues,
-    `${PROPERTY_CONFIG_TABLE}_pkey`
-  )
 }
 
 export const createSqlMigrations = async (
@@ -107,12 +76,29 @@ export const createSqlMigrations = async (
   info('Migration created')
 }
 
+const upsertQueries = {
+  [TABLE_CONFIG_TABLE]: (config) => {
+    return upsertQuery(TABLE_CONFIG_TABLE, config, { id: config.id })
+  },
+  [PROPERTY_CONFIG_TABLE]: (config) => {
+    const insertValues = { ...config }
+    const { id, ...updateValues } = config
+    insertValues.property_name = id.substring(id.lastIndexOf('.') + 1)
+    insertValues.table_id = id.substring(0, id.lastIndexOf('.'))
+    return upsertQuery(PROPERTY_CONFIG_TABLE, insertValues, updateValues)
+  },
+  [PAGES_TABLE]: (config) => {
+    const insertValues = { ...config }
+    const { id, ...updateValues } = config
+    return upsertQuery(PAGES_TABLE, insertValues, updateValues)
+  },
+  [APP_CONFIG_TABLE]: (config) => {
+    const { id, ...updateValues } = config
+    return upsertQuery(APP_CONFIG_TABLE, config, updateValues)
+  }
+}
 export const createSqlConfigInstruction = (collectionName: string, data: any) =>
-  ({
-    [APP_CONFIG_TABLE]: () => appConfigToSql(data),
-    [TABLE_CONFIG_TABLE]: () => tableConfigToSql(data.id, data),
-    [PROPERTY_CONFIG_TABLE]: () => propertyConfigToSql(data)
-  }[collectionName]?.())
+  upsertQueries[collectionName]?.(data)
 
 export const upsertConfigWithMigration = async (
   collectionName: string,
