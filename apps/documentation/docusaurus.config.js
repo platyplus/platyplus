@@ -88,7 +88,7 @@ module.exports = {
       respectPrefersColorScheme: true
     },
     gtag: {
-      trackingID: 'UA-142387636-1',
+      trackingID: '291920840', // UA-142387636-1
       // Champs facultatifs.
       anonymizeIP: true // Les IP doivent-elles être anonymisées ?
     }
