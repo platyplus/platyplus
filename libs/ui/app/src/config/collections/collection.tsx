@@ -20,7 +20,7 @@ import {
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
 import { upperCaseFirst } from '@platyplus/data'
 
-import { useComponentsLibrary } from '../../../components'
+import { useComponentsLibrary } from '../../components'
 import { PropertyConfig } from './property'
 import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
 

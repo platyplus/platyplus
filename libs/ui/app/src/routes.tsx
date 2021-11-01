@@ -11,16 +11,18 @@ import {
   DocumentPage,
   PageNotFound,
   ProfilePage,
-  ConfigCollectionsPage,
-  ConfigCollectionPage,
-  ConfigPage,
-  ConfigMenuPage,
-  ConfigPagesPage,
-  ConfigPagePage,
   PagePage
 } from './pages'
 import { RoutesConfig } from './types'
 import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
+import {
+  ConfigPage,
+  ConfigCollectionsPage,
+  ConfigCollectionPage,
+  ConfigPagesPage,
+  ConfigPagePage,
+  ConfigMenuPage
+} from './config'
 
 // * dynamic import depending on the routes config
 export const Routes: React.FC<RoutesConfig> = ({

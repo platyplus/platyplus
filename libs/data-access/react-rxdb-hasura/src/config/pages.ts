@@ -53,8 +53,16 @@ export const usePage = (slug: string): Page => {
 
   const modifiedPage = useStore(
     useCallback(
-      (state) => document && state.forms[PAGES_TABLE][document.id],
-      [document]
+      (state) => {
+        if (document) {
+          return document && state.forms[PAGES_TABLE]?.[document.id]
+        } else {
+          return Object.values(state.forms[PAGES_TABLE] || {}).find(
+            (p) => p.slug === slug
+          )
+        }
+      },
+      [document, slug]
     )
   )
   const page = useMemo(

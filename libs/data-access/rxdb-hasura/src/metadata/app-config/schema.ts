@@ -17,6 +17,9 @@ export const schema: RxJsonSchema<AppConfig> = {
       items: {
         type: 'object'
       }
+    },
+    home: {
+      type: 'string'
     }
   },
   indexes: ['updated_at'],

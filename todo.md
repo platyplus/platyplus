@@ -59,7 +59,6 @@ sidebar_label: To do list
   - [ ] don't show 'admin' features when offline? -> at least don't allow saving them. But then, persist changes? Kind of
   - [ ] reset/change password
   - [ ] avatar picker (image-url component)
-  - [ ] home page (pages table, at this stage as a singleton)
 - [ ] Platyplus Tilt extension
 - [ ] review `nx version` & `nx publish`
 
@@ -92,7 +91,6 @@ sidebar_label: To do list
       - [ ] array
       - [ ] uri
   - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
-  - [ ] home page side menu item is not colored (active) when authenticated (route redirect `/` to `/home`)
 
 ## Then
 

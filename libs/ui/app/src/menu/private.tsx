@@ -7,7 +7,6 @@ import { canRead, MenuItem as MenuItemType } from '@platyplus/rxdb-hasura'
 import { useUserRoles } from '@platyplus/hbp'
 
 import { PropType } from '@platyplus/ts-types'
-import { HomeItem } from './home-item'
 import { CollectionMenuItem } from './collection-item'
 import { ConfigMenu } from './config'
 import { PageMenuItem } from './page-item'
@@ -21,8 +20,7 @@ export const PrivateMenu: React.FC<{
 
   const tablesInfo = useTablesConfig()
 
-  // TODO return MenuItem instead
-  const tables = useMemo<[string, Partial<MenuItemType>[]][]>(
+  const items = useMemo<[string, Partial<MenuItemType>[]][]>(
     () =>
       roles.map((role) => [
         role,
@@ -39,15 +37,13 @@ export const PrivateMenu: React.FC<{
           } else return true
         })
       ]),
-    [roles, appConfig, tablesInfo]
+    [roles, appConfig.menu, tablesInfo]
   )
 
   // TODO separator between roles, and role headers (if more than one role)
-
   return (
     <>
-      <HomeItem {...home} />
-      {tables.map(([role, tables]) =>
+      {items.map(([role, tables]) =>
         tables.map((item, index) => {
           if (item.type === 'table')
             return (

@@ -52,13 +52,13 @@ export const Logo: React.FC<{
   icon?: IconNames | SVGIcon
   image?: string
   title?: string
-}> = ({ icon, image, title = 'Platyplus' }) => {
+  to?: string
+}> = ({ icon, image, title = 'Platyplus', to = '/' }) => {
   return (
-    <Link to="/">
+    <Link to={to}>
       {icon ? (
         <DivIconLogo className="logo">
           <Icon icon={icon} size="lg" style={{ verticalAlign: 0 }} />
-
           <span style={{ marginLeft: 12 }}> {title}</span>
         </DivIconLogo>
       ) : (

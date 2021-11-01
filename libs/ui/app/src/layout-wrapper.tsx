@@ -1,7 +1,12 @@
-import { useConfigEnabled } from '@platyplus/react-rxdb-hasura'
+import React, { useMemo } from 'react'
+import deepmerge from 'deepmerge'
+
+import { useAppConfig, useConfigEnabled } from '@platyplus/react-rxdb-hasura'
 import { Layout, Logo } from '@platyplus/layout'
 import { useAuthenticated } from '@platyplus/hbp'
 import { ProfileStatusMenu } from '@platyplus/profile'
+import { ThemeToggle } from '@platyplus/theme'
+
 import { Menu } from './menu'
 import { AppSettings } from './types'
 import { Routes } from './routes'
@@ -9,9 +14,7 @@ import { ComponentsContext } from './components'
 import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
 import { defaultFieldComponents } from './fields'
-import { ConfigStatusMenuItem } from './pages'
-import React, { useMemo } from 'react'
-import deepmerge from 'deepmerge'
+import { ConfigStatusMenuItem } from './config'
 
 const defaultComponents = {
   collections: defaultCollectionComponents,
@@ -29,6 +32,7 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
 }) => {
   const authenticated = useAuthenticated()
   const config = useConfigEnabled()
+  const [appConfig] = useAppConfig()
   // * Load components - defaults can be overriden and/or extended
   const overridenComponents = useMemo(
     () => deepmerge(components, defaultComponents),
@@ -37,7 +41,7 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
   return (
     <ComponentsContext.Provider value={overridenComponents}>
       <Layout
-        logo={<Logo title={title} />}
+        logo={<Logo title={title} to={appConfig?.home} />}
         menu={
           <Menu
             config={config}
@@ -50,6 +54,7 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
         statusMenu={
           <>
             <ConfigStatusMenuItem />
+            <ThemeToggle />
             <ProfileStatusMenu />
           </>
         }

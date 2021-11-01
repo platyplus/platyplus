@@ -4,9 +4,10 @@ table:
 select_permissions:
 - permission:
     columns:
-    - id
-    - updated_at
     - deleted
+    - home
+    - id
     - menu
+    - updated_at
     filter: {}
   role: me

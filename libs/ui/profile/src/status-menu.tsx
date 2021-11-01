@@ -1,10 +1,12 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { Whisper, Popover, Dropdown, Icon } from 'rsuite'
+import { useHistory } from 'react-router-dom'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
+
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
 import Avatar from './avatar'
-import { useHistory } from 'react-router-dom'
-export const ProfileStatusMenu: FunctionComponent = () => {
+
+export const ProfileStatusMenu: React.FC = () => {
   const { auth } = useHbp()
   const signedIn = useAuthenticated()
   const triggerRef = React.createRef<WhisperInstance>()
@@ -43,6 +45,7 @@ export const ProfileStatusMenu: FunctionComponent = () => {
         <Avatar
           circle
           style={{
+            // TODO 1px too low
             height: '35px',
             width: '35px',
             cursor: 'pointer'

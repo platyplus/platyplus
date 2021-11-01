@@ -1,6 +1,6 @@
 import { isConsoleEnabled } from '@platyplus/rxdb-hasura'
 import { useEffect, useState } from 'react'
-import { AppConfig, JSONAppConfig } from './types'
+import { AppConfig, JSONAppConfig } from '../types'
 
 // TODO remove this once rsuite 5 is on
 export const UI_DATE_FORMAT = 'DD/MM/YYYY'

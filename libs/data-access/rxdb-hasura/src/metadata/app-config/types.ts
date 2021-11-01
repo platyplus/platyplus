@@ -10,6 +10,7 @@ export type AppConfig = {
   id: string
   updated_at: string
   menu: Array<MenuItem>
+  home: string
 }
 
 export type AppConfigCollection = ReplicatedCollection<AppConfig>

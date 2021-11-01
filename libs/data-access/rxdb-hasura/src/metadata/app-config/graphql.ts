@@ -12,6 +12,7 @@ export const query = gql`
       updated_at
       menu
       deleted
+      home
     }
   }
 `
@@ -21,7 +22,7 @@ export const mutation = gql`
       objects: $objects
       on_conflict: {
         constraint: ${APP_CONFIG_TABLE}_pkey
-        update_columns: [deleted, menu]
+        update_columns: [deleted, menu, home]
       }
     ) {
       returning {

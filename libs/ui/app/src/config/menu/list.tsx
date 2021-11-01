@@ -41,7 +41,11 @@ export const ConfigMenuPage: React.FC = () => {
   )
   const pages = usePages()
   const pageOptions = useMemo(
-    () => pages.map((page) => ({ value: page.slug, label: page.slug })),
+    () =>
+      pages.map((page) => ({
+        value: page.slug,
+        label: page.title ? `${page.title} (${page.slug})` : page.slug
+      })),
     [pages]
   )
   const sort = ({ oldIndex, newIndex }) => {
@@ -49,7 +53,7 @@ export const ConfigMenuPage: React.FC = () => {
     const newMenu = [...menu]
     newMenu.splice(oldIndex, 1)
     newMenu.splice(newIndex, 0, moveItem)
-    setAppConfig({ menu: newMenu })
+    setAppConfig({ ...appConfig, menu: newMenu })
   }
 
   const [item, setItem] = useState<MenuItem>()
@@ -68,14 +72,14 @@ export const ConfigMenuPage: React.FC = () => {
   const remove = () => {
     const newMenu = [...menu]
     newMenu.splice(index, 1)
-    setAppConfig({ menu: newMenu })
+    setAppConfig({ ...appConfig, menu: newMenu })
     close()
   }
   const save = () => {
     const newMenu = [...menu]
     if (index === menu.length) newMenu.push(item)
     else newMenu[index] = item
-    setAppConfig({ menu: newMenu })
+    setAppConfig({ ...appConfig, menu: newMenu })
     close()
   }
   return (
