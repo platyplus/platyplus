@@ -58,14 +58,15 @@ export const PageMenuItem: React.FC<{
   icon?: PropType<IconProps, 'icon'>
 }> = ({ id, name, icon }) => {
   const page = usePage(id)
-  // TODO canRead
-  return (
-    <MenuItem
-      href={`/pages/${id}`}
-      title={name || page?.title}
-      icon={(icon || page?.icon) as PropType<IconProps, 'icon'>}
-    />
-  )
+  if (page)
+    return (
+      <MenuItem
+        href={`/pages/${id}`}
+        title={name || page.title}
+        icon={(icon || page.icon) as PropType<IconProps, 'icon'>}
+      />
+    )
+  else return null
 }
 
 const HomeItem: React.FC<{ title?: string; enabled?: boolean }> = ({

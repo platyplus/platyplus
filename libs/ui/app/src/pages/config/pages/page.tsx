@@ -8,10 +8,11 @@ import {
   FormGroup,
   Input
 } from 'rsuite'
+
 import { HeaderTitleWrapper, IconPicker } from '@platyplus/layout'
+import { usePageConfig } from '@platyplus/react-rxdb-hasura'
 
 import { pageTitle } from './utils'
-import { usePageConfig } from '@platyplus/react-rxdb-hasura'
 
 export const ConfigPagePage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
