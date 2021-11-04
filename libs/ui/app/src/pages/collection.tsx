@@ -61,7 +61,7 @@ export const CollectionPage: React.FC = () => {
   const tableinfo = useTableInfo(name)
   const collectionName = useCollectionName(tableinfo, role)
   const collection = useRxCollection(collectionName)
-  const [title] = useCollectionTitle(tableinfo)
+  const { config: title } = useCollectionTitle(tableinfo)
   if (!collection || !tableinfo || !title) return <div>PROBLEM</div>
   return (
     <CollectionData

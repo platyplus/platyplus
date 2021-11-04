@@ -5,7 +5,7 @@ export type Page = {
   updated_at: string
   title?: string
   slug: string
-  contents: string
+  contents: any[]
   icon?: string
 }
 

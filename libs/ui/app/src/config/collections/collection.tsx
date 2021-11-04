@@ -29,7 +29,9 @@ const TableWrapper: React.FC<{
   title: string
 }> = ({ table, title }) => {
   const [properties, setProperties] = useTableProperties(table)
-  const [config, setConfig] = useTableConfig<Record<string, unknown>>(table.id)
+  const { config, setConfig, isFetching } = useTableConfig<
+    Record<string, unknown>
+  >(table.id)
 
   const library = useComponentsLibrary()
   const collectionComponents = Object.keys(library.collections)
@@ -127,14 +129,16 @@ const TableWrapper: React.FC<{
     ) : null
   }
   return (
-    <HeaderTitleWrapper title={title} previous>
-      <Nav appearance="tabs" activeKey={tab} onSelect={setTab}>
-        <Nav.Item eventKey="collection">Collection</Nav.Item>
-        <Nav.Item eventKey="document">Document</Nav.Item>
-        <Nav.Item eventKey="fields">Fields</Nav.Item>
-      </Nav>
-      <Panel>{tabs[tab]}</Panel>
-    </HeaderTitleWrapper>
+    !isFetching && (
+      <HeaderTitleWrapper title={title} previous>
+        <Nav appearance="tabs" activeKey={tab} onSelect={setTab}>
+          <Nav.Item eventKey="collection">Collection</Nav.Item>
+          <Nav.Item eventKey="document">Document</Nav.Item>
+          <Nav.Item eventKey="fields">Fields</Nav.Item>
+        </Nav>
+        <Panel>{tabs[tab]}</Panel>
+      </HeaderTitleWrapper>
+    )
   )
 }
 
@@ -142,7 +146,7 @@ export const ConfigCollectionPage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
   const table = useTableInfo(id)
   const metaName = useMemo(() => table && tableName(table), [table])
-  const [config] = useTableConfig(id)
+  const { config } = useTableConfig(id)
   const title = useMemo(() => {
     const collectionTitle = config?.title
     return (

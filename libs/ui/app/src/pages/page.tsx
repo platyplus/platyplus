@@ -1,5 +1,5 @@
 import { Animation } from 'rsuite'
-import { HeaderTitleWrapper } from '@platyplus/layout'
+import { HeaderTitleWrapper, RichText } from '@platyplus/layout'
 import { useParams } from 'react-router-dom'
 import { usePage } from '@platyplus/react-rxdb-hasura'
 
@@ -11,7 +11,7 @@ export const PagePage: React.FC = () => {
       <Animation.Fade in={!!page}>
         {(props) => (
           <div {...props}>
-            <div>{JSON.stringify(page)}</div>
+            {page?.contents && <RichText readOnly value={page.contents} />}
           </div>
         )}
       </Animation.Fade>

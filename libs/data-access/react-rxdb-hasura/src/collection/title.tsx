@@ -14,6 +14,6 @@ export const CollectionTitle: React.FC<{
   tableinfo?: TableInformation
   editable?: boolean
 }> = ({ tableinfo, editable }) => {
-  const [value, onChange] = useCollectionTitle(tableinfo)
-  return <InlineValue editable={editable} value={value} onChange={onChange} />
+  const { config, setConfig } = useCollectionTitle(tableinfo)
+  return <InlineValue editable={editable} value={config} onChange={setConfig} />
 }

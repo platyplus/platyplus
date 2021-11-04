@@ -4,12 +4,12 @@ table:
 select_permissions:
 - permission:
     columns:
-    - id
-    - updated_at
-    - deleted
-    - slug
     - contents
-    - title
+    - deleted
     - icon
+    - id
+    - slug
+    - title
+    - updated_at
     filter: {}
   role: me

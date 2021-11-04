@@ -18,6 +18,6 @@ export const DocumentTitle: React.FC<{
   document: Contents
   editable?: boolean
 }> = ({ tableinfo, document, editable }) => {
-  const [value, onChange] = useDocumentTitle(tableinfo, document)
-  return <InlineValue editable={editable} value={value} onChange={onChange} />
+  const { config, setConfig } = useDocumentTitle(tableinfo, document)
+  return <InlineValue editable={editable} value={config} onChange={setConfig} />
 }

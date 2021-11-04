@@ -3,7 +3,7 @@ CREATE TABLE "platyplus"."pages" (
   "updated_at" timestamptz NOT NULL DEFAULT now(),
   "deleted" boolean NOT NULL DEFAULT false,
   "slug" text NOT NULL,
-  "contents" text NOT NULL,
+  "contents" jsonb not null default '[{ "type": "paragraph", "children": [{ "text": "" }] }]',
   "title" text,
   "icon" text,
   PRIMARY KEY ("id")

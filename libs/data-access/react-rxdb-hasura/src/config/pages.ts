@@ -1,10 +1,11 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Page, PAGES_TABLE } from '@platyplus/rxdb-hasura'
 
 import { useStore } from '../store'
 import { useRxCollection, useRxDocument, useRxQuery } from 'rxdb-hooks'
 import { useAppConfig } from './app'
+import { pick } from '@platyplus/data'
 
 export const usePages = () => {
   const collection = useRxCollection(PAGES_TABLE)
@@ -72,27 +73,35 @@ export const usePage = (slug: string): Page => {
   return page
 }
 
-export const usePageConfig = (id: string): [Page, (page: Page) => void] => {
-  const { result: initialValues } = useRxDocument<Page>(PAGES_TABLE, id, {
-    json: true
-  })
-
-  const modifiedValues = useStore(
-    useCallback((state) => (id && state.forms[PAGES_TABLE][id]) || {}, [id])
+export const usePageConfig = (
+  id: string
+): { page: Page; setPage: (page: Page) => void; isFetching: boolean } => {
+  const { result: initialValues, isFetching } = useRxDocument<Page>(
+    PAGES_TABLE,
+    id,
+    {
+      json: true
+    }
   )
 
-  const state = useMemo<Page>(() => {
-    const result = { ...(initialValues || {}), ...modifiedValues }
-    if (!result.title) result.title = ''
-    if (!result.icon) result.icon = ''
-    if (!result.contents) result.contents = ''
-    if (!result.slug) result.slug = ''
-    if (!result.id) result.id = id
-    return result as Page
-  }, [modifiedValues, initialValues, id])
+  const page = useStore(
+    useCallback(
+      (state) => {
+        if (isFetching) return null
+        const res = {
+          id,
+          ...(initialValues || {}),
+          ...(state.forms[PAGES_TABLE][id] || {})
+        }
+        return res as Page
+      },
+      [id, initialValues, isFetching]
+    )
+  )
+
   const [appConfig, setAppConfig] = useAppConfig()
   const pages = usePages()
-  const setState = useStore(
+  const setPage = useStore(
     useCallback(
       (state) => (value: Page) => {
         // * update menu when slug changes
@@ -107,10 +116,14 @@ export const usePageConfig = (id: string): [Page, (page: Page) => void] => {
           })
           if (changes) setAppConfig({ menu })
         }
-        state.setConfigForm(PAGES_TABLE, value, id)
+        state.setConfigForm(
+          PAGES_TABLE,
+          pick(value, ['id', 'slug', 'contents', 'title', 'icon']),
+          id
+        )
       },
       [id, appConfig?.menu, setAppConfig, pages]
     )
   )
-  return [state, setState]
+  return { page, setPage, isFetching }
 }

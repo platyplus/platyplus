@@ -48,8 +48,8 @@ export const useTableConfig = <T = TableConfig>(
   tableId?: string,
   path?: string,
   fallback?: T
-): [T, (val: T) => void] => {
-  const { result: initialValues } = useRxDocument<TableConfig>(
+): { config: T; setConfig: (v: T) => void; isFetching: boolean } => {
+  const { result: initialValues, isFetching } = useRxDocument<TableConfig>(
     TABLE_CONFIG_TABLE,
     tableId,
     { json: true }
@@ -61,7 +61,7 @@ export const useTableConfig = <T = TableConfig>(
       [tableId]
     )
   )
-  const state = useMemo(() => {
+  const config = useMemo(() => {
     if (path) {
       return (
         (path in modifiedValues
@@ -71,12 +71,12 @@ export const useTableConfig = <T = TableConfig>(
     } else return { ...(initialValues || {}), ...modifiedValues }
   }, [modifiedValues, initialValues, path, fallback])
 
-  const setState = useStore(
+  const setConfig = useStore(
     useCallback(
       (state) => (value: T) =>
         state.setConfigForm(TABLE_CONFIG_TABLE, value, tableId, path),
       [tableId, path]
     )
   )
-  return [state, setState]
+  return { config, setConfig, isFetching }
 }

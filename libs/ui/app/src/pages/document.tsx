@@ -23,7 +23,7 @@ export const DocumentPage: React.FC = () => {
 
   const tableinfo = useTableInfo(name)
   const { document, isFetching } = useDocument(tableinfo, role, id)
-  const [title] = useDocumentTitle(tableinfo)
+  const { config: title } = useDocumentTitle(tableinfo)
   const formRef = useRef()
   if (!tableinfo) return null
   return (

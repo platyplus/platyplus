@@ -5,8 +5,8 @@ import { DocumentComponent } from './types'
 export const DocumentComponentWrapper: DocumentComponent<{
   componentName?: string
 }> = ({ document, tableinfo, edit = false, componentName, ...rest }) => {
-  const [documentComponentName] = useDocumentComponentName(tableinfo.id)
-  const name = componentName || documentComponentName
+  const { config } = useDocumentComponentName(tableinfo.id)
+  const name = componentName || config
   const library = useComponentsLibrary().documents
   const Component = library[name]
   if (!Component) return <div>Document component is missing: {name}</div>

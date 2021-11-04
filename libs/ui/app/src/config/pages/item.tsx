@@ -11,8 +11,8 @@ export const ConfigPageItem: React.FC<{
 }> = ({ tableinfo, index }) => {
   const name = useMemo(() => tableName(tableinfo), [tableinfo])
   const history = useHistory()
-  const [configTitle] = useCollectionTitle(tableinfo)
-  const title = configTitle !== name ? `${configTitle} (${name})` : name
+  const { config } = useCollectionTitle(tableinfo)
+  const title = config !== name ? `${config} (${name})` : name
   return (
     <List.Item
       index={index}

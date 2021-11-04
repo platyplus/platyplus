@@ -1,7 +1,7 @@
 import { RxJsonSchema } from 'rxdb'
 import { Page } from './types'
 
-export const schema: RxJsonSchema<Page> = {
+export const schema: RxJsonSchema<Page & { updated_at: string }> = {
   version: 0,
   primaryKey: 'id',
   type: 'object',
@@ -19,7 +19,10 @@ export const schema: RxJsonSchema<Page> = {
       type: ['string', 'null']
     },
     contents: {
-      type: 'string'
+      type: 'array',
+      items: {
+        type: ['object']
+      }
     },
     slug: {
       type: 'string'
