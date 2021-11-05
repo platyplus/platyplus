@@ -12,7 +12,7 @@ export const CollectionToolbar: React.FC<{
 }> = ({ tableinfo, role }) => {
   const history = useHistory()
   const create = () => {
-    history.push(`/collection/${role}/${tableinfo.id}/new`)
+    history.push(`/collections/${role}/${tableinfo.id}/new`)
   }
   const can = useCollectionPermissions(tableinfo, role)
 

@@ -7,6 +7,7 @@ import { TableInformation } from '../../metadata'
 
 import { findRelationship } from '../relationships'
 import { isTextType, tableProperties } from '../properties'
+import { getColumn } from '../columns'
 
 export const generateDefaultValue = (
   table: TableInformation,
@@ -14,7 +15,7 @@ export const generateDefaultValue = (
   data: Contents
 ) => {
   // TODO use Hasura column presets as well
-  const column = table.columns.find(({ name }) => name === propertyName)
+  const column = getColumn(table, propertyName)
   if (!column) {
     // TODO default values for relations
     const rel = findRelationship(table, propertyName)

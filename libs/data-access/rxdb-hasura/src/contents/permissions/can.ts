@@ -1,15 +1,16 @@
 import { ADMIN_ROLE } from '../../constants'
 import { TableInformation } from '../../metadata'
 import { Contents } from '../../types'
-import { DELETED_COLUMN, SYSTEM_COLUMNS } from '../columns'
+import { DELETED_COLUMN, getColumn, SYSTEM_COLUMNS } from '../columns'
 import { getIds } from '../ids'
-import { tableProperties } from '../properties'
+import { tablePropertiesNames } from '../properties'
 import {
   findRelationship,
   isManyToManyJoinTable,
   relationshipMapping,
   relationshipTable
 } from '../relationships'
+import { isRequiredColumn, isRequiredRelationship } from '../required'
 export * from './properties'
 
 export const canRead = (
@@ -38,7 +39,7 @@ export const canRead = (
   } else {
     return (
       !isManyToManyJoinTable(tableInfo) &&
-      [...tableProperties(tableInfo).keys()].some((name) =>
+      tablePropertiesNames(tableInfo).some((name) =>
         canRead(tableInfo, role, name)
       )
     )
@@ -65,7 +66,26 @@ export const canSave = (
   // ? validate data ?
   // * check hasura permissions
   // * check SQL constraints
-  return canEdit(tableInfo, role, document, propertyName)
+  if (!document) return false
+  if (propertyName) {
+    const relationship = findRelationship(tableInfo, propertyName)
+    if (!document[propertyName]) {
+      if (relationship) {
+        if (isRequiredRelationship(tableInfo, relationship)) return false
+      } else {
+        if (isRequiredColumn(tableInfo, getColumn(tableInfo, propertyName)))
+          return false
+      }
+    }
+    return canEdit(tableInfo, role, document, propertyName)
+  } else {
+    return (
+      !isManyToManyJoinTable(tableInfo) &&
+      tablePropertiesNames(tableInfo).every((name) =>
+        canSave(tableInfo, role, document, name)
+      )
+    )
+  }
 }
 
 export const canRemove = (

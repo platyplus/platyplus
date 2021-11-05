@@ -17,7 +17,7 @@ export const DocumentTag: DocumentComponent<TagProps> = ({
     <Tag {...props}>
       {label}
       {/* <Link
-        to={`/collection/${role}/${tableinfo.id}/${document.id}`}
+        to={`/collections/${role}/${tableinfo.id}/${document.id}`}
         style={{ textDecoration: 'none' }}
       >
         {label}

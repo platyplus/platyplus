@@ -17,7 +17,7 @@ export const useDocumentLabelTemplate = (
   role?: string
 ): [string, (val: string) => void] => {
   const [properties] = useTableProperties(tableInfo, { role })
-  const { config: existingTemplate, setConfig: setTemplate } =
+  const { state: existingTemplate, setState: setTemplate } =
     useTableConfig<string>(tableInfo?.id, 'document_label')
   const template = useMemo(() => {
     if (existingTemplate) return existingTemplate

@@ -15,12 +15,12 @@ export const ConfigStatusMenuItem: React.FC = () => {
   const location = useLocation()
   const triggerRef = React.createRef<WhisperInstance>()
   const router = useHistory()
-  const [appConfig, setAppConfig] = useAppConfig()
+  const { state, setState } = useAppConfig()
   const canSetAsHome = useMemo(
     () =>
-      appConfig.home !== location.pathname &&
+      state.home !== location.pathname &&
       !location.pathname.startsWith('/config'),
-    [appConfig, location.pathname]
+    [state, location.pathname]
   )
   const nonEmptyMenu = useMemo(
     () => canSetAsHome || countChanges,
@@ -53,7 +53,7 @@ export const ConfigStatusMenuItem: React.FC = () => {
               {canSetAsHome && (
                 <Dropdown.Item
                   onSelect={async () => {
-                    setAppConfig({ ...appConfig, home: location.pathname })
+                    setState({ home: location.pathname })
                     triggerRef.current.close()
                   }}
                 >

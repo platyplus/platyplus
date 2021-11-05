@@ -78,8 +78,13 @@ export const RichText: React.FC<
       editor={editor}
       value={value}
       onChange={(v) => {
-        onChange(v, null)
         setState(v)
+        const isAstChange = editor.operations.some(
+          (op) => 'set_selection' !== op.type
+        )
+        if (isAstChange) {
+          onChange(v, null)
+        }
       }}
     >
       {!readOnly && (

@@ -29,9 +29,11 @@ const TableWrapper: React.FC<{
   title: string
 }> = ({ table, title }) => {
   const [properties, setProperties] = useTableProperties(table)
-  const { config, setConfig, isFetching } = useTableConfig<
-    Record<string, unknown>
-  >(table.id)
+  const {
+    state: config,
+    setState: setConfig,
+    isFetching
+  } = useTableConfig<Record<string, unknown>>(table.id)
 
   const library = useComponentsLibrary()
   const collectionComponents = Object.keys(library.collections)
@@ -146,7 +148,7 @@ export const ConfigCollectionPage: React.FC<{ role?: string }> = () => {
   const { id } = useParams<{ id: string }>()
   const table = useTableInfo(id)
   const metaName = useMemo(() => table && tableName(table), [table])
-  const { config } = useTableConfig(id)
+  const { state: config } = useTableConfig(id)
   const title = useMemo(() => {
     const collectionTitle = config?.title
     return (

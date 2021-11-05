@@ -12,7 +12,7 @@ import {
 import { getCollectionTableInfo } from '../../metadata'
 
 import { isNullableColumn } from '../required'
-import { columnProperties } from '../columns'
+import { columnProperties, getColumn } from '../columns'
 import {
   filteredObjectRelationships,
   relationshipMapping
@@ -51,7 +51,7 @@ const defaultValues = async (
       return (
         data[rel.name] == null &&
         Object.keys(mapping).some((columnName) => {
-          const column = table.columns.find(({ name }) => name === columnName)
+          const column = getColumn(table, columnName)
           return !isNullableColumn(column) && columnHasDefaultValue(column)
         })
       )

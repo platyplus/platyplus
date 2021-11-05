@@ -25,7 +25,7 @@ export const TableCollection: CollectionComponent = ({
       autoHeight
       data={data}
       onRowClick={(data: ContentsDocument) => {
-        history.push(`/collection/${role}/${tableinfo.id}/${data.id}`)
+        history.push(`/collections/${role}/${tableinfo.id}/${data.id}`)
       }}
     >
       {[...properties.entries()]

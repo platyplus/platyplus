@@ -2,6 +2,7 @@ import { List } from 'rsuite'
 import { useHistory } from 'react-router-dom'
 
 import { CollectionComponent } from './types'
+import { DocumentLabel } from '@platyplus/react-rxdb-hasura'
 
 export const ListCollection: CollectionComponent = ({
   tableinfo,
@@ -19,10 +20,10 @@ export const ListCollection: CollectionComponent = ({
             cursor: 'pointer'
           }}
           onClick={() => {
-            history.push(`/collection/${role}/${tableinfo.id}/${item.id}`)
+            history.push(`/collections/${role}/${tableinfo.id}/${item.id}`)
           }}
         >
-          {item.label}
+          <DocumentLabel tableinfo={tableinfo} role={role} document={item} />
         </List.Item>
       ))}
     </List>

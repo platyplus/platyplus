@@ -16,7 +16,7 @@ export const PrivateMenu: React.FC<{
   config: boolean
 }> = ({ home, config }) => {
   const roles = useUserRoles(false)
-  const [appConfig] = useAppConfig()
+  const { state, isFetching } = useAppConfig()
 
   const tablesInfo = useTablesConfig()
 
@@ -25,7 +25,7 @@ export const PrivateMenu: React.FC<{
       roles.map((role) => [
         role,
         (
-          appConfig.menu ||
+          state.menu ||
           tablesInfo.map<Partial<MenuItemType>>((table) => ({
             type: 'table',
             id: table.id
@@ -37,10 +37,10 @@ export const PrivateMenu: React.FC<{
           } else return true
         })
       ]),
-    [roles, appConfig.menu, tablesInfo]
+    [roles, state.menu, tablesInfo]
   )
-
   // TODO separator between roles, and role headers (if more than one role)
+  if (isFetching) return null
   return (
     <>
       {items.map(([role, tables]) =>

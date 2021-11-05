@@ -13,7 +13,7 @@
     - [ ] bug on validating form with a required many2one field: is it related?
   - [ ] canSave: validate data
     - [ ] only when fk constraints allow it
-    - [ ] only when required fields (with no default) are present
+    - [x] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [x] logout: remove RxDB, and redirect to home
     - [ ] rerun tests with some contents
@@ -40,11 +40,9 @@
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
 - Bugs
-  - [ ] just after creating a table, the client needs to be reloaded, otherwise a created record is not rendered correctly although synced in the backend :/
-  - [ ] when changing the permission to make a table deletable, need to reload the client
   - [ ] replication problem when refreshing token
-  - [ ] when loading a `/config/table/:id page`, information is not set in the form inputs - but then set after clicking on the tabs and coming back
   - [ ] refetch the entire collection when new columns/relationships are added
+- security: remove immer 8 -> -> -> react-scripts?
 
 ## MVP 2
 

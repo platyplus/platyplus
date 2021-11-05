@@ -1,4 +1,5 @@
 import { TableInformation } from '../../metadata'
+import { getColumn } from '../columns'
 import { propertyJsonType } from '../properties'
 
 // * PostgreSQL indexes + label
@@ -12,7 +13,7 @@ export const indexes = (table: TableInformation): (string | string[])[] => {
   const postgresIndexes = table.indexes
     .filter(({ columns }) =>
       columns.every((name) => {
-        const column = table.columns.find((c) => c.name === name)
+        const column = getColumn(table, name)
         const type = column && propertyJsonType(table, column)
         return (
           // TODO raise warning when postgresql index cannot be converted into an RxDB index

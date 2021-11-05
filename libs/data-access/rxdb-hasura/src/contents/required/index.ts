@@ -1,4 +1,5 @@
 import { Column, Relationship, TableInformation } from '../../metadata'
+import { getColumn } from '../columns'
 
 import { columnHasDefaultValue } from '../defaults'
 import { isIdColumn } from '../ids'
@@ -14,7 +15,7 @@ export const isRequiredRelationship = (
   rel: Relationship
 ) =>
   Object.keys(relationshipMapping(table, rel)).some((colName) => {
-    const column = table.columns.find((c) => c.name === colName)
+    const column = getColumn(table, colName)
     return isRequiredColumn(table, column)
   })
 

@@ -2,7 +2,9 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { TableInformation } from '../../metadata'
 import { collectionName } from '../../utils'
 
+import { getColumn } from '../columns'
 import { propertyJsonType } from '../properties'
+
 import {
   filteredRelationships,
   relationshipMapping,
@@ -22,9 +24,7 @@ export const createRelationshipProperties = (
 
       const mapping = relationshipMapping(table, relationship)
       // TODO composite keys
-      const column = table.columns.find(
-        ({ name }) => Object.keys(mapping)[0] === name
-      )
+      const column = getColumn(table, Object.keys(mapping)[0])
       const ref = collectionName(refTable, role)
 
       const type = propertyJsonType(table, column)

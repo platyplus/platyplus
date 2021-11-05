@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { Page, PAGES_TABLE } from '@platyplus/rxdb-hasura'
 
@@ -99,30 +99,31 @@ export const usePageConfig = (
     )
   )
 
-  const [appConfig, setAppConfig] = useAppConfig()
+  const { state, setState } = useAppConfig()
+
   const pages = usePages()
   const setPage = useStore(
     useCallback(
-      (state) => (value: Page) => {
+      (store) => (value: Page) => {
         // * update menu when slug changes
         const old = pages.find((p) => p.id === value.id)
         let changes = false
         if (old) {
-          const menu = [...(appConfig?.menu || [])].map((item) => {
+          const menu = [...(state?.menu || [])].map((item) => {
             if (item.type === 'page' && item.id === old.slug) {
               changes = true
               return { ...item, id: value.slug }
             } else return item
           })
-          if (changes) setAppConfig({ menu })
+          if (changes) setState({ menu })
         }
-        state.setConfigForm(
+        store.setConfigForm(
           PAGES_TABLE,
           pick(value, ['id', 'slug', 'contents', 'title', 'icon']),
           id
         )
       },
-      [id, appConfig?.menu, setAppConfig, pages]
+      [id, state, setState, pages]
     )
   )
   return { page, setPage, isFetching }

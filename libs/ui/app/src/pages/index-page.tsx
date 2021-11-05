@@ -7,10 +7,10 @@ export const IndexPage: React.FC<{ title?: string }> = ({
   title = 'Index page'
 }) => {
   const signedIn = useAuthenticated()
-  const [appConfig] = useAppConfig()
+  const { state, isFetching } = useAppConfig()
   if (signedIn) {
-    if (appConfig) return <Redirect from="/" to={appConfig.home || '/home'} />
-    else return null
+    if (isFetching) return null
+    return <Redirect from="/" to={state.home || '/home'} />
   } else
     return (
       <HeaderTitleWrapper title={title}>

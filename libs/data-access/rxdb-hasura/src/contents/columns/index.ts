@@ -55,3 +55,6 @@ export const createColumnProperties = (table: TableInformation) => {
     updated_at: TopLevelProperty
   }
 }
+
+export const getColumn = (table: TableInformation, name: string) =>
+  table.columns.find((column) => column.name === name)

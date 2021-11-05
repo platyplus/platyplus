@@ -10,7 +10,7 @@ enum LOG_LEVEL {
 const VERBOSE_LEVEL = process.env.DEBUG
   ? LOG_LEVEL.DEBUG
   : process.env.NODE_ENV === 'development'
-  ? LOG_LEVEL.DEBUG
+  ? LOG_LEVEL.INFO
   : LOG_LEVEL.WARN
 
 export const debug = (...args: unknown[]): unknown =>

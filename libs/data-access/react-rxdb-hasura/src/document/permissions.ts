@@ -7,6 +7,7 @@ import {
   TableInformation,
   canSave
 } from '@platyplus/rxdb-hasura'
+import { useFormGet } from '../form'
 
 export const useDocumentPermissions = (
   tableInfo: TableInformation,
@@ -16,10 +17,14 @@ export const useDocumentPermissions = (
   const [edit, setEdit] = useState(false)
   const [remove, setRemove] = useState(false)
   const [save, setSave] = useState(false)
+  const form = useFormGet(tableInfo, role, document)
+  useEffect(() => {
+    console.log('EFFECT on PERMISSIONS')
+    setSave(canSave(tableInfo, role, form))
+  }, [tableInfo, role, form])
   useEffect(() => {
     setEdit(canEdit(tableInfo, role, document))
     setRemove(canRemove(tableInfo, role, document))
-    setSave(canSave(tableInfo, role, document))
   }, [document, tableInfo, role])
   return { edit, remove, save }
 }

@@ -105,6 +105,12 @@ const typesMapping: Record<string, PropertyType> = {
   real: 'number',
   decimal: 'number'
 }
+export const tablePropertiesNames = (table: TableInformation): string[] => {
+  return [
+    ...columnProperties(table).map((col) => col.name),
+    ...filteredRelationships(table).map((rel) => rel.name)
+  ]
+}
 
 export const tableProperties = (
   table: TableInformation

@@ -36,7 +36,7 @@ export const DocumentToolbar: React.FC<{
     }
     await save()
     history.replace(
-      href || `/collection/${role}/${tableinfo.id}/${document.id}`
+      href || `/collections/${role}/${tableinfo.id}/${document.id}`
     )
   }
 

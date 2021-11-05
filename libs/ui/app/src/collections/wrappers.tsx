@@ -7,8 +7,8 @@ import { CollectionComponent } from './types'
 export const CollectionComponentWrapper: CollectionComponent<{
   componentName?: string
 }> = ({ edit = false, componentName, tableinfo, role, ...rest }) => {
-  const { config } = useTableConfig(tableinfo.id)
-  const collectionComponentName = config?.component || 'default'
+  const { state } = useTableConfig(tableinfo.id)
+  const collectionComponentName = state?.component || 'default'
   const name = useMemo(
     () => componentName || collectionComponentName,
     [componentName, collectionComponentName]

@@ -68,7 +68,7 @@ export const useTableProperties = (
 ): [Map<string, Property>, (val: Map<string, Property>) => void] => {
   const state = useMemo(() => tableProperties(tableInfo), [tableInfo])
 
-  const { config: order, setConfig: setOrder } = useTableConfig<string[]>(
+  const { state: order, setState: setOrder } = useTableConfig<string[]>(
     tableInfo?.id,
     'order'
   )

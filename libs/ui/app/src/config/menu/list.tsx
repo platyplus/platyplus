@@ -29,8 +29,8 @@ import { isManyToManyJoinTable, MenuItem } from '@platyplus/rxdb-hasura'
 
 export const ConfigMenuPage: React.FC = () => {
   const title = 'Menu configuration'
-  const [appConfig, setAppConfig] = useAppConfig()
-  const menu = appConfig.menu || []
+  const { state, setState } = useAppConfig()
+  const menu = state.menu || []
   const tables = useTablesConfig()
   const tableOptions = useMemo(
     () =>
@@ -53,7 +53,7 @@ export const ConfigMenuPage: React.FC = () => {
     const newMenu = [...menu]
     newMenu.splice(oldIndex, 1)
     newMenu.splice(newIndex, 0, moveItem)
-    setAppConfig({ ...appConfig, menu: newMenu })
+    setState({ menu: newMenu })
   }
 
   const [item, setItem] = useState<MenuItem>()
@@ -72,14 +72,14 @@ export const ConfigMenuPage: React.FC = () => {
   const remove = () => {
     const newMenu = [...menu]
     newMenu.splice(index, 1)
-    setAppConfig({ ...appConfig, menu: newMenu })
+    setState({ menu: newMenu })
     close()
   }
   const save = () => {
     const newMenu = [...menu]
     if (index === menu.length) newMenu.push(item)
     else newMenu[index] = item
-    setAppConfig({ ...appConfig, menu: newMenu })
+    setState({ menu: newMenu })
     close()
   }
   return (

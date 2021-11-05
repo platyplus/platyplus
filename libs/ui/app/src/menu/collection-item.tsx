@@ -14,11 +14,11 @@ export const CollectionMenuItem: React.FC<{
   icon?: PropType<IconProps, 'icon'>
 }> = ({ id, role, name, icon }) => {
   const tableInfo = useTableInfo(id)
-  const { config: title } = useCollectionTitle(tableInfo)
-  const { config: configIcon } = useTableIcon(id)
+  const { state: title } = useCollectionTitle(tableInfo)
+  const { state: configIcon } = useTableIcon(id)
   return (
     <MenuItem
-      href={`/collection/${role}/${id}`}
+      href={`/collections/${role}/${id}`}
       title={name || title}
       icon={icon || configIcon}
     />

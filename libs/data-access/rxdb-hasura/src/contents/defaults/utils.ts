@@ -1,11 +1,10 @@
 import { Column, Relationship, TableInfo } from '../../metadata'
+import { getColumn } from '../columns'
 import { relationshipMapping } from '../relationships'
 
 export const hasDefaultValue = (table: TableInfo, propertyName: string) => {
   return (
-    columnHasDefaultValue(
-      table.columns.find(({ name }) => name === propertyName)
-    ) ||
+    columnHasDefaultValue(getColumn(table, propertyName)) ||
     // TODO default array relationship values?
     relationshipHasDefaultValues(
       table,
@@ -25,5 +24,5 @@ const relationshipHasDefaultValues = (
   !!relationship &&
   // TODO default array relationship values?
   Object.keys(relationshipMapping(table, relationship)).every(
-    (colName) => !!table.columns.find(({ name }) => name === colName).default
+    (colName) => !!getColumn(table, colName).default
   )

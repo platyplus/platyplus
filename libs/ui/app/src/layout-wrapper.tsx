@@ -32,41 +32,43 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
 }) => {
   const authenticated = useAuthenticated()
   const config = useConfigEnabled()
-  const [appConfig] = useAppConfig()
+  const { state, isFetching } = useAppConfig()
   // * Load components - defaults can be overriden and/or extended
   const overridenComponents = useMemo(
     () => deepmerge(components, defaultComponents),
     [components]
   )
-  return (
-    <ComponentsContext.Provider value={overridenComponents}>
-      <Layout
-        logo={<Logo title={title} to={appConfig?.home} />}
-        menu={
-          <Menu
-            config={config}
-            authenticated={authenticated}
+  if (isFetching) return null
+  else
+    return (
+      <ComponentsContext.Provider value={overridenComponents}>
+        <Layout
+          logo={<Logo title={title} to={state?.home} />}
+          menu={
+            <Menu
+              config={config}
+              authenticated={authenticated}
+              home={home}
+              register={register}
+              login={login}
+            />
+          }
+          statusMenu={
+            <>
+              <ConfigStatusMenuItem />
+              <ThemeToggle />
+              <ProfileStatusMenu />
+            </>
+          }
+        >
+          <Routes
             home={home}
             register={register}
             login={login}
+            profile={profile}
+            notFound={notFound}
           />
-        }
-        statusMenu={
-          <>
-            <ConfigStatusMenuItem />
-            <ThemeToggle />
-            <ProfileStatusMenu />
-          </>
-        }
-      >
-        <Routes
-          home={home}
-          register={register}
-          login={login}
-          profile={profile}
-          notFound={notFound}
-        />
-      </Layout>
-    </ComponentsContext.Provider>
-  )
+        </Layout>
+      </ComponentsContext.Provider>
+    )
 }
