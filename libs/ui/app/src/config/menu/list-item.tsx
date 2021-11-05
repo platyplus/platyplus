@@ -10,7 +10,7 @@ export const MenuListItem: React.FC<{
 }> = ({ data, index, onClick }) => {
   const id = data.type === 'table' ? data.id : null
   const tableInfo = useTableInfo(id)
-  const { config } = useCollectionTitle(tableInfo)
+  const { title: config } = useCollectionTitle(tableInfo)
 
   const title = data.name || config || data.id
 

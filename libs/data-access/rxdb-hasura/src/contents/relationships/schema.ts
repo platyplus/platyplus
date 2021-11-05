@@ -1,3 +1,4 @@
+import { warn } from '@platyplus/logger'
 import { TopLevelProperty } from 'rxdb/dist/types/types'
 import { TableInformation } from '../../metadata'
 import { collectionName } from '../../utils'
@@ -61,7 +62,7 @@ export const createRelationshipProperties = (
         }
       }
     } else {
-      console.warn('NO REF TABLE', relationship)
+      warn(`[${table.id}] NO REF TABLE`, relationship)
     }
   })
 

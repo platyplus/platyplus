@@ -1,3 +1,4 @@
+import { error, warn } from '@platyplus/logger'
 import { getTableInfo, Relationship, TableInformation } from '../../metadata'
 
 import { getIds } from '../ids'
@@ -128,7 +129,7 @@ export const getMirrorRelationship = (
   const refTable = shiftedTable(tableInfo, rel)
   if (rel.using.manual_configuration) {
     // TODO profile!!!
-    console.error(`not implemented`, rel)
+    error(`[${tableInfo.id}] not implemented`, rel)
     return [null, null]
   }
   const fromKey =
@@ -143,7 +144,10 @@ export const getMirrorRelationship = (
           return fromKey === foreign_key_constraint_on
         } else return fromKey === foreign_key_constraint_on.column
       } else {
-        console.warn('not implemented yet - manual_configuration')
+        warn(
+          `[${tableInfo.id}] (getMirrorRelationship) not implemented yet: manual_configuration`,
+          name
+        )
         return false
       }
     }

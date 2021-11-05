@@ -14,7 +14,7 @@ export const CollectionMenuItem: React.FC<{
   icon?: PropType<IconProps, 'icon'>
 }> = ({ id, role, name, icon }) => {
   const tableInfo = useTableInfo(id)
-  const { state: title } = useCollectionTitle(tableInfo)
+  const { title } = useCollectionTitle(tableInfo)
   const { state: configIcon } = useTableIcon(id)
   return (
     <MenuItem

@@ -12,6 +12,7 @@ import {
 import { useHistory } from 'react-router-dom'
 import { FunctionComponent, useState } from 'react'
 import { useHbp } from '@platyplus/hbp'
+import { warn } from '@platyplus/logger'
 
 const { StringType } = Schema.Types
 const model = Schema.Model({
@@ -33,7 +34,7 @@ export const Login: FunctionComponent<{ redirect?: string }> = ({
       try {
         await auth.login(formValue)
       } catch (error) {
-        console.warn(error)
+        warn(error)
         return alert('login failed')
       }
       router.push(redirect)

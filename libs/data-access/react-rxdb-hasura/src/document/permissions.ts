@@ -19,7 +19,6 @@ export const useDocumentPermissions = (
   const [save, setSave] = useState(false)
   const form = useFormGet(tableInfo, role, document)
   useEffect(() => {
-    console.log('EFFECT on PERMISSIONS')
     setSave(canSave(tableInfo, role, form))
   }, [tableInfo, role, form])
   useEffect(() => {
