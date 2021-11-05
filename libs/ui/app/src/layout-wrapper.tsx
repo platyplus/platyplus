@@ -38,7 +38,7 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
     () => deepmerge(components, defaultComponents),
     [components]
   )
-  if (isFetching) return null
+  if (authenticated && isFetching) return null
   else
     return (
       <ComponentsContext.Provider value={overridenComponents}>
