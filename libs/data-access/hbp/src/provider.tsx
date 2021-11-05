@@ -14,7 +14,7 @@ export const createHbpClient = (authUrl: string) => {
     baseURL: authUrl,
     useCookies: false,
     // * Autorefresh interval in ms (defaults to Math.max(30 * 1000, JWTExpiresIn - 45000))
-    // TODO use JWTExpiresIn
+    // TODO use the jwt.expires.in value of HBP
     refreshIntervalTime: 60000
   })
 

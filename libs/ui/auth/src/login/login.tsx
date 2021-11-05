@@ -7,12 +7,12 @@ import {
   ButtonToolbar,
   Schema,
   FlexboxGrid,
-  Panel
+  Panel,
+  Alert
 } from 'rsuite'
 import { useHistory } from 'react-router-dom'
 import { FunctionComponent, useState } from 'react'
 import { useHbp } from '@platyplus/hbp'
-import { warn } from '@platyplus/logger'
 
 const { StringType } = Schema.Types
 const model = Schema.Model({
@@ -21,6 +21,11 @@ const model = Schema.Model({
     .isRequired('This field is required.'),
   password: StringType().isRequired('This field is required.')
 })
+
+const errors = {
+  '400': 'unknown user',
+  '401': 'wrong password'
+}
 
 export const Login: FunctionComponent<{ redirect?: string }> = ({
   redirect = '/'
@@ -33,11 +38,13 @@ export const Login: FunctionComponent<{ redirect?: string }> = ({
       await model.checkAsync(formValue)
       try {
         await auth.login(formValue)
+        router.push(redirect)
       } catch (error) {
-        warn(error)
-        return alert('login failed')
+        const rawMessage: string = error.message
+        const type = rawMessage.substr(rawMessage.length - 3)
+        const message = errors[type] || rawMessage
+        Alert.error(`Login failed: ${message}`, 5000)
       }
-      router.push(redirect)
     }
   }
 

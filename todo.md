@@ -17,8 +17,6 @@
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [x] logout: remove RxDB, and redirect to home
     - [ ] rerun tests with some contents
-  - [ ] Improve login/register errors and validation
-  - [ ] UI Toast warnings and errors
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features

@@ -4,7 +4,7 @@ import { useHbp } from './provider'
 import Auth from 'nhost-js-sdk/dist/Auth'
 
 export const isAuthenticated = (auth: Auth) => {
-  // TODO won't work for any type of storage
+  // TODO won't work for a different kind of storage that could have been defined in nhost SDK
   return auth.isAuthenticated() ?? !!localStorage.getItem('nhostRefreshToken')
 }
 

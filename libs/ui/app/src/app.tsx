@@ -1,5 +1,4 @@
 import { BrowserRouter } from 'react-router-dom'
-import { createClient } from 'nhost-js-sdk'
 import { HbpProvider, createHbpClient } from '@platyplus/hbp'
 import '@platyplus/theme'
 import { RxDBHasuraProvider } from '@platyplus/react-rxdb-hasura'
