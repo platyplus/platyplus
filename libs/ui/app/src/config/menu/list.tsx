@@ -11,6 +11,8 @@ import {
   Input,
   List,
   Modal,
+  Radio,
+  RadioGroup,
   SelectPicker
 } from 'rsuite'
 
@@ -124,15 +126,13 @@ export const ConfigMenuPage: React.FC = () => {
                       <ControlLabel>Type</ControlLabel>
                       <FormControl
                         name="type"
-                        accepter={SelectPicker}
-                        data={[
-                          { value: 'table', label: 'Table' },
-                          { value: 'page', label: 'Page' }
-                        ]}
+                        accepter={RadioGroup}
                         defaultValue="table"
-                        cleanable={false}
-                        searchable={false}
-                      />
+                        inline
+                      >
+                        <Radio value="table">Table</Radio>
+                        <Radio value="page">Page</Radio>
+                      </FormControl>
                     </FormGroup>
                     <FormGroup>
                       <ControlLabel>Id</ControlLabel>
