@@ -13,13 +13,36 @@ const VERBOSE_LEVEL = process.env.DEBUG
   ? LOG_LEVEL.INFO
   : LOG_LEVEL.WARN
 
-export const debug = (...args: unknown[]): unknown =>
-  VERBOSE_LEVEL >= LOG_LEVEL.DEBUG && console.log(...args)
-export const info = (...args: unknown[]): unknown =>
-  VERBOSE_LEVEL >= LOG_LEVEL.INFO && console.log(...args)
-export const warn = (...args: unknown[]): unknown =>
-  VERBOSE_LEVEL >= LOG_LEVEL.WARN && console.warn(...args)
-export const error = (...args: unknown[]): unknown =>
-  VERBOSE_LEVEL >= LOG_LEVEL.ERROR && console.warn(...args)
-export const errorDir = (...args: unknown[]): unknown =>
-  VERBOSE_LEVEL >= LOG_LEVEL.ERROR && console.dir(...args)
+type AtLeastTwoArray = [string, unknown, ...unknown[]]
+
+const basicLog = (level: number, ...[id, ...args]: AtLeastTwoArray) => {
+  const background = {
+    [LOG_LEVEL.DEBUG]: 'transparent',
+    [LOG_LEVEL.INFO]: 'DodgerBlue',
+    [LOG_LEVEL.WARN]: 'Gold',
+    [LOG_LEVEL.ERROR]: 'Tomato'
+  }
+  const color = {
+    [LOG_LEVEL.DEBUG]: 'white',
+    [LOG_LEVEL.INFO]: 'white',
+    [LOG_LEVEL.WARN]: 'black',
+    [LOG_LEVEL.ERROR]: 'white'
+  }
+  console.log(
+    `%c ${id} `,
+    `color: ${color[level]}; background-color: ${background[level]}; border-radius: 3px; padding: 0px 2px`,
+    ...args
+  )
+}
+
+export const debug = (...args: AtLeastTwoArray): void =>
+  VERBOSE_LEVEL >= LOG_LEVEL.DEBUG && basicLog(LOG_LEVEL.DEBUG, ...args)
+
+export const info = (...args: AtLeastTwoArray): void =>
+  VERBOSE_LEVEL >= LOG_LEVEL.INFO && basicLog(LOG_LEVEL.INFO, ...args)
+
+export const warn = (...args: AtLeastTwoArray): void =>
+  VERBOSE_LEVEL >= LOG_LEVEL.WARN && basicLog(LOG_LEVEL.WARN, ...args)
+
+export const error = (...args: AtLeastTwoArray): void =>
+  VERBOSE_LEVEL >= LOG_LEVEL.ERROR && basicLog(LOG_LEVEL.ERROR, ...args)

@@ -13,7 +13,7 @@ export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preRemove(async (data: Contents, document: ContentsDocument) => {
-    info(`[${collection.name}] createForeignKeyConstraintsHooks preRemove`)
+    info(collection.name, `createForeignKeyConstraintsHooks preRemove`)
     const tableInfo = getDocumentTableInfo(document)
     for (const fk of tableInfo.dependentForeignKeys) {
       const remoteInfo = getTableInfo(fk.from)
@@ -36,7 +36,8 @@ export const createForeignKeyConstraintsHooks = (
         > = {
           CASCADE: async () => {
             debug(
-              `[${collection.name}] cascade delete ${fk.from}.${remoteProperty.name}`
+              collection.name,
+              `cascade delete ${fk.from}.${remoteProperty.name}`
             )
             await remoteCollection
               .find()
@@ -45,16 +46,16 @@ export const createForeignKeyConstraintsHooks = (
               .remove()
           },
           'NO ACTION': () => {
-            warn('TODO')
+            warn(collection.name, 'TODO')
           },
           RESTRICT: () => {
-            warn('TODO')
+            warn(collection.name, 'TODO')
           },
           'SET DEFAULT': () => {
-            warn('TODO')
+            warn(collection.name, 'TODO')
           },
           'SET NULL': () => {
-            warn('TODO')
+            warn(collection.name, 'TODO')
           }
         }
         actions[fk.delete_rule]()

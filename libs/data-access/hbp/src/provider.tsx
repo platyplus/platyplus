@@ -15,12 +15,12 @@ export const createHbpClient = (authUrl: string) => {
     useCookies: false,
     // * Autorefresh interval in ms (defaults to Math.max(30 * 1000, JWTExpiresIn - 45000))
     // TODO use the jwt.expires.in value of HBP
-    refreshIntervalTime: 60000
+    refreshIntervalTime: 10000
   })
 
   function updateOnlineStatus(event: Event) {
     const condition = navigator.onLine ? 'online' : 'offline'
-    info('[network] status', condition)
+    info('network', 'status', condition)
     if (condition) auth.refreshSession()
   }
 

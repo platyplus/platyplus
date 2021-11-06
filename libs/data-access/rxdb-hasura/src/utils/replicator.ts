@@ -84,7 +84,7 @@ export const createReplicator = async <T>(
     // )
 
     replicationState.canceled$.subscribe(() => {
-      debug(`[${collection.name}] replication cancelled`)
+      debug(collection.name, `replication cancelled`)
       jwtSubscription?.unsubscribe()
       errorSubscription?.unsubscribe()
       startOption?.()
@@ -94,7 +94,8 @@ export const createReplicator = async <T>(
   }
 
   const initWsSubscription = () => {
-    debug(`[${collection.name}] initGraphQLSubscription`)
+    debug(collection.name, `initGraphQLSubscription`)
+    resetWs()
     wsClient = new SubscriptionClient(httpUrlToWebSockeUrl(options.url), {
       reconnect: true,
       connectionParams: {
@@ -114,35 +115,33 @@ export const createReplicator = async <T>(
     request.subscribe({
       next: ({ data, ...rest }) => {
         if (data) {
-          debug(
-            `[${collection.name}] WS request emitted`,
-            Object.values(data)[0]
-          )
-          options.onWsReceive?.(Object.values(data)[0])
+          const contents = Object.values(data)[0]
+          debug(collection.name, `WS request emitted`, contents)
+          options.onWsReceive?.(contents)
           state?.run()
         } else {
-          debug(`[${collection.name}] WS request emitted, but no data`, rest)
+          debug(collection.name, `WS request emitted, but no data`, rest)
         }
       },
       error: (error) => {
-        warn(`[${collection.name}] WS request error`, error)
+        warn(collection.name, `WS request error`, error)
       }
     })
 
     wsClient.onReconnected(() => {
-      info(`[${collection.name}] WS reconnected`)
+      info(collection.name, `WS reconnected`)
     })
     wsClient.onConnected(() => {
-      debug(`[${collection.name}] WS connected`)
+      debug(collection.name, `WS connected`)
     })
     wsClient.onDisconnected(() => {
-      debug(`[${collection.name}] WS disconnected`)
+      debug(collection.name, `WS disconnected`)
     })
     wsClient.onReconnecting(() => {
-      info(`[${collection.name}] WS reconnecting`)
+      info(collection.name, `WS reconnecting`)
     })
     wsClient.onError((err) => {
-      info(`[${collection.name}] WS error`, err)
+      info(collection.name, ` WS error`, err)
     })
   }
   let startOption: undefined | (() => void)
@@ -152,24 +151,24 @@ export const createReplicator = async <T>(
 
     startOption = options.onStart?.()
     errorSubscription = state.error$.subscribe((data) => {
-      warn(`[${collection.name}] replication error`, data)
+      warn(collection.name, `replication error`, data)
     })
 
     jwtSubscription = db.jwt$.subscribe((jwt) => {
-      debug(`[${collection.name}] new jwt received`)
+      debug(collection.name, `new jwt received`)
       if (jwt) {
         state.setHeaders(headers())
         initWsSubscription()
-      } else debug(`[${collection.name}] new jwt received was null`)
+      } else debug(collection.name, `new jwt received was null`)
     })
 
     state.awaitInitialReplication().then(() => {
-      debug(`[${collection.name}] awaitInitialReplication OK`)
+      debug(collection.name, `awaitInitialReplication OK`)
     })
   }
 
   const stop = async (): Promise<void> => {
-    debug(`[${collection.name}] stop replication`)
+    debug(collection.name, `stop replication`)
     await state?.cancel()
   }
 
@@ -187,7 +186,7 @@ export const createReplicator = async <T>(
       distinctUntilChanged<boolean>()
     )
     .subscribe(async (ok) => {
-      debug(`[${collection.name}] auth/connection status change`, ok)
+      debug(collection.name, `auth/connection status change`, ok)
       if (ok) await start()
       else await stop()
     })

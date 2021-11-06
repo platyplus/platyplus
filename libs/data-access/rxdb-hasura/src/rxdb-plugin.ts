@@ -19,7 +19,7 @@ export const RxHasuraPlugin: RxPlugin = {
   },
   hooks: {
     createRxCollection: async (collection: RxCollection): Promise<void> => {
-      debug(`[${collection.name}] create RxCollection`, collection.options)
+      debug(collection.name, `create RxCollection`, collection.options)
       if (collection.options.tableId) {
         // * tableId option => this is a Contents collection
         createHooks(collection as ContentsCollection)

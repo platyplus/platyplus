@@ -71,8 +71,11 @@ const evaluate = (data: any, property: ComputedProperty): any => {
     }
     return result
   } catch (error) {
-    warn('Error in computing', { data, property })
-    warn(error)
+    warn(property.name, 'Error in computing template', {
+      data,
+      property,
+      error
+    })
   }
 }
 

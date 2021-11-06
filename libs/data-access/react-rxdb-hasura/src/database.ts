@@ -9,9 +9,9 @@ import { isAuthenticated } from '@platyplus/hbp'
 const DEFAULT_DB_NAME = 'rxdb'
 
 const updateAuthToRxDB = (db: Database, auth: Auth, status?: boolean) => {
-  info('[updateAuthToRxDB]', status)
+  info('db', 'updateAuthToRxDB', status)
   const authenticated = status ?? isAuthenticated(auth)
-  info('[updateAuthToRxDB] is authenticated?', authenticated)
+  info('db', 'updateAuthToRxDB: is authenticated?', authenticated)
   const token = auth.getJWTToken()
   const admin = authenticated
     ? (auth.getClaim('x-hasura-allowed-roles') || []).includes(ADMIN_ROLE)
@@ -25,10 +25,10 @@ export const initializeDB = async (
   auth: Auth
 ) => {
   const db = await createRxHasura(name, url)
-  info(`[initializeDB] successfully created RxHasura ${name}`)
+  info('db', `initializeDB: successfully created RxHasura ${name}`)
   updateAuthToRxDB(db, auth)
   auth.onAuthStateChanged((status) => {
-    info('[onAuthStateChanged]', status)
+    info('auth', 'onAuthStateChanged', status)
     updateAuthToRxDB(db, auth, status)
   })
   auth.onTokenChanged(() => db.jwt$.next(auth.getJWTToken()))

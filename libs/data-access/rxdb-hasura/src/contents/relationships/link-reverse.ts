@@ -44,7 +44,8 @@ const reverseRelations =
       const { name: mirrorRelName, type: mirrorRelType } = mirrorRelationship
 
       debug(
-        `${collection.name}.${name} (${type}) -> ${mirrorTable.id}.${mirrorRelName} (${mirrorRelType})`
+        collection.name,
+        `${name} (${type}) -> ${mirrorTable.id}.${mirrorRelName} (${mirrorRelType})`
       )
       if (type === 'array') {
         // * From one/many to many
@@ -125,7 +126,8 @@ const reverseRelations =
         } else {
           // TODO From one to one
           warn(
-            `${tableInfo.id}.${name}: link-reverse one to one relationship is not set yet`
+            tableInfo.id,
+            `${name}: link-reverse one to one relationship is not set yet`
           )
         }
       }

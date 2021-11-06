@@ -8,10 +8,10 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/service-worker.js')
       .then((registration) => {
-        info('[SW] registered')
+        info('SW', 'registered')
       })
       .catch((registrationError) => {
-        info('[SW] registration failed: ', registrationError)
+        info('SW', 'registration failed: ', registrationError)
       })
   })
 }

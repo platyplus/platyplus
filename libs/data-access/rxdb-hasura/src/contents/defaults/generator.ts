@@ -31,7 +31,7 @@ export const generateDefaultValue = (
     } catch {
       if (defaultTemplate.startsWith('now()')) return new Date().toISOString()
       if (defaultTemplate.startsWith('gen_random_uuid()')) return uuid()
-      warn('Impossible to parse default value', defaultTemplate)
+      warn(table.id, 'Impossible to parse default value', defaultTemplate)
       return null
     }
   } else {

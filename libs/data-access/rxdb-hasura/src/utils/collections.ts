@@ -14,16 +14,17 @@ export const createCollection = async (
   options: RxCollectionCreator
 ) => {
   try {
+    debug(name, `add collection`)
     await db.addCollections({
       [name]: options
     })
   } catch (error) {
-    warn(`[${name}] error creating the collection`, error)
+    warn(name, `error creating the collection`, error)
   }
 }
 
 export const removeCollection = async (collection: ContentsCollection) => {
-  debug(`[${collection.name}] remove collection`)
+  debug(collection.name, `remove collection`)
   await collection.replicator.destroy()
   await collection.database.removeCollectionDoc(
     collection.name,

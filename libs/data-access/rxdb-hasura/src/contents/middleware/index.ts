@@ -10,7 +10,7 @@ import {
 import { createIdHooks } from '../ids'
 
 export const createHooks = (collection: ContentsCollection): void => {
-  debug(`Installing hooks on ${collection.name}`)
+  debug(collection.name, `Installing hooks`)
   createReverseRelationshipHooks(collection)
   createComputedFieldsHooks(collection)
   createDefaultValuesHooks(collection)

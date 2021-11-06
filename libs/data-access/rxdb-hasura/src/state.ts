@@ -15,7 +15,7 @@ import { Database } from './types'
 const readyTables = new BehaviorSubject<string[]>([])
 
 export const setReplicationReady = (name: string) => {
-  debug(`[${name}] setReplicationReady`)
+  debug(name, `setReplicationReady`)
   const value = readyTables.getValue()
   if (!value.includes(name)) {
     value.push(name)
@@ -23,7 +23,7 @@ export const setReplicationReady = (name: string) => {
   }
 }
 export const setReplicationBusy = (name: string) => {
-  debug(`[${name}] setReplicationBusy`)
+  debug(name, `setReplicationBusy`)
   const state = readyTables.getValue()
   const value = state.filter((v) => v !== name)
   if (value.length !== state.length) {
@@ -50,7 +50,7 @@ export const addStateToDatabasePrototype = (proto: Database) => {
     newJwt: string | null,
     admin: boolean
   ) => {
-    debug('[setAuthStatus]', status, !!newJwt)
+    debug('db', 'setAuthStatus', status, !!newJwt)
     if (typeof status === 'boolean') {
       proto.isAuthenticated$.next(status)
       proto.jwt$.next(newJwt)

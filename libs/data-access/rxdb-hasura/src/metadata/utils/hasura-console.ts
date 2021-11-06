@@ -73,7 +73,7 @@ export const createSqlMigrations = async (
     skip_execution: false
   }
   await client.post('/migrate', request)
-  info('Migration created')
+  info('migration', 'created')
 }
 
 const upsertQueries = {
@@ -108,6 +108,6 @@ export const upsertConfigWithMigration = async (
   if (sql) {
     await createSqlMigrations([sql])
   } else {
-    warn(`upsertWithMigration not implemented for collection ${collectionName}`)
+    warn(collectionName, `upsertWithMigration not implemented`)
   }
 }

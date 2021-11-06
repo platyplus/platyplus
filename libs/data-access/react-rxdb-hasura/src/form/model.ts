@@ -43,7 +43,7 @@ const modelTypeConstructor = {
   integer: () => Types.NumberType(),
   boolean: () => Types.BooleanType(),
   null: (name: string, property: TopLevelProperty) => {
-    error('Null type is not allowed', { name, property })
+    error(name, 'Null type is not allowed', property)
     throw Error('Null type is not allowed')
   }
 }
@@ -57,7 +57,7 @@ export const useFormModel = (tableInfo: TableInformation) => {
           const type = property.type
           const modelType = modelTypeConstructor[type]?.(name, property)
           if (!modelType) {
-            warn('Unknown model type for property', property)
+            warn(tableInfo.id, 'Unknown model type for property', property)
           } else {
             if (property.required) {
               if (type === 'collection' || type === 'array') {
@@ -71,6 +71,6 @@ export const useFormModel = (tableInfo: TableInformation) => {
           return acc
         }, {})
       ),
-    [properties]
+    [properties, tableInfo.id]
   )
 }

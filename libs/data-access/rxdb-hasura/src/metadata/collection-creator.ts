@@ -30,7 +30,7 @@ export const createContentsCollections = async (
         const newSchema = toJsonSchema(table, role)
 
         if (!equivalentSchemas(previousSchema, newSchema)) {
-          info(`[${name}] new schema. Reload the entire collection`)
+          info(name, `new schema. Reload the entire collection`)
           // TODO ideally, identify the column/relationship changes and delete the removed one, and go fetch the missing ones through graphql
           await removeCollection(collection)
           await createCollection(
@@ -40,7 +40,7 @@ export const createContentsCollections = async (
           )
         }
       } else {
-        warn(`[${name}] Cannot modify a non-contents collection`)
+        warn(name, `Cannot modify a non-contents collection`)
       }
     }
   }

@@ -33,7 +33,7 @@ export const pushQueryBuilder = (
   const arrayRelationships = filteredArrayRelationships(table)
 
   return ({ _isNew, ...initialDoc }: Contents) => {
-    debug('push query builder in', initialDoc)
+    debug(collection.name, `push query builder in`, initialDoc)
     const doc = clone(initialDoc)
 
     Object.keys(doc)
@@ -176,7 +176,7 @@ export const pushQueryBuilder = (
       }
     }
     const query = jsonToGraphQLQuery(jsonQuery)
-    debug('push query builder:', jsonQuery)
+    debug(collection.name, `push query builder`, jsonQuery)
     return {
       query,
       variables: {}
@@ -188,7 +188,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
   // TODO replicate only what has changed e.g. _changes sent to the query builder
 
   return async (data) => {
-    debug('pushModifier: in:', data)
+    debug(collection.name, `pushModifier: in`, data)
     const table = getCollectionTableInfo(collection)
     const objectRelationships = filteredObjectRelationships(table)
     // * Do not push data if it is flaged as a local change
@@ -227,7 +227,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     )
     for (const field of excluded) delete data[field]
 
-    debug('pushModifier: out', { _isNew, ...data, id })
+    debug(collection.name, `pushModifier: out`, { _isNew, ...data, id })
     return { _isNew, ...data, id }
   }
 }

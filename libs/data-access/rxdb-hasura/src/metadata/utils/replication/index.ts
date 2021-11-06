@@ -28,7 +28,7 @@ export const createSettingsReplicator = async (
     for (const doc of initialDocuments)
       collectionSettings.onUpsert?.(doc.toJSON())
   } else {
-    debug(`[${collection.name}] no initial documents`)
+    debug(collection.name, `no initial documents`)
   }
   setReplicationReady(collection.name)
 

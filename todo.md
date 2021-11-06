@@ -36,7 +36,7 @@
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- Bugs
+- **Bugs**
   - [ ] replication problem when refreshing token
   - [ ] refetch the entire collection when new columns/relationships are added
 

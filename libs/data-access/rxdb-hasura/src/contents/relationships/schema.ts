@@ -62,7 +62,7 @@ export const createRelationshipProperties = (
         }
       }
     } else {
-      warn(`[${table.id}] NO REF TABLE`, relationship)
+      warn(table.id, `NO REF TABLE`, relationship)
     }
   })
 

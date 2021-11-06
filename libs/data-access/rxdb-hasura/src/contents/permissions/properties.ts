@@ -41,7 +41,8 @@ export const canRemoveCollectionItem = (
     }
   } else {
     warn(
-      `canRemoveItem ${tableInfo.id}.${propertyName}: property not found or incorrect type (non "collection"): ${prop.type}`
+      tableInfo.id,
+      `canRemoveItem ${propertyName}: property not found or incorrect type (non "collection"): ${prop.type}`
     )
     return false
   }

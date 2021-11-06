@@ -220,7 +220,7 @@ export const pullQueryBuilder = (
 export const pullModifier = (collection: ContentsCollection): Modifier => {
   const tableInfo = getCollectionTableInfo(collection)
   return async (data) => {
-    debug('pullModifier: in', collection.name, { ...data })
+    debug(collection.name, `pullModifier: in`, { ...data })
     data = addComputedFieldsFromLoadedData(data, collection)
     data.label = (await documentLabel(data, collection)) || ''
     data.id = composeId(tableInfo, data)
@@ -296,7 +296,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
       }
     }
 
-    debug('pullModifier: out', collection.name, { ...data })
+    debug(collection.name, `pullModifier: out`, { ...data })
     return data
   }
 }

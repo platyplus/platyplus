@@ -41,7 +41,10 @@ export const generateReplicationSettings = (
           if (db.isAdmin$.getValue()) {
             return doc
           } else {
-            info('User is not admin. Cannot push config changes to the server')
+            info(
+              collectionName,
+              'User is not admin. Cannot push config changes to the server'
+            )
             return null
           }
         }
