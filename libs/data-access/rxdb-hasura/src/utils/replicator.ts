@@ -9,7 +9,7 @@ import { combineLatest, Subscription, map, distinctUntilChanged } from 'rxjs'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { httpUrlToWebSockeUrl } from '@platyplus/data'
-import { debug, error, info, warn } from '@platyplus/logger'
+import { debug, info, warn } from '@platyplus/logger'
 
 import { Database, Replicator } from '../types'
 import { DELETED_COLUMN } from '../contents'
@@ -75,10 +75,6 @@ export const createReplicator = async <T>(
       liveInterval: 1000 * 60 * 10, // 10 minutes
       deletedFlag: DELETED_COLUMN,
       waitForLeadership: true // defaults to true
-    })
-    replicationState.error$.subscribe((err) => {
-      error(`[${collection.name}] replication error`, err)
-      // TODO refresh JWT if error is related, but in any case refresh JWT before error occurs
     })
 
     // replicationState.initialReplicationComplete$.subscribe((active) =>
@@ -156,15 +152,15 @@ export const createReplicator = async <T>(
 
     startOption = options.onStart?.()
     errorSubscription = state.error$.subscribe((data) => {
-      warn('sync error', data)
+      warn(`[${collection.name}] replication error`, data)
     })
 
-    db.jwt$.subscribe((jwt) => {
-      debug(`[${collection.name}] set token`)
+    jwtSubscription = db.jwt$.subscribe((jwt) => {
+      debug(`[${collection.name}] new jwt received`)
       if (jwt) {
         state.setHeaders(headers())
         initWsSubscription()
-      } else debug(`[${collection.name}] set token BUT NO JWT`)
+      } else debug(`[${collection.name}] new jwt received was null`)
     })
 
     state.awaitInitialReplication().then(() => {

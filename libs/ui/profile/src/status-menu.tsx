@@ -4,7 +4,7 @@ import { Whisper, Popover, Dropdown, Icon } from 'rsuite'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
 
 import { useAuthenticated, useHbp } from '@platyplus/hbp'
-import { useDB } from '@platyplus/react-rxdb-hasura'
+import { useDB, useLogout } from '@platyplus/react-rxdb-hasura'
 
 import Avatar from './avatar'
 
@@ -14,6 +14,7 @@ export const ProfileStatusMenu: React.FC = () => {
   const signedIn = useAuthenticated()
   const triggerRef = React.createRef<WhisperInstance>()
   const router = useHistory()
+  const logout = useLogout()
   if (signedIn)
     return (
       <Whisper
@@ -36,9 +37,10 @@ export const ProfileStatusMenu: React.FC = () => {
                 icon={<Icon icon="sign-out" />}
                 onSelect={async () => {
                   triggerRef.current.close()
-                  await auth.logout()
-                  await db.remove()
-                  router.push('/')
+                  // await auth.logout()
+                  // await db.remove()
+                  // router.push('/')
+                  await logout()
                 }}
               >
                 Logout

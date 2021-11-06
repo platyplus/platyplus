@@ -18,7 +18,7 @@ export const createCollection = async (
       [name]: options
     })
   } catch (error) {
-    warn(`[${name}] error creating the collection`, error.name)
+    warn(`[${name}] error creating the collection`, error)
   }
 }
 

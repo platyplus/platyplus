@@ -21,6 +21,21 @@ const defaultComponents = {
   fields: defaultFieldComponents,
   documents: defaultDocumentComponents
 }
+
+const Title: React.FC<{ title: string }> = ({ title }) => {
+  const authenticated = useAuthenticated()
+  if (authenticated) return <PrivateTitle title={title} />
+  else return <PublicTitle title={title} />
+}
+
+const PrivateTitle: React.FC<{ title: string }> = ({ title }) => {
+  const { state, isFetching } = useAppConfig()
+  if (isFetching) return null
+  else return <Logo title={title} to={state?.home} />
+}
+const PublicTitle: React.FC<{ title: string }> = ({ title }) => (
+  <Logo title={title} to="/" />
+)
 export const LayoutWrapper: React.FC<AppSettings> = ({
   components = {},
   home = { enabled: true, title: 'Home' },
@@ -32,43 +47,41 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
 }) => {
   const authenticated = useAuthenticated()
   const config = useConfigEnabled()
-  const { state, isFetching } = useAppConfig()
+
   // * Load components - defaults can be overriden and/or extended
   const overridenComponents = useMemo(
     () => deepmerge(components, defaultComponents),
     [components]
   )
-  if (authenticated && isFetching) return null
-  else
-    return (
-      <ComponentsContext.Provider value={overridenComponents}>
-        <Layout
-          logo={<Logo title={title} to={state?.home} />}
-          menu={
-            <Menu
-              config={config}
-              authenticated={authenticated}
-              home={home}
-              register={register}
-              login={login}
-            />
-          }
-          statusMenu={
-            <>
-              <ConfigStatusMenuItem />
-              <ThemeToggle />
-              <ProfileStatusMenu />
-            </>
-          }
-        >
-          <Routes
+  return (
+    <ComponentsContext.Provider value={overridenComponents}>
+      <Layout
+        logo={<Title title={title} />}
+        menu={
+          <Menu
+            config={config}
+            authenticated={authenticated}
             home={home}
             register={register}
             login={login}
-            profile={profile}
-            notFound={notFound}
           />
-        </Layout>
-      </ComponentsContext.Provider>
-    )
+        }
+        statusMenu={
+          <>
+            <ConfigStatusMenuItem />
+            <ThemeToggle />
+            <ProfileStatusMenu />
+          </>
+        }
+      >
+        <Routes
+          home={home}
+          register={register}
+          login={login}
+          profile={profile}
+          notFound={notFound}
+        />
+      </Layout>
+    </ComponentsContext.Provider>
+  )
 }

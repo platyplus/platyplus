@@ -62,4 +62,12 @@ export const addStateToDatabasePrototype = (proto: Database) => {
     fromEvent(window, 'online'),
     fromEvent(window, 'offline')
   ).pipe(map(() => navigator.onLine))
+
+  proto.stop = async function (this: Database) {
+    this.setAuthStatus(false, null, false)
+    readyTables.next([])
+    for (const collection of Object.values(this.collections)) {
+      await collection.destroy()
+    }
+  }
 }

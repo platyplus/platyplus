@@ -13,8 +13,11 @@ export const useAuthenticated = () => {
 
   const [authenticated, setAuthenticated] = useState(isAuthenticated(hbp.auth))
 
-  hbp.auth.onAuthStateChanged((isAuth) => {
-    setAuthenticated(isAuth ?? isAuthenticated(hbp.auth))
+  useEffect(() => {
+    const unsubscribe = hbp.auth.onAuthStateChanged((isAuth) => {
+      setAuthenticated(isAuth ?? isAuthenticated(hbp.auth))
+    })
+    return () => unsubscribe()
   })
   return authenticated
 }

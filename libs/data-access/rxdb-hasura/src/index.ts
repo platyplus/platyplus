@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { filter } from 'rxjs'
+import { filter, switchMap } from 'rxjs'
 import { addRxPlugin, createRxDatabase, RxDatabaseCreator } from 'rxdb'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
@@ -60,6 +60,7 @@ export const createRxHasura = async (
   const db = (await createRxDatabase<DatabaseCollections>(
     settings
   )) as unknown as Database
+
   debug(`[db] created: ${settings.name}`)
   if (process.env.NODE_ENV === 'development') window['db'] = db // write to window for debugging
 
@@ -74,12 +75,9 @@ export const createRxHasura = async (
   })
 
   db.isReady$
-    .pipe(filter((ready) => ready))
-    .subscribe(() =>
-      db.collections[TABLE_INFO_TABLE].find().$.subscribe((tables) =>
-        createContentsCollections(db, tables)
-      )
-    )
+    .pipe(filter((ready) => ready && !!db.collections[TABLE_INFO_TABLE]))
+    .pipe(switchMap(() => db.collections[TABLE_INFO_TABLE].find().$))
+    .subscribe((tables) => createContentsCollections(db, tables))
 
   // * runs when db becomes leader
   db.waitForLeadership().then(() => {

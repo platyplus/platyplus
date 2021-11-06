@@ -33,6 +33,7 @@ export const Login: FunctionComponent<{ redirect?: string }> = ({
   const router = useHistory()
   const [formValue, setFormValue] = useState({ email: '', password: '' })
   const { auth } = useHbp()
+
   const login = async (check: boolean) => {
     if (check) {
       await model.checkAsync(formValue)

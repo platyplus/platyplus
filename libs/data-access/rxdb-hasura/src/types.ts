@@ -2,7 +2,7 @@
 import { RxCollection, RxDocument } from 'rxdb'
 import { RxGraphQLReplicationState } from 'rxdb/dist/types/plugins/replication-graphql'
 import { RxDatabaseBase } from 'rxdb/dist/types/rx-database'
-import { BehaviorSubject, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 
 import { PlatyplusCollections, TableInfo } from './metadata'
 
@@ -66,6 +66,7 @@ export type DatabasePrototype = {
   isAuthenticated$: BehaviorSubject<boolean>
   isConnected$: Observable<boolean>
   setAuthStatus: (status: boolean, newJwt: string, admin: boolean) => void
+  stop: () => Promise<void>
 }
 
 export type Database = RxDatabaseBase<unknown, unknown, DatabaseCollections> &

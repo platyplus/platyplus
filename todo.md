@@ -15,7 +15,6 @@
     - [ ] only when fk constraints allow it
     - [x] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-    - [x] logout: remove RxDB, and redirect to home
     - [ ] rerun tests with some contents
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
@@ -40,7 +39,6 @@
 - Bugs
   - [ ] replication problem when refreshing token
   - [ ] refetch the entire collection when new columns/relationships are added
-- security: remove immer 8 -> -> -> react-scripts?
 
 ## MVP 2
 
@@ -54,6 +52,7 @@
 
 ## Post-MVP
 
+- security: remove immer 8 -> -> -> react-scripts?
 - [ ] review `nx version` & `nx publish`
 - Application
   - [ ] set registration/login/home config in `config.json` - and then link to HBP config in the platyplus chart
