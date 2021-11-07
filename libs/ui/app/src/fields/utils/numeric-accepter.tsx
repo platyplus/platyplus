@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { InputNumber, InputNumberProps } from 'rsuite'
 
 export const NullableNumericInput: React.FC<
@@ -7,7 +7,9 @@ export const NullableNumericInput: React.FC<
   }
 > = ({ value, onChange, integer = false, ...props }) => {
   const [state, setState] = useState(value)
-
+  useEffect(() => {
+    if (value === undefined) setState(null)
+  }, [value])
   return (
     <InputNumber
       {...props}
