@@ -6,6 +6,7 @@ import { Animation, ButtonGroup, ButtonToolbar } from 'rsuite'
 import { useQuery } from '@platyplus/navigation'
 import {
   useDocumentPermissions,
+  useFormCanSave,
   useFormHasChanged,
   useFormReset,
   useFormSave
@@ -27,7 +28,7 @@ export const DocumentToolbar: React.FC<{
   const history = useHistory()
   const hasChanged = useFormHasChanged(tableinfo, role, document)
   const reset = useFormReset(tableinfo, role, document)
-  const save = useFormSave(tableinfo, role, document)
+  const { save, canSave } = useFormSave(tableinfo, role, document)
 
   const handleSave = async () => {
     if (formRef) {
@@ -53,6 +54,7 @@ export const DocumentToolbar: React.FC<{
     history.goBack()
   }
   const can = useDocumentPermissions(tableinfo, role, document)
+
   return (
     <Animation.Fade in={!!document}>
       {(props, ref) => (
@@ -68,13 +70,13 @@ export const DocumentToolbar: React.FC<{
                   icon="save"
                   helper="Save"
                   onClick={handleSave}
-                  disabled={!(hasChanged && can.save)}
+                  disabled={!canSave}
                 />
                 <IconButtonWithHelper
                   icon="undo"
                   helper="Reset"
                   onClick={reset}
-                  disabled={!(hasChanged && can.save)}
+                  disabled={!hasChanged}
                 />
                 <IconButtonWithHelper
                   icon="back-arrow"

@@ -10,8 +10,8 @@ export const useFormIsValid = (
   document: ContentsDocument
 ) => {
   const [isValid, setValid] = useState(false)
-  const model = useFormModel(tableInfo)
   const form = useFormGet(tableInfo, role, document)
+  const model = useFormModel(tableInfo, role, form)
   useEffect(() => {
     model.checkAsync(form).then((check) => {
       setValid(Object.values(check).every((value) => !value.hasError))

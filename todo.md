@@ -13,7 +13,6 @@
     - [ ] bug on validating form with a required many2one field: is it related?
   - [ ] canSave: validate data
     - [ ] only when fk constraints allow it
-    - [x] only when required fields (with no default) are present
   - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
     - [ ] rerun tests with some contents
 - [ ] Documentation

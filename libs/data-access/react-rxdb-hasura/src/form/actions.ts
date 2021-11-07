@@ -14,12 +14,13 @@ export const useFormSave = (
   const canSave = useFormCanSave(tableInfo, role, document)
   const formValues = useFormRawValues(tableInfo, role, document)
   const reset = useFormReset(tableInfo, role, document)
-  return useCallback(async () => {
+  const save = useCallback(async () => {
     if (canSave) {
       await document.atomicPatch({ is_local_change: false, ...formValues })
       reset()
     }
   }, [canSave, document, formValues, reset])
+  return { save, canSave }
 }
 
 export const useFormReset = (

@@ -4,10 +4,9 @@ import {
   ContentsDocument,
   canEdit,
   canRemove,
-  TableInformation,
-  canSave
+  TableInformation
 } from '@platyplus/rxdb-hasura'
-import { useFormGet } from '../form'
+import { useFormGet, useFormModel } from '../form'
 
 export const useDocumentPermissions = (
   tableInfo: TableInformation,
@@ -18,9 +17,15 @@ export const useDocumentPermissions = (
   const [remove, setRemove] = useState(false)
   const [save, setSave] = useState(false)
   const form = useFormGet(tableInfo, role, document)
+  const model = useFormModel(tableInfo, role, form)
   useEffect(() => {
-    setSave(canSave(tableInfo, role, form))
-  }, [tableInfo, role, form])
+    const check = async () => {
+      const checkResult = await model.checkAsync(form)
+      const ok = !Object.values(checkResult).some((v) => v.hasError)
+      setSave(ok)
+    }
+    check()
+  }, [form, model])
   useEffect(() => {
     setEdit(canEdit(tableInfo, role, document))
     setRemove(canRemove(tableInfo, role, document))

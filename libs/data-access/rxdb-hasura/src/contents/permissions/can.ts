@@ -1,8 +1,7 @@
 import { ADMIN_ROLE } from '../../constants'
 import { TableInformation } from '../../metadata'
 import { Contents } from '../../types'
-import { DELETED_COLUMN, getColumn, SYSTEM_COLUMNS } from '../columns'
-import { getIds } from '../ids'
+import { DELETED_COLUMN } from '../columns'
 import { tablePropertiesNames } from '../properties'
 import {
   findRelationship,
@@ -10,7 +9,7 @@ import {
   relationshipMapping,
   relationshipTable
 } from '../relationships'
-import { isRequiredColumn, isRequiredRelationship } from '../required'
+import { isRequiredProperty } from '../required'
 export * from './properties'
 
 export const canRead = (
@@ -56,6 +55,8 @@ export const canEdit = (
     ? canCreate(tableInfo, role, propertyName)
     : canUpdate(tableInfo, role, propertyName)
 
+// TODO code redondant avec la validation depuis un modèle -> déplacer la logique dans dans model.ts
+/*
 export const canSave = (
   tableInfo: TableInformation,
   role: string,
@@ -63,7 +64,8 @@ export const canSave = (
   propertyName?: string
 ) => {
   // TODO implement canSave correctly
-  // ? validate data ?
+  // * Return errors by field?
+  // * validate data
   // * check hasura permissions
   // * check SQL constraints
   if (!document) return false
@@ -77,7 +79,7 @@ export const canSave = (
           return false
       }
     }
-    return canEdit(tableInfo, role, document, propertyName)
+    // ? return canEdit(tableInfo, role, document, propertyName)
   } else {
     return (
       !isManyToManyJoinTable(tableInfo) &&
@@ -87,6 +89,7 @@ export const canSave = (
     )
   }
 }
+*/
 
 export const canRemove = (
   tableInfo: TableInformation,
@@ -126,16 +129,11 @@ export const canCreate = (
       return permissions.columns.includes(fieldName)
     }
   } else {
-    const ids = getIds(tableInfo)
     // * Must have at least one insertable user-defined column, and id must be insertable as well
     // TODO 'deleted' must have a default value
-    return (
-      tableInfo.columns
-        .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))
-        .some(({ name }) => permissions.columns.includes(name)) &&
-      tableInfo.columns
-        .filter(({ name }) => ids.includes(name))
-        .every(({ name }) => permissions.columns.includes(name))
+    return tablePropertiesNames(tableInfo).every(
+      (name) =>
+        canCreate(tableInfo, role, name) || !isRequiredProperty(tableInfo, name)
     )
   }
 }
@@ -173,8 +171,12 @@ export const canUpdate = (
       return permissions.columns.includes(fieldName)
     }
   } else {
-    return tableInfo.columns
-      .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))
-      .some(({ name }) => permissions.columns.includes(name))
+    return tablePropertiesNames(tableInfo).every(
+      (name) =>
+        canUpdate(tableInfo, role, name) || !isRequiredProperty(tableInfo, name)
+    )
+    // tableInfo.columns
+    // .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))
+    // .some(({ name }) => permissions.columns.includes(name))
   }
 }
