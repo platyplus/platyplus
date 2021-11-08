@@ -1,7 +1,10 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+## [0.0.13](https://github.com/platyplus/platydev/compare/util-amqp@0.0.12...util-amqp@0.0.13) (2021-11-08)
+
+
 
 ## [0.0.12](https://github.com/platyplus/platyplus/compare/@platyplus/amqp@0.0.11...@platyplus/amqp@0.0.12) (2021-01-26)
 
