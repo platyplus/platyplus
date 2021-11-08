@@ -1,4 +1,13 @@
 # Changelog
+## [0.1.5](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.4...charts-platyplus@0.1.5) (2021-11-08)
+
+
+### Bug Fixes
+
+* bump hbp chart version ([b165d3f](https://github.com/platyplus/platydev/commit/b165d3fd607eac6ad6bcfceb56194f70b0f9dce0))
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.2...charts-platyplus@0.1.3) (2021-10-23)
 
 

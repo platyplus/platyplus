@@ -7,7 +7,7 @@ sources:
   - https://github.com/platyplus/platyplus/tree/master/apps/platyplus
   - https://github.com/platyplus/platyplus/tree/master/apps/hasura
 appVersion: 0.1.0
-version: 0.1.4
+version: 0.1.5
 dependencies:
   - name: hasura-backend-plus
     version: 0.2.0
