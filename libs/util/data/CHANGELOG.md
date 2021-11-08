@@ -1,7 +1,15 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+# [0.1.0](https://github.com/platyplus/platydev/compare/util-data@0.0.12...util-data@0.1.0) (2021-11-08)
+
+
+### Features
+
+* dynamic config.json file that can be rewritten on static file 'runtime' ([8eebae6](https://github.com/platyplus/platydev/commit/8eebae64d4039e6a05503abb58b03c11dfaaf9b6))
+
+
 
 ## [0.0.12](https://github.com/platyplus/platyplus/compare/@platyplus/data@0.0.11...@platyplus/data@0.0.12) (2021-01-26)
 
