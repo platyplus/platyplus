@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/platyplus/platydev/compare/ui-layout@0.1.0...ui-layout@0.2.0) (2021-11-08)
+
+
+### Bug Fixes
+
+* set title in the right position when first loading a page ([35ec309](https://github.com/platyplus/platydev/commit/35ec3092b76cc15ed00e9f40ea55c0027b5b3181))
+
+
+### Features
+
+* check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
+* configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+* custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+* dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
+* rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+
+
+
 # 0.1.0 (2021-09-15)
 
 ### Bug Fixes
