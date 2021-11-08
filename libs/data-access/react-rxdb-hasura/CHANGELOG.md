@@ -2,6 +2,30 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.2.0...data-access-react-rxdb-hasura@0.3.0) (2021-11-08)
+
+
+### Bug Fixes
+
+* avoid concurrent subscriptions on DB and replication initialisation ([e9303f4](https://github.com/platyplus/platydev/commit/e9303f4cf13ca797070f8699144121d1c20f4515))
+* correct things here and there ([4cf9a2a](https://github.com/platyplus/platydev/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
+* correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
+* custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
+* improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
+* improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platydev/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
+* use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platydev/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
+
+
+### Features
+
+* check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
+* configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+* custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+* dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
+* rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+
+
+
 # [0.2.0](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.1.0...data-access-react-rxdb-hasura@0.2.0) (2021-10-09)
 
 ### Bug Fixes
