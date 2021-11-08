@@ -4,30 +4,27 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 # [0.3.0](https://github.com/platyplus/platydev/compare/platyplus@0.2.1...platyplus@0.3.0) (2021-11-08)
 
-
 ### Bug Fixes
 
-* add service worker fallback ([7f817a5](https://github.com/platyplus/platydev/commit/7f817a5661717672d1f09ecb879cd428865b86ae))
-* avoid concurrent subscriptions on DB and replication initialisation ([e9303f4](https://github.com/platyplus/platydev/commit/e9303f4cf13ca797070f8699144121d1c20f4515))
-* improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
-* reconfigure service worker, and apply correct policy to config.json ([7b614fa](https://github.com/platyplus/platydev/commit/7b614fabdc3308ac2c8b332f57a4e6a17ca6a112))
-
+- add service worker fallback ([7f817a5](https://github.com/platyplus/platydev/commit/7f817a5661717672d1f09ecb879cd428865b86ae))
+- avoid concurrent subscriptions on DB and replication initialisation ([e9303f4](https://github.com/platyplus/platydev/commit/e9303f4cf13ca797070f8699144121d1c20f4515))
+- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
+- reconfigure service worker, and apply correct policy to config.json ([7b614fa](https://github.com/platyplus/platydev/commit/7b614fabdc3308ac2c8b332f57a4e6a17ca6a112))
 
 ### Features
 
-* custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
-* dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
-
-
+- custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
+- configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+- custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+- destroy db on logout ([8abe66f](https://github.com/platyplus/platydev/commit/8abe66f61e688dca373368ba0d19ed554ff9afa0))
+- rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+- dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
 
 ## [0.2.1](https://github.com/platyplus/platydev/compare/platyplus@0.2.0...platyplus@0.2.1) (2021-10-17)
 
-
 ### Bug Fixes
 
-* copy dist files with the correct user permissions ([d23b557](https://github.com/platyplus/platydev/commit/d23b55771bc7ba6d4b03b659191dcfd31b5be81a))
-
-
+- copy dist files with the correct user permissions ([d23b557](https://github.com/platyplus/platydev/commit/d23b55771bc7ba6d4b03b659191dcfd31b5be81a))
 
 # [0.2.0](https://github.com/platyplus/platyplus/compare/platyplus@0.1.0...platyplus@0.2.0) (2021-10-09)
 

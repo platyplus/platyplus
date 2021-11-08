@@ -48,6 +48,7 @@
   - [ ] only update modified fields in the zustand form store?
         only send modified fields in the replication mutation?
 - [ ] Platyplus Tilt extension
+- [ ] fix github actions
 
 ## Post-MVP
 
