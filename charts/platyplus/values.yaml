@@ -2,6 +2,7 @@ global:
   ingress:
     enabled: true
     # domain: mydomain.com
+    domain: 127.0.0.1.nip.io
     tls:
       enabled: false
 
