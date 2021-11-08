@@ -1,65 +1,80 @@
-import { debug, info, warn } from '@platyplus/logger'
-import { getDocumentTableInfo, getTableInfo } from '../../../metadata'
+import { debug, error, info } from '@platyplus/logger'
+
 import { ForeignKey } from '../../../metadata/table-information/types'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
-import { collectionName } from '../../../utils'
-import {
-  allRelationships,
-  isManyToManyJoinTable,
-  relationshipMapping
-} from '../utils'
+
+import { generateDefaultValue } from '../../defaults'
+
+import { foreignDocumentDependencies } from './dependencies'
 
 export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preRemove(async (data: Contents, document: ContentsDocument) => {
     info(collection.name, `createForeignKeyConstraintsHooks preRemove`)
-    const tableInfo = getDocumentTableInfo(document)
-    for (const fk of tableInfo.dependentForeignKeys) {
-      const remoteInfo = getTableInfo(fk.from)
-      if (isManyToManyJoinTable(remoteInfo)) return // ? No possible changes on join many to many tables?
-      // TODO remote table info is null when fk aims at a join m2m table
-      if (remoteInfo) {
-        const remoteCollection =
-          collection.database.collections[
-            collectionName(remoteInfo, collection.options.role)
-          ]
-
-        const remoteProperty = allRelationships(remoteInfo).find((rel) => {
-          const mapping = relationshipMapping(remoteInfo, rel)
-          return Object.keys(mapping).some((col) => !!fk.mapping[col])
-        })
-
-        const actions: Record<
-          ForeignKey['delete_rule'],
-          () => Promise<void> | void
-        > = {
-          CASCADE: async () => {
-            debug(
-              collection.name,
-              `cascade delete ${fk.from}.${remoteProperty.name}`
-            )
-            await remoteCollection
-              .find()
-              .where(remoteProperty.name) // TODO composite key
-              .equals(data.id)
-              .remove()
-          },
-          'NO ACTION': () => {
-            warn(collection.name, 'TODO')
-          },
-          RESTRICT: () => {
-            warn(collection.name, 'TODO')
-          },
-          'SET DEFAULT': () => {
-            warn(collection.name, 'TODO')
-          },
-          'SET NULL': () => {
-            warn(collection.name, 'TODO')
+    for (const {
+      key: fk,
+      property: remoteProperty,
+      table: remoteTable,
+      query
+    } of foreignDocumentDependencies(document)) {
+      const actions: Record<
+        ForeignKey['delete_rule'],
+        () => Promise<void> | void
+      > = {
+        CASCADE: async () => {
+          debug(
+            collection.name,
+            `cascade delete ${fk.from}.${remoteProperty.name}`
+          )
+          await query.remove()
+        },
+        'NO ACTION': () => {
+          // * throw error
+          error(
+            collection.name,
+            `delete ${fk.from}.${remoteProperty.name}: no action`
+          )
+          throw Error()
+        },
+        RESTRICT: () => {
+          // * throw error
+          error(
+            collection.name,
+            `delete ${fk.from}.${remoteProperty.name}: restrict`
+          )
+          throw Error()
+        },
+        'SET DEFAULT': async () => {
+          debug(
+            collection.name,
+            `delete ${fk.from}.${remoteProperty.name}: set default`
+          )
+          for (const doc of await query.exec()) {
+            await doc.update({
+              $set: {
+                [remoteProperty.name]: generateDefaultValue(
+                  remoteTable,
+                  remoteProperty.name,
+                  doc.toJSON()
+                )
+              }
+            })
           }
+        },
+        'SET NULL': async () => {
+          debug(
+            collection.name,
+            `delete ${fk.from}.${remoteProperty.name}: set null`
+          )
+          await query.update({
+            $set: {
+              [remoteProperty.name]: null
+            }
+          })
         }
-        actions[fk.delete_rule]()
       }
+      await actions[fk.delete_rule]()
     }
   }, true)
 }

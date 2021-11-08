@@ -19,6 +19,7 @@ import {
 } from '../relationships'
 import { isRequiredRelationship } from '../required'
 import { DELETED_COLUMN } from '../columns'
+import { canCreate, canUpdate } from '../permissions'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -40,6 +41,11 @@ export const pushQueryBuilder = (
       .filter((key) => key.startsWith('_'))
       .forEach((key) => delete doc[key])
 
+    const permittedArrayRelationships = arrayRelationships.filter((rel) =>
+      _isNew
+        ? canCreate(table, collection.options.role, rel.name)
+        : canUpdate(table, collection.options.role, rel.name, initialDoc)
+    )
     const arrayValues: Record<string, string[]> = {}
     for (const { name } of arrayRelationships) {
       arrayValues[name] = doc[name]
@@ -70,7 +76,7 @@ export const pushQueryBuilder = (
                 returning: reduceStringArrayValues(idKeys, () => true)
               }
             }),
-        ...arrayRelationships.reduce((acc, rel) => {
+        ...permittedArrayRelationships.reduce((acc, rel) => {
           const remoteTable = relationshipTable(table, rel)
           const isManyToMany = isManyToManyRelationship(table, rel)
           const remoteTableName = tableName(remoteTable)
@@ -190,7 +196,6 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
   return async (data) => {
     debug(collection.name, `pushModifier: in`, data)
     const table = getCollectionTableInfo(collection)
-    const objectRelationships = filteredObjectRelationships(table)
     // * Do not push data if it is flaged as a local change
     if (data.is_local_change) return null
     else delete data.is_local_change
@@ -199,6 +204,7 @@ export const pushModifier = (collection: ContentsCollection): Modifier => {
     const _isNew = isNewDocument(data)
     const id = data.id // * Keep the id to avoid removing it as it is supposed to be part of the columns to exclude from updates
     // * Object relationships:move back property name to the right foreign key column
+    const objectRelationships = filteredObjectRelationships(table)
     for (const rel of objectRelationships) {
       if (data[rel.name] !== undefined) {
         const mapping = Object.keys(relationshipMapping(table, rel))

@@ -1,15 +1,18 @@
 import { ADMIN_ROLE } from '../../constants'
 import { TableInformation } from '../../metadata'
-import { Contents } from '../../types'
-import { DELETED_COLUMN } from '../columns'
+import { Contents, ContentsDocument } from '../../types'
+
+import { DELETED_COLUMN, SYSTEM_COLUMNS } from '../columns'
 import { tablePropertiesNames } from '../properties'
 import {
   findRelationship,
+  foreignDocumentDependencies,
   isManyToManyJoinTable,
   relationshipMapping,
   relationshipTable
 } from '../relationships'
 import { isRequiredProperty } from '../required'
+
 export * from './properties'
 
 export const canRead = (
@@ -17,6 +20,7 @@ export const canRead = (
   role: string,
   propertyName?: string
 ) => {
+  if (role === ADMIN_ROLE) return true
   const permissions = tableInfo.metadata?.select_permissions?.find(
     (p) => p.role === role
   )?.permission
@@ -51,51 +55,31 @@ export const canEdit = (
   document?: Contents,
   propertyName?: string
 ) =>
-  !document || document._isTemporary
+  role === ADMIN_ROLE ||
+  // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
+  // TODO code 'isNewDocument' that is valid both before saving and before first push replication
+  !document ||
+  !document.updated_at // document._isTemporary
     ? canCreate(tableInfo, role, propertyName)
-    : canUpdate(tableInfo, role, propertyName)
+    : canUpdate(tableInfo, role, propertyName, document)
 
-// TODO code redondant avec la validation depuis un modèle -> déplacer la logique dans dans model.ts
-/*
-export const canSave = (
+export const canRemove = async (
   tableInfo: TableInformation,
   role: string,
-  document?: Contents,
-  propertyName?: string
+  doc?: ContentsDocument
 ) => {
-  // TODO implement canSave correctly
-  // * Return errors by field?
-  // * validate data
-  // * check hasura permissions
-  // * check SQL constraints
-  if (!document) return false
-  if (propertyName) {
-    const relationship = findRelationship(tableInfo, propertyName)
-    if (!document[propertyName]) {
-      if (relationship) {
-        if (isRequiredRelationship(tableInfo, relationship)) return false
-      } else {
-        if (isRequiredColumn(tableInfo, getColumn(tableInfo, propertyName)))
-          return false
+  if (role === ADMIN_ROLE) return true
+  if (!canUpdate(tableInfo, role, DELETED_COLUMN)) return false
+  if (doc) {
+    for (const { key: fk, query } of foreignDocumentDependencies(doc)) {
+      if (fk.delete_rule === 'NO ACTION' || fk.delete_rule === 'RESTRICT') {
+        const docs = await query.exec()
+        if (docs.length) return false
       }
     }
-    // ? return canEdit(tableInfo, role, document, propertyName)
-  } else {
-    return (
-      !isManyToManyJoinTable(tableInfo) &&
-      tablePropertiesNames(tableInfo).every((name) =>
-        canSave(tableInfo, role, document, name)
-      )
-    )
   }
+  return true
 }
-*/
-
-export const canRemove = (
-  tableInfo: TableInformation,
-  role: string,
-  doc?: Contents
-) => canUpdate(tableInfo, role, DELETED_COLUMN)
 
 export const canCreate = (
   tableInfo: TableInformation,
@@ -141,7 +125,8 @@ export const canCreate = (
 export const canUpdate = (
   tableInfo: TableInformation,
   role: string,
-  fieldName?: string
+  fieldName?: string,
+  document?: Contents
 ): boolean => {
   // * PostgreSQL views cannot be edited (as of now)
   // if (tableInfo.view) return false
@@ -152,6 +137,12 @@ export const canUpdate = (
   if (!permissions) return false
   // ? Check the hasura permission rule ?
   if (fieldName) {
+    if (
+      document &&
+      isRequiredProperty(tableInfo, fieldName) &&
+      !document[fieldName]
+    )
+      return false
     const relationship = findRelationship(tableInfo, fieldName)
     if (relationship) {
       // * Relationship
@@ -159,24 +150,22 @@ export const canUpdate = (
       if (relationship?.type === 'object') {
         // * object relationship: check permission to update every foreign key column
         return Object.keys(mapping).every((col) =>
-          canUpdate(tableInfo, role, col)
+          canUpdate(tableInfo, role, col, document?.[fieldName])
         )
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refTable = relationshipTable(tableInfo, relationship)
-        return Object.values(mapping).every((col) => canUpdate(refTable, col))
+        return Object.values(mapping).every((col) =>
+          canUpdate(refTable, role, col, document?.[fieldName])
+        )
       }
     } else {
       // * Column
       return permissions.columns.includes(fieldName)
     }
   } else {
-    return tablePropertiesNames(tableInfo).every(
-      (name) =>
-        canUpdate(tableInfo, role, name) || !isRequiredProperty(tableInfo, name)
-    )
-    // tableInfo.columns
-    // .filter(({ name }) => !SYSTEM_COLUMNS.includes(name))
-    // .some(({ name }) => permissions.columns.includes(name))
+    return tablePropertiesNames(tableInfo)
+      .filter((name) => !SYSTEM_COLUMNS.includes(name))
+      .some((name) => canUpdate(tableInfo, role, name, document))
   }
 }

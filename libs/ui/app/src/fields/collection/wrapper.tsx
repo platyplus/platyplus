@@ -6,7 +6,7 @@ import {
   ContentsDocument,
   shiftedTable
 } from '@platyplus/rxdb-hasura'
-import { useCollectionName, useOptions } from '@platyplus/react-rxdb-hasura'
+import { useContentsCollection, useOptions } from '@platyplus/react-rxdb-hasura'
 
 import { CollectionComponentWrapper } from '../../collections'
 import { FieldControl } from '../utils'
@@ -25,7 +25,7 @@ export const CollectionField: CollectionFieldComponent = ({
   component = 'label'
 }) => {
   const refTable = shiftedTable(tableinfo, property.relationship)
-  const refCollectionName = useCollectionName(refTable, role)
+  const refCollection = useContentsCollection(refTable, role)
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
     []
@@ -33,28 +33,17 @@ export const CollectionField: CollectionFieldComponent = ({
   const [data, setData] = useState<ContentsDocument[]>([])
   useEffect(() => {
     if (!document.get(name)) return // ! react sync issue, weird
+    if (!refCollection) return
     // ? use rxdb-utils view? -> document[name].$.subscribe...
     const subscription = document
       .get$(name)
-      .pipe(
-        switchMap((values) =>
-          document.collection.database[refCollectionName].findByIds$(values)
-        )
-      )
+      .pipe(switchMap((values) => refCollection.findByIds$(values)))
       .subscribe((mapDocs: Map<string, ContentsDocument>) => {
         setData([...mapDocs.values()])
       })
     return () => subscription.unsubscribe()
-  }, [
-    document,
-    name,
-    refCollectionName,
-    property,
-    refTable,
-    tableinfo.id,
-    role
-  ])
-  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
+  }, [document, name, refCollection])
+  const { result } = useRxData<Contents>(refCollection?.name, queryConstructor)
 
   const options = useOptions(refTable, result, role)
 

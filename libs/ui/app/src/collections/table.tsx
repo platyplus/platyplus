@@ -4,8 +4,9 @@ import { Table } from 'rsuite'
 import { PropertyTitle, useTableProperties } from '@platyplus/react-rxdb-hasura'
 import { canRead, ContentsDocument } from '@platyplus/rxdb-hasura'
 
-import { CollectionComponent } from './types'
 import { FieldComponentWrapper } from '../fields'
+
+import { CollectionComponent } from './types'
 
 const { Column, HeaderCell, Cell } = Table
 
@@ -19,15 +20,7 @@ export const TableCollection: CollectionComponent = ({
   const [properties] = useTableProperties(tableinfo)
 
   return (
-    <Table
-      hover
-      height={400}
-      autoHeight
-      data={data}
-      onRowClick={(data: ContentsDocument) => {
-        history.push(`/collections/${role}/${tableinfo.id}/${data.id}`)
-      }}
-    >
+    <Table hover height={400} autoHeight data={data}>
       {[...properties.entries()]
         .filter(([propertyName]) => canRead(tableinfo, role, propertyName))
         .map(([, property]) => (
@@ -42,14 +35,33 @@ export const TableCollection: CollectionComponent = ({
             <Cell>
               {(document: ContentsDocument) => {
                 return (
-                  <FieldComponentWrapper
-                    tableinfo={tableinfo}
-                    role={role}
-                    name={property.name}
-                    property={property}
-                    document={document}
-                    edit={false}
-                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      height: '100%',
+                      width: '100%',
+                      cursor: property.relationship ? null : 'pointer'
+                    }}
+                    onClick={() => {
+                      !property.relationship &&
+                        history.push(
+                          `/collections/${role}/${tableinfo.id}/${document.id}`
+                        )
+                    }}
+                  >
+                    <div className="rs-table-cell-content">
+                      <FieldComponentWrapper
+                        tableinfo={tableinfo}
+                        role={role}
+                        name={property.name}
+                        property={property}
+                        document={document}
+                        edit={false}
+                      />
+                    </div>
+                  </div>
                 )
               }}
             </Cell>

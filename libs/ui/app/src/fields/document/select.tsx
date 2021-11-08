@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { SelectPicker } from 'rsuite'
-import { useRxCollection, useRxData } from 'rxdb-hooks'
+import { useRxData } from 'rxdb-hooks'
 
 import {
   Contents,
@@ -11,7 +11,7 @@ import {
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
 import {
-  useCollectionName,
+  useContentsCollection,
   useOptions,
   useTableInfo
 } from '@platyplus/react-rxdb-hasura'
@@ -31,12 +31,11 @@ export const DocumentSelectField: FieldComponent = ({
   const refTable = useTableInfo(
     relationshipTableId(tableinfo, property.relationship)
   )
-  const refCollectionName = useCollectionName(refTable, role)
   const [data, setData] = useState<ContentsDocument>(null)
-  const collection = useRxCollection<ContentsDocument>(refCollectionName)
+  const collection = useContentsCollection(refTable, role)
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
-    if (collection) {
+    if (collection && document.get(name)) {
       const subscription = document
         .get$(name)
         .pipe(
@@ -46,22 +45,13 @@ export const DocumentSelectField: FieldComponent = ({
         .subscribe((refDocument) => setData(refDocument))
       return () => subscription.unsubscribe()
     }
-  }, [
-    document,
-    name,
-    refCollectionName,
-    property,
-    refTable,
-    tableinfo.id,
-    role,
-    collection
-  ])
+  }, [document, name, property, refTable, tableinfo.id, role, collection])
 
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),
     []
   )
-  const { result } = useRxData<Contents>(refCollectionName, queryConstructor)
+  const { result } = useRxData<Contents>(collection?.name, queryConstructor)
 
   const options = useOptions(refTable, result, role)
 
@@ -79,7 +69,7 @@ export const DocumentSelectField: FieldComponent = ({
       tableinfo={refTable}
       role={role}
       document={data}
-      componentName="label"
+      componentName="tag"
       edit={false}
     />
   ) : null

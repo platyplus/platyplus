@@ -28,6 +28,7 @@ const modelTypeConstructor: Record<
 > = {
   collection: (db, tableInfo, role, property) =>
     Types.ArrayType().addRule((value: string[]): Promise<boolean> | boolean => {
+      if (!value) return true
       // * check if every id points to an existing document
       const relTable = relationshipTable(tableInfo, property.relationship)
       const relCollectionName = collectionName(relTable, role)

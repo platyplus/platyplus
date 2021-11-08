@@ -27,8 +27,12 @@ export const useDocumentPermissions = (
     check()
   }, [form, model])
   useEffect(() => {
-    setEdit(canEdit(tableInfo, role, document))
-    setRemove(canRemove(tableInfo, role, document))
+    // ? use Suspense instead ?
+    const check = async () => {
+      setEdit(canEdit(tableInfo, role, document))
+      setRemove(await canRemove(tableInfo, role, document))
+    }
+    check()
   }, [document, tableInfo, role])
   return { edit, remove, save }
 }

@@ -13,9 +13,12 @@ export const useFormIsValid = (
   const form = useFormGet(tableInfo, role, document)
   const model = useFormModel(tableInfo, role, form)
   useEffect(() => {
-    model.checkAsync(form).then((check) => {
+    // ? Use Suspense instead ?
+    const go = async () => {
+      const check = await model.checkAsync(form)
       setValid(Object.values(check).every((value) => !value.hasError))
-    })
+    }
+    go()
   }, [model, form])
   return isValid
 }

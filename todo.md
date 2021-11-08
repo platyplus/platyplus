@@ -1,26 +1,29 @@
 ## MVP
 
 - [ ] Application
-  - [ ] **foreign key constraints**
-    - [ ] onDelete constraint
-      - [x] m2m specific case
-      - [ ] cascade
-      - [ ] set null - only when columns are nullable - throw error otherwise
-      - [ ] restrict - idem
-      - [ ] no action - idem
-      - [ ] set default - only when default exists or columns are nullable
-    - [ ] onUpdate
-    - [ ] bug on validating form with a required many2one field: is it related?
-  - [ ] canSave: validate data
-    - [ ] only when fk constraints allow it
-  - [ ] **improve online/offline mode** (replication, jwt, logout...) both on dev (memory) and prod (indexeddb)
-    - [ ] rerun tests with some contents
+  - [ ] test online/offline in prod
+  - [ ] small demo
+  - [ ] route to document when clicking on a tag e.g. patient page -> visit page
+  - [ ] one2many & `canRemoveCollectionItem`
+    - [ ] if an item has a FK that is updatable to NULL (or default), then it can 'remove' the item in setting it FK to default or null
+    - [ ] else if the item can be deleted, then it is deleted
+    - [ ] else the item cannot be removed
+    - [ ] --> reflect the logic in the form / the save() phase / the push mutation
+  - [ ] many2many?
+- **Bugs**
+  - [ ] bug on validating form with a required many2one field: is it related to delete FK constraints?
+  - [ ] replication problem when refreshing token
+  - [ ] refetch the entire collection when new columns/relationships are added
+  - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
   - [ ] Configuration guide
     - [ ] 'basic'
     - [ ] extend Platyplus
+  - DB design guide
+    - [ ] onUpdate -> document it out, and primary keys should not change
+    - [ ] document restrict and no action behave in the same way
   - [ ] Installation guide / getting started
     - [ ] Dev
       - [ ] Docker-compose
@@ -35,28 +38,35 @@
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
-- **Bugs**
-  - [ ] replication problem when refreshing token
-  - [ ] refetch the entire collection when new columns/relationships are added
 
 ## MVP 2
 
 - Application
-  - [ ] WS reconnecting: don't try to connect when offline
-  - [ ] deactivate login/register forms when network is down - useNetworkStatus
-  - [ ] don't show 'admin' features when offline? -> don't allow saving them. Persist zustand store
-  - [ ] reset/change password
+  - [ ] password change
   - [ ] avatar picker (image-url component)
+  - [ ] many2one/object as radio
+  - [ ] one2many/array as checkboxes
+  - [ ] embedded/nested relationships in forms, for instance
+    - [ ] ??? non nullable FK means it is nested, e.g. visit.patient_id is not nullable means visit is part of the patient
+          therefore a visit can be added from the patient form?
+    - [ ] patient->visits->new in a `Modal` or even as part of the patient form
+    - [ ] details of patient->visits as part of the patient form
+  - [ ] easynut demo
+  - [ ] C(R)UD tables/fields/relationships/permissions from the app?
+  - [ ] only update modified fields in the zustand form store?
+        only send modified fields in the replication mutation?
 - [ ] Platyplus Tilt extension
 
 ## Post-MVP
 
-- security: remove immer 8 -> -> -> react-scripts?
-- [ ] review `nx version` & `nx publish`
 - Application
+  - [ ] don't show 'admin' features when offline? -> don't allow saving them. Persist zustand store
+  - [ ] deactivate login/register forms when network is down - useNetworkStatus
+  - [ ] WS reconnecting: don't try to connect when offline
   - [ ] set registration/login/home config in `config.json` - and then link to HBP config in the platyplus chart
+  - [ ] user activation by email
+    - [ ] reset password
   - [ ] WS too many attempts (one per collection - too much when x collections)
-  - [ ] destroy database on logout
   - [ ] nullable values vs default values vs form values
   - [ ] work on form validation rules
     - [ ] Postgres domain e.g. email
@@ -82,6 +92,8 @@
       - [ ] array
       - [ ] uri
   - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
+- security: remove immer 8 -> -> -> react-scripts?
+- [ ] review `nx version` & `nx publish`
 
 ## Then
 
@@ -96,7 +108,6 @@
     - [ ] details on permissions
   - [ ] permissions
   - [ ] add Hasura permissions to create/update/remove permissions
-  - [ ] automate required permissions and fields e.g. updated_at, id etc on the backend (to simplify adding tables to the application)
 - Hasura Schema sharing? (https://hasura.io/events/hasura-con-2021/talks/hasura-schema-sharing/)
 - Charts
   - [ ] Hasura: wait for postrges service to be ready
