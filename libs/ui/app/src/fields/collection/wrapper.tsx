@@ -1,3 +1,4 @@
+import { switchMap } from 'rxjs'
 import { useCallback, useEffect, useState } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
@@ -11,7 +12,6 @@ import { useContentsCollection, useOptions } from '@platyplus/react-rxdb-hasura'
 import { CollectionComponentWrapper } from '../../collections'
 import { FieldControl } from '../utils'
 import { CollectionFieldComponent } from './types'
-import { switchMap } from 'rxjs'
 
 export const CollectionField: CollectionFieldComponent = ({
   document,
