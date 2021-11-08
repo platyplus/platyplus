@@ -3,7 +3,6 @@
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo
-  - [ ] route to document when clicking on a tag e.g. patient page -> visit page
   - [ ] one2many & `canRemoveCollectionItem`
     - [ ] if an item has a FK that is updatable to NULL (or default), then it can 'remove' the item in setting it FK to default or null
     - [ ] else if the item can be deleted, then it is deleted
@@ -12,7 +11,6 @@
   - [ ] many2many?
 - **Bugs**
   - [ ] bug on validating form with a required many2one field: is it related to delete FK constraints?
-  - [ ] replication problem when refreshing token
   - [ ] refetch the entire collection when new columns/relationships are added
   - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
 - [ ] Documentation
