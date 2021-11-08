@@ -11,14 +11,15 @@ export const useCollectionFieldAccepter = ({
   name,
   onChange
 }: CollectionFieldProps) => {
-  const [disabledItemValues, setDisabledItemValues] = useState([])
+  const [disabledItemValues, setDisabledItemValues] = useState<string[]>([])
   useEffect(() => {
     // ? use Suspense instead ?
     const go = async () => {
-      const values = []
+      const values: string[] = []
       for (const item of initial) {
-        if (!(await canRemoveCollectionItem(tableinfo, role, name, item)))
-          values.push(item)
+        if (!(await canRemoveCollectionItem(tableinfo, role, name, item))) {
+          values.push(item.id)
+        }
       }
       // ? What about removable items not being part of initial values? Are they indeed always removable?
       setDisabledItemValues(values)
@@ -35,8 +36,10 @@ export const useCollectionFieldAccepter = ({
 
   const onChangeProxy = useCallback(
     (newValue: string[], event) => {
-      const okValues = newValue.filter((v) => !disabledItemValues.includes(v))
-      if (okValues.length) onChange(okValues, event)
+      onChange(
+        newValue.filter((v) => !disabledItemValues.includes(v)),
+        event
+      )
     },
     [disabledItemValues, onChange]
   )
