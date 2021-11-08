@@ -14,7 +14,7 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: minio.enabled
   - name: hasura
-    version: 1.1.0
+    version: 1.1.1
     repository: file://../hasura
     condition: hasura.enabled
   - name: common
