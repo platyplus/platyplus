@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/platyplus/platydev/compare/util-pulumi@0.2.2...util-pulumi@0.3.0) (2021-11-08)
+
+
+### Features
+
+* export provider IPs ([ef0398e](https://github.com/platyplus/platydev/commit/ef0398e1ec2bbb3b277c6fd317f7b74077a3370d))
+
+
+
 ## [0.2.2](https://github.com/platyplus/platyplus/compare/util-pulumi@0.2.1...util-pulumi@0.2.2) (2021-10-16)
 
 ### Bug Fixes
