@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.1.0](https://github.com/platyplus/platydev/compare/hasura@0.0.2...hasura@0.1.0) (2021-11-08)
+
+
+### Bug Fixes
+
+* custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
+
+
+### Features
+
+* configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+* custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+* destroy db on logout ([8abe66f](https://github.com/platyplus/platydev/commit/8abe66f61e688dca373368ba0d19ed554ff9afa0))
+* rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+
+
+
 ## [0.0.2](https://github.com/platyplus/platyplus/compare/hasura@0.0.1...hasura@0.0.2) (2021-10-09)
 
 ### Bug Fixes
