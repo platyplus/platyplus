@@ -1,4 +1,12 @@
 # Changelog
+## [1.1.1](https://github.com/platyplus/platydev/compare/charts-hasura@1.1.0...charts-hasura@1.1.1) (2021-11-08)
+
+
+### Bug Fixes
+
+* specify jwk_url instead of key+type in Hasura helm chart ([66be084](https://github.com/platyplus/platydev/commit/66be0843ed481e993c0c1dfc36ae8a1bb0787f25)), closes [#16](https://github.com/platyplus/platydev/issues/16)
+
+
 
 # [1.1.0](https://github.com/platyplus/platydev/compare/charts-hasura@0.1.8...charts-hasura@1.0.0) (2021-10-17)
 
