@@ -35,17 +35,25 @@ export const DocumentSelectField: FieldComponent = ({
   const collection = useContentsCollection(refTable, role)
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
-    if (collection && document.get(name)) {
+    if (collection && document) {
       const subscription = document
         .get$(name)
         .pipe(
-          filter((id) => !!id),
+          filter((id) => {
+            if (id) return true
+            else {
+              setData(null)
+              return false
+            }
+          }),
           switchMap((id) => collection.findOne(id).$)
         )
-        .subscribe((refDocument) => setData(refDocument))
+        .subscribe((refDocument) => {
+          setData(refDocument)
+        })
       return () => subscription.unsubscribe()
     }
-  }, [document, name, property, refTable, tableinfo.id, role, collection])
+  }, [document, name, tableinfo.id, role, collection])
 
   const queryConstructor = useCallback(
     (collection) => collection.find().sort('label'),

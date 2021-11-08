@@ -3,12 +3,6 @@
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo
-  - [ ] one2many & `canRemoveCollectionItem`
-    - [ ] if an item has a FK that is updatable to NULL (or default), then it can 'remove' the item in setting it FK to default or null
-    - [ ] else if the item can be deleted, then it is deleted
-    - [ ] else the item cannot be removed
-    - [ ] --> reflect the logic in the form / the save() phase / the push mutation
-  - [ ] many2many?
 - **Bugs**
   - [ ] bug on validating form with a required many2one field: is it related to delete FK constraints?
   - [ ] refetch the entire collection when new columns/relationships are added
@@ -58,6 +52,9 @@
 ## Post-MVP
 
 - Application
+
+  - [ ] remove one2many (and many2many?) item: when FK cannot be set to null/default BUT referenced item can be deleted, then delete it
+
   - [ ] don't show 'admin' features when offline? -> don't allow saving them. Persist zustand store
   - [ ] deactivate login/register forms when network is down - useNetworkStatus
   - [ ] WS reconnecting: don't try to connect when offline
@@ -90,6 +87,7 @@
       - [ ] array
       - [ ] uri
   - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
+
 - security: remove immer 8 -> -> -> react-scripts?
 - [ ] review `nx version` & `nx publish`
 
