@@ -5,7 +5,7 @@ home: https://platy.plus/charts/hasura.html
 sources:
   - https://github.com/platyplus/platyplus/tree/master/charts/hasura
   - https://github.com/hasura/graphql-engine
-icon: https://raw.githubusercontent.com/hasura/graphql-engine/master/assets/brand/hasura_icon_blue.svg
+icon: https://raw.githubusercontent.com/hasura/graphql-engine/3f8013abcb21aa6b732c739e06364a4e9c994a46/assets/brand/hasura_icon_colour.svg
 type: application
 version: 1.1.1
 appVersion: v2.0.9
