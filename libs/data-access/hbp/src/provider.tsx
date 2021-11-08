@@ -12,10 +12,10 @@ const Context = createContext<Pick<NhostClient, 'auth' | 'storage'>>({
 export const createHbpClient = (authUrl: string) => {
   const { auth, storage } = createClient({
     baseURL: authUrl,
-    useCookies: false,
+    useCookies: false
     // * Autorefresh interval in ms (defaults to Math.max(30 * 1000, JWTExpiresIn - 45000))
     // TODO use the jwt.expires.in value of HBP
-    refreshIntervalTime: 10000
+    // refreshIntervalTime: 10000
   })
 
   function updateOnlineStatus(event: Event) {
