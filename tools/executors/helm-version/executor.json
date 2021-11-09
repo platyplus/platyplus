@@ -1,14 +1,9 @@
 {
   "executors": {
-    "pre-version": {
-      "implementation": "./pre-version",
-      "schema": "./pre-version.schema.json",
-      "description": "Prepare Helm version"
-    },
-    "post-version": {
-      "implementation": "./post-version",
-      "schema": "./post-version.schema.json",
-      "description": "Post Helm version"
+    "version": {
+      "implementation": "./version",
+      "schema": "./version.schema.json",
+      "description": "Helm version"
     }
   }
 }

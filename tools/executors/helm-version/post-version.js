@@ -3,7 +3,7 @@ const yaml = require('js-yaml')
 const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
-// TODO unify pre-version + runExecutor + post-version
+
 async function postVersion(
   { dryRun = false, tag },
   { workspace, root, projectName }

@@ -32,35 +32,19 @@
             "command": "helm cm-push charts/hasura platyplus"
           }
         },
-        "pre-version": {
-          "executor": "./tools/executors/helm-version:pre-version",
+        "version": {
           "dependsOn": [
             {
               "target": "version",
               "projects": "dependencies"
             }
-          ]
-        },
-        "version": {
-          "dependsOn": [
-            {
-              "target": "pre-version",
-              "projects": "self"
-            }
           ],
 
-          "executor": "@jscutlery/semver:version",
+          "executor": "./tools/executors/helm-version:version",
           "options": {
             "baseBranch": "master",
             "versionTagPrefix": "${target}@",
-            "trackDeps": true,
-            "postTargets": ["charts-hasura:post-version"]
-          }
-        },
-        "post-version": {
-          "executor": "./tools/executors/helm-version:post-version",
-          "options": {
-            "tag": "${tag}"
+            "trackDeps": true
           }
         }
       }
@@ -76,34 +60,18 @@
             "command": "helm cm-push charts/hasura-backend-plus platyplus"
           }
         },
-        "pre-version": {
-          "executor": "./tools/executors/helm-version:pre-version",
+        "version": {
           "dependsOn": [
             {
               "target": "version",
               "projects": "dependencies"
             }
-          ]
-        },
-        "version": {
-          "dependsOn": [
-            {
-              "target": "pre-version",
-              "projects": "self"
-            }
           ],
-          "executor": "@jscutlery/semver:version",
+          "executor": "./tools/executors/helm-version:version",
           "options": {
             "baseBranch": "master",
             "versionTagPrefix": "${target}@",
-            "trackDeps": true,
-            "postTargets": ["charts-hasura-backend-plus:post-version"]
-          }
-        },
-        "post-version": {
-          "executor": "./tools/executors/helm-version:post-version",
-          "options": {
-            "tag": "${tag}"
+            "trackDeps": true
           }
         }
       }
@@ -119,34 +87,18 @@
             "commands": ["helm cm-push charts/platyplus platyplus"]
           }
         },
-        "pre-version": {
-          "executor": "./tools/executors/helm-version:pre-version",
+        "version": {
           "dependsOn": [
             {
               "target": "version",
               "projects": "dependencies"
             }
-          ]
-        },
-        "version": {
-          "dependsOn": [
-            {
-              "target": "pre-version",
-              "projects": "self"
-            }
           ],
-          "executor": "@jscutlery/semver:version",
+          "executor": "./tools/executors/helm-version:version",
           "options": {
             "baseBranch": "master",
             "versionTagPrefix": "${target}@",
-            "trackDeps": true,
-            "postTargets": ["charts-platyplus:post-version"]
-          }
-        },
-        "post-version": {
-          "executor": "./tools/executors/helm-version:post-version",
-          "options": {
-            "tag": "${tag}"
+            "trackDeps": true
           }
         }
       }
@@ -162,34 +114,18 @@
             "command": "helm cm-push charts/standard-service platyplus"
           }
         },
-        "pre-version": {
-          "executor": "./tools/executors/helm-version:pre-version",
+        "version": {
           "dependsOn": [
             {
               "target": "version",
               "projects": "dependencies"
             }
-          ]
-        },
-        "version": {
-          "dependsOn": [
-            {
-              "target": "pre-version",
-              "projects": "self"
-            }
           ],
-          "executor": "@jscutlery/semver:version",
+          "executor": "./tools/executors/helm-version:version",
           "options": {
             "baseBranch": "master",
             "versionTagPrefix": "${target}@",
-            "trackDeps": true,
-            "postTargets": ["charts-standard-service:post-version"]
-          }
-        },
-        "post-version": {
-          "executor": "./tools/executors/helm-version:post-version",
-          "options": {
-            "tag": "${tag}"
+            "trackDeps": true
           }
         }
       }
