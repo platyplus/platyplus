@@ -26,21 +26,42 @@
       "sourceRoot": "charts/hasura",
       "projectType": "application",
       "targets": {
-        "prepare": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm dependency build charts/hasura",
-            "parallel": false
-          }
-        },
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "helm cm-push charts/hasura platyplus"
           }
         },
+        "pre-version": {
+          "executor": "./tools/executors/helm-version:pre-version",
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ]
+        },
         "version": {
-          "executor": "./tools/executors/helm:version"
+          "dependsOn": [
+            {
+              "target": "pre-version",
+              "projects": "self"
+            }
+          ],
+
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true,
+            "postTargets": ["charts-hasura:post-version"]
+          }
+        },
+        "post-version": {
+          "executor": "./tools/executors/helm-version:post-version",
+          "options": {
+            "tag": "${tag}"
+          }
         }
       }
     },
@@ -49,21 +70,41 @@
       "sourceRoot": "charts/hasura-backend-plus",
       "projectType": "application",
       "targets": {
-        "prepare": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm dependency update charts/hasura-backend-plus",
-            "parallel": false
-          }
-        },
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "helm cm-push charts/hasura-backend-plus platyplus"
           }
         },
+        "pre-version": {
+          "executor": "./tools/executors/helm-version:pre-version",
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ]
+        },
         "version": {
-          "executor": "./tools/executors/helm:version"
+          "dependsOn": [
+            {
+              "target": "pre-version",
+              "projects": "self"
+            }
+          ],
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true,
+            "postTargets": ["charts-hasura-backend-plus:post-version"]
+          }
+        },
+        "post-version": {
+          "executor": "./tools/executors/helm-version:post-version",
+          "options": {
+            "tag": "${tag}"
+          }
         }
       }
     },
@@ -72,21 +113,41 @@
       "sourceRoot": "charts/platyplus",
       "projectType": "application",
       "targets": {
-        "prepare": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": ["helm dependency update charts/platyplus"],
-            "parallel": false
-          }
-        },
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": ["helm cm-push charts/platyplus platyplus"]
           }
         },
+        "pre-version": {
+          "executor": "./tools/executors/helm-version:pre-version",
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ]
+        },
         "version": {
-          "executor": "./tools/executors/helm:version"
+          "dependsOn": [
+            {
+              "target": "pre-version",
+              "projects": "self"
+            }
+          ],
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true,
+            "postTargets": ["charts-platyplus:post-version"]
+          }
+        },
+        "post-version": {
+          "executor": "./tools/executors/helm-version:post-version",
+          "options": {
+            "tag": "${tag}"
+          }
         }
       }
     },
@@ -95,21 +156,41 @@
       "sourceRoot": "charts/standard-service",
       "projectType": "application",
       "targets": {
-        "prepare": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "helm dependency update charts/standard-service",
-            "parallel": false
-          }
-        },
         "publish": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "helm cm-push charts/standard-service platyplus"
           }
         },
+        "pre-version": {
+          "executor": "./tools/executors/helm-version:pre-version",
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ]
+        },
         "version": {
-          "executor": "./tools/executors/helm:version"
+          "dependsOn": [
+            {
+              "target": "pre-version",
+              "projects": "self"
+            }
+          ],
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true,
+            "postTargets": ["charts-standard-service:post-version"]
+          }
+        },
+        "post-version": {
+          "executor": "./tools/executors/helm-version:post-version",
+          "options": {
+            "tag": "${tag}"
+          }
         }
       }
     },
@@ -170,7 +251,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -230,7 +312,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -292,7 +375,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -354,7 +438,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -417,7 +502,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -461,7 +547,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -583,7 +670,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -607,13 +695,6 @@
             "lintFilePatterns": ["apps/platyplus-e2e/**/*.{js,ts}"]
           },
           "outputs": ["{options.outputFile}"]
-        },
-        "version": {
-          "executor": "@jscutlery/semver:version",
-          "options": {
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          }
         }
       }
     },
@@ -672,7 +753,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -732,7 +814,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -792,7 +875,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -852,7 +936,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -912,7 +997,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -1005,7 +1091,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -1065,7 +1152,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -1127,7 +1215,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -1212,7 +1301,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }
@@ -1272,7 +1362,8 @@
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
           }
         }
       }

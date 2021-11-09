@@ -1,3 +1,4 @@
+# TODO create an Nx executor
 WORKING_DIR=dist/libs/$1
 
 PACKAGE_NAME=$(jq -r '.name // "" | select(. != "") // ""' $WORKING_DIR/package.json)

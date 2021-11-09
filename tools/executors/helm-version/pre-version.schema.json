@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "platyplus-helm-pre-version",
+  "title": "Nx Helm executor",
+  "description": "Automate Helm pre-version",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "dryRun": {
+      "description": "See what commands would be run, without actually doing anything.",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": []
+}

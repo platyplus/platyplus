@@ -1,5 +1,6 @@
 #!/bin/sh
 # * docker.sh <build|push> <app-name>
+# TODO create an Nx executor
 # TODO will only for last commit
 
 ORG=platyplus
