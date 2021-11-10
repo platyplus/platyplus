@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.14](https://github.com/platyplus/platydev/compare/util-amqp@0.0.13...util-amqp@0.0.14) (2021-11-10)
+
+
+
 ## [0.0.13](https://github.com/platyplus/platydev/compare/util-amqp@0.0.12...util-amqp@0.0.13) (2021-11-08)
 
 
