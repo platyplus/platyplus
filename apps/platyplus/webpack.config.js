@@ -76,7 +76,7 @@ module.exports = (config, context) => {
       swSrc: './service-worker.ts',
       swDest: 'service-worker.js',
       maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
-      exclude: isProd ? null : [/(.*?)/]
+      exclude: isProd ? [] : [/(.*?)/]
     })
   )
 
