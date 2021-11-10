@@ -1,0 +1,28 @@
+{
+  "root": "charts/hasura",
+  "sourceRoot": "charts/hasura",
+  "projectType": "application",
+  "targets": {
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "helm cm-push charts/hasura platyplus"
+      }
+    },
+    "version": {
+      "dependsOn": [
+        {
+          "target": "version",
+          "projects": "dependencies"
+        }
+      ],
+      "executor": "./tools/executors/helm-version:version",
+      "options": {
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,65 @@
+{
+  "root": "libs/util/jsonata-schema",
+  "sourceRoot": "libs/util/jsonata-schema/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/jsonata-schema",
+        "tsConfig": "libs/util/jsonata-schema/tsconfig.lib.json",
+        "project": "libs/util/jsonata-schema/package.json",
+        "entryFile": "libs/util/jsonata-schema/src/index.ts",
+        "external": ["react", "react-dom", "react-router"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "assets": [
+          {
+            "glob": "libs/util/jsonata-schema/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "publish": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "./tools/executors/npm-publish:publish"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/util/jsonata-schema/**/*.{ts,tsx,js,jsx}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/util/jsonata-schema"],
+      "options": {
+        "jestConfig": "libs/util/jsonata-schema/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "dependsOn": [
+        {
+          "target": "version",
+          "projects": "dependencies"
+        }
+      ],
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

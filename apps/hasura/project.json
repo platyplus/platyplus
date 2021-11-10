@@ -1,0 +1,52 @@
+{
+  "root": "apps/hasura",
+  "sourceRoot": "apps/hasura",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "./tools/executors/docker.sh build hasura"
+      }
+    },
+    "publish-docker": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "./tools/executors/docker.sh push hasura"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": ":"
+      },
+      "dependsOn": [
+        {
+          "target": "publish-docker",
+          "projects": "self"
+        }
+      ]
+    },
+    "version": {
+      "dependsOn": [
+        {
+          "target": "version",
+          "projects": "dependencies"
+        }
+      ],
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

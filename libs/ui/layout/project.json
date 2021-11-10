@@ -1,0 +1,65 @@
+{
+  "root": "libs/ui/layout",
+  "sourceRoot": "libs/ui/layout/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/ui/layout",
+        "tsConfig": "libs/ui/layout/tsconfig.lib.json",
+        "project": "libs/ui/layout/package.json",
+        "entryFile": "libs/ui/layout/src/index.ts",
+        "external": ["react", "react-dom", "react-router"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "assets": [
+          {
+            "glob": "libs/ui/layout/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "publish": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "./tools/executors/npm-publish:publish"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/ui/layout/**/*.{ts,tsx,js,jsx}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/layout"],
+      "options": {
+        "jestConfig": "libs/ui/layout/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "dependsOn": [
+        {
+          "target": "version",
+          "projects": "dependencies"
+        }
+      ],
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

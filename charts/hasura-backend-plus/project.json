@@ -1,0 +1,29 @@
+{
+  "root": "charts/hasura-backend-plus",
+  "sourceRoot": "charts/hasura-backend-plus",
+  "projectType": "application",
+  "targets": {
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "helm cm-push charts/hasura-backend-plus platyplus"
+      }
+    },
+    "version": {
+      "dependsOn": [
+        {
+          "target": "version",
+          "projects": "dependencies"
+        }
+      ],
+      "executor": "./tools/executors/helm-version:version",
+      "options": {
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["charts-hasura"]
+}

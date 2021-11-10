@@ -1,0 +1,130 @@
+{
+  "root": "apps/platyplus",
+  "sourceRoot": "apps/platyplus/src",
+  "projectType": "application",
+  "targets": {
+    "build-webpack": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/platyplus",
+        "index": "apps/platyplus/src/index.html",
+        "generateIndexHtml": false,
+        "main": "apps/platyplus/src/main.tsx",
+        "polyfills": "apps/platyplus/src/polyfills.ts",
+        "tsConfig": "apps/platyplus/tsconfig.app.json",
+        "assets": ["apps/platyplus/src/assets"],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "apps/platyplus/webpack.config.js",
+        "fileReplacements": [
+          {
+            "replace": "apps/platyplus/src/environments/environment.ts",
+            "with": "apps/platyplus/src/environments/environment.prod.ts"
+          }
+        ],
+        "optimization": true,
+        "statsJson": false,
+        "outputHashing": "all",
+        "sourceMap": false,
+        "extractCss": true,
+        "namedChunks": false,
+        "extractLicenses": true,
+        "vendorChunk": true,
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "5mb"
+          }
+        ]
+      },
+      "configurations": {
+        "dev": {
+          "fileReplacements": [],
+          "optimization": false,
+          "outputHashing": "none",
+          "sourceMap": true,
+          "extractCss": false,
+          "namedChunks": false,
+          "extractLicenses": false,
+          "vendorChunk": false,
+          "budgets": [],
+          "statsJson": true
+        }
+      }
+    },
+    "build": {
+      "dependsOn": [
+        {
+          "target": "build-webpack",
+          "projects": "self"
+        }
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "./tools/executors/docker.sh build platyplus"
+      }
+    },
+    "publish-docker": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "./tools/executors/docker.sh push platyplus"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": ":"
+      },
+      "dependsOn": [
+        {
+          "target": "publish-docker",
+          "projects": "self"
+        }
+      ]
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "platyplus:build-webpack:dev"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/platyplus/**/*.{ts,tsx,js,jsx}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/platyplus"],
+      "options": {
+        "jestConfig": "apps/platyplus/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "dependsOn": [
+        {
+          "target": "version",
+          "projects": "dependencies"
+        }
+      ],
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -25,89 +25,6 @@
       }
     }
   },
-  "projects": {
-    "charts-hasura": {
-      "tags": []
-    },
-    "charts-hasura-backend-plus": {
-      "tags": [],
-      "implicitDependencies": ["charts-hasura"]
-    },
-    "charts-platyplus": {
-      "tags": [],
-      "implicitDependencies": [
-        "charts-hasura-backend-plus",
-        "charts-standard-service"
-      ]
-    },
-    "charts-standard-service": {
-      "tags": []
-    },
-    "data-access-hasura-client": {
-      "tags": []
-    },
-    "data-access-hbp": {
-      "tags": []
-    },
-    "data-access-react-rxdb-hasura": {
-      "tags": []
-    },
-    "data-access-rxdb-hasura": {
-      "tags": []
-    },
-    "documentation": {
-      "tags": []
-    },
-    "hasura": {
-      "tags": []
-    },
-    "hasura-cli": {
-      "tags": []
-    },
-    "platyplus": {
-      "tags": []
-    },
-    "platyplus-e2e": {
-      "tags": [],
-      "implicitDependencies": ["platyplus"]
-    },
-    "ui-app": {
-      "tags": []
-    },
-    "ui-auth": {
-      "tags": []
-    },
-    "ui-layout": {
-      "tags": []
-    },
-    "ui-navigation": {
-      "tags": []
-    },
-    "ui-profile": {
-      "tags": []
-    },
-    "ui-theme": {
-      "tags": []
-    },
-    "util-amqp": {
-      "tags": []
-    },
-    "util-data": {
-      "tags": []
-    },
-    "util-jsonata-schema": {
-      "tags": []
-    },
-    "util-logger": {
-      "tags": []
-    },
-    "util-pulumi": {
-      "tags": []
-    },
-    "util-ts-types": {
-      "tags": []
-    }
-  },
   "targetDependencies": {
     "build": [
       {
@@ -115,5 +32,25 @@
         "projects": "dependencies"
       }
     ]
-  }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "styled-components"
+      },
+      "library": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "platyplus"
 }

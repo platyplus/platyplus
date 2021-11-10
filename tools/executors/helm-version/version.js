@@ -11,9 +11,10 @@ const { default: postVersion } = require('./post-version')
 const trimPrefix = (str, prefix) =>
   str.startsWith(prefix) && str.slice(prefix.length)
 
-async function version({ push, ...options }, context) {
+async function version(options, context) {
   const { root, projectName, workspace } = context
-  const { dryRun, versionTagPrefix, noVerify, remote, baseBranch } = options
+  const { dryRun, versionTagPrefix, noVerify, remote, baseBranch, push } =
+    options
   const projectRoot = workspace.projects[projectName].root
   const chartPath = path.join(root, projectRoot)
 
@@ -52,7 +53,7 @@ async function version({ push, ...options }, context) {
         execSync(`helm dependency update ${chartPath}`, opts)
         execSync(`git add ${chartPath}`, opts)
         execSync(
-          `git commit -m "chore: bump dependency versions ${changes
+          `git commit -m "chore(release): bump dependency versions ${changes
             .map((d) => d.name)
             .join(', ')}"`
         )
@@ -60,6 +61,7 @@ async function version({ push, ...options }, context) {
     } else {
       logger.log('No changes of depencendy versions')
     }
+    logger.log(`executing @jscutlery/semver (dryRun:${dryRun})`)
     const result = await semverExecutor({ ...options, push: false }, context)
     if (!result.success) {
       logger.error('Failed to run @jscutlery/semver:version')
