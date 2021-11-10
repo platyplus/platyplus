@@ -3,7 +3,7 @@
     "version": {
       "implementation": "./version",
       "schema": "./version.schema.json",
-      "description": "Bump Helm charts versions"
+      "description": "Helm version"
     }
   }
 }
