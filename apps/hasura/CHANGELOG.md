@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/platyplus/platydev/compare/hasura@0.1.0...hasura@0.1.1) (2021-11-10)
+
+
+### Bug Fixes
+
+* correct default seed values in pages table ([062a6ff](https://github.com/platyplus/platydev/commit/062a6ff39b206532a7ae39ae4fc02d4cc7483dad))
+
+
+
 # [0.1.0](https://github.com/platyplus/platydev/compare/hasura@0.0.2...hasura@0.1.0) (2021-11-08)
 
 ## [0.0.2](https://github.com/platyplus/platyplus/compare/hasura@0.0.1...hasura@0.0.2) (2021-10-09)
