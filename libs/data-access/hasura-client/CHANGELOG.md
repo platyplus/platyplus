@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.4](https://github.com/platyplus/platydev/compare/data-access-hasura-client@0.1.3...data-access-hasura-client@0.1.4) (2021-11-10)
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/data-access-hasura-client@0.1.2...data-access-hasura-client@0.1.3) (2021-11-08)
 
 
