@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.2](https://github.com/platyplus/platydev/compare/platyplus@0.3.1...platyplus@0.3.2) (2021-11-10)
+
+
+### Bug Fixes
+
+* correct webpack config ([e3545bb](https://github.com/platyplus/platydev/commit/e3545bb1664d51d87c2a8d3996913750bf8759df))
+
+
+
 ## [0.3.1](https://github.com/platyplus/platydev/compare/platyplus@0.3.0...platyplus@0.3.1) (2021-11-10)
 
 
