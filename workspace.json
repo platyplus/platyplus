@@ -39,7 +39,6 @@
               "projects": "dependencies"
             }
           ],
-
           "executor": "./tools/executors/helm-version:version",
           "options": {
             "baseBranch": "master",
@@ -182,6 +181,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -240,6 +245,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -301,6 +312,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -362,6 +379,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -426,6 +449,12 @@
           ]
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -471,6 +500,12 @@
           ]
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -594,6 +629,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -674,6 +715,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -732,6 +779,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -790,6 +843,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -849,6 +908,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -908,6 +973,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -1000,6 +1071,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -1059,6 +1136,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -1119,6 +1202,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -1169,6 +1258,12 @@
           "executor": "./tools/executors/npm-publish:publish"
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -1220,6 +1315,12 @@
         },
 
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",
@@ -1279,6 +1380,12 @@
           }
         },
         "version": {
+          "dependsOn": [
+            {
+              "target": "version",
+              "projects": "dependencies"
+            }
+          ],
           "executor": "@jscutlery/semver:version",
           "options": {
             "baseBranch": "master",

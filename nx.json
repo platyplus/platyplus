@@ -18,7 +18,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "cacheableOperations": ["build", "lint", "test", "e2e", "version"],
         "accessToken": "NDI5ZmUwZjktNTFkYS00MjIxLWIxMGMtYzhhODFlY2NmZWJlfHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true
@@ -35,7 +35,10 @@
     },
     "charts-platyplus": {
       "tags": [],
-      "implicitDependencies": ["hasura", "platyplus"]
+      "implicitDependencies": [
+        "charts-hasura-backend-plus",
+        "charts-standard-service"
+      ]
     },
     "charts-standard-service": {
       "tags": []

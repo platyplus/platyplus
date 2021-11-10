@@ -87,6 +87,7 @@
       - [ ] object
       - [ ] array
       - [ ] uri
+    - http://127.0.0.1nip.io and chrome://flags/#unsafely-treat-insecure-origin-as-secure
   - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
 
 - security: remove immer 8 -> -> -> react-scripts?

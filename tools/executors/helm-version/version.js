@@ -65,6 +65,7 @@ async function version({ push, ...options }, context) {
       logger.error('Failed to run @jscutlery/semver:version')
       return result
     }
+    logger.log('@jscutlery/semver executed')
     return await postVersion(
       { dryRun, versionTagPrefix, push, noVerify, remote, baseBranch },
       context
