@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "platyplus-npm-publish",
+  "title": "NPM publisher",
+  "description": "Publish package to NPM",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "dryRun": {
+      "description": "See what commands would be run, without committing to git or updating files.",
+      "type": "boolean",
+      "default": false
+    }
+  },
+
+  "required": []
+}

@@ -161,6 +161,7 @@
     "husky": "^6.0.0",
     "jest": "27.0.3",
     "mini-css-extract-plugin": "^2.1.0",
+    "npm-api": "^1.0.1",
     "prettier": "2.3.2",
     "react-json-view": "^1.21.3",
     "react-refresh": "^0.10.0",

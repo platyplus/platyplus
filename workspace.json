@@ -161,11 +161,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh data-access/hasura-client"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -224,10 +222,7 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh data-access/hbp"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -285,11 +280,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh data-access/react-rxdb-hasura"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -348,11 +341,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh data-access/rxdb-hasura"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -665,10 +656,7 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh ui/app"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -726,10 +714,7 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh ui/auth"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -787,10 +772,7 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh ui/layout"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -848,11 +830,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh ui/navigation"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -909,11 +889,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh ui/profile"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -1003,11 +981,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh util/amqp"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -1064,11 +1040,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh util/data"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -1125,10 +1099,7 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh util/jsonata-schema"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -1187,6 +1158,23 @@
             "main": "libs/util/logger/src/index.ts",
             "assets": ["libs/util/logger/*.md"]
           }
+        },
+        "publish": {
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "self"
+            }
+          ],
+          "executor": "./tools/executors/npm-publish:publish"
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": {
+            "baseBranch": "master",
+            "versionTagPrefix": "${target}@",
+            "trackDeps": true
+          }
         }
       }
     },
@@ -1228,11 +1216,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh util/pulumi"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
@@ -1274,11 +1260,9 @@
               "projects": "self"
             }
           ],
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "./tools/executors/npm-publish.sh util/ts-types"
-          }
+          "executor": "./tools/executors/npm-publish:publish"
         },
+
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {

@@ -169,3 +169,4 @@
 - [ ] Hasura Auth
   - [ ] Helm Chart
   - [ ] Tilt module
+- [ ] get rid of nx `docker-publish` target when `nx run-many` will accept tags - see https://github.com/nrwl/nx/issues/2675 and https://github.com/nrwl/nx/pull/4557
