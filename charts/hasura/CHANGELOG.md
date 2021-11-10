@@ -10,6 +10,10 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 
 
+## [1.1.2](https://github.com/platyplus/platydev/compare/charts-hasura@1.1.1...charts-hasura@1.1.2) (2021-11-10)
+
+
+
 ## [1.1.1](https://github.com/platyplus/platydev/compare/charts-hasura@1.1.0...charts-hasura@1.1.1) (2021-11-08)
 
 
