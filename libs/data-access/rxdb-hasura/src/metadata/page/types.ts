@@ -5,6 +5,7 @@ export type Page = {
   updated_at: string
   title?: string
   slug: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contents: any[]
   icon?: string
 }

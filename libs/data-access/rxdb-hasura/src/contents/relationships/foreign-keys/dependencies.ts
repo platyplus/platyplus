@@ -1,7 +1,6 @@
-import { ContentsDocument } from '@platyplus/rxdb-hasura'
 import { getCollectionTableInfo, getTableInfo } from '../../../metadata'
 import { ForeignKey } from '../../../metadata/table-information/types'
-import { ContentsCollection, TableInfo } from '../../../types'
+import { ContentsCollection, ContentsDocument, TableInfo } from '../../../types'
 import { collectionName } from '../../../utils'
 
 import {

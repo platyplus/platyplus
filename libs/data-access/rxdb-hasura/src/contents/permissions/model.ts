@@ -5,14 +5,11 @@ import { error, warn } from '@platyplus/logger'
 
 import { Property, TableInformation } from '../../metadata'
 import { tableProperties } from '../properties'
-import {
-  canEdit,
-  collectionName,
-  Contents,
-  Database,
-  isRequiredProperty,
-  relationshipTable
-} from '@platyplus/rxdb-hasura'
+import { Contents, Database } from '../../types'
+import { relationshipTable } from '../relationships'
+import { collectionName } from '../../utils'
+import { canEdit } from './can'
+import { isRequiredProperty } from '../required'
 
 const { Model, Types } = Schema
 
