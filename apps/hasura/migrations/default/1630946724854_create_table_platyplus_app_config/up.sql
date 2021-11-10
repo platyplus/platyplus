@@ -2,7 +2,7 @@ CREATE TABLE "platyplus"."app_config" (
   "id" uuid NOT NULL DEFAULT gen_random_uuid(),
   "updated_at" timestamptz NOT NULL DEFAULT now(),
   "deleted" boolean NOT NULL DEFAULT false,
-  "menu" jsonb NOT NULL DEFAULT '[{"type": "page", "id": "home"}]',
+  "menu" jsonb NOT NULL DEFAULT '[{"type": "page", "id": "home"}]'::jsonb,
   "home" text not null default '/pages/home',
   PRIMARY KEY ("id")
 );
