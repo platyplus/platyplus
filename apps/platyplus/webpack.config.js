@@ -30,56 +30,54 @@ module.exports = (config, context) => {
   const CONFIG = process.env.CONFIG_FILE || (isProd ? 'prod' : 'local')
 
   config.plugins.push(
-    ...[
-      new CopyPlugin({
-        patterns: [
-          {
-            from: `./config.${CONFIG}.json`,
-            to: './config.json'
-          }
-        ]
-      }),
-      new webpack.ProvidePlugin({
-        process: 'process/browser',
-        Buffer: ['buffer', 'Buffer']
-      }),
-      new webpack.EnvironmentPlugin({ DEBUG: false }),
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        title: name,
-        template: path.resolve(__dirname, 'src/index.html'),
-        base: '/',
-        meta: {
-          viewport: 'width=device-width, initial-scale=1'
+    new CopyPlugin({
+      patterns: [
+        {
+          from: `./config.${CONFIG}.json`,
+          to: './config.json'
         }
-      }),
-      new FaviconsWebpackPlugin(path.resolve(__dirname, 'src/logo.png')),
-      new WebpackPwaManifest({
-        name,
-        short_name: shortName,
-        description,
-        display: 'standalone',
-        theme_color: themeColor,
-        background_color: backgroundColor,
-        publicPath: '/',
-        start_url: '.',
-        crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
-        ios: true,
-        icons: [
-          {
-            src: path.resolve(__dirname, 'src/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512],
-            destination: path.join('assets', 'icons')
-          }
-        ]
-      }),
-      new InjectManifest({
-        swSrc: './service-worker.ts',
-        swDest: 'service-worker.js',
-        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
-        exclude: isProd ? [] : [/(.*?)/]
-      })
-    ]
+      ]
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer']
+    }),
+    new webpack.EnvironmentPlugin({ DEBUG: false }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      title: name,
+      template: path.resolve(__dirname, 'src/index.html'),
+      base: '/',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1'
+      }
+    }),
+    new FaviconsWebpackPlugin(path.resolve(__dirname, 'src/logo.png')),
+    new WebpackPwaManifest({
+      name,
+      short_name: shortName,
+      description,
+      display: 'standalone',
+      theme_color: themeColor,
+      background_color: backgroundColor,
+      publicPath: '/',
+      start_url: '.',
+      crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+      ios: true,
+      icons: [
+        {
+          src: path.resolve(__dirname, 'src/logo.png'),
+          sizes: [96, 128, 192, 256, 384, 512],
+          destination: path.join('assets', 'icons')
+        }
+      ]
+    }),
+    new InjectManifest({
+      swSrc: './service-worker.ts',
+      swDest: 'service-worker.js',
+      maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
+      exclude: isProd ? null : [/(.*?)/]
+    })
   )
 
   config.devServer = {
