@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
-const nrwlConfig = require('@nrwl/react/plugins/webpack.js')
+const nrwlConfig = require('@nrwl/react/plugins/webpack')
+
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { InjectManifest } = require('workbox-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
@@ -17,10 +18,6 @@ module.exports = (config, context) => {
   nrwlConfig(config) // first call it so that it @nrwl/react plugin adds its configs, then override your config.
   const isProd =
     config.mode === 'production' || process.env.NODE_ENV === 'production'
-  // ! Webpack resolves the rxjs version of Nx (v6) before the one used by RxDB.
-  // ! => Reverse resolve paths so the 'root' node_module goes first...
-  // * See https://github.com/webpack/webpack/issues/6538
-  config.resolve.modules = config.resolve.modules.reverse()
   config.resolve.fallback = { fs: false, crypto: false }
   // TODO not ideal for debugging
   config.ignoreWarnings = [(warning) => true]
@@ -33,7 +30,7 @@ module.exports = (config, context) => {
     new CopyPlugin({
       patterns: [
         {
-          from: `./config.${CONFIG}.json`,
+          from: `./src/config.${CONFIG}.json`,
           to: './config.json'
         }
       ]
@@ -73,7 +70,7 @@ module.exports = (config, context) => {
       ]
     }),
     new InjectManifest({
-      swSrc: './service-worker.ts',
+      swSrc: './src/service-worker.ts',
       swDest: 'service-worker.js',
       maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // TODO max 15MB - not ideal at all, find a way to reduce/split main.xxx.es5.js and vendor.js
       exclude: isProd ? [] : [/(.*?)/]

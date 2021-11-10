@@ -1,6 +1,6 @@
 import { createGlobalState } from 'react-use'
-import '!style-loader?{"attributes":{"id":"theme"}}!css-loader!less-loader?{"javascriptEnabled":true}!./dark.less'
-import '!style-loader?{"attributes":{"id":"theme"}}!css-loader!less-loader?{"javascriptEnabled":true}!./light.less'
+import '!style-loader?{"attributes":{"id":"theme"}}!css-loader!less-loader?{"lessOptions":{"javascriptEnabled":true}}!./dark.less'
+import '!style-loader?{"attributes":{"id":"theme"}}!css-loader!less-loader?{"lessOptions":{"javascriptEnabled":true}}!./light.less'
 
 type Theme = 'light' | 'dark'
 
