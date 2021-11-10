@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.3](https://github.com/platyplus/platydev/compare/platyplus@0.3.2...platyplus@0.3.3) (2021-11-10)
+
+
+### Bug Fixes
+
+* adapt to post nx 13 bump ([df34b1f](https://github.com/platyplus/platydev/commit/df34b1f76497205536952dc3ec91aa66fb7f27c4))
+
+
+
 ## [0.3.2](https://github.com/platyplus/platydev/compare/platyplus@0.3.1...platyplus@0.3.2) (2021-11-10)
 
 
