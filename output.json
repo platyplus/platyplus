@@ -1,0 +1,709 @@
+{
+  "tasks": [],
+  "projects": [],
+  "projectGraph": {
+    "nodes": [
+      "data-access-react-rxdb-hasura",
+      "data-access-hasura-client",
+      "data-access-rxdb-hasura",
+      "charts-hasura-backend-plus",
+      "util-jsonata-schema",
+      "charts-standard-service",
+      "data-access-hbp",
+      "documentation",
+      "platyplus-e2e",
+      "ui-navigation",
+      "util-ts-types",
+      "charts-platyplus",
+      "util-logger",
+      "util-pulumi",
+      "hasura-cli",
+      "ui-profile",
+      "platyplus",
+      "ui-layout",
+      "util-amqp",
+      "util-data",
+      "charts-hasura",
+      "ui-theme",
+      "ui-auth",
+      "hasura",
+      "ui-app"
+    ],
+    "dependencies": {
+      "data-access-react-rxdb-hasura": [
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "data-access-hbp",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:react-router-dom",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "data-access-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:rxdb-hooks",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:rsuite",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "util-ts-types",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "ui-layout",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:uuid",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "util-data",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:nhost-js-sdk",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "util-logger",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:rxdb",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:deep-equal",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:zustand",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:immer",
+          "type": "static"
+        },
+        {
+          "source": "data-access-react-rxdb-hasura",
+          "target": "npm:object-path",
+          "type": "static"
+        }
+      ],
+      "data-access-hasura-client": [
+        {
+          "source": "data-access-hasura-client",
+          "target": "npm:graphql-request",
+          "type": "static"
+        }
+      ],
+      "data-access-rxdb-hasura": [
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:rxdb",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:handlebars",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:jsonata",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "util-logger",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:uuid",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:rsuite",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "util-data",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:deepmerge",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:json-to-graphql-query",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:deep-equal",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:rxjs",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:pouchdb-adapter-idb",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:pouchdb-adapter-memory",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:graphql-tag",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:immer",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:zustand",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "util-ts-types",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:axios",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:sqlstring",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:graphql",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:jwt-decode",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "util-jsonata-schema",
+          "type": "static"
+        },
+        {
+          "source": "data-access-rxdb-hasura",
+          "target": "npm:subscriptions-transport-ws",
+          "type": "static"
+        }
+      ],
+      "charts-hasura-backend-plus": [
+        {
+          "source": "charts-hasura-backend-plus",
+          "target": "charts-hasura",
+          "type": "implicit"
+        }
+      ],
+      "util-jsonata-schema": [
+        {
+          "source": "util-jsonata-schema",
+          "target": "npm:jsonata",
+          "type": "static"
+        }
+      ],
+      "charts-standard-service": [],
+      "data-access-hbp": [
+        {
+          "source": "data-access-hbp",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "data-access-hbp",
+          "target": "data-access-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "data-access-hbp",
+          "target": "npm:nhost-js-sdk",
+          "type": "static"
+        },
+        {
+          "source": "data-access-hbp",
+          "target": "npm:@nhost/react-auth",
+          "type": "static"
+        },
+        {
+          "source": "data-access-hbp",
+          "target": "util-logger",
+          "type": "static"
+        }
+      ],
+      "documentation": [
+        {
+          "source": "documentation",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "documentation",
+          "target": "npm:clsx",
+          "type": "static"
+        }
+      ],
+      "platyplus-e2e": [
+        {
+          "source": "platyplus-e2e",
+          "target": "platyplus",
+          "type": "implicit"
+        },
+        {
+          "source": "platyplus-e2e",
+          "target": "npm:@nrwl/cypress",
+          "type": "static"
+        }
+      ],
+      "ui-navigation": [
+        {
+          "source": "ui-navigation",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "ui-navigation",
+          "target": "npm:react-router-dom",
+          "type": "static"
+        },
+        {
+          "source": "ui-navigation",
+          "target": "npm:@testing-library/react",
+          "type": "static"
+        },
+        {
+          "source": "ui-navigation",
+          "target": "npm:rsuite",
+          "type": "static"
+        }
+      ],
+      "util-ts-types": [],
+      "charts-platyplus": [
+        {
+          "source": "charts-platyplus",
+          "target": "charts-hasura-backend-plus",
+          "type": "implicit"
+        },
+        {
+          "source": "charts-platyplus",
+          "target": "charts-standard-service",
+          "type": "implicit"
+        }
+      ],
+      "util-logger": [],
+      "util-pulumi": [
+        {
+          "source": "util-pulumi",
+          "target": "npm:@pulumi/kubernetes",
+          "type": "static"
+        },
+        {
+          "source": "util-pulumi",
+          "target": "npm:@pulumi/pulumi",
+          "type": "static"
+        },
+        {
+          "source": "util-pulumi",
+          "target": "npm:@pulumi/digitalocean",
+          "type": "static"
+        },
+        {
+          "source": "util-pulumi",
+          "target": "npm:deepmerge",
+          "type": "static"
+        },
+        {
+          "source": "util-pulumi",
+          "target": "npm:yaml",
+          "type": "static"
+        }
+      ],
+      "hasura-cli": [],
+      "ui-profile": [
+        {
+          "source": "ui-profile",
+          "target": "npm:rsuite",
+          "type": "static"
+        },
+        {
+          "source": "ui-profile",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "ui-profile",
+          "target": "util-data",
+          "type": "static"
+        },
+        {
+          "source": "ui-profile",
+          "target": "data-access-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "ui-profile",
+          "target": "data-access-react-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "ui-profile",
+          "target": "npm:react-router-dom",
+          "type": "static"
+        },
+        {
+          "source": "ui-profile",
+          "target": "data-access-hbp",
+          "type": "static"
+        }
+      ],
+      "platyplus": [
+        {
+          "source": "platyplus",
+          "target": "data-access-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:rxdb",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:react-dom",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "util-logger",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "ui-app",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:core-js",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:regenerator-runtime",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:workbox-routing",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:workbox-precaching",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:@nrwl/react",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:html-webpack-plugin",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:workbox-webpack-plugin",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:webpack-pwa-manifest",
+          "type": "static"
+        },
+        {
+          "source": "platyplus",
+          "target": "npm:favicons-webpack-plugin",
+          "type": "static"
+        }
+      ],
+      "ui-layout": [
+        {
+          "source": "ui-layout",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:rsuite",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:@testing-library/react",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:styled-components",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:react-use",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:react-router-dom",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:slate-react",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:slate",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "npm:slate-history",
+          "type": "static"
+        },
+        {
+          "source": "ui-layout",
+          "target": "util-ts-types",
+          "type": "static"
+        }
+      ],
+      "util-amqp": [
+        {
+          "source": "util-amqp",
+          "target": "npm:amqplib",
+          "type": "static"
+        }
+      ],
+      "util-data": [
+        {
+          "source": "util-data",
+          "target": "npm:deep-equal",
+          "type": "static"
+        },
+        {
+          "source": "util-data",
+          "target": "npm:object-path-immutable",
+          "type": "static"
+        }
+      ],
+      "charts-hasura": [],
+      "ui-theme": [
+        {
+          "source": "ui-theme",
+          "target": "npm:react-use",
+          "type": "static"
+        },
+        {
+          "source": "ui-theme",
+          "target": "npm:rsuite",
+          "type": "static"
+        }
+      ],
+      "ui-auth": [
+        {
+          "source": "ui-auth",
+          "target": "npm:@testing-library/react",
+          "type": "static"
+        },
+        {
+          "source": "ui-auth",
+          "target": "npm:rsuite",
+          "type": "static"
+        },
+        {
+          "source": "ui-auth",
+          "target": "npm:react-router-dom",
+          "type": "static"
+        },
+        {
+          "source": "ui-auth",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "ui-auth",
+          "target": "data-access-hbp",
+          "type": "static"
+        },
+        {
+          "source": "ui-auth",
+          "target": "ui-navigation",
+          "type": "static"
+        },
+        {
+          "source": "ui-auth",
+          "target": "data-access-react-rxdb-hasura",
+          "type": "static"
+        }
+      ],
+      "hasura": [],
+      "ui-app": [
+        {
+          "source": "ui-app",
+          "target": "npm:react-router-dom",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "data-access-hbp",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "ui-theme",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "data-access-react-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:react",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:rsuite",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "data-access-rxdb-hasura",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "ui-layout",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "util-data",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:react-use",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:uuid",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "ui-navigation",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:rxjs",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:rxdb-hooks",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:date-fns",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:deepmerge",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "ui-profile",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "util-ts-types",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "npm:rxdb",
+          "type": "static"
+        },
+        {
+          "source": "ui-app",
+          "target": "ui-auth",
+          "type": "static"
+        }
+      ]
+    }
+  }
+}

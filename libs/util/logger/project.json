@@ -39,12 +39,6 @@
       "executor": "./tools/executors/npm-publish:publish"
     },
     "version": {
-      "dependsOn": [
-        {
-          "target": "version",
-          "projects": "dependencies"
-        }
-      ],
       "executor": "@jscutlery/semver:version",
       "options": {
         "baseBranch": "master",

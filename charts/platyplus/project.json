@@ -10,12 +10,6 @@
       }
     },
     "version": {
-      "dependsOn": [
-        {
-          "target": "version",
-          "projects": "dependencies"
-        }
-      ],
       "executor": "./tools/executors/helm-version:version",
       "options": {
         "baseBranch": "master",

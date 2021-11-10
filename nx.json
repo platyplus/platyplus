@@ -5,10 +5,7 @@
       "devDependencies": "*"
     },
     ".eslintrc.json": "*",
-    "tools/nginx.conf": "*",
-    "tools/executors/helm/**/*": "*",
-    "tools/executors/docker.sh": "*",
-    "tools/executors/npm-publish.sh": "*"
+    "tools/nginx.conf": "*"
   },
   "affected": {
     "defaultBase": "master"
@@ -18,7 +15,14 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "version"],
+        "cacheableOperations": [
+          "build",
+          "build-webpack",
+          "lint",
+          "test",
+          "e2e",
+          "version"
+        ],
         "accessToken": "NDI5ZmUwZjktNTFkYS00MjIxLWIxMGMtYzhhODFlY2NmZWJlfHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true
@@ -29,6 +33,12 @@
     "build": [
       {
         "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "version": [
+      {
+        "target": "version",
         "projects": "dependencies"
       }
     ]

@@ -47,12 +47,6 @@
       }
     },
     "version": {
-      "dependsOn": [
-        {
-          "target": "version",
-          "projects": "dependencies"
-        }
-      ],
       "executor": "@jscutlery/semver:version",
       "options": {
         "baseBranch": "master",
