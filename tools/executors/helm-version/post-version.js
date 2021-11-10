@@ -21,6 +21,7 @@ async function postVersion(
       logger.error(
         `Incorrect tag: ${tag} (versionTagPrefix: ${versionTagPrefix})`
       )
+
       return {
         success: false
       }
