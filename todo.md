@@ -3,6 +3,7 @@
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo
+- [ ] tilt / demo
 - **Bugs**
   - [ ] bug on validating form with a required many2one field: is it related to delete FK constraints?
   - [ ] refetch the entire collection when new columns/relationships are added
