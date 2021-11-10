@@ -1,4 +1,11 @@
 # Changelog
+
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+## [0.2.1](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.2.0...charts-hasura-backend-plus@0.2.1) (2021-11-10)
+
+
+
 # [0.2.0](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.1.13...charts-hasura-backend-plus@0.2.0) (2021-11-08)
 
 
