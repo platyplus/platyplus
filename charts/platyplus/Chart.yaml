@@ -1,22 +1,22 @@
 apiVersion: v2
 name: platyplus
 description: Platyplus
-home: https://platy.plus/charts/platyplus.html
+home: 'https://platy.plus/charts/platyplus.html'
 sources:
-  - https://github.com/platyplus/platyplus/tree/master/charts/platyplus
-  - https://github.com/platyplus/platyplus/tree/master/apps/platyplus
-  - https://github.com/platyplus/platyplus/tree/master/apps/hasura
+  - 'https://github.com/platyplus/platyplus/tree/master/charts/platyplus'
+  - 'https://github.com/platyplus/platyplus/tree/master/apps/platyplus'
+  - 'https://github.com/platyplus/platyplus/tree/master/apps/hasura'
 appVersion: 0.1.0
-version: 0.1.5
+version: 0.1.6
 dependencies:
   - name: hasura-backend-plus
     version: 0.2.0
-    repository: file://../hasura-backend-plus
+    repository: 'file://../hasura-backend-plus'
     condition: hasura.enabled
   - name: standard-service
     alias: frontend
     version: 0.1.14
-    repository: file://../standard-service
+    repository: 'file://../standard-service'
     condition: frontend.enabled
 keywords:
   - hasura
