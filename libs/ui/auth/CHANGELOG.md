@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.3](https://github.com/platyplus/platydev/compare/ui-auth@0.2.2...ui-auth@0.2.3) (2021-11-10)
+
+
+
 ## [0.2.2](https://github.com/platyplus/platydev/compare/ui-auth@0.2.1...ui-auth@0.2.2) (2021-11-10)
 
 
