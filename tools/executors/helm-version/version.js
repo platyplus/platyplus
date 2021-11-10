@@ -11,9 +11,9 @@ const { default: postVersion } = require('./post-version')
 const trimPrefix = (str, prefix) =>
   str.startsWith(prefix) && str.slice(prefix.length)
 
-async function version(options, context) {
+async function version({ push, ...options }, context) {
   const { root, projectName, workspace } = context
-  const { dryRun, versionTagPrefix } = options
+  const { dryRun, versionTagPrefix, noVerify, remote, baseBranch } = options
   const projectRoot = workspace.projects[projectName].root
   const chartPath = path.join(root, projectRoot)
 
@@ -60,12 +60,15 @@ async function version(options, context) {
     } else {
       logger.log('No changes of depencendy versions')
     }
-    const result = await semverExecutor(options, context)
+    const result = await semverExecutor({ ...options, push: false }, context)
     if (!result.success) {
       logger.error('Failed to run @jscutlery/semver:version')
       return result
     }
-    return await postVersion({ dryRun, versionTagPrefix }, context)
+    return await postVersion(
+      { dryRun, versionTagPrefix, push, noVerify, remote, baseBranch },
+      context
+    )
   } catch (e) {
     logger.error(e)
     return { success: false }

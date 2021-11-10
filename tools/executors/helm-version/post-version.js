@@ -5,7 +5,7 @@ const path = require('path')
 const { execSync } = require('child_process')
 
 async function postVersion(
-  { dryRun = false, versionTagPrefix },
+  { dryRun = false, versionTagPrefix, push, noVerify, remote, baseBranch },
   { workspace, root, projectName }
 ) {
   if (versionTagPrefix) {
@@ -34,12 +34,17 @@ async function postVersion(
     const oldVersion = chart.version
     if (oldVersion !== newVersion) {
       logger.info(`Version bump from ${oldVersion} to ${newVersion}`)
-      const options = { stdio: 'inherit' }
+      const opts = { stdio: 'inherit' }
       chart.version = newVersion
       if (!dryRun) {
         fs.writeFileSync(chartFilePath, yaml.dump(chart))
-        execSync(`git add ${chartFilePath}`, options)
-        execSync(`git commit --amend --no-edit`, options)
+        execSync(`git add ${chartFilePath}`, opts)
+        execSync(`git commit --amend --no-edit`, opts)
+        if (push) {
+          const args = ['--follow-tags', '--atomic']
+          if (noVerify) args.push('--no-verify')
+          execSync(`git push ${args.join(' ')} ${remote} ${baseBranch}`, opts)
+        }
       }
     }
   } else {
