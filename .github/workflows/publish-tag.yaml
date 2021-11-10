@@ -1,6 +1,8 @@
 name: Publish artifacts on tag
 on:
   push:
+    branches:
+      - 'master'
     tags:
       - '*'
     paths-ignore:
