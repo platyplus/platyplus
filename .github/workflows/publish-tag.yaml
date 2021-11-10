@@ -4,11 +4,12 @@ on:
     branches:
       - 'master'
     tags:
-      - '*'
+      - '**'
     paths-ignore:
       - 'apps/documentation/**/*'
 jobs:
   nx:
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
     name: Nx
     runs-on: ubuntu-latest
     steps:
