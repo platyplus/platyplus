@@ -7,7 +7,7 @@ ORG=platyplus
 WORKING_DIR=apps/$2
 DOCKERFILE=$WORKING_DIR/Dockerfile
 # TODO make it fail if tag is not found
-VERSION=$(git tag --contains HEAD 2>/dev/null | grep $2@ | awk -F @ '{ print v$2 }')
+VERSION=$(git tag --contains HEAD 2>/dev/null | grep ^$2@ | awk -F @ '{ print v$2 }')
 REPOSITORY=$ORG/$2
 LATEST_TAG=$REPOSITORY:latest
 
