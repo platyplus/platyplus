@@ -116,6 +116,7 @@ enabledApis:
   - metadata
   - graphql
   - pgdump
+  - config
 
 liveQueries:
   multiplexedRefetchInterval: 1000
