@@ -18,7 +18,11 @@ module.exports = (config, context) => {
   nrwlConfig(config) // first call it so that it @nrwl/react plugin adds its configs, then override your config.
   const isProd =
     config.mode === 'production' || process.env.NODE_ENV === 'production'
-  config.resolve.fallback = { fs: false, crypto: false }
+  config.resolve.fallback = {
+    fs: false,
+    crypto: false,
+    assert: require.resolve('assert/') // * somehow required by pouchdb
+  }
   // TODO not ideal for debugging
   config.ignoreWarnings = [(warning) => true]
   config.plugins = config.plugins.filter(
