@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import isHotkey from 'is-hotkey'
 import { Editable, withReact, useSlate, Slate, ReactEditor } from 'slate-react'
 import {
@@ -73,17 +73,24 @@ export const RichText: React.FC<
   const renderElement = useCallback((props) => <Element {...props} />, [])
   const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+  useEffect(() => {
+    if (!readOnly) {
+      ReactEditor.focus(editor)
+    }
+  }, [readOnly, editor])
   return (
     <Slate
       editor={editor}
       value={value}
       onChange={(v) => {
-        setState(v)
-        const isAstChange = editor.operations.some(
-          (op) => 'set_selection' !== op.type
-        )
-        if (isAstChange) {
-          onChange(v, null)
+        if (!readOnly) {
+          setState(v)
+          const isAstChange = editor.operations.some(
+            (op) => 'set_selection' !== op.type
+          )
+          if (isAstChange) {
+            onChange(v, null)
+          }
         }
       }}
     >

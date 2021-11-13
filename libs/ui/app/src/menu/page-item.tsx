@@ -9,8 +9,8 @@ export const PageMenuItem: React.FC<{
   name?: string
   icon?: PropType<IconProps, 'icon'>
 }> = ({ id, name, icon }) => {
-  const page = usePage(id)
-  if (page)
+  const { page } = usePage({ slug: id })
+  if (page?.id)
     return (
       <MenuItem
         href={`/pages/${id}`}

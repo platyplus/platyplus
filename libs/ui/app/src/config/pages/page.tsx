@@ -10,13 +10,13 @@ import {
 } from 'rsuite'
 
 import { HeaderTitleWrapper, IconPicker, RichText } from '@platyplus/layout'
-import { usePageConfig } from '@platyplus/react-rxdb-hasura'
+import { usePage } from '@platyplus/react-rxdb-hasura'
 import { pageTitle } from './utils'
 
 export const ConfigPagePage: React.FC<{ role?: string }> = React.forwardRef(
   () => {
     const { id } = useParams<{ id: string }>()
-    const { page, setPage, isFetching } = usePageConfig(id)
+    const { page, setPage, isFetching } = usePage({ id })
     return (
       <Animation.Fade in={!!page}>
         {(props) => (

@@ -1,17 +1,38 @@
 import { Animation } from 'rsuite'
-import { HeaderTitleWrapper, RichText } from '@platyplus/layout'
 import { useParams } from 'react-router-dom'
-import { usePage } from '@platyplus/react-rxdb-hasura'
+import { Descendant } from 'slate'
+import { useCallback, useRef, useState } from 'react'
+import { useClickAway } from 'react-use'
+
+import { HeaderTitleWrapper, RichText } from '@platyplus/layout'
+import { useConfigEnabled, usePage } from '@platyplus/react-rxdb-hasura'
 
 export const PagePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
-  const page = usePage(slug)
+  const { page, setPage } = usePage({ slug })
+  const isConfigEnabled = useConfigEnabled()
+
+  const setContents = useCallback(
+    (contents: Descendant[]) => setPage({ ...page, contents }),
+    [page, setPage]
+  )
+  const ref = useRef(null)
+  useClickAway(ref, () => setEditing(false))
+  const edit = () => isConfigEnabled && setEditing(true)
+  const [editing, setEditing] = useState(false)
+
   return (
     <HeaderTitleWrapper title={page?.title}>
       <Animation.Fade in={!!page}>
         {(props) => (
-          <div {...props}>
-            {page?.contents && <RichText readOnly value={page.contents} />}
+          <div {...props} ref={ref} style={{ height: '100%' }} onClick={edit}>
+            {page?.contents && (
+              <RichText
+                readOnly={!editing}
+                value={page.contents}
+                onChange={setContents}
+              />
+            )}
           </div>
         )}
       </Animation.Fade>

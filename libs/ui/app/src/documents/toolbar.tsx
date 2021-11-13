@@ -6,7 +6,6 @@ import { Animation, ButtonGroup, ButtonToolbar } from 'rsuite'
 import { useQuery } from '@platyplus/navigation'
 import {
   useDocumentPermissions,
-  useFormCanSave,
   useFormHasChanged,
   useFormReset,
   useFormSave

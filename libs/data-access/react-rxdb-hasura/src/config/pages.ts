@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { Page, PAGES_TABLE } from '@platyplus/rxdb-hasura'
 
 import { useStore } from '../store'
-import { useRxCollection, useRxDocument, useRxQuery } from 'rxdb-hooks'
+import { useRxCollection, useRxQuery } from 'rxdb-hooks'
 import { useAppConfig } from './app'
 import { pick } from '@platyplus/data'
 
@@ -37,67 +37,50 @@ export const usePages = () => {
   return pages
 }
 
-export const usePage = (slug: string): Page => {
+export const usePage = ({
+  id,
+  slug
+}: {
+  id?: string
+  slug?: string
+}): { page: Page; setPage: (page: Page) => void; isFetching: boolean } => {
   const pagesCollection = useRxCollection(PAGES_TABLE)
-  const q = useMemo(() => {
-    return pagesCollection?.findOne({
-      selector: {
-        slug
+  const selector = useMemo(() => {
+    if (id) return id
+    if (slug)
+      return {
+        selector: {
+          slug
+        }
       }
-    })
-  }, [pagesCollection, slug])
+  }, [id, slug])
+
+  const q = useMemo(() => {
+    return pagesCollection?.findOne(selector)
+  }, [pagesCollection, selector])
+
   const {
-    result: [document]
+    result: [initialValues],
+    isFetching
   } = useRxQuery<Page>(q, { json: true })
 
-  const modifiedPage = useStore(
-    useCallback(
-      (state) => {
-        if (document?.slug === slug) {
-          return state.forms[PAGES_TABLE]?.[document.id]
-        } else {
-          return Object.values(state.forms[PAGES_TABLE] || {}).find(
-            (p) => p.slug === slug
-          )
-        }
-      },
-      [document, slug]
-    )
-  )
-  const page = useMemo(() => {
-    if (document || modifiedPage) {
-      return { ...document, ...(modifiedPage || {}) }
-    } else return null
-  }, [document, modifiedPage])
-  return page
-}
-
-export const usePageConfig = (
-  id: string
-): { page: Page; setPage: (page: Page) => void; isFetching: boolean } => {
-  const { result: initialValues, isFetching } = useRxDocument<Page>(
-    PAGES_TABLE,
-    id,
-    {
-      json: true
-    }
-  )
+  const docId = useMemo(() => id || initialValues?.id, [id, initialValues])
 
   const page = useStore(
     useCallback(
       (state) => {
         if (isFetching) return null
         const res = {
-          id,
+          id: docId,
           slug: '',
           title: '',
           icon: '',
           ...(initialValues || {}),
-          ...(state.forms[PAGES_TABLE][id] || {})
+          ...(state.forms[PAGES_TABLE][docId] || {})
         }
         return res as Page
       },
-      [id, initialValues, isFetching]
+      [docId, initialValues, isFetching]
     )
   )
 
@@ -122,10 +105,10 @@ export const usePageConfig = (
         store.setConfigForm(
           PAGES_TABLE,
           pick(value, ['id', 'slug', 'contents', 'title', 'icon']),
-          id
+          docId
         )
       },
-      [id, state, setState, pages]
+      [docId, state, setState, pages]
     )
   )
   return { page, setPage, isFetching }
