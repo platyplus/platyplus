@@ -1,6 +1,6 @@
 import { enableMapSet } from 'immer'
 import create from 'zustand/vanilla'
-import { devtools } from 'zustand/middleware'
+import { devtools, subscribeWithSelector } from 'zustand/middleware'
 import { TableInformation } from '../types'
 import { ContentsCollection, ContentsDocument } from '../../types'
 import { TABLE_INFO_TABLE } from './constants'
@@ -14,11 +14,13 @@ export type TableInfoStore = {
 }
 
 export const tableInfoStore = create<TableInfoStore>(
-  devtools(
-    (set, get) => ({
-      tables: {}
-    }),
-    TABLE_INFO_TABLE
+  subscribeWithSelector(
+    devtools(
+      (set, get) => ({
+        tables: {}
+      }),
+      TABLE_INFO_TABLE
+    )
   )
 )
 
