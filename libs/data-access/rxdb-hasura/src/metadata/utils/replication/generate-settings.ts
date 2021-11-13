@@ -4,6 +4,8 @@ import { print } from 'graphql/language/printer'
 import { info } from '@platyplus/logger'
 
 import { Database } from '../../../types'
+import { TableInfoCollection } from '../../table-information/types'
+import { ConfigCollection } from '../../types'
 import { CollectionSettings } from '../types'
 
 const curateData = produce((data) => {
@@ -13,7 +15,7 @@ const curateData = produce((data) => {
 })
 
 export const generateReplicationSettings = (
-  collectionName: string,
+  collection: ConfigCollection | TableInfoCollection,
   config: CollectionSettings
 ) => {
   return {
@@ -37,12 +39,12 @@ export const generateReplicationSettings = (
       : null,
     pushModifier: config.mutation
       ? async (doc) => {
-          const db: Database = doc.collection.database
+          const db = collection.database as unknown as Database
           if (db.isAdmin$.getValue()) {
             return doc
           } else {
             info(
-              collectionName,
+              collection.name,
               'User is not admin. Cannot push config changes to the server'
             )
             return null

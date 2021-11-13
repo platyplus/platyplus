@@ -21,7 +21,7 @@ const escapeValues = (values: Record<string, unknown>) =>
       if (typeof value === 'object') {
         acc[key] = `'${JSON.stringify(value).replace(/[']/g, "''")}'::jsonb`
       } else {
-        acc[key] = value == null ? null : escape(value)
+        acc[key] = value == null ? 'DEFAULT' : escape(value)
       }
     }
     return acc

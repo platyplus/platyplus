@@ -39,15 +39,13 @@ export const usePages = () => {
 
 export const usePage = (slug: string): Page => {
   const pagesCollection = useRxCollection(PAGES_TABLE)
-  const q = useMemo(
-    () =>
-      pagesCollection?.findOne({
-        selector: {
-          slug
-        }
-      }),
-    [pagesCollection, slug]
-  )
+  const q = useMemo(() => {
+    return pagesCollection?.findOne({
+      selector: {
+        slug
+      }
+    })
+  }, [pagesCollection, slug])
   const {
     result: [document]
   } = useRxQuery<Page>(q, { json: true })
@@ -55,8 +53,8 @@ export const usePage = (slug: string): Page => {
   const modifiedPage = useStore(
     useCallback(
       (state) => {
-        if (document) {
-          return document && state.forms[PAGES_TABLE]?.[document.id]
+        if (document?.slug === slug) {
+          return state.forms[PAGES_TABLE]?.[document.id]
         } else {
           return Object.values(state.forms[PAGES_TABLE] || {}).find(
             (p) => p.slug === slug
@@ -66,10 +64,11 @@ export const usePage = (slug: string): Page => {
       [document, slug]
     )
   )
-  const page = useMemo(
-    () => (modifiedPage ? { ...document, ...modifiedPage } : document),
-    [document, modifiedPage]
-  )
+  const page = useMemo(() => {
+    if (document || modifiedPage) {
+      return { ...document, ...(modifiedPage || {}) }
+    } else return null
+  }, [document, modifiedPage])
   return page
 }
 
@@ -90,6 +89,9 @@ export const usePageConfig = (
         if (isFetching) return null
         const res = {
           id,
+          slug: '',
+          title: '',
+          icon: '',
           ...(initialValues || {}),
           ...(state.forms[PAGES_TABLE][id] || {})
         }

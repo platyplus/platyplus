@@ -17,10 +17,7 @@ export const createSettingsReplicator = async (
   collection: ConfigCollection | TableInfoCollection
 ) => {
   const collectionSettings: CollectionSettings = collection.options.config
-  const settings = generateReplicationSettings(
-    collection.name,
-    collectionSettings
-  )
+  const settings = generateReplicationSettings(collection, collectionSettings)
 
   // * Loads initial data from RxDB if some documents have been persisted (offline mode)
   const initialDocuments = await collection.find().exec()

@@ -8,6 +8,7 @@
   - [ ] bug on validating form with a required many2one field: is it related to delete FK constraints?
   - [ ] refetch the entire collection when new columns/relationships are added
   - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
+  - [ ] menu is not loaded when starting offline
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
@@ -54,13 +55,12 @@
 ## Post-MVP
 
 - Application
-
   - [ ] remove one2many (and many2many?) item: when FK cannot be set to null/default BUT referenced item can be deleted, then delete it
-
   - [ ] don't show 'admin' features when offline? -> don't allow saving them. Persist zustand store
   - [ ] deactivate login/register forms when network is down - useNetworkStatus
   - [ ] WS reconnecting: don't try to connect when offline
   - [ ] set registration/login/home config in `config.json` - and then link to HBP config in the platyplus chart
+  - [ ] option to deactivate offline mode, somehow in `config.json`?
   - [ ] user activation by email
     - [ ] reset password
   - [ ] WS too many attempts (one per collection - too much when x collections)
@@ -90,7 +90,6 @@
       - [ ] uri
     - http://127.0.0.1nip.io and chrome://flags/#unsafely-treat-insecure-origin-as-secure
   - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
-
 - security: remove immer 8 -> -> -> react-scripts?
 - [ ] review `nx version` & `nx publish`
 
