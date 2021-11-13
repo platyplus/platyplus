@@ -80,11 +80,11 @@ module.exports = (config, context) => {
   config.devServer = {
     ...config.devServer,
     host: '0.0.0.0',
-    compress: true,
-    disableHostCheck: true,
-    watchOptions: {
-      poll: true // Or you can set a value in milliseconds.
-    }
+    compress: true
+    // disableHostCheck: true
+    // watchOptions: {
+    //   poll: true // Or you can set a value in milliseconds.
+    // }
   }
   return {
     ...config,
