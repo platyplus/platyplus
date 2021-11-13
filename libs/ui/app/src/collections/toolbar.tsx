@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Animation, ButtonGroup } from 'rsuite'
 
 import { TableInformation } from '@platyplus/rxdb-hasura'
@@ -10,10 +10,9 @@ export const CollectionToolbar: React.FC<{
   role: string
   edit?: boolean
 }> = ({ tableinfo, role }) => {
-  const history = useHistory()
-  const create = () => {
-    history.push(`/collections/${role}/${tableinfo.id}/new`)
-  }
+  const navigate = useNavigate()
+  const create = () => navigate(`/collections/${role}/${tableinfo.id}/new`)
+
   const can = useCollectionPermissions(tableinfo, role)
 
   return (

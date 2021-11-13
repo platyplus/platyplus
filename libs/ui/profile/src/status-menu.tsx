@@ -1,19 +1,18 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Whisper, Popover, Dropdown, Icon } from 'rsuite'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
 
-import { useAuthenticated, useHbp } from '@platyplus/hbp'
+import { useAuthenticated } from '@platyplus/hbp'
 import { useDB, useLogout } from '@platyplus/react-rxdb-hasura'
 
 import Avatar from './avatar'
 
 export const ProfileStatusMenu: React.FC = () => {
-  const { auth } = useHbp()
   const db = useDB()
   const signedIn = useAuthenticated()
   const triggerRef = React.createRef<WhisperInstance>()
-  const router = useHistory()
+  const navigate = useNavigate()
   const logout = useLogout()
   if (signedIn)
     return (
@@ -28,7 +27,7 @@ export const ProfileStatusMenu: React.FC = () => {
               <Dropdown.Item
                 onSelect={async () => {
                   triggerRef.current.close()
-                  router.push('/profile')
+                  navigate('/profile')
                 }}
               >
                 Profile

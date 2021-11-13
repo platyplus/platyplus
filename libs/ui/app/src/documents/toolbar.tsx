@@ -1,6 +1,6 @@
 import { FormInstance } from 'rsuite/lib/Form'
 import { MutableRefObject } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Animation, ButtonGroup, ButtonToolbar } from 'rsuite'
 
 import { useQuery } from '@platyplus/navigation'
@@ -24,7 +24,7 @@ export const DocumentToolbar: React.FC<{
   const query = useQuery()
   const editing = edit ?? query.has('edit')
   const location = useLocation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const hasChanged = useFormHasChanged(tableinfo, role, document)
   const reset = useFormReset(tableinfo, role, document)
   const { save, canSave } = useFormSave(tableinfo, role, document)
@@ -35,22 +35,23 @@ export const DocumentToolbar: React.FC<{
       if (check.hasError) return
     }
     await save()
-    history.replace(
-      href || `/collections/${role}/${tableinfo.id}/${document.id}`
-    )
+    navigate(href || `/collections/${role}/${tableinfo.id}/${document.id}`, {
+      replace: true
+    })
   }
 
-  const editDocument = () => history.replace(`${location.pathname}?edit`)
+  const editDocument = () =>
+    navigate(`${location.pathname}?edit`, { replace: true })
   const cancel = () => {
     // TODO confirm changes
     reset()
-    if (document._isTemporary) history.goBack()
-    else history.replace(location.pathname)
+    if (document._isTemporary) navigate(-1)
+    else navigate(location.pathname, { replace: true })
   }
   const removeDocument = async () => {
     // TODO prompt before removing
     await document.remove()
-    history.goBack()
+    navigate(-1)
   }
   const can = useDocumentPermissions(tableinfo, role, document)
 

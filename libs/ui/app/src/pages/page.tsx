@@ -6,9 +6,10 @@ import { useClickAway } from 'react-use'
 
 import { HeaderTitleWrapper, RichText } from '@platyplus/layout'
 import { useConfigEnabled, usePage } from '@platyplus/react-rxdb-hasura'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const PagePage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>()
+const Page: React.FC = () => {
+  const { slug } = useParams()
   const { page, setPage } = usePage({ slug })
   const isConfigEnabled = useConfigEnabled()
 
@@ -40,4 +41,8 @@ export const PagePage: React.FC = () => {
   )
 }
 
-export default PagePage
+export const PagePage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

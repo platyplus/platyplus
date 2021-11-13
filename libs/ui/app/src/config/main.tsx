@@ -8,8 +8,9 @@ import {
   useResetConfig
 } from '@platyplus/react-rxdb-hasura'
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const ConfigPage: React.FC = () => {
+const Page: React.FC = () => {
   const title = 'Configuration'
   const countChanges = useCountConfigChanges()
   const [show, toggle] = useToggle(false)
@@ -70,3 +71,8 @@ export const ConfigPage: React.FC = () => {
     </>
   )
 }
+export const ConfigPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

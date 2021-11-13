@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useHbp } from '@platyplus/hbp'
 import { useState } from 'react'
 import {
@@ -32,7 +32,7 @@ const model = Schema.Model({
 })
 
 export const Register = ({ redirect = '/' }: RegisterProps) => {
-  const router = useHistory()
+  const navigate = useNavigate()
   const [formValue, setFormValue] = useState({
     email: '',
     password: '',
@@ -44,7 +44,7 @@ export const Register = ({ redirect = '/' }: RegisterProps) => {
       try {
         const { email, password } = formValue
         await auth.register({ email, password })
-        router.push(redirect)
+        navigate(redirect)
       } catch (error) {
         Alert.error(`Registration failed failed: ${error.message}`, 5000)
       }

@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Tag, TagProps } from 'rsuite'
 
 import { useDocumentLabel } from '@platyplus/react-rxdb-hasura'
@@ -13,10 +13,10 @@ export const DocumentTag: DocumentComponent<TagProps> = ({
   ...props
 }) => {
   const [label] = useDocumentLabel(tableinfo, role, document)
-  const router = useHistory()
+  const navigate = useNavigate()
   if (!document) return null
   const nav = () => {
-    !edit && router.push(`/collections/${role}/${tableinfo.id}/${document.id}`)
+    !edit && navigate(`/collections/${role}/${tableinfo.id}/${document.id}`)
   }
 
   return (

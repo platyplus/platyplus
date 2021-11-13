@@ -1,4 +1,5 @@
 import { error, warn } from '@platyplus/logger'
+import { DeepReadonly, DeepReadonlyArray } from 'rxdb/dist/types/types'
 import { getTableInfo, Relationship, TableInformation } from '../../metadata'
 
 import { getIds } from '../ids'
@@ -22,14 +23,14 @@ export const filteredRelationships = (table: TableInformation) =>
 
 export const filteredObjectRelationships = (
   table: TableInformation
-): Array<Relationship> =>
+): DeepReadonlyArray<Relationship> =>
   table.metadata.object_relationships?.filter(
     (rel) => !!relationshipTable(table, rel)
   ) || []
 
 export const filteredArrayRelationships = (
   table: TableInformation
-): Array<Relationship> =>
+): DeepReadonlyArray<Relationship> =>
   table.metadata.array_relationships?.filter(
     (rel) => !!relationshipTable(table, rel)
   ) || []
@@ -48,7 +49,7 @@ export const isManyToManyJoinTable = (table: TableInformation): boolean => {
 
 export const isManyToManyRelationship = (
   table: TableInformation,
-  rel: Relationship
+  rel: DeepReadonly<Relationship>
 ): boolean => {
   const remoteTable = relationshipTable(table, rel)
   return isManyToManyJoinTable(remoteTable)
@@ -72,7 +73,9 @@ export const shiftedTable = (
 
 export const relationshipMapping = (
   table: TableInformation,
-  { using: { foreign_key_constraint_on, manual_configuration } }: Relationship
+  {
+    using: { foreign_key_constraint_on, manual_configuration }
+  }: DeepReadonly<Relationship>
 ): Record<string, string> => {
   if (foreign_key_constraint_on) {
     if (typeof foreign_key_constraint_on === 'string') {
@@ -119,8 +122,10 @@ export const relationshipTableId = (
   }
 }
 
-export const relationshipTable = (table: TableInformation, rel: Relationship) =>
-  getTableInfo(relationshipTableId(table, rel))
+export const relationshipTable = (
+  table: TableInformation,
+  rel: DeepReadonly<Relationship>
+) => getTableInfo(relationshipTableId(table, rel))
 
 export const getMirrorRelationship = (
   tableInfo: TableInformation,
@@ -138,7 +143,7 @@ export const getMirrorRelationship = (
       : rel.using.foreign_key_constraint_on.column
 
   const refRel = allRelationships(refTable).find(
-    ({ using: { foreign_key_constraint_on, manual_configuration }, name }) => {
+    ({ using: { foreign_key_constraint_on }, name }) => {
       if (foreign_key_constraint_on) {
         if (typeof foreign_key_constraint_on === 'string') {
           return fromKey === foreign_key_constraint_on

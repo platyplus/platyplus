@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Animation } from 'rsuite'
 import { useParams } from 'react-router'
 
@@ -14,8 +14,9 @@ import {
 } from '@platyplus/react-rxdb-hasura'
 
 import { DocumentToolbar, DocumentComponentWrapper } from '../documents'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const DocumentPage: React.FC = () => {
+const Page: React.FC = () => {
   const { name, role, id } =
     useParams<{ name: string; role: string; id: string }>()
   const editing = useQuery().has('edit') || id === 'new'
@@ -79,3 +80,8 @@ export const DocumentPage: React.FC = () => {
     </HeaderTitleWrapper>
   )
 }
+export const DocumentPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

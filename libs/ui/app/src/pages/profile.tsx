@@ -7,8 +7,9 @@ import { DocumentComponentWrapper, DocumentToolbar } from '../documents'
 import { useTableInfo } from '@platyplus/react-rxdb-hasura'
 import { METADATA_ROLE } from '@platyplus/rxdb-hasura'
 import { useLocation } from 'react-use'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const ProfilePage: PageFunction = ({ title }) => {
+const Page: PageFunction = ({ title }) => {
   const { value: profile } = useProfile()
   const editing = useQuery().has('edit')
   const tableinfo = useTableInfo('public.users')
@@ -46,3 +47,9 @@ export const ProfilePage: PageFunction = ({ title }) => {
     </HeaderTitleWrapper>
   )
 }
+
+export const ProfilePage: PageFunction = (props) => (
+  <PrivateRoute>
+    <Page {...props} />
+  </PrivateRoute>
+)

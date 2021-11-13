@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { DeepReadonlyObject } from 'rxdb'
 import { useRxDocument } from 'rxdb-hooks'
 
 import {
@@ -19,14 +20,19 @@ export const useDocument = <B extends boolean = false>(
   document: B extends true ? Contents : ContentsDocument
   isFetching: boolean
 } => {
-  type ResultType = B extends true ? Contents : ContentsDocument
+  type ResultType = DeepReadonlyObject<
+    B extends true ? Contents : ContentsDocument
+  >
   const collection = useContentsCollection(tableInfo, role)
   const queryConstructor = useMemo(() => id !== 'new' && id, [id])
   const { result, isFetching: isDocumentFetching } =
     useRxDocument<ContentsDocument>(collection?.name, queryConstructor)
   const [document, setDocument] = useState<ResultType>()
   useEffect(() => {
-    if (id === 'new') setDocument(collection?.newDocument() as ContentsDocument)
+    if (id === 'new')
+      setDocument(
+        collection?.newDocument() as DeepReadonlyObject<ContentsDocument>
+      )
     else if (result) {
       const subscription = result.$.subscribe(async () => {
         if (populate) {

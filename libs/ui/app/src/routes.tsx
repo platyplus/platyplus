@@ -1,6 +1,4 @@
-import { Route, Switch } from 'react-router-dom'
-
-import { PrivateRoute, PublicRoute } from '@platyplus/auth'
+import { Route, Routes } from 'react-router-dom'
 
 import {
   IndexPage,
@@ -25,7 +23,7 @@ import {
 } from './config'
 
 // * dynamic import depending on the routes config
-export const Routes: React.FC<RoutesConfig> = ({
+export const PlatyplusRoutes: React.FC<RoutesConfig> = ({
   title,
   login,
   register,
@@ -35,84 +33,53 @@ export const Routes: React.FC<RoutesConfig> = ({
 }) => {
   const configEnabled = useConfigEnabled()
   return (
-    <Switch>
-      <PrivateRoute
-        path={`/collections/:role/:name`}
-        exact
-        children={<CollectionPage />}
-      />
-      <PrivateRoute
-        path={`/collections/:role/:name/:id`}
-        exact
-        children={<DocumentPage />}
-      />
-      <PrivateRoute path={`/pages/:slug`} exact children={<PagePage />} />
+    <Routes>
+      <Route path={`/collections/:role/:name`} element={<CollectionPage />} />
+      <Route path={`/collections/:role/:name/:id`} element={<DocumentPage />} />
+      <Route path={`/pages/:slug`} element={<PagePage />} />
+      {configEnabled && <Route path={`/config`} element={<ConfigPage />} />}
       {configEnabled && (
-        <PrivateRoute path={`/config`} exact children={<ConfigPage />} />
-      )}
-      {configEnabled && (
-        <PrivateRoute
+        <Route
           path={`/config/collections`}
-          exact
-          children={<ConfigCollectionsPage />}
+          element={<ConfigCollectionsPage />}
         />
       )}
       {configEnabled && (
-        <PrivateRoute
+        <Route
           path={`/config/collections/:id`}
-          exact
-          children={<ConfigCollectionPage />}
+          element={<ConfigCollectionPage />}
         />
       )}
       {configEnabled && (
-        <PrivateRoute
-          path={`/config/pages`}
-          exact
-          children={<ConfigPagesPage />}
-        />
+        <Route path={`/config/pages`} element={<ConfigPagesPage />} />
       )}
       {configEnabled && (
-        <PrivateRoute
-          path={`/config/pages/:id`}
-          exact
-          children={<ConfigPagePage />}
-        />
+        <Route path={`/config/pages/:id`} element={<ConfigPagePage />} />
       )}
       {configEnabled && (
-        <PrivateRoute
-          path={`/config/menu`}
-          exact
-          children={<ConfigMenuPage />}
-        />
+        <Route path={`/config/menu`} element={<ConfigMenuPage />} />
       )}
       {login.enabled && (
-        <PublicRoute path="/login">
-          <LoginPage title={login.title} />
-        </PublicRoute>
+        <Route path="/login" element={<LoginPage title={login.title} />} />
       )}
       {register.enabled && (
-        <PublicRoute path="/register">
-          <RegisterPage title={register.title} />
-        </PublicRoute>
+        <Route
+          path="/register"
+          element={<RegisterPage title={register.title} />}
+        />
       )}
       {home.enabled && (
-        <PrivateRoute exact path="/home">
-          <HomePage title={home.title} />
-        </PrivateRoute>
+        <Route path="/home" element={<HomePage title={home.title} />} />
       )}
       {profile.enabled && (
-        <PrivateRoute exact path="/profile">
-          <ProfilePage title={profile.title} />
-        </PrivateRoute>
+        <Route
+          path="/profile"
+          element={<ProfilePage title={profile.title} />}
+        />
       )}
-      <Route exact path="/">
-        <IndexPage title={title} />
-      </Route>
-      {notFound.enabled && (
-        <Route path="*">
-          <PageNotFound />
-        </Route>
-      )}
-    </Switch>
+      <Route path="/" element={<IndexPage title={title} />} />
+
+      {notFound.enabled && <Route path="*" element={<PageNotFound />} />}
+    </Routes>
   )
 }

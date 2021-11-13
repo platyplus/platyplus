@@ -1,6 +1,5 @@
-import { isRxDocument, RxDocument } from 'rxdb'
-import { DeepReadonly } from 'rxdb/dist/types/types'
-import clone from 'clone-deep'
+import { clone, isRxDocument, RxDocument } from 'rxdb'
+import { DeepReadonly, DeepReadonlyObject } from 'rxdb/dist/types/types'
 
 import { Contents, ContentsDocument } from '../types'
 
@@ -15,9 +14,9 @@ export const documentContents = <T>(doc: T | RxDocument<T>): DeepReadonly<T> =>
   isRxDocument(doc) ? (doc as RxDocument<T>).toJSON() : (doc as DeepReadonly<T>)
 
 export const populateDocument = async (
-  doc: ContentsDocument
+  doc: DeepReadonlyObject<ContentsDocument>
 ): Promise<Contents> => {
-  const result = clone(doc)
+  const result: ContentsDocument = clone(doc)
   for (const field of doc.collection.schema.topLevelFields) {
     if (doc.collection.schema.jsonSchema.properties[field].ref) {
       const population = await doc.populate(field)

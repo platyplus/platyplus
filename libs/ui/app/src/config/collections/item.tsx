@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { List } from 'rsuite'
 
 import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
@@ -8,7 +8,7 @@ export const ConfigListItem: React.FC<{
   tableinfo: TableInformation
   index: number
 }> = ({ tableinfo, index }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { title } = useFullCollectionTitle(tableinfo)
   return (
     <List.Item
@@ -16,9 +16,7 @@ export const ConfigListItem: React.FC<{
       style={{
         cursor: 'pointer'
       }}
-      onClick={() => {
-        history.push(`/config/collections/${tableinfo.id}`)
-      }}
+      onClick={() => navigate(`/config/collections/${tableinfo.id}`)}
     >
       <span>{title}</span>
     </List.Item>

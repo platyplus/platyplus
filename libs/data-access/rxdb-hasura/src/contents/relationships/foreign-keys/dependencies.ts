@@ -1,6 +1,10 @@
-import { getCollectionTableInfo, getTableInfo } from '../../../metadata'
+import {
+  getCollectionTableInfo,
+  getTableInfo,
+  TableInformation
+} from '../../../metadata'
 import { ForeignKey } from '../../../metadata/table-information/types'
-import { ContentsCollection, ContentsDocument, TableInfo } from '../../../types'
+import { ContentsCollection, ContentsDocument } from '../../../types'
 import { collectionName } from '../../../utils'
 
 import {
@@ -16,7 +20,7 @@ export const foreignDocumentDependencies = (document: ContentsDocument) => {
     collectionName(table, collection.options.role)
   ] as ContentsCollection
   return table.dependentForeignKeys
-    .map<[Omit<ForeignKey, 'to'>, TableInfo]>((fk) => [
+    .map<[Omit<ForeignKey, 'to'>, TableInformation]>((fk) => [
       fk,
       getTableInfo(fk.from)
     ])

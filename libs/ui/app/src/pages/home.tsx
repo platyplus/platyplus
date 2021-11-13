@@ -1,10 +1,10 @@
 import { Animation } from 'rsuite'
 import { DisplayName, useProfile } from '@platyplus/profile'
 import { HeaderTitleWrapper } from '@platyplus/layout'
+import { PrivateRoute } from '@platyplus/auth'
+import { PageFunction } from './types'
 
-export const HomePage: React.FC<{ title?: string }> = ({
-  title = 'Home Page'
-}) => {
+const Page: React.FC<{ title?: string }> = ({ title = 'Home Page' }) => {
   const { value: profile } = useProfile()
   return (
     <HeaderTitleWrapper title={title}>
@@ -29,4 +29,8 @@ export const HomePage: React.FC<{ title?: string }> = ({
   )
 }
 
-export default HomePage
+export const HomePage: PageFunction = (props) => (
+  <PrivateRoute>
+    <Page {...props} />
+  </PrivateRoute>
+)

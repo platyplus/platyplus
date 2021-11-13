@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Badge, IconButton, Icon, Whisper, Dropdown, Popover } from 'rsuite'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { WhisperInstance } from 'rsuite/lib/Whisper'
 
 import {
@@ -14,7 +14,7 @@ export const ConfigStatusMenuItem: React.FC = () => {
   const countChanges = useCountConfigChanges()
   const location = useLocation()
   const triggerRef = React.createRef<WhisperInstance>()
-  const router = useHistory()
+  const navigate = useNavigate()
   const { state, setState } = useAppConfig()
   const canSetAsHome = useMemo(
     () =>
@@ -44,7 +44,7 @@ export const ConfigStatusMenuItem: React.FC = () => {
                 <Dropdown.Item
                   onSelect={async () => {
                     triggerRef.current.close()
-                    router.push('/config')
+                    navigate('/config')
                   }}
                 >
                   See changes

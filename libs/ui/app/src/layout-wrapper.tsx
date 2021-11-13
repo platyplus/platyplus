@@ -9,7 +9,7 @@ import { ThemeToggle } from '@platyplus/theme'
 
 import { Menu } from './menu'
 import { AppSettings } from './types'
-import { Routes } from './routes'
+import { PlatyplusRoutes } from './routes'
 import { ComponentsContext } from './components'
 import { defaultCollectionComponents } from './collections'
 import { defaultDocumentComponents } from './documents'
@@ -74,7 +74,7 @@ export const LayoutWrapper: React.FC<AppSettings> = ({
           </>
         }
       >
-        <Routes
+        <PlatyplusRoutes
           home={home}
           register={register}
           login={login}

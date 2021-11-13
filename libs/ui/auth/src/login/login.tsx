@@ -10,7 +10,7 @@ import {
   Panel,
   Alert
 } from 'rsuite'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FunctionComponent, useState } from 'react'
 import { useHbp } from '@platyplus/hbp'
 
@@ -30,7 +30,7 @@ const errors = {
 export const Login: FunctionComponent<{ redirect?: string }> = ({
   redirect = '/'
 }) => {
-  const router = useHistory()
+  const navigate = useNavigate()
   const [formValue, setFormValue] = useState({ email: '', password: '' })
   const { auth } = useHbp()
 
@@ -39,7 +39,7 @@ export const Login: FunctionComponent<{ redirect?: string }> = ({
       await model.checkAsync(formValue)
       try {
         await auth.login(formValue)
-        router.push(redirect)
+        navigate(redirect)
       } catch (error) {
         const rawMessage: string = error.message
         const type = rawMessage.substr(rawMessage.length - 3)

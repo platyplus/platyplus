@@ -23,6 +23,7 @@ import { upperCaseFirst } from '@platyplus/data'
 import { useComponentsLibrary } from '../../components'
 import { PropertyConfig } from './property'
 import { TableInformation, tableName } from '@platyplus/rxdb-hasura'
+import { PrivateRoute } from '@platyplus/auth'
 
 const TableWrapper: React.FC<{
   table: TableInformation
@@ -144,8 +145,8 @@ const TableWrapper: React.FC<{
   )
 }
 
-export const ConfigCollectionPage: React.FC<{ role?: string }> = () => {
-  const { id } = useParams<{ id: string }>()
+const Page: React.FC<{ role?: string }> = () => {
+  const { id } = useParams()
   const table = useTableInfo(id)
   const metaName = useMemo(() => table && tableName(table), [table])
   const { state: config } = useTableConfig(id)
@@ -171,3 +172,8 @@ export const ConfigCollectionPage: React.FC<{ role?: string }> = () => {
     </Animation.Fade>
   )
 }
+export const ConfigCollectionPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

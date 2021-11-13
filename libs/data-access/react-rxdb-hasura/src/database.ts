@@ -35,4 +35,4 @@ export const initializeDB = async (
   return db
 }
 
-export const useDB = (): Database => useRxDB()
+export const useDB = (): Database => useRxDB() as unknown as Database

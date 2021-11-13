@@ -9,7 +9,7 @@ import {
   Dropdown,
   NavItemProps
 } from 'rsuite'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import { PropType } from '@platyplus/ts-types'
 
@@ -63,13 +63,11 @@ export const DropDownMenuItem: React.FC<{
   href: string
   title: string
 }> = ({ icon, href, title }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   return (
     <Dropdown.Item
-      onSelect={() => {
-        history.push(href)
-      }}
+      onSelect={() => navigate(href)}
       key={href}
       active={location.pathname === href}
       icon={icon && <Icon icon={icon} />}
@@ -87,13 +85,11 @@ export const MenuItem: React.FC<
     level?: number
   } & Omit<NavItemProps, 'icon'>
 > = ({ icon, href, title, level = 0, ...rest }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   return (
     <Nav.Item
-      onSelect={() => {
-        history.push(href)
-      }}
+      onSelect={() => navigate(href)}
       key={href}
       active={location.pathname === href}
       icon={icon && <Icon icon={icon} />}

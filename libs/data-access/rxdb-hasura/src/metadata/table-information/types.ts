@@ -1,4 +1,3 @@
-import type { XOR } from '@platyplus/ts-types'
 import { ReplicatedCollection } from '../utils/replication/types'
 type PrimaryKey = {
   constraint: string
@@ -13,32 +12,30 @@ export type ForeignKey = {
   constraint: string
   mapping: Record<string, string>
 }
+
 export type Relationship = {
   name: string
   type?: string
-  using: XOR<
-    {
-      foreign_key_constraint_on:
-        | string
-        | {
-            column: string
-            table: {
-              schema: string
-              name: string
-            }
+  using: {
+    foreign_key_constraint_on?:
+      | string
+      | {
+          column: string
+          table: {
+            schema: string
+            name: string
           }
-    },
-    {
-      manual_configuration: {
-        remote_table: {
-          schema: string
-          name: string
         }
-        insertion_order: unknown
-        column_mapping: Record<string, string>
+
+    manual_configuration?: {
+      remote_table: {
+        schema: string
+        name: string
       }
+      insertion_order: unknown
+      column_mapping: Record<string, string>
     }
-  >
+  }
 }
 
 type Permission<T = Record<string, never>> = {

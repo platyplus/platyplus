@@ -19,6 +19,7 @@ import { CollectionComponentWrapper } from '../collections'
 import { CollectionToolbar } from '../collections/toolbar'
 import { useRxQuery } from 'rxdb-hooks'
 import { RxCollection } from 'rxdb'
+import { PrivateRoute } from '@platyplus/auth'
 
 const CollectionData: React.FC<{
   collection: RxCollection
@@ -53,7 +54,7 @@ const CollectionData: React.FC<{
   )
 }
 
-export const CollectionPage: React.FC = () => {
+const Page: React.FC = () => {
   const { name, role } = useParams<{ name: string; role: string }>()
   const query = useQuery()
   const edit = useMemo(() => query.has('edit'), [query])
@@ -63,10 +64,16 @@ export const CollectionPage: React.FC = () => {
   const { title } = useCollectionTitle(tableinfo)
   if (!collection || !tableinfo || !title) return null
   return (
-    <CollectionData
-      {...{ collection, title, tableinfo, enabledConfig, role, edit }}
-    />
+    <PrivateRoute>
+      <CollectionData
+        {...{ collection, title, tableinfo, enabledConfig, role, edit }}
+      />
+    </PrivateRoute>
   )
 }
-
+export const CollectionPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)
 export default CollectionPage

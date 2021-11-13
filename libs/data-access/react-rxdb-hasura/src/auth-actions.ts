@@ -1,9 +1,9 @@
 import { useHbp } from '@platyplus/hbp'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useResetConfig } from './config'
 import { useDB } from './database'
 export const useLogout = () => {
-  const router = useHistory()
+  const navigate = useNavigate()
   const { auth } = useHbp()
   const db = useDB()
   const resetConfig = useResetConfig()
@@ -12,6 +12,6 @@ export const useLogout = () => {
     await auth.logout()
     await db.stop()
     resetConfig()
-    router.push('/')
+    navigate('/')
   }
 }

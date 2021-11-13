@@ -19,8 +19,9 @@ import { TABLE_CONFIG_TABLE } from './table-config'
 import { APP_CONFIG_TABLE } from './app-config'
 import { PAGES_TABLE } from './page/constants'
 import { TABLE_INFO_TABLE } from './table-information'
+import { DeepReadonlyObject } from 'rxdb'
 
-export type TableInformation = TableInfo
+export type TableInformation = DeepReadonlyObject<TableInfo>
 
 export type {
   Column,

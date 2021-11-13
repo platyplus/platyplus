@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Table } from 'rsuite'
 
 import { PropertyTitle, useTableProperties } from '@platyplus/react-rxdb-hasura'
@@ -16,7 +16,7 @@ export const TableCollection: CollectionComponent = ({
   data,
   config
 }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const [properties] = useTableProperties(tableinfo)
 
   return (
@@ -44,12 +44,12 @@ export const TableCollection: CollectionComponent = ({
                       width: '100%',
                       cursor: property.relationship ? null : 'pointer'
                     }}
-                    onClick={() => {
+                    onClick={() =>
                       !property.relationship &&
-                        history.push(
-                          `/collections/${role}/${tableinfo.id}/${document.id}`
-                        )
-                    }}
+                      navigate(
+                        `/collections/${role}/${tableinfo.id}/${document.id}`
+                      )
+                    }
                   >
                     <div className="rs-table-cell-content">
                       <FieldComponentWrapper

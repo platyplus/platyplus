@@ -1,20 +1,20 @@
 import React from 'react'
 import { Animation, ButtonGroup, ButtonToolbar, List } from 'rsuite'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 
 import { HeaderTitleWrapper, IconButtonWithHelper } from '@platyplus/layout'
 import { usePages } from '@platyplus/react-rxdb-hasura'
 import { pageTitle } from './utils'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const ConfigPagesPage: React.FC = () => {
+const Page: React.FC = () => {
   const pages = usePages()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const title = 'Pages configuration'
-  const add = () => {
-    history.push(`/config/pages/${uuid()}`)
-  }
+  const add = () => navigate(`/config/pages/${uuid()}`)
+
   return (
     <HeaderTitleWrapper title={title}>
       <Animation.Fade in={!!pages}>
@@ -37,9 +37,7 @@ export const ConfigPagesPage: React.FC = () => {
                   style={{
                     cursor: 'pointer'
                   }}
-                  onClick={() => {
-                    history.push(`/config/pages/${page.id}`)
-                  }}
+                  onClick={() => navigate(`/config/pages/${page.id}`)}
                 >
                   {pageTitle(page)}
                 </List.Item>
@@ -51,3 +49,8 @@ export const ConfigPagesPage: React.FC = () => {
     </HeaderTitleWrapper>
   )
 }
+export const ConfigPagesPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

@@ -5,8 +5,9 @@ import { HeaderTitleWrapper } from '@platyplus/layout'
 import { ConfigListItem } from './item'
 import { isManyToManyJoinTable } from '@platyplus/rxdb-hasura'
 import { useTablesConfig } from '@platyplus/react-rxdb-hasura'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const ConfigCollectionsPage: React.FC = () => {
+const Page: React.FC = () => {
   const tables = useTablesConfig()
   const list = useMemo(() => {
     const result = tables.filter((table) => !isManyToManyJoinTable(table))
@@ -37,3 +38,9 @@ export const ConfigCollectionsPage: React.FC = () => {
     </HeaderTitleWrapper>
   )
 }
+
+export const ConfigCollectionsPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

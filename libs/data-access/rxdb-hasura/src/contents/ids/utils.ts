@@ -2,8 +2,8 @@ import { TableInformation } from '../../metadata'
 import { Column, Contents } from '../../types'
 export const ID_COLUMN = 'id'
 
-export const getIds = (table: TableInformation): string[] =>
-  table.primaryKey?.columns || [ID_COLUMN]
+export const getIds = (table: TableInformation) =>
+  (table.primaryKey?.columns || [ID_COLUMN]) as string[]
 
 export const isIdColumn = (table: TableInformation, column: Column): boolean =>
   getIds(table).includes(column.name)

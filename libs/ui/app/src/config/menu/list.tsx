@@ -28,8 +28,9 @@ import {
 } from '@platyplus/react-rxdb-hasura'
 import { MenuListItem } from './list-item'
 import { isManyToManyJoinTable, MenuItem } from '@platyplus/rxdb-hasura'
+import { PrivateRoute } from '@platyplus/auth'
 
-export const ConfigMenuPage: React.FC = () => {
+const Page: React.FC = () => {
   const title = 'Menu configuration'
   const { state, setState } = useAppConfig()
   const menu = state.menu || []
@@ -179,3 +180,9 @@ export const ConfigMenuPage: React.FC = () => {
     </HeaderTitleWrapper>
   )
 }
+
+export const ConfigMenuPage = () => (
+  <PrivateRoute>
+    <Page />
+  </PrivateRoute>
+)

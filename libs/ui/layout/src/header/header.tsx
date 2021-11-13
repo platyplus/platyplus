@@ -4,7 +4,7 @@ import React, { FunctionComponent, ReactNode, useEffect, useRef } from 'react'
 import StatusMenu from '../status-menu/status-menu'
 import styled from 'styled-components'
 import { createGlobalState, useTitle } from 'react-use'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -65,14 +65,12 @@ export const HeaderTitleWrapper: React.FC<{
 }> = ({ title, component: Component, children, previous }) => {
   useTitle(title)
   const [container] = useTitleContainer()
-  const history = useHistory()
+  const navigate = useNavigate()
   const PreviousButton = previous ? (
     <IconButton
       appearance="subtle"
       onClick={() =>
-        typeof previous === 'boolean'
-          ? history.goBack()
-          : history.replace(previous)
+        typeof previous === 'boolean' ? navigate(-1) : navigate(previous)
       }
       size="lg"
       icon={<Icon icon="page-previous" />}

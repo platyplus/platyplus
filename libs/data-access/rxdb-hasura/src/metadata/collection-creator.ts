@@ -8,14 +8,13 @@ import {
   isManyToManyJoinTable,
   toJsonSchema
 } from '../contents'
-import { ContentsCollection, Database } from '../types'
+import { ContentsCollection, Database, TableInfo } from '../types'
 
-import { TableInformation } from './types'
 import { tableRoles } from './utils'
 
 export const createContentsCollections = async (
   db: Database,
-  tables: RxDocument<TableInformation>[]
+  tables: RxDocument<TableInfo>[]
 ) => {
   for (const table of Object.values(tables).filter(
     (table) => !isManyToManyJoinTable(table)
