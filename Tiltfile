@@ -1,8 +1,9 @@
 load('ext://hasura', 'hasura')
 load('ext://hasura', 'hasura_console')
-load('ext://uibutton', 'cmd_button')
 load('ext://helm_remote', 'helm_remote')
-load('./tools/tilt/hasura_backend_plus.Tiltfile', 'hasura_backend_plus')
+load('ext://git_resource', 'git_checkout')
+git_checkout('git@github.com:platyplus/tilt-modules.git')
+load('.git-sources/tilt-modules/hasura-backend-plus/Tiltfile', 'hasura_backend_plus')
 
 hasura(path='./apps/hasura', tag='v2.0.8', console=False)
 hasura_backend_plus()

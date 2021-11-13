@@ -46,3 +46,6 @@ Thumbs.db
 # Generated Docusaurus files
 .docusaurus/
 .cache-loader/
+
+tilt_modules/
+.git-sources/
