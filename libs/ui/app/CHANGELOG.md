@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/platyplus/platydev/compare/ui-app@0.2.3...ui-app@0.3.0) (2021-11-14)
+
+
+### Features
+
+* editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
+
+
+
 ## [0.2.3](https://github.com/platyplus/platydev/compare/ui-app@0.2.2...ui-app@0.2.3) (2021-11-10)
 
 
