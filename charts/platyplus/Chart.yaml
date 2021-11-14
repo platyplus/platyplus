@@ -10,7 +10,7 @@ appVersion: 0.1.0
 version: 0.1.7
 dependencies:
   - name: hasura-backend-plus
-    version: 0.2.0
+    version: 0.2.1
     repository: 'file://../hasura-backend-plus'
     condition: hasura.enabled
   - name: standard-service
