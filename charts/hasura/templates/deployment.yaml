@@ -1,6 +1,6 @@
 {{- $fullname := include "hasura.fullname" . -}}
 {{- $host := ternary (printf "%s-postgresql" .Release.Name) .Values.pgClient.external.host .Values.postgresql.enabled  -}}
-{{- $port := (coalesce .Values.postgresql.servicePort .Values.pgClient.external.port 5432) | int -}}
+{{- $port := (coalesce .Values.postgresql.service.port .Values.pgClient.external.port 5432) | int -}}
 {{- $metadata_host := ternary .Values.metadata.host $host .Values.metadata.external  -}}
 {{- $metadata_port := ternary .Values.metadata.port $port .Values.metadata.external  -}}
 apiVersion: apps/v1

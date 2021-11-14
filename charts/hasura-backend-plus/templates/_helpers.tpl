@@ -7,8 +7,8 @@ Return the hasura secret/config name
 {{- if .Values.hasura.enabled }}
 {{- printf "%s-%s" .Release.Name "hasura" | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- if .Values.hasura.serviceName }}
-{{- printf "%s-%s" .Release.Name .Values.hasura.serviceName | trunc 63 | trimSuffix "-" }}
+{{- if .Values.hasura.service.name }}
+{{- printf "%s-%s" .Release.Name .Values.hasura.service.name | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- include "hasura-backend-plus.fullname" . }}
 {{- end -}}

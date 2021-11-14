@@ -75,7 +75,7 @@ The following table lists the configurable parameters of the chart and their def
 | `ingress.hosts[0].name`      | Hostname for the ingress                                                                                                                | ``                          |
 | `ingress.hosts[0].tlsSecret` | TLS secret to use                                                                                                                       | `chartname`-tls-secret      |
 | `hasura.enabled`             | Embed Hasura into the chart. <br/> If not, you must set `hasura.endpoint`, `hasura.adminSecret` and `auth.jwt` from your Hasura config. | `true`                      |
-| `hasura.serviceName`         |                                                                                                                                         | `nil`                       |
+| `hasura.service.name`        |                                                                                                                                         | `nil`                       |
 | `hasura.endpoint`            | External endpoint <br/> Required when Hasura is not embedded.                                                                           | `nil`                       |
 | `hasura.adminSecret`         | Required when Hasura is not embedded                                                                                                    | `nil`                       |
 | `hasura.*`                   | Any other Hasura chart parameter                                                                                                        | default Charts values       |
@@ -243,7 +243,7 @@ To enable ingress integration, please set `ingress.enabled` to `true`
 
 Most likely you will only want to have one hostname that maps to this installation, however, it is possible to have more than one host. To facilitate this, the `ingress.hosts` object is an array. TLS secrets referenced in the ingress host configuration must be manually created in the namespace.
 
-In most cases, you should not specify values for `ingress.hosts[0].serviceName` and `ingress.hosts[0].servicePort`. However, some ingress controllers support advanced scenarios requiring you to specify these values. For example, [setting up an SSL redirect using the AWS ALB Ingress Controller](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/tasks/ssl_redirect/).
+In most cases, you should not specify values for `ingress.hosts[0].service.name` and `ingress.hosts[0].service.port`. However, some ingress controllers support advanced scenarios requiring you to specify these values. For example, [setting up an SSL redirect using the AWS ALB Ingress Controller](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/tasks/ssl_redirect/).
 
 #### Extra Paths
 

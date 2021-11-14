@@ -49,8 +49,15 @@
   - [ ] C(R)UD tables/fields/relationships/permissions from the app?
   - [ ] only update modified fields in the zustand form store?
         only send modified fields in the replication mutation?
-- [ ] Platyplus Tilt extension
-- [ ] fix github actions
+- [ ] review and use bitnami common template features e.g. secrets
+- [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
+  - See: https://github.com/bitnami/charts/issues/2061
+- [ ] nhost sd2
+- [ ] rsuite 5
+      are CSS variables available?
+- issues
+  - answer, solve & close
+  - update hasura (and other?) chart readme e.g. no traefik anymore
 
 ## Post-MVP
 
@@ -90,7 +97,6 @@
       - [ ] uri
     - http://127.0.0.1nip.io and chrome://flags/#unsafely-treat-insecure-origin-as-secure
   - [ ] change chrome tab title (like `app_name | page_title` instead of `app_title` only)
-- security: remove immer 8 -> -> -> react-scripts?
 - [ ] review `nx version` & `nx publish`
 
 ## Then
@@ -155,11 +161,7 @@
   - [ ] Helm chart
     - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platyplus/hasura-backend-plus?modal=security-report
   - [ ] Tilt extension
-  - [ ] use latest JS sdk
 - [ ] dark/light mode: store in user profile?
-- [ ] rsuite next -> when CSS variables are available
-- [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
-  - See: https://github.com/bitnami/charts/issues/2061
 - [ ] Include external files (Helm 3.6)
   - Install/upgrade/rollback Hasura migrations
   - Use it for HBP configuration files

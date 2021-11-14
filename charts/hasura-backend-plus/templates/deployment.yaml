@@ -265,7 +265,7 @@ spec:
               value: "{{ .Values.auth.changeEmail }}"
             - name: NOTIFY_EMAIL_CHANGE
               value: "{{ .Values.auth.notifyEmailChange }}"
-            - name: ANONYMOUS_USERS_ENABLE
+            - name: ANONYMOUS_USERS_ENABLED
               value: "{{ .Values.auth.anonymousUsers }}"
             - name: ALLOW_USER_SELF_DELETE
               value: "{{ .Values.auth.allowUserSelfDelete }}"
