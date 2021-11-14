@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.1](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.2.0...charts-hasura-backend-plus@0.2.1) (2021-11-14)
+
+
+### Bug Fixes
+
+* bump hasura chart version ([0d94313](https://github.com/platyplus/platydev/commit/0d94313a87ff706d38597b63920e8fad13f0e177))
+* use networking.k8s.io/v1 ingress ([b153143](https://github.com/platyplus/platydev/commit/b153143331f81adc8f47c35584f9dcd4cb706a82)), closes [#17](https://github.com/platyplus/platydev/issues/17)
+
+
+
 # [0.2.0](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.1.13...charts-hasura-backend-plus@0.2.0) (2021-10-17)
 
 ### Bug Fixes
