@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.4.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.3.3...data-access-react-rxdb-hasura@0.4.0) (2021-11-14)
+
+
+### Bug Fixes
+
+* load and save pages correctly ([3207c71](https://github.com/platyplus/platydev/commit/3207c712522872ef55f38ab30fd23de59669874f))
+
+
+### Features
+
+* editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
+
+
+
 ## [0.3.3](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.3.2...data-access-react-rxdb-hasura@0.3.3) (2021-11-10)
 
 
