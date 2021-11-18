@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.6](https://github.com/platyplus/platydev/compare/util-jsonata-schema@0.1.5...util-jsonata-schema@0.1.6) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct way to build npm packages ([ada3e24](https://github.com/platyplus/platydev/commit/ada3e24b39cc328f5918717ed76e45df764a464b))
+
+
+
 ## [0.1.5](https://github.com/platyplus/platydev/compare/util-jsonata-schema@0.1.4...util-jsonata-schema@0.1.5) (2021-11-18)
 
 
