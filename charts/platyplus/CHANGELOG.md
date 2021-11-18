@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.7](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.6...charts-platyplus@0.1.7) (2021-11-18)
+
+
+### Bug Fixes
+
+* bump hbp chart version ([f32aad5](https://github.com/platyplus/platydev/commit/f32aad511781168bdefb1dca11119fc7bd10e2db))
+
+
+
 ## [0.1.7](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.6...charts-platyplus@0.1.7) (2021-11-14)
 
 ### Bug Fixes
