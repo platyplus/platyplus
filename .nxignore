@@ -2,3 +2,13 @@
 **/README.md
 **/TODO.md
 tools/
+libs/**/package.json
+apps/**/package.json
+.vscode/
+.github/
+.husky/
+.editorconfig
+apollo.config.json
+LICENCE
+*.md
+Tiltfile
