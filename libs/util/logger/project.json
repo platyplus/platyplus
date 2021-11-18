@@ -26,7 +26,8 @@
         "tsConfig": "libs/util/logger/tsconfig.lib.json",
         "packageJson": "libs/util/logger/package.json",
         "main": "libs/util/logger/src/index.ts",
-        "assets": ["libs/util/logger/*.md"]
+        "assets": ["libs/util/logger/*.md"],
+        "srcRootForCompilationRoot": "libs/util/logger/src"
       }
     },
     "publish": {
@@ -36,11 +37,15 @@
           "projects": "self"
         }
       ],
-      "executor": "./tools/executors/npm-publish:publish"
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/logger"
+      }
     },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

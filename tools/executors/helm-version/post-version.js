@@ -3,13 +3,13 @@ const yaml = require('js-yaml')
 const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
-
+const { getTagPrefix } = require('./utils')
 async function postVersion(
   { dryRun = false, versionTagPrefix, push, noVerify, remote, baseBranch },
   { workspace, root, projectName }
 ) {
   if (versionTagPrefix) {
-    const tagPrefix = versionTagPrefix.replace('${target}', projectName)
+    const tagPrefix = getTagPrefix({ projectName }, { versionTagPrefix })
     const tag = execSync(
       `git describe --match "${tagPrefix}[0-9]*" --abbrev=0 --tags $(git rev-list --tags --max-count=1)`
     )
@@ -21,10 +21,7 @@ async function postVersion(
       logger.error(
         `Incorrect tag: ${tag} (versionTagPrefix: ${versionTagPrefix})`
       )
-
-      return {
-        success: false
-      }
+      return null
     }
     const projectPath = workspace.projects[projectName].root
     const chartPath = path.join(root, projectPath)
@@ -49,9 +46,9 @@ async function postVersion(
     }
   } else {
     logger.error('No tag given as an option')
-    return { success: false }
+    return null
   }
-  return { success: true }
+  return { newVersion, tagPrefix }
 }
 
-exports.default = postVersion
+exports.postVersion = postVersion

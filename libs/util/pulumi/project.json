@@ -26,7 +26,8 @@
         "tsConfig": "libs/util/pulumi/tsconfig.lib.json",
         "packageJson": "libs/util/pulumi/package.json",
         "main": "libs/util/pulumi/src/index.ts",
-        "assets": ["libs/util/pulumi/*.md"]
+        "assets": ["libs/util/pulumi/*.md"],
+        "srcRootForCompilationRoot": "libs/util/pulumi/src"
       }
     },
     "publish": {
@@ -36,11 +37,15 @@
           "projects": "self"
         }
       ],
-      "executor": "./tools/executors/npm-publish:publish"
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/pulumi"
+      }
     },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

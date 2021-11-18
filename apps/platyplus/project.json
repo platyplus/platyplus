@@ -79,16 +79,10 @@
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "./tools/executors/docker:build",
       "options": {
-        "command": ":"
-      },
-      "dependsOn": [
-        {
-          "target": "publish-docker",
-          "projects": "self"
-        }
-      ]
+        "publish": true
+      }
     },
     "serve": {
       "executor": "@nrwl/web:dev-server",
@@ -114,6 +108,7 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

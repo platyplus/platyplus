@@ -12,6 +12,7 @@
     "version": {
       "executor": "./tools/executors/helm-version:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

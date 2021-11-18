@@ -5,7 +5,7 @@
       "devDependencies": "*"
     },
     ".eslintrc.json": "*",
-    "tools/nginx.conf": "*"
+    "tools/nginx.conf": ["platyplus"]
   },
   "affected": {
     "defaultBase": "master"

@@ -4,22 +4,15 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:package",
+      "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/util/jsonata-schema",
         "tsConfig": "libs/util/jsonata-schema/tsconfig.lib.json",
-        "project": "libs/util/jsonata-schema/package.json",
-        "entryFile": "libs/util/jsonata-schema/src/index.ts",
-        "external": ["react", "react-dom", "react-router"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "assets": [
-          {
-            "glob": "libs/util/jsonata-schema/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "packageJson": "libs/util/jsonata-schema/package.json",
+        "main": "libs/util/jsonata-schema/src/index.ts",
+        "assets": ["libs/util/jsonata-schema/*.md"],
+        "srcRootForCompilationRoot": "libs/util/jsonata-schema/src"
       }
     },
     "publish": {
@@ -29,7 +22,10 @@
           "projects": "self"
         }
       ],
-      "executor": "./tools/executors/npm-publish:publish"
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/jsonata-schema"
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -49,6 +45,7 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

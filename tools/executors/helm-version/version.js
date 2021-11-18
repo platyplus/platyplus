@@ -6,23 +6,24 @@ const { execSync } = require('child_process')
 const {
   default: semverExecutor
 } = require('@jscutlery/semver/src/executors/version')
-const { default: postVersion } = require('./post-version')
+const { getNextVersion } = require('./next-version')
 
 const trimPrefix = (str, prefix) =>
   str.startsWith(prefix) && str.slice(prefix.length)
 
 async function version(options, context) {
   const { root, projectName, workspace } = context
-  const { dryRun, versionTagPrefix, noVerify, remote, baseBranch, push } =
-    options
+  const { dryRun } = options
   const projectRoot = workspace.projects[projectName].root
   const chartPath = path.join(root, projectRoot)
+  const nextVersion = await getNextVersion(context, options)
 
   try {
     const chartFilePath = path.join(chartPath, 'Chart.yaml')
     const chart = yaml.load(fs.readFileSync(chartFilePath, 'utf8'))
-
-    const changes = chart.dependencies?.filter((dep) => {
+    console.log('versions', chart.version, nextVersion)
+    let changes = false
+    const dependencyChanges = chart.dependencies?.filter((dep) => {
       const relativeDependencyPath = trimPrefix(dep.repository, 'file://')
       if (relativeDependencyPath) {
         logger.log(`Found dependency ${relativeDependencyPath}`)
@@ -40,38 +41,40 @@ async function version(options, context) {
           )
           if (dep.version !== dependencyChart.version) {
             dep.version = dependencyChart.version
+            changes = true
             return true
           }
         } catch {}
       }
       return false
     })
-    if (changes.length) {
+    if (nextVersion && chart.version !== nextVersion) {
+      chart.version = newVersion
+      changes = true
+    }
+    if (changes) {
       if (!dryRun) {
+        console.log('BINGOOOOO')
         fs.writeFileSync(chartFilePath, yaml.dump(chart))
-        const opts = { stdio: 'inherit' }
-        execSync(`helm dependency update ${chartPath}`, opts)
+        if (dependencyChanges.length) {
+          const opts = { stdio: 'inherit' }
+          execSync(`helm dependency update ${chartPath}`, opts)
+        }
         execSync(`git add ${chartPath}`, opts)
-        execSync(
-          `git commit -m "chore(release): bump dependency versions ${changes
-            .map((d) => d.name)
-            .join(', ')}"`
-        )
+        execSync(`git commit -m "chore(release): bump helm Chart.yaml file`)
       }
+      logger.log(`executing @jscutlery/semver (dryRun:${dryRun})`)
+      const result = await semverExecutor(options, context)
+      if (!result.success) {
+        logger.error('Failed to run @jscutlery/semver:version')
+        return result
+      }
+      logger.log('@jscutlery/semver executed')
     } else {
-      logger.log('No changes of depencendy versions')
+      logger.log('No changes')
     }
-    logger.log(`executing @jscutlery/semver (dryRun:${dryRun})`)
-    const result = await semverExecutor({ ...options, push: false }, context)
-    if (!result.success) {
-      logger.error('Failed to run @jscutlery/semver:version')
-      return result
-    }
-    logger.log('@jscutlery/semver executed')
-    return await postVersion(
-      { dryRun, versionTagPrefix, push, noVerify, remote, baseBranch },
-      context
-    )
+
+    return { success: true }
   } catch (e) {
     logger.error(e)
     return { success: false }

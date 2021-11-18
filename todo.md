@@ -1,5 +1,6 @@
 ## MVP
 
+- ->>> nx version -> github release -> github action -> nx publish?
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo

@@ -12,14 +12,11 @@ const publish = (path, dryRun) => {
   })
 }
 async function version(options, context) {
-  const { root, projectName, workspace } = context
-  const { dryRun = false } = options
-
-  const projectRoot = workspace.projects[projectName].root
-  const absoluteProjectRoot = path.join(root, projectRoot)
+  const { projectName, workspace } = context
+  const { dryRun = false, buildPath } = options
   try {
     const { name, version } = JSON.parse(
-      fs.readFileSync(path.join(absoluteProjectRoot, 'package.json'), 'utf-8')
+      fs.readFileSync(path.join(buildPath, 'package.json'), 'utf-8')
     )
     const npm = new NpmApi()
     const repo = npm.repo(name)
@@ -30,11 +27,11 @@ async function version(options, context) {
           `${name}@${version} has been already published. Do nothing.`
         )
       } else {
-        publish(absoluteProjectRoot, dryRun)
+        publish(buildPath, dryRun)
       }
     } catch (e) {
       logger.log('Not found in registry. Publish for the first time.')
-      publish(absoluteProjectRoot, dryRun)
+      publish(buildPath, dryRun)
     }
   } catch {
     logger.error('Cannot read information in package.json')

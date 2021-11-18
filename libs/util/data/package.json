@@ -8,5 +8,7 @@
     "type": "git",
     "url": "https://github.com/platyplus/platyplus.git",
     "directory": "packages/data"
-  }
+  },
+  "main": "./index.js",
+  "typings": "./index.d.ts"
 }

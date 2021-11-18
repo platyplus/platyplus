@@ -4,22 +4,15 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:package",
+      "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/util/ts-types",
         "tsConfig": "libs/util/ts-types/tsconfig.lib.json",
-        "project": "libs/util/ts-types/package.json",
-        "entryFile": "libs/util/ts-types/src/index.ts",
-        "external": ["react", "react-dom", "react-router"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "assets": [
-          {
-            "glob": "libs/util/ts-types/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "packageJson": "libs/util/ts-types/package.json",
+        "main": "libs/util/ts-types/src/index.ts",
+        "assets": ["libs/util/ts-types/*.md"],
+        "srcRootForCompilationRoot": "libs/util/ts-types/src"
       }
     },
     "publish": {
@@ -29,7 +22,10 @@
           "projects": "self"
         }
       ],
-      "executor": "./tools/executors/npm-publish:publish"
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/ts-types"
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -49,6 +45,7 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

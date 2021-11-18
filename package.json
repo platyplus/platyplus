@@ -30,7 +30,7 @@
     "bundle-report": "webpack-bundle-analyzer dist/apps/platyplus/stats.json",
     "cz": "cz",
     "prepare": "husky install",
-    "version": "nx affected --target=version",
+    "version": "nx affected --target=version --base=$(git describe --abbrev=0)",
     "version:all": "nx run-many --all --target=version",
     "ci:build": "nx run-many --all --target=build --prod",
     "ci:publish": "nx run-many --all --target=publish"

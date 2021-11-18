@@ -4,22 +4,15 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:package",
+      "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/util/amqp",
         "tsConfig": "libs/util/amqp/tsconfig.lib.json",
-        "project": "libs/util/amqp/package.json",
-        "entryFile": "libs/util/amqp/src/index.ts",
-        "external": ["react", "react-dom", "react-router"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "assets": [
-          {
-            "glob": "libs/util/amqp/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "packageJson": "libs/util/amqp/package.json",
+        "main": "libs/util/amqp/src/index.ts",
+        "assets": ["libs/util/amqp/*.md"],
+        "srcRootForCompilationRoot": "libs/util/amqp/src"
       }
     },
     "publish": {
@@ -29,7 +22,10 @@
           "projects": "self"
         }
       ],
-      "executor": "./tools/executors/npm-publish:publish"
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/amqp"
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -49,6 +45,7 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true

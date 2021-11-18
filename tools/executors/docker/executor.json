@@ -1,0 +1,14 @@
+{
+  "executors": {
+    "build": {
+      "implementation": "./build",
+      "schema": "./build.schema.json",
+      "description": "Build docker image"
+    },
+    "publish": {
+      "implementation": "./publish",
+      "schema": "./publish.schema.json",
+      "description": "Publish docker image"
+    }
+  }
+}

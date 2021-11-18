@@ -11,9 +11,10 @@
       "type": "boolean",
       "default": false
     },
-    "buildPath": {
-      "description": "Path where the built package is",
-      "type": "string"
+    "publish": {
+      "description": "Publish docker image",
+      "type": "boolean",
+      "default": false
     }
   },
 

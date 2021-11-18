@@ -5,10 +5,10 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/ui/theme/**/*.ts"]
-      }
+        "lintFilePatterns": ["libs/ui/theme/**/*.{ts,tsx,js,jsx}"]
+      },
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
@@ -19,14 +19,43 @@
       }
     },
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/web:package",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/ui/theme",
         "tsConfig": "libs/ui/theme/tsconfig.lib.json",
-        "packageJson": "libs/ui/theme/package.json",
-        "main": "libs/ui/theme/src/index.ts",
-        "assets": ["libs/ui/theme/*.md"]
+        "project": "libs/ui/theme/package.json",
+        "entryFile": "libs/ui/theme/src/index.ts",
+        "external": ["react", "react-dom", "react-router"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "assets": [
+          {
+            "glob": "libs/ui/theme/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "publish": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/ui/theme"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
       }
     }
   },

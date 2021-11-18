@@ -4,35 +4,17 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 ## [0.2.4](https://github.com/platyplus/platydev/compare/ui-profile@0.2.3...ui-profile@0.2.4) (2021-11-14)
 
-
-
-## [0.2.3](https://github.com/platyplus/platydev/compare/ui-profile@0.2.2...ui-profile@0.2.3) (2021-11-10)
-
-
-
-## [0.2.2](https://github.com/platyplus/platydev/compare/ui-profile@0.2.1...ui-profile@0.2.2) (2021-11-10)
-
-
-
-## [0.2.1](https://github.com/platyplus/platydev/compare/ui-profile@0.2.0...ui-profile@0.2.1) (2021-11-10)
-
-
-
 # [0.2.0](https://github.com/platyplus/platydev/compare/ui-profile@0.1.0...ui-profile@0.2.0) (2021-11-08)
-
 
 ### Bug Fixes
 
-* correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
-* improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
-
+- correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
+- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
 
 ### Features
 
-* configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
-* destroy db on logout ([8abe66f](https://github.com/platyplus/platydev/commit/8abe66f61e688dca373368ba0d19ed554ff9afa0))
-
-
+- configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+- destroy db on logout ([8abe66f](https://github.com/platyplus/platydev/commit/8abe66f61e688dca373368ba0d19ed554ff9afa0))
 
 # 0.1.0 (2021-09-15)
 

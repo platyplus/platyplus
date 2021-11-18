@@ -9,5 +9,7 @@
     "url": "https://github.com/platyplus/platyplus.git",
     "directory": ""
   },
-  "license": "MIT"
+  "license": "MIT",
+  "main": "./index.js",
+  "typings": "./index.d.ts"
 }

@@ -4,22 +4,15 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/web:package",
+      "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/util/data",
         "tsConfig": "libs/util/data/tsconfig.lib.json",
-        "project": "libs/util/data/package.json",
-        "entryFile": "libs/util/data/src/index.ts",
-        "external": ["react", "react-dom", "react-router"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "assets": [
-          {
-            "glob": "libs/util/data/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "packageJson": "libs/util/data/package.json",
+        "main": "libs/util/data/src/index.ts",
+        "assets": ["libs/util/data/*.md"],
+        "srcRootForCompilationRoot": "libs/util/data/src"
       }
     },
     "publish": {
@@ -29,7 +22,10 @@
           "projects": "self"
         }
       ],
-      "executor": "./tools/executors/npm-publish:publish"
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/data"
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -49,6 +45,7 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
+        "push": true,
         "baseBranch": "master",
         "versionTagPrefix": "${target}@",
         "trackDeps": true
