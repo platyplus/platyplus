@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.18](https://github.com/platyplus/platydev/compare/util-amqp@0.0.17...util-amqp@0.0.18) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct tsconfig.lib ([7c9a2d3](https://github.com/platyplus/platydev/commit/7c9a2d340283b809cfe9f738e72090fc5a950aa5))
+
+
+
 ## [0.0.17](https://github.com/platyplus/platydev/compare/util-amqp@0.0.16...util-amqp@0.0.17) (2021-11-18)
 
 
