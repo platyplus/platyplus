@@ -1,6 +1,6 @@
 {
   "name": "@platyplus/amqp",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "main": "./index.js",
   "typings": "./index.d.ts"
 }
