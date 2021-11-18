@@ -2,36 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.1.3](https://github.com/platyplus/platydev/compare/hasura@0.1.2...hasura@0.1.3) (2021-11-18)
-
-
-
-## [0.1.2](https://github.com/platyplus/platydev/compare/hasura@0.1.1...hasura@0.1.2) (2021-11-10)
-
-
-
 ## [0.1.1](https://github.com/platyplus/platydev/compare/hasura@0.1.0...hasura@0.1.1) (2021-11-10)
-
 
 ### Bug Fixes
 
-* correct default seed values in pages table ([062a6ff](https://github.com/platyplus/platydev/commit/062a6ff39b206532a7ae39ae4fc02d4cc7483dad))
-
-
-
-# [0.1.0](https://github.com/platyplus/platydev/compare/hasura@0.0.2...hasura@0.1.0) (2021-11-08)
+- correct default seed values in pages table ([062a6ff](https://github.com/platyplus/platydev/commit/062a6ff39b206532a7ae39ae4fc02d4cc7483dad))
 
 ## [0.0.2](https://github.com/platyplus/platyplus/compare/hasura@0.0.1...hasura@0.0.2) (2021-10-09)
 
 ### Bug Fixes
 
 - remove bugs, upgrade packages ([826f1c2](https://github.com/platyplus/platyplus/commit/826f1c2c2147ed1b436e9f58b36d1fc4346d7f91))
-
-## 0.0.1 (2021-09-15)
-
-## 0.1.1 (2021-01-28)
-
-**Note:** Version bump only for package @platyplus/hasura
 
 # 0.1.0 (2021-01-26)
 

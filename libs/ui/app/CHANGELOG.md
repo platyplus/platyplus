@@ -4,67 +4,44 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 ## [0.3.3](https://github.com/platyplus/platydev/compare/ui-app@0.3.2...ui-app@0.3.3) (2021-11-18)
 
-
-
-## [0.3.2](https://github.com/platyplus/platydev/compare/ui-app@0.3.1...ui-app@0.3.2) (2021-11-18)
-
-
-
-## [0.3.1](https://github.com/platyplus/platydev/compare/ui-app@0.3.0...ui-app@0.3.1) (2021-11-14)
-
-
-
 # [0.3.0](https://github.com/platyplus/platydev/compare/ui-app@0.2.3...ui-app@0.3.0) (2021-11-14)
-
 
 ### Features
 
-* editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
-
-
+- editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
 
 ## [0.2.3](https://github.com/platyplus/platydev/compare/ui-app@0.2.2...ui-app@0.2.3) (2021-11-10)
 
-
-
 ## [0.2.2](https://github.com/platyplus/platydev/compare/ui-app@0.2.1...ui-app@0.2.2) (2021-11-10)
-
-
 
 ## [0.2.1](https://github.com/platyplus/platydev/compare/ui-app@0.2.0...ui-app@0.2.1) (2021-11-10)
 
-
-
 # [0.2.0](https://github.com/platyplus/platydev/compare/ui-app@0.1.1...ui-app@0.2.0) (2021-11-08)
-
 
 ### Bug Fixes
 
-* correct filtering out items that cannot be removed in a many2many relationship ([823a451](https://github.com/platyplus/platydev/commit/823a45159615feb2ce3bd0e69fc89080a182e46b))
-* correct things here and there ([4cf9a2a](https://github.com/platyplus/platydev/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
-* correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
-* custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
-* default light theme ([616b6e7](https://github.com/platyplus/platydev/commit/616b6e789dddd4712c8930ca5de2ef59df3b0389))
-* do not expect application config to be available if user is not authenticated ([15f1523](https://github.com/platyplus/platydev/commit/15f15237e1b83c570f14e06db62dddd55a1aedff))
-* improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
-* improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platydev/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
-* refresh the many2one target ([8931e57](https://github.com/platyplus/platydev/commit/8931e570e4f0309b2d71c8736469a88456af4076))
-* reset number value to null when undefined ([99228e5](https://github.com/platyplus/platydev/commit/99228e550536a023acc93658bf820e20d20188cc))
-* resume online when application is loaded offline ([828cbc7](https://github.com/platyplus/platydev/commit/828cbc7ce014c653d47a722abafe18bd58691e1a))
-* use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platydev/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
-
+- correct filtering out items that cannot be removed in a many2many relationship ([823a451](https://github.com/platyplus/platydev/commit/823a45159615feb2ce3bd0e69fc89080a182e46b))
+- correct things here and there ([4cf9a2a](https://github.com/platyplus/platydev/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
+- correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
+- custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
+- default light theme ([616b6e7](https://github.com/platyplus/platydev/commit/616b6e789dddd4712c8930ca5de2ef59df3b0389))
+- do not expect application config to be available if user is not authenticated ([15f1523](https://github.com/platyplus/platydev/commit/15f15237e1b83c570f14e06db62dddd55a1aedff))
+- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
+- improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platydev/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
+- refresh the many2one target ([8931e57](https://github.com/platyplus/platydev/commit/8931e570e4f0309b2d71c8736469a88456af4076))
+- reset number value to null when undefined ([99228e5](https://github.com/platyplus/platydev/commit/99228e550536a023acc93658bf820e20d20188cc))
+- resume online when application is loaded offline ([828cbc7](https://github.com/platyplus/platydev/commit/828cbc7ce014c653d47a722abafe18bd58691e1a))
+- use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platydev/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
 
 ### Features
 
-* check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
-* configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
-* custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
-* dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
-* improve login/register errors and validation with a nicer alert message box ([53f175c](https://github.com/platyplus/platydev/commit/53f175ca3fd64e7ded9d5f7105f8b1843982e9f5))
-* rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
-* use a radio component to select the menu item type ([46e547b](https://github.com/platyplus/platydev/commit/46e547bff7356e604563aa7dca86b1b8f013b924))
-
-
+- check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
+- configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+- custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+- dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
+- improve login/register errors and validation with a nicer alert message box ([53f175c](https://github.com/platyplus/platydev/commit/53f175ca3fd64e7ded9d5f7105f8b1843982e9f5))
+- rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+- use a radio component to select the menu item type ([46e547b](https://github.com/platyplus/platydev/commit/46e547bff7356e604563aa7dca86b1b8f013b924))
 
 ## [0.1.1](https://github.com/platyplus/platyplus/compare/ui-app@0.1.0...ui-app@0.1.1) (2021-10-10)
 

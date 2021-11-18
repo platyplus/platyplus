@@ -2,15 +2,7 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.1.5](https://github.com/platyplus/platydev/compare/data-access-hbp@0.1.4...data-access-hbp@0.1.5) (2021-11-18)
-
-
-
-## [0.1.4](https://github.com/platyplus/platydev/compare/data-access-hbp@0.1.3...data-access-hbp@0.1.4) (2021-11-18)
-
-
-
-# [0.1.0](https://github.com/platyplus/platydev/compare/data-access-hbp@0.0.1...data-access-hbp@0.1.0) (2021-11-08)
+## [0.1.0](https://github.com/platyplus/platydev/compare/data-access-hbp@0.0.1...data-access-hbp@0.1.0) (2021-11-08)
 
 ### Bug Fixes
 

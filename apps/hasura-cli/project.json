@@ -13,9 +13,9 @@
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "./tools/executors/docker:build",
       "options": {
-        "command": ":"
+        "publish": true
       },
       "dependsOn": [
         {

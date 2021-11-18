@@ -2,48 +2,25 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.3.7](https://github.com/platyplus/platydev/compare/platyplus@0.3.6...platyplus@0.3.7) (2021-11-18)
-
-
-
-## [0.3.6](https://github.com/platyplus/platydev/compare/platyplus@0.3.5...platyplus@0.3.6) (2021-11-18)
-
-
-
-## [0.3.5](https://github.com/platyplus/platydev/compare/platyplus@0.3.4...platyplus@0.3.5) (2021-11-14)
-
-
-
 ## [0.3.4](https://github.com/platyplus/platydev/compare/platyplus@0.3.3...platyplus@0.3.4) (2021-11-14)
-
 
 ### Bug Fixes
 
-* remove invalid webpack options ([6f906b7](https://github.com/platyplus/platydev/commit/6f906b77bc40edfe5ee1a65dc0bc56ce87e5f0f5))
-
-
+- remove invalid webpack options ([6f906b7](https://github.com/platyplus/platydev/commit/6f906b77bc40edfe5ee1a65dc0bc56ce87e5f0f5))
 
 ## [0.3.3](https://github.com/platyplus/platydev/compare/platyplus@0.3.2...platyplus@0.3.3) (2021-11-10)
 
-
 ### Bug Fixes
 
-* adapt to post nx 13 bump ([df34b1f](https://github.com/platyplus/platydev/commit/df34b1f76497205536952dc3ec91aa66fb7f27c4))
-
-
+- adapt to post nx 13 bump ([df34b1f](https://github.com/platyplus/platydev/commit/df34b1f76497205536952dc3ec91aa66fb7f27c4))
 
 ## [0.3.2](https://github.com/platyplus/platydev/compare/platyplus@0.3.1...platyplus@0.3.2) (2021-11-10)
 
-
 ### Bug Fixes
 
-* correct webpack config ([e3545bb](https://github.com/platyplus/platydev/commit/e3545bb1664d51d87c2a8d3996913750bf8759df))
-
-
+- correct webpack config ([e3545bb](https://github.com/platyplus/platydev/commit/e3545bb1664d51d87c2a8d3996913750bf8759df))
 
 ## [0.3.1](https://github.com/platyplus/platydev/compare/platyplus@0.3.0...platyplus@0.3.1) (2021-11-10)
-
-
 
 # [0.3.0](https://github.com/platyplus/platydev/compare/platyplus@0.2.1...platyplus@0.3.0) (2021-11-08)
 

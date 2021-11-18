@@ -61,24 +61,27 @@
           "projects": "self"
         }
       ],
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "./tools/executors/docker.sh build platyplus"
-      }
+      "executor": "./tools/executors/docker:build"
     },
     "publish-docker": {
       "dependsOn": [
         {
-          "target": "build",
+          "target": "build-webpack",
           "projects": "self"
         }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "./tools/executors/docker:build",
       "options": {
-        "command": "./tools/executors/docker.sh push platyplus"
+        "publish": true
       }
     },
     "publish": {
+      "dependsOn": [
+        {
+          "target": "build-webpack",
+          "projects": "self"
+        }
+      ],
       "executor": "./tools/executors/docker:build",
       "options": {
         "publish": true

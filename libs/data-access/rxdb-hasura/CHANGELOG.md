@@ -4,18 +4,11 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 ## [0.3.5](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.4...data-access-rxdb-hasura@0.3.5) (2021-11-18)
 
-
-
 ## [0.3.4](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.3...data-access-rxdb-hasura@0.3.4) (2021-11-18)
-
 
 ### Bug Fixes
 
-* load and save pages correctly ([3207c71](https://github.com/platyplus/platydev/commit/3207c712522872ef55f38ab30fd23de59669874f))
-
-
-
-## [0.3.3](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.2...data-access-rxdb-hasura@0.3.3) (2021-11-10)
+- load and save pages correctly ([3207c71](https://github.com/platyplus/platydev/commit/3207c712522872ef55f38ab30fd23de59669874f))
 
 # [0.3.0](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.2.3...data-access-rxdb-hasura@0.3.0) (2021-11-08)
 

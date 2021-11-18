@@ -4,20 +4,9 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 ## [0.1.7](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.6...charts-platyplus@0.1.7) (2021-11-18)
 
-
-### Bug Fixes
-
-* bump hbp chart version ([f32aad5](https://github.com/platyplus/platydev/commit/f32aad511781168bdefb1dca11119fc7bd10e2db))
-
-
-
-## [0.1.7](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.6...charts-platyplus@0.1.7) (2021-11-14)
-
 ### Bug Fixes
 
 - bump hbp chart version ([f32aad5](https://github.com/platyplus/platydev/commit/f32aad511781168bdefb1dca11119fc7bd10e2db))
-
-## [0.1.6](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.5...charts-platyplus@0.1.6) (2021-11-10)
 
 ## [0.1.5](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.4...charts-platyplus@0.1.5) (2021-11-08)
 
@@ -38,11 +27,7 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 - glue everything together ([31be4cf](https://github.com/platyplus/platydev/commit/31be4cf80430bb1c424e12f7bf0461ec061f71a2))
 
-## [0.1.2](https://github.com/platyplus/platyplus/compare/charts-platyplus@0.1.1...charts-platyplus@0.1.2) (2021-10-10)
-
-## [0.1.1](https://github.com/platyplus/platyplus/compare/charts-platyplus@0.1.0...charts-platyplus@0.1.1) (2021-10-10)
-
-# 0.1.0 (2021-10-09)
+## 0.1.0 (2021-10-09)
 
 ### Bug Fixes
 
@@ -51,5 +36,3 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 ### Features
 
 - dynamic config.json file that can be rewritten on static file 'runtime' ([8eebae6](https://github.com/platyplus/platyplus/commit/8eebae64d4039e6a05503abb58b03c11dfaaf9b6))
-
-## 0.0.1 (2021-09-22)
