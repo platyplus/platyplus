@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.4](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.3...data-access-react-rxdb-hasura@0.4.4) (2021-11-18)
+
+
+
 ## [0.4.3](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.2...data-access-react-rxdb-hasura@0.4.3) (2021-11-18)
 
 
