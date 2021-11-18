@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.6](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.5...data-access-rxdb-hasura@0.3.6) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
+
+
+
 ## [0.3.5](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.4...data-access-rxdb-hasura@0.3.5) (2021-11-18)
 
 ## [0.3.4](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.3...data-access-rxdb-hasura@0.3.4) (2021-11-18)
