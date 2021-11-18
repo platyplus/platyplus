@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/platyplus/platydev/compare/hasura@0.1.2...hasura@0.1.3) (2021-11-18)
+
+
+
 ## [0.1.2](https://github.com/platyplus/platydev/compare/hasura@0.1.1...hasura@0.1.2) (2021-11-10)
 
 
