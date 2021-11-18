@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.8](https://github.com/platyplus/platydev/compare/platyplus@0.3.7...platyplus@0.3.8) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
+
+
+
 ## [0.3.4](https://github.com/platyplus/platydev/compare/platyplus@0.3.3...platyplus@0.3.4) (2021-11-14)
 
 ### Bug Fixes
