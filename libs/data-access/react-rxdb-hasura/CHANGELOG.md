@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.3](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.2...data-access-react-rxdb-hasura@0.4.3) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
+
+
+
 ## [0.4.2](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.1...data-access-react-rxdb-hasura@0.4.2) (2021-11-18)
 
 # [0.4.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.3.3...data-access-react-rxdb-hasura@0.4.0) (2021-11-14)
