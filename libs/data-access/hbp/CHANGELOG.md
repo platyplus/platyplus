@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.8](https://github.com/platyplus/platydev/compare/data-access-hbp@0.1.7...data-access-hbp@0.1.8) (2021-11-18)
+
+
+
 ## [0.1.7](https://github.com/platyplus/platydev/compare/data-access-hbp@0.1.6...data-access-hbp@0.1.7) (2021-11-18)
 
 
