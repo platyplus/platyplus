@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.4](https://github.com/platyplus/platydev/compare/util-logger@0.1.3...util-logger@0.1.4) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct way to build npm packages ([ada3e24](https://github.com/platyplus/platydev/commit/ada3e24b39cc328f5918717ed76e45df764a464b))
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/util-logger@0.1.2...util-logger@0.1.3) (2021-11-18)
 
 
