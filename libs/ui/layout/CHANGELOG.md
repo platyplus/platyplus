@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.1](https://github.com/platyplus/platydev/compare/ui-layout@0.3.0...ui-layout@0.3.1) (2021-11-18)
+
+
+
 # [0.3.0](https://github.com/platyplus/platydev/compare/ui-layout@0.2.1...ui-layout@0.3.0) (2021-11-14)
 
 
