@@ -6,12 +6,10 @@ const {
 const {
   getProjectDependencies
 } = require('@jscutlery/semver/src/executors/version/utils/get-project-dependencies')
-const { getTagPrefix, getDependencyRoots } = require('./utils')
-
-exports.getTagPrefix = ({ projectName }, { versionTagPrefix }) =>
+const getTagPrefix = ({ projectName }, { versionTagPrefix }) =>
   versionTagPrefix.replace('${target}', projectName)
 
-exports.getDependencyRoots = async (
+const getDependencyRoots = async (
   { projectName, workspace },
   { trackDeps, releaseAs }
 ) => {
@@ -25,7 +23,6 @@ exports.getDependencyRoots = async (
       )
     } catch (e) {
       logger.error('Failed to determine dependencies.')
-      console.log(e)
       return []
     }
   }

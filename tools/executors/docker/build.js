@@ -32,8 +32,8 @@ async function build(options, context) {
     ?.substr(projectName.length + 1)
   if (version) tags.push(version)
   for (const tag of tags) {
+    const tagCommand = `docker tag ${mainTag} ${repo}/${mainTag}:${tag}`
     if (dryRun) {
-      const tagCommand = `docker tag ${mainTag} ${repo}/${mainTag}:${tag}`
       logger.log(tagCommand)
     } else {
       execSync(tagCommand, opts)
