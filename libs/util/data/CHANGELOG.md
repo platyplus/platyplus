@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/platyplus/platydev/compare/util-data@0.1.4...util-data@0.1.5) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct tsconfig.lib ([7c9a2d3](https://github.com/platyplus/platydev/commit/7c9a2d340283b809cfe9f738e72090fc5a950aa5))
+
+
+
 ## [0.1.4](https://github.com/platyplus/platydev/compare/util-data@0.1.3...util-data@0.1.4) (2021-11-18)
 
 
