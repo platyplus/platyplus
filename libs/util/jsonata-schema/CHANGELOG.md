@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.7](https://github.com/platyplus/platydev/compare/util-jsonata-schema@0.1.6...util-jsonata-schema@0.1.7) (2021-11-18)
+
+
+### Bug Fixes
+
+* correct tsconfig.lib ([7c9a2d3](https://github.com/platyplus/platydev/commit/7c9a2d340283b809cfe9f738e72090fc5a950aa5))
+
+
+
 ## [0.1.6](https://github.com/platyplus/platydev/compare/util-jsonata-schema@0.1.5...util-jsonata-schema@0.1.6) (2021-11-18)
 
 
