@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.2](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.2.1...charts-hasura-backend-plus@0.2.2) (2021-11-18)
+
+
+
 ## [0.2.1](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.2.0...charts-hasura-backend-plus@0.2.1) (2021-11-14)
 
 ### Bug Fixes
