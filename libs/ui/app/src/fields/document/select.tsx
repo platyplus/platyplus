@@ -35,7 +35,7 @@ export const DocumentSelectField: FieldComponent = ({
   const collection = useContentsCollection(refTable, role)
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
-    if (collection && document) {
+    if (collection && document && name in document) {
       const subscription = document
         .get$(name)
         .pipe(
