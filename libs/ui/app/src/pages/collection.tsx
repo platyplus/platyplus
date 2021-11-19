@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
+import { RxCollection } from 'rxdb'
+import { useRxQuery } from 'rxdb-hooks'
 
 import {
   Contents,
@@ -13,13 +15,12 @@ import {
   useTableInfo,
   useContentsCollection
 } from '@platyplus/react-rxdb-hasura'
+import { PrivateRoute } from '@platyplus/auth'
 import { HeaderTitleWrapper } from '@platyplus/layout'
 import { Loading, useQuery } from '@platyplus/navigation'
+
 import { CollectionComponentWrapper } from '../collections'
 import { CollectionToolbar } from '../collections/toolbar'
-import { useRxQuery } from 'rxdb-hooks'
-import { RxCollection } from 'rxdb'
-import { PrivateRoute } from '@platyplus/auth'
 
 const CollectionData: React.FC<{
   collection: RxCollection
@@ -55,7 +56,7 @@ const CollectionData: React.FC<{
 }
 
 const Page: React.FC = () => {
-  const { name, role } = useParams<{ name: string; role: string }>()
+  const { name, role } = useParams()
   const query = useQuery()
   const edit = useMemo(() => query.has('edit'), [query])
   const enabledConfig = useConfigEnabled()
@@ -64,11 +65,9 @@ const Page: React.FC = () => {
   const { title } = useCollectionTitle(tableinfo)
   if (!collection || !tableinfo || !title) return null
   return (
-    <PrivateRoute>
-      <CollectionData
-        {...{ collection, title, tableinfo, enabledConfig, role, edit }}
-      />
-    </PrivateRoute>
+    <CollectionData
+      {...{ collection, title, tableinfo, enabledConfig, role, edit }}
+    />
   )
 }
 export const CollectionPage = () => (

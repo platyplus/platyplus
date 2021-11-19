@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Animation } from 'rsuite'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 
 import { DocumentPanel, HeaderTitleWrapper } from '@platyplus/layout'
 import { useQuery } from '@platyplus/navigation'
@@ -12,13 +12,11 @@ import {
   useTableInfo,
   useDocument
 } from '@platyplus/react-rxdb-hasura'
-
 import { DocumentToolbar, DocumentComponentWrapper } from '../documents'
 import { PrivateRoute } from '@platyplus/auth'
 
 const Page: React.FC = () => {
-  const { name, role, id } =
-    useParams<{ name: string; role: string; id: string }>()
+  const { name, role, id } = useParams()
   const editing = useQuery().has('edit') || id === 'new'
   const enabledConfig = useConfigEnabled()
 
