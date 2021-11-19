@@ -27,7 +27,7 @@ const getConfig = async () =>
           authUrl:
             typeof authUrl === 'string'
               ? process.env.NODE_ENV === 'development' && !isLocal
-                ? `${window.location.protocol}//auth.${window.location.host}/v1/graphql`
+                ? `${window.location.protocol}//auth.${window.location.host}`
                 : authUrl
               : `${window.location.protocol}//${authUrl.prefix}.${window.location.host}`,
           ...config
