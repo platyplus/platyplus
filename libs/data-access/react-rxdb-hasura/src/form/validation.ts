@@ -11,7 +11,7 @@ export const useFormIsValid = (
 ) => {
   const [isValid, setValid] = useState(false)
   const form = useFormGet(tableInfo, role, document)
-  const model = useFormModel(tableInfo, role, form)
+  const model = useFormModel(tableInfo, role, form, document._isTemporary)
   useEffect(() => {
     // ? Use Suspense instead ?
     const go = async () => {

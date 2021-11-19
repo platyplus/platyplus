@@ -53,15 +53,17 @@ export const canEdit = (
   tableInfo: TableInformation,
   role: string,
   document?: Contents,
-  propertyName?: string
-) =>
-  role === ADMIN_ROLE ||
-  // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
-  // TODO code 'isNewDocument' that is valid both before saving and before first push replication
-  !document ||
-  !document.updated_at // document._isTemporary
+  propertyName?: string,
+  isNew?: boolean
+) => {
+  return role === ADMIN_ROLE ||
+    // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
+    // TODO code 'isNewDocument' that is valid both before saving and before first push replication
+    document?._isTemporary ||
+    isNew
     ? canCreate(tableInfo, role, propertyName)
     : canUpdate(tableInfo, role, propertyName, document)
+}
 
 export const canRemove = async (
   tableInfo: TableInformation,
@@ -155,9 +157,12 @@ export const canUpdate = (
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refTable = relationshipTable(tableInfo, relationship)
-        return Object.values(mapping).every((col) =>
-          canUpdate(refTable, role, col, document?.[fieldName])
-        )
+        if (isManyToManyJoinTable(refTable)) {
+          return canCreate(refTable, role) || canRemove(tableInfo, role)
+        } else
+          return Object.values(mapping).every((col) =>
+            canUpdate(refTable, role, col, document?.[fieldName])
+          )
       }
     } else {
       // * Column

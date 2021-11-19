@@ -64,7 +64,7 @@ export const DocumentDetails: DocumentComponent = ({
   const [properties] = useTableProperties(tableinfo, { role })
   const form = useFormGet(tableinfo, role, document)
   const setForm = useFormSet(tableinfo, role, document)
-  const model = useFormModel(tableinfo, role, form)
+  const model = useFormModel(tableinfo, role, form, document._isTemporary)
   const newRef = useRef()
   const ref = formRef || newRef
   // ? Why does useFormGet rerender the entire DocumentDetails component?

@@ -17,7 +17,7 @@ export const useDocumentPermissions = (
   const [remove, setRemove] = useState(false)
   const [save, setSave] = useState(false)
   const form = useFormGet(tableInfo, role, document)
-  const model = useFormModel(tableInfo, role, form)
+  const model = useFormModel(tableInfo, role, form, document._isTemporary)
   useEffect(() => {
     const check = async () => {
       const checkResult = await model.checkAsync(form)

@@ -17,7 +17,10 @@ export const useCollectionFieldAccepter = ({
     const go = async () => {
       const values: string[] = []
       for (const item of initial) {
-        if (!(await canRemoveCollectionItem(tableinfo, role, name, item))) {
+        if (
+          item &&
+          !(await canRemoveCollectionItem(tableinfo, role, name, item))
+        ) {
           values.push(item.id)
         }
       }
@@ -37,11 +40,12 @@ export const useCollectionFieldAccepter = ({
   const onChangeProxy = useCallback(
     (newValue: string[], event) => {
       onChange(
-        newValue.filter((v) => !disabledItemValues.includes(v)),
+        // newValue.filter((v) => !disabledItemValues.includes(v)),
+        newValue,
         event
       )
     },
-    [disabledItemValues, onChange]
+    [onChange]
   )
   return {
     overriddenProps: { disabledItemValues, onChange: onChangeProxy },

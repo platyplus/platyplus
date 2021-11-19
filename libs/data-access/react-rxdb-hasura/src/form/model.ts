@@ -6,11 +6,12 @@ import { useDB } from '..'
 export const useFormModel = (
   tableInfo: TableInformation,
   role: string,
-  form: Contents
+  form: Contents,
+  isNew: boolean
 ) => {
   const db = useDB()
   return useMemo(
-    () => createModel(db, tableInfo, role, form),
-    [db, tableInfo, role, form]
+    () => createModel(db, tableInfo, role, form, isNew),
+    [db, tableInfo, role, form, isNew]
   )
 }

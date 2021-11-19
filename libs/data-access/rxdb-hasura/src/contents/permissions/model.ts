@@ -6,7 +6,7 @@ import { error, warn } from '@platyplus/logger'
 import { Property, TableInformation } from '../../metadata'
 import { tableProperties } from '../properties'
 import { Contents, Database } from '../../types'
-import { relationshipTable } from '../relationships'
+import { relationshipTable, shiftedTable } from '../relationships'
 import { collectionName } from '../../utils'
 import { canEdit } from './can'
 import { isRequiredProperty } from '../required'
@@ -27,7 +27,7 @@ const modelTypeConstructor: Record<
     Types.ArrayType().addRule((value: string[]): Promise<boolean> | boolean => {
       if (!value) return true
       // * check if every id points to an existing document
-      const relTable = relationshipTable(tableInfo, property.relationship)
+      const relTable = shiftedTable(tableInfo, property.relationship)
       const relCollectionName = collectionName(relTable, role)
       const collection = db.collections[relCollectionName]
       return collection
@@ -64,12 +64,15 @@ export const createModel = (
   db: Database,
   tableInfo: TableInformation,
   role: string,
-  document?: Contents
+  document: Contents,
+  isNew: boolean
 ) => {
   const properties = tableProperties(tableInfo)
   return Model(
     [...properties.values()]
-      .filter((property) => canEdit(tableInfo, role, document, property.name))
+      .filter((property) =>
+        canEdit(tableInfo, role, document, property.name, isNew)
+      )
       .reduce((acc, property) => {
         const type = property.type
         const modelType = modelTypeConstructor[type]?.(
