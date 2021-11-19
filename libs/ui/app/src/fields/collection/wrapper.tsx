@@ -1,4 +1,4 @@
-import { switchMap } from 'rxjs'
+import { filter, switchMap } from 'rxjs'
 import { useCallback, useEffect, useState } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
@@ -32,17 +32,17 @@ export const CollectionField: CollectionFieldComponent = ({
   )
   const [data, setData] = useState<ContentsDocument[]>([])
   useEffect(() => {
-    if (!document.get(name)) return // ! react sync issue, weird
-    if (!refCollection) return
     // ? use rxdb-utils view? -> document[name].$.subscribe...
-    const subscription = document
-      .get$(name)
-      .pipe(switchMap((values) => refCollection.findByIds$(values)))
-      .subscribe((mapDocs: Map<string, ContentsDocument>) => {
-        setData([...mapDocs.values()])
-      })
-    return () => subscription.unsubscribe()
-  }, [document, name, refCollection])
+    if (refCollection && name in document) {
+      const subscription = document
+        .get$(name)
+        .pipe(switchMap((values) => refCollection.findByIds$(values)))
+        .subscribe((mapDocs: Map<string, ContentsDocument>) => {
+          setData([...mapDocs.values()])
+        })
+      return () => subscription.unsubscribe()
+    }
+  }, [document, name, refCollection, property])
   const { result } = useRxData<Contents>(refCollection?.name, queryConstructor)
 
   const options = useOptions(refTable, result, role)
