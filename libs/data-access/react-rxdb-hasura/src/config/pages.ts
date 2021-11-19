@@ -44,7 +44,7 @@ export const usePage = ({
   id?: string
   slug?: string
 }): { page: Page; setPage: (page: Page) => void; isFetching: boolean } => {
-  const pagesCollection = useRxCollection(PAGES_TABLE)
+  const pagesCollection = useRxCollection<Page>(PAGES_TABLE)
   const selector = useMemo(() => {
     if (id) return id
     if (slug)

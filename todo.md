@@ -1,6 +1,5 @@
 ## MVP
 
-- ->>> nx version -> github release -> github action -> nx publish?
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo
@@ -59,6 +58,8 @@
 - issues
   - answer, solve & close
   - update hasura (and other?) chart readme e.g. no traefik anymore
+- Bugs
+  - [ ] RichText not updating with props.value changes (problem in the `Editable` component)
 
 ## Post-MVP
 

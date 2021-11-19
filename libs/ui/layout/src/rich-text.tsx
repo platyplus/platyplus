@@ -68,11 +68,17 @@ export const RichText: React.FC<
   onChange = () => {},
   readOnly = false
 }) => {
-  const [state, setState] = useState(defaultValue)
-  const value = valueProp !== undefined && valueProp.length ? valueProp : state
+  const fallbackValue =
+    valueProp !== undefined && valueProp.length ? valueProp : defaultValue
+  const [state, setState] = useState(fallbackValue)
   const renderElement = useCallback((props) => <Element {...props} />, [])
   const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+  useEffect(() => {
+    // TODO doesn't work
+    setState(valueProp)
+  }, [valueProp, editor])
+
   useEffect(() => {
     if (!readOnly) {
       ReactEditor.focus(editor)
@@ -81,7 +87,7 @@ export const RichText: React.FC<
   return (
     <Slate
       editor={editor}
-      value={value}
+      value={state}
       onChange={(v) => {
         if (!readOnly) {
           setState(v)
