@@ -4,7 +4,7 @@ import { getColumn } from '../columns'
 import { columnHasDefaultValue } from '../defaults'
 import { isIdColumn } from '../ids'
 import { propertyNames } from '../properties'
-import { relationshipMapping } from '../relationships'
+import { isManyToManyRelationship, relationshipMapping } from '../relationships'
 
 export const isRequiredColumn = (table: TableInformation, column: Column) =>
   (!isNullableColumn(column) && !columnHasDefaultValue(column)) ||
@@ -13,11 +13,15 @@ export const isRequiredColumn = (table: TableInformation, column: Column) =>
 export const isRequiredRelationship = (
   table: TableInformation,
   rel: Relationship
-) =>
-  Object.keys(relationshipMapping(table, rel)).some((colName) => {
-    const column = getColumn(table, colName)
-    return isRequiredColumn(table, column)
-  })
+) => {
+  // * Many2Many relationships are never required
+  if (isManyToManyRelationship(table, rel)) return false
+  else
+    return Object.keys(relationshipMapping(table, rel)).some((colName) => {
+      const column = getColumn(table, colName)
+      return isRequiredColumn(table, column)
+    })
+}
 
 export const isRequiredProperty = (
   table: TableInformation,
