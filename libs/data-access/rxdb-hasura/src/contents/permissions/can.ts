@@ -108,7 +108,11 @@ export const canCreate = (
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refTable = relationshipTable(tableInfo, relationship)
-        return Object.values(mapping).every((col) => canUpdate(refTable, col))
+        if (isManyToManyJoinTable(refTable)) {
+          return canCreate(refTable, role) || canRemove(tableInfo, role)
+        } else {
+          return Object.values(mapping).every((col) => canUpdate(refTable, col))
+        }
       }
     } else {
       // * Column
