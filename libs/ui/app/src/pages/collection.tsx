@@ -3,11 +3,7 @@ import { useParams } from 'react-router-dom'
 import { RxCollection } from 'rxdb'
 import { useRxQuery } from 'rxdb-hooks'
 
-import {
-  Contents,
-  ContentsDocument,
-  TableInformation
-} from '@platyplus/rxdb-hasura'
+import { Contents, TableInformation } from '@platyplus/rxdb-hasura'
 import {
   CollectionTitle,
   useCollectionTitle,
@@ -30,7 +26,7 @@ const CollectionData: React.FC<{
   role: string
   edit: boolean
 }> = ({ collection, title, tableinfo, enabledConfig, role, edit }) => {
-  const q = useMemo(() => collection.find().sort('label'), [collection])
+  const q = useMemo(() => collection.find(), [collection]) // TODO .sort('label')
   const { isFetching, result } = useRxQuery<Contents>(q)
   return (
     <HeaderTitleWrapper
@@ -47,7 +43,7 @@ const CollectionData: React.FC<{
           config={enabledConfig}
           tableinfo={tableinfo}
           role={role}
-          data={result as ContentsDocument[]} // TODO PR useRxQuery type in 'rxdb-hooks'to include Orm methods e.g. useRxQuery<T,U>
+          data={result}
           edit={edit}
         />
       )}

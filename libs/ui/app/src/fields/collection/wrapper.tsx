@@ -27,7 +27,7 @@ export const CollectionField: CollectionFieldComponent = ({
   const refTable = shiftedTable(tableinfo, property.relationship)
   const refCollection = useContentsCollection(refTable, role)
   const queryConstructor = useCallback(
-    (collection) => collection.find().sort('label'),
+    (collection) => collection.find(), // TODO .sort('label')
     []
   )
   const [data, setData] = useState<ContentsDocument[]>([])
@@ -36,7 +36,10 @@ export const CollectionField: CollectionFieldComponent = ({
     if (refCollection && name in document) {
       const subscription = document
         .get$(name)
-        .pipe(switchMap((values) => refCollection.findByIds$(values)))
+        .pipe(
+          filter((values) => values),
+          switchMap((values) => refCollection.findByIds$(values))
+        )
         .subscribe((mapDocs: Map<string, ContentsDocument>) => {
           setData([...mapDocs.values()])
         })
