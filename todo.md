@@ -8,6 +8,9 @@
   - [ ] refetch the entire collection when new columns/relationships are added
   - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
   - [ ] menu is not loaded when starting offline
+  - [ ] options not updating e.g. 1: create a book 2: create an author: the book won't be in the list (or vice versa)
+        problem with `useRxData`?
+        problem with `.sort(LABEL_COLUMN)`?
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features

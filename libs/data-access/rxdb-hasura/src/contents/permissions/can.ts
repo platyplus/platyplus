@@ -116,8 +116,8 @@ export const canCreate = async (
             (await canRemove(tableInfo, role))
           )
         } else {
-          for (const col of Object.values(mapping)) {
-            if (!(await canUpdate(refTable, col))) return false
+          for (const column of Object.values(mapping)) {
+            if (!(await canUpdate(refTable, role, column))) return false
           }
           return true
         }
@@ -167,8 +167,8 @@ export const canUpdate = async (
       const mapping = relationshipMapping(tableInfo, relationship)
       if (relationship?.type === 'object') {
         // * object relationship: check permission to update every foreign key column
-        for (const col of Object.keys(mapping)) {
-          if (!canUpdate(tableInfo, role, col, document?.[fieldName]))
+        for (const column of Object.keys(mapping)) {
+          if (!canUpdate(tableInfo, role, column, document?.[fieldName]))
             return false
         }
         return true
@@ -181,8 +181,8 @@ export const canUpdate = async (
             (await canRemove(tableInfo, role))
           )
         } else {
-          for (const col of Object.values(mapping)) {
-            if (!canUpdate(refTable, role, col, document?.[fieldName]))
+          for (const column of Object.values(mapping)) {
+            if (!canUpdate(refTable, role, column, document?.[fieldName]))
               return false
           }
           return true
