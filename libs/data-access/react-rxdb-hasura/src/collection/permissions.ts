@@ -8,7 +8,10 @@ export const useCollectionPermissions = (
 ) => {
   const [create, setCreate] = useState(false)
   useEffect(() => {
-    setCreate(canCreate(tableInfo, role))
+    const go = async () => {
+      setCreate(await canCreate(tableInfo, role))
+    }
+    go()
   }, [role, tableInfo])
   return { create }
 }

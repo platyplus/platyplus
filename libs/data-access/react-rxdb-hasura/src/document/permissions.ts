@@ -20,16 +20,18 @@ export const useDocumentPermissions = (
   const model = useFormModel(tableInfo, role, form, document._isTemporary)
   useEffect(() => {
     const check = async () => {
-      const checkResult = await model.checkAsync(form)
-      const ok = !Object.values(checkResult).some((v) => v.hasError)
-      setSave(ok)
+      if (model) {
+        const checkResult = await model.checkAsync(form)
+        const ok = !Object.values(checkResult).some((v) => v.hasError)
+        setSave(ok)
+      }
     }
     check()
   }, [form, model])
   useEffect(() => {
     // ? use Suspense instead ?
     const check = async () => {
-      setEdit(canEdit(tableInfo, role, document))
+      setEdit(await canEdit(tableInfo, role, document))
       setRemove(await canRemove(tableInfo, role, document))
     }
     check()

@@ -49,13 +49,13 @@ export const canRead = (
   }
 }
 
-export const canEdit = (
+export const canEdit = async (
   tableInfo: TableInformation,
   role: string,
   document?: Contents,
   propertyName?: string,
   isNew?: boolean
-) => {
+): Promise<boolean> => {
   return role === ADMIN_ROLE ||
     // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
     // TODO code 'isNewDocument' that is valid both before saving and before first push replication
@@ -71,7 +71,7 @@ export const canRemove = async (
   doc?: ContentsDocument
 ) => {
   if (role === ADMIN_ROLE) return true
-  if (!canUpdate(tableInfo, role, DELETED_COLUMN)) return false
+  if (!(await canUpdate(tableInfo, role, DELETED_COLUMN))) return false
   if (doc) {
     for (const { key: fk, query } of foreignDocumentDependencies(doc)) {
       if (fk.delete_rule === 'NO ACTION' || fk.delete_rule === 'RESTRICT') {
@@ -83,7 +83,7 @@ export const canRemove = async (
   return true
 }
 
-export const canCreate = (
+export const canCreate = async (
   tableInfo: TableInformation,
   role: string,
   fieldName?: string
@@ -102,16 +102,24 @@ export const canCreate = (
       const mapping = relationshipMapping(tableInfo, relationship)
       if (relationship.type === 'object') {
         // * object relationship: check permission to insert every foreign key column
-        return Object.keys(mapping).every(
-          (column) => column && canCreate(tableInfo, role, column)
-        )
+        for (const column of Object.keys(mapping)) {
+          if (!(column && (await canCreate(tableInfo, role, column))))
+            return false
+        }
+        return true
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refTable = relationshipTable(tableInfo, relationship)
         if (isManyToManyJoinTable(refTable)) {
-          return canCreate(refTable, role) || canRemove(tableInfo, role)
+          return (
+            (await canCreate(refTable, role)) ||
+            (await canRemove(tableInfo, role))
+          )
         } else {
-          return Object.values(mapping).every((col) => canUpdate(refTable, col))
+          for (const col of Object.values(mapping)) {
+            if (!(await canUpdate(refTable, col))) return false
+          }
+          return true
         }
       }
     } else {
@@ -121,19 +129,23 @@ export const canCreate = (
   } else {
     // * Must have at least one insertable user-defined column, and id must be insertable as well
     // TODO 'deleted' must have a default value
-    return tablePropertiesNames(tableInfo).every(
-      (name) =>
-        canCreate(tableInfo, role, name) || !isRequiredProperty(tableInfo, name)
-    )
+    for (const name of tablePropertiesNames(tableInfo)) {
+      if (
+        !(await canCreate(tableInfo, role, name)) &&
+        isRequiredProperty(tableInfo, name)
+      )
+        return false
+    }
+    return true
   }
 }
 
-export const canUpdate = (
+export const canUpdate = async (
   tableInfo: TableInformation,
   role: string,
   fieldName?: string,
   document?: Contents
-): boolean => {
+): Promise<boolean> => {
   // * PostgreSQL views cannot be edited (as of now)
   // if (tableInfo.view) return false
   if (role === ADMIN_ROLE) return true
@@ -155,18 +167,26 @@ export const canUpdate = (
       const mapping = relationshipMapping(tableInfo, relationship)
       if (relationship?.type === 'object') {
         // * object relationship: check permission to update every foreign key column
-        return Object.keys(mapping).every((col) =>
-          canUpdate(tableInfo, role, col, document?.[fieldName])
-        )
+        for (const col of Object.keys(mapping)) {
+          if (!canUpdate(tableInfo, role, col, document?.[fieldName]))
+            return false
+        }
+        return true
       } else {
         // * array relationship: check permission to update the foreign key columns
         const refTable = relationshipTable(tableInfo, relationship)
         if (isManyToManyJoinTable(refTable)) {
-          return canCreate(refTable, role) || canRemove(tableInfo, role)
-        } else
-          return Object.values(mapping).every((col) =>
-            canUpdate(refTable, role, col, document?.[fieldName])
+          return (
+            (await canCreate(refTable, role)) ||
+            (await canRemove(tableInfo, role))
           )
+        } else {
+          for (const col of Object.values(mapping)) {
+            if (!canUpdate(refTable, role, col, document?.[fieldName]))
+              return false
+          }
+          return true
+        }
       }
     } else {
       // * Column

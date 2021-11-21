@@ -17,9 +17,15 @@ export const usePropertyPermissions = (
   const [read, setRead] = useState(false)
   useEffect(() => {
     if (document) {
-      const subscription = document.$.subscribe((value) => {
+      const subscription = document.$.subscribe(async (value) => {
         setEdit(
-          canEdit(tableInfo, role, value, propertyName, document._isTemporary)
+          await canEdit(
+            tableInfo,
+            role,
+            value,
+            propertyName,
+            document._isTemporary
+          )
         )
         setRead(canRead(tableInfo, role, propertyName))
       })

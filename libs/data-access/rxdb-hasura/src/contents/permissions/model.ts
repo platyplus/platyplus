@@ -60,41 +60,41 @@ const modelTypeConstructor: Record<
   }
 }
 
-export const createModel = (
+export const createModel = async (
   db: Database,
   tableInfo: TableInformation,
   role: string,
   document: Contents,
   isNew: boolean
 ) => {
-  const properties = tableProperties(tableInfo)
+  const properties = []
+  for (const property of [...tableProperties(tableInfo).values()]) {
+    if (await canEdit(tableInfo, role, document, property.name, isNew))
+      properties.push(property)
+  }
   return Model(
-    [...properties.values()]
-      .filter((property) =>
-        canEdit(tableInfo, role, document, property.name, isNew)
+    properties.reduce((acc, property) => {
+      const type = property.type
+      const modelType = modelTypeConstructor[type]?.(
+        db,
+        tableInfo,
+        role,
+        property
       )
-      .reduce((acc, property) => {
-        const type = property.type
-        const modelType = modelTypeConstructor[type]?.(
-          db,
-          tableInfo,
-          role,
-          property
-        )
-        if (!modelType) {
-          warn(tableInfo.id, 'Unknown model type for property', property)
-        } else {
-          if (isRequiredProperty(tableInfo, property.name))
-            if (property.required) {
-              if (type === 'collection' || type === 'array') {
-                modelType.isRequiredOrEmpty()
-              } else {
-                modelType.isRequired('This field is required')
-              }
+      if (!modelType) {
+        warn(tableInfo.id, 'Unknown model type for property', property)
+      } else {
+        if (isRequiredProperty(tableInfo, property.name))
+          if (property.required) {
+            if (type === 'collection' || type === 'array') {
+              modelType.isRequiredOrEmpty()
+            } else {
+              modelType.isRequired('This field is required')
             }
-          acc[property.name] = modelType
-        }
-        return acc
-      }, {})
+          }
+        acc[property.name] = modelType
+      }
+      return acc
+    }, {})
   )
 }

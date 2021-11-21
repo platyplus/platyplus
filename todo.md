@@ -49,6 +49,8 @@
   - [ ] C(R)UD tables/fields/relationships/permissions from the app?
   - [ ] only update modified fields in the zustand form store?
         only send modified fields in the replication mutation?
+  - **Bugs**
+    - [ ] if an user has permissions to add a m2m, but not to remove, then it will see the option to add a deleted item, while it won't be pushed (no permission to update the `deleted` column)
 - [ ] review and use bitnami common template features e.g. secrets
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
   - See: https://github.com/bitnami/charts/issues/2061
@@ -159,6 +161,7 @@
 
 ## Parked
 
+- [ ] RxDB / RxJS : bug with `.sort('label')`. Uncomment code to reproduce, and open an issue
 - [ ] Hasura Auth
   - [ ] Helm chart
     - [ ] latest Alpine version - see https://artifacthub.io/packages/helm/platyplus/hasura-backend-plus?modal=security-report

@@ -15,8 +15,10 @@ export const useFormIsValid = (
   useEffect(() => {
     // ? Use Suspense instead ?
     const go = async () => {
-      const check = await model.checkAsync(form)
-      setValid(Object.values(check).every((value) => !value.hasError))
+      if (model) {
+        const check = await model.checkAsync(form)
+        setValid(Object.values(check).every((value) => !value.hasError))
+      }
     }
     go()
   }, [model, form])

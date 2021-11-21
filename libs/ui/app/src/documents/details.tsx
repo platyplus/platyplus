@@ -68,7 +68,7 @@ export const DocumentDetails: DocumentComponent = ({
   const newRef = useRef()
   const ref = formRef || newRef
   // ? Why does useFormGet rerender the entire DocumentDetails component?
-  if (properties)
+  if (properties && model)
     return (
       <Form onChange={setForm} model={model} formValue={form} fluid ref={ref}>
         {[...properties.entries()].map(([name, property]) => (

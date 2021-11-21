@@ -19,7 +19,7 @@ import {
 } from '../relationships'
 import { isRequiredRelationship } from '../required'
 import { DELETED_COLUMN } from '../columns'
-import { canCreate, canUpdate } from '../permissions'
+import { canCreate, canEdit, canRemove } from '../permissions'
 
 // * Not ideal as it means 'updated_at' column should NEVER be created in the frontend
 const isNewDocument = (doc: Contents): boolean => !doc.updated_at
@@ -28,12 +28,13 @@ export const pushQueryBuilder = (
   collection: ContentsCollection
 ): RxGraphQLReplicationQueryBuilder => {
   const table = getCollectionTableInfo(collection)
+  const role = collection.options.role
   const title = tableName(table)
   const idKeys = getIds(table)
 
   const arrayRelationships = filteredArrayRelationships(table)
 
-  return ({ _isNew, ...initialDoc }: Contents) => {
+  return async ({ _isNew, ...initialDoc }: Contents) => {
     debug(collection.name, `push query builder in`, initialDoc)
     const doc = clone(initialDoc)
 
@@ -41,11 +42,12 @@ export const pushQueryBuilder = (
       .filter((key) => key.startsWith('_'))
       .forEach((key) => delete doc[key])
 
-    const permittedArrayRelationships = arrayRelationships.filter((rel) =>
-      _isNew
-        ? canCreate(table, collection.options.role, rel.name)
-        : canUpdate(table, collection.options.role, rel.name, initialDoc)
-    )
+    const permittedArrayRelationships = []
+    for (const rel of arrayRelationships) {
+      if (await canEdit(table, role, initialDoc, rel.name, _isNew))
+        permittedArrayRelationships.push(rel)
+    }
+
     const arrayValues: Record<string, string[]> = {}
     for (const { name } of arrayRelationships) {
       arrayValues[name] = doc[name]
@@ -76,7 +78,8 @@ export const pushQueryBuilder = (
                 returning: reduceStringArrayValues(idKeys, () => true)
               }
             }),
-        ...permittedArrayRelationships.reduce((acc, rel) => {
+        ...(await permittedArrayRelationships.reduce(async (asyncAcc, rel) => {
+          const acc = await asyncAcc
           const remoteTable = relationshipTable(table, rel)
           const isManyToMany = isManyToManyRelationship(table, rel)
           const remoteTableName = tableName(remoteTable)
@@ -84,24 +87,27 @@ export const pushQueryBuilder = (
           if (isManyToMany) {
             // * Many to Many: flag join table items as null
             // TODO improve performance: instead of flagging them all as deleted then upserting the new ones, update only the deleted ones
-            acc[`reset_${remoteTableName}`] = {
-              __aliasFor: `update_${remoteTableName}`,
-              __args: {
-                where: {
-                  _and: [
-                    ...Object.entries(relationshipMapping(table, rel)).map(
-                      ([local, remote]) => ({
-                        [remote]: {
-                          _eq: doc[local]
-                        }
-                      })
-                    ),
-                    { deleted: { _eq: false } }
-                  ]
+            // TODO it would require to get the diff between old and new document
+            if (await canRemove(remoteTable, role)) {
+              acc[`reset_${remoteTableName}`] = {
+                __aliasFor: `update_${remoteTableName}`,
+                __args: {
+                  where: {
+                    _and: [
+                      ...Object.entries(relationshipMapping(table, rel)).map(
+                        ([local, remote]) => ({
+                          [remote]: {
+                            _eq: doc[local]
+                          }
+                        })
+                      ),
+                      { deleted: { _eq: false } }
+                    ]
+                  },
+                  _set: { deleted: true }
                 },
-                _set: { deleted: true }
-              },
-              affected_rows: true
+                affected_rows: true
+              }
             }
           } else {
             // * One to many: set remote FK to null, only when allowed
@@ -131,28 +137,34 @@ export const pushQueryBuilder = (
           if (arrayValues[rel.name]?.length) {
             if (isManyToMany) {
               // * Many to Many: upsert transition table values
-              acc[`insert_${remoteTableName}`] = {
-                __aliasFor: `insert_${remoteTableName}`,
-                __args: {
-                  objects: arrayValues[rel.name].map((value) => {
-                    return remoteTable.foreignKeys.reduce(
-                      (acc, fk) => {
-                        Object.keys(fk.mapping).forEach((local) => {
-                          // TODO composite keys
-                          acc[local] = fk.to === table.id ? doc.id : value
-                        })
-                        return acc
-                      },
-                      { deleted: false }
-                    )
-                  }),
-                  on_conflict: {
-                    constraint: new EnumType(remoteTable.primaryKey.constraint),
-                    update_columns: [new EnumType(DELETED_COLUMN)],
-                    where: { deleted: { _eq: true } }
-                  }
-                },
-                affected_rows: true
+              if (await canCreate(remoteTable, role)) {
+                acc[`insert_${remoteTableName}`] = {
+                  __aliasFor: `insert_${remoteTableName}`,
+                  __args: {
+                    objects: arrayValues[rel.name].map((value) => {
+                      return remoteTable.foreignKeys.reduce(
+                        (acc, fk) => {
+                          Object.keys(fk.mapping).forEach((local) => {
+                            // TODO composite keys
+                            acc[local] = fk.to === table.id ? doc.id : value
+                          })
+                          return acc
+                        },
+                        { deleted: false }
+                      )
+                    }),
+                    on_conflict: {
+                      constraint: new EnumType(
+                        remoteTable.primaryKey.constraint
+                      ),
+                      update_columns: (await canRemove(remoteTable, role))
+                        ? [new EnumType(DELETED_COLUMN)]
+                        : [],
+                      where: { [DELETED_COLUMN]: { _eq: true } }
+                    }
+                  },
+                  affected_rows: true
+                }
               }
             } else {
               const ids = decomposeId(table, doc.id)
@@ -178,7 +190,7 @@ export const pushQueryBuilder = (
             }
           }
           return acc
-        }, {})
+        }, Promise.resolve({})))
       }
     }
     const query = jsonToGraphQLQuery(jsonQuery)
