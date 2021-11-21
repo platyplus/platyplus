@@ -2,11 +2,11 @@ import { TopLevelProperty } from 'rxdb/dist/types/types'
 
 import { TableInformation } from '../../metadata'
 import { ContentsCollection } from '../../types'
-import { UPDATED_AT_COLUMN } from '../columns'
+import { LABEL_COLUMN, UPDATED_AT_COLUMN } from '../columns'
 
 export const createComputedFieldsProperties = (table: TableInformation) =>
   ({
-    label: {
+    [LABEL_COLUMN]: {
       type: 'string'
     }
     // TODO computedProperties
@@ -19,14 +19,14 @@ export const createComputedFieldsProperties = (table: TableInformation) =>
     //   },
     //   {}
     // )
-  } as Record<string, TopLevelProperty> & { label: TopLevelProperty })
+  } as Record<string, TopLevelProperty> & { [LABEL_COLUMN]: TopLevelProperty })
 
 /**
  * List of the computed fields of the collection
  * @param collection
  */
 export const computedFields = (collection: ContentsCollection): string[] => [
-  'label',
+  LABEL_COLUMN,
   UPDATED_AT_COLUMN
   // TODO computedProperties
   // ...getCollectionTableInfo(collection).computedProperties.map(

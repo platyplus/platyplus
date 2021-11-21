@@ -34,6 +34,7 @@ import {
   relationshipTable
 } from '../relationships'
 import { composeId, getIds } from '../ids'
+import { LABEL_COLUMN } from '../columns'
 
 export const pullQueryBuilder = (
   collection: ContentsCollection,
@@ -222,7 +223,7 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
   return async (data) => {
     debug(collection.name, `pullModifier: in`, { ...data })
     data = addComputedFieldsFromLoadedData(data, collection)
-    data.label = (await documentLabel(data, collection)) || ''
+    data[LABEL_COLUMN] = (await documentLabel(data, collection)) || ''
     data.id = composeId(tableInfo, data)
     const oldDoc = await collection.findOne(data.id).exec()
     // * Flatten relationship data so it fits in the `population` system

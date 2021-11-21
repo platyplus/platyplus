@@ -1,5 +1,5 @@
 import { TableInformation } from '../../metadata'
-import { getColumn } from '../columns'
+import { getColumn, LABEL_COLUMN } from '../columns'
 import { propertyJsonType } from '../properties'
 
 // * PostgreSQL indexes + label
@@ -23,7 +23,5 @@ export const indexes = (table: TableInformation): (string | string[])[] => {
       })
     )
     .map(({ columns }) => columns.map((columnName) => columnName))
-  return [...postgresIndexes, 'label']
-
-  return ['label']
+  return [...postgresIndexes, LABEL_COLUMN]
 }

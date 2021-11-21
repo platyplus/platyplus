@@ -5,7 +5,6 @@
   - [ ] small demo
 - [ ] tilt / demo
 - **Bugs**
-  - [ ] bug on validating form with a required many2one field: is it related to delete FK constraints?
   - [ ] refetch the entire collection when new columns/relationships are added
   - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
   - [ ] menu is not loaded when starting offline

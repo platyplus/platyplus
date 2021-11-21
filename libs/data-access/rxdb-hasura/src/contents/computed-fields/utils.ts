@@ -16,6 +16,7 @@ import {
 import { FieldMapItem, rxdbJsonataPaths } from '../../utils'
 
 import { documentLabel } from './label'
+import { LABEL_COLUMN } from '../columns'
 
 type ComputedProperty = {
   name: string
@@ -157,7 +158,7 @@ export const addComputedFieldsFromCollection = async (
     )
   }
   */
-  data.label = (await documentLabel(data, collection)) || ''
+  data[LABEL_COLUMN] = (await documentLabel(data, collection)) || ''
 }
 
 export const addComputedFieldsFromDoc: RxCollectionHookCallback<

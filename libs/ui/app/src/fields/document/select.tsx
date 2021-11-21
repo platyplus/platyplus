@@ -56,7 +56,7 @@ export const DocumentSelectField: FieldComponent = ({
   }, [document, name, tableinfo.id, role, collection])
 
   const queryConstructor = useCallback(
-    (collection) => collection.find(), // TODO .sort('label')
+    (collection) => collection.find(), // TODO .sort(LABEL_COLUMN)
     []
   )
   const { result } = useRxData<Contents>(collection?.name, queryConstructor)

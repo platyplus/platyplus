@@ -5,6 +5,7 @@ import { useRxData } from 'rxdb-hooks'
 import {
   Contents,
   ContentsDocument,
+  LABEL_COLUMN,
   shiftedTable
 } from '@platyplus/rxdb-hasura'
 import { useContentsCollection, useOptions } from '@platyplus/react-rxdb-hasura'
@@ -27,7 +28,7 @@ export const CollectionField: CollectionFieldComponent = ({
   const refTable = shiftedTable(tableinfo, property.relationship)
   const refCollection = useContentsCollection(refTable, role)
   const queryConstructor = useCallback(
-    (collection) => collection.find(), // TODO .sort('label')
+    (collection) => collection.find().sort(LABEL_COLUMN),
     []
   )
   const [data, setData] = useState<ContentsDocument[]>([])

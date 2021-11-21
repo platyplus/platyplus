@@ -6,6 +6,8 @@ import {
   TABLE_CONFIG_TABLE
 } from '../../../metadata'
 import { Contents, ContentsCollection } from '../../../types'
+import { SYSTEM_COLUMNS } from '../../columns'
+import { tablePropertiesNames } from '../../properties'
 
 export const computeTemplate = (doc: Contents, template: string) => {
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
@@ -15,6 +17,7 @@ export const computeTemplate = (doc: Contents, template: string) => {
 export const defaultLabelTemplate = (tableInfo?: TableInformation) =>
   tableInfo?.primaryKey.columns.map((pk) => `{{${pk}}}`).join('.') || ''
 // ? Continue to generate labels with RxDB?
+
 // * Pros: ability to sort/filter/find documents by label
 // * Cons:
 // *    - not part of the react store configuration system
@@ -29,8 +32,12 @@ export const documentLabel = async (
   )
     .findOne(tableInfo.id)
     .exec()
-
-  const template = config?.document_label || defaultLabelTemplate(tableInfo)
+  const firstProperty = tablePropertiesNames(tableInfo).filter(
+    (p) => !SYSTEM_COLUMNS.includes(p)
+  )[0]
+  const template =
+    config?.document_label ||
+    (firstProperty ? `{{${firstProperty}}}` : defaultLabelTemplate(tableInfo))
   const compiledTemplate = Handlebars.compile(template, { noEscape: true })
   return (
     compiledTemplate(doc, { allowProtoPropertiesByDefault: true }) || doc.id

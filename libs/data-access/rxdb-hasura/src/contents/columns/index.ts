@@ -6,6 +6,7 @@ import { propertyJsonType } from '../properties'
 import { relationshipMapping } from '../relationships'
 export const DELETED_COLUMN = 'deleted'
 export const UPDATED_AT_COLUMN = 'updated_at'
+export const LABEL_COLUMN = 'label'
 export const SYSTEM_COLUMNS = [DELETED_COLUMN, ID_COLUMN, UPDATED_AT_COLUMN]
 const postgresJsonSchemaFormatMapping: Record<string, JsonSchemaFormat> = {
   // * Postgres timestamp without timezone does not fit with a default json schema format
