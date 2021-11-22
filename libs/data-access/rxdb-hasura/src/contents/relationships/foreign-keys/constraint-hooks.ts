@@ -1,4 +1,4 @@
-import { debug, error, info } from '@platyplus/logger'
+import { debug, error, warn } from '@platyplus/logger'
 
 import { ForeignKey } from '../../../metadata/table-information/types'
 import { Contents, ContentsCollection, ContentsDocument } from '../../../types'
@@ -11,7 +11,7 @@ export const createForeignKeyConstraintsHooks = (
   collection: ContentsCollection
 ): void => {
   collection.preRemove(async (data: Contents, document: ContentsDocument) => {
-    info(collection.name, `createForeignKeyConstraintsHooks preRemove`)
+    debug(collection.name, `createForeignKeyConstraintsHooks preRemove`)
     for (const {
       key: fk,
       property: remoteProperty,
@@ -74,7 +74,13 @@ export const createForeignKeyConstraintsHooks = (
           })
         }
       }
-      await actions[fk.delete_rule]()
+      const action = actions[fk.delete_rule]
+      if (!action) {
+        warn(
+          collection.name,
+          `Unknown delete rule action '${fk.delete_rule}' on foreign key ${fk.constraint}`
+        )
+      } else await action()
     }
   }, true)
 }

@@ -38,6 +38,8 @@ export const query = gql`
       dependentForeignKeys {
         from
         constraint
+        update_rule
+        delete_rule
         mapping
       }
       indexes {
