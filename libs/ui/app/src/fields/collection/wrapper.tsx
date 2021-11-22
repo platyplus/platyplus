@@ -1,13 +1,7 @@
 import { filter, switchMap } from 'rxjs'
 import { useEffect, useState } from 'react'
-import { useRxData } from 'rxdb-hooks'
 
-import {
-  Contents,
-  ContentsDocument,
-  LABEL_COLUMN,
-  shiftedTable
-} from '@platyplus/rxdb-hasura'
+import { ContentsDocument, shiftedTable } from '@platyplus/rxdb-hasura'
 import { useContentsCollection, useOptions } from '@platyplus/react-rxdb-hasura'
 
 import { CollectionComponentWrapper } from '../../collections'
@@ -44,11 +38,8 @@ export const CollectionField: CollectionFieldComponent = ({
       return () => subscription.unsubscribe()
     }
   }, [document, name, refCollection, property])
-  const { result } = useRxData<Contents>(refCollection?.name, (collection) =>
-    collection.find().sort(LABEL_COLUMN)
-  )
 
-  const options = useOptions(refTable, result, role)
+  const options = useOptions(refTable, role)
 
   return editable && edit ? (
     <FieldControl

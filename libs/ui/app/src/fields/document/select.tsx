@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react'
 import { SelectPicker } from 'rsuite'
-import { useRxData } from 'rxdb-hooks'
 
-import {
-  Contents,
-  ContentsDocument,
-  LABEL_COLUMN,
-  relationshipTableId
-} from '@platyplus/rxdb-hasura'
+import { ContentsDocument, relationshipTableId } from '@platyplus/rxdb-hasura'
 
 import { DocumentComponentWrapper } from '../../documents'
 import { FieldComponent, FieldControl } from '../utils'
@@ -56,11 +50,7 @@ export const DocumentSelectField: FieldComponent = ({
     }
   }, [document, name, tableinfo.id, role, collection])
 
-  const { result } = useRxData<Contents>(collection?.name, (collection) =>
-    collection.find().sort(LABEL_COLUMN)
-  )
-
-  const options = useOptions(refTable, result, role)
+  const options = useOptions(refTable, role)
 
   return editable && edit ? (
     <FieldControl
