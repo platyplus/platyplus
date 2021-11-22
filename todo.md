@@ -6,7 +6,6 @@
 - [ ] tilt / demo
 - **Bugs**
   - [ ] menu is not loaded when starting offline
-  - [ ] RxDB / RxJS : bug with `.sort('label')`. Uncomment code to reproduce, and open an issue
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
