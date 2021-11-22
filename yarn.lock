@@ -17495,10 +17495,10 @@ rxdb-hooks@^4.0.0:
   resolved "https://registry.yarnpkg.com/rxdb-hooks/-/rxdb-hooks-4.0.0.tgz#5c0a52d4008e3989cb0a7428ab053ad43a72fb7d"
   integrity sha512-23m9myshPoJE5OLgWHwXllORWh3t1cXlyF6AlZ8UYbki0zm+SXaWxYlWyPS1NzrQB1AiUIKPR772o4Tmoafkqw==
 
-rxdb@10.4.1:
-  version "10.4.1"
-  resolved "https://registry.yarnpkg.com/rxdb/-/rxdb-10.4.1.tgz#d32c303b077865571168cfd91a639b8a3bb99187"
-  integrity sha512-XrqreQhJ0AUyTtlz5hFsSPH/RxGV2QKaQl3GBSKk4Rb9fGeyAzXsbb/ktmMwmK+CA9NtjHUpHY3uX81BQCs6jw==
+rxdb@10.5.3:
+  version "10.5.3"
+  resolved "https://registry.yarnpkg.com/rxdb/-/rxdb-10.5.3.tgz#ea584572c60a12f026444454acaa58c269258040"
+  integrity sha512-uvO2SC6hXYJ0kgDwrlPYbjb0QPwKP4KXC281qSkuaJAdzLz9noMZkqAqW9uGtzJAi4LzTc3jG3Y9vGoPKBIfRw==
   dependencies:
     "@babel/runtime" "7.15.4"
     "@types/clone" "2.1.1"

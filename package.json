@@ -76,7 +76,7 @@
     "react-use": "^17.3.1",
     "regenerator-runtime": "0.13.7",
     "rsuite": "^4.10.3",
-    "rxdb": "10.4.1",
+    "rxdb": "10.5.3",
     "rxdb-hooks": "^4.0.0",
     "rxjs": "^7.4.0",
     "slate": "^0.70.0",
