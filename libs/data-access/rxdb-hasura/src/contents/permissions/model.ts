@@ -35,15 +35,16 @@ const modelTypeConstructor: Record<
         .then((docs) => value.every((id) => !!docs.get(id)))
     }, 'One of the referenced documents does not exist'),
   document: (db, tableInfo, role, property) =>
-    Types.StringType().addRule((value): Promise<boolean> | boolean => {
+    Types.StringType().addRule(async (value): Promise<boolean> => {
       // * check if the value points to an existing document
       if (!value) return true
       // ? Not really usefull if all form input components do not allow non existing values
       const relTable = relationshipTable(tableInfo, property.relationship)
       const relCollectionName = collectionName(relTable, role)
       const collection = db.collections[relCollectionName]
-      const refDocument = collection.findOne(value).exec()
-      return refDocument.then((doc) => !!doc)
+      // * for some reason, collection.findOne doesn't work. Falling back to findByIds
+      const values = await collection.findByIds([value])
+      return !!values.get(value)
     }, 'Referenced document does not exist'),
   'date-time': () => Types.DateType(),
   time: () => Types.DateType(),
@@ -69,8 +70,9 @@ export const createModel = async (
 ) => {
   const properties = []
   for (const property of [...tableProperties(tableInfo).values()]) {
-    if (await canEdit(tableInfo, role, document, property.name, isNew))
+    if (await canEdit(tableInfo, role, document, property.name, isNew)) {
       properties.push(property)
+    }
   }
   return Model(
     properties.reduce((acc, property) => {

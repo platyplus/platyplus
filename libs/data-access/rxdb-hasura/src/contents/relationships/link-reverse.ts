@@ -18,6 +18,7 @@ const reverseRelations =
     insert = false
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
+    debug(collection.name, `reverse info`)
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) {
       return
@@ -61,13 +62,13 @@ const reverseRelations =
             // * From many to many
             await remoteDoc.atomicPatch({
               is_local_change: true,
-              [mirrorRelName]: [...remoteDoc[name], doc.id]
+              [mirrorRelName]: [...remoteDoc[mirrorRelName], doc.id]
             })
           } else {
             // * From one to many
             await remoteDoc.atomicPatch({
               is_local_change: false,
-              [mirrorRelName]: remoteDoc[name]
+              [mirrorRelName]: remoteDoc[mirrorRelName]
             })
           }
         }
@@ -80,7 +81,7 @@ const reverseRelations =
             // * From many to many
             await remoteDoc.atomicPatch({
               is_local_change: true,
-              [mirrorRelName]: remoteDoc[name].filter(
+              [mirrorRelName]: remoteDoc[mirrorRelName].filter(
                 (key: string) => key !== doc.id
               )
             })

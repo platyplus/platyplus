@@ -31,7 +31,9 @@ export const useDocumentPermissions = (
   useEffect(() => {
     // ? use Suspense instead ?
     const check = async () => {
-      setEdit(await canEdit(tableInfo, role, document))
+      setEdit(
+        await canEdit(tableInfo, role, document, null, document._isTemporary)
+      )
       setRemove(await canRemove(tableInfo, role, document))
     }
     check()

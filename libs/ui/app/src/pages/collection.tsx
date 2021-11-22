@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { RxCollection } from 'rxdb'
-import { useRxData, useRxQuery } from 'rxdb-hooks'
+import { useRxData } from 'rxdb-hooks'
 
 import {
   Contents,
-  ContentsDocument,
   LABEL_COLUMN,
   TableInformation
 } from '@platyplus/rxdb-hasura'
@@ -31,13 +30,9 @@ const CollectionData: React.FC<{
   role: string
   edit: boolean
 }> = ({ collection, title, tableinfo, enabledConfig, role, edit }) => {
-  const queryConstructor = useCallback(
-    (collection) => collection.find().sort(LABEL_COLUMN),
-    []
-  )
   const { result, isFetching } = useRxData<Contents>(
     collection?.name,
-    queryConstructor
+    (collection) => collection.find().sort(LABEL_COLUMN)
   )
   return (
     <HeaderTitleWrapper

@@ -1,5 +1,5 @@
 import { filter, switchMap } from 'rxjs'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRxData } from 'rxdb-hooks'
 
 import {
@@ -27,10 +27,7 @@ export const CollectionField: CollectionFieldComponent = ({
 }) => {
   const refTable = shiftedTable(tableinfo, property.relationship)
   const refCollection = useContentsCollection(refTable, role)
-  const queryConstructor = useCallback(
-    (collection) => collection.find().sort(LABEL_COLUMN),
-    []
-  )
+
   const [data, setData] = useState<ContentsDocument[]>([])
   useEffect(() => {
     // ? use rxdb-utils view? -> document[name].$.subscribe...
@@ -47,7 +44,9 @@ export const CollectionField: CollectionFieldComponent = ({
       return () => subscription.unsubscribe()
     }
   }, [document, name, refCollection, property])
-  const { result } = useRxData<Contents>(refCollection?.name, queryConstructor)
+  const { result } = useRxData<Contents>(refCollection?.name, (collection) =>
+    collection.find().sort(LABEL_COLUMN)
+  )
 
   const options = useOptions(refTable, result, role)
 

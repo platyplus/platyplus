@@ -5,12 +5,7 @@
   - [ ] small demo
 - [ ] tilt / demo
 - **Bugs**
-  - [ ] refetch the entire collection when new columns/relationships are added
-  - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
   - [ ] menu is not loaded when starting offline
-  - [ ] options not updating e.g. 1: create a book 2: create an author: the book won't be in the list (or vice versa)
-        problem with `useRxData`?
-        problem with `.sort(LABEL_COLUMN)`?
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
@@ -38,6 +33,7 @@
 ## MVP 2
 
 - Application
+  - [ ] improve performance
   - [ ] password change
   - [ ] avatar picker (image-url component)
   - [ ] many2one/object as radio
@@ -52,6 +48,8 @@
   - [ ] only update modified fields in the zustand form store?
         only send modified fields in the replication mutation?
   - **Bugs**
+    - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
+    - [ ] refetch the entire collection when new columns/relationships are added
     - [ ] if an user has permissions to add a m2m, but not to remove, then it will see the option to add a deleted item, while it won't be pushed (no permission to update the `deleted` column)
 - [ ] review and use bitnami common template features e.g. secrets
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?

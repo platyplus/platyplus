@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SelectPicker } from 'rsuite'
 import { useRxData } from 'rxdb-hooks'
 
 import {
   Contents,
   ContentsDocument,
+  LABEL_COLUMN,
   relationshipTableId
 } from '@platyplus/rxdb-hasura'
 
@@ -55,11 +56,9 @@ export const DocumentSelectField: FieldComponent = ({
     }
   }, [document, name, tableinfo.id, role, collection])
 
-  const queryConstructor = useCallback(
-    (collection) => collection.find(), // TODO .sort(LABEL_COLUMN)
-    []
+  const { result } = useRxData<Contents>(collection?.name, (collection) =>
+    collection.find().sort(LABEL_COLUMN)
   )
-  const { result } = useRxData<Contents>(collection?.name, queryConstructor)
 
   const options = useOptions(refTable, result, role)
 

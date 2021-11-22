@@ -127,6 +127,19 @@ export const relationshipTable = (
   rel: DeepReadonly<Relationship>
 ) => getTableInfo(relationshipTableId(table, rel))
 
+const many2ManyRelationshipTableKey = ({
+  using: { manual_configuration, foreign_key_constraint_on }
+}: Relationship) => {
+  if (manual_configuration)
+    return typeof manual_configuration === 'string'
+      ? manual_configuration
+      : `${manual_configuration.remote_table.schema}.${manual_configuration.remote_table.name}`
+  else
+    return typeof foreign_key_constraint_on === 'string'
+      ? foreign_key_constraint_on
+      : `${foreign_key_constraint_on.table.schema}.${foreign_key_constraint_on.table.name}`
+}
+
 export const getMirrorRelationship = (
   tableInfo: TableInformation,
   rel: Relationship
@@ -142,20 +155,26 @@ export const getMirrorRelationship = (
       ? rel.using.foreign_key_constraint_on
       : rel.using.foreign_key_constraint_on.column
 
-  const refRel = allRelationships(refTable).find(
-    ({ using: { foreign_key_constraint_on }, name }) => {
-      if (foreign_key_constraint_on) {
-        if (typeof foreign_key_constraint_on === 'string') {
-          return fromKey === foreign_key_constraint_on
-        } else return fromKey === foreign_key_constraint_on.column
-      } else {
-        warn(
-          `[${tableInfo.id}] (getMirrorRelationship) not implemented yet: manual_configuration`,
-          name
-        )
-        return false
-      }
-    }
-  )
+  const m2mKey = many2ManyRelationshipTableKey(rel)
+  const refRel = isManyToManyJoinTable(refTable)
+    ? allRelationships(refTable).find((r) => {
+        return many2ManyRelationshipTableKey(r) === m2mKey
+      })
+    : allRelationships(refTable).find(
+        ({ using: { foreign_key_constraint_on }, name }) => {
+          if (foreign_key_constraint_on) {
+            if (typeof foreign_key_constraint_on === 'string') {
+              return fromKey === foreign_key_constraint_on
+            } else return fromKey === foreign_key_constraint_on.column
+          } else {
+            warn(
+              tableInfo.id,
+              `(getMirrorRelationship) not implemented yet: manual_configuration`,
+              name
+            )
+            return false
+          }
+        }
+      )
   return [refTable, refRel]
 }
