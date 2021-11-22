@@ -32,7 +32,7 @@ const CollectionData: React.FC<{
 }> = ({ collection, title, tableinfo, enabledConfig, role, edit }) => {
   const { result, isFetching } = useRxData<Contents>(
     collection?.name,
-    (collection) => collection.find().sort(LABEL_COLUMN)
+    (collection) => collection.find() // TODO .sort(LABEL_COLUMN)
   )
   return (
     <HeaderTitleWrapper

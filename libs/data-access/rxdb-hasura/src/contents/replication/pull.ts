@@ -272,11 +272,13 @@ export const pullModifier = (collection: ContentsCollection): Modifier => {
           const oldRefDoc: ContentsDocument = await refCollection
             ?.findOne(oldRefId)
             .exec()
-          const mirrorRel: string[] = oldRefDoc.get(refRel.name)
-          await oldRefDoc.atomicPatch({
-            is_local_change: true,
-            [refRel.name]: mirrorRel.filter((key) => key !== data.id)
-          })
+          if (oldRefDoc) {
+            const mirrorRel: string[] = oldRefDoc.get(refRel.name)
+            await oldRefDoc.atomicPatch({
+              is_local_change: true,
+              [refRel.name]: mirrorRel.filter((key) => key !== data.id)
+            })
+          }
         }
         // * add data item from the mirror one-to-many relationship
         // TODO BUG!!!!!!
