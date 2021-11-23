@@ -51,6 +51,7 @@ export const usePersistConfig = () => {
         // * If it succeeds, the GraphQL replication-subscription will send back the updated documents
         await createSqlMigrations(migrations)
       } catch {
+        // TODO inform that createSqlMigrations failed
         // * If the migration fails, fall back to the regular RxDB way of saving+replicating documents
         for (const collectionName of CONFIG_TABLES) {
           if (forms[collectionName]) {

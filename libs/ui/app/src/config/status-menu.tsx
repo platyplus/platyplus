@@ -89,7 +89,9 @@ export const ConfigStatusMenuItem: React.FC = () => {
         </Popover>
       }
     >
-      <MainButton content={countChanges} />
+      <div>
+        <MainButton content={countChanges} />
+      </div>
     </Whisper>
   )
 }

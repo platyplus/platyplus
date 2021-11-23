@@ -3,11 +3,10 @@
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo
-  - improve the configurastion recap
-  - `page` page: ability to modify the title
 - [ ] tilt / demo
 - **Bugs**
   - [ ] menu is not loaded when starting offline
+  - [ ] menu is not updated when a page slug changes (item disapears until it is persisted)
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features

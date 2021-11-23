@@ -16,7 +16,7 @@ import { PrivateRoute } from '@platyplus/auth'
 
 const Page: React.FC<{ role?: string }> = React.forwardRef(() => {
   const { id } = useParams()
-  const { page, setPage, isFetching } = usePage({ id })
+  const { state: page, setState: setPage, isFetching } = usePage({ id })
   return (
     <Animation.Fade in={!!page}>
       {(props) => (

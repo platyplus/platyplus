@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { escape } from 'sqlstring'
 
-import { info, warn } from '@platyplus/logger'
+import { info } from '@platyplus/logger'
 
 import { CONSOLE_API } from '../../constants'
 import {
@@ -99,15 +99,3 @@ const upsertQueries = {
 }
 export const createSqlConfigInstruction = (collectionName: string, data: any) =>
   upsertQueries[collectionName]?.(data)
-
-export const upsertConfigWithMigration = async (
-  collectionName: string,
-  data: any
-) => {
-  const sql = createSqlConfigInstruction(collectionName, data)
-  if (sql) {
-    await createSqlMigrations([sql])
-  } else {
-    warn(collectionName, `upsertWithMigration not implemented`)
-  }
-}

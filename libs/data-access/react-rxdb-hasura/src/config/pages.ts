@@ -5,7 +5,6 @@ import { Page, PAGES_TABLE } from '@platyplus/rxdb-hasura'
 import { useStore } from '../store'
 import { useRxCollection, useRxQuery } from 'rxdb-hooks'
 import { useAppConfig } from './app'
-import { pick } from '@platyplus/data'
 
 export const usePages = () => {
   const collection = useRxCollection(PAGES_TABLE)
@@ -26,8 +25,8 @@ export const usePages = () => {
       const modifiedPage = modifMap.get(r.id)
       if (modifiedPage) {
         modifMap.delete(r.id)
-        return { ...r, ...modifiedPage }
-      } else return r
+        return { ...r.toJSON(), ...modifiedPage }
+      } else return r.toJSON()
     })
     modifMap.forEach((page) => {
       modifiedPages.push(page)
@@ -37,13 +36,17 @@ export const usePages = () => {
   return pages
 }
 
-export const usePage = ({
+export const usePage = <T = Page>({
   id,
-  slug
+  slug,
+  path,
+  fallback
 }: {
   id?: string
   slug?: string
-}): { page: Page; setPage: (page: Page) => void; isFetching: boolean } => {
+  path?: string
+  fallback?: T
+}): { state: T; setState: (s: T) => void; isFetching: boolean } => {
   const pagesCollection = useRxCollection<Page>(PAGES_TABLE)
   const selector = useMemo(() => {
     if (id) return id
@@ -70,6 +73,12 @@ export const usePage = ({
     useCallback(
       (state) => {
         if (isFetching) return null
+        if (path) {
+          return state.forms?.[PAGES_TABLE]?.[docId] &&
+            path in state.forms?.[PAGES_TABLE]?.[docId]
+            ? state.forms[PAGES_TABLE][docId][path]
+            : initialValues?.[path] ?? fallback
+        }
         const res = {
           id: docId,
           slug: '',
@@ -80,36 +89,50 @@ export const usePage = ({
         }
         return res as Page
       },
-      [docId, initialValues, isFetching]
+      [docId, initialValues, isFetching, path, fallback]
     )
   )
 
-  const { state, setState } = useAppConfig()
+  const { state: appConfig, setState: setAppConfig } = useAppConfig()
 
   const pages = usePages()
-  const setPage = useStore(
+  const setState = useStore(
     useCallback(
-      (store) => (value: Page) => {
+      (store) => (value: T) => {
         // * update menu when slug changes
-        const old = pages.find((p) => p.id === value.id)
-        let changes = false
-        if (old) {
-          const menu = [...(state?.menu || [])].map((item) => {
-            if (item.type === 'page' && item.id === old.slug) {
-              changes = true
-              return { ...item, id: value.slug }
-            } else return item
-          })
-          if (changes) setState({ menu })
+        const oldSlug = pages.find((p) => p.id === docId)?.slug
+        if (oldSlug) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const newSlug: string = (value as any).slug || value
+          if (typeof value === 'object' || path === 'slug') {
+            if (newSlug !== oldSlug) {
+              let changes = false
+              const menu = [...(appConfig?.menu || [])].map((item) => {
+                if (item.type === 'page' && item.id === oldSlug) {
+                  changes = true
+                  return { ...item, id: newSlug }
+                } else return item
+              })
+              if (changes) setAppConfig({ menu })
+            }
+          }
+          store.setConfigForm(PAGES_TABLE, oldSlug, docId, 'slug')
         }
-        store.setConfigForm(
-          PAGES_TABLE,
-          pick(value, ['id', 'slug', 'contents', 'title', 'icon']),
-          docId
-        )
+        store.setConfigForm(PAGES_TABLE, value, docId, path)
       },
-      [docId, state, setState, pages]
+      [docId, appConfig, setAppConfig, pages, path]
     )
   )
-  return { page, setPage, isFetching }
+  return { state: page, setState, isFetching }
+}
+
+export const usePageTitle = ({
+  id,
+  slug
+}: {
+  id?: string
+  slug?: string
+  path?: string
+}) => {
+  return usePage<string>({ id, slug, path: 'title' })
 }
