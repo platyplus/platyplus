@@ -6,7 +6,6 @@
 - [ ] tilt / demo
 - **Bugs**
   - [ ] menu is not loaded when starting offline
-  - [ ] menu is not updated when a page slug changes (item disapears until it is persisted)
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features

@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react'
 import { IconProps } from 'rsuite'
 
-import { useAppConfig, useTablesConfig } from '@platyplus/react-rxdb-hasura'
+import {
+  useAppConfig,
+  usePages,
+  useTablesConfig
+} from '@platyplus/react-rxdb-hasura'
 
 import { canRead, MenuItem as MenuItemType } from '@platyplus/rxdb-hasura'
 import { useUserRoles } from '@platyplus/hbp'
@@ -24,18 +28,11 @@ export const PrivateMenu: React.FC<{
     () =>
       roles.map((role) => [
         role,
-        (
-          state.menu ||
+        state.menu ||
           tablesInfo.map<Partial<MenuItemType>>((table) => ({
             type: 'table',
             id: table.id
           }))
-        ).filter((item) => {
-          if (item.type === 'table') {
-            const table = tablesInfo.find((ti) => ti.id === item.id)
-            return table && canRead(table, role)
-          } else return true
-        })
       ]),
     [roles, state.menu, tablesInfo]
   )
@@ -59,7 +56,7 @@ export const PrivateMenu: React.FC<{
             return (
               <PageMenuItem
                 key={`${index}.${item.id}.${role}`}
-                id={item.id}
+                slug={item.id}
                 icon={item.icon as PropType<IconProps, 'icon'>}
                 role={role}
                 name={item.name}

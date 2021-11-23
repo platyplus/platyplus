@@ -69,14 +69,27 @@ export const usePage = <T = Page>({
 
   const docId = useMemo(() => id || initialValues?.id, [id, initialValues])
 
+  const pageForm = useStore(
+    useCallback(
+      (state) => {
+        if (docId) return state.forms.platyplus_pages[docId]
+        else if (slug)
+          return Object.values(state.forms.platyplus_pages).find(
+            (page) => page.slug === slug
+          )
+        else return undefined
+      },
+      [slug, docId]
+    )
+  )
+
   const page = useStore(
     useCallback(
       (state) => {
         if (isFetching) return null
         if (path) {
-          return state.forms?.[PAGES_TABLE]?.[docId] &&
-            path in state.forms?.[PAGES_TABLE]?.[docId]
-            ? state.forms[PAGES_TABLE][docId][path]
+          return pageForm && path in pageForm
+            ? pageForm[path]
             : initialValues?.[path] ?? fallback
         }
         const res = {
@@ -85,11 +98,11 @@ export const usePage = <T = Page>({
           title: '',
           icon: '',
           ...(initialValues || {}),
-          ...(state.forms[PAGES_TABLE][docId] || {})
+          ...(pageForm || {})
         }
         return res as Page
       },
-      [docId, initialValues, isFetching, path, fallback]
+      [docId, initialValues, pageForm, isFetching, path, fallback]
     )
   )
 

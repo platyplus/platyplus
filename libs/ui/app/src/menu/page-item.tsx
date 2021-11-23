@@ -4,16 +4,16 @@ import { usePage } from '@platyplus/react-rxdb-hasura'
 import { PropType } from '@platyplus/ts-types'
 
 export const PageMenuItem: React.FC<{
-  id: string
+  slug: string
   role: string
   name?: string
   icon?: PropType<IconProps, 'icon'>
-}> = ({ id, name, icon }) => {
-  const { state: page } = usePage({ slug: id })
+}> = ({ slug, name, icon }) => {
+  const { state: page } = usePage({ slug })
   if (page?.id)
     return (
       <MenuItem
-        href={`/pages/${id}`}
+        href={`/pages/${slug}`}
         title={name || page.title}
         icon={(icon || page.icon) as PropType<IconProps, 'icon'>}
       />

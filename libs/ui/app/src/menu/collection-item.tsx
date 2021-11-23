@@ -6,6 +6,8 @@ import {
   useCollectionTitle,
   useTableIcon
 } from '@platyplus/react-rxdb-hasura'
+import { canRead } from '@platyplus/rxdb-hasura'
+import { useMemo } from 'react'
 
 export const CollectionMenuItem: React.FC<{
   id: string
@@ -16,11 +18,18 @@ export const CollectionMenuItem: React.FC<{
   const tableInfo = useTableInfo(id)
   const { title } = useCollectionTitle(tableInfo)
   const { state: configIcon } = useTableIcon(id)
-  return (
-    <MenuItem
-      href={`/collections/${role}/${id}`}
-      title={name || title}
-      icon={icon || configIcon}
-    />
+
+  const allowed = useMemo(
+    () => tableInfo && canRead(tableInfo, role),
+    [tableInfo, role]
   )
+  if (allowed)
+    return (
+      <MenuItem
+        href={`/collections/${role}/${id}`}
+        title={name || title}
+        icon={icon || configIcon}
+      />
+    )
+  else return null
 }
