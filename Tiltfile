@@ -18,15 +18,3 @@ platyplus(release_name='platyplus' if hasura_app == 'hasura' else hasura_app,
     frontend_path='.',
     entrypoint=entrypoint)
 
-# config.define_bool("production")
-# cfg = config.parse()
-# if cfg.get('production', False):
-#     local_resource('web', serve_cmd='DEBUG=true yarn build:local && yarn start:local', links=[
-#                link('http://localhost:8088/', 'Frontend')],)
-#     cmd_button('build-production',
-#                 argv=['sh', '-c', 'DEBUG=true yarn build:local'],
-#                 resource='web',
-#                 icon_name='build',
-#                 text='Rebuild',
-#     )
-# else:
