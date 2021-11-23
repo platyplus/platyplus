@@ -3,6 +3,8 @@
 - [ ] Application
   - [ ] test online/offline in prod
   - [ ] small demo
+  - improve the configurastion recap
+  - `page` page: ability to modify the title
 - [ ] tilt / demo
 - **Bugs**
   - [ ] menu is not loaded when starting offline
@@ -43,18 +45,20 @@
           therefore a visit can be added from the patient form?
     - [ ] patient->visits->new in a `Modal` or even as part of the patient form
     - [ ] details of patient->visits as part of the patient form
-  - [ ] easynut demo
-  - [ ] C(R)UD tables/fields/relationships/permissions from the app?
+  - [ ] Define C(R)UD tables/fields/relationships/permissions from the app?
+  - [ ] filter collections, and save filter to backend (in the menu configuration)
+  - [ ] paginate collections
   - [ ] only update modified fields in the zustand form store?
         only send modified fields in the replication mutation?
   - **Bugs**
     - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
     - [ ] refetch the entire collection when new columns/relationships are added
     - [ ] if an user has permissions to add a m2m, but not to remove, then it will see the option to add a deleted item, while it won't be pushed (no permission to update the `deleted` column)
+- [ ] easynut demo
 - [ ] review and use bitnami common template features e.g. secrets
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
   - See: https://github.com/bitnami/charts/issues/2061
-- [ ] nhost sd2
+- [ ] nhost sdk2
 - [ ] rsuite 5
       are CSS variables available?
 - issues
