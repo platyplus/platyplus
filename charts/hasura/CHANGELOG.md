@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.1.5](https://github.com/platyplus/platydev/compare/charts-hasura@1.1.4...charts-hasura@1.1.5) (2021-11-24)
+
+
+### Bug Fixes
+
+* disable console assets if consoled is disabled ([dc55d22](https://github.com/platyplus/platydev/commit/dc55d22e5b44a7f99e9036a1ae33c1dcd11e7226))
+
+
+
 ## [1.1.4](https://github.com/platyplus/platydev/compare/charts-hasura@1.1.3...charts-hasura@1.1.4) (2021-11-24)
 
 
