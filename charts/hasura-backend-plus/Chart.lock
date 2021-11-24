@@ -4,9 +4,9 @@ dependencies:
   version: 8.0.1
 - name: hasura
   repository: file://../hasura
-  version: 1.1.3
+  version: 1.1.4
 - name: common
   repository: https://charts.bitnami.com/bitnami
   version: 1.9.0
-digest: sha256:2a49873cf8c204f90b33eea1c8d6c7aed7dacd51d95d221467604f1a3d79d238
-generated: "2021-11-18T23:07:59.584947+01:00"
+digest: sha256:b0d1519390bd183feb57d7d94214844742aeea15ccba10197345f191bb46c9bc
+generated: "2021-11-24T09:30:58.627038+01:00"
