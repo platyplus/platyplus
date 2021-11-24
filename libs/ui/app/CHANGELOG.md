@@ -2,6 +2,31 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.4.0](https://github.com/platyplus/platydev/compare/ui-app@0.3.6...ui-app@0.4.0) (2021-11-24)
+
+
+### Bug Fixes
+
+* check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platydev/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
+* check property exists before subscribing to it ([bb7bfdc](https://github.com/platyplus/platydev/commit/bb7bfdc7eda9e3d275b5a74cf0b4746803266122))
+* collection subscriptions don't function correcty when sorting them by label ([0993215](https://github.com/platyplus/platydev/commit/0993215a2c9c6b6ecec521ec1aa39004085cce9b))
+* correct default HBP url ([981f97c](https://github.com/platyplus/platydev/commit/981f97c3766251e46a32814786b7754c410f0827))
+* push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platydev/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
+* reverse many2many link ([e99dc78](https://github.com/platyplus/platydev/commit/e99dc785c051f8a29487534555211d29666ce73a))
+* save first available column value as label if no custom label is found ([c60fb20](https://github.com/platyplus/platydev/commit/c60fb206a0e94704796c504733a3a7c444553dce))
+* solve the collection sort by label mystery - probably a react component key issue ([bd4d59c](https://github.com/platyplus/platydev/commit/bd4d59ccfddc0e7116db93abfd49353815b1f7c4))
+* stop again ordering collections, and check if doc exists before patching it ([94bd57b](https://github.com/platyplus/platydev/commit/94bd57b9f4c092e70cbb043cfdc8c5b9071452ed))
+* update menu when a page slug is modified ([3129978](https://github.com/platyplus/platydev/commit/3129978b8d9b491b080bd17e69717fdd26c75703))
+* use react-router-dom instead of react-router ([ac56e8a](https://github.com/platyplus/platydev/commit/ac56e8ac9bdd44e0bb99a406d63ba7a74a203e7e))
+
+
+### Features
+
+* improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platydev/commit/8d41411e048739192d22209365eb6f19f25979f1))
+* improve the configuration navigation ([2e55bf6](https://github.com/platyplus/platydev/commit/2e55bf606c28277d1e3d077150a0f3a58180de7b))
+
+
+
 ## [0.3.6](https://github.com/platyplus/platydev/compare/ui-app@0.3.5...ui-app@0.3.6) (2021-11-18)
 
 
