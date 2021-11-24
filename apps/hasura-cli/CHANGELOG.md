@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/platyplus/platydev/compare/hasura-cli@0.1.4...hasura-cli@0.1.5) (2021-11-24)
+
+
+### Bug Fixes
+
+* bump versions to use more secure docker images ([d839fd1](https://github.com/platyplus/platydev/commit/d839fd132a5be40d137a36ff661b65d054270b1c))
+
+
+
 ## [0.1.4](https://github.com/platyplus/platydev/compare/hasura-cli@0.1.3...hasura-cli@0.1.4) (2021-11-18)
 
 
