@@ -2,6 +2,28 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.4.0](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.8...data-access-rxdb-hasura@0.4.0) (2021-11-24)
+
+
+### Bug Fixes
+
+* can create many2many relationships when permission to insert in a join table ([9df94b4](https://github.com/platyplus/platydev/commit/9df94b4741d1e4ca1a3bee4f237a0d28ef72d532))
+* check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platydev/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
+* fetch reverse fk constraints in graphql request ([a89bf92](https://github.com/platyplus/platydev/commit/a89bf92e6373f96ab5e94ee92bba108fd33a72e0))
+* many2Many relationships are never required ([be4b495](https://github.com/platyplus/platydev/commit/be4b495333c4eb89198bb6254eb1e17e52a92d5d))
+* missing arg in canUpdate ([095688a](https://github.com/platyplus/platydev/commit/095688abd80256433bd84c2ac1c4a8a3acabf781))
+* push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platydev/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
+* reverse many2many link ([e99dc78](https://github.com/platyplus/platydev/commit/e99dc785c051f8a29487534555211d29666ce73a))
+* save first available column value as label if no custom label is found ([c60fb20](https://github.com/platyplus/platydev/commit/c60fb206a0e94704796c504733a3a7c444553dce))
+* stop again ordering collections, and check if doc exists before patching it ([94bd57b](https://github.com/platyplus/platydev/commit/94bd57b9f4c092e70cbb043cfdc8c5b9071452ed))
+
+
+### Features
+
+* improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platydev/commit/8d41411e048739192d22209365eb6f19f25979f1))
+
+
+
 ## [0.3.8](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.7...data-access-rxdb-hasura@0.3.8) (2021-11-18)
 
 
