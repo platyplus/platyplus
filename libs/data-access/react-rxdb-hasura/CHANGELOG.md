@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.5...data-access-react-rxdb-hasura@0.5.0) (2021-11-24)
+
+
+### Bug Fixes
+
+* check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platydev/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
+* correct way to determine if the document is a new doc, therefore the permissions ([4b91de8](https://github.com/platyplus/platydev/commit/4b91de8f32f813555338c375922eb26e18aba11f))
+* push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platydev/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
+* reverse many2many link ([e99dc78](https://github.com/platyplus/platydev/commit/e99dc785c051f8a29487534555211d29666ce73a))
+* update menu when a page slug is modified ([3129978](https://github.com/platyplus/platydev/commit/3129978b8d9b491b080bd17e69717fdd26c75703))
+
+
+### Features
+
+* improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platydev/commit/8d41411e048739192d22209365eb6f19f25979f1))
+
+
+
 ## [0.4.5](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.4...data-access-react-rxdb-hasura@0.4.5) (2021-11-18)
 
 
