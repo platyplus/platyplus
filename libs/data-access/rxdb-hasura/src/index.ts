@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { filter, first, switchMap } from 'rxjs'
+import { distinctUntilChanged, filter, switchMap } from 'rxjs'
 import { addRxPlugin, createRxDatabase, RxDatabaseCreator } from 'rxdb'
 import { RxDBAjvValidatePlugin } from 'rxdb/plugins/ajv-validate'
 import { RxDBReplicationGraphQLPlugin } from 'rxdb/plugins/replication-graphql'
@@ -61,14 +61,17 @@ export const createRxHasura = async (
     settings
   )) as unknown as Database
 
-  debug('db', `reated: ${settings.name}`)
-  if (process.env.NODE_ENV === 'development') window['db'] = db // write to window for debugging
+  debug('db', `created: ${settings.name}`)
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG)
+    window['db'] = db // write to window for debugging
 
   // * When being connected, browse the roles and create table info accordingly
   db.isAuthenticated$
-    .pipe(filter((status) => status))
-    .pipe(first())
-    .pipe(switchMap(() => db.isConfigReady$))
+    .pipe(
+      distinctUntilChanged(),
+      filter((status) => status),
+      switchMap(() => db.isConfigReady$)
+    )
     .subscribe(async (ready) => {
       debug('db', 'first time authenticated. Is ready?', ready)
       if (ready) addTableInfoCollection(db)
@@ -76,8 +79,10 @@ export const createRxHasura = async (
     })
 
   db.isReady$
-    .pipe(filter((ready) => ready && !!db.collections[TABLE_INFO_TABLE]))
-    .pipe(switchMap(() => db.collections[TABLE_INFO_TABLE].find().$))
+    .pipe(
+      filter((ready) => ready && !!db.collections[TABLE_INFO_TABLE]),
+      switchMap(() => db.collections[TABLE_INFO_TABLE].find().$)
+    )
     .subscribe((tables) => createContentsCollections(db, tables))
 
   // * runs when db becomes leader
