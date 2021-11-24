@@ -12,6 +12,7 @@ Then install the chart
 ```sh
 helm install my-release platyplus --namespace default \
   --repo https://charts.platy.plus \
+  --set global.ingress.enabled=true \
   --set global.ingress.domain=127.0.0.1.nip.io
 ```
 
