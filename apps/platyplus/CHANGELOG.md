@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.11](https://github.com/platyplus/platydev/compare/platyplus@0.3.10...platyplus@0.3.11) (2021-11-24)
+
+
+### Bug Fixes
+
+* bump versions to use more secure docker images ([d839fd1](https://github.com/platyplus/platydev/commit/d839fd132a5be40d137a36ff661b65d054270b1c))
+
+
+
 ## [0.3.10](https://github.com/platyplus/platydev/compare/platyplus@0.3.9...platyplus@0.3.10) (2021-11-18)
 
 
