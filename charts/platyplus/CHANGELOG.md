@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.7](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.6...charts-platyplus@0.1.7) (2021-11-24)
+
+
+### Bug Fixes
+
+* bump hbp chart version ([f32aad5](https://github.com/platyplus/platydev/commit/f32aad511781168bdefb1dca11119fc7bd10e2db))
+* bump versions to use more secure docker images ([d839fd1](https://github.com/platyplus/platydev/commit/d839fd132a5be40d137a36ff661b65d054270b1c))
+* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
+
+
+
 ## [0.1.7](https://github.com/platyplus/platydev/compare/charts-platyplus@0.1.6...charts-platyplus@0.1.7) (2021-11-18)
 
 ### Bug Fixes
