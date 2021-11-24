@@ -15,7 +15,7 @@ export const Menu: React.FC<{
 }> = ({ config, authenticated, home, register, login }) => {
   const ready = useIsTableInfoReady()
   return authenticated && ready ? (
-    <PrivateMenu config={config} home={home} />
+    <PrivateMenu config={config} />
   ) : (
     <PublicMenu home={home} register={register} login={login} />
   )

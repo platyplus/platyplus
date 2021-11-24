@@ -1,13 +1,9 @@
 import React, { useMemo } from 'react'
 import { IconProps } from 'rsuite'
 
-import {
-  useAppConfig,
-  usePages,
-  useTablesConfig
-} from '@platyplus/react-rxdb-hasura'
+import { useAppConfig, useTablesConfig } from '@platyplus/react-rxdb-hasura'
 
-import { canRead, MenuItem as MenuItemType } from '@platyplus/rxdb-hasura'
+import { MenuItem as MenuItemType } from '@platyplus/rxdb-hasura'
 import { useUserRoles } from '@platyplus/hbp'
 
 import { PropType } from '@platyplus/ts-types'
@@ -16,12 +12,10 @@ import { ConfigMenu } from './config'
 import { PageMenuItem } from './page-item'
 
 export const PrivateMenu: React.FC<{
-  home: { enabled?: boolean; title?: string }
   config: boolean
-}> = ({ home, config }) => {
+}> = ({ config }) => {
   const roles = useUserRoles(false)
   const { state, isFetching } = useAppConfig()
-
   const tablesInfo = useTablesConfig()
 
   const items = useMemo<[string, Partial<MenuItemType>[]][]>(
