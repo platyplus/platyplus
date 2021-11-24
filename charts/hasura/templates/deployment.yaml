@@ -89,8 +89,10 @@ spec:
             {{- end }}
             - name: HASURA_GRAPHQL_ENABLE_CONSOLE
               value: "{{ .Values.console.enabled }}"
+            {{- if .Values.console.enabled }}
             - name: HASURA_GRAPHQL_CONSOLE_ASSETS_DIR
               value: "{{ .Values.console.assetsDir }}"
+            {{- end }}
             - name: HASURA_GRAPHQL_DATABASE_URL
               valueFrom:
                 secretKeyRef:
