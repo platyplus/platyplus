@@ -4,7 +4,7 @@ import Auth from 'nhost-js-sdk/dist/Auth'
 import { info } from '@platyplus/logger'
 import { ADMIN_ROLE, Database } from '@platyplus/rxdb-hasura'
 import { createRxHasura } from '@platyplus/rxdb-hasura'
-import { isAuthenticated } from '@platyplus/hbp'
+import { getRoles, isAuthenticated, setRoles } from '@platyplus/hbp'
 
 const DEFAULT_DB_NAME = 'rxdb'
 
@@ -13,9 +13,8 @@ const updateAuthToRxDB = (db: Database, auth: Auth, status?: boolean) => {
   const authenticated = status ?? isAuthenticated(auth)
   info('db', 'updateAuthToRxDB: is authenticated?', authenticated)
   const token = auth.getJWTToken()
-  const admin = authenticated
-    ? (auth.getClaim('x-hasura-allowed-roles') || []).includes(ADMIN_ROLE)
-    : false
+  setRoles(auth)
+  const admin = authenticated ? getRoles().includes(ADMIN_ROLE) : false
   db.setAuthStatus(authenticated, token, admin)
 }
 

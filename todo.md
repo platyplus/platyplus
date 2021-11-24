@@ -4,8 +4,6 @@
   - [ ] test online/offline in prod
   - [ ] small demo
 - [ ] tilt / demo
-- **Bugs**
-  - [ ] menu is not loaded when starting offline
 - [ ] Documentation
   - [ ] Pitch, main features + feature matric
   - [ ] Main features
@@ -29,6 +27,7 @@
     - [ ] readme for evey NPM package
     - [ ] contribute
   - [ ] boilerplate / template project (tilt/docker-compose)
+  - [ ] correct documentation links in artifacthub
 
 ## MVP 2
 
@@ -52,6 +51,7 @@
     - [ ] can remove if FK constraint `on delete` is `set null` but fk is not nullable - same with `set default` with no default
     - [ ] refetch the entire collection when new columns/relationships are added
     - [ ] if an user has permissions to add a m2m, but not to remove, then it will see the option to add a deleted item, while it won't be pushed (no permission to update the `deleted` column)
+    - [ ] RichText not updating with props.value changes (problem in the `Editable` component)
 - [ ] easynut demo
 - [ ] review and use bitnami common template features e.g. secrets
 - [ ] Solve the PostgreSQL password change problem, e.g. in a pre upgrade hook batch?
@@ -59,11 +59,9 @@
 - [ ] nhost sdk2
 - [ ] rsuite 5
       are CSS variables available?
-- issues
-  - answer, solve & close
-  - update hasura (and other?) chart readme e.g. no traefik anymore
-- Bugs
-  - [ ] RichText not updating with props.value changes (problem in the `Editable` component)
+- [ ] HASURA_GRAPHQL_ENABLE_TELEMETRY=false
+- [ ] answer, solve & close GH issues
+- [ ] update hasura (and other?) chart readme e.g. no traefik anymore
 
 ## Post-MVP
 
