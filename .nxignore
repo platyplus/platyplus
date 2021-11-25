@@ -11,4 +11,5 @@ apps/**/package.json
 apollo.config.json
 LICENCE
 *.md
+!apps/documentation/**/*.md
 Tiltfile
