@@ -7,7 +7,8 @@ module.exports = {
         'getting-started/configuration'
       ]
     },
-    'features'
+    'roadmap',
+    'comparison'
   ],
   artifacts: [
     'artifacts/index',

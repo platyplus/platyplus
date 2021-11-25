@@ -46,8 +46,12 @@ module.exports = {
               to: 'docs/guide/'
             },
             {
-              label: 'Features',
-              to: 'docs/features/'
+              label: 'Roadmap',
+              to: 'docs/roadmap'
+            },
+            {
+              label: 'Comparison',
+              to: 'docs/comparison'
             }
           ]
         },

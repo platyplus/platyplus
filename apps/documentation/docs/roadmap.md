@@ -1,7 +1,7 @@
 ---
-id: features
-title: Features & Roadmap
-sidebar_label: Features & Roadmap
+id: roadmap
+title: Roadmap
+sidebar_label: Roadmap
 ---
 
 #### Legend
@@ -26,25 +26,25 @@ sidebar_label: Features & Roadmap
 | Role-based permissions                             |   ✅   |
 | Multiple roles permissions                         |   ✅   |
 | Field-level create/insert/update permissions       |   ✅   |
-| Inherited roles                                    |   📅   |
+| Multiple roles per user                            |   📅   |
 | Soft delete                                        |   ✅   |
 | Required fields (SQL `not null` & contraints)      |   ✅   |
 | Default values (SQL, column presets)               |   🟠   |
-| Basic field validation rules                       |   📅   |
+| Basic field validation rules                       |   📅   | Min-max length, emails, formats..                                         |
 | Field validation rules based on Hasura permissions |   📅   |
 | Isomorphic validation rules                        |   📅   |
 | Indexes                                            |   📅   |
-| Cascade delete                                     |   ✅   |
-| `On Delete` constraints                            |   📅   |
-| `On Update` constraints                            |   📅   |
+| Cascade delete                                     |   ✅   | reflect the `on delete cascade` constraint on foreign keys                |
 | Persisted computed fields                          |   📅   |
 | Transient computed fields                          |   📅   |
 | Hasura remote schemas                              |   ❔   |
 | Multiple databases                                 |   ❌   |
 | `created_at` field                                 |   📅   |
+| `created_by` field                                 |   📅   |
 | `deleted_at` field                                 |   📅   |
 | Conflict resolution                                |   📅   |
-| Auditable modifications                            |   ❔   |
+| Auditable modifications                            |   ❔   | Log the history of modifications done                                     |
+| Auditable access                                   |   ❔   |
 | Modify contents structure in a single place        |   ❔   | For the moment, both the Hasura Console and the Platyplus UI are required |
 | Custom icon sets                                   |   ❔   |
 | Internationalisation                               |   📅   |
@@ -52,14 +52,15 @@ sidebar_label: Features & Roadmap
 
 ## User Interface
 
-| Feature                                     | Status | Description |
-| ------------------------------------------- | :----: | ----------- |
-| Customisable home page                      |   📅   |
+| Feature                                     | Status | Description                                                                                                                |
+| ------------------------------------------- | :----: | -------------------------------------------------------------------------------------------------------------------------- |
+| Custom public resources                     |   ❔   |                                                                                                                            |
+| Customisable home page                      |   🟠   | The home page of authenticated users is stored in the backend, but the public home page isn't                              |
 | Orderable side menu                         |   ✅   |
 | Orderable columns                           |   ✅   |
 | Collection/document/field component options |   📅   |
-| Configurable side menu items                |   📅   |
-| Custom pages                                |   📅   |
+| Configurable side menu                      |   ✅   |
+| Custom pages                                |   🟠   | Basic rich-text editor. Still missing: ability to use information from the user profile, or other documents or collections |
 | Paginate a collection                       |   📅   |
 | Filter a collection                         |   📅   |
 | Find a document from QR code / barcode      |   📅   |
@@ -67,17 +68,17 @@ sidebar_label: Features & Roadmap
 
 ### User account management
 
-| Feature                     | Status | Description                                                   |
-| --------------------------- | :----: | ------------------------------------------------------------- |
-| Registration page           |   ✅   |
-| Optional registration page  |   📅   |
-| Login page                  |   ✅   |
-| Profile page                |   🟠   |
-| Password change             |   📅   |
-| OAuth                       |   📅   |
-| Multi-factor authentication |   📅   |
-| Email verification          |   📅   |
-| Dark/light mode             |   ✅   | Not persisted in the backend but in the browser local storage |
+| Feature                              | Status | Description                                                                       |
+| ------------------------------------ | :----: | --------------------------------------------------------------------------------- |
+| Registration page                    |   ✅   |
+| Optional registration page           |   📅   | For the moment, registration is activated. It should be possible to deactivate it |
+| Login page                           |   ✅   |
+| Profile page                         |   🟠   | The avatar input field should be improved                                         |
+| Password change                      |   📅   |
+| OAuth                                |   📅   | Ability to authenticate with OAuth e.g. Google, Facebook, GitHub...               |
+| Multi-factor authentication          |   📅   |
+| Registration with email confirmation |   📅   |
+| Dark/light mode                      |   ✅   | Not persisted in the backend but in the browser local storage                     |
 
 ## Developer Experience
 
@@ -88,8 +89,7 @@ sidebar_label: Features & Roadmap
 | Docker images                                          |   ✅   |
 | NPM packages                                           |   ✅   |
 | Pulumi plugin                                          |   ✅   |
-| Platyplus Tilt extension                               |   📅   |
-| Hasura & Hasura-backend-plus Tilt extensions           |   ✅   |
+| Tilt extension                                         |   ✅   |
 | Build frontend from a new React project                |   📅   |
 | Additional custom collection/document/field components |   🟠   |
 
@@ -97,13 +97,15 @@ sidebar_label: Features & Roadmap
 
 ### Collections
 
-| Title     | Status | Details |
-| --------- | :----: | ------- |
-| Table     |   ✅   |
-| Card list |   ✅   |
-| Map       |   📅   |
-| Calendar  |   📅   |
-| Charts    |   📅   |
+| Title    | Status | Details |
+| -------- | :----: | ------- |
+| Table    |   ✅   |
+| List     |   ✅   |
+| Gallery  |   📅   |
+| Kanban   |   📅   |
+| Map      |   📅   |
+| Calendar |   📅   |
+| Charts   |   📅   |
 
 ### Documents
 
@@ -129,9 +131,14 @@ sidebar_label: Features & Roadmap
 | Checkbox              |   ✅   |
 | Select one            |   ✅   |
 | Select multiple       |   ✅   |
+| Currency              |   📅   |
+| Percent               |   📅   |
+| Duration              |   📅   |
+| Geometry              |   📅   |
+| Rating                |   📅   |
+| Phone number          |   📅   |
 | Email                 |   📅   |
-| Charts                |   📅   |
-| Map pin               |   📅   |
+| Charts                |   📅   | show a many to many relationship as charts                                  |
 | Icon                  |   🟠   | Icons are available in collection and field labels, but not in fields yet.  |
 | Avatar                |   🟠   | Avatars are partially available in the user profile, but not in fields yet. |
 | File                  |   📅   |

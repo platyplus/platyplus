@@ -65,6 +65,10 @@
 ## Post-MVP
 
 - Application
+  - [ ] monitor connection from navigation.online + replication statuses + ?
+    - [ ] do not update 'realtime', but every second?
+    - [ ] add a badge (+ toast?) when connected/disconnected
+    - [ ] hide configuration actions when disconnected?
   - [ ] remove one2many (and many2many?) item: when FK cannot be set to null/default BUT referenced item can be deleted, then delete it
   - [ ] don't show 'admin' features when offline? -> don't allow saving them. Persist zustand store
   - [ ] deactivate login/register forms when network is down - useNetworkStatus
