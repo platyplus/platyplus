@@ -8,25 +8,23 @@ import CodeBlock from '@theme/CodeBlock';
 import Tiltfile from '!!raw-loader!@site/static/examples/Tiltfile';
 import TiltfileAdvanced from '!!raw-loader!@site/static/examples/Tiltfile-advanced';
 
-## Tilt extensions
-
 To develop in a Kubernetes environment can be quite hard. [Tilt](https://tilt.dev) makes things way easier.
 
 An Hasura extension is already part of the [Tilt extensions](https://github.com/tilt-dev/tilt-extensions/tree/master/hasura).
 
 Another set of [Tilt helpers](https://github.com/platyplus/tilt-modules) is available to ease developping custom Platyplus applications.
 
-### Basic usage
+## Basic usage
 
 Here is the simplest `Tiltfile` that would start an new Platyplus project in the active Kubernetes cluser:
 
 <CodeBlock className="language-python" title="Tiltfile">{Tiltfile}</CodeBlock>
 
-### Advanced usage
+## Advanced usage
 
 <CodeBlock className="language-python" title="Tiltfile">{TiltfileAdvanced}</CodeBlock>
 
-#### Options
+### Options
 
 | Argument                 | Description                                                                                                                                                                                                     | Default value         |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
