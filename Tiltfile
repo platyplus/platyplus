@@ -18,9 +18,7 @@ production = cfg.get('production', False)
 
 if (production):
     # TODO make it work for other frontend projects
-    # 'yarn run build:local'
-    # TODO change how to build. It seems tilt won't live update when the dist dir is removed and recreated
-    local('CONFIG_FILE=local DEBUG=true yarn nx run {}:build-webpack'.format(frontend_app))
+    local_resource('builder', serve_cmd='CONFIG_FILE=local DEBUG=true yarn nx run {}:build-webpack:watch'.format(frontend_app))
     platyplus(release_name='platyplus' if hasura_app == 'hasura' else hasura_app,
         hasura_path=os.path.join(apps_path, hasura_app), 
         frontend_build=True,
@@ -29,8 +27,9 @@ if (production):
         frontend_image,
         '.',
         dockerfile='apps/platyplus/Dockerfile',
+        only=['./dist/apps/{}'.format(frontend_app), './tools/nginx.conf'],
         live_update=[
-            sync('./dist/apps/{}'.format(frontend_app), '/usr/share/nginx/html')
+            sync('dist/apps/{}'.format(frontend_app), '/app')
         ])
 else:
     entrypoint = 'yarn nx run {}:serve'.format(frontend_app) if frontend_app else 'yarn start'

@@ -14,7 +14,7 @@ export const IndexPage: React.FC<{ title?: string }> = ({
   } else
     return (
       <HeaderTitleWrapper title={title}>
-        <h2>Welcome, stranger</h2>
+        <h2>Welcome</h2>
         <Link to="/login">Login</Link>
         <br />
         <Link to="/register">Register</Link>

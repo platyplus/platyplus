@@ -1,7 +1,6 @@
 ## MVP
 
 - [ ] Application
-  - [ ] test online/offline in prod
   - [ ] small demo
 - [ ] tilt / demo
 - [ ] Documentation

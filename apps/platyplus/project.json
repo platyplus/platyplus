@@ -40,6 +40,9 @@
         ]
       },
       "configurations": {
+        "watch": {
+          "watch": true
+        },
         "dev": {
           "fileReplacements": [],
           "optimization": false,

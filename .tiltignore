@@ -4,7 +4,6 @@
 .vscode
 charts
 devtools
-dist
 documentation
 infrastructure
 migrate
