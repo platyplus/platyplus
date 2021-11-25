@@ -153,6 +153,7 @@
     "jest": "27.2.3",
     "npm-api": "^1.0.1",
     "prettier": "2.4.1",
+    "raw-loader": "^4.0.2",
     "react-json-view": "^1.21.3",
     "ts-jest": "27.0.5",
     "ts-node": "~10.2.1",

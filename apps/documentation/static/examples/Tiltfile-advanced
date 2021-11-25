@@ -1,0 +1,15 @@
+load('ext://git_resource', 'git_checkout')
+git_checkout('git@github.com:platyplus/tilt-modules.git')
+load('.git-sources/tilt-modules/platyplus/Tiltfile', 'platyplus')
+platyplus(release_name='platyplus',
+    frontend_port = 4200,
+    hasura_port = 8080,
+    hasura_backend_plus_port = 9000,
+    hasura_secret = 'hasura-dev-secret',
+    postgres_password = 'fixed1234',
+    hasura_path = '.',
+    frontend_build = False,
+    frontend_path = None,
+    entrypoint = 'yarn start',
+    values = {})
+    
