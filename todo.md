@@ -4,8 +4,6 @@
   - [ ] small demo
 - [ ] tilt / demo
 - [ ] Documentation
-  - [ ] Pitch, main features + feature matric
-  - [ ] Main features
   - [ ] Configuration guide
     - [ ] 'basic'
     - [ ] extend Platyplus
@@ -20,7 +18,6 @@
       - [ ] Kubernetes
   - [ ] Technical documentation
     - [ ] Schema on how RxDB starts (auth/jwt, metadata, config, contents...)
-    - [ ] readme for every Docker image
     - [ ] readme for every Helm chart
     - [ ] readme for evey NPM package
     - [ ] contribute
