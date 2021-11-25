@@ -42,16 +42,16 @@ module.exports = {
           title: 'Learn',
           items: [
             {
-              label: 'Guide',
+              label: 'Installation',
               to: 'docs/guide/'
-            },
-            {
-              label: 'Roadmap',
-              to: 'docs/roadmap'
             },
             {
               label: 'Comparison',
               to: 'docs/comparison'
+            },
+            {
+              label: 'Roadmap',
+              to: 'docs/roadmap'
             }
           ]
         },

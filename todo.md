@@ -15,7 +15,6 @@
   - [ ] Installation guide / getting started
     - [ ] Dev
       - [ ] Docker-compose
-      - [ ] Tilt
     - [ ] Deploy
       - [ ] Docker-compose
       - [ ] Kubernetes

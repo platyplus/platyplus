@@ -5,7 +5,32 @@ sidebar_label: Installation
 slug: /guide
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import CodeBlock from '@theme/CodeBlock';
+
 # Installation
+
+## Tilt (recommended)
+
+### Prerequisites
+
+- [Tilt](https://docs.tilt.dev/install.html)
+- [Helm](https://helm.sh/docs/intro/install/)
+- [Docker](https://docs.docker.com/get-docker/)
+- A Kubernetes cluster. It can for instance be activated locally when using Docker Desktop
+
+### Prepare the project
+
+<CodeBlock className="language-shell">{`mkdir my-project \ncd my-project\nwget ${useBaseUrl('/examples/Tiltfile', {absolute: true})} `}</CodeBlock>
+
+### Start the development stack
+
+```shell
+tilt up
+```
+
+You can now open the Tilt interface to monitor the services status.
+The frontend app will start on [http://localhost:4200](http://localhost:4200) and the Hasura console on [http://localhost:9695](http://localhost:9695).
 
 ## Kubernetes
 
@@ -52,4 +77,4 @@ TODO:
 - touch config.yaml
 - hasura console
 
-## Tilt -->
+-->
