@@ -18,7 +18,7 @@ const reverseRelations =
     insert = false
   ): RxCollectionHookCallback<Contents, ContentsDocumentMethods> =>
   async (data, doc) => {
-    debug(collection.name, `reverse info`)
+    debug(collection.name, `reverse info`, data, doc)
     // * Stop recursive spreading of changes done locally
     if (data.is_local_change) {
       return
@@ -61,13 +61,13 @@ const reverseRelations =
           // * Add new keys
           if (mirrorRelType === 'array') {
             // * From many to many
-            await remoteDoc.atomicPatch({
+            remoteDoc.atomicPatch({
               is_local_change: true,
               [mirrorRelName]: [...remoteDoc[mirrorRelName], doc.id]
             })
           } else {
             // * From one to many
-            await remoteDoc.atomicPatch({
+            remoteDoc.atomicPatch({
               is_local_change: false,
               [mirrorRelName]: remoteDoc[mirrorRelName]
             })
@@ -80,7 +80,7 @@ const reverseRelations =
           // * Remove removed keys
           if (mirrorRelType === 'array') {
             // * From many to many
-            await remoteDoc.atomicPatch({
+            remoteDoc.atomicPatch({
               is_local_change: true,
               [mirrorRelName]: remoteDoc[mirrorRelName].filter(
                 (key: string) => key !== doc.id
@@ -88,7 +88,7 @@ const reverseRelations =
             })
           } else {
             // * From one to many
-            await remoteDoc.atomicPatch({
+            remoteDoc.atomicPatch({
               is_local_change: false,
               [mirrorRelName]: null
             })
@@ -106,7 +106,7 @@ const reverseRelations =
               const updatedMirrorValues = oldRemoteDocument[
                 mirrorRelName
               ].filter((key: string) => key !== data.id)
-              await oldRemoteDocument.atomicPatch({
+              oldRemoteDocument.atomicPatch({
                 is_local_change: true,
                 [mirrorRelName]: updatedMirrorValues
               })
@@ -119,7 +119,7 @@ const reverseRelations =
                 ...newRemoteDocument[mirrorRelName],
                 data.id
               ]
-              await newRemoteDocument.atomicPatch({
+              newRemoteDocument.atomicPatch({
                 is_local_change: true,
                 [mirrorRelName]: updatedMirrorValues
               })
