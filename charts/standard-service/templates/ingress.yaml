@@ -51,8 +51,10 @@ spec:
   {{- if or .tls .Values.ingress.tls.enabled .Values.global.ingress.tls.enabled }}
   tls:
   - hosts:
-    {{- if .Values.global.ingress.domain }}
-    - {{ .Values.ingress.subdomain }}.{{ .Values.global.ingress.domain }}
+    {{- if  .Values.ingress.subdomain }}
+    - "{{ .Values.ingress.subdomain }}.{{ .Values.global.ingress.domain }}"
+    {{- else }}
+    - "{{ .Values.global.ingress.domain }}"
     {{- end }}
     {{- range .Values.ingress.hosts }}
     - {{ .name }}
