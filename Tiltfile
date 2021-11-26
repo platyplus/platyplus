@@ -1,5 +1,5 @@
 load('ext://git_resource', 'git_checkout')
-git_checkout('git@github.com:platyplus/tilt-modules.git')
+git_checkout('https://github.com/platyplus/tilt-modules.git')
 load('.git-sources/tilt-modules/platyplus/Tiltfile', 'platyplus')
 load('.git-sources/tilt-modules/platyplus/Tiltfile', 'frontend_image')
 
