@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.11](https://github.com/platyplus/platydev/compare/ui-profile@0.2.10...ui-profile@0.2.11) (2021-11-26)
+
+
+
 ## [0.2.10](https://github.com/platyplus/platydev/compare/ui-profile@0.2.9...ui-profile@0.2.10) (2021-11-24)
 
 
