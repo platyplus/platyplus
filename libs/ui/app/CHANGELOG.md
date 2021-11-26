@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.2](https://github.com/platyplus/platydev/compare/ui-app@0.4.1...ui-app@0.4.2) (2021-11-26)
+
+
+### Bug Fixes
+
+* correct way to get hasura and hbp endpoints ([a092dee](https://github.com/platyplus/platydev/commit/a092deeb524ea48e6957209835c6a2189617f68a))
+
+
+
 ## [0.4.1](https://github.com/platyplus/platydev/compare/ui-app@0.4.0...ui-app@0.4.1) (2021-11-26)
 
 
