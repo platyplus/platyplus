@@ -31,8 +31,10 @@ const modelTypeConstructor: Record<
       const relCollectionName = collectionName(relTable, role)
       const collection = db.collections[relCollectionName]
       return collection
-        .findByIds(value)
-        .then((docs) => value.every((id) => !!docs.get(id)))
+        ? collection
+            .findByIds(value)
+            .then((docs) => value.every((id) => !!docs.get(id)))
+        : false
     }, 'One of the referenced documents does not exist'),
   document: (db, tableInfo, role, property) =>
     Types.StringType().addRule(async (value): Promise<boolean> => {

@@ -38,6 +38,7 @@ const reverseRelations =
         collection.database.collections[
           collectionName(mirrorTable, collection.options.role)
         ]
+      if (!remoteCollection) return
       // * Get the previous values of the document
       const oldRelId =
         !insert && (await collection.findOne(data.id).exec())?.[name]
