@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.6](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.2.5...charts-hasura-backend-plus@0.2.6) (2021-11-26)
+
+
+### Bug Fixes
+
+* correct tls host names ([39d30b4](https://github.com/platyplus/platydev/commit/39d30b40dca22021f64b90462f64a16d378ae7c3))
+
+
+
 ## [0.2.5](https://github.com/platyplus/platydev/compare/charts-hasura-backend-plus@0.2.4...charts-hasura-backend-plus@0.2.5) (2021-11-24)
 
 
