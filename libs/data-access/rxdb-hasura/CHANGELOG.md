@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.1](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.4.0...data-access-rxdb-hasura@0.4.1) (2021-11-26)
+
+
+### Bug Fixes
+
+* clean login-logout-login ([1d52289](https://github.com/platyplus/platydev/commit/1d522897048814aaa9f68c93d900ffc33ce163ed))
+
+
+
 # [0.4.0](https://github.com/platyplus/platydev/compare/data-access-rxdb-hasura@0.3.8...data-access-rxdb-hasura@0.4.0) (2021-11-24)
 
 
