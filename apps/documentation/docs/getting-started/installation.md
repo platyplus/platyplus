@@ -17,6 +17,7 @@ import CodeBlock from '@theme/CodeBlock';
 - [Tilt](https://docs.tilt.dev/install.html)
 - [Helm](https://helm.sh/docs/intro/install/)
 - [Docker](https://docs.docker.com/get-docker/)
+- The [Hasura CLI](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli.html)
 - A Kubernetes cluster. It can for instance be activated locally when using Docker Desktop
 
 ### Prepare the project
