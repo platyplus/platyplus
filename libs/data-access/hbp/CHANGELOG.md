@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.10](https://github.com/platyplus/platydev/compare/data-access-hbp@0.1.9...data-access-hbp@0.1.10) (2021-11-26)
+
+
+### Bug Fixes
+
+* keep user roles in localstorage so everything works fine when starting offline ([18b492f](https://github.com/platyplus/platydev/commit/18b492fcbb16ccf477d89d3a0416bccdbf0aa4a8))
+
+
+
 ## [0.1.9](https://github.com/platyplus/platydev/compare/data-access-hbp@0.1.8...data-access-hbp@0.1.9) (2021-11-24)
 
 
