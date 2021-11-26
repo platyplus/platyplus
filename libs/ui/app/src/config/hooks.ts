@@ -18,18 +18,16 @@ const getConfig = async () =>
       .then(({ hasuraUrl, authUrl, ...config }: Partial<JSONAppConfig>) => {
         const isLocal = isConsoleEnabled()
         return {
-          hasuraUrl:
-            typeof hasuraUrl === 'string'
-              ? process.env.NODE_ENV === 'development' && !isLocal
-                ? `${window.location.protocol}//hasura.${window.location.host}/v1/graphql`
-                : hasuraUrl
-              : `${window.location.protocol}//${hasuraUrl.prefix}.${window.location.host}/v1/graphql`,
-          authUrl:
-            typeof authUrl === 'string'
-              ? process.env.NODE_ENV === 'development' && !isLocal
-                ? `${window.location.protocol}//auth.${window.location.host}`
-                : authUrl
-              : `${window.location.protocol}//${authUrl.prefix}.${window.location.host}`,
+          hasuraUrl: isLocal
+            ? `${window.location.protocol}//${window.location.hostname}:8080/v1/graphql`
+            : typeof hasuraUrl === 'string'
+            ? hasuraUrl
+            : `${window.location.protocol}//hasura.${window.location.host}/v1/graphql`,
+          authUrl: isLocal
+            ? `${window.location.protocol}//${window.location.hostname}:9000`
+            : typeof authUrl === 'string'
+            ? authUrl
+            : `${window.location.protocol}//${authUrl.prefix}.${window.location.host}`,
           ...config
         }
       })

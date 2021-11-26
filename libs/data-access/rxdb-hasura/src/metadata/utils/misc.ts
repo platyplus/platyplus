@@ -22,6 +22,6 @@ export const isConsoleEnabled = (): boolean => {
   // TODO ping localhost:9693
   return (
     document.location.hostname === 'localhost' ||
-    document.location.hostname.includes('127.0.0.1')
+    document.location.hostname.startsWith('127.0.0.1')
   )
 }
