@@ -1,3 +1,5 @@
+# Uncomment the following line if you want to deploy on a remote cluster. See: https://docs.tilt.dev/api.html#api.allow_k8s_contexts
+# allow_k8s_contexts(k8s_context())
 load('ext://git_resource', 'git_checkout')
 git_checkout('git@github.com:platyplus/tilt-modules.git')
 load('.git-sources/tilt-modules/platyplus/Tiltfile', 'platyplus')

@@ -12,7 +12,8 @@ import {
 import { FieldComponent, FieldComponentWrapper } from '../fields'
 import { DocumentComponent } from './types'
 import { PropertyIcon } from './icon'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
+import { isRequiredProperty } from '@platyplus/rxdb-hasura'
 
 const DocumentField: FieldComponent = ({
   property,
@@ -23,7 +24,10 @@ const DocumentField: FieldComponent = ({
   edit,
   config
 }) => {
-  const required = property.required
+  const required = useMemo(
+    () => isRequiredProperty(tableinfo, name),
+    [tableinfo, name]
+  )
   const { edit: editable, read: readable } = usePropertyPermissions(
     tableinfo,
     role,

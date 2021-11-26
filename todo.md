@@ -2,6 +2,7 @@
 
 - [ ] Application
   - [ ] small demo
+- bug: when reinstalling from migrations, creates a duplicate record in the `platyplus.app_config` table
 - [ ] tilt / demo
 - [ ] Documentation
   - [ ] Configuration guide
@@ -57,6 +58,7 @@
 - [ ] HASURA_GRAPHQL_ENABLE_TELEMETRY=false
 - [ ] answer, solve & close GH issues
 - [ ] update hasura (and other?) chart readme e.g. no traefik anymore
+- [ ] Tilt: remote clusters don't work on dev mode (probably the name/repo of the docker image)
 
 ## Post-MVP
 
