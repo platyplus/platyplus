@@ -8,7 +8,7 @@ sources:
 icon: >-
   https://raw.githubusercontent.com/hasura/graphql-engine/3f8013abcb21aa6b732c739e06364a4e9c994a46/assets/brand/hasura_icon_colour.svg
 type: application
-version: 1.1.5
+version: 1.1.6
 appVersion: v2.0.9
 dependencies:
   - name: postgresql
