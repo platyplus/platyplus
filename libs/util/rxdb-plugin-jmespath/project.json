@@ -1,0 +1,57 @@
+{
+  "root": "libs/util/rxdb-plugin-jmespath",
+  "sourceRoot": "libs/util/rxdb-plugin-jmespath/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/rxdb-plugin-jmespath",
+        "tsConfig": "libs/util/rxdb-plugin-jmespath/tsconfig.lib.json",
+        "packageJson": "libs/util/rxdb-plugin-jmespath/package.json",
+        "main": "libs/util/rxdb-plugin-jmespath/src/index.ts",
+        "assets": ["libs/util/rxdb-plugin-jmespath/*.md"]
+      }
+    },
+    "publish": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/rxdb-plugin-jmespath"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/util/rxdb-plugin-jmespath/**/*.{ts,tsx,js,jsx}"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/util/rxdb-plugin-jmespath"],
+      "options": {
+        "jestConfig": "libs/util/rxdb-plugin-jmespath/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

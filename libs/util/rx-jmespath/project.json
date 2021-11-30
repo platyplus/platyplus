@@ -1,0 +1,55 @@
+{
+  "root": "libs/util/rx-jmespath",
+  "sourceRoot": "libs/util/rx-jmespath/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/util/rx-jmespath",
+        "tsConfig": "libs/util/rx-jmespath/tsconfig.lib.json",
+        "packageJson": "libs/util/rx-jmespath/package.json",
+        "main": "libs/util/rx-jmespath/src/index.ts",
+        "assets": ["libs/util/rx-jmespath/*.md"]
+      }
+    },
+    "publish": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "./tools/executors/npm-publish:publish",
+      "options": {
+        "buildPath": "dist/libs/util/rx-jmespath"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/util/rx-jmespath/**/*.{ts,tsx,js,jsx}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/util/rx-jmespath"],
+      "options": {
+        "jestConfig": "libs/util/rx-jmespath/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "baseBranch": "master",
+        "versionTagPrefix": "${target}@",
+        "trackDeps": true
+      }
+    }
+  },
+  "tags": []
+}

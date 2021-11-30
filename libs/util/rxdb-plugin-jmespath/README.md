@@ -1,0 +1,1 @@
+# @platyplus/rxdb-plugin-jmespath

@@ -25,6 +25,8 @@
     "util-jsonata-schema": "libs/util/jsonata-schema",
     "util-logger": "libs/util/logger",
     "util-pulumi": "libs/util/pulumi",
+    "util-rx-jmespath": "libs/util/rx-jmespath",
+    "util-rxdb-plugin-jmespath": "libs/util/rxdb-plugin-jmespath",
     "util-ts-types": "libs/util/ts-types"
   }
 }
