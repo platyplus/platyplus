@@ -88,9 +88,13 @@ const App: React.FC = () => {
       <Tabs className="unique-tabs">
         <TabItem value="Search">
           <h2>JMESPath expression</h2>
+          <div>
+            Collection: <b>{document.collection.name}</b>, document id:
+            <b>{document.primary}</b>
+          </div>
           <div
             className="DocSearch-Form"
-            style={{ height: '32px', marginBottom: '20px' }}
+            style={{ height: '32px', marginBottom: '20px', marginTop: '10px' }}
           >
             <input
               className="DocSearch-Input"
