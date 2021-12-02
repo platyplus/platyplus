@@ -79,6 +79,6 @@ const getIdentity: IdentityGetter<T = Record<string,unknown>> = (
 
 Sometimes, objects are mutually referenced, so browsing them entirely would create an infinite loop. You can prevent this in setting this option to `true.
 
-When `true`, the expression `*` expression returns `null`.
+When `true`, the expression `*` expression raises an error instead of making the processing fail.
 
 The `circularData` option defaults to `false`.
