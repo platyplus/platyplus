@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import {
   isObject,
   TreeInterpreter,
@@ -23,17 +22,10 @@ import {
   concat
 } from 'rxjs'
 import { Runtime } from './jmespath'
-
-type FieldGetter = (
-  value: ObjectType,
-  property: string | number
-) => Observable<ObjectType>
-
-export type SearchOptions = {
-  getField?: FieldGetter
-}
+import { FieldGetter, IdentityGetter, SearchOptions } from './options'
 
 const defaultFieldGetter: FieldGetter = (value, key) => of(value[key] ?? null)
+const defaultIdentity: IdentityGetter = (value) => of(value)
 
 const ACTIONS: Record<
   string,
@@ -48,7 +40,11 @@ const ACTIONS: Record<
       return of(null)
     } else {
       if (isObject(value)) {
-        return interpreter.getField(value, node.name)
+        return interpreter.options.getField(
+          value,
+          node.name,
+          interpreter.options
+        )
       } else return of(null)
     }
   },
@@ -81,7 +77,7 @@ const ACTIONS: Record<
     if (index < 0) {
       index = value.length + index
     }
-    return interpreter.getField(value, index)
+    return interpreter.options.getField(value, index, interpreter.options)
   },
 
   Slice: (interpreter, node, value) => {
@@ -92,13 +88,15 @@ const ACTIONS: Record<
     const r = []
     if (step > 0) {
       for (let i = start; i < stop; i += step) {
-        r.push(interpreter.getField(value, i))
+        r.push(interpreter.options.getField(value, i, interpreter.options))
       }
     } else {
       for (let i = start; i > stop; i += step) {
-        r.push(interpreter.getField(value, i))
+        r.push(interpreter.options.getField(value, i, interpreter.options))
       }
     }
+    // ! GET RID OF from/toArray!!! -> See Projection: combileLatest?
+    // TODO and don't forget the case of an empty array - see also Function
     return concat(...r).pipe(toArray())
   },
 
@@ -127,6 +125,8 @@ const ACTIONS: Record<
                 interpreter.visit$(node.children[1], of(value))
               ),
               filter((value) => value !== null),
+              // ! GET RID OF from/toArray!!! -> See Projection: combileLatest?
+              // TODO and don't forget the case of an empty array - see also Function
               toArray()
             )
           : of(null)
@@ -137,7 +137,9 @@ const ACTIONS: Record<
     interpreter.visit$(node.children[0], of(value)).pipe(
       switchMap((base) =>
         Array.isArray(base)
-          ? from(base).pipe(
+          ? // ! GET RID OF from/toArray!!! -> See Projection: combileLatest?
+            // TODO and don't forget the case of an empty array - see also Function
+            from(base).pipe(
               switchMap((i) => interpreter.visit$(node.children[2], of(i))),
               map((value, index) => (isFalse(value) ? null : base[index])),
               filter((i) => i !== null),
@@ -186,15 +188,19 @@ const ACTIONS: Record<
         )
       ),
 
-  Identity: (_, __, value) => of(value),
+  Identity: (interpreter, __, value) =>
+    interpreter.options.getIdentity(value, interpreter.options),
 
+  // TODO TEST THIS!
   MultiSelectList: (interpreter, node, value) =>
     value === null
       ? of(null)
-      : from(node.children).pipe(
-          switchMap((child) => interpreter.visit$(child, of(value))),
-          toArray()
-        ),
+      : node.children.length
+      ? combineLatest(
+          node.children.map((child) => interpreter.visit$(child, of(value)))
+        )
+      : of([]),
+
   MultiSelectHash: (interpreter, node, value) =>
     value === null
       ? of(null)
@@ -238,13 +244,15 @@ const ACTIONS: Record<
   Current: (_, __, value) => of(value),
 
   Function: (interpreter, node, value) =>
-    from(node.children).pipe(
-      switchMap((child) => interpreter.visit$(child, of(value))),
-      toArray(),
-      map((resolvedArgs) =>
-        interpreter.runtime.callFunction(node.name, resolvedArgs)
-      )
-    ),
+    node.children.length
+      ? combineLatest(
+          node.children.map((child) => interpreter.visit$(child, of(value)))
+        ).pipe(
+          map((resolvedArgs) =>
+            interpreter.runtime.callFunction(node.name, resolvedArgs)
+          )
+        )
+      : of(interpreter.runtime.callFunction(node.name, [])),
 
   ExpressionReference: (_, node, __) => {
     const refNode = node.children[0]
@@ -254,15 +262,28 @@ const ACTIONS: Record<
 }
 
 export class Intercepter extends TreeInterpreter {
-  getField: FieldGetter
+  options: SearchOptions
+
   constructor(
     runtime: Runtime,
-    { getField = defaultFieldGetter }: SearchOptions = {
-      getField: defaultFieldGetter
+    {
+      getField = defaultFieldGetter,
+      getIdentity = defaultIdentity,
+      circularData = false,
+      ...other
+    }: SearchOptions = {
+      getField: defaultFieldGetter,
+      getIdentity: defaultIdentity,
+      circularData: false
     }
   ) {
     super(runtime)
-    this.getField = getField
+    this.options = {
+      getField,
+      getIdentity,
+      circularData,
+      ...other
+    }
   }
 
   visit$(
@@ -270,7 +291,6 @@ export class Intercepter extends TreeInterpreter {
     value$: Observable<ObjectType>
   ): Observable<ObjectType> {
     return value$.pipe(
-      // tap(() => console.log('$', node.type)),
       switchMap(
         (value) =>
           ACTIONS[node.type]?.(this, node, value) ||

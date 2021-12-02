@@ -1,6 +1,7 @@
 import { isObservable, Observable, of, switchMap, throwError } from 'rxjs'
 import { Runtime, compile, ObjectType } from './jmespath'
-import { Intercepter, SearchOptions } from './interpreter'
+import { Intercepter } from './interpreter'
+import { SearchOptions } from './options'
 
 export const search$ =
   (
@@ -14,6 +15,11 @@ export const search$ =
       runtime._interpreter = interpreter
       return (isObservable(expression) ? expression : of(expression)).pipe(
         switchMap((exp) => {
+          // ? Not ideal. Find a better workaround?
+          if (options.circularData && expression === '*')
+            throw new Error(
+              `Data schema is circular; The expression '*' is not allowed`
+            )
           const node = compile(exp)
           return interpreter.visit$(node, data$)
         })

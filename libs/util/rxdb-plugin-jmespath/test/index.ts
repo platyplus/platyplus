@@ -1,3 +1,3 @@
-export { books } from './books'
-export { authors } from './authors'
+export { books, Book } from './books'
+export { authors, Author } from './authors'
 export * from './helpers'

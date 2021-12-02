@@ -1,8 +1,7 @@
-import { Database, setup, teardown, books, authors } from '../test'
+import { Database, setup, teardown, books, authors, Book } from '../test'
 import { addRxPlugin } from 'rxdb'
 import { plugin } from './plugin'
-import { skip, of } from 'rxjs'
-import { search$ } from '@platyplus/rx-jmespath'
+import { skip, switchMap } from 'rxjs'
 
 addRxPlugin(plugin)
 
@@ -53,17 +52,16 @@ describe('document', () => {
   })
 
   it('should populate an array: get books of an author', (done) => {
+    const expected = books
+      .filter((book) => book.author === faulkner.id)
+      .map((book) => book.title)
     db.collections.authors
       .findOne(faulkner.id)
       .exec()
       .then((doc) => {
         doc.jmespath$('books[].title').subscribe({
           next: (result) => {
-            expect(result).toEqual(
-              books
-                .filter((book) => book.author === faulkner.id)
-                .map((book) => book.title)
-            )
+            expect(result).toEqual(expected)
             done()
           },
           error: done
@@ -72,17 +70,16 @@ describe('document', () => {
   })
 
   it('should nest populations: get books of the same author', (done) => {
+    const expected = books
+      .filter((book) => book.author === faulkner.id)
+      .map((book) => book.title)
     db.collections.books
       .findOne(soundAndFury.id)
       .exec()
       .then((doc) => {
         doc.jmespath$('author.books[].title').subscribe({
           next: (result) => {
-            expect(result).toEqual(
-              books
-                .filter((book) => book.author === faulkner.id)
-                .map((book) => book.title)
-            )
+            expect(result).toEqual(expected)
             done()
           },
           error: done
@@ -91,11 +88,11 @@ describe('document', () => {
   })
 
   it('should update a field referenced in a population', (done) => {
+    const name = 'Usurper'
     db.collections.books
       .findOne(soundAndFury.id)
       .exec()
       .then((doc) => {
-        const name = 'Usurper'
         doc
           .jmespath$('author.name')
           .pipe(skip(1))
@@ -106,12 +103,12 @@ describe('document', () => {
             },
             error: done
           })
-        db.collections.authors
-          .findOne(faulkner.id)
-          .exec()
-          .then((author) => {
-            author.atomicPatch({ name })
-          })
+      })
+    db.collections.authors
+      .findOne(faulkner.id)
+      .exec()
+      .then((author) => {
+        author.atomicPatch({ name })
       })
   })
 
@@ -134,20 +131,92 @@ describe('document', () => {
         await doc.atomicPatch({ title })
       })
   })
-  it('should work', (done) => {
-    of({
-      reservations: [{ instances: [{ foo: 1 }, { foo: 2 }] }]
-    })
-      .pipe(search$('reservations[].notinstances[].foo'))
-      .subscribe((value) => {
-        expect(value).toEqual([])
-        done()
+  it('should take deleted document into account', (done) => {
+    db.collections.books
+      .findOne(absalom.id)
+      .remove()
+      .then(async (doc) => {
+        doc.jmespath$('title').subscribe({
+          next: (result) => {
+            expect(result).toBeNull()
+            done()
+          },
+          error: done
+        })
       })
   })
-  // TODO test populations
-  // TODO test object properties
-  // TODO test array properties
-  // TODO test remove
-  // TODO test update
-  // TODO test insert
+
+  it('should reflect a deleted document in a population', (done) => {
+    const expected = books
+      .filter(({ author, id }) => author === faulkner.id && id !== absalom.id)
+      .map((book) => book.title)
+    db.collections.authors
+      .findOne(faulkner.id)
+      .$.pipe(
+        switchMap((doc) => doc.jmespath$('books[].title')),
+        skip(1)
+      )
+      .subscribe({
+        next: (result) => {
+          expect(result).toEqual(expected)
+          done()
+        },
+        error: done
+      })
+    db.collections.books
+      .findOne(absalom.id)
+      .exec()
+      .then((doc) => doc.remove())
+  })
+
+  it('should use a function with a population', (done) => {
+    db.collections.authors
+      .findOne(hemmingway.id)
+      .$.pipe(switchMap((doc) => doc.jmespath$('sort_by(books, &title)[]')))
+      .subscribe({
+        next: (result) => {
+          expect(result.length).toEqual(1)
+          expect(result[0].id).toEqual(bellTolls.id)
+          done()
+        },
+        error: done
+      })
+  })
+
+  // TODO TEST EXPRESSIONS IMPACTED BY toArray!!!
+
+  it('should insert a document and take it into account', (done) => {
+    const asILayDying: Book = {
+      id: '10',
+      title: 'As I Lay Dying',
+      author: faulkner.id
+    }
+    const expected = [
+      ...books
+        .filter(({ author }) => author === faulkner.id)
+        .map((book) => book.title),
+      asILayDying.title
+    ]
+    db.collections.authors
+      .findOne(faulkner.id)
+      .$.pipe(
+        switchMap((doc) => doc.jmespath$('books[].title')),
+        skip(1)
+      )
+      .subscribe({
+        next: (result) => {
+          expect(result).toEqual(expected)
+          done()
+        },
+        error: done
+      })
+    db.collections.books.insert(asILayDying).then((book) =>
+      db.collections.authors
+        .findOne(faulkner.id)
+        .exec()
+        .then((author) =>
+          author.atomicPatch({ books: [...author.books, book.id] })
+        )
+    )
+  })
 })

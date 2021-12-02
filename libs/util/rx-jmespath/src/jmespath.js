@@ -1762,14 +1762,20 @@ function search(data, expression) {
   return interpreter.search(node, data)
 }
 
-exports.tokenize = tokenize
-exports.compile = compile
-exports.search = search
-exports.strictDeepEqual = strictDeepEqual
 /* PATCH START */
-exports.Runtime = Runtime
-exports.TreeInterpreter = TreeInterpreter
-exports.isObject = isObject
-exports.objValues = objValues
-exports.isFalse = isFalse
+// exports.tokenize = tokenize
+// exports.compile = compile
+// exports.search = search
+// exports.strictDeepEqual = strictDeepEqual
+export {
+  tokenize,
+  compile,
+  search,
+  strictDeepEqual,
+  Runtime,
+  TreeInterpreter,
+  isObject,
+  objValues,
+  isFalse
+}
 /* PATCH END */

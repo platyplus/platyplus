@@ -53,6 +53,6 @@ export const setup = async (): Promise<Database> => {
 
 export const teardown = async (db: Database): Promise<void> => {
   if (isRxDatabase(db)) {
-    await db.remove()
+    await db.destroy()
   }
 }

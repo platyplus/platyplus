@@ -1,1 +1,1 @@
-export default './plugin'
+export * from './plugin'

@@ -7,7 +7,7 @@ export declare module './jmespath' {
     value: any // TODO
     type: string
     name: string
-    children?: Array<ASTNode>
+    children: Array<ASTNode>
     jmespathType?: any // TODO
   }
 
