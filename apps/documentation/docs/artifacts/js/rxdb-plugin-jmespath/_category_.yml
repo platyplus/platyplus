@@ -1,0 +1,4 @@
+label: JMESPath RxDB plugin
+# position: 2.5 # float position is supported
+collapsible: false # make the category collapsible
+# collapsed: false # keep the category open by default

@@ -1,4 +1,34 @@
-module.exports = {
+// @ts-check
+// Note: type annotations allow type checking and IDEs autocompletion
+
+const lightCodeTheme = require('prism-react-renderer/themes/github')
+const darkCodeTheme = require('prism-react-renderer/themes/dracula')
+const webpack = require('webpack')
+const path = require('path')
+
+function resolveTsconfigPathsToAlias({
+  tsconfigPath = './tsconfig.json',
+  webpackConfigBasePath = __dirname
+} = {}) {
+  const { paths } = require(tsconfigPath).compilerOptions
+
+  const aliases = {}
+
+  Object.keys(paths).forEach((item) => {
+    const key = item.replace('/*', '')
+    const value = path.resolve(
+      webpackConfigBasePath,
+      paths[item][0].replace('/*', '').replace('*', '')
+    )
+
+    aliases[key] = value
+  })
+
+  return aliases
+}
+
+/** @type {import('@docusaurus/types').Config} */
+const config = {
   title: 'Platyplus',
   tagline: 'Low-code, offline-first apps with Hasura',
   url: 'https://platy.plus',
@@ -8,7 +38,44 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'platyplus', // Usually your GitHub org/user name.
   projectName: 'platyplus', // Usually your repo name.
+  plugins: [
+    function (context, options) {
+      return {
+        name: 'custom-docusaurus-plugin',
+        configureWebpack(config, isServer, utils) {
+          return {
+            mergeStrategy: { 'module.rules': 'prepend' },
+            resolve: {
+              alias: {
+                ...resolveTsconfigPathsToAlias({
+                  tsconfigPath: '../../tsconfig.base.json',
+                  webpackConfigBasePath: process.env.NX_WORKSPACE_ROOT
+                }),
+                ...config.resolve.alias
+              },
+              fallback: {
+                fs: false,
+                crypto: false,
+
+                assert: require.resolve('assert/')
+              }
+            },
+
+            plugins: [
+              new webpack.ProvidePlugin({
+                process: 'process/browser'
+              }),
+              new webpack.ProvidePlugin({
+                Buffer: ['buffer', 'Buffer']
+              })
+            ]
+          }
+        }
+      }
+    }
+  ],
   themeConfig: {
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     navbar: {
       title: 'Platyplus',
       logo: {
@@ -91,15 +158,40 @@ module.exports = {
     colorMode: {
       respectPrefersColorScheme: true
     },
+    prism: {
+      theme: lightCodeTheme,
+      darkTheme: darkCodeTheme
+    },
     gtag: {
-      trackingID: 'G-T91DF6PF81' // '291920840' // UA-142387636-1
+      trackingID: 'G-T91DF6PF81'
       // Champs facultatifs.
       // anonymizeIP: true // Les IP doivent-elles être anonymisées ?
+    },
+    algolia: {
+      // If Algolia did not provide you any appId, use 'BH4D9OD16A'
+      appId: 'YOUR_APP_ID',
+
+      // Public API key: it is safe to commit it
+      apiKey: 'YOUR_SEARCH_API_KEY',
+
+      indexName: 'YOUR_INDEX_NAME',
+
+      // Optional: see doc section below
+      contextualSearch: true,
+
+      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+      externalUrlRegex: 'external\\.com|domain\\.com',
+
+      // Optional: Algolia search parameters
+      searchParameters: {}
+
+      //... other Algolia params
     }
   },
   presets: [
     [
-      '@docusaurus/preset-classic', // ? refine ?
+      '@docusaurus/preset-classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
@@ -122,3 +214,5 @@ module.exports = {
     ]
   ]
 }
+
+module.exports = config

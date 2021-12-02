@@ -33,13 +33,15 @@
       "@platyplus/react-rxdb-hasura": [
         "libs/data-access/react-rxdb-hasura/src/index.ts"
       ],
-      "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"],
       "@platyplus/rx-jmespath": ["libs/util/rx-jmespath/src/index.ts"],
+      "@platyplus/rxdb-hasura": ["libs/data-access/rxdb-hasura/src/index.ts"],
       "@platyplus/rxdb-plugin-jmespath": [
         "libs/util/rxdb-plugin-jmespath/src/index.ts"
       ],
       "@platyplus/theme": ["libs/ui/theme/src/index.ts"],
-      "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"]
+      "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"],
+      "@site/*": ["apps/documentation/*"],
+      "@workspace/*": ["./*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
