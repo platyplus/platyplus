@@ -12,5 +12,5 @@
     "../../../node_modules/@nrwl/react/typings/image.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.spec.tsx"],
-  "include": ["src/"]
+  "include": ["src/", "../../../types/**/*.d.ts"]
 }
