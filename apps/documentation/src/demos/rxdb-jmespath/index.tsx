@@ -5,7 +5,6 @@ import CodeBlock from '@theme/CodeBlock'
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import type { Database } from './types'
-import { SchemaDetails } from './schema-details'
 import { Observable, Observer } from 'rxjs'
 
 const App: React.FC = () => {
@@ -83,39 +82,51 @@ const App: React.FC = () => {
   if (!db) return <div>Loading RxDB schema and mock data...</div>
   if (!document) return <div>Loading one document...</div>
   return (
-    <div>
-      <SchemaDetails db={db} />
-      <Tabs className="unique-tabs">
-        <TabItem value="Search">
-          <h2>JMESPath expression</h2>
-          <div>
-            Collection: <b>{document.collection.name}</b>, document id:
-            <b>{document.primary}</b>
-          </div>
-          <div
-            className="DocSearch-Form"
-            style={{ height: '32px', marginBottom: '20px', marginTop: '10px' }}
-          >
-            <input
-              className="DocSearch-Input"
-              style={{ padding: '0', fontSize: '1em' }}
-              autoFocus
-              value={expression}
-              onChange={(e) => setExpression(e.target.value)}
-            />
-          </div>
-          <h2>Result {timing && !error ? `(${timing}ms)` : ''}</h2>
-          <CodeBlock className="language-json">
-            {error || JSON.stringify(result, null, 2)}
-          </CodeBlock>
-        </TabItem>
-        <TabItem value="Document details">
-          <CodeBlock className="language-json">
-            {JSON.stringify(document, null, 2)}
-          </CodeBlock>
-        </TabItem>
-      </Tabs>
-    </div>
+    <Tabs className="unique-tabs">
+      <TabItem value="Search" default>
+        <h2>JMESPath expression</h2>
+        <div>
+          Collection: <b>{document.collection.name}</b>, document id:
+          <b>{document.primary}</b>
+        </div>
+        <div
+          className="DocSearch-Form"
+          style={{ height: '32px', marginBottom: '20px', marginTop: '10px' }}
+        >
+          <input
+            className="DocSearch-Input"
+            style={{ padding: '0', fontSize: '1em' }}
+            autoFocus
+            value={expression}
+            onChange={(e) => setExpression(e.target.value)}
+          />
+        </div>
+        <h2>Result {timing && !error ? `(${timing}ms)` : ''}</h2>
+        <CodeBlock className="language-json">
+          {error || JSON.stringify(result, null, 2)}
+        </CodeBlock>
+      </TabItem>
+      <TabItem value="Document details">
+        <CodeBlock className="language-json">
+          {JSON.stringify(document, null, 2)}
+        </CodeBlock>
+      </TabItem>
+      <TabItem value="user-schema" label="User schema">
+        <CodeBlock className="language-json">
+          {JSON.stringify(db.collections.users.schema.jsonSchema, null, 2)}
+        </CodeBlock>
+      </TabItem>
+      <TabItem value="post-schema" label="Post schema">
+        <CodeBlock className="language-json">
+          {JSON.stringify(db.collections.posts.schema.jsonSchema, null, 2)}
+        </CodeBlock>
+      </TabItem>
+      <TabItem value="comment-schema" label="Comment schema">
+        <CodeBlock className="language-json">
+          {JSON.stringify(db.collections.comments.schema.jsonSchema, null, 2)}
+        </CodeBlock>
+      </TabItem>
+    </Tabs>
   )
 }
 

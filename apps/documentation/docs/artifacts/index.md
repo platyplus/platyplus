@@ -10,8 +10,8 @@ Platyplus is designed to be as generic as possible, so it can be extended more e
 
 - Helm charts
 - Docker images
-- A [Pulumi package](pulumi) to quickly deploy a production-ready Digital Ocean cluster
-- [Tilt extensions](tilt) to ease Hasura/Platyplus development on a Kubernets cluster
+- A [Pulumi package](/docs/artifacts/pulumi) to quickly deploy a production-ready Digital Ocean cluster
+- [Tilt extensions](/docs/artifacts/tilt) to ease Hasura/Platyplus development on a Kubernets cluster
 - Javascript packages such as:
-  - an [JMESPath RxJS Operator](js/rx-jmespath)
-  - an [JMESPath RxDB plugin](js/rxdb-plugin-jmespath/index)
+  - an [JMESPath RxJS Operator](/docs/artifacts/js/rx-jmespath)
+  - an [JMESPath RxDB plugin](/docs/artifacts/js/rxdb-plugin-jmespath/index)
