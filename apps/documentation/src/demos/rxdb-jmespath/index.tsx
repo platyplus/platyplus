@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+// ! Impossible to build docusaurus when using isRxDatabase()
 import { RxDocument } from 'rxdb'
-// * Impossible to build docusaurus when using isRxDatabase()
 import CodeBlock from '@theme/CodeBlock'
 import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
-import type { Database } from './types'
 import { Observable, Observer } from 'rxjs'
+import Select from 'react-select'
+import type { Database } from './types'
 
 const App: React.FC = () => {
   if (typeof window === 'undefined') {
@@ -72,30 +73,55 @@ const App: React.FC = () => {
           setError('Invalid value')
         }
       })
-
       return () => subscription.unsubscribe()
     } else {
       setResult(null)
     }
   }, [document, expression])
 
+  const EXPRESSIONS = [
+    { value: 'posts[].title', label: `Title of all the user's posts` },
+    {
+      value: 'posts[].comments[] | length(@)',
+      label: `Total number of comments of the user's posts`
+    },
+    {
+      value: 'comments[].post.user.name',
+      label: `Name of the author of the posts the user commented`
+    }
+  ]
+  const refInput = useRef<any>()
   if (!db) return <div>Loading RxDB schema and mock data...</div>
   if (!document) return <div>Loading one document...</div>
   return (
     <Tabs className="unique-tabs">
       <TabItem value="Search" default>
         <h2>JMESPath expression</h2>
-        <div>
-          Collection: <b>{document.collection.name}</b>, document id:
-          <b>{document.primary}</b>
+        <div className="container">
+          <div className="row">
+            <div className="col col--6">
+              Collection: <b>{document.collection.name}</b>, document id:
+              <b>{document.primary}</b>
+            </div>
+            <div className="col col--6">
+              <Select
+                className="react-select-container"
+                classNamePrefix="react-select"
+                placeholder="Load a preset"
+                onChange={(changed) => {
+                  if (changed) {
+                    setExpression(changed.value)
+                    refInput.current.focus()
+                  }
+                }}
+                options={EXPRESSIONS}
+              />
+            </div>
+          </div>
         </div>
-        <div
-          className="DocSearch-Form"
-          style={{ height: '32px', marginBottom: '20px', marginTop: '10px' }}
-        >
+        <div className="form">
           <input
-            className="DocSearch-Input"
-            style={{ padding: '0', fontSize: '1em' }}
+            ref={refInput}
             autoFocus
             value={expression}
             onChange={(e) => setExpression(e.target.value)}
