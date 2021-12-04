@@ -1,27 +1,25 @@
 import {
+  switchMap,
+  of,
+  Observable,
+  combineLatest,
+  toArray,
+  from,
+  map,
+  mergeScan,
+  throwError,
+  concat
+} from 'rxjs'
+import {
   isObject,
   TreeInterpreter,
   ASTNode,
   objValues,
   isFalse,
   strictDeepEqual,
-  ObjectType
+  ObjectType,
+  Runtime
 } from './jmespath'
-import {
-  switchMap,
-  of,
-  Observable,
-  combineLatest,
-  filter,
-  toArray,
-  from,
-  map,
-  reduce,
-  mergeScan,
-  throwError,
-  concat
-} from 'rxjs'
-import { Runtime } from './jmespath'
 import { FieldGetter, IdentityGetter, SearchOptions } from './options'
 
 const defaultFieldGetter: FieldGetter = (value, key) => of(value[key] ?? null)
@@ -50,18 +48,17 @@ const ACTIONS: Record<
   },
 
   Subexpression: (interpreter, node, value) =>
-    interpreter
-      .visit$(node.children[0], of(value))
-      .pipe(
-        switchMap((firstValue) =>
-          from(node.children.slice(1)).pipe(
-            mergeScan(
-              (acc) => interpreter.visit$(node.children[1], of(acc)),
-              firstValue
-            )
+    interpreter.visit$(node.children[0], of(value)).pipe(
+      switchMap((firstValue) =>
+        // ? replace 'from'->children by combineLatest?
+        from(node.children.slice(1)).pipe(
+          mergeScan(
+            (acc) => interpreter.visit$(node.children[1], of(acc)),
+            firstValue
           )
         )
-      ),
+      )
+    ),
 
   IndexExpression: (interpreter, node, value) =>
     interpreter.visit$(
@@ -85,7 +82,7 @@ const ACTIONS: Record<
     const sliceParams = node.children.slice(0)
     const computed = interpreter.computeSliceParams(value.length, sliceParams)
     const [start, stop, step] = computed
-    const r = []
+    const r: Observable<ObjectType>[] = []
     if (step > 0) {
       for (let i = start; i < stop; i += step) {
         r.push(interpreter.options.getField(value, i, interpreter.options))
@@ -95,8 +92,7 @@ const ACTIONS: Record<
         r.push(interpreter.options.getField(value, i, interpreter.options))
       }
     }
-    // ! GET RID OF from/toArray!!! -> See Projection: combileLatest?
-    // TODO and don't forget the case of an empty array - see also Function
+    // ? Is this a problem to use concat/toArray here instead of combineLatest?
     return concat(...r).pipe(toArray())
   },
 
@@ -118,35 +114,48 @@ const ACTIONS: Record<
 
   ValueProjection: (interpreter, node, value) =>
     interpreter.visit$(node.children[0], of(value)).pipe(
-      switchMap((base) =>
-        isObject(base)
-          ? from(objValues(base)).pipe(
-              switchMap((value) =>
+      switchMap((base) => {
+        if (isObject(base)) {
+          const values = objValues(base)
+          if (values.length) {
+            return combineLatest(
+              objValues(base).map((value) =>
                 interpreter.visit$(node.children[1], of(value))
-              ),
-              filter((value) => value !== null),
-              // ! GET RID OF from/toArray!!! -> See Projection: combileLatest?
-              // TODO and don't forget the case of an empty array - see also Function
-              toArray()
+              )
+            ).pipe(
+              map((combination) =>
+                combination.filter((value) => value !== null)
+              )
             )
-          : of(null)
-      )
+          } else return of([])
+        } else return of(null)
+      })
     ),
 
   FilterProjection: (interpreter, node, value) =>
     interpreter.visit$(node.children[0], of(value)).pipe(
       switchMap((base) =>
         Array.isArray(base)
-          ? // ! GET RID OF from/toArray!!! -> See Projection: combileLatest?
-            // TODO and don't forget the case of an empty array - see also Function
-            from(base).pipe(
-              switchMap((i) => interpreter.visit$(node.children[2], of(i))),
-              map((value, index) => (isFalse(value) ? null : base[index])),
-              filter((i) => i !== null),
-              switchMap((i) => interpreter.visit$(node.children[1], of(i))),
-              filter((i) => i !== null),
-              toArray()
-            )
+          ? base.length
+            ? combineLatest(
+                base.map((i, index) =>
+                  interpreter
+                    .visit$(node.children[2], of(i))
+                    .pipe(map((value) => (isFalse(value) ? null : base[index])))
+                )
+              ).pipe(
+                map((combi) => combi.filter((i) => i !== null)),
+                switchMap((combi) =>
+                  combi.length
+                    ? combineLatest(
+                        combi.map((i) =>
+                          interpreter.visit$(node.children[1], of(i))
+                        )
+                      ).pipe(map((combi2) => combi2.filter((i) => i !== null)))
+                    : of([])
+                )
+              )
+            : of([])
           : of(null)
       )
     ),
@@ -191,7 +200,6 @@ const ACTIONS: Record<
   Identity: (interpreter, __, value) =>
     interpreter.options.getIdentity(value, interpreter.options),
 
-  // TODO TEST THIS!
   MultiSelectList: (interpreter, node, value) =>
     value === null
       ? of(null)
@@ -204,14 +212,19 @@ const ACTIONS: Record<
   MultiSelectHash: (interpreter, node, value) =>
     value === null
       ? of(null)
-      : from(node.children).pipe(
-          switchMap((child) =>
+      : node.children.length
+      ? combineLatest(
+          node.children.map((child) =>
             interpreter
               .visit$(child.value, of(value))
               .pipe(map((i) => ({ [child.name]: i })))
-          ),
-          reduce((acc, v) => ({ ...acc, ...v }), {})
-        ),
+          )
+        ).pipe(
+          map((combination) =>
+            combination.reduce((acc, curr) => ({ ...acc, ...curr }), {})
+          )
+        )
+      : of({}),
 
   OrExpression: (interpreter, node, value) =>
     combineLatest([
