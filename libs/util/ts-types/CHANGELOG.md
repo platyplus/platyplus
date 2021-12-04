@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.1.0](https://github.com/platyplus/platydev/compare/util-ts-types@0.0.6...util-ts-types@0.1.0) (2021-12-04)
+
+
+### Features
+
+* add options ([a315262](https://github.com/platyplus/platydev/commit/a3152625c7a0a3603cfd7632aa1cf3c2a51c57a6))
+
+
+
 ## [0.0.6](https://github.com/platyplus/platydev/compare/util-ts-types@0.0.5...util-ts-types@0.0.6) (2021-11-18)
 
 
