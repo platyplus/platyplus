@@ -2,85 +2,69 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.5.2](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.5.1...data-access-react-rxdb-hasura@0.5.2) (2021-11-26)
+## [0.5.2](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.5.1...data-access-react-rxdb-hasura@0.5.2) (2021-11-26)
 
-
-
-## [0.5.1](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.5.0...data-access-react-rxdb-hasura@0.5.1) (2021-11-26)
-
+## [0.5.1](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.5.0...data-access-react-rxdb-hasura@0.5.1) (2021-11-26)
 
 ### Bug Fixes
 
-* keep user roles in localstorage so everything works fine when starting offline ([18b492f](https://github.com/platyplus/platydev/commit/18b492fcbb16ccf477d89d3a0416bccdbf0aa4a8))
+- keep user roles in localstorage so everything works fine when starting offline ([18b492f](https://github.com/platyplus/platyplus/commit/18b492fcbb16ccf477d89d3a0416bccdbf0aa4a8))
 
-
-
-# [0.5.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.5...data-access-react-rxdb-hasura@0.5.0) (2021-11-24)
-
+# [0.5.0](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.4.5...data-access-react-rxdb-hasura@0.5.0) (2021-11-24)
 
 ### Bug Fixes
 
-* check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platydev/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
-* correct way to determine if the document is a new doc, therefore the permissions ([4b91de8](https://github.com/platyplus/platydev/commit/4b91de8f32f813555338c375922eb26e18aba11f))
-* push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platydev/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
-* reverse many2many link ([e99dc78](https://github.com/platyplus/platydev/commit/e99dc785c051f8a29487534555211d29666ce73a))
-* update menu when a page slug is modified ([3129978](https://github.com/platyplus/platydev/commit/3129978b8d9b491b080bd17e69717fdd26c75703))
-
+- check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platyplus/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
+- correct way to determine if the document is a new doc, therefore the permissions ([4b91de8](https://github.com/platyplus/platyplus/commit/4b91de8f32f813555338c375922eb26e18aba11f))
+- push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platyplus/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
+- reverse many2many link ([e99dc78](https://github.com/platyplus/platyplus/commit/e99dc785c051f8a29487534555211d29666ce73a))
+- update menu when a page slug is modified ([3129978](https://github.com/platyplus/platyplus/commit/3129978b8d9b491b080bd17e69717fdd26c75703))
 
 ### Features
 
-* improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platydev/commit/8d41411e048739192d22209365eb6f19f25979f1))
+- improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platyplus/commit/8d41411e048739192d22209365eb6f19f25979f1))
 
+## [0.4.5](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.4.4...data-access-react-rxdb-hasura@0.4.5) (2021-11-18)
 
+## [0.4.4](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.4.3...data-access-react-rxdb-hasura@0.4.4) (2021-11-18)
 
-## [0.4.5](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.4...data-access-react-rxdb-hasura@0.4.5) (2021-11-18)
-
-
-
-## [0.4.4](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.3...data-access-react-rxdb-hasura@0.4.4) (2021-11-18)
-
-
-
-## [0.4.3](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.2...data-access-react-rxdb-hasura@0.4.3) (2021-11-18)
-
+## [0.4.3](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.4.2...data-access-react-rxdb-hasura@0.4.3) (2021-11-18)
 
 ### Bug Fixes
 
-* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
+- correct way of build docker image ([6ad825b](https://github.com/platyplus/platyplus/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
 
+## [0.4.2](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.4.1...data-access-react-rxdb-hasura@0.4.2) (2021-11-18)
 
-
-## [0.4.2](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.4.1...data-access-react-rxdb-hasura@0.4.2) (2021-11-18)
-
-# [0.4.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.3.3...data-access-react-rxdb-hasura@0.4.0) (2021-11-14)
+# [0.4.0](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.3.3...data-access-react-rxdb-hasura@0.4.0) (2021-11-14)
 
 ### Bug Fixes
 
-- load and save pages correctly ([3207c71](https://github.com/platyplus/platydev/commit/3207c712522872ef55f38ab30fd23de59669874f))
+- load and save pages correctly ([3207c71](https://github.com/platyplus/platyplus/commit/3207c712522872ef55f38ab30fd23de59669874f))
 
 ### Features
 
-- editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
+- editable page in the user context ([ccc9b80](https://github.com/platyplus/platyplus/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
 
-# [0.3.0](https://github.com/platyplus/platydev/compare/data-access-react-rxdb-hasura@0.2.0...data-access-react-rxdb-hasura@0.3.0) (2021-11-08)
+# [0.3.0](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.2.0...data-access-react-rxdb-hasura@0.3.0) (2021-11-08)
 
 ### Bug Fixes
 
-- avoid concurrent subscriptions on DB and replication initialisation ([e9303f4](https://github.com/platyplus/platydev/commit/e9303f4cf13ca797070f8699144121d1c20f4515))
-- correct things here and there ([4cf9a2a](https://github.com/platyplus/platydev/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
-- correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
-- custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
-- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
-- improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platydev/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
-- use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platydev/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
+- avoid concurrent subscriptions on DB and replication initialisation ([e9303f4](https://github.com/platyplus/platyplus/commit/e9303f4cf13ca797070f8699144121d1c20f4515))
+- correct things here and there ([4cf9a2a](https://github.com/platyplus/platyplus/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
+- correctly logout so loging in again works ([503d548](https://github.com/platyplus/platyplus/commit/503d548f34821beaaa0c7dbe882368d346c82861))
+- custom pages ([4a3418d](https://github.com/platyplus/platyplus/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
+- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platyplus/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
+- improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platyplus/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
+- use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platyplus/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
 
 ### Features
 
-- check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
-- configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
-- custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
-- dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
-- rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+- check if required values are present in canSave ([fd15876](https://github.com/platyplus/platyplus/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
+- configurable default home page ([ef74e79](https://github.com/platyplus/platyplus/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+- custom menu ([1167c8d](https://github.com/platyplus/platyplus/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+- dark/light mode ([c45eb13](https://github.com/platyplus/platyplus/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
+- rich text editor ([9efd07a](https://github.com/platyplus/platyplus/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
 
 # [0.2.0](https://github.com/platyplus/platyplus/compare/data-access-react-rxdb-hasura@0.1.0...data-access-react-rxdb-hasura@0.2.0) (2021-10-09)
 

@@ -2,60 +2,39 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.3.6](https://github.com/platyplus/platydev/compare/ui-layout@0.3.5...ui-layout@0.3.6) (2021-12-04)
+## [0.3.6](https://github.com/platyplus/platyplus/compare/ui-layout@0.3.5...ui-layout@0.3.6) (2021-12-04)
 
+## [0.3.5](https://github.com/platyplus/platyplus/compare/ui-layout@0.3.4...ui-layout@0.3.5) (2021-11-24)
 
+## [0.3.4](https://github.com/platyplus/platyplus/compare/ui-layout@0.3.3...ui-layout@0.3.4) (2021-11-18)
 
-## [0.3.5](https://github.com/platyplus/platydev/compare/ui-layout@0.3.4...ui-layout@0.3.5) (2021-11-24)
+## [0.3.3](https://github.com/platyplus/platyplus/compare/ui-layout@0.3.2...ui-layout@0.3.3) (2021-11-18)
 
+## [0.3.2](https://github.com/platyplus/platyplus/compare/ui-layout@0.3.1...ui-layout@0.3.2) (2021-11-18)
 
+## [0.3.1](https://github.com/platyplus/platyplus/compare/ui-layout@0.3.0...ui-layout@0.3.1) (2021-11-18)
 
-## [0.3.4](https://github.com/platyplus/platydev/compare/ui-layout@0.3.3...ui-layout@0.3.4) (2021-11-18)
-
-
-
-## [0.3.3](https://github.com/platyplus/platydev/compare/ui-layout@0.3.2...ui-layout@0.3.3) (2021-11-18)
-
-
-
-## [0.3.2](https://github.com/platyplus/platydev/compare/ui-layout@0.3.1...ui-layout@0.3.2) (2021-11-18)
-
-
-
-## [0.3.1](https://github.com/platyplus/platydev/compare/ui-layout@0.3.0...ui-layout@0.3.1) (2021-11-18)
-
-
-
-# [0.3.0](https://github.com/platyplus/platydev/compare/ui-layout@0.2.1...ui-layout@0.3.0) (2021-11-14)
-
+# [0.3.0](https://github.com/platyplus/platyplus/compare/ui-layout@0.2.1...ui-layout@0.3.0) (2021-11-14)
 
 ### Features
 
-* editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
+- editable page in the user context ([ccc9b80](https://github.com/platyplus/platyplus/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
 
+## [0.2.1](https://github.com/platyplus/platyplus/compare/ui-layout@0.2.0...ui-layout@0.2.1) (2021-11-10)
 
-
-## [0.2.1](https://github.com/platyplus/platydev/compare/ui-layout@0.2.0...ui-layout@0.2.1) (2021-11-10)
-
-
-
-# [0.2.0](https://github.com/platyplus/platydev/compare/ui-layout@0.1.0...ui-layout@0.2.0) (2021-11-08)
-
+# [0.2.0](https://github.com/platyplus/platyplus/compare/ui-layout@0.1.0...ui-layout@0.2.0) (2021-11-08)
 
 ### Bug Fixes
 
-* set title in the right position when first loading a page ([35ec309](https://github.com/platyplus/platydev/commit/35ec3092b76cc15ed00e9f40ea55c0027b5b3181))
-
+- set title in the right position when first loading a page ([35ec309](https://github.com/platyplus/platyplus/commit/35ec3092b76cc15ed00e9f40ea55c0027b5b3181))
 
 ### Features
 
-* check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
-* configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
-* custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
-* dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
-* rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
-
-
+- check if required values are present in canSave ([fd15876](https://github.com/platyplus/platyplus/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
+- configurable default home page ([ef74e79](https://github.com/platyplus/platyplus/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+- custom menu ([1167c8d](https://github.com/platyplus/platyplus/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+- dark/light mode ([c45eb13](https://github.com/platyplus/platyplus/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
+- rich text editor ([9efd07a](https://github.com/platyplus/platyplus/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
 
 # 0.1.0 (2021-09-15)
 

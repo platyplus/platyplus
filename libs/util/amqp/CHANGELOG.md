@@ -2,42 +2,29 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.0.19](https://github.com/platyplus/platydev/compare/util-amqp@0.0.18...util-amqp@0.0.19) (2021-12-04)
+## [0.0.19](https://github.com/platyplus/platyplus/compare/util-amqp@0.0.18...util-amqp@0.0.19) (2021-12-04)
 
-
-
-## [0.0.18](https://github.com/platyplus/platydev/compare/util-amqp@0.0.17...util-amqp@0.0.18) (2021-11-18)
-
+## [0.0.18](https://github.com/platyplus/platyplus/compare/util-amqp@0.0.17...util-amqp@0.0.18) (2021-11-18)
 
 ### Bug Fixes
 
-* correct tsconfig.lib ([7c9a2d3](https://github.com/platyplus/platydev/commit/7c9a2d340283b809cfe9f738e72090fc5a950aa5))
+- correct tsconfig.lib ([7c9a2d3](https://github.com/platyplus/platyplus/commit/7c9a2d340283b809cfe9f738e72090fc5a950aa5))
 
-
-
-## [0.0.17](https://github.com/platyplus/platydev/compare/util-amqp@0.0.16...util-amqp@0.0.17) (2021-11-18)
-
+## [0.0.17](https://github.com/platyplus/platyplus/compare/util-amqp@0.0.16...util-amqp@0.0.17) (2021-11-18)
 
 ### Bug Fixes
 
-* correct way to build npm packages ([ada3e24](https://github.com/platyplus/platydev/commit/ada3e24b39cc328f5918717ed76e45df764a464b))
+- correct way to build npm packages ([ada3e24](https://github.com/platyplus/platyplus/commit/ada3e24b39cc328f5918717ed76e45df764a464b))
 
-
-
-## [0.0.16](https://github.com/platyplus/platydev/compare/util-amqp@0.0.15...util-amqp@0.0.16) (2021-11-18)
-
+## [0.0.16](https://github.com/platyplus/platyplus/compare/util-amqp@0.0.15...util-amqp@0.0.16) (2021-11-18)
 
 ### Bug Fixes
 
-* correct way of building packages ([a948d51](https://github.com/platyplus/platydev/commit/a948d51f2670215cbdadcaf15bbf99767617bc8d))
+- correct way of building packages ([a948d51](https://github.com/platyplus/platyplus/commit/a948d51f2670215cbdadcaf15bbf99767617bc8d))
 
+## [0.0.15](https://github.com/platyplus/platyplus/compare/util-amqp@0.0.14...util-amqp@0.0.15) (2021-11-18)
 
-
-## [0.0.15](https://github.com/platyplus/platydev/compare/util-amqp@0.0.14...util-amqp@0.0.15) (2021-11-18)
-
-
-
-## [0.0.14](https://github.com/platyplus/platydev/compare/util-amqp@0.0.13...util-amqp@0.0.14) (2021-11-10)
+## [0.0.14](https://github.com/platyplus/platyplus/compare/util-amqp@0.0.13...util-amqp@0.0.14) (2021-11-10)
 
 ## [0.0.12](https://github.com/platyplus/platyplus/compare/@platyplus/amqp@0.0.11...@platyplus/amqp@0.0.12) (2021-01-26)
 

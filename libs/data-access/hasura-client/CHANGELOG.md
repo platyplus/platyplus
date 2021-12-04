@@ -2,18 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.1.7](https://github.com/platyplus/platydev/compare/data-access-hasura-client@0.1.6...data-access-hasura-client@0.1.7) (2021-12-04)
+## [0.1.7](https://github.com/platyplus/platyplus/compare/data-access-hasura-client@0.1.6...data-access-hasura-client@0.1.7) (2021-12-04)
 
-
-
-## [0.1.6](https://github.com/platyplus/platydev/compare/data-access-hasura-client@0.1.5...data-access-hasura-client@0.1.6) (2021-11-24)
-
+## [0.1.6](https://github.com/platyplus/platyplus/compare/data-access-hasura-client@0.1.5...data-access-hasura-client@0.1.6) (2021-11-24)
 
 ### Bug Fixes
 
-* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
-
-
+- correct way of build docker image ([6ad825b](https://github.com/platyplus/platyplus/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
 
 ## [0.1.2](https://github.com/platyplus/platyplus/compare/@platyplus/hasura-client@0.1.1...@platyplus/hasura-client@0.1.2) (2021-01-26)
 

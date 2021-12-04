@@ -2,101 +2,85 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-## [0.4.2](https://github.com/platyplus/platydev/compare/ui-app@0.4.1...ui-app@0.4.2) (2021-11-26)
-
-
-### Bug Fixes
-
-* correct way to get hasura and hbp endpoints ([a092dee](https://github.com/platyplus/platydev/commit/a092deeb524ea48e6957209835c6a2189617f68a))
-
-
-
-## [0.4.1](https://github.com/platyplus/platydev/compare/ui-app@0.4.0...ui-app@0.4.1) (2021-11-26)
-
-
-
-# [0.4.0](https://github.com/platyplus/platydev/compare/ui-app@0.3.6...ui-app@0.4.0) (2021-11-24)
-
+## [0.4.2](https://github.com/platyplus/platyplus/compare/ui-app@0.4.1...ui-app@0.4.2) (2021-11-26)
 
 ### Bug Fixes
 
-* check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platydev/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
-* check property exists before subscribing to it ([bb7bfdc](https://github.com/platyplus/platydev/commit/bb7bfdc7eda9e3d275b5a74cf0b4746803266122))
-* collection subscriptions don't function correcty when sorting them by label ([0993215](https://github.com/platyplus/platydev/commit/0993215a2c9c6b6ecec521ec1aa39004085cce9b))
-* correct default HBP url ([981f97c](https://github.com/platyplus/platydev/commit/981f97c3766251e46a32814786b7754c410f0827))
-* push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platydev/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
-* reverse many2many link ([e99dc78](https://github.com/platyplus/platydev/commit/e99dc785c051f8a29487534555211d29666ce73a))
-* save first available column value as label if no custom label is found ([c60fb20](https://github.com/platyplus/platydev/commit/c60fb206a0e94704796c504733a3a7c444553dce))
-* solve the collection sort by label mystery - probably a react component key issue ([bd4d59c](https://github.com/platyplus/platydev/commit/bd4d59ccfddc0e7116db93abfd49353815b1f7c4))
-* stop again ordering collections, and check if doc exists before patching it ([94bd57b](https://github.com/platyplus/platydev/commit/94bd57b9f4c092e70cbb043cfdc8c5b9071452ed))
-* update menu when a page slug is modified ([3129978](https://github.com/platyplus/platydev/commit/3129978b8d9b491b080bd17e69717fdd26c75703))
-* use react-router-dom instead of react-router ([ac56e8a](https://github.com/platyplus/platydev/commit/ac56e8ac9bdd44e0bb99a406d63ba7a74a203e7e))
+- correct way to get hasura and hbp endpoints ([a092dee](https://github.com/platyplus/platyplus/commit/a092deeb524ea48e6957209835c6a2189617f68a))
 
+## [0.4.1](https://github.com/platyplus/platyplus/compare/ui-app@0.4.0...ui-app@0.4.1) (2021-11-26)
+
+# [0.4.0](https://github.com/platyplus/platyplus/compare/ui-app@0.3.6...ui-app@0.4.0) (2021-11-24)
+
+### Bug Fixes
+
+- check if document exists to determine canCreate or canUpdate permissions ([b3b22b5](https://github.com/platyplus/platyplus/commit/b3b22b5de2f40bbc97a3aad34abf68e0d0978393))
+- check property exists before subscribing to it ([bb7bfdc](https://github.com/platyplus/platyplus/commit/bb7bfdc7eda9e3d275b5a74cf0b4746803266122))
+- collection subscriptions don't function correcty when sorting them by label ([0993215](https://github.com/platyplus/platyplus/commit/0993215a2c9c6b6ecec521ec1aa39004085cce9b))
+- correct default HBP url ([981f97c](https://github.com/platyplus/platyplus/commit/981f97c3766251e46a32814786b7754c410f0827))
+- push many2many: determine added and removed values, and add mutation accordingly ([d24118a](https://github.com/platyplus/platyplus/commit/d24118a08db5cf70d8c1df5842245bf74b1f9d37))
+- reverse many2many link ([e99dc78](https://github.com/platyplus/platyplus/commit/e99dc785c051f8a29487534555211d29666ce73a))
+- save first available column value as label if no custom label is found ([c60fb20](https://github.com/platyplus/platyplus/commit/c60fb206a0e94704796c504733a3a7c444553dce))
+- solve the collection sort by label mystery - probably a react component key issue ([bd4d59c](https://github.com/platyplus/platyplus/commit/bd4d59ccfddc0e7116db93abfd49353815b1f7c4))
+- stop again ordering collections, and check if doc exists before patching it ([94bd57b](https://github.com/platyplus/platyplus/commit/94bd57b9f4c092e70cbb043cfdc8c5b9071452ed))
+- update menu when a page slug is modified ([3129978](https://github.com/platyplus/platyplus/commit/3129978b8d9b491b080bd17e69717fdd26c75703))
+- use react-router-dom instead of react-router ([ac56e8a](https://github.com/platyplus/platyplus/commit/ac56e8ac9bdd44e0bb99a406d63ba7a74a203e7e))
 
 ### Features
 
-* improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platydev/commit/8d41411e048739192d22209365eb6f19f25979f1))
-* improve the configuration navigation ([2e55bf6](https://github.com/platyplus/platydev/commit/2e55bf606c28277d1e3d077150a0f3a58180de7b))
+- improve the configurastion recap, and ability to modify page title ([8d41411](https://github.com/platyplus/platyplus/commit/8d41411e048739192d22209365eb6f19f25979f1))
+- improve the configuration navigation ([2e55bf6](https://github.com/platyplus/platyplus/commit/2e55bf606c28277d1e3d077150a0f3a58180de7b))
 
+## [0.3.6](https://github.com/platyplus/platyplus/compare/ui-app@0.3.5...ui-app@0.3.6) (2021-11-18)
 
+## [0.3.5](https://github.com/platyplus/platyplus/compare/ui-app@0.3.4...ui-app@0.3.5) (2021-11-18)
 
-## [0.3.6](https://github.com/platyplus/platydev/compare/ui-app@0.3.5...ui-app@0.3.6) (2021-11-18)
-
-
-
-## [0.3.5](https://github.com/platyplus/platydev/compare/ui-app@0.3.4...ui-app@0.3.5) (2021-11-18)
-
-
-
-## [0.3.4](https://github.com/platyplus/platydev/compare/ui-app@0.3.3...ui-app@0.3.4) (2021-11-18)
-
+## [0.3.4](https://github.com/platyplus/platyplus/compare/ui-app@0.3.3...ui-app@0.3.4) (2021-11-18)
 
 ### Bug Fixes
 
-* correct way of build docker image ([6ad825b](https://github.com/platyplus/platydev/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
+- correct way of build docker image ([6ad825b](https://github.com/platyplus/platyplus/commit/6ad825b1ff27e2d5df3aa2dfb24cf1925167e031))
 
+## [0.3.3](https://github.com/platyplus/platyplus/compare/ui-app@0.3.2...ui-app@0.3.3) (2021-11-18)
 
-
-## [0.3.3](https://github.com/platyplus/platydev/compare/ui-app@0.3.2...ui-app@0.3.3) (2021-11-18)
-
-# [0.3.0](https://github.com/platyplus/platydev/compare/ui-app@0.2.3...ui-app@0.3.0) (2021-11-14)
+# [0.3.0](https://github.com/platyplus/platyplus/compare/ui-app@0.2.3...ui-app@0.3.0) (2021-11-14)
 
 ### Features
 
-- editable page in the user context ([ccc9b80](https://github.com/platyplus/platydev/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
+- editable page in the user context ([ccc9b80](https://github.com/platyplus/platyplus/commit/ccc9b80ad62764cad2b2170235a8208dd7cdfa50))
 
-## [0.2.3](https://github.com/platyplus/platydev/compare/ui-app@0.2.2...ui-app@0.2.3) (2021-11-10)
+## [0.2.3](https://github.com/platyplus/platyplus/compare/ui-app@0.2.2...ui-app@0.2.3) (2021-11-10)
 
-## [0.2.2](https://github.com/platyplus/platydev/compare/ui-app@0.2.1...ui-app@0.2.2) (2021-11-10)
+## [0.2.2](https://github.com/platyplus/platyplus/compare/ui-app@0.2.1...ui-app@0.2.2) (2021-11-10)
 
-## [0.2.1](https://github.com/platyplus/platydev/compare/ui-app@0.2.0...ui-app@0.2.1) (2021-11-10)
+## [0.2.1](https://github.com/platyplus/platyplus/compare/ui-app@0.2.0...ui-app@0.2.1) (2021-11-10)
 
-# [0.2.0](https://github.com/platyplus/platydev/compare/ui-app@0.1.1...ui-app@0.2.0) (2021-11-08)
+# [0.2.0](https://github.com/platyplus/platyplus/compare/ui-app@0.1.1...ui-app@0.2.0) (2021-11-08)
 
 ### Bug Fixes
 
-- correct filtering out items that cannot be removed in a many2many relationship ([823a451](https://github.com/platyplus/platydev/commit/823a45159615feb2ce3bd0e69fc89080a182e46b))
-- correct things here and there ([4cf9a2a](https://github.com/platyplus/platydev/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
-- correctly logout so loging in again works ([503d548](https://github.com/platyplus/platydev/commit/503d548f34821beaaa0c7dbe882368d346c82861))
-- custom pages ([4a3418d](https://github.com/platyplus/platydev/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
-- default light theme ([616b6e7](https://github.com/platyplus/platydev/commit/616b6e789dddd4712c8930ca5de2ef59df3b0389))
-- do not expect application config to be available if user is not authenticated ([15f1523](https://github.com/platyplus/platydev/commit/15f15237e1b83c570f14e06db62dddd55a1aedff))
-- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platydev/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
-- improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platydev/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
-- refresh the many2one target ([8931e57](https://github.com/platyplus/platydev/commit/8931e570e4f0309b2d71c8736469a88456af4076))
-- reset number value to null when undefined ([99228e5](https://github.com/platyplus/platydev/commit/99228e550536a023acc93658bf820e20d20188cc))
-- resume online when application is loaded offline ([828cbc7](https://github.com/platyplus/platydev/commit/828cbc7ce014c653d47a722abafe18bd58691e1a))
-- use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platydev/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
+- correct filtering out items that cannot be removed in a many2many relationship ([823a451](https://github.com/platyplus/platyplus/commit/823a45159615feb2ce3bd0e69fc89080a182e46b))
+- correct things here and there ([4cf9a2a](https://github.com/platyplus/platyplus/commit/4cf9a2a6c9f67e4c52b98d81ed94e0705314388c))
+- correctly logout so loging in again works ([503d548](https://github.com/platyplus/platyplus/commit/503d548f34821beaaa0c7dbe882368d346c82861))
+- custom pages ([4a3418d](https://github.com/platyplus/platyplus/commit/4a3418d961d403f411f4bfa4310595b97c73b9bd))
+- default light theme ([616b6e7](https://github.com/platyplus/platyplus/commit/616b6e789dddd4712c8930ca5de2ef59df3b0389))
+- do not expect application config to be available if user is not authenticated ([15f1523](https://github.com/platyplus/platyplus/commit/15f15237e1b83c570f14e06db62dddd55a1aedff))
+- improve offline mode - remaining stuff in todo.md ([685b7e7](https://github.com/platyplus/platyplus/commit/685b7e7fd7ecb5b0f1353211ab2186bd2ec0129e))
+- improve permissions, FK contraints and UI routing between documents ([890e7b7](https://github.com/platyplus/platyplus/commit/890e7b730f0a04db75622575c62cd0f0888a4cff))
+- refresh the many2one target ([8931e57](https://github.com/platyplus/platyplus/commit/8931e570e4f0309b2d71c8736469a88456af4076))
+- reset number value to null when undefined ([99228e5](https://github.com/platyplus/platyplus/commit/99228e550536a023acc93658bf820e20d20188cc))
+- resume online when application is loaded offline ([828cbc7](https://github.com/platyplus/platyplus/commit/828cbc7ce014c653d47a722abafe18bd58691e1a))
+- use useRxCollection now that rxdb-hooks has fixed the issue ([ff84d34](https://github.com/platyplus/platyplus/commit/ff84d3453eab801b2294f26340a1d5541dcea39b))
 
 ### Features
 
-- check if required values are present in canSave ([fd15876](https://github.com/platyplus/platydev/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
-- configurable default home page ([ef74e79](https://github.com/platyplus/platydev/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
-- custom menu ([1167c8d](https://github.com/platyplus/platydev/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
-- dark/light mode ([c45eb13](https://github.com/platyplus/platydev/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
-- improve login/register errors and validation with a nicer alert message box ([53f175c](https://github.com/platyplus/platydev/commit/53f175ca3fd64e7ded9d5f7105f8b1843982e9f5))
-- rich text editor ([9efd07a](https://github.com/platyplus/platydev/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
-- use a radio component to select the menu item type ([46e547b](https://github.com/platyplus/platydev/commit/46e547bff7356e604563aa7dca86b1b8f013b924))
+- check if required values are present in canSave ([fd15876](https://github.com/platyplus/platyplus/commit/fd158769612f4117f7e217bffdfb10f90f04be44))
+- configurable default home page ([ef74e79](https://github.com/platyplus/platyplus/commit/ef74e79a8e84967c32a371bb1d463ee55043bbb3))
+- custom menu ([1167c8d](https://github.com/platyplus/platyplus/commit/1167c8df5a3a993682b17ec1b4e36af16a57a54a))
+- dark/light mode ([c45eb13](https://github.com/platyplus/platyplus/commit/c45eb135535b6df72b71ef28fb9f450e10b43324))
+- improve login/register errors and validation with a nicer alert message box ([53f175c](https://github.com/platyplus/platyplus/commit/53f175ca3fd64e7ded9d5f7105f8b1843982e9f5))
+- rich text editor ([9efd07a](https://github.com/platyplus/platyplus/commit/9efd07a05c7ac28d712e9bb054a054f9b93572ec))
+- use a radio component to select the menu item type ([46e547b](https://github.com/platyplus/platyplus/commit/46e547bff7356e604563aa7dca86b1b8f013b924))
 
 ## [0.1.1](https://github.com/platyplus/platyplus/compare/ui-app@0.1.0...ui-app@0.1.1) (2021-10-10)
 
