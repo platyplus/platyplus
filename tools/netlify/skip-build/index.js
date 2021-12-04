@@ -3,15 +3,18 @@ module.exports = {
     const currentProject = process.env.PROJECT_NAME
     const lastDeployedCommit = process.env.CACHED_COMMIT_REF
     const latestCommit = process.env.COMMIT_REF
-    const projectHasChanged = projectChanged(
-      currentProject,
-      lastDeployedCommit,
-      latestCommit
-    )
-    if (!projectHasChanged) {
-      utils.build.cancelBuild(
-        `Build was cancelled because ${currentProject} was not affected by the latest changes. CACHED_COMMIT_REF=${process.env.CACHED_COMMIT_REF}, COMMIT_REF=${process.env.COMMIT_REF}`
+    // * Don't cancel initial Netlify build
+    if (lastDeployedCommit !== latestCommit) {
+      const projectHasChanged = projectChanged(
+        currentProject,
+        lastDeployedCommit,
+        latestCommit
       )
+      if (!projectHasChanged) {
+        utils.build.cancelBuild(
+          `Build was cancelled because ${currentProject} was not affected by the latest changes. CACHED_COMMIT_REF=${process.env.CACHED_COMMIT_REF}, COMMIT_REF=${process.env.COMMIT_REF}`
+        )
+      }
     }
   }
 }
