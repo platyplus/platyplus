@@ -10,7 +10,7 @@ module.exports = {
     )
     if (!projectHasChanged) {
       utils.build.cancelBuild(
-        `Build was cancelled because ${currentProject} was not affected by the latest changes`
+        `Build was cancelled because ${currentProject} was not affected by the latest changes. CACHED_COMMIT_REF=${process.env.CACHED_COMMIT_REF}, COMMIT_REF=${process.env.COMMIT_REF}`
       )
     }
   }
