@@ -20,6 +20,18 @@ import { CodeBlock } from './code-block'
 const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1)
 
+const Tab: React.FC<PanelProps & { active: string; name: string }> = ({
+  active,
+  name,
+  children,
+  ...props
+}) =>
+  name === active && (
+    <Panel bordered {...props}>
+      {children}
+    </Panel>
+  )
+
 export const App: React.FC = () => {
   const defaultCollection: CollectionNames = 'users'
 
@@ -111,16 +123,6 @@ export const App: React.FC = () => {
   }, [document, expression])
 
   const [tab, setTab] = useState('main')
-  const Tab: React.FC<PanelProps & { name: string }> = ({
-    name,
-    children,
-    ...props
-  }) =>
-    name === tab && (
-      <Panel bordered {...props}>
-        {children}
-      </Panel>
-    )
 
   if (!db) return <div>Loading RxDB schema and mock data...</div>
   if (!collection) return <div>Loading one document...</div>
@@ -146,7 +148,7 @@ export const App: React.FC = () => {
           </Nav.Item>
         ))}
       </Nav>
-      <Tab name="main">
+      <Tab active={tab} name="main">
         <h2>JMESPath expression</h2>
         <ButtonToolbar>
           <Dropdown
@@ -195,11 +197,11 @@ export const App: React.FC = () => {
         </ButtonToolbar>
         {document && <h3>Document id: '{document.primary}'</h3>}
         {document && (
-          <form>
+          <div>
             <Input
               placeholder="Enter JMESPath expression"
-              autoFocus
               value={expression}
+              autoFocus
               onChange={setExpression}
             />
             <h2>Result</h2>
@@ -207,12 +209,12 @@ export const App: React.FC = () => {
               language="json"
               code={error || JSON.stringify(result, null, 2)}
             />
-          </form>
+          </div>
         )}
       </Tab>
 
       {document && (
-        <Tab name="document">
+        <Tab active={tab} name="document">
           <CodeBlock
             language="json"
             code={JSON.stringify(document.toJSON(), null, 2)}
@@ -221,7 +223,7 @@ export const App: React.FC = () => {
       )}
 
       {Object.values(db.collections).map((col) => (
-        <Tab key={col.name} name={col.name}>
+        <Tab active={tab} key={col.name} name={col.name}>
           <CodeBlock
             language="json"
             code={JSON.stringify(col.schema.jsonSchema, null, 2)}

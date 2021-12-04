@@ -11,14 +11,19 @@ export const EXPRESSIONS: Record<
   { value: string; label: string }[]
 > = {
   users: [
-    { value: 'posts[].title', label: `Title of all the user's posts` },
+    {
+      value: 'posts[].title | sort(@)',
+      label: `Title of all the user's posts`
+    },
     {
       value: 'posts[].comments[] | length(@)',
       label: `Total number of comments of the user's posts`
     },
     {
-      value: 'comments[].post.user.name',
-      label: `Name of the author of the posts the user commented`
+      value:
+        'comments[].post.{author:user.name, title:title} | sort_by(@, &author)',
+      label:
+        'Author and title of the posts commented by the current user, ordered by author name'
     }
   ],
   posts: [
