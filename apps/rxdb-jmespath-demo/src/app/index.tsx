@@ -10,14 +10,12 @@ import {
   PanelProps,
   Button,
   ButtonToolbar,
-  Input,
-  SelectPicker
+  Input
 } from 'rsuite'
 import type { Database, CollectionNames } from './types'
-import { LIMITS } from './params'
+import { LIMITS, EXPRESSIONS } from './params'
 import { UPDATES } from './random'
 import { CodeBlock } from './code-block'
-import { EXPRESSIONS } from './expressions'
 
 const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1)

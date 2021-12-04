@@ -1,5 +1,4 @@
 import faker from 'faker'
-import { RxDocument } from 'rxdb'
 import { LIMITS } from './params'
 import { Post, User, Comment } from './schema'
 
