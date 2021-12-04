@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/platyplus/platydev/compare/ui-navigation@0.1.3...ui-navigation@0.2.0) (2021-12-04)
+
+
+### Features
+
+* jmespath, rxjs and rxdb ([8e27a60](https://github.com/platyplus/platydev/commit/8e27a609de1c3f6ff3116a9da4c6a074d40c9615))
+
+
+
 ## [0.1.3](https://github.com/platyplus/platydev/compare/ui-navigation@0.1.2...ui-navigation@0.1.3) (2021-11-18)
 
 
