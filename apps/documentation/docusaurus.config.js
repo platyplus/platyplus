@@ -3,29 +3,6 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github')
 const darkCodeTheme = require('prism-react-renderer/themes/dracula')
-const webpack = require('webpack')
-const path = require('path')
-
-function resolveTsconfigPathsToAlias({
-  tsconfigPath = './tsconfig.json',
-  webpackConfigBasePath = __dirname
-} = {}) {
-  const { paths } = require(tsconfigPath).compilerOptions
-
-  const aliases = {}
-
-  Object.keys(paths).forEach((item) => {
-    const key = item.replace('/*', '')
-    const value = path.resolve(
-      webpackConfigBasePath,
-      paths[item][0].replace('/*', '').replace('*', '')
-    )
-
-    aliases[key] = value
-  })
-
-  return aliases
-}
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -38,42 +15,7 @@ const config = {
   favicon: 'img/favicon.ico',
   organizationName: 'platyplus', // Usually your GitHub org/user name.
   projectName: 'platyplus', // Usually your repo name.
-  plugins: [
-    function (context, options) {
-      return {
-        name: 'custom-docusaurus-plugin',
-        configureWebpack(config, isServer, utils) {
-          return {
-            mergeStrategy: { 'module.rules': 'prepend' },
-            resolve: {
-              alias: {
-                ...resolveTsconfigPathsToAlias({
-                  tsconfigPath: '../../tsconfig.base.json',
-                  webpackConfigBasePath: process.env.NX_WORKSPACE_ROOT
-                }),
-                ...config.resolve.alias
-              },
-              fallback: {
-                fs: false,
-                crypto: false,
-
-                assert: require.resolve('assert/')
-              }
-            },
-
-            plugins: [
-              new webpack.ProvidePlugin({
-                process: 'process/browser'
-              }),
-              new webpack.ProvidePlugin({
-                Buffer: ['buffer', 'Buffer']
-              })
-            ]
-          }
-        }
-      }
-    }
-  ],
+  plugins: [],
   themeConfig: {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     navbar: {

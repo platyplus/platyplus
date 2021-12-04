@@ -2,7 +2,7 @@
 
 ## Demo
 
-[]
+[See this plugin in action](https://rxdb-jmespath-demo.netlify.app/)
 
 ## Installation
 

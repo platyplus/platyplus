@@ -195,9 +195,10 @@ export const App: React.FC = () => {
         </ButtonToolbar>
         {document && <h3>Document id: '{document.primary}'</h3>}
         {document && (
-          <div>
+          <form>
             <Input
               placeholder="Enter JMESPath expression"
+              autoFocus
               value={expression}
               onChange={setExpression}
             />
@@ -206,7 +207,7 @@ export const App: React.FC = () => {
               language="json"
               code={error || JSON.stringify(result, null, 2)}
             />
-          </div>
+          </form>
         )}
       </Tab>
 

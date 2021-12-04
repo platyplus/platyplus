@@ -34,8 +34,7 @@ const sidebars = {
         }
       ]
     },
-    'artifacts/tilt',
-    'artifacts/pulumi'
+    'artifacts/tilt'
   ]
 }
 

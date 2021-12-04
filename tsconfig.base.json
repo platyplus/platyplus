@@ -39,9 +39,7 @@
         "libs/util/rxdb-plugin-jmespath/src/index.ts"
       ],
       "@platyplus/theme": ["libs/ui/theme/src/index.ts"],
-      "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"],
-      "@site/*": ["apps/documentation/*"],
-      "@workspace/*": ["./*"]
+      "@platyplus/ts-types": ["libs/util/ts-types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
