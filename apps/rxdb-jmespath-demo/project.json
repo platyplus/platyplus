@@ -1,0 +1,72 @@
+{
+  "root": "apps/rxdb-jmespath-demo",
+  "sourceRoot": "apps/rxdb-jmespath-demo/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/rxdb-jmespath-demo",
+        "index": "apps/rxdb-jmespath-demo/src/index.html",
+        "baseHref": "/",
+        "main": "apps/rxdb-jmespath-demo/src/main.tsx",
+        "polyfills": "apps/rxdb-jmespath-demo/src/polyfills.ts",
+        "tsConfig": "apps/rxdb-jmespath-demo/tsconfig.app.json",
+        "assets": [
+          "apps/rxdb-jmespath-demo/src/favicon.ico",
+          "apps/rxdb-jmespath-demo/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "apps/rxdb-jmespath-demo/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/rxdb-jmespath-demo/src/environments/environment.ts",
+              "with": "apps/rxdb-jmespath-demo/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "rxdb-jmespath-demo:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "rxdb-jmespath-demo:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/rxdb-jmespath-demo/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/rxdb-jmespath-demo"],
+      "options": {
+        "jestConfig": "apps/rxdb-jmespath-demo/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

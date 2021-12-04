@@ -14,6 +14,7 @@
     "hasura-cli": "apps/hasura-cli",
     "platyplus": "apps/platyplus",
     "platyplus-e2e": "apps/platyplus-e2e",
+    "rxdb-jmespath-demo": "apps/rxdb-jmespath-demo",
     "ui-app": "libs/ui/app",
     "ui-auth": "libs/ui/auth",
     "ui-layout": "libs/ui/layout",
