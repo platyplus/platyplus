@@ -22,7 +22,7 @@ Return the jwt secret
 */}}
 {{- define "hasura.jwtSecret" -}}
 {{- if .Values.jwtSecret }}
-{{- include "common.tplvalues.render" (dict "value" .Values.jwtSecret "context" $) }}
+{{- include "common.tplvalues.render" (dict "value" (.Values.jwtSecret|toJson|replace "\\\"" "\""|replace "\"{" "{"|replace "}\"" "}") "context" $) }}
 {{- else }}
   {{- if .Values.jwt.key }}
   {{- include "hasura.generateJwtSecret" . }}
