@@ -9,10 +9,10 @@ re-generate encoded jwt secret
 {{- $namespace := default "https://hasura.io/jwt/claims" .Values.jwt.claims.namespace . -}}
 {{- printf "{\"type\": \"%s\", \"key\": \"%s\", \"claims_namespace\": \"%s\"" $algo $key $namespace | replace "\\\"" "\"" -}}
 {{- if .Values.jwt.url }}
-{{- printf "\"jwk_url\": \"%s\"" .Values.jwt.url | replace "\\\"" "\"" -}}
+{{- printf ", \"jwk_url\": \"%s\"" .Values.jwt.url | replace "\\\"" "\"" -}}
 {{- end -}}
 {{- if .Values.jwt.claims.map }}
-{{- printf "\"claims_map\": \"%s\"" (.Values.jwt.claims.map|toJson) | replace "\\\"" "\"" -}}
+{{- printf ", \"claims_map\": \"%s\"" (.Values.jwt.claims.map|toJson) | replace "\\\"" "\"" -}}
 {{- end -}}
 {{ printf "}" }}
 {{- end -}}
