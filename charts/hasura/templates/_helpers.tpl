@@ -12,7 +12,7 @@ re-generate encoded jwt secret
 {{- printf ", \"jwk_url\": \"%s\"" .Values.jwt.url | replace "\\\"" "\"" -}}
 {{- end -}}
 {{- if .Values.jwt.claims.map }}
-{{- printf ", \"claims_map\": \"%s\"" (.Values.jwt.claims.map|toJson) | replace "\\\"" "\"" -}}
+{{- printf ", \"claims_map\": %s" (.Values.jwt.claims.map|toJson) | replace "\\\"" "\"" -}}
 {{- end -}}
 {{ printf "}" }}
 {{- end -}}
