@@ -14,25 +14,21 @@ re-generate encoded jwt secret
 Return the jwt secret
 */}}
 {{- define "hasura.jwtSecret" -}}
-{{- if .Values.jwtSecret }}
-{{ include "common.tplvalues.render" (dict "value" .Values.jwtSecret "context" $) }}
+{{- if .Values.jwt.key }}
+{{- include "hasura.generateJwtSecret" . }}
 {{- else }}
-  {{- if .Values.jwt.key }}
-  {{- include "hasura.generateJwtSecret" . }}
-  {{- else }}
-      {{- $secretName := include "hasura.fullname" . }}
-      {{- $secrets := (lookup "v1" "Secret" .Release.Namespace $secretName) }}
-      {{- if $secrets }}
-          {{- $jwtSecret := index $secrets.data "jwt.secret" }}
-          {{- if $jwtSecret }}
-  {{- $jwtSecret | b64dec}}
-          {{- else }}
-  {{- include "hasura.generateJwtSecret" . }}
-          {{- end }}
-      {{- else}}
-  {{- include "hasura.generateJwtSecret" . }}
-      {{- end -}}
-  {{- end -}}
+    {{- $secretName := include "hasura.fullname" . }}
+    {{- $secrets := (lookup "v1" "Secret" .Release.Namespace $secretName) }}
+    {{- if $secrets }}
+        {{- $jwtSecret := index $secrets.data "jwt.secret" }}
+        {{- if $jwtSecret }}
+{{- $jwtSecret | b64dec}}
+        {{- else }}
+{{- include "hasura.generateJwtSecret" . }}
+        {{- end }}
+    {{- else}}
+{{- include "hasura.generateJwtSecret" . }}
+    {{- end -}}
 {{- end -}}
 {{- end -}}
 

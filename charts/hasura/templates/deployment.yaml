@@ -109,10 +109,14 @@ spec:
                   name: "{{ $fullname }}"
                   key: adminSecret
             - name: HASURA_GRAPHQL_JWT_SECRET
+              {{- if .Values.jwtSecret }}
+              value: '{{- include "common.tplvalues.render" (dict "value" (.Values.jwtSecret|toJson|replace "\\\"" "\""|replace "\"{" "{"|replace "}\"" "}") "context" $) }}'
+              {{- else }}
               valueFrom:
                 secretKeyRef:
                   name: "{{ $fullname }}"
                   key: jwt.secret
+              {{- end }}
             - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
               value: "{{ .Values.unauthorizedRole }}"
             - name: HASURA_GRAPHQL_CORS_DOMAIN
